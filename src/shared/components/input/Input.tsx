@@ -25,7 +25,7 @@ type VariantProps = {
 
 type GetThemeColorProps = {
   getThemeColor?: GetThemeColor;
-}
+};
 
 type BaseProps = ColorProps<Theme> &
   SpaceProps<Theme> &
@@ -39,6 +39,8 @@ type BaseProps = ColorProps<Theme> &
 type InputProps = React.ComponentPropsWithRef<typeof StyledInput> & {
   iconLeading?: IconDefinition;
   iconTrailing?: IconDefinition;
+  paddingRight?: React.ComponentProps<typeof Container>['paddingRight'];
+  trailing?: React.ReactNode;
   disabled?: boolean;
   labelText?: string;
   helperText?: string;
@@ -112,11 +114,13 @@ const StyledInput = styled.input<BaseProps>`
 export const Input = ({
   iconLeading,
   iconTrailing,
+  trailing,
   labelText,
   helperText,
   variant,
   id,
   innerRef,
+  paddingRight,
   ...rest
 }: InputProps) => {
   const { getThemeColor } = useThemeMode();
@@ -130,24 +134,28 @@ export const Input = ({
       )}
       <Container position='relative' width='100%'>
         {iconLeading && (
-          <IconWrapper isLeading>
+          <TrailingLeadingWrapper isLeading>
             <Icon width='20px' height='20px' icon={iconLeading} />
-          </IconWrapper>
+          </TrailingLeadingWrapper>
         )}
-        {iconTrailing && (
-          <IconWrapper isTrailing>
-            <Icon width='20px' height='20px' icon={iconTrailing} />
-          </IconWrapper>
-        )}
+
         <StyledInput
           paddingLeft={iconLeading && '40'}
-          paddingRight={iconTrailing && '40'}
+          paddingRight={paddingRight || (iconTrailing && '40')}
           variant={variant}
           id={id}
           ref={innerRef}
           getThemeColor={getThemeColor}
           {...rest}
         />
+
+        {iconTrailing && (
+          <TrailingLeadingWrapper isTrailing>
+            <Icon width='20px' height='20px' icon={iconTrailing} />
+          </TrailingLeadingWrapper>
+        )}
+
+        {trailing && <TrailingLeadingWrapper isTrailing>{trailing}</TrailingLeadingWrapper>}
       </Container>
 
       {helperText && (
@@ -163,7 +171,7 @@ export const Input = ({
   );
 };
 
-const IconWrapper = styled.div<{ isLeading?: boolean; isTrailing?: boolean }>`
+const TrailingLeadingWrapper = styled.div<{ isLeading?: boolean; isTrailing?: boolean }>`
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
