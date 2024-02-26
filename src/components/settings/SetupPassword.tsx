@@ -1,0 +1,187 @@
+import React, { useEffect, useState } from 'react';
+import {
+  Button,
+  Checkbox,
+  FlexContainer,
+  Heading,
+  Paragraph,
+  PasswordInput,
+  ExternalLink,
+} from '@/shared/components';
+import { useFormik } from 'formik';
+import constants from '@/constants';
+import {
+  createWalletChanged,
+  importWalletChanged,
+  persistScreenChanged,
+} from '../wallet/form-persist/helpers';
+import { WalletFormScreen } from '../wallet/form-persist';
+import { useLocation } from 'react-router-dom';
+import { getLocalValues, setLocalValue } from '@/lib/utils/localStorage';
+
+type Props = {
+  formik: ReturnType<typeof useFormik>;
+};
+
+type InputValidation = 'primary' | 'destructive' | 'errorFree';
+
+type PasswordValidation = {
+  password: InputValidation;
+  passwordConfirm: InputValidation;
+};
+
+const SetupPassword = ({ formik }: Props) => {
+  const { values } = formik;
+  const location = useLocation();
+
+  const [validation, setValidation] = useState<PasswordValidation>({
+    password: 'primary',
+    passwordConfirm: 'primary',
+  });
+
+  const isValid = Object.values(validation).every((status) => status === 'errorFree');
+  const isImportingWallet = location.pathname === '/wallet/import';
+
+  useEffect(() => {
+    validatePassword();
+  }, [values.password, values.passwordConfirm]);
+
+  useEffect(() => {
+    const locationHref = window.location.href;
+
+    if (locationHref.includes('import_with_ledger')) return;
+
+    (async () => {
+      const { hasOnboarded } = await getLocalValues();
+
+      if (hasOnboarded) {
+        persistScreenChanged({
+          screen: WalletFormScreen.OVERVIEW,
+          step: 0,
+        });
+      }
+    })();
+  }, []);
+
+  const handleTermsAndConditionsChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
+    formik.setFieldValue('termsAndConditionsConfirmed', evt.target.checked);
+    if (isImportingWallet) {
+      importWalletChanged({ termsAndConditionsConfirmed: evt.target.checked });
+    } else {
+      createWalletChanged({ termsAndConditionsConfirmed: evt.target.checked });
+    }
+  };
+
+  const handlePasswordChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
+    formik.setFieldValue('password', evt.target.value);
+  };
+
+  const handlePasswordConfirmChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
+    formik.setFieldValue('passwordConfirm', evt.target.value);
+  };
+
+  const validatePassword = () => {
+    const { password, passwordConfirm } = values;
+    if (!password) return;
+
+    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d).{8,}$/;
+    if (!passwordRegex.test(password)) {
+      setValidation({ ...validation, password: 'destructive' });
+    } else {
+      if (!passwordConfirm) {
+        setValidation({ ...validation, password: 'errorFree' });
+      } else if (password === passwordConfirm) {
+        setValidation({ password: 'errorFree', passwordConfirm: 'errorFree' });
+      } else {
+        setValidation({ password: 'errorFree', passwordConfirm: 'destructive' });
+      }
+    }
+  };
+
+  const submitForm = async () => {
+    await setLocalValue('hasOnboarded', true);
+
+    formik.submitForm();
+  };
+
+  return (
+    <FlexContainer flexDirection='column' minHeight='450px'>
+      <Heading $typeset='h3' fontWeight='bold' color='base' mb='8'>
+        Setup a Password
+      </Heading>
+      <Paragraph $typeset='headline' color='gray' mb='16'>
+        Create a password to access your wallet each time you use ARK Connect.
+      </Paragraph>
+      <FlexContainer flexDirection='column' gridGap='16px'>
+        <PasswordInput
+          name='password'
+          variant={validation.password}
+          labelText='Password'
+          onChange={handlePasswordChange}
+          value={values.password}
+          helperText={
+            validation.password !== 'errorFree'
+              ? 'Requires at least 8 characters and one number'
+              : ''
+          }
+        />
+        <PasswordInput
+          name='passwordConfirm'
+          value={values.passwordConfirm}
+          variant={validation.passwordConfirm}
+          labelText='Confirm Password'
+          onChange={handlePasswordConfirmChange}
+          helperText={validation.passwordConfirm === 'destructive' ? 'Passwords do not match.' : ''}
+        />
+      </FlexContainer>
+      <FlexContainer mt='auto'>
+        <Checkbox
+          id='termsAndConditionsConfirmed'
+          name='termsAndConditionsConfirmed'
+          checked={values.termsAndConditionsConfirmed}
+          onChange={handleTermsAndConditionsChange}
+        />
+        <FlexContainer>
+          <Paragraph
+            as='label'
+            htmlFor='termsAndConditionsConfirmed'
+            $typeset='body'
+            color='base'
+            fontWeight='medium'
+          >
+            I accept the{' '}
+            <ExternalLink
+              href={constants.TERMS_OF_SERVICE}
+              target='_blank'
+              rel='noopener noreferrer'
+              color='primary'
+            >
+              Terms of Service
+            </ExternalLink>{' '}
+            and{' '}
+            <ExternalLink
+              href={constants.PRIVACY_POLICY}
+              target='_blank'
+              rel='noopener noreferrer'
+              color='primary'
+            >
+              Privacy Policy
+            </ExternalLink>
+            .
+          </Paragraph>
+        </FlexContainer>
+      </FlexContainer>
+
+      <Button
+        mt='24'
+        variant='primary'
+        disabled={!values.termsAndConditionsConfirmed || !isValid}
+        onClick={submitForm}
+      >
+        Confirm
+      </Button>
+    </FlexContainer>
+  );
+};
+
+export default SetupPassword;
