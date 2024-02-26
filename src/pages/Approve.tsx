@@ -69,17 +69,7 @@ const Approve = () => {
     await removeWindowInstance(location.state?.windowId);
   };
 
-  let actionType =
-    location.state?.type === ApproveActionType.VOTE
-      ? ApproveActionType.VOTE
-      : ApproveActionType.UNVOTE;
-
   const hasVoted = wallet.voting().current().length > 0;
-
-  if (actionType === ApproveActionType.VOTE && hasVoted) {
-    actionType = ApproveActionType.SWITCH_VOTE;
-  }
-
   const getActionType  = (actionType: ApproveActionType): ApproveActionType => {
     switch (actionType) {
       case ApproveActionType.VOTE:
