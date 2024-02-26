@@ -24,7 +24,7 @@ const useLoadingModal = ({
     );
   };
 
-  const setCompletedAndClose = (): Promise<void> => {
+  const setCompleted = (): void => {
     dispatch(
       loadingModalUpdated({
         isOpen: true,
@@ -33,6 +33,10 @@ const useLoadingModal = ({
         loadingMessage,
       }),
     );
+  };
+
+  const setCompletedAndClose = (): Promise<void> => {
+    setCompleted();
 
     return new Promise((resolve) => {
       setTimeout(() => {
@@ -53,6 +57,7 @@ const useLoadingModal = ({
   return {
     isLoading,
     setLoading,
+    setCompleted,
     setCompletedAndClose,
   };
 };

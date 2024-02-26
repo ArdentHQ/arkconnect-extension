@@ -15,6 +15,7 @@ import useWalletSync from '@/lib/hooks/useWalletSync';
 import { useEnvironmentContext } from '@/lib/context/Environment';
 import RequestedSignatureMessage from '@/components/approve/RequestedSignatureMessage';
 import { useNotifyOnUnload } from '@/lib/hooks/useNotifyOnUnload';
+import useLoadingModal from '@/lib/hooks/useLoadingModal';
 import constants from '@/constants';
 
 type Props = {
@@ -41,6 +42,10 @@ const ApproveMessage = ({
   const { syncAll } = useWalletSync({ env, profile });
   const { onError } = useErrorHandlerContext();
   const { sign } = useMessageSigner();
+  const loadingModal = useLoadingModal({
+    completedMessage: 'Signed Successfully',
+    loadingMessage: 'Signing...',
+  });
 
   const reject = (message: string = 'Sign message denied!') => {
     browser.runtime.sendMessage({
@@ -58,20 +63,13 @@ const ApproveMessage = ({
 
   const onSubmit = async () => {
     try {
-      const loadingModal = {
-        isOpen: true,
-        isLoading: true,
-        completedMessage: 'Signed Successfully',
-        loadingMessage: 'Signing...',
-      };
+      loadingModal.setLoading();
+
+      await syncAll(wallet);
 
       if (wallet.isLedger()) {
         await approveWithLedger(profile, wallet);
-      } else {
-        dispatch(ModalStore.loadingModalUpdated(loadingModal));
       }
-
-      await syncAll(wallet);
 
       const signedMessageResult = await sign(wallet, message, {
         abortSignal: abortReference.signal,
@@ -94,14 +92,9 @@ const ApproveMessage = ({
         },
       });
 
-      dispatch(
-        ModalStore.loadingModalUpdated({
-          ...loadingModal,
-          isLoading: false,
-        }),
-      );
-
       setSubmitted();
+
+      loadingModal.setCompleted();
 
       await removeWindowInstance(
         location.state?.windowId,
