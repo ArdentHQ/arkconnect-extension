@@ -9,8 +9,6 @@ import { ApproveActionType } from '@/pages/Approve';
 import { useMessageSigner } from '@/lib/hooks/useMessageSigner';
 import removeWindowInstance from '@/lib/utils/removeWindowInstance';
 import { Contracts } from '@ardenthq/sdk-profiles';
-import { useAppDispatch } from '@/lib/store';
-import * as ModalStore from '@/lib/store/modal';
 import useWalletSync from '@/lib/hooks/useWalletSync';
 import { useEnvironmentContext } from '@/lib/context/Environment';
 import RequestedSignatureMessage from '@/components/approve/RequestedSignatureMessage';
@@ -35,7 +33,6 @@ const ApproveMessage = ({
   closeLedgerScreen,
 }: Props) => {
   const location = useLocation();
-  const dispatch = useAppDispatch();
   const { env } = useEnvironmentContext();
   const { domain, tabId, session, message } = location.state;
   const { profile } = useProfileContext();
@@ -113,12 +110,8 @@ const ApproveMessage = ({
   const onCancel = async () => {
     reject();
 
-    dispatch(
-      ModalStore.loadingModalUpdated({
-        isOpen: false,
-        isLoading: false,
-      }),
-    );
+    loadingModal.setCompleted();
+
     await removeWindowInstance(location.state?.windowId, 100);
   };
 
