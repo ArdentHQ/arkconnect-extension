@@ -12,6 +12,8 @@ const publicDir = resolve(rootDir, 'public');
 const srcDir = resolve(__dirname, 'src');
 const manifest = process.env.BROWSER === 'firefox' ? firefoxManifest : chromeManifest;
 
+let hasProcessedInPage = false;
+
 export default defineConfig({
   resolve: {
     alias: {
@@ -31,6 +33,18 @@ export default defineConfig({
         scripts: ['src/inpage.ts'],
       },
     }),
+    {
+      name: 'make-inpage-script-in-iife',
+      generateBundle(outputOptions, bundle) {
+        Object.keys(bundle).forEach((fileName) => {
+          const file = bundle[fileName]
+          if (!hasProcessedInPage && fileName.includes('inpage') && 'code' in file) {
+            file.code = `(() => {\n${file.code}})()`
+            hasProcessedInPage = true;
+          }
+        })
+      }
+    }
   ],
   publicDir,
   build: {
