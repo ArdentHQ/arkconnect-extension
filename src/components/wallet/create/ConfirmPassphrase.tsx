@@ -11,7 +11,7 @@ import {
 import { FormikProps } from 'formik';
 import { useEffect, useState } from 'react';
 import { CreateWalletFormik, ValidationVariant } from '.';
-import { WalletFormScreen, getPersistedValues } from '../form-persist';
+import { WalletFormScreen } from '../form-persist';
 import { persistScreenChanged } from '../form-persist/helpers';
 import { TestnetIcon } from '@/components/wallet/address/Address.blocks';
 import { useAppSelector } from '@/lib/store';
@@ -24,7 +24,6 @@ type Props = {
 };
 
 const ConfirmPassphrase = ({ goToNextStep, formik }: Props) => {
-  const { createWalletData } = getPersistedValues();
   const { values } = formik;
   const [validationStatus, setValidationStatus] = useState<ValidationVariant[]>([]);
 
@@ -79,8 +78,6 @@ const ConfirmPassphrase = ({ goToNextStep, formik }: Props) => {
     index: number,
   ) => {
     formik.setFieldValue(`confirmPassphrase[${index}]`, evt.target.value);
-    const newPassphrase = [...createWalletData.confirmPassphrase];
-    newPassphrase[index] = evt.target.value;
   };
 
   return (

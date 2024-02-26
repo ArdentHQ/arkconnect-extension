@@ -1,8 +1,6 @@
-import { CreateWalletFormik } from '../create';
-import { ImportedWalletFormik } from '../import';
 import { LOCAL_STORAGE_KEY } from './helpers';
 
-type LocalStorageKeys = 'createWalletData' | 'importWalletData' | 'persistScreen';
+type LocalStorageKeys = 'persistScreen';
 
 export enum WalletFormScreen {
   ONBOARDING = '/onboarding',
@@ -11,8 +9,6 @@ export enum WalletFormScreen {
 }
 
 interface LocalStorageValues {
-  createWalletData: CreateWalletFormik;
-  importWalletData: ImportedWalletFormik;
   persistScreen: PersistScreen | null;
 }
 
@@ -35,8 +31,6 @@ export const getPersistedValues = (): LocalStorageValues => {
   const localValues = parseLocalStorageValues();
 
   return {
-    createWalletData: localValues?.createWalletData,
-    importWalletData: localValues?.importWalletData,
     persistScreen: localValues?.persistScreen,
   };
 };
