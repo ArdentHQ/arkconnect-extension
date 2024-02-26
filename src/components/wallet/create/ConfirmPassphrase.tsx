@@ -11,8 +11,8 @@ import {
 import { FormikProps } from 'formik';
 import { useEffect, useState } from 'react';
 import { CreateWalletFormik, ValidationVariant } from '.';
-import { WalletFormScreen, getPersistedValues } from '../form-persist';
-import { createWalletChanged, persistScreenChanged } from '../form-persist/helpers';
+import { WalletFormScreen } from '../form-persist';
+import { persistScreenChanged } from '../form-persist/helpers';
 import { TestnetIcon } from '@/components/wallet/address/Address.blocks';
 import { useAppSelector } from '@/lib/store';
 import * as UIStore from '@/lib/store/ui';
@@ -24,7 +24,6 @@ type Props = {
 };
 
 const ConfirmPassphrase = ({ goToNextStep, formik }: Props) => {
-  const { createWalletData } = getPersistedValues();
   const { values } = formik;
   const [validationStatus, setValidationStatus] = useState<ValidationVariant[]>([]);
 
@@ -54,7 +53,6 @@ const ConfirmPassphrase = ({ goToNextStep, formik }: Props) => {
 
   const handleNextStep = () => {
     formik.setFieldValue('passphraseValidationStatus', validationStatus);
-    createWalletChanged({ passphraseValidationStatus: validationStatus });
     goToNextStep();
   };
 
@@ -73,7 +71,6 @@ const ConfirmPassphrase = ({ goToNextStep, formik }: Props) => {
 
   const handleLostPasswordAwarenessChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
     formik.setFieldValue('lostPasswordAwareness', evt.target.checked);
-    createWalletChanged({ lostPasswordAwareness: evt.target.checked });
   };
 
   const handleConfirmPassphraseInputChange = (
@@ -81,11 +78,6 @@ const ConfirmPassphrase = ({ goToNextStep, formik }: Props) => {
     index: number,
   ) => {
     formik.setFieldValue(`confirmPassphrase[${index}]`, evt.target.value);
-    const newPassphrase = [...createWalletData.confirmPassphrase];
-    newPassphrase[index] = evt.target.value;
-    createWalletChanged({
-      confirmPassphrase: newPassphrase,
-    });
   };
 
   return (

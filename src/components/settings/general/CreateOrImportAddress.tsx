@@ -16,11 +16,7 @@ import SelectNetworkTypeModal from './SelectNetworkTypeModal';
 import { handleSubmitKeyAction } from '@/lib/utils/handleKeyAction';
 import browser from 'webextension-polyfill';
 import { isFirefox } from '@/lib/utils/isFirefox';
-import {
-  clearCreateWalletData,
-  clearImportWalletData,
-  clearPersistScreenData,
-} from '@/components/wallet/form-persist/helpers';
+import { clearPersistScreenData } from '@/components/wallet/form-persist/helpers';
 
 type NetworkModalState = {
   nextAction?: () => void;
@@ -34,8 +30,6 @@ const CreateOrImportAddress = () => {
 
   // Clear any old data
   clearPersistScreenData();
-  clearCreateWalletData();
-  clearImportWalletData();
 
   const [networkModalState, setNetworkModalState] = useState<NetworkModalState>({
     nextAction: undefined,
