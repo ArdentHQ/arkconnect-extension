@@ -3,7 +3,7 @@ import { ArrowButton, Container, FlexContainer, Paragraph } from '@/shared/compo
 import { ComponentType, useState } from 'react';
 import { FormikProps } from 'formik';
 import { useNavigate } from 'react-router-dom';
-
+import styled from 'styled-components';
 
 export type Step = {
   component: ComponentType<any>;
@@ -14,6 +14,7 @@ type StepNavigationProps<T> = {
   formik?: FormikProps<T>;
   disabledSteps?: number[];
   defaultStep?: number;
+  stepsProps?: React.ComponentProps<typeof StyledFlexContainer>;
 };
 
 const StepsNavigation = <T extends Record<string, any>>({
@@ -21,6 +22,7 @@ const StepsNavigation = <T extends Record<string, any>>({
   formik,
   disabledSteps,
   defaultStep,
+  ...stepsProps
 }: StepNavigationProps<T>) => {
   const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState<number>(defaultStep || 0);
@@ -47,12 +49,9 @@ const StepsNavigation = <T extends Record<string, any>>({
 
   return (
     <>
-      <FlexContainer
-        justifyContent='space-between'
-        gridGap='16px'
-        alignItems='center'
+      <StyledFlexContainer
         color='base'
-        pb='24'
+        {...stepsProps}
       >
         <ArrowButton
           disabled={isPrevDisabled}
@@ -77,7 +76,7 @@ const StepsNavigation = <T extends Record<string, any>>({
             {currentStep + 1}/{totalSteps}
           </Paragraph>
         </Container>
-      </FlexContainer>
+      </StyledFlexContainer>
       <FlexContainer flexDirection='column' height='100%'>
         <CurrentStepComponent
           goToNextStep={handleStepForward}
@@ -88,5 +87,12 @@ const StepsNavigation = <T extends Record<string, any>>({
     </>
   );
 };
+
+const StyledFlexContainer = styled(FlexContainer)`
+  grid-gap: 16px;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 24px;
+`;
 
 export default StepsNavigation;

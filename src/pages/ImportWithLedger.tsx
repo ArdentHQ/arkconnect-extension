@@ -114,8 +114,13 @@ const ImportWithLedger = () => {
         pt='56'
       >
         <FlexContainer justifyContent='center' alignItems='center' height='100%'>
-          <Container p='24' width='355px' backgroundColor='secondaryBackground' borderRadius='8'>
-            <StepsNavigation steps={steps} formik={formik} disabledSteps={[0, 2]} />
+          <Container py='24' width='355px' backgroundColor='secondaryBackground' borderRadius='8'>
+            <StepsNavigation
+              steps={steps}
+              formik={formik}
+              disabledSteps={[0, 2]}
+              px='24'
+            />
           </Container>
         </FlexContainer>
         {error && (

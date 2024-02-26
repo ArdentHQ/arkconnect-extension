@@ -96,15 +96,15 @@ export const LedgerConnectionStep = ({
 
   return (
     <Container>
-      <Heading $typeset='h3' fontWeight='bold' color='base' mb='24'>
+      <Heading $typeset='h3' fontWeight='bold' color='base' mb='24' px='24'>
         Connect Your Ledger Device
       </Heading>
-      <FlexContainer my='24' justifyContent='center'>
+      <FlexContainer my='24' justifyContent='center' px='24'>
         <Icon icon='ledger-device' width='220px' height='120px' />
       </FlexContainer>
       <Container mb='24'>
         {connectSteps.map((step, index) => (
-          <FlexContainer key={index} alignItems='flex-start' gridGap='8px'>
+          <FlexContainer key={index} alignItems='flex-start' gridGap='8px' px='24'>
             <Step step={index + 1} />
             <Paragraph
               fontWeight='regular'
@@ -117,9 +117,11 @@ export const LedgerConnectionStep = ({
           </FlexContainer>
         ))}
       </Container>
-      <Button variant='primary' mb='16' onClick={handleListenDevice}>
-        Continue
-      </Button>
+      <Container px='24' pb='16'>
+        <Button variant='primary' onClick={handleListenDevice}>
+          Continue
+        </Button>
+      </Container>
       <ExternalLink
         alignItems='center'
         justifyContent='center'

@@ -7,7 +7,6 @@ import {
   Paragraph,
   Tooltip,
 } from '@/shared/components';
-import Step from './Step';
 import trimAddress from '@/lib/utils/trimAddress';
 import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { BIP44 } from '@ardenthq/sdk-cryptography';
@@ -123,53 +122,49 @@ const ImportWallets = ({ goToNextStep, formik }: Props) => {
 
   return (
     <Container>
-      <Heading $typeset='h3' fontWeight='bold' color='base' mb='8'>
+      <Heading $typeset='h3' fontWeight='bold' color='base' mb='8' px='24'>
         Select Addresses to Import
       </Heading>
-      <Paragraph $typeset='body' color='gray' mb='24'>
+      <Paragraph $typeset='body' color='gray' mb='24' px='24'>
         Multiple addresses can be imported too!
       </Paragraph>
-      <Container
+      <StyledContainer
         height='260px'
         maxHeight='260px'
         className='custom-scroll'
-        mb='24'
         overflowY='scroll'
       >
         <HandleLoadingState loading={showLoader}>
-          {wallets.map((wallet, index) => {
+          {wallets.map((wallet) => {
             const isImported = isWalletImported(wallet.address);
             return (
               <StyledFlexContainer
                 key={wallet.address}
                 isImported={isImported}
-                borderRadius='16'
-                border='1px solid'
-                padding='14'
+                isSelected={isSelected(wallet.path)}
                 justifyContent='space-between'
                 color={isImported ? 'gray' : 'base'}
-                borderColor={isSelected(wallet.path) ? 'primary' : 'transparent'}
                 onClick={() => {
                   if (isImported) return;
                   toggleSelect(wallet.path);
                 }}
                 className='c-pointer'
-                mb='-1'
               >
                 <Tooltip
                   disabled={!isImported}
                   content='Address already imported'
-                  placement='bottom-start'
+                  placement='bottom'
                 >
                   <FlexContainer
                     width='100%'
+                    py='16'
+                    px='24'
                     justifyContent='space-between'
                     alignItems='center'
                     color={isImported ? 'gray' : 'base'}
                   >
-                    <FlexContainer gridGap='12px' alignItems='center' paddingLeft='4'>
-                      <Step step={index + 1} disabled={isImported} />
-                      <Paragraph $typeset='headline' fontWeight='regular'>
+                    <FlexContainer gridGap='4px' flexDirection='column'>
+                      <Paragraph $typeset='headline' fontWeight='medium'>
                         {trimAddress(wallet.address, 10)}
                       </Paragraph>
                       <Paragraph $typeset='body' fontWeight='regular'>
@@ -197,20 +192,35 @@ const ImportWallets = ({ goToNextStep, formik }: Props) => {
             );
           })}
         </HandleLoadingState>
+      </StyledContainer>
+      <Container px='24' pt='24'>
+        <Button variant='primary' disabled={!selectedWallets.length} onClick={submitImportedWallets}>
+          Import {showImportedWalletsLength()}
+        </Button>
       </Container>
-      <Button variant='primary' disabled={!selectedWallets.length} onClick={submitImportedWallets}>
-        Import {showImportedWalletsLength()}
-      </Button>
     </Container>
   );
 };
 
-const StyledFlexContainer = styled(FlexContainer)<{ isImported: boolean }>`
+const StyledFlexContainer = styled(FlexContainer)<{ isImported: boolean, isSelected: boolean }>`
   transition: all 0.5s ease;
-  ${({ theme, isImported }) => `
-    &:hover {
-      border-color: ${!isImported ? theme.colors.primary : 'transparent'}
-    }
+  ${({ theme, isImported, isSelected }) => `
+    ${isImported ? `
+      background-color: ${theme.colors.disabledCheckbox};
+    ` : `
+      ${isSelected ? `background-color: ${theme.colors.checkboxBackground};` : ''}
+
+      &:hover {
+        background-color: ${theme.colors.lightestGray};
+      }
+    `}
+  `}
+`;
+
+const StyledContainer = styled(Container)`
+  ${({ theme }) => `
+    border-top: 1px solid ${theme.colors.dividerGray};
+    border-bottom: 1px solid ${theme.colors.dividerGray};
   `}
 `;
 
