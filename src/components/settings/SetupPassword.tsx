@@ -118,7 +118,7 @@ const SetupPassword = ({ formik }: Props) => {
           variant={validation.password}
           labelText='Password'
           onChange={handlePasswordChange}
-          value={values.password}
+          value={values.password ?? ''}
           helperText={
             validation.password !== 'errorFree'
               ? 'Requires at least 8 characters and one number'
@@ -127,7 +127,7 @@ const SetupPassword = ({ formik }: Props) => {
         />
         <PasswordInput
           name='passwordConfirm'
-          value={values.passwordConfirm}
+          value={values.passwordConfirm ?? ''}
           variant={validation.passwordConfirm}
           labelText='Confirm Password'
           onChange={handlePasswordConfirmChange}
