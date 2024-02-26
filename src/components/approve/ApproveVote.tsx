@@ -118,15 +118,6 @@ const ApproveVote = ({ abortReference, approveWithLedger, wallet, closeLedgerScr
         closeLedgerScreen();
       }
 
-      setTimeout(() => {
-        dispatch(
-          ModalStore.loadingModalUpdated({
-            isOpen: false,
-            isLoading: false,
-          }),
-        );
-      }, 3000);
-
       const voteInfo = {
         id: res.id as string,
         sender: res.sender as string,
@@ -141,7 +132,7 @@ const ApproveVote = ({ abortReference, approveWithLedger, wallet, closeLedgerScr
         convertedFee: convert(res.fee),
       };
 
-      browser.runtime.sendMessage({
+      await browser.runtime.sendMessage({
         type: 'SIGN_VOTE_RESOLVE',
         data: {
           domain: state.domain,
@@ -151,6 +142,13 @@ const ApproveVote = ({ abortReference, approveWithLedger, wallet, closeLedgerScr
           sessionId: state.session.id,
         },
       });
+
+      dispatch(
+        ModalStore.loadingModalUpdated({
+          isOpen: false,
+          isLoading: false,
+        }),
+      );
 
       setSubmitted();
 
