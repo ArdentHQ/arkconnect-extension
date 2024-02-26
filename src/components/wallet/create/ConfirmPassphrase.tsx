@@ -26,7 +26,6 @@ type Props = {
 const ConfirmPassphrase = ({ goToNextStep, formik }: Props) => {
   const { createWalletData } = getPersistedValues();
   const { values } = formik;
-  console.log(values);
   const [validationStatus, setValidationStatus] = useState<ValidationVariant[]>([]);
 
   const isTestnet = useAppSelector(UIStore.selectTestnetEnabled);
@@ -75,7 +74,6 @@ const ConfirmPassphrase = ({ goToNextStep, formik }: Props) => {
     formik.setFieldValue('lostPasswordAwareness', evt.target.checked);
   };
 
-  // TODO: look into pasting into fields with this method
   const handleConfirmPassphraseInputChange = (
     evt: React.ChangeEvent<HTMLInputElement>,
     index: number,
