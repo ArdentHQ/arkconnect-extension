@@ -82,7 +82,7 @@ const CreateNewWallet = () => {
         isOpen: true,
         isLoading: true,
         completedMessage: 'Your Wallet is Ready!',
-        loadingMessage: 'Hang tight, your wallet is being set up.',
+        loadingMessage: 'Setting up the wallet, please wait!',
       };
 
       dispatch(ModalStore.loadingModalUpdated(loadingModal));
