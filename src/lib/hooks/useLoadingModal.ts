@@ -5,11 +5,11 @@ import constants from '@/constants';
 const useLoadingModal = ({
   loadingMessage,
   completedMessage,
-  completedDescription,
+  other = {},
 }: {
   loadingMessage?: string;
   completedMessage?: string;
-  completedDescription?: string;
+  other?: Record<string, string>;
 }) => {
   const { isOpen: isLoading } = useAppSelector(selectLoadingModal);
 
@@ -22,6 +22,7 @@ const useLoadingModal = ({
         isLoading: false,
         completedMessage,
         loadingMessage,
+        ...other,
       }),
     );
   };
@@ -33,6 +34,7 @@ const useLoadingModal = ({
         isLoading: true,
         completedMessage,
         loadingMessage,
+        ...other,
       }),
     );
   };
@@ -44,6 +46,7 @@ const useLoadingModal = ({
         isLoading: false,
         completedMessage,
         loadingMessage,
+        ...other,
       }),
     );
   };
@@ -55,6 +58,7 @@ const useLoadingModal = ({
         isLoading: false,
         completedMessage,
         loadingMessage,
+        ...other,
       }),
     );
   };
@@ -70,6 +74,7 @@ const useLoadingModal = ({
             isLoading: false,
             completedMessage,
             loadingMessage,
+            ...other,
           }),
         );
 

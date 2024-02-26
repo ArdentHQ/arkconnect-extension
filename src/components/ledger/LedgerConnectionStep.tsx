@@ -14,10 +14,10 @@ import { useLedgerContext } from '@/lib/Ledger';
 import { useEffect } from 'react';
 import useNetwork from '@/lib/hooks/useNetwork';
 import { connectSteps } from './utils/connectionSteps';
-import { useAppDispatch } from '@/lib/store';
 import * as ModalStore from '@/lib/store/modal';
 
 import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
+import useLoadingModal from '@/lib/hooks/useLoadingModal';
 
 export const LedgerConnectionStep = ({
   goToNextStep,
@@ -30,8 +30,13 @@ export const LedgerConnectionStep = ({
   const { profile: activeProfile } = useProfileContext();
   const { onError } = useErrorHandlerContext();
   const { activeNetwork: network } = useNetwork();
-  const dispatch = useAppDispatch();
-
+  const loadingModal = useLoadingModal({
+    completedMessage: 'Ledger Connected!',
+    loadingMessage: 'Waiting for you to choose and connect a Ledger device.',
+    other: {
+      CTA: ModalStore.CTAType.INITIATE_LEDGER,
+    },
+  });
   const { connect, abortConnectionRetry, error, isConnected, accessDenied } = useLedgerContext();
 
   const {
@@ -42,14 +47,7 @@ export const LedgerConnectionStep = ({
   } = useLedgerContext();
 
   const handleListenDevice = () => {
-    const loadingModal: ModalStore.LoadingModalType = {
-      isOpen: true,
-      isLoading: true,
-      completedMessage: 'Ledger Connected!',
-      loadingMessage: 'Waiting for you to choose and connect a Ledger device.',
-      CTA: ModalStore.CTAType.INITIATE_LEDGER,
-    };
-    dispatch(ModalStore.loadingModalUpdated(loadingModal));
+    loadingModal.setLoading();
     listenDevice();
   };
 

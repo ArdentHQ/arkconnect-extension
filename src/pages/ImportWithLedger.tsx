@@ -39,7 +39,9 @@ const ImportWithLedger = () => {
   const loadingModal = useLoadingModal({
     loadingMessage: 'Setting up your wallet',
     completedMessage: 'Your wallet is ready!',
-    completedDescription: 'You can now open the extension and manage your addresses!',
+    other: {
+      completedDescription: 'You can now open the extension and manage your addresses!',
+    },
   });
 
   const formik = useFormik<ImportWithLedger>({
