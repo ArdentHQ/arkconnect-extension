@@ -1,14 +1,13 @@
 import useThemeMode from '@/lib/hooks/useThemeMode';
 import { FlexContainer } from '../layout/FlexContainer';
 import { Loader } from '../loader/Loader';
-import { ThemeMode } from '@/lib/store/ui';
 
 export const LoadingFullScreen = () => {
-  const { currentThemeMode } = useThemeMode();
+  const { getThemeColor } = useThemeMode();
 
   return (
     <FlexContainer
-      bg={currentThemeMode === ThemeMode.DARK ? 'lightBlack' : 'subtleWhite'}
+      bg={getThemeColor('subtleWhite', 'lightBlack')}
       justifyContent='center'
       height='100vh'
       width='100vw'
