@@ -3,8 +3,6 @@ import { FormikProps } from 'formik';
 import { ImportedWalletFormik } from '.';
 import React, { useEffect, useState } from 'react';
 import { Contracts } from '@ardenthq/sdk-profiles';
-import { clearImportWalletData, importWalletChanged } from '../form-persist/helpers';
-import { getLocalValues } from '@/lib/utils/localStorage';
 
 type Props = {
   goToNextStep: () => void;
@@ -34,22 +32,9 @@ const ImportedWallet = ({ goToNextStep, formik }: Props) => {
     }
   };
 
-  useEffect(() => {
-    (async () => {
-      const { hasOnboarded } = await getLocalValues();
-
-      // Clear past data if we are onboarding to
-      // allow for re-importing
-      if (!hasOnboarded) {
-        clearImportWalletData();
-      }
-    })();
-  }, []);
-
   const handleAddressNameChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
     const addressName = evt.target.value.trim() === '' ? '' : evt.target.value;
     formik.setFieldValue('addressName', addressName);
-    importWalletChanged({ addressName });
   };
 
   return (
