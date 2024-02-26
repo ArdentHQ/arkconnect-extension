@@ -24,7 +24,6 @@ import shouldForwardProp from '@styled-system/should-forward-prop';
 import { EnvironmentProvider } from './lib/context/Environment';
 import { ErrorHandlerProvider } from './lib/context/ErrorHandler';
 import { initializeEnvironment } from './lib/utils/env';
-import { LoadingFullScreen } from './shared/components/handleStates/LoadingFullScreen';
 
 const env = initializeEnvironment();
 
@@ -36,7 +35,9 @@ export const MainWrapper = ({ children }: { children?: React.ReactNode }) => {
           <StyleSheetManager shouldForwardProp={shouldForwardProp}>
             <ThemeProvider theme={theme}>
               <MemoryRouter initialEntries={['/']}>
-                <ErrorHandlerProvider>{children}</ErrorHandlerProvider>
+                <ErrorHandlerProvider>
+                  {children}
+                </ErrorHandlerProvider>
               </MemoryRouter>
             </ThemeProvider>
           </StyleSheetManager>
@@ -55,10 +56,10 @@ export const AppWrapper = ({
   theme?: React.ComponentProps<typeof ThemeProvider>['theme'];
 }) => {
   return (
-    <ThemeProvider theme={theme}>
-      <ProfileProvider>
-        <AutoUnlockWrapper>
-          <LedgerProvider>
+    <ProfileProvider>
+      <AutoUnlockWrapper>
+        <LedgerProvider>
+          <ThemeProvider theme={theme}>
             <Container
               id={!window.location.href.includes('ledger') ? 'scrollable-container' : ''}
               className='custom-scroll'
@@ -71,10 +72,10 @@ export const AppWrapper = ({
                 <LoadingModal />
               </Container>
             </Container>
-          </LedgerProvider>
-        </AutoUnlockWrapper>
-      </ProfileProvider>
-    </ThemeProvider>
+          </ThemeProvider>
+        </LedgerProvider>
+      </AutoUnlockWrapper>
+    </ProfileProvider>
   );
 };
 
@@ -102,7 +103,7 @@ const App = () => {
     boot();
   }, [env]);
 
-  if (!isEnvironmentBooted) return <LoadingFullScreen />;
+  if (!isEnvironmentBooted) return null;
 
   return (
     <AppWrapper theme={theme}>
