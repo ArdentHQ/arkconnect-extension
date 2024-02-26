@@ -166,7 +166,7 @@ const handleIsConnected = async (
       type: `${payload.type}_RESOLVE`,
       data: {
         status: 'success',
-        isConnected: getActiveSession({
+        isConnected: !!getActiveSession({
           payload,
           profile,
         }),
