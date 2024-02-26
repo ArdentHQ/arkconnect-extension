@@ -112,7 +112,7 @@ const ApproveMessage = ({
   const onCancel = async () => {
     reject();
 
-    loadingModal.setCompleted();
+    loadingModal.close();
 
     await removeWindowInstance(location.state?.windowId, 100);
   };
