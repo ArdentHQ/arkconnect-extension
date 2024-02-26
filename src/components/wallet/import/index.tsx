@@ -14,12 +14,7 @@ import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
 import { useEffect, useState } from 'react';
 import useNetwork from '@/lib/hooks/useNetwork';
 import { getPersistedValues } from '../form-persist';
-import {
-  clearImportWalletData,
-  clearPersistScreenData,
-  importWalletChanged,
-  initialImportWalletData,
-} from '../form-persist/helpers';
+import { clearPersistScreenData } from '../form-persist/helpers';
 import useWalletImport from '@/lib/hooks/useWalletImport';
 import browser from 'webextension-polyfill';
 import useLocaleCurrency from '@/lib/hooks/useLocalCurrency';
@@ -35,12 +30,22 @@ export type ImportedWalletFormik = {
   termsAndConditionsConfirmed: boolean;
 };
 
+const initialImportWalletData = {
+  enteredPassphrase: '',
+  wallet: undefined,
+  password: '',
+  passwordConfirm: '',
+  passphraseValidation: 'primary' as ValidationVariant,
+  addressName: '',
+  termsAndConditionsConfirmed: false,
+};
+
 const ImportNewWallet = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { profile, initProfile } = useProfileContext();
   const { onError } = useErrorHandlerContext();
-  const { persistScreen, importWalletData } = getPersistedValues();
+  const { persistScreen } = getPersistedValues();
   const { importWallet } = useWalletImport({ profile });
   const { activeNetwork } = useNetwork();
   const loadingModal = useAppSelector(ModalStore.selectLoadingModal);
@@ -69,10 +74,6 @@ const ImportNewWallet = () => {
           if (!importedWallet) return;
 
           formik.setFieldValue('wallet', importedWallet);
-
-          importWalletChanged({
-            wallet: importedWallet,
-          });
         }
 
         setDefaultStep(persistScreen.step);
@@ -85,12 +86,11 @@ const ImportNewWallet = () => {
   useEffect(() => {
     return () => {
       clearPersistScreenData();
-      clearImportWalletData();
     };
   }, []);
 
   const formik = useFormik<ImportedWalletFormik>({
-    initialValues: importWalletData ?? initialImportWalletData,
+    initialValues: initialImportWalletData,
     onSubmit: async (values: FormikValues, formikHelpers) => {
       const loadingModal = {
         isOpen: true,
