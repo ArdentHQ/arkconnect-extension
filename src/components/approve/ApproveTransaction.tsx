@@ -10,8 +10,6 @@ import browser from 'webextension-polyfill';
 import { ApproveActionType } from '@/pages/Approve';
 import removeWindowInstance from '@/lib/utils/removeWindowInstance';
 import { Contracts } from '@ardenthq/sdk-profiles';
-import { useAppDispatch } from '@/lib/store';
-import * as ModalStore from '@/lib/store/modal';
 import * as WalletStore from '@/lib/store/wallet';
 import useWalletSync from '@/lib/hooks/useWalletSync';
 import { useEnvironmentContext } from '@/lib/context/Environment';
@@ -37,7 +35,6 @@ const ApproveTransaction = ({
   wallet,
   closeLedgerScreen,
 }: Props) => {
-  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const location = useLocation();
   const { domain, tabId, session, amount, receiverAddress } = location.state;
