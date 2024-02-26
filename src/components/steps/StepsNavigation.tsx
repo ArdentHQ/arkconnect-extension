@@ -9,12 +9,11 @@ export type Step = {
   component: ComponentType<any>;
 };
 
-type StepNavigationProps<T> = {
+type StepNavigationProps<T> = React.ComponentProps<typeof StyledFlexContainer> & {
   steps: Step[];
   formik?: FormikProps<T>;
   disabledSteps?: number[];
   defaultStep?: number;
-  stepsProps?: React.ComponentProps<typeof StyledFlexContainer>;
 };
 
 const StepsNavigation = <T extends Record<string, any>>({
