@@ -9,8 +9,7 @@ import { ToastPosition } from '@/components/toast/ToastContainer';
 import { isValidPassword } from '@/lib/utils/validations';
 import browser from 'webextension-polyfill';
 import { useProfileContext } from '@/lib/context/Profile';
-import { useAppDispatch } from '@/lib/store';
-import * as ModalStore from '@/lib/store/modal';
+import useLoadingModal from '@/lib/hooks/useLoadingModal';
 
 type ChangePasswordFormik = {
   oldPassword: string;
@@ -34,7 +33,9 @@ const ChangeLocalPassword = () => {
   const navigate = useNavigate();
   const toast = useToast();
   const { initProfile } = useProfileContext();
-  const dispatch = useAppDispatch();
+  const loadingModal = useLoadingModal({
+    loadingMessage: 'Updating your password...',
+  });
   const formik = useFormik<ChangePasswordFormik>({
     initialValues: {
       oldPassword: '',
@@ -49,13 +50,7 @@ const ChangeLocalPassword = () => {
           return;
         }
 
-        dispatch(
-          ModalStore.loadingModalUpdated({
-            isOpen: true,
-            isLoading: true,
-            loadingMessage: 'Updating your password...',
-          }),
-        );
+        loadingModal.setLoading();
 
         const { error } = await browser.runtime.sendMessage({
           type: 'CHANGE_PASSWORD',
@@ -69,9 +64,9 @@ const ChangeLocalPassword = () => {
 
         await initProfile();
 
-        dispatch(ModalStore.loadingModalUpdated({ isOpen: false, isLoading: false }));
         toast('success', 'Password changed successfully', ToastPosition.HIGH);
         navigate('/');
+        loadingModal.close();
       } catch (error) {
         toast('danger', 'Something went wrong!', ToastPosition.HIGH);
         onError(error);
