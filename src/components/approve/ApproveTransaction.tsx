@@ -19,6 +19,7 @@ import { BigNumber } from '@ardenthq/sdk-helpers';
 import RequestedTransactionBody from '@/components/approve/RequestedTransactionBody';
 import { useExchangeRate } from '@/lib/hooks/useExchangeRate';
 import { useNotifyOnUnload } from '@/lib/hooks/useNotifyOnUnload';
+import useLoadingModal from '@/lib/hooks/useLoadingModal';
 
 type Props = {
   abortReference: AbortController;
@@ -45,7 +46,9 @@ const ApproveTransaction = ({
   const { syncAll } = useWalletSync({ env, profile });
   const { onError } = useErrorHandlerContext();
   const [error, setError] = useState<string | undefined>();
-
+  const loadingModal = useLoadingModal({
+    loadingMessage: 'Processing transaction...',
+  });
   const { convert } = useExchangeRate({
     exchangeTicker: wallet.exchangeCurrency(),
     ticker: wallet.currency(),
@@ -86,16 +89,14 @@ const ApproveTransaction = ({
 
   const onSubmit = async () => {
     try {
+      if (!wallet.isLedger()) {
+        loadingModal.setLoading();
+      }
+
       await syncAll(wallet);
-      const loadingModal = {
-        isOpen: true,
-        isLoading: true,
-        loadingMessage: 'Processing transaction...',
-      };
+
       if (wallet.isLedger()) {
         await approveWithLedger(profile, wallet);
-      } else {
-        dispatch(ModalStore.loadingModalUpdated(loadingModal));
       }
 
       const response = await submitForm(abortReference);
@@ -115,15 +116,7 @@ const ApproveTransaction = ({
 
       if (wallet.isLedger()) {
         closeLedgerScreen();
-        dispatch(
-          ModalStore.loadingModalUpdated({
-            ...loadingModal,
-            isLoading: false,
-          }),
-        );
       }
-
-      closeLedgerScreen();
 
       await browser.runtime.sendMessage({
         type: 'SIGN_TRANSACTION_RESOLVE',
@@ -138,14 +131,6 @@ const ApproveTransaction = ({
 
       setSubmitted();
 
-      dispatch(
-        ModalStore.loadingModalUpdated({
-          ...loadingModal,
-          isLoading: false,
-          isOpen: false,
-        }),
-      );
-
       navigate('/transaction/success', {
         state: {
           transaction,
@@ -157,6 +142,8 @@ const ApproveTransaction = ({
           session,
         },
       });
+
+      loadingModal.close();
     } catch (error: any) {
       if (wallet.isLedger()) {
         closeLedgerScreen();

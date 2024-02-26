@@ -3,15 +3,26 @@ import { useAppDispatch, useAppSelector } from '@/lib/store';
 import constants from '@/constants';
 
 const useLoadingModal = ({
-  completedMessage,
   loadingMessage,
+  completedMessage,
 }: {
-  completedMessage: string;
-  loadingMessage: string;
+  loadingMessage?: string;
+  completedMessage?: string;
 }) => {
   const { isOpen: isLoading } = useAppSelector(selectLoadingModal);
 
   const dispatch = useAppDispatch();
+
+  const open = () => {
+    dispatch(
+      loadingModalUpdated({
+        isOpen: true,
+        isLoading: false,
+        completedMessage,
+        loadingMessage,
+      }),
+    );
+  };
 
   const setLoading = () => {
     dispatch(
@@ -28,6 +39,17 @@ const useLoadingModal = ({
     dispatch(
       loadingModalUpdated({
         isOpen: true,
+        isLoading: false,
+        completedMessage,
+        loadingMessage,
+      }),
+    );
+  };
+
+  const close = (): void => {
+    dispatch(
+      loadingModalUpdated({
+        isOpen: false,
         isLoading: false,
         completedMessage,
         loadingMessage,
@@ -56,6 +78,8 @@ const useLoadingModal = ({
 
   return {
     isLoading,
+    open,
+    close,
     setLoading,
     setCompleted,
     setCompletedAndClose,

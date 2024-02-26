@@ -60,7 +60,9 @@ const ApproveMessage = ({
 
   const onSubmit = async () => {
     try {
-      loadingModal.setLoading();
+      if (!wallet.isLedger()) {
+        loadingModal.setLoading();
+      }
 
       await syncAll(wallet);
 

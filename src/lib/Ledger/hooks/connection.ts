@@ -8,18 +8,20 @@ import { openTransport, closeDevices, isLedgerTransportSupported } from '@/lib/L
 import { useEnvironmentContext } from '@/lib/context/Environment';
 import { useLedgerImport } from './import';
 import { persistLedgerConnection } from '../utils/connection';
-import { useAppDispatch } from '@/lib/store';
-import * as ModalStore from '@/lib/store/modal';
 import useSentryException from '@/lib/hooks/useSentryException';
+import useLoadingModal from '@/lib/hooks/useLoadingModal';
 
 type LedgerConnectionError = { statusText?: string; message: string };
 
 export const useLedgerConnection = () => {
   const { env } = useEnvironmentContext();
-  const reduxDispatch = useAppDispatch();
   const [state, dispatch] = useReducer(connectionReducer, defaultConnectionState);
   const abortRetryReference = useRef<boolean>(false);
   const { device, isBusy, isConnected, isWaiting, error } = state;
+
+  const loadingModal = useLoadingModal({
+    completedMessage: 'Ledger Connected!',
+  });
 
   const { importLedgerWallets } = useLedgerImport({ device, env });
 
@@ -84,7 +86,13 @@ export const useLedgerConnection = () => {
   );
 
   const connect = useCallback(
-    async (profile: Contracts.IProfile, coin: string, network: string, retryOptions?: Options, hideCompletedState: boolean = false) => {
+    async (
+      profile: Contracts.IProfile,
+      coin: string,
+      network: string,
+      retryOptions?: Options,
+      hideCompletedState: boolean = false,
+    ) => {
       const coinInstance = profile.coins().set(coin, network);
 
       if (!isLedgerTransportSupported()) {
@@ -99,23 +107,12 @@ export const useLedgerConnection = () => {
       abortRetryReference.current = false;
 
       try {
-        if (! hideCompletedState) {
-          reduxDispatch(
-            ModalStore.loadingModalUpdated({
-              isOpen: true,
-              isLoading: false,
-              completedMessage: 'Ledger Connected!',
-            }),
-          );
-          const ledgerTimeout = setTimeout(() => {
-            reduxDispatch(
-              ModalStore.loadingModalUpdated({
-                isOpen: false,
-                isLoading: false,
-              }),
-              );
-              clearTimeout(ledgerTimeout);
-            }, 2500);
+        if (!hideCompletedState) {
+          loadingModal.open();
+
+          setTimeout(() => {
+            loadingModal.close();
+          }, 2500);
         }
         await persistLedgerConnection({
           coin: coinInstance,
