@@ -6,8 +6,6 @@ import EnterPassphrase from './EnterPassphrase';
 import ImportedWallet from './ImportedWallet';
 import { ValidationVariant } from '../create';
 import { useNavigate } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '@/lib/store';
-import * as ModalStore from '@/lib/store/modal';
 import { useProfileContext } from '@/lib/context/Profile';
 import { HandleLoadingState } from '@/shared/components/handleStates/HandleLoadingState';
 import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
@@ -19,6 +17,7 @@ import useWalletImport from '@/lib/hooks/useWalletImport';
 import browser from 'webextension-polyfill';
 import useLocaleCurrency from '@/lib/hooks/useLocalCurrency';
 import { getLocalValues } from '@/lib/utils/localStorage';
+import useLoadingModal from '@/lib/hooks/useLoadingModal';
 
 export type ImportedWalletFormik = {
   enteredPassphrase: string;
@@ -42,13 +41,15 @@ const initialImportWalletData = {
 
 const ImportNewWallet = () => {
   const navigate = useNavigate();
-  const dispatch = useAppDispatch();
   const { profile, initProfile } = useProfileContext();
   const { onError } = useErrorHandlerContext();
   const { persistScreen } = getPersistedValues();
   const { importWallet } = useWalletImport({ profile });
   const { activeNetwork } = useNetwork();
-  const loadingModal = useAppSelector(ModalStore.selectLoadingModal);
+  const loadingModal = useLoadingModal({
+    completedMessage: 'Your Wallet is Ready!',
+    loadingMessage: 'Setting up the wallet, please wait!',
+  });
   const [steps, setSteps] = useState<Step[]>([
     { component: EnterPassphrase },
     { component: ImportedWallet },
@@ -92,14 +93,7 @@ const ImportNewWallet = () => {
   const formik = useFormik<ImportedWalletFormik>({
     initialValues: initialImportWalletData,
     onSubmit: async (values: FormikValues, formikHelpers) => {
-      const loadingModal = {
-        isOpen: true,
-        isLoading: true,
-        completedMessage: 'Your Wallet is Ready!',
-        loadingMessage: 'Setting up the wallet, please wait!',
-      };
-
-      dispatch(ModalStore.loadingModalUpdated(loadingModal));
+      loadingModal.setLoading();
 
       const { error } = await browser.runtime.sendMessage({
         type: 'IMPORT_WALLETS',
@@ -126,26 +120,15 @@ const ImportNewWallet = () => {
       // Fetch updated profile data and update store.
       await initProfile();
 
-      // @TODO: Remove this timeout.
-      //        It failed to redirect to home page without the time out.
-      //        Needs further investigation.
-      setTimeout(() => {
-        dispatch(
-          ModalStore.loadingModalUpdated({
-            ...loadingModal,
-            isOpen: false,
-            isLoading: false,
-          }),
-        );
+      await loadingModal.setCompletedAndClose();
 
-        formikHelpers.resetForm();
-        navigate('/');
-      }, 500);
+      formikHelpers.resetForm();
+      navigate('/');
     },
   });
 
   return (
-    <HandleLoadingState loading={isGeneratingWallet || loadingModal.isOpen}>
+    <HandleLoadingState loading={isGeneratingWallet || loadingModal.isLoading}>
       <StepsNavigation<ImportedWalletFormik>
         steps={steps}
         formik={formik}
