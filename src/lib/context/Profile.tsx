@@ -9,7 +9,9 @@ import browser from 'webextension-polyfill';
 import * as SessionStore from '@/lib/store/session';
 import { useWalletBalance } from '../hooks/useWalletBalance';
 import { ProfileData } from '../background/contracts';
-import { setLocalValue } from "../utils/localStorage";
+import { LoadingFullScreen } from '@/shared/components/handleStates/LoadingFullScreen';
+import { setLocalValue } from '../utils/localStorage';
+import * as UIStore from '@/lib/store/ui';
 
 interface Context {
   profile: Contracts.IProfile;
@@ -95,6 +97,7 @@ export const ProfileProvider = ({ children }: Properties) => {
       profile.settings().set(Contracts.ProfileSetting.ExchangeCurrency, defaultCurrency);
 
       setLocalValue('hasOnboarded', false);
+      dispatch(UIStore.testnetEnabledChanged(false));
 
       setProfile(profile);
       return profile;
@@ -143,7 +146,7 @@ export const ProfileProvider = ({ children }: Properties) => {
     return newProfile;
   };
 
-  if (isLoading || !profile) return null;
+  if (isLoading || !profile) return <LoadingFullScreen />;
 
   return (
     <ProfileContext.Provider
