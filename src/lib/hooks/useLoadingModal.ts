@@ -5,9 +5,11 @@ import constants from '@/constants';
 const useLoadingModal = ({
   loadingMessage,
   completedMessage,
+  completedDescription,
 }: {
   loadingMessage?: string;
   completedMessage?: string;
+  completedDescription?: string;
 }) => {
   const { isOpen: isLoading } = useAppSelector(selectLoadingModal);
 

@@ -10,14 +10,13 @@ import { useFormik } from 'formik';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { ThemeMode } from '@/lib/store/ui';
-import { useAppDispatch } from '@/lib/store';
-import * as ModalStore from '@/lib/store/modal';
 import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
 import { useProfileContext } from '@/lib/context/Profile';
 import browser from 'webextension-polyfill';
 import { getDefaultAlias } from '@/lib/utils/getDefaultAlias';
 import useLocaleCurrency from '@/lib/hooks/useLocalCurrency';
 import { getLocalValues } from '@/lib/utils/localStorage';
+import useLoadingModal from '@/lib/hooks/useLoadingModal';
 
 export type ImportWithLedger = {
   wallets: LedgerData[];
@@ -31,13 +30,17 @@ const ImportWithLedger = () => {
   const { currentThemeMode } = useThemeMode();
   const { profile, initProfile } = useProfileContext();
   const { defaultCurrency } = useLocaleCurrency();
-  const dispatch = useAppDispatch();
   const { error, removeErrors } = useLedgerContext();
   const { onError } = useErrorHandlerContext();
   const [steps, setSteps] = useState<Step[]>([
     { component: LedgerConnectionStep },
     { component: ImportWallets },
   ]);
+  const loadingModal = useLoadingModal({
+    loadingMessage: 'Setting up your wallet',
+    completedMessage: 'Your wallet is ready!',
+    completedDescription: 'You can now open the extension and manage your addresses!',
+  });
 
   const formik = useFormik<ImportWithLedger>({
     initialValues: {
@@ -80,15 +83,7 @@ const ImportWithLedger = () => {
 
       await initProfile();
 
-      dispatch(
-        ModalStore.loadingModalUpdated({
-          isOpen: true,
-          isLoading: false,
-          loadingMessage: 'Setting up your wallet',
-          completedMessage: 'Your wallet is ready!',
-          completedDescription: 'You can now open the extension and manage your addresses!',
-        }),
-      );
+      loadingModal.open();
 
       formikHelpers.resetForm();
     },
