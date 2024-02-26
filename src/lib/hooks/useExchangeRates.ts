@@ -1,5 +1,11 @@
 import { useEffect, useState } from 'react';
 import { general } from '@/lib/data/general';
+import { getLocalValues, setLocalValue } from '../utils/localStorage';
+
+const ONE_MINUTE_IN_MS = 60000;
+
+const MAX_COINGECKO_REQUESTS_PER_MINUTE =
+  import.meta.env.VITE_MAX_COINGECKO_REQUESTS_PER_MINUTE ?? (10 as number);
 
 export const useExchangeRates = () => {
   const [rates, setRates] = useState<Record<string, number>>({});
@@ -17,11 +23,39 @@ export const useExchangeRates = () => {
     );
 
     const getRates = async () => {
-      const rates = await fetch(url);
-      const parsedRates = await rates.json();
+      const now = Date.now();
 
-      setRates(parsedRates[coinId]);
-      setLoading(false);
+      const { ratesCache } = await getLocalValues();
+
+      if (
+        ratesCache !== undefined &&
+        ratesCache.rates &&
+        now - ratesCache.lastFetch < ONE_MINUTE_IN_MS
+      ) {
+        setRates(ratesCache.rates);
+        setLoading(false);
+      } else {
+        const timeSinceLastFetch = now - (ratesCache?.lastFetch ?? 0);
+        const minInterval = 60000 / MAX_COINGECKO_REQUESTS_PER_MINUTE; // Minimum time interval between requests
+        if (timeSinceLastFetch < minInterval) {
+          // Request throttled due to rate limit.
+          return;
+        }
+
+        // Fetch new data
+        const response = await fetch(url);
+        const parsedRates = await response.json();
+
+        const cache = {
+          lastFetch: now,
+          rates: parsedRates[coinId],
+        };
+
+        await setLocalValue('ratesCache', cache);
+
+        setRates(parsedRates[coinId]);
+        setLoading(false);
+      }
     };
 
     void getRates();

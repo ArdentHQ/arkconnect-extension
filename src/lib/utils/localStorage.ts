@@ -13,6 +13,10 @@ interface LocalStorageValues {
   autoLockTimer: AutoLockTimer;
   devModeSeeded: boolean;
   hasOnboarded: boolean;
+  ratesCache?: {
+    lastFetch: number;
+    rates: Record<string, number>;
+  };
 }
 
 type LocalStorageKeys = keyof LocalStorageValues;
@@ -33,6 +37,7 @@ export const getLocalValues = async (): Promise<LocalStorageValues> => {
     autoLockTimer: localValues?.autoLockTimer,
     devModeSeeded: localValues?.devModeSeeded ?? false,
     hasOnboarded: localValues?.hasOnboarded ?? false,
+    ratesCache: localValues?.ratesCache ?? undefined,
   };
 };
 
