@@ -19,6 +19,7 @@ import browser from 'webextension-polyfill';
 import { clearPersistScreenData } from '../form-persist/helpers';
 import useLocaleCurrency from '@/lib/hooks/useLocalCurrency';
 import { getLocalValues } from '@/lib/utils/localStorage';
+import constants from '@/constants';
 
 export type CreateWalletFormik = {
   wallet?: Contracts.IReadWriteWallet;
@@ -118,18 +119,25 @@ const CreateNewWallet = () => {
       // Fetch updated profile data and update store.
       await initProfile();
 
+      dispatch(
+        ModalStore.loadingModalUpdated({
+          ...loadingModal,
+          isLoading: false,
+        }),
+      );
+
       setTimeout(() => {
         dispatch(
           ModalStore.loadingModalUpdated({
             ...loadingModal,
-            isOpen: false,
             isLoading: false,
+            isOpen: false,
           }),
         );
 
         formikHelpers.resetForm();
         navigate('/');
-      }, 500);
+      }, constants.SHOW_MESSAGE_AFTER_ACTION_DURING_MS);
     },
   });
 

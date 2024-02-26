@@ -105,7 +105,7 @@ const ApproveMessage = ({
 
       await removeWindowInstance(
         location.state?.windowId,
-        constants.CLOSE_WINDOW_AFTER_ACTION_TIMEOUT,
+        constants.SHOW_MESSAGE_AFTER_ACTION_DURING_MS,
       );
     } catch (error: any) {
       if (wallet.isLedger()) {
