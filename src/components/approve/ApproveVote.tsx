@@ -13,12 +13,11 @@ import { useVoteForm } from '@/lib/hooks/useVoteForm';
 import { HandleLoadingState } from '@/shared/components/handleStates/HandleLoadingState';
 import removeWindowInstance from '@/lib/utils/removeWindowInstance';
 import { Contracts } from '@ardenthq/sdk-profiles';
-import { useAppDispatch } from '@/lib/store';
-import * as ModalStore from '@/lib/store/modal';
 import useWalletSync from '@/lib/hooks/useWalletSync';
 import { useEnvironmentContext } from '@/lib/context/Environment';
 import RequestedVoteBody from '@/components/approve/RequestedVoteBody';
 import { useNotifyOnUnload } from '@/lib/hooks/useNotifyOnUnload';
+import useLoadingModal from '@/lib/hooks/useLoadingModal';
 
 type Props = {
   abortReference: AbortController;
@@ -31,7 +30,6 @@ type Props = {
 };
 
 const ApproveVote = ({ abortReference, approveWithLedger, wallet, closeLedgerScreen }: Props) => {
-  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const location = useLocation();
   const { state } = location;
@@ -84,6 +82,10 @@ const ApproveVote = ({ abortReference, approveWithLedger, wallet, closeLedgerScr
     }
   };
 
+  const loadingModal = useLoadingModal({
+    loadingMessage: getLoadingMessage(actionType),
+  });
+
   const reject = (message: string = 'Sign vote denied!') => {
     browser.runtime.sendMessage({
       type: 'SIGN_VOTE_REJECT',
@@ -100,16 +102,14 @@ const ApproveVote = ({ abortReference, approveWithLedger, wallet, closeLedgerScr
 
   const onSubmit = async () => {
     try {
+      if (!wallet.isLedger()) {
+        loadingModal.setLoading();
+      }
+
       await syncAll(wallet);
-      const loadingModal = {
-        isOpen: true,
-        isLoading: true,
-        loadingMessage: getLoadingMessage(actionType),
-      };
+
       if (wallet.isLedger()) {
         await approveWithLedger(profile, wallet);
-      } else {
-        dispatch(ModalStore.loadingModalUpdated(loadingModal));
       }
 
       const res = await submitForm(abortReference);
@@ -143,13 +143,6 @@ const ApproveVote = ({ abortReference, approveWithLedger, wallet, closeLedgerScr
         },
       });
 
-      dispatch(
-        ModalStore.loadingModalUpdated({
-          isOpen: false,
-          isLoading: false,
-        }),
-      );
-
       setSubmitted();
 
       navigate('/vote/success', {
@@ -164,6 +157,8 @@ const ApproveVote = ({ abortReference, approveWithLedger, wallet, closeLedgerScr
           session: state.session,
         },
       });
+
+      loadingModal.close();
     } catch (error: any) {
       closeLedgerScreen();
       reject(error.message);
