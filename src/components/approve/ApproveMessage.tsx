@@ -15,6 +15,7 @@ import useWalletSync from '@/lib/hooks/useWalletSync';
 import { useEnvironmentContext } from '@/lib/context/Environment';
 import RequestedSignatureMessage from '@/components/approve/RequestedSignatureMessage';
 import { useNotifyOnUnload } from '@/lib/hooks/useNotifyOnUnload';
+import constants from '@/constants';
 
 type Props = {
   abortReference: AbortController;
@@ -57,7 +58,6 @@ const ApproveMessage = ({
 
   const onSubmit = async () => {
     try {
-      await syncAll(wallet);
       const loadingModal = {
         isOpen: true,
         isLoading: true,
@@ -71,41 +71,17 @@ const ApproveMessage = ({
         dispatch(ModalStore.loadingModalUpdated(loadingModal));
       }
 
+      await syncAll(wallet);
+
       const signedMessageResult = await sign(wallet, message, {
         abortSignal: abortReference.signal,
       });
 
       if (wallet.isLedger()) {
         closeLedgerScreen();
-        dispatch(
-          ModalStore.loadingModalUpdated({
-            ...loadingModal,
-            isLoading: false,
-          }),
-        );
-      } else {
-        const clearLoadingModal = setTimeout(() => {
-          dispatch(
-            ModalStore.loadingModalUpdated({
-              ...loadingModal,
-              isLoading: false,
-            }),
-          );
-          clearTimeout(clearLoadingModal);
-        }, 1500);
       }
 
-      const clearModal = setTimeout(() => {
-        dispatch(
-          ModalStore.loadingModalUpdated({
-            isOpen: false,
-            isLoading: false,
-          }),
-        );
-        clearTimeout(clearModal);
-      }, 3000);
-
-      browser.runtime.sendMessage({
+      await browser.runtime.sendMessage({
         type: 'SIGN_MESSAGE_RESOLVE',
         data: {
           domain,
@@ -118,9 +94,19 @@ const ApproveMessage = ({
         },
       });
 
+      dispatch(
+        ModalStore.loadingModalUpdated({
+          ...loadingModal,
+          isLoading: false,
+        }),
+      );
+
       setSubmitted();
 
-      await removeWindowInstance(location.state?.windowId, 3000);
+      await removeWindowInstance(
+        location.state?.windowId,
+        constants.CLOSE_WINDOW_AFTER_ACTION_TIMEOUT,
+      );
     } catch (error: any) {
       if (wallet.isLedger()) {
         closeLedgerScreen();
