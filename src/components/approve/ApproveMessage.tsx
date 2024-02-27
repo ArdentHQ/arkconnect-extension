@@ -9,7 +9,6 @@ import { useProfileContext } from '@/lib/context/Profile';
 import { ApproveActionType } from '@/pages/Approve';
 import { useMessageSigner } from '@/lib/hooks/useMessageSigner';
 import removeWindowInstance from '@/lib/utils/removeWindowInstance';
-import { useAppDispatch } from '@/lib/store';
 import useWalletSync from '@/lib/hooks/useWalletSync';
 import { useEnvironmentContext } from '@/lib/context/Environment';
 import RequestedSignatureMessage from '@/components/approve/RequestedSignatureMessage';
@@ -34,7 +33,6 @@ const ApproveMessage = ({
     closeLedgerScreen,
 }: Props) => {
     const location = useLocation();
-    const dispatch = useAppDispatch();
     const { env } = useEnvironmentContext();
     const { domain, tabId, session, message } = location.state;
     const { profile } = useProfileContext();
