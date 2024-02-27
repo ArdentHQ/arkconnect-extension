@@ -12,7 +12,6 @@ import { ApproveActionType } from '@/pages/Approve';
 import { useProfileContext } from '../context/Profile';
 import { useErrorHandlerContext } from '../context/ErrorHandler';
 import browser from 'webextension-polyfill';
-import { useLocation } from 'react-router-dom';
 import { withAbortPromise } from '../utils/transactionHelpers';
 import { useLedgerContext } from '../Ledger';
 
@@ -64,7 +63,6 @@ export const useVoteForm = (wallet: Contracts.IReadWriteWallet, request: Approve
   const { env } = useEnvironmentContext();
   const { profile } = useProfileContext();
   const { onError } = useErrorHandlerContext();
-  const { state } = useLocation();
   const { calculate } = useFees();
   const [loading, setLoading] = useState(true);
   const [formValues, setFormValues] = useState<SendVoteForm>(defaultState);
@@ -170,11 +168,7 @@ export const useVoteForm = (wallet: Contracts.IReadWriteWallet, request: Approve
 
   useEffect(() => {
     (async () => {
-      if (
-        !wallet.id() ||
-        !wallets.some((w) => w.walletId === wallet.id()) ||
-        wallet.network().name() !== state?.network
-      ) {
+      if (!wallet.id() || !wallets.some((w) => w.walletId === wallet.id())) {
         return;
       }
 
