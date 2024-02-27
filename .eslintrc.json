@@ -60,11 +60,21 @@
     "import/no-duplicates": "error",
     "import/no-dynamic-require": "off",
     "import/no-named-as-default": "off",
+    "import/no-unresolved": "error",
     "eslint-plugin-import/no-cycle": "off"
   },
   "settings": {
     "react": {
       "version": "detect"
+    },
+    "import/parsers": {
+      "@typescript-eslint/parser": [".ts", ".tsx"]
+    },
+    "import/resolver": {
+      "typescript": {
+        "alwaysTryTypes": true,
+        "project": "./tsconfig.json"
+      }
     }
   }
 }
