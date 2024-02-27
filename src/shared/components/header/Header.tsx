@@ -120,6 +120,7 @@ export const Header = () => {
                 onClick={handleAddressDropdownClick}
                 onKeyDown={(e) => handleSubmitKeyAction(e, handleAddressDropdownClick)}
                 tabIndex={0}
+                selected={showAddressesDropdown}
                 aria-label='Addresses Dropdown'
               >
                 <Alias color='base' maxWidth='124px' fontWeight='medium' as='span'>
