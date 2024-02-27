@@ -2,6 +2,7 @@ import constants from '@/constants';
 import cropToMaxDigits from '@/lib/utils/cropToMaxDigits';
 import { Tooltip } from '@/shared/components';
 import { Helpers } from '@ardenthq/sdk-profiles';
+import { TippyProps } from '@tippyjs/react';
 
 interface AmountProperties {
   ticker: string;
@@ -10,6 +11,7 @@ interface AmountProperties {
   withTicker?: boolean;
   isNegative?: boolean;
   maxDigits?: number;
+  tooltipPlacement?: TippyProps['placement'];
 }
 
 const Amount = ({
@@ -19,6 +21,7 @@ const Amount = ({
   isNegative,
   showSign,
   maxDigits = constants.MAX_CURRENCY_DIGITS_ALLOWED,
+  tooltipPlacement = 'top',
 }: AmountProperties) => {
   const actualFormattedAmount = Helpers.Currency.format(value, ticker, { withTicker });
 
@@ -40,7 +43,7 @@ const Amount = ({
     <Tooltip
       disabled={formattedAmount === actualFormattedAmount}
       content={actualFormattedAmount}
-      placement='top'
+      placement={tooltipPlacement}
     >
       <span>{formattedAmount}</span>
     </Tooltip>
