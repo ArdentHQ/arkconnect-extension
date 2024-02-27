@@ -177,7 +177,7 @@ const dark = {
   primaryBackground: lightBlack,
   secondaryBackground: subtleBlack,
   lightGreen: '#02a8631f',
-  lightestGray: '#434343',
+  lightestGray: secondary700,
   background: lightBlack,
   base: white,
   inputBackground: subtleBlack,
