@@ -1,19 +1,21 @@
-import browser from 'webextension-polyfill';
-import { Contracts } from '@ardenthq/sdk-profiles';
-import { BACKGROUND_EVENT_LISTENERS_HANDLERS } from './lib/background/eventListenerHandlers';
-import { initializeEnvironment } from './lib/utils/env.background';
 import { AutoLockTimer, setLocalValue } from './lib/utils/localStorage';
-import initAutoLock from './lib/background/initAutoLock';
-import useSentryException from './lib/hooks/useSentryException';
-import keepServiceWorkerAlive from './lib/background/keepServiceWorkerAlive';
-import { LockHandler } from '@/lib/background/handleAutoLock';
-import { ExtensionEvents } from './lib/events';
-import { importWallets } from './background.helpers';
 import { createTestProfile, isDev } from './dev/utils/dev';
-import { ProfileData } from './lib/background/contracts';
-import { Services } from '@ardenthq/sdk';
-import { SendTransferInput } from './lib/background/extension.wallet';
+
+import { BACKGROUND_EVENT_LISTENERS_HANDLERS } from './lib/background/eventListenerHandlers';
+import { Contracts } from '@ardenthq/sdk-profiles';
+import { ExtensionEvents } from './lib/events';
 import { ExtensionProfile } from './lib/background/extension.profile';
+import { LockHandler } from '@/lib/background/handleAutoLock';
+import { ProfileData } from './lib/background/contracts';
+import { SendTransferInput } from './lib/background/extension.wallet';
+import { Services } from '@ardenthq/sdk';
+import browser from 'webextension-polyfill';
+import { importWallets } from './background.helpers';
+import initAutoLock from './lib/background/initAutoLock';
+import { initializeEnvironment } from './lib/utils/env.background';
+import keepServiceWorkerAlive from './lib/background/keepServiceWorkerAlive';
+import { lte } from 'semver';
+import useSentryException from './lib/hooks/useSentryException';
 
 let PROFILE: Contracts.IProfile | null = null;
 
@@ -238,16 +240,30 @@ const initRuntimeEventListener = () => {
         PROFILE?.auth().changePassword(request.data.oldPassword, request.data.newPassword);
 
         for (const wallet of PROFILE.wallets().values()) {
-          const mnemonic = await wallet.confirmKey().get(request.data.oldPassword);
+          let newWallet;
 
-          const newWallet = await PROFILE.walletFactory().fromMnemonicWithBIP39({
-            coin: wallet.network().coin(),
-            network: wallet.network().id(),
-            mnemonic,
-          });
+          // Only non-ledgers have mnemonics
+          if (!wallet.isLedger()) {
+            const mnemonic = await wallet.confirmKey().get(request.data.oldPassword);
 
-          newWallet.mutator().alias(wallet.alias() as string);
-          await newWallet.confirmKey().set(mnemonic, PROFILE.password().get());
+            newWallet = await PROFILE.walletFactory().fromMnemonicWithBIP39({
+              coin: wallet.network().coin(),
+              network: wallet.network().id(),
+              mnemonic,
+            });
+
+            newWallet.mutator().alias(wallet.alias() as string);
+            await newWallet.confirmKey().set(mnemonic, PROFILE.password().get());
+          } else {
+            newWallet = await PROFILE.walletFactory().fromAddressWithDerivationPath({
+              address: wallet.address(),
+              network: wallet.network().id(),
+              coin: wallet.coinId(),
+              path: wallet.data().get(Contracts.WalletData.DerivationPath)!,
+            });
+
+            newWallet.mutator().alias(wallet.alias() as string);
+          }
 
           const id = wallet.id();
 
