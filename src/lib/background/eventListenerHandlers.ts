@@ -62,7 +62,7 @@ const createExtensionWindow = async (onWindowReady: (id?: number) => void) => {
     return;
   }
 
-  const POPUP_WIDTH = 375;
+  const POPUP_WIDTH = 370;
 
   let left = 0;
   let top = 0;
@@ -164,7 +164,7 @@ const handleIsConnected = async (
       type: `${payload.type}_RESOLVE`,
       data: {
         status: 'success',
-        isConnected: getActiveSession({
+        isConnected: !!getActiveSession({
           payload,
           profile,
         }),

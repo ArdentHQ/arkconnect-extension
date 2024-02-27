@@ -12,7 +12,11 @@ import { LedgerConnectionStep } from '@/components/ledger/LedgerConnectionStep';
 import SetupPassword from '@/components/settings/SetupPassword';
 import { ThemeMode } from '@/lib/store/ui';
 import browser from 'webextension-polyfill';
+<<<<<<< HEAD
 import { getLedgerAlias } from '@/lib/utils/getDefaultAlias';
+=======
+import { getDefaultAlias } from '@/lib/utils/getDefaultAlias';
+>>>>>>> develop
 import { getLocalValues } from '@/lib/utils/localStorage';
 import styled from 'styled-components';
 import { useAppDispatch } from '@/lib/store';

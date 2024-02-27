@@ -1,4 +1,5 @@
 import { AutoLockTimer, setLocalValue } from './lib/utils/localStorage';
+import { ProfileData, SessionEntries } from './lib/background/contracts';
 import { createTestProfile, isDev } from './dev/utils/dev';
 
 import { BACKGROUND_EVENT_LISTENERS_HANDLERS } from './lib/background/eventListenerHandlers';
@@ -6,7 +7,6 @@ import { Contracts } from '@ardenthq/sdk-profiles';
 import { ExtensionEvents } from './lib/events';
 import { ExtensionProfile } from './lib/background/extension.profile';
 import { LockHandler } from '@/lib/background/handleAutoLock';
-import { ProfileData } from './lib/background/contracts';
 import { SendTransferInput } from './lib/background/extension.wallet';
 import { Services } from '@ardenthq/sdk';
 import browser from 'webextension-polyfill';
@@ -240,6 +240,7 @@ const initRuntimeEventListener = () => {
 
         for (const wallet of PROFILE.wallets().values()) {
           let newWallet;
+          const oldWalletId = wallet.id();
 
           // Only non-ledgers have mnemonics
           if (!wallet.isLedger()) {
@@ -264,19 +265,35 @@ const initRuntimeEventListener = () => {
             newWallet.mutator().alias(wallet.alias() as string);
           }
 
-          const id = wallet.id();
-
-          if (PROFILE.data().get(ProfileData.PrimaryWalletId) === id) {
+          // Update primary wallet ID to match the new id of the same wallet
+          if (PROFILE.data().get(ProfileData.PrimaryWalletId) === oldWalletId) {
             PROFILE.data().set(ProfileData.PrimaryWalletId, newWallet.id());
           }
 
-          PROFILE.wallets().forget(id);
+          const sessions = PROFILE.data().get<SessionEntries>(ProfileData.Sessions);
+
+          if (sessions) {
+            // Adjust sessions' walletId to match new ones
+            for (const [sessionId, session] of Object.entries(sessions)) {
+              if (session.walletId === oldWalletId) {
+                session.walletId = newWallet.id();
+                sessions[sessionId] = session;
+              }
+            }
+          }
+
+          // Store updated sessions
+          PROFILE.data().set(ProfileData.Sessions, sessions);
+
+          PROFILE.wallets().forget(oldWalletId);
           PROFILE.wallets().push(newWallet);
         }
 
         await ENVIRONMENT.persist();
 
-        return Promise.resolve({ error: undefined });
+        return Promise.resolve({
+          error: undefined,
+        });
       } catch (error) {
         return Promise.resolve({ error });
       }

@@ -1,10 +1,38 @@
-import { Input, Container } from '@/shared/components';
+import { Input, Container, Icon, FlexContainer } from '@/shared/components';
 import { useState } from 'react';
 import styled from 'styled-components';
 import { isFirefox } from '@/lib/utils/isFirefox';
 
 type Props = React.ComponentProps<typeof Input> & {
   labelText?: string;
+};
+
+const EyeButton = ({
+  showPassword,
+  onClick,
+  labelText,
+}: {
+  showPassword: boolean;
+  onClick: () => void;
+  labelText?: string;
+}) => {
+  return (
+    <StyledEyeWrapper
+      as='button'
+      onClick={onClick}
+      color='base'
+      border='none'
+      width='28px'
+      height='28px'
+      borderRadius='50%'
+      backgroundColor='transparent'
+      justifyContent='center'
+      alignItems='center'
+      top={labelText ? '36px' : '12px'}
+    >
+      <Icon width='20px' height='20px' icon={showPassword ? 'eye-off' : 'eye'} color='base' />
+    </StyledEyeWrapper>
+  );
 };
 
 export const PasswordInput = ({ labelText, ...props }: Props) => {
@@ -19,20 +47,20 @@ export const PasswordInput = ({ labelText, ...props }: Props) => {
         type={showPassword ? 'text' : 'password'}
         labelText={labelText}
         {...props}
-        iconTrailing={showPassword ? 'eye-off' : 'eye'}
+        paddingRight='40'
+        trailing={
+          <EyeButton
+            showPassword={showPassword}
+            onClick={toggleShowPassword}
+            labelText={labelText}
+          />
+        }
       />
-      <StyledEyeWrapper position='relative' onClick={toggleShowPassword} as='button' color='base' border='none' backgroundColor='transparent' top={labelText ? '36px' : '12px'} />
     </Container>
   );
 };
 
-const StyledEyeWrapper = styled(Container)`
-  width: 28px;
-  height: 28px;
-  position: absolute;
-  right: 8px;
+const StyledEyeWrapper = styled(FlexContainer)`
   cursor: pointer;
-  border-radius: 50%;
-
-  ${({ theme }) => isFirefox ? theme.browserCompatibility.firefox.focus : ''}
+  ${({ theme }) => (isFirefox ? theme.browserCompatibility.firefox.focus : '')}
 `;

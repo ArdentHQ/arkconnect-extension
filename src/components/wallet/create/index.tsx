@@ -15,14 +15,8 @@ import { getDefaultAlias } from '@/lib/utils/getDefaultAlias';
 import { HandleLoadingState } from '@/shared/components/handleStates/HandleLoadingState';
 import { assertNetwork } from '@/lib/utils/assertions';
 import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
-import { getPersistedValues } from '../form-persist';
 import browser from 'webextension-polyfill';
-import {
-  clearCreateWalletData,
-  clearPersistScreenData,
-  createWalletChanged,
-  initialCreateWalletData,
-} from '../form-persist/helpers';
+import { clearPersistScreenData } from '../form-persist/helpers';
 import useLocaleCurrency from '@/lib/hooks/useLocalCurrency';
 import { getLocalValues } from '@/lib/utils/localStorage';
 
@@ -38,13 +32,21 @@ export type CreateWalletFormik = {
   termsAndConditionsConfirmed: boolean;
 };
 
+const initialCreateWalletData = {
+  passphrase: [],
+  confirmPassphrase: ['', '', ''],
+  confirmationNumbers: [],
+  passphraseValidationStatus: Array(3).fill('primary'),
+  lostPasswordAwareness: false,
+  termsAndConditionsConfirmed: false,
+};
+
 export type ValidationVariant = 'primary' | 'destructive' | 'errorFree';
 
 const CreateNewWallet = () => {
   const toast = useToast();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const { persistScreen, createWalletData } = getPersistedValues();
   const { onError } = useErrorHandlerContext();
   const { profile, initProfile } = useProfileContext();
   const { defaultCurrency } = useLocaleCurrency();
@@ -70,12 +72,11 @@ const CreateNewWallet = () => {
   useEffect(() => {
     return () => {
       clearPersistScreenData();
-      clearCreateWalletData();
     };
   }, []);
 
   const formik = useFormik<CreateWalletFormik>({
-    initialValues: persistScreen ? createWalletData : initialCreateWalletData,
+    initialValues: initialCreateWalletData,
     onSubmit: async (values, formikHelpers) => {
       const loadingModal = {
         isOpen: true,
@@ -150,10 +151,6 @@ const CreateNewWallet = () => {
       const response = await generateWallet();
       formik.setFieldValue('wallet', response?.wallet);
       formik.setFieldValue('passphrase', response?.mnemonic.split(' '));
-      createWalletChanged({
-        ...initialCreateWalletData,
-        wallet: response?.wallet,
-      });
     } catch (error) {
       onError(error, false);
     } finally {
