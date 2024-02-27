@@ -240,6 +240,7 @@ const initRuntimeEventListener = () => {
 
         for (const wallet of PROFILE.wallets().values()) {
           let newWallet;
+          const oldWalletId = wallet.id();
 
           // Only non-ledgers have mnemonics
           if (!wallet.isLedger()) {
@@ -264,19 +265,22 @@ const initRuntimeEventListener = () => {
             newWallet.mutator().alias(wallet.alias() as string);
           }
 
-          const id = wallet.id();
-
-          if (PROFILE.data().get(ProfileData.PrimaryWalletId) === id) {
+          // Update primary wallet ID to match the new id of the same wallet
+          console.log(PROFILE.data().get(ProfileData.PrimaryWalletId), oldWalletId, newWallet.id());
+          if (PROFILE.data().get(ProfileData.PrimaryWalletId) === oldWalletId) {
             PROFILE.data().set(ProfileData.PrimaryWalletId, newWallet.id());
           }
 
-          PROFILE.wallets().forget(id);
+          PROFILE.wallets().forget(oldWalletId);
           PROFILE.wallets().push(newWallet);
         }
 
         await ENVIRONMENT.persist();
 
-        return Promise.resolve({ error: undefined });
+        return Promise.resolve({
+          id: PROFILE.data().get(ProfileData.PrimaryWalletId),
+          error: undefined,
+        });
       } catch (error) {
         return Promise.resolve({ error });
       }
