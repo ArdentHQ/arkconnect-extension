@@ -5,27 +5,27 @@ import { handleInputKeyAction } from '@/lib/utils/handleKeyAction';
 import { isFirefox } from '@/lib/utils/isFirefox';
 
 type CheckboxProps = {
-  checked: boolean;
-  onChange: (event: ChangeEvent<HTMLInputElement>) => void;
-  name: string;
-  id: string;
-  title?: string;
-  helperText?: string;
-  disabled?: boolean;
-  tabIndex?: number;
+    checked: boolean;
+    onChange: (event: ChangeEvent<HTMLInputElement>) => void;
+    name: string;
+    id: string;
+    title?: string;
+    helperText?: string;
+    disabled?: boolean;
+    tabIndex?: number;
 };
 
 const Input = styled.input`
-  height: 0;
-  width: 0;
-  opacity: 0;
-  z-index: -1;
+    height: 0;
+    width: 0;
+    opacity: 0;
+    z-index: -1;
 `;
 
 const Indicator = styled.span<{
-  isFocusWithin?: boolean;
+    isFocusWithin?: boolean;
 }>`
-  ${({ theme }) => `
+    ${({ theme }) => `
     width: 20px;
     height: 20px;
     background-color: transparent;
@@ -83,10 +83,10 @@ const Indicator = styled.span<{
     }
   `}
 
-  ${({ isFocusWithin, theme }) => `
+    ${({ isFocusWithin, theme }) => `
     ${
-      isFocusWithin &&
-      `
+        isFocusWithin &&
+        `
         outline-color: ${theme.color.primary600};
         outline-style: solid;
         outline-width: 2px;
@@ -97,13 +97,13 @@ const Indicator = styled.span<{
 `;
 
 const Label = styled.label<{ disabled?: boolean }>`
-  position: relative;
-  display: inline-block;
-  cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
-  pointer-events: ${(props) => (props.disabled ? 'none' : 'auto')};
-  display: flex;
+    position: relative;
+    display: inline-block;
+    cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
+    pointer-events: ${(props) => (props.disabled ? 'none' : 'auto')};
+    display: flex;
 
-  ${({ theme }) => `
+    ${({ theme }) => `
     &:hover ${Indicator} {
       background-color: ${theme.colors.inputHover};
     }
@@ -120,63 +120,63 @@ const Label = styled.label<{ disabled?: boolean }>`
 `;
 
 export const Checkbox: FC<CheckboxProps> = ({
-  checked,
-  onChange,
-  name,
-  id,
-  title,
-  helperText,
-  disabled,
-  tabIndex = 0,
+    checked,
+    onChange,
+    name,
+    id,
+    title,
+    helperText,
+    disabled,
+    tabIndex = 0,
 }) => {
-  const [isFocusWithin, setIsFocusWithin] = useState(false);
+    const [isFocusWithin, setIsFocusWithin] = useState(false);
 
-  return (
-    <Label htmlFor={id} disabled={disabled}>
-      <FlexContainer
-        flexDirection='column'
-        alignItems='flex-start'
-        gridGap='5px'
-        marginLeft='28'
-        as='span'
-      >
-        {title && (
-          <Paragraph $typeset='headline' color='base'>
-            {title}
-          </Paragraph>
-        )}
-        {helperText && (
-          <Paragraph $typeset='body' fontWeight='regular' color='gray' as='span'>
-            {helperText}
-          </Paragraph>
-        )}
-      </FlexContainer>
+    return (
+        <Label htmlFor={id} disabled={disabled}>
+            <FlexContainer
+                flexDirection='column'
+                alignItems='flex-start'
+                gridGap='5px'
+                marginLeft='28'
+                as='span'
+            >
+                {title && (
+                    <Paragraph $typeset='headline' color='base'>
+                        {title}
+                    </Paragraph>
+                )}
+                {helperText && (
+                    <Paragraph $typeset='body' fontWeight='regular' color='gray' as='span'>
+                        {helperText}
+                    </Paragraph>
+                )}
+            </FlexContainer>
 
-      <Input
-        id={id}
-        type='checkbox'
-        name={name}
-        disabled={disabled}
-        checked={!!checked}
-        onChange={onChange}
-        tabIndex={tabIndex}
-        onFocus={(event) => {
-          setIsFocusWithin(event.relatedTarget !== null);
-        }}
-        onBlur={() => {
-          setIsFocusWithin(false);
-        }}
-      />
-      <Indicator
-        role='checkbox'
-        aria-label={`${title} checkbox`}
-        aria-checked={checked}
-        aria-disabled={disabled}
-        onKeyDown={(e) =>
-          handleInputKeyAction(e, onChange, e as unknown as ChangeEvent<HTMLInputElement>)
-        }
-        isFocusWithin={isFocusWithin}
-      />
-    </Label>
-  );
+            <Input
+                id={id}
+                type='checkbox'
+                name={name}
+                disabled={disabled}
+                checked={!!checked}
+                onChange={onChange}
+                tabIndex={tabIndex}
+                onFocus={(event) => {
+                    setIsFocusWithin(event.relatedTarget !== null);
+                }}
+                onBlur={() => {
+                    setIsFocusWithin(false);
+                }}
+            />
+            <Indicator
+                role='checkbox'
+                aria-label={`${title} checkbox`}
+                aria-checked={checked}
+                aria-disabled={disabled}
+                onKeyDown={(e) =>
+                    handleInputKeyAction(e, onChange, e as unknown as ChangeEvent<HTMLInputElement>)
+                }
+                isFocusWithin={isFocusWithin}
+            />
+        </Label>
+    );
 };

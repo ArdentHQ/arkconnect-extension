@@ -16,13 +16,13 @@ import browserCompatibility from './categories/browserCompatibility';
  */
 
 export const theme = {
-  ...layout,
-  ...typography,
-  ...color,
-  ...border,
-  ...transition,
-  ...shadows,
-  ...browserCompatibility,
+    ...layout,
+    ...typography,
+    ...color,
+    ...border,
+    ...transition,
+    ...shadows,
+    ...browserCompatibility,
 };
 
 export type Theme = typeof theme;

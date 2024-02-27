@@ -5,19 +5,19 @@ import { Theme } from '@/shared/theme';
 import { isFirefox } from '@/lib/utils/isFirefox';
 
 export const InternalLink = styled(Link)<
-  FlexboxProps<Theme> & LayoutProps<Theme> & ColorProps<Theme>
+    FlexboxProps<Theme> & LayoutProps<Theme> & ColorProps<Theme>
 >`
-  text-decoration: none;
-  cursor: pointer;
-  color: inherit;
+    text-decoration: none;
+    cursor: pointer;
+    color: inherit;
 
-  &:hover {
-    text-decoration: underline;
-  }
+    &:hover {
+        text-decoration: underline;
+    }
 
-  ${({ theme }) => (isFirefox ? theme.browserCompatibility.firefox.focus : '')}
+    ${({ theme }) => (isFirefox ? theme.browserCompatibility.firefox.focus : '')}
 
-  ${flexbox}
+    ${flexbox}
   ${layout}
   ${color}
 `;

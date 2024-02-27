@@ -10,30 +10,34 @@ type HexCode = `#${string}`;
 export type GetThemeColor = (lightClass: Color | HexCode, darkClass: Color | HexCode) => Color;
 
 const useThemeMode = () => {
-  const dispatch = useAppDispatch();
-  const currentThemeMode = useAppSelector(selectThemeMode);
+    const dispatch = useAppDispatch();
+    const currentThemeMode = useAppSelector(selectThemeMode);
 
-  const toggleThemeMode = (evt: React.MouseEvent<HTMLElement> | React.ChangeEvent<HTMLElement>) => {
-    evt.preventDefault();
-    evt.stopPropagation();
-    dispatch(
-      themeModeUpdated(currentThemeMode === ThemeMode.DARK ? ThemeMode.LIGHT : ThemeMode.DARK),
-    );
-  };
+    const toggleThemeMode = (
+        evt: React.MouseEvent<HTMLElement> | React.ChangeEvent<HTMLElement>,
+    ) => {
+        evt.preventDefault();
+        evt.stopPropagation();
+        dispatch(
+            themeModeUpdated(
+                currentThemeMode === ThemeMode.DARK ? ThemeMode.LIGHT : ThemeMode.DARK,
+            ),
+        );
+    };
 
-  const isDark = () => currentThemeMode === ThemeMode.DARK;
-  const isLight = () => !isDark();
+    const isDark = () => currentThemeMode === ThemeMode.DARK;
+    const isLight = () => !isDark();
 
-  const getThemeClass = (lightClass: Color | HexCode, darkClass: Color | HexCode): Color => {
-    return (isLight() ? lightClass : darkClass) as Color;
-  };
+    const getThemeClass = (lightClass: Color | HexCode, darkClass: Color | HexCode): Color => {
+        return (isLight() ? lightClass : darkClass) as Color;
+    };
 
-  return {
-    toggleThemeMode,
-    currentThemeMode,
-    getThemeColor: getThemeClass,
-    isDark,
-  };
+    return {
+        toggleThemeMode,
+        currentThemeMode,
+        getThemeColor: getThemeClass,
+        isDark,
+    };
 };
 
 export default useThemeMode;

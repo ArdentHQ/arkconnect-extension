@@ -8,18 +8,18 @@ import modalReducer from '@/lib/store/modal';
 import sessionReducer from '@/lib/store/session';
 
 const rootReducer = combineReducers({
-  ui: uiReducer,
-  wallet: walletReducer,
-  modal: modalReducer,
-  session: sessionReducer,
+    ui: uiReducer,
+    wallet: walletReducer,
+    modal: modalReducer,
+    session: sessionReducer,
 });
 
 const store = configureStore({
-  reducer: rootReducer,
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({
-      serializableCheck: false,
-    }),
+    reducer: rootReducer,
+    middleware: (getDefaultMiddleware) =>
+        getDefaultMiddleware({
+            serializableCheck: false,
+        }),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

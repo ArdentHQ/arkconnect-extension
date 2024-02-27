@@ -7,11 +7,11 @@ import { connectedTransport as ledgerTransportFactory } from '@/lib/utils/transp
 export const httpClient = new HttpClient(10);
 
 const getEnvironmentWithMocks = () =>
-  new Environment({
-    coins: { ARK },
-    httpClient,
-    storage: new StubStorage(),
-    ledgerTransportFactory,
-  });
+    new Environment({
+        coins: { ARK },
+        httpClient,
+        storage: new StubStorage(),
+        ledgerTransportFactory,
+    });
 
 export const env = getEnvironmentWithMocks();
