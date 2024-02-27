@@ -23,7 +23,7 @@ export const ExternalLink = styled.a<
   }
 
   &:focus-visible {
-    outline: 2px solid ${({ theme }) => theme.colors.green600};
+    outline: 2px solid ${({ theme }) => theme.colors.primary600};
   }
   ${flexbox}
   ${layout}

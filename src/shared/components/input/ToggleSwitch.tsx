@@ -74,7 +74,7 @@ const Slider = styled.span`
       background-color: ${theme.colors.lightGray}
 
       &::before {
-        background-color: #D2D2D2;
+        background-color: ${theme.colors.secondary300};
         filter: drop-shadow(0px 1px 2px rgba(16, 24, 40, 0.06)) drop-shadow(0px 1px 3px rgba(16, 24, 40, 0.10));
       }
     }

@@ -59,7 +59,7 @@ const AddressRow = ({ address, logo }: { address: Contracts.IReadWriteWallet; lo
       gridGap='12'
       border='1px solid'
       borderRadius='16'
-      borderColor={getThemeColor('green600', 'green650')}
+      borderColor={getThemeColor('primary600', 'primary650')}
       backgroundColor={getThemeColor('lightGreen', '#02a86326')}
       boxShadow='0 1px 4px 0 rgba(0, 0, 0, 0.05)'
       padding='16'
@@ -68,7 +68,7 @@ const AddressRow = ({ address, logo }: { address: Contracts.IReadWriteWallet; lo
         <ConnectionLogoImage
           appLogo={logo}
           appName='Connected'
-          borderColor={getThemeColor('green200', '#296148')}
+          borderColor={getThemeColor('primary200', '#296148')}
           roundCorners
           withBorder
           width='40px'

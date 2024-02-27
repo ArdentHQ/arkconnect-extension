@@ -74,7 +74,7 @@ const Indicator = styled.span<{
     }
 
     ${Input}:disabled + & {
-      border: 1px solid ${theme.colors.gray300};
+      border: 1px solid ${theme.colors.secondary300};
       background-color: ${theme.colors.disabledCheckbox};
       &::after {
         border: solid ${theme.colors.disabledRadio};
@@ -83,11 +83,11 @@ const Indicator = styled.span<{
     }
   `}
 
-  ${({ isFocusWithin }) => `
+  ${({ isFocusWithin, theme }) => `
     ${
       isFocusWithin &&
       `
-        outline-color: #01b86c;
+        outline-color: ${theme.color.primary600};
         outline-style: solid;
         outline-width: 2px;
         outline-offset: 2px;

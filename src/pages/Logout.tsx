@@ -14,181 +14,181 @@ import useThemeMode from '@/lib/hooks/useThemeMode';
 import SubPageLayout from '@/components/settings/SubPageLayout';
 
 const Logout = () => {
-    const dispatch = useAppDispatch();
-    const navigate = useNavigate();
-    const location = useLocation();
-    const { initProfile, profile } = useProfileContext();
-    const [password, setPassword] = useState<string>('');
-    const [validationVariant, setValidationVariant] = useState<ValidationVariant>('primary');
-    const { getThemeColor } = useThemeMode();
-    const sessions = useAppSelector(SessionStore.selectSessions);
-    const { onError } = useErrorHandlerContext();
-    const walletsIds = useAppSelector(WalletStore.selectWalletsIds);
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { initProfile, profile } = useProfileContext();
+  const [password, setPassword] = useState<string>('');
+  const [validationVariant, setValidationVariant] = useState<ValidationVariant>('primary');
+  const { getThemeColor } = useThemeMode();
+  const sessions = useAppSelector(SessionStore.selectSessions);
+  const { onError } = useErrorHandlerContext();
+  const walletsIds = useAppSelector(WalletStore.selectWalletsIds);
 
-    const walletsToLogout = location.state;
+  const walletsToLogout = location.state;
 
-    const walletId: string | undefined =
-        walletsToLogout && walletsToLogout.length === 1 ? walletsToLogout[0] : walletsIds[0];
+  const walletId: string | undefined =
+    walletsToLogout && walletsToLogout.length === 1 ? walletsToLogout[0] : walletsIds[0];
 
-    const wallet = walletId !== undefined ? profile.wallets().findById(walletId) : undefined;
+  const wallet = walletId !== undefined ? profile.wallets().findById(walletId) : undefined;
 
-    const logoutWallet = async () => {
-        try {
-            if (!(await isValidPassword(password))) {
-                setValidationVariant('destructive');
-                return;
-            }
-            setValidationVariant('primary');
-            if (!location.state) return;
+  const logoutWallet = async () => {
+    try {
+      if (!(await isValidPassword(password))) {
+        setValidationVariant('destructive');
+        return;
+      }
+      setValidationVariant('primary');
+      if (!location.state) return;
 
-            const walletsToDelete = location.state;
+      const walletsToDelete = location.state;
 
-            location.state.forEach(async (walletId: string) => {
-                Object.values(sessions).map((session) => {
-                    if (session.walletId !== walletId) return;
-                    ExtensionEvents({ profile }).disconnect(session.domain);
+      location.state.forEach(async (walletId: string) => {
+        Object.values(sessions).map((session) => {
+          if (session.walletId !== walletId) return;
+          ExtensionEvents({ profile }).disconnect(session.domain);
 
-                    dispatch(SessionStore.sessionRemoved([session.id]));
-                });
-            });
-
-            const { error } = await browser.runtime.sendMessage({
-                type: 'REMOVE_WALLETS',
-                data: {
-                    password,
-                    walletIds: walletsToDelete,
-                },
-            });
-
-            if (error) {
-                onError(error);
-                return;
-            }
-
-            await dispatch(WalletStore.walletRemoved(location.state));
-
-            await initProfile();
-            navigate('/');
-        } catch (error) {
-            onError(error);
-        }
-    };
-
-    const handlePasswordChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
-        setPassword(evt.target.value);
-        if (validationVariant !== 'destructive') return;
-        setValidationVariant('primary');
-    };
-
-    const handleEnterKey = async (evt: React.KeyboardEvent<HTMLInputElement>) => {
-        if (evt.key === 'Enter') {
-            await logoutWallet();
-        }
-    };
-
-    const getAddressesType = () => {
-        let hasLedger = false;
-        let hasPassphrase = false;
-        let text = '';
-
-        walletsToLogout.some((walletId: string) => {
-            const wallet = profile.wallets().findById(walletId);
-            if (wallet.isLedger()) {
-                hasLedger = true;
-            } else {
-                hasPassphrase = true;
-            }
-
-            return hasLedger && hasPassphrase;
+          dispatch(SessionStore.sessionRemoved([session.id]));
         });
+      });
 
-        if (hasLedger && hasPassphrase) {
-            text = 'a passphrase or a Ledger device';
-        } else if (hasLedger) {
-            text = 'a Ledger device';
-        } else {
-            text = 'a passphrase';
-        }
+      const { error } = await browser.runtime.sendMessage({
+        type: 'REMOVE_WALLETS',
+        data: {
+          password,
+          walletIds: walletsToDelete,
+        },
+      });
 
-        return text;
-    };
+      if (error) {
+        onError(error);
+        return;
+      }
 
-    return (
-        <SubPageLayout
-            title={`Remove Address${walletsToLogout.length > 1 ? 'es' : ''}`}
-            hideCloseButton={false}
+      await dispatch(WalletStore.walletRemoved(location.state));
+
+      await initProfile();
+      navigate('/');
+    } catch (error) {
+      onError(error);
+    }
+  };
+
+  const handlePasswordChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(evt.target.value);
+    if (validationVariant !== 'destructive') return;
+    setValidationVariant('primary');
+  };
+
+  const handleEnterKey = async (evt: React.KeyboardEvent<HTMLInputElement>) => {
+    if (evt.key === 'Enter') {
+      await logoutWallet();
+    }
+  };
+
+  const getAddressesType = () => {
+    let hasLedger = false;
+    let hasPassphrase = false;
+    let text = '';
+
+    walletsToLogout.some((walletId: string) => {
+      const wallet = profile.wallets().findById(walletId);
+      if (wallet.isLedger()) {
+        hasLedger = true;
+      } else {
+        hasPassphrase = true;
+      }
+
+      return hasLedger && hasPassphrase;
+    });
+
+    if (hasLedger && hasPassphrase) {
+      text = 'a passphrase or a Ledger device';
+    } else if (hasLedger) {
+      text = 'a Ledger device';
+    } else {
+      text = 'a passphrase';
+    }
+
+    return text;
+  };
+
+  return (
+    <SubPageLayout
+      title={`Remove Address${walletsToLogout.length > 1 ? 'es' : ''}`}
+      hideCloseButton={false}
+    >
+      <FlexContainer height='100%' flexDirection='column'>
+        <Paragraph
+          $typeset='headline'
+          fontWeight='regular'
+          color={getThemeColor('secondary500', 'secondary300')}
         >
-            <FlexContainer height='100%' flexDirection='column'>
-                <Paragraph
-                    $typeset='headline'
-                    fontWeight='regular'
-                    color={getThemeColor('gray500', 'gray300')}
-                >
-                    {walletsToLogout && walletsToLogout.length > 1 ? (
-                        <Paragraph as='span' $typeset='headline'>
-                            Are you sure you want to remove{' '}
-                            <Paragraph
-                                as='span'
-                                color='base'
-                                fontWeight='regular'
-                                $typeset='headline'
-                                display='inline-block'
-                            >
-                                {walletsToLogout.length} addresses?
-                            </Paragraph>{' '}
-                            {`You won’t be able to login again without ${getAddressesType()}.`}
-                        </Paragraph>
-                    ) : (
-                        `Are you sure you want to remove this address? You will be unable to log in again using this address without ${
-                            wallet?.isLedger() ? 'a Ledger device.' : 'a passphrase.'
-                        }`
-                    )}
-                </Paragraph>
+          {walletsToLogout && walletsToLogout.length > 1 ? (
+            <Paragraph as='span' $typeset='headline'>
+              Are you sure you want to remove{' '}
+              <Paragraph
+                as='span'
+                color='base'
+                fontWeight='regular'
+                $typeset='headline'
+                display='inline-block'
+              >
+                {walletsToLogout.length} addresses?
+              </Paragraph>{' '}
+              {`You won’t be able to login again without ${getAddressesType()}.`}
+            </Paragraph>
+          ) : (
+            `Are you sure you want to remove this address? You will be unable to log in again using this address without ${
+              wallet?.isLedger() ? 'a Ledger device.' : 'a passphrase.'
+            }`
+          )}
+        </Paragraph>
 
-                <FlexContainer justifyContent='center' alignContent='center' mt='16'>
-                    <WarningIcon width='146px' height='135px' />
-                </FlexContainer>
+        <FlexContainer justifyContent='center' alignContent='center' mt='16'>
+          <WarningIcon width='146px' height='135px' />
+        </FlexContainer>
 
-                <FlexContainer mt='24' flexDirection='column' gridGap='6'>
-                    <Paragraph $typeset='headline' fontWeight='medium' color='labelText'>
-                        Enter Password
-                    </Paragraph>
-                    <PasswordInput
-                        name='password'
-                        variant={validationVariant}
-                        onChange={handlePasswordChange}
-                        onKeyDown={handleEnterKey}
-                        value={password}
-                        helperText={validationVariant === 'destructive' ? 'Incorrect password' : ''}
-                    />
-                </FlexContainer>
+        <FlexContainer mt='24' flexDirection='column' gridGap='6'>
+          <Paragraph $typeset='headline' fontWeight='medium' color='labelText'>
+            Enter Password
+          </Paragraph>
+          <PasswordInput
+            name='password'
+            variant={validationVariant}
+            onChange={handlePasswordChange}
+            onKeyDown={handleEnterKey}
+            value={password}
+            helperText={validationVariant === 'destructive' ? 'Incorrect password' : ''}
+          />
+        </FlexContainer>
 
-                <FlexContainer mt='48' flexDirection='column'>
-                    <Button
-                        variant='destructivePrimary'
-                        onClick={logoutWallet}
-                        disabled={!password.length}
-                        mb='24'
-                    >
-                        {`Remove Address${walletsToLogout.length > 1 ? 'es' : ''}`}
-                    </Button>
-                    <Button
-                        onClick={() => navigate(-1)}
-                        width='100%'
-                        display='flex'
-                        color='base'
-                        backgroundColor='transparent'
-                        py='0'
-                        mb='0'
-                    >
-                        <Paragraph $typeset='headline' fontWeight='medium' color='base' as='span'>
-                            Cancel and Go Back
-                        </Paragraph>
-                    </Button>
-                </FlexContainer>
-            </FlexContainer>
-        </SubPageLayout>
-    );
+        <FlexContainer mt='48' flexDirection='column'>
+          <Button
+            variant='destructivePrimary'
+            onClick={logoutWallet}
+            disabled={!password.length}
+            mb='24'
+          >
+            {`Remove Address${walletsToLogout.length > 1 ? 'es' : ''}`}
+          </Button>
+          <Button
+            onClick={() => navigate(-1)}
+            width='100%'
+            display='flex'
+            color='base'
+            backgroundColor='transparent'
+            py='0'
+            mb='0'
+          >
+            <Paragraph $typeset='headline' fontWeight='medium' color='base' as='span'>
+              Cancel and Go Back
+            </Paragraph>
+          </Button>
+        </FlexContainer>
+      </FlexContainer>
+    </SubPageLayout>
+  );
 };
 
 export default Logout;

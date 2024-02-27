@@ -13,8 +13,11 @@ const TestnetLabel = () => {
 
 const StyledLabel = styled(Container)`
   transition: all 0.3s ease-in-out;
-  color: #f79009;
-  border: 1px solid #f79009;
+  ${({ theme }) => `
+    color: ${theme.color.warning};
+    border: 1px solid ${theme.color.warning};
+  `}
+
   border-radius: 8px;
   text-decoration: none;
   transition: all 0.3s ease-in-out;
