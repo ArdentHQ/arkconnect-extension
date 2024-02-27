@@ -17,109 +17,111 @@ import { assertIsUnlocked } from '@/lib/background/assertions';
 import useThemeMode from '@/lib/hooks/useThemeMode';
 
 export enum ApproveActionType {
-  SIGNATURE = 'signature',
-  TRANSACTION = 'transfer',
-  VOTE = 'vote',
-  UNVOTE = 'unvote',
-  SWITCH_VOTE = 'switch-vote',
+    SIGNATURE = 'signature',
+    TRANSACTION = 'transfer',
+    VOTE = 'vote',
+    UNVOTE = 'unvote',
+    SWITCH_VOTE = 'switch-vote',
 }
 
 const Approve = () => {
-  const location = useLocation();
-  const { profile } = useProfileContext();
-  const { connect } = useLedgerContext();
-  const { getThemeColor } = useThemeMode();
-  const abortReference = useRef(new AbortController());
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const wallets = useAppSelector(WalletStore.selectWallets);
+    const location = useLocation();
+    const { profile } = useProfileContext();
+    const { connect } = useLedgerContext();
+    const { getThemeColor } = useThemeMode();
+    const abortReference = useRef(new AbortController());
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const wallets = useAppSelector(WalletStore.selectWallets);
 
-  const walletData = wallets.find((wallet) => wallet.walletId === location.state.session.walletId)!;
-  const wallet = profile.wallets().findById(walletData?.walletId);
+    const walletData = wallets.find(
+        (wallet) => wallet.walletId === location.state.session.walletId,
+    )!;
+    const wallet = profile.wallets().findById(walletData?.walletId);
 
-  const locked = useAppSelector(UIStore.selectLocked);
-  assertIsUnlocked(locked);
+    const locked = useAppSelector(UIStore.selectLocked);
+    assertIsUnlocked(locked);
 
-  const approveWithLedger = async (
-    profile: Contracts.IProfile,
-    wallet: Contracts.IReadWriteWallet,
-  ) => {
-    if (!isLedgerTransportSupported()) {
-      throw new Error('Ledger Transport is not supported!');
-    }
-    setIsModalOpen(true);
-    await connect(profile, wallet.coinId(), wallet.networkId(), undefined, true);
-  };
+    const approveWithLedger = async (
+        profile: Contracts.IProfile,
+        wallet: Contracts.IReadWriteWallet,
+    ) => {
+        if (!isLedgerTransportSupported()) {
+            throw new Error('Ledger Transport is not supported!');
+        }
+        setIsModalOpen(true);
+        await connect(profile, wallet.coinId(), wallet.networkId(), undefined, true);
+    };
 
-  const closeLedgerScreen = () => {
-    setIsModalOpen(false);
-  };
+    const closeLedgerScreen = () => {
+        setIsModalOpen(false);
+    };
 
-  const hasVoted = wallet.voting().current().length > 0;
-  const getActionType = (actionType: ApproveActionType): ApproveActionType => {
-    switch (actionType) {
-      case ApproveActionType.VOTE:
-        return hasVoted ? ApproveActionType.SWITCH_VOTE : ApproveActionType.VOTE;
-      default:
-        return actionType;
-    }
-  };
+    const hasVoted = wallet.voting().current().length > 0;
+    const getActionType = (actionType: ApproveActionType): ApproveActionType => {
+        switch (actionType) {
+            case ApproveActionType.VOTE:
+                return hasVoted ? ApproveActionType.SWITCH_VOTE : ApproveActionType.VOTE;
+            default:
+                return actionType;
+        }
+    };
 
-  return (
-    <Layout withHeader={false}>
-      {location.state?.type === ApproveActionType.SIGNATURE && (
-        <ApproveMessage
-          abortReference={abortReference.current}
-          approveWithLedger={approveWithLedger}
-          wallet={wallet}
-          closeLedgerScreen={closeLedgerScreen}
-        />
-      )}
-      {location.state?.type === ApproveActionType.TRANSACTION && (
-        <ApproveTransaction
-          abortReference={abortReference.current}
-          approveWithLedger={approveWithLedger}
-          wallet={wallet}
-          closeLedgerScreen={closeLedgerScreen}
-        />
-      )}
-      {(location.state?.type === ApproveActionType.VOTE ||
-        location.state?.type === ApproveActionType.UNVOTE) && (
-        <ApproveVote
-          abortReference={abortReference.current}
-          approveWithLedger={approveWithLedger}
-          wallet={wallet}
-          closeLedgerScreen={closeLedgerScreen}
-        />
-      )}
-      {isModalOpen && (
-        <Modal
-          onClose={() => {}}
-          containerPadding='0'
-          contentStyles={{
-            minHeight: '100vh',
-            margin: '0',
-            backgroundColor: getThemeColor('warning600', 'warning400'),
-          }}
-          activateFocusTrap={false}
-          hideCloseButton
-        >
-          <ApproveWithLedger
-            actionType={getActionType(location.state?.type)}
-            appName={location.state?.session?.domain}
-            appLogo={location.state?.session?.logo}
-            closeLedgerScreen={closeLedgerScreen}
-            address={
-              location.state?.receiverAddress ||
-              location.state?.vote?.delegateAddress ||
-              location.state?.unvote?.delegateAddress ||
-              wallet?.address()
-            }
-            wallet={wallet}
-          />
-        </Modal>
-      )}
-    </Layout>
-  );
+    return (
+        <Layout withHeader={false}>
+            {location.state?.type === ApproveActionType.SIGNATURE && (
+                <ApproveMessage
+                    abortReference={abortReference.current}
+                    approveWithLedger={approveWithLedger}
+                    wallet={wallet}
+                    closeLedgerScreen={closeLedgerScreen}
+                />
+            )}
+            {location.state?.type === ApproveActionType.TRANSACTION && (
+                <ApproveTransaction
+                    abortReference={abortReference.current}
+                    approveWithLedger={approveWithLedger}
+                    wallet={wallet}
+                    closeLedgerScreen={closeLedgerScreen}
+                />
+            )}
+            {(location.state?.type === ApproveActionType.VOTE ||
+                location.state?.type === ApproveActionType.UNVOTE) && (
+                <ApproveVote
+                    abortReference={abortReference.current}
+                    approveWithLedger={approveWithLedger}
+                    wallet={wallet}
+                    closeLedgerScreen={closeLedgerScreen}
+                />
+            )}
+            {isModalOpen && (
+                <Modal
+                    onClose={() => {}}
+                    containerPadding='0'
+                    contentStyles={{
+                        minHeight: '100vh',
+                        margin: '0',
+                        backgroundColor: getThemeColor('warning600', 'warning400'),
+                    }}
+                    activateFocusTrap={false}
+                    hideCloseButton
+                >
+                    <ApproveWithLedger
+                        actionType={getActionType(location.state?.type)}
+                        appName={location.state?.session?.domain}
+                        appLogo={location.state?.session?.logo}
+                        closeLedgerScreen={closeLedgerScreen}
+                        address={
+                            location.state?.receiverAddress ||
+                            location.state?.vote?.delegateAddress ||
+                            location.state?.unvote?.delegateAddress ||
+                            wallet?.address()
+                        }
+                        wallet={wallet}
+                    />
+                </Modal>
+            )}
+        </Layout>
+    );
 };
 
 export default Approve;
