@@ -10,12 +10,7 @@ type LoaderProps = React.ComponentPropsWithRef<typeof StyledLoader> & {
 type LoaderVariant = 'small' | 'big' | 'warning';
 
 export const Loader = ({ variant, ...rest }: LoaderProps) => {
-  return (
-    <StyledLoader
-      variant={variant}
-      {...rest}
-    />
-  );
+  return <StyledLoader variant={variant} {...rest} />;
 };
 
 const spin = keyframes`

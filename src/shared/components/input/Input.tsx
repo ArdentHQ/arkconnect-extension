@@ -79,7 +79,10 @@ const StyledInput = styled.input<BaseProps>`
       variants: {
         primary: {
           color: `${theme.colors.base}`,
-          border: `1px solid ${getThemeColor?.(theme.colors.secondary400, theme.colors.secondary500)}`,
+          border: `1px solid ${getThemeColor?.(
+            theme.colors.secondary400,
+            theme.colors.secondary500,
+          )}`,
           backgroundColor: `${theme.colors.inputBackground}`,
           '&:focus': {
             border: `1px solid ${theme.colors.activeInput}`,
