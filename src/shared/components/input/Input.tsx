@@ -65,7 +65,7 @@ const StyledInput = styled.input<BaseProps>`
   }
 
   &::placeholder {
-    color: ${({ theme }) => theme.colors.gray400};
+    color: ${({ theme }) => theme.colors.secondary400};
   }
   ${space}
   ${color}
@@ -79,13 +79,13 @@ const StyledInput = styled.input<BaseProps>`
       variants: {
         primary: {
           color: `${theme.colors.base}`,
-          border: `1px solid ${getThemeColor?.(theme.colors.gray400, theme.colors.gray500)}`,
+          border: `1px solid ${getThemeColor?.(theme.colors.secondary400, theme.colors.secondary500)}`,
           backgroundColor: `${theme.colors.inputBackground}`,
           '&:focus': {
             border: `1px solid ${theme.colors.activeInput}`,
           },
           '&:disabled': {
-            backgroundColor: `${theme.colors.gray100}`,
+            backgroundColor: `${theme.colors.secondary100}`,
           },
         },
         destructive: {
@@ -104,7 +104,7 @@ const StyledInput = styled.input<BaseProps>`
             border: `1px solid ${theme.colors.primary}`,
           },
           '&:disabled': {
-            backgroundColor: `${theme.colors.gray100}`,
+            backgroundColor: `${theme.colors.secondary100}`,
           },
         },
       },

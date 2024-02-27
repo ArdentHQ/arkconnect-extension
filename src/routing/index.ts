@@ -26,145 +26,145 @@ import ImportWithLedger from '@/pages/ImportWithLedger';
 import { AddressSettings } from '@/components/wallet/AddressSettings';
 
 type RouteData = {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  Component: (...props: any[]) => JSX.Element;
-  title: string;
-  path: string;
-  exact?: boolean;
-  children?: RouteData[];
-  reRoute?: string;
-  icon?: IconDefinition;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    Component: (...props: any[]) => JSX.Element;
+    title: string;
+    path: string;
+    exact?: boolean;
+    children?: RouteData[];
+    reRoute?: string;
+    icon?: IconDefinition;
 };
 
 const routes: RouteData[] = [
-  {
-    Component: Home,
-    path: '/',
-    title: 'Home',
-    icon: 'home',
-    exact: true,
-  },
-  {
-    Component: Connections,
-    path: '/connections',
-    title: 'Connections',
-    icon: 'connections',
-  },
-  {
-    Component: CreateOrImport,
-    path: '/create-import-address',
-    title: 'Create or Import Address',
-  },
-  {
-    Component: ChangeLocalPassword,
-    path: '/local-password',
-    title: 'Change Local Password',
-  },
-  {
-    Component: AutoLockTimer,
-    path: '/autolock-timer',
-    title: 'Auto Lock Timer',
-  },
-  {
-    Component: ChangeLocalCurrency,
-    path: '/local-currency',
-    title: 'Change Local Currency',
-  },
-  {
-    Component: AboutARK,
-    path: '/about',
-    title: 'About ARK Connect',
-  },
-  {
-    Component: Logout,
-    path: '/logout',
-    title: 'Remove Address',
-  },
-  {
-    Component: SplashScreen,
-    path: '/splash-screen',
-    title: 'Splash Screen',
-  },
-  {
-    Component: Onboarding,
-    path: '/onboarding',
-    title: 'Onboarding',
-  },
-  {
-    Component: Approve,
-    path: '/approve',
-    title: 'Approve',
-  },
-  {
-    Component: Connect,
-    path: '/connect',
-    title: 'Connect',
-  },
-  {
-    Component: InitialImportWallet,
-    path: '/wallet',
-    title: 'Import Wallet Initial',
-  },
-  {
-    Component: ImportWithLedger,
-    path: '/ledger-import',
-    title: 'Import with Ledger',
-  },
-  {
-    Component: CreateWallet,
-    path: '/wallet/create',
-    title: 'Create Wallet',
-  },
-  {
-    Component: ImportWallet,
-    path: '/wallet/import',
-    title: 'Import Wallet',
-  },
-  {
-    Component: EnterPassword,
-    path: '/enter-password',
-    title: 'Enter Password',
-  },
-  {
-    Component: EditAddressName,
-    path: '/edit-address-name/:walletId',
-    title: 'Edit Address Name',
-  },
-  {
-    Component: ViewSensitiveInfo,
-    path: '/view-sensitive-info/:walletId/:type',
-    title: 'Show Private Key',
-  },
-  {
-    Component: ForgotPassword,
-    path: '/forgot-password',
-    title: 'Forgot Password',
-  },
-  {
-    Component: MultipleWalletLogout,
-    path: '/multiple-wallet-logout',
-    title: 'Multiple Wallet Logout',
-  },
-  {
-    Component: TransactionApproved,
-    path: '/transaction/success',
-    title: 'Transaction Approved',
-  },
-  {
-    Component: VoteApproved,
-    path: '/vote/success',
-    title: 'Vote Approved',
-  },
-  {
-    Component: WalletNotFound,
-    path: '/wallet/not-found',
-    title: 'Wallet Not Found',
-  },
-  {
-    Component: AddressSettings,
-    path: '/address/settings',
-    title: 'Address Settings',
-  },
+    {
+        Component: Home,
+        path: '/',
+        title: 'Home',
+        icon: 'home',
+        exact: true,
+    },
+    {
+        Component: Connections,
+        path: '/connections',
+        title: 'Connections',
+        icon: 'connections',
+    },
+    {
+        Component: CreateOrImport,
+        path: '/create-import-address',
+        title: 'Create or Import Address',
+    },
+    {
+        Component: ChangeLocalPassword,
+        path: '/local-password',
+        title: 'Change Local Password',
+    },
+    {
+        Component: AutoLockTimer,
+        path: '/autolock-timer',
+        title: 'Auto Lock Timer',
+    },
+    {
+        Component: ChangeLocalCurrency,
+        path: '/local-currency',
+        title: 'Change Local Currency',
+    },
+    {
+        Component: AboutARK,
+        path: '/about',
+        title: 'About ARK Connect',
+    },
+    {
+        Component: Logout,
+        path: '/logout',
+        title: 'Remove Address',
+    },
+    {
+        Component: SplashScreen,
+        path: '/splash-screen',
+        title: 'Splash Screen',
+    },
+    {
+        Component: Onboarding,
+        path: '/onboarding',
+        title: 'Onboarding',
+    },
+    {
+        Component: Approve,
+        path: '/approve',
+        title: 'Approve',
+    },
+    {
+        Component: Connect,
+        path: '/connect',
+        title: 'Connect',
+    },
+    {
+        Component: InitialImportWallet,
+        path: '/wallet',
+        title: 'Import Wallet Initial',
+    },
+    {
+        Component: ImportWithLedger,
+        path: '/ledger-import',
+        title: 'Import with Ledger',
+    },
+    {
+        Component: CreateWallet,
+        path: '/wallet/create',
+        title: 'Create Wallet',
+    },
+    {
+        Component: ImportWallet,
+        path: '/wallet/import',
+        title: 'Import Wallet',
+    },
+    {
+        Component: EnterPassword,
+        path: '/enter-password',
+        title: 'Enter Password',
+    },
+    {
+        Component: EditAddressName,
+        path: '/edit-address-name/:walletId',
+        title: 'Edit Address Name',
+    },
+    {
+        Component: ViewSensitiveInfo,
+        path: '/view-sensitive-info/:walletId/:type',
+        title: 'Show Private Key',
+    },
+    {
+        Component: ForgotPassword,
+        path: '/forgot-password',
+        title: 'Forgot Password',
+    },
+    {
+        Component: MultipleWalletLogout,
+        path: '/multiple-wallet-logout',
+        title: 'Multiple Wallet Logout',
+    },
+    {
+        Component: TransactionApproved,
+        path: '/transaction/success',
+        title: 'Transaction Approved',
+    },
+    {
+        Component: VoteApproved,
+        path: '/vote/success',
+        title: 'Vote Approved',
+    },
+    {
+        Component: WalletNotFound,
+        path: '/wallet/not-found',
+        title: 'Wallet Not Found',
+    },
+    {
+        Component: AddressSettings,
+        path: '/address/settings',
+        title: 'Address Settings',
+    },
 ];
 
 export default routes;
