@@ -10,6 +10,8 @@ import { ProfileData } from './lib/background/contracts';
 import { Services } from '@ardenthq/sdk';
 import { SendTransferInput } from './lib/background/extension.wallet';
 import { Extension } from './lib/background/extension';
+import { Contracts } from '@ardenthq/sdk-profiles';
+import { SessionEntries } from './lib/store/session';
 
 const extension = Extension();
 
@@ -174,24 +176,56 @@ const initRuntimeEventListener = () => {
           .changePassword(request.data.oldPassword, request.data.newPassword);
 
         for (const wallet of extension.profile().wallets().values()) {
-          const mnemonic = await wallet.confirmKey().get(request.data.oldPassword);
+          let newWallet;
+          const oldWalletId = wallet.id();
 
-          const newWallet = await extension.profile().walletFactory().fromMnemonicWithBIP39({
-            coin: wallet.network().coin(),
-            network: wallet.network().id(),
-            mnemonic,
-          });
+          // Only non-ledgers have mnemonics
+          if (!wallet.isLedger()) {
+            const mnemonic = await wallet.confirmKey().get(request.data.oldPassword);
 
-          newWallet.mutator().alias(wallet.alias() as string);
-          await newWallet.confirmKey().set(mnemonic, extension.profile().password().get());
+            newWallet = await extension.profile().walletFactory().fromMnemonicWithBIP39({
+              coin: wallet.network().coin(),
+              network: wallet.network().id(),
+              mnemonic,
+            });
 
-          const id = wallet.id();
+            newWallet.mutator().alias(wallet.alias() as string);
+            await newWallet.confirmKey().set(mnemonic, extension.profile().password().get());
+          } else {
+            newWallet = await extension
+              .profile()
+              .walletFactory()
+              .fromAddressWithDerivationPath({
+                address: wallet.address(),
+                network: wallet.network().id(),
+                coin: wallet.coinId(),
+                path: wallet.data().get(Contracts.WalletData.DerivationPath)!,
+              });
 
-          if (extension.profile().data().get(ProfileData.PrimaryWalletId) === id) {
+            newWallet.mutator().alias(wallet.alias() as string);
+          }
+
+          // Update primary wallet ID to match the new id of the same wallet
+          if (extension.profile().data().get(ProfileData.PrimaryWalletId) === oldWalletId) {
             extension.profile().data().set(ProfileData.PrimaryWalletId, newWallet.id());
           }
 
-          extension.profile().wallets().forget(id);
+          const sessions = extension.profile().data().get<SessionEntries>(ProfileData.Sessions);
+
+          if (sessions) {
+            // Adjust sessions' walletId to match new ones
+            for (const [sessionId, session] of Object.entries(sessions)) {
+              if (session.walletId === oldWalletId) {
+                session.walletId = newWallet.id();
+                sessions[sessionId] = session;
+              }
+            }
+          }
+
+          // Store updated sessions
+          extension.profile().data().set(ProfileData.Sessions, sessions);
+
+          extension.profile().wallets().forget(oldWalletId);
           extension.profile().wallets().push(newWallet);
         }
 
