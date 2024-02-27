@@ -12,11 +12,11 @@ import { SendTransferInput } from './lib/background/extension.wallet';
 import { Extension } from './lib/background/extension';
 import { Contracts } from '@ardenthq/sdk-profiles';
 import { SessionEntries } from './lib/store/session';
+import { UUID } from '@ardenthq/sdk-cryptography';
+
+const initialPassword = UUID.random();
 
 const extension = Extension();
-
-const initialPassword = '123456';
-// Setup initial profile. @TODO: create random passsword.
 extension.reset(initialPassword);
 
 // @TODO: Cleanup/interface handlers & reduce cognitive complexity.
