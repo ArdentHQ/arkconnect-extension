@@ -150,9 +150,7 @@ const ApproveTransaction = ({
         state: {
           transaction,
           windowId: location.state?.windowId,
-          walletNetwork: wallet.network().isTest()
-            ? WalletNetwork.DEVNET
-            : WalletNetwork.MAINNET,
+          walletNetwork: wallet.network().isTest() ? WalletNetwork.DEVNET : WalletNetwork.MAINNET,
           isTestnet: wallet.network().isTest(),
           session,
         },

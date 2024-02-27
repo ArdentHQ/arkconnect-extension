@@ -3,7 +3,14 @@ import styled from 'styled-components';
 import FocusTrap from 'focus-trap-react';
 import Portal from '../utils/Portal';
 import useOnClickOutside from '@/lib/hooks/useOnClickOutside';
-import { FlexContainer, IconDefinition, Icon as IconComponent, Button , Container, Icon } from '@/shared/components';
+import {
+  FlexContainer,
+  IconDefinition,
+  Icon as IconComponent,
+  Button,
+  Container,
+  Icon,
+} from '@/shared/components';
 import useThemeMode from '@/lib/hooks/useThemeMode';
 
 const Backdrop = styled.div`

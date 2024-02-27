@@ -5,7 +5,7 @@ import browser from 'webextension-polyfill';
 import { useLocation } from 'react-router-dom';
 import { useEnvironmentContext } from '../context/Environment';
 import { precisionRound } from '../utils/precisionRound';
-import { handleBroadcastError , withAbortPromise } from '../utils/transactionHelpers';
+import { handleBroadcastError, withAbortPromise } from '../utils/transactionHelpers';
 import { useAppSelector } from '../store';
 import { useProfileContext } from '../context/Profile';
 import { useErrorHandlerContext } from '../context/ErrorHandler';

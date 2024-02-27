@@ -158,9 +158,7 @@ const ApproveVote = ({ abortReference, approveWithLedger, wallet, closeLedgerScr
         state: {
           vote: voteInfo,
           windowId: location.state?.windowId,
-          walletNetwork: wallet.network().isTest()
-            ? WalletNetwork.DEVNET
-            : WalletNetwork.MAINNET,
+          walletNetwork: wallet.network().isTest() ? WalletNetwork.DEVNET : WalletNetwork.MAINNET,
           isTestnet: wallet.network().isTest(),
           type: actionType,
           session: state.session,

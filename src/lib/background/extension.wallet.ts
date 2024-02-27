@@ -1,5 +1,5 @@
 import { Contracts } from '@ardenthq/sdk-profiles';
-import { Contracts as SDKContracts , Services } from '@ardenthq/sdk';
+import { Contracts as SDKContracts, Services } from '@ardenthq/sdk';
 import { buildTransferData } from '../utils/transactionHelpers';
 
 export interface RecipientItem {

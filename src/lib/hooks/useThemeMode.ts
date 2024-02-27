@@ -17,11 +17,7 @@ const useThemeMode = () => {
     evt.preventDefault();
     evt.stopPropagation();
     dispatch(
-      themeModeUpdated(
-        currentThemeMode === ThemeMode.DARK
-          ? ThemeMode.LIGHT
-          : ThemeMode.DARK,
-      ),
+      themeModeUpdated(currentThemeMode === ThemeMode.DARK ? ThemeMode.LIGHT : ThemeMode.DARK),
     );
   };
 
