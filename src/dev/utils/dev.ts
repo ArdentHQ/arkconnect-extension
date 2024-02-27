@@ -6,7 +6,7 @@ type TestingAddress = {
   coin: string;
   network: string;
   mnemonic: string;
-}
+};
 
 export const isDev = (): boolean => {
   return import.meta.env.VITE_SEED_ADDRESSES === 'true';
@@ -17,7 +17,7 @@ export const getTestingPassphrases = (): string[] => {
   return passphrases ? passphrases.split(',') : [];
 };
 
-export const getTestingAddresses  = (): TestingAddress[] => {
+export const getTestingAddresses = (): TestingAddress[] => {
   const passphrases = getTestingPassphrases();
   const addresses: TestingAddress[] = [];
 
@@ -28,11 +28,7 @@ export const getTestingAddresses  = (): TestingAddress[] => {
   return addresses;
 };
 
-export const createTestProfile = async ({
-  env,
-}: {
-  env: Environment;
-}): Promise<Contracts.IProfile> => {
+export const createTestProfile = async ({ env }: { env: Environment }): Promise<void> => {
   const password = 'password';
 
   env.profiles().flush();
@@ -63,6 +59,4 @@ export const createTestProfile = async ({
   await env.persist();
 
   setLocalValue('hasOnboarded', true);
-
-  return profile;
 };

@@ -5,11 +5,9 @@ import { PrimaryWallet } from './extension.wallet.primary';
 const exists = (profile?: Contracts.IProfile | null): profile is Contracts.IProfile => !!profile;
 
 export function ExtensionProfile({
-  profile,
   env,
   lockHandler,
 }: {
-  profile: Contracts.IProfile | null;
   env: Environment;
   lockHandler: LockHandler;
 }) {
@@ -21,7 +19,7 @@ export function ExtensionProfile({
      * @returns {boolean}
      */
     isLocked(): boolean {
-      if (!exists(profile)) {
+      if (!exists(this.profile())) {
         return false;
       }
 
@@ -33,7 +31,7 @@ export function ExtensionProfile({
      * @returns {ReturnType<typeof PrimaryWallet>}
      */
     primaryWallet(): ReturnType<typeof PrimaryWallet> {
-      return PrimaryWallet({ profile });
+      return PrimaryWallet({ profile: this.profile() });
     },
     /**
      * Throws an exception if profile is locked.
@@ -59,12 +57,17 @@ export function ExtensionProfile({
      * Exports the profile wallets & data as a read-only password.
      */
     async exportAsReadOnly() {
-      if (!exists(profile)) {
+      const profile = this.profile();
+      if (!this.exists()) {
         throw new Error('MISSING_PROFILE');
       }
 
       const password = profile.password().get();
-      await env.profiles().restore(profile, password);
+
+      if (!profile.status().isRestored()) {
+        await env.profiles().restore(profile, password);
+      }
+
       await env.wallets().syncByProfile(profile);
 
       profile.auth().forgetPassword(password);
@@ -84,7 +87,9 @@ export function ExtensionProfile({
      * @param {string} password
      * @param {Object} options
      */
-    async reset(password?: string, options?: { currency: string }): Promise<Contracts.IProfile> {
+    async reset(password?: string, options?: { currency: string }): Promise<void> {
+      lockHandler.reset();
+
       if (!password) {
         throw new Error('MISSING_PASSWORD');
       }
@@ -92,15 +97,67 @@ export function ExtensionProfile({
       env.profiles().flush();
 
       const profile = await env.profiles().create('arkconnect');
+      profile.auth().setPassword(password);
       env.profiles().push(profile);
 
-      profile.auth().setPassword(password);
       profile.settings().set(Contracts.ProfileSetting.ExchangeCurrency, options?.currency ?? 'USD');
 
       await env.verify();
       await env.boot();
 
-      return profile;
+      await env.persist();
+    },
+    /**
+     * Returns the profile instance.
+     *
+     * @returns {Contracts.IProfile}
+     */
+    profile(): Contracts.IProfile {
+      return env.profiles().first();
+    },
+    /**
+     * Determines whether the profile exists.
+     *
+     * @returns {boolean}
+     */
+    exists(): boolean {
+      return exists(this.profile());
+    },
+    /**
+     * Persist changes to indexeddb.
+     *
+     * @returns {Promise<void>}
+     */
+    persist(): Promise<void> {
+      return env.persist();
+    },
+    /**
+     * Reset profile from dump.
+     *
+     * @param {profileDump} object
+     * @param {password} string
+     * @param {data} object
+     * @returns {Promise<void>}
+     */
+    async resetFromDump(
+      profileDump: Record<string, any>,
+      password: string,
+      data: Record<string, any>,
+    ): Promise<void> {
+      env.profiles().flush();
+      env.profiles().fill(profileDump);
+
+      await env.verify();
+      await env.boot();
+
+      const profile = env.profiles().first();
+      await env.profiles().restore(profile, password);
+
+      if (data) {
+        profile.data().fill(data);
+      }
+
+      await env.persist();
     },
   };
 }

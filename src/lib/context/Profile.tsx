@@ -73,13 +73,15 @@ export const ProfileProvider = ({ children }: Properties) => {
         type: 'GET_DATA',
       });
 
+      console.log({ GET_DATA: { data } });
       if (!data) {
-        await createProfile();
+        // await createProfile();
         return;
       }
 
       const profile = await importProfile(data);
       profile.data().fill(profileData);
+      console.log({ wallets: profile.wallets().values(), profileData });
 
       await updateStore({ profile });
     } catch (error) {
