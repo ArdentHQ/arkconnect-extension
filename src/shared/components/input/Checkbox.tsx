@@ -74,7 +74,7 @@ const Indicator = styled.span<{
     }
 
     ${Input}:disabled + & {
-      border: 1px solid ${theme.colors.gray300};
+      border: 1px solid ${theme.colors.secondary300};
       background-color: ${theme.colors.disabledCheckbox};
       &::after {
         border: solid ${theme.colors.disabledRadio};

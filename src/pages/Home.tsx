@@ -87,7 +87,7 @@ const Home = () => {
           </Container>
           <ExternalLink
             href={constants.ARK_CONNECT_DEMO}
-            color={getThemeColor('primary', 'green600')}
+            color={getThemeColor('primary', 'primary600')}
           >
             <FlexContainer
               padding='16'

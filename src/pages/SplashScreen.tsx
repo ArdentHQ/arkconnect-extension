@@ -102,7 +102,7 @@ const SplashScreenWrapper = styled.div`
   left: 0;
   height: 600px;
   width: 100%;
-  background-color: ${({ theme }) => theme.colors.green700};
+  background-color: ${({ theme }) => theme.colors.primary700};
   animation: ${slideUp} 1.2s ease-in-out 1.8s forwards;
 `;
 
@@ -130,7 +130,7 @@ const ContainersWrapper = styled.div`
 const GreenContainer = styled.div`
   width: 100%;
   height: 200px;
-  background-color: ${({ theme }) => theme.colors.green650};
+  background-color: ${({ theme }) => theme.colors.primary650};
   animation: ${decreaseHeight} 0.5s ease-in-out 2s forwards;
 `;
 

@@ -5,29 +5,29 @@ const white = '#FFFFFF';
 const subtleWhite = '#F8F8F8';
 const disabledCheckedLight = '#9ADCC1';
 
-const green50 = '#EEFFF7';
-const green100 = '#D7FFEE';
-const green200 = '#B2FFDD';
-const green300 = '#77FEC4';
-const green500 = '#0add84';
-const green600 = '#01B86C';
-const green650 = '#02A863';
-const green700 = '#058751';
-const green800 = '#0A7147';
-const green900 = '#0B5C3C';
-const green950 = '#003420';
+const primary50 = '#EEFFF7';
+const primary100 = '#D7FFEE';
+const primary200 = '#B2FFDD';
+const primary300 = '#77FEC4';
+const primary500 = '#0add84';
+const primary600 = '#01B86C';
+const primary650 = '#02A863';
+const primary700 = '#058751';
+const primary800 = '#0A7147';
+const primary900 = '#0B5C3C';
+const primary950 = '#003420';
 
-const gray25 = '#FCFCFC';
-const gray50 = '#F8F8F8';
-const gray100 = '#EEEEEE';
-const gray200 = '#E5E5E5';
-const gray300 = '#B7B7B7';
-const gray400 = '#A3A3A3';
-const gray500 = '#737373';
-const gray600 = '#525252';
-const gray700 = '#4D4C4C';
-const gray800 = '#292929';
-const gray900 = '#141414';
+const secondary25 = '#FCFCFC';
+const secondary50 = '#F5F5F5';
+const secondary100 = '#EEEEEE';
+const secondary200 = '#E5E5E5';
+const secondary300 = '#B7B7B7';
+const secondary400 = '#A3A3A3';
+const secondary500 = '#737373';
+const secondary600 = '#525252';
+const secondary700 = '#484646';
+const secondary800 = '#292929';
+const secondary900 = '#141414';
 
 const error25 = '#FFFBFA';
 const error50 = '#FEF3F2';
@@ -56,93 +56,93 @@ const warning900 = '#7A2E0E';
 const red400 = '#DE5846';
 
 const light = {
-  primary: green700,
+  primary: primary700,
   error: error600,
   ledgerConnectionError: error600,
   warning: warning600,
-  gray: gray500,
-  primaryBorder: gray100,
-  border: gray400,
+  gray: secondary500,
+  primaryBorder: secondary100,
+  border: secondary400,
   activeInput: lightBlack,
-  lightGray: gray100,
-  disabledCheckbox: gray100,
+  lightGray: secondary100,
+  disabledCheckbox: secondary100,
   primaryBackground: subtleWhite,
   secondaryBackground: white,
-  lightGreen: green50,
-  lightestGray: gray50,
+  lightGreen: primary50,
+  lightestGray: secondary50,
   iconBackground: gray50,
   background: white,
   base: lightBlack,
   inputBackground: white,
   inputHover: '#CCEEE0',
-  inputBackgroundGreen: green50,
-  checkboxBackground: green50,
-  toggleInactive: gray200,
-  primaryDisabled: gray100,
-  activeNav: green800,
+  inputBackgroundGreen: primary50,
+  checkboxBackground: primary50,
+  toggleInactive: secondary200,
+  primaryDisabled: secondary100,
+  activeNav: primary800,
   ledgerErrorText: error600,
-  toggleHover: green600,
+  toggleHover: primary600,
   disabledChecked: disabledCheckedLight,
-  disabledRadio: gray300,
-  disabledRadioBackground: gray100,
-  disabledGray: gray200,
+  disabledRadio: secondary300,
+  disabledRadioBackground: secondary100,
+  disabledGray: secondary200,
   tooltipBackground: subtleBlack,
-  label: gray500,
+  label: secondary500,
   labelText: subtleBlack,
   tooltipColor: white,
-  dividerGreen: green650,
+  dividerGreen: primary650,
   warningBorder: warning600,
-  lightGrayHover: gray100,
-  lightGrayHover2: gray200,
+  lightGrayHover: secondary100,
+  lightGrayHover2: secondary200,
   lightGreenHover: '#D3F6E6',
-  lightGrayBackground: gray200,
-  loaderBackground: gray100,
-  logoText: green950,
-  secondaryButtonHover: green50,
+  lightGrayBackground: secondary200,
+  loaderBackground: secondary100,
+  logoText: primary950,
+  secondaryButtonHover: primary50,
   destructiveSecondary: error50,
   destructivePrimaryDisabled: error300,
   secondaryBlackButton: subtleBlack,
-  secondaryBlackHover: gray50,
+  secondaryBlackHover: secondary50,
   secondaryBlackShadow: '#F7F5F5',
   primaryFocused: '#E5F3ED',
   testNetLabel: warning50,
-  ledgerStep: green50,
-  ledgerWalletStep: green100,
+  ledgerStep: primary50,
+  ledgerWalletStep: primary100,
   rejected: error50,
-  rejectedBorder: red400,
+  rejectedBorder: error400,
   destructiveSecondaryShadow: error100,
   transparent: 'transparent',
-  signedSignature: green50,
+  signedSignature: primary50,
   black,
   subtleBlack,
   white,
   subtleWhite,
   lightBlack,
-  radioButton: green700,
+  radioButton: primary700,
 
-  green50,
-  green100,
-  green200,
-  green300,
-  green500,
-  green600,
-  green650,
-  green700,
-  green800,
-  green900,
-  green950,
+  primary50,
+  primary100,
+  primary200,
+  primary300,
+  primary500,
+  primary600,
+  primary650,
+  primary700,
+  primary800,
+  primary900,
+  primary950,
 
-  gray25,
-  gray50,
-  gray100,
-  gray200,
-  gray300,
-  gray400,
-  gray500,
-  gray600,
-  gray700,
-  gray800,
-  gray900,
+  secondary25,
+  secondary50,
+  secondary100,
+  secondary200,
+  secondary300,
+  secondary400,
+  secondary500,
+  secondary600,
+  secondary700,
+  secondary800,
+  secondary900,
 
   error25,
   error50,
@@ -170,12 +170,12 @@ const light = {
 };
 
 const dark = {
-  primary: green650,
+  primary: primary650,
   error: error500,
   ledgerConnectionError: white,
   warning: warning500,
-  gray: gray300,
-  lightGray: gray400,
+  gray: secondary300,
+  lightGray: secondary400,
   disabledCheckbox: 'transparent',
   primaryBackground: lightBlack,
   secondaryBackground: subtleBlack,
@@ -184,35 +184,35 @@ const dark = {
   background: lightBlack,
   base: white,
   inputBackground: subtleBlack,
-  inputHover: green900,
-  inputBackgroundGreen: green900,
-  checkboxBackground: green950,
+  inputHover: primary900,
+  inputBackgroundGreen: primary900,
+  checkboxBackground: primary950,
   iconBackground: '#454545',
-  toggleInactive: gray600,
-  primaryDisabled: gray700,
+  toggleInactive: secondary600,
+  primaryDisabled: secondary700,
   primaryBorder: white,
-  border: gray500,
-  activeInput: gray300,
-  activeNav: green600,
+  border: secondary500,
+  activeInput: secondary300,
+  activeNav: primary600,
   ledgerErrorText: white,
-  toggleHover: green700,
-  disabledChecked: green800,
-  disabledRadio: gray100,
+  toggleHover: primary700,
+  disabledChecked: primary800,
+  disabledRadio: secondary100,
   disabledRadioBackground: black,
-  disabledGray: gray500,
+  disabledGray: secondary500,
   tooltipBackground: subtleWhite,
-  label: gray200,
-  labelText: gray200,
+  label: secondary200,
+  labelText: secondary200,
   tooltipColor: subtleBlack,
-  dividerGreen: green600,
+  dividerGreen: primary600,
   warningBorder: warning400,
-  lightGrayHover: gray700,
-  lightGrayHover2: gray700,
+  lightGrayHover: secondary700,
+  lightGrayHover2: secondary700,
   lightGreenHover: '#355C4D',
-  lightGrayBackground: gray700,
+  lightGrayBackground: secondary700,
   loaderBackground: subtleBlack,
   logoText: white,
-  secondaryButtonHover: gray800,
+  secondaryButtonHover: secondary800,
   destructiveSecondary: 'rgba(91, 16, 5, 0.08)',
   destructivePrimaryDisabled: 'rgba(240, 68, 56, 0.20)',
   secondaryBlackButton: white,
@@ -220,42 +220,42 @@ const dark = {
   secondaryBlackShadow: '#3B3A3A',
   primaryFocused: '#4ACD97',
   testNetLabel: 'rgba(247, 144, 9, 0.10)',
-  ledgerStep: gray600,
+  ledgerStep: secondary600,
   ledgerWalletStep: 'rgba(2, 168, 99, 0.20)',
   rejected: 'rgba(240, 68, 56, 0.10)',
   rejectedBorder: error500,
   destructiveSecondaryShadow: '#43302F',
   transparent: 'transparent',
-  signedSignature: green500,
+  signedSignature: primary500,
   black,
   subtleBlack,
   white,
   subtleWhite,
   lightBlack,
-  radioButton: green600,
+  radioButton: primary600,
 
-  green50,
-  green100,
-  green200,
-  green500,
-  green600,
-  green650,
-  green700,
-  green800,
-  green900,
-  green950,
+  primary50,
+  primary100,
+  primary200,
+  primary500,
+  primary600,
+  primary650,
+  primary700,
+  primary800,
+  primary900,
+  primary950,
 
-  gray25,
-  gray50,
-  gray100,
-  gray200,
-  gray300,
-  gray400,
-  gray500,
-  gray600,
-  gray700,
-  gray800,
-  gray900,
+  secondary25,
+  secondary50,
+  secondary100,
+  secondary200,
+  secondary300,
+  secondary400,
+  secondary500,
+  secondary600,
+  secondary700,
+  secondary800,
+  secondary900,
 
   error25,
   error50,

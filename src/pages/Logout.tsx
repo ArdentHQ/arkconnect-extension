@@ -122,7 +122,7 @@ const Logout = () => {
         <Paragraph
           $typeset='headline'
           fontWeight='regular'
-          color={getThemeColor('gray500', 'gray300')}
+          color={getThemeColor('secondary500', 'secondary300')}
         >
           {walletsToLogout && walletsToLogout.length > 1 ? (
             <Paragraph as='span' $typeset='headline'>

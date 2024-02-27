@@ -73,7 +73,7 @@ const Indicator = styled.div<{
 
     ${Input}:disabled + & {
       pointer-events: none;
-      border: 1px solid ${theme.colors.gray300};
+      border: 1px solid ${theme.colors.secondary300};
       background: ${theme.colors.disabledRadioBackground};
     }
   `}

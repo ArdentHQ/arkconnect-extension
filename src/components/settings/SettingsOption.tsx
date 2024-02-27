@@ -133,7 +133,7 @@ export const SettingsOption = forwardRef(function RowLayout(
           <FlexContainer
             width='20px'
             height='20px'
-            color={getThemeColor('gray500', 'gray300')}
+            color={getThemeColor('secondary500', 'secondary300')}
             className='icon-leading'
             as='span'
           >
