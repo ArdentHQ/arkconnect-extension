@@ -19,8 +19,7 @@ import { Theme } from '@/shared/theme';
 import { Container, FlexContainer, Icon, IconDefinition, Paragraph } from '@/shared/components';
 import { FlexVariantProps, flexVariant } from '@/shared/theme/variants';
 import constants from '@/constants';
-import { LedgerIcon, TestnetIcon } from '@/components/wallet/address/Address.blocks';
-import trimAddress from '@/lib/utils/trimAddress';
+import { Address, LedgerIcon, TestnetIcon } from '@/components/wallet/address/Address.blocks';
 import { isFirefox } from '@/lib/utils/isFirefox';
 import Amount from '@/components/wallet/Amount';
 
@@ -210,7 +209,7 @@ export const RowLayout = forwardRef(function RowLayout(
               <StyledFlexContainer color={'gray'} as={containerAs}>
                 {address && (
                   <>
-                    <Container as={containerAs}>{trimAddress(address, 10)}</Container>
+                    <Address address={address} tooltipPlacement='bottom-start' />
                     <Container as={containerAs}> • </Container>
                   </>
                 )}
@@ -224,6 +223,7 @@ export const RowLayout = forwardRef(function RowLayout(
                             ticker={currency ?? ''}
                             withTicker={!!currency}
                             key={index}
+                            tooltipPlacement='bottom-start'
                           />
                         );
                       } else {
