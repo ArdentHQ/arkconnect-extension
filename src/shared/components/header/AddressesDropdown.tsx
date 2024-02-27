@@ -26,9 +26,7 @@ const StyledFlexContainer = styled(FlexContainer)<DropdownMenuContainerProps>`
   ${(props) => `
   transition: ${isFirefox ? 'background 0.2s ease-in-out' : 'all 0.2s ease-in-out'};
   &:hover {
-    background-color: ${
-      props.selected ? props.theme.colors.lightGreenHover : props.theme.colors.lightGrayHover
-    }
+    background-color: ${props.theme.colors.lightGrayHover};
   }
   background-color: 'transparent';
 
