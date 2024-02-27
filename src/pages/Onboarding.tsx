@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import styled, { keyframes } from 'styled-components';
+import { useLocation, useNavigate } from 'react-router-dom';
 import {
     Container,
     ProgressBar,
@@ -10,8 +12,6 @@ import {
     Button,
     Header,
 } from '@/shared/components';
-import styled, { keyframes } from 'styled-components';
-import { useLocation, useNavigate } from 'react-router-dom';
 import { useProfileContext } from '@/lib/context/Profile';
 import useLogoutAll from '@/lib/hooks/useLogoutAll';
 

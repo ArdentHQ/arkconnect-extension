@@ -1,5 +1,5 @@
-import { AppWrapper, MainWrapper } from '@/App';
 import { render as testingLibraryRender } from '@testing-library/react';
+import { AppWrapper, MainWrapper } from '@/App';
 
 const Wrapper = ({ children }: { children?: React.ReactNode }) => (
     <MainWrapper>

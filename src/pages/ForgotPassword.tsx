@@ -1,10 +1,10 @@
+import { useState } from 'react';
+import browser from 'webextension-polyfill';
 import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
 import useLogoutAll from '@/lib/hooks/useLogoutAll';
 import { Button, Checkbox, FlexContainer, Paragraph, WarningIcon } from '@/shared/components';
-import { useState } from 'react';
 import SubPageLayout from '@/components/settings/SubPageLayout';
 import useThemeMode from '@/lib/hooks/useThemeMode';
-import browser from 'webextension-polyfill';
 import { useProfileContext } from '@/lib/context/Profile';
 
 const ForgotPassword = () => {
