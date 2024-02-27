@@ -13,6 +13,11 @@ interface LocalStorageValues {
     autoLockTimer: AutoLockTimer;
     devModeSeeded: boolean;
     hasOnboarded: boolean;
+    ratesCache?: {
+        lastFetch: number;
+        rates: Record<string, number>;
+        requestCount: number;
+    };
 }
 
 type LocalStorageKeys = keyof LocalStorageValues;
