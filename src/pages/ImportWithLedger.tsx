@@ -52,14 +52,16 @@ const ImportWithLedger = () => {
       passwordConfirm: '',
     },
     onSubmit: async (values, formikHelpers) => {
-      console.log(values);
       const wallets = values.wallets.map((wallet, idx) => {
         return {
           address: wallet.address,
-          network: 'ark.mainnet',
-          coin: 'ARK',
+          network: network.id(),
+          coin: network.coin(),
           path: wallet.path,
-          alias: `Ledger ${idx}`,
+          alias: getDefaultAlias({
+            profile,
+            network,
+          }),
         };
       });
 
