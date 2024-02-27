@@ -16,218 +16,218 @@ import { withAbortPromise } from '../utils/transactionHelpers';
 import { useLedgerContext } from '../Ledger';
 
 interface SendVoteForm {
-  senderAddress: string;
-  fee: number;
-  remainingBalance: number;
-  amount: number;
-  network?: Networks.Network;
-  vote: Contracts.VoteRegistryItem | null;
-  unvote: Contracts.VoteRegistryItem | null;
+    senderAddress: string;
+    fee: number;
+    remainingBalance: number;
+    amount: number;
+    network?: Networks.Network;
+    vote: Contracts.VoteRegistryItem | null;
+    unvote: Contracts.VoteRegistryItem | null;
 }
 
 type VoteDelegateProperties = {
-  delegateAddress: string;
-  amount: number;
+    delegateAddress: string;
+    amount: number;
 };
 
 type ApproveVoteRequest = {
-  domain: string;
-  session: SessionStore.Session;
-  vote: VoteDelegateProperties;
-  unvote: VoteDelegateProperties;
-  tabId: number;
+    domain: string;
+    session: SessionStore.Session;
+    vote: VoteDelegateProperties;
+    unvote: VoteDelegateProperties;
+    tabId: number;
 };
 
 const defaultState = {
-  senderAddress: '',
-  fee: 0,
-  remainingBalance: 0,
-  amount: 0,
-  vote: null,
-  unvote: null,
+    senderAddress: '',
+    fee: 0,
+    remainingBalance: 0,
+    amount: 0,
+    vote: null,
+    unvote: null,
 };
 
 const prepareLedger = async (wallet: Contracts.IReadWriteWallet) => {
-  const signature = await wallet
-    .signatory()
-    .ledger(wallet.data().get<string>(Contracts.WalletData.DerivationPath)!);
-  // Prevents "The device is already open" exception when running the signing function
-  await wallet.ledger().disconnect();
+    const signature = await wallet
+        .signatory()
+        .ledger(wallet.data().get<string>(Contracts.WalletData.DerivationPath)!);
+    // Prevents "The device is already open" exception when running the signing function
+    await wallet.ledger().disconnect();
 
-  return {
-    signatory: signature,
-  };
+    return {
+        signatory: signature,
+    };
 };
 
 export const useVoteForm = (wallet: Contracts.IReadWriteWallet, request: ApproveVoteRequest) => {
-  const { env } = useEnvironmentContext();
-  const { profile } = useProfileContext();
-  const { onError } = useErrorHandlerContext();
-  const { calculate } = useFees();
-  const [loading, setLoading] = useState(true);
-  const [formValues, setFormValues] = useState<SendVoteForm>(defaultState);
-  const { persist } = useEnvironmentContext();
-  const wallets = useAppSelector(WalletStore.selectWallets);
-  const { abortConnectionRetry } = useLedgerContext();
+    const { env } = useEnvironmentContext();
+    const { profile } = useProfileContext();
+    const { onError } = useErrorHandlerContext();
+    const { calculate } = useFees();
+    const [loading, setLoading] = useState(true);
+    const [formValues, setFormValues] = useState<SendVoteForm>(defaultState);
+    const { persist } = useEnvironmentContext();
+    const wallets = useAppSelector(WalletStore.selectWallets);
+    const { abortConnectionRetry } = useLedgerContext();
 
-  const resetForm = () => {
-    setFormValues(defaultState);
-  };
-
-  const submitForm = async (abortReference: AbortController) => {
-    const { fee, vote, unvote } = formValues;
-
-    const data = {
-      fee: +fee,
-      data: {
-        unvotes: unvote && [
-          {
-            amount: unvote.amount,
-            id: unvote.wallet?.governanceIdentifier(),
-          },
-        ],
-        votes: vote && [
-          {
-            amount: vote.amount,
-            id: vote.wallet?.governanceIdentifier(),
-          },
-        ],
-      },
+    const resetForm = () => {
+        setFormValues(defaultState);
     };
 
-    if (wallet.isLedger()) {
-      const abortSignal = abortReference.signal;
-      const { signatory } = await withAbortPromise(
-        abortSignal,
-        abortConnectionRetry,
-      )(prepareLedger(wallet));
+    const submitForm = async (abortReference: AbortController) => {
+        const { fee, vote, unvote } = formValues;
 
-      const voteTransactionInput: Services.TransactionInputs = {
-        ...data,
-        signatory,
-      };
+        const data = {
+            fee: +fee,
+            data: {
+                unvotes: unvote && [
+                    {
+                        amount: unvote.amount,
+                        id: unvote.wallet?.governanceIdentifier(),
+                    },
+                ],
+                votes: vote && [
+                    {
+                        amount: vote.amount,
+                        id: vote.wallet?.governanceIdentifier(),
+                    },
+                ],
+            },
+        };
 
-      // @ts-ignore
-      const uuid = await wallet.transaction().signVote(voteTransactionInput);
-      const response = await wallet.transaction().broadcast(uuid);
+        if (wallet.isLedger()) {
+            const abortSignal = abortReference.signal;
+            const { signatory } = await withAbortPromise(
+                abortSignal,
+                abortConnectionRetry,
+            )(prepareLedger(wallet));
 
-      handleBroadcastError(response);
+            const voteTransactionInput: Services.TransactionInputs = {
+                ...data,
+                signatory,
+            };
 
-      const transaction = wallet.transaction().transaction(uuid);
+            // @ts-ignore
+            const uuid = await wallet.transaction().signVote(voteTransactionInput);
+            const response = await wallet.transaction().broadcast(uuid);
 
-      return {
-        ...transaction.toObject(),
-        amount: transaction.amount().toString(),
-        fee: transaction.fee(),
-        total: transaction.total(),
-      };
-    }
+            handleBroadcastError(response);
 
-    const { transaction, response, error } = await browser.runtime.sendMessage({
-      type: 'SEND_VOTE',
-      data,
-    });
+            const transaction = wallet.transaction().transaction(uuid);
 
-    if (error) {
-      throw new Error(error);
-    }
+            return {
+                ...transaction.toObject(),
+                amount: transaction.amount().toString(),
+                fee: transaction.fee(),
+                total: transaction.total(),
+            };
+        }
 
-    handleBroadcastError(response);
-
-    return transaction;
-  };
-
-  const getVote = async () => {
-    try {
-      env.delegates().all(wallet.network().coin(), wallet.network().id());
-    } catch {
-      await env.delegates().sync(profile, wallet.network().coin(), wallet.network().id());
-    }
-    const vote = request.vote && {
-      amount: request.vote?.amount,
-      wallet: env
-        .delegates()
-        .findByAddress(
-          wallet.network().coin(),
-          wallet.network().id(),
-          request.vote?.delegateAddress,
-        ),
-    };
-    const unvote = request.unvote && {
-      amount: request.unvote?.amount,
-      wallet: env
-        .delegates()
-        .findByAddress(
-          wallet.network().coin(),
-          wallet.network().id(),
-          request.unvote?.delegateAddress,
-        ),
-    };
-    return { vote, unvote };
-  };
-
-  useEffect(() => {
-    (async () => {
-      if (!wallet.id() || !wallets.some((w) => w.walletId === wallet.id())) {
-        return;
-      }
-
-      try {
-        await profile.sync();
-        await persist();
-
-        const fee = await calculate({
-          coin: wallet.network().coin(),
-          network: wallet.network().id(),
-          type: ApproveActionType.VOTE,
+        const { transaction, response, error } = await browser.runtime.sendMessage({
+            type: 'SEND_VOTE',
+            data,
         });
 
-        const { vote, unvote } = await getVote();
+        if (error) {
+            throw new Error(error);
+        }
+
+        handleBroadcastError(response);
+
+        return transaction;
+    };
+
+    const getVote = async () => {
+        try {
+            env.delegates().all(wallet.network().coin(), wallet.network().id());
+        } catch {
+            await env.delegates().sync(profile, wallet.network().coin(), wallet.network().id());
+        }
+        const vote = request.vote && {
+            amount: request.vote?.amount,
+            wallet: env
+                .delegates()
+                .findByAddress(
+                    wallet.network().coin(),
+                    wallet.network().id(),
+                    request.vote?.delegateAddress,
+                ),
+        };
+        const unvote = request.unvote && {
+            amount: request.unvote?.amount,
+            wallet: env
+                .delegates()
+                .findByAddress(
+                    wallet.network().coin(),
+                    wallet.network().id(),
+                    request.unvote?.delegateAddress,
+                ),
+        };
+        return { vote, unvote };
+    };
+
+    useEffect(() => {
+        (async () => {
+            if (!wallet.id() || !wallets.some((w) => w.walletId === wallet.id())) {
+                return;
+            }
+
+            try {
+                await profile.sync();
+                await persist();
+
+                const fee = await calculate({
+                    coin: wallet.network().coin(),
+                    network: wallet.network().id(),
+                    type: ApproveActionType.VOTE,
+                });
+
+                const { vote, unvote } = await getVote();
+
+                setFormValues((prevFormValues) => ({
+                    ...prevFormValues,
+                    senderAddress: wallet.address(),
+                    remainingBalance: wallet.balance(),
+                    fee,
+                    vote: vote,
+                    unvote: unvote,
+                }));
+            } catch (error: any) {
+                onError(error);
+                browser.runtime.sendMessage({
+                    type: 'SIGN_VOTE_REJECT',
+                    data: {
+                        domain: request.domain,
+                        status: 'failed',
+                        message: error.message,
+                        tabId: request.tabId,
+                    },
+                });
+            } finally {
+                setLoading(false);
+            }
+        })();
+    }, [wallet]);
+
+    useEffect(() => {
+        const remaining = formValues.remainingBalance - formValues.fee;
 
         setFormValues((prevFormValues) => ({
-          ...prevFormValues,
-          senderAddress: wallet.address(),
-          remainingBalance: wallet.balance(),
-          fee,
-          vote: vote,
-          unvote: unvote,
+            ...prevFormValues,
+            amount: precisionRound(remaining, 8),
         }));
-      } catch (error: any) {
-        onError(error);
-        browser.runtime.sendMessage({
-          type: 'SIGN_VOTE_REJECT',
-          data: {
-            domain: request.domain,
-            status: 'failed',
-            message: error.message,
-            tabId: request.tabId,
-          },
-        });
-      } finally {
-        setLoading(false);
-      }
-    })();
-  }, [wallet]);
+    }, [formValues.fee]);
 
-  useEffect(() => {
-    const remaining = formValues.remainingBalance - formValues.fee;
-
-    setFormValues((prevFormValues) => ({
-      ...prevFormValues,
-      amount: precisionRound(remaining, 8),
-    }));
-  }, [formValues.fee]);
-
-  return {
-    formValues,
-    setFormValues,
-    resetForm,
-    submitForm,
-    loading,
-    values: {
-      fee: formValues.fee,
-      vote: formValues.vote,
-      unvote: formValues.unvote,
-    },
-  };
+    return {
+        formValues,
+        setFormValues,
+        resetForm,
+        submitForm,
+        loading,
+        values: {
+            fee: formValues.fee,
+            vote: formValues.vote,
+            unvote: formValues.unvote,
+        },
+    };
 };

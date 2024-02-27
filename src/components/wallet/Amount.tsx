@@ -5,49 +5,49 @@ import { Helpers } from '@ardenthq/sdk-profiles';
 import { TippyProps } from '@tippyjs/react';
 
 interface AmountProperties {
-  ticker: string;
-  value: number;
-  showSign?: boolean;
-  withTicker?: boolean;
-  isNegative?: boolean;
-  maxDigits?: number;
-  tooltipPlacement?: TippyProps['placement'];
+    ticker: string;
+    value: number;
+    showSign?: boolean;
+    withTicker?: boolean;
+    isNegative?: boolean;
+    maxDigits?: number;
+    tooltipPlacement?: TippyProps['placement'];
 }
 
 const Amount = ({
-  value,
-  ticker,
-  withTicker = true,
-  isNegative,
-  showSign,
-  maxDigits = constants.MAX_CURRENCY_DIGITS_ALLOWED,
-  tooltipPlacement = 'top',
-}: AmountProperties) => {
-  const actualFormattedAmount = Helpers.Currency.format(value, ticker, { withTicker });
-
-  let formattedAmount = cropToMaxDigits({
     value,
     ticker,
-    maxDigits,
-    withTicker,
-  });
+    withTicker = true,
+    isNegative,
+    showSign,
+    maxDigits = constants.MAX_CURRENCY_DIGITS_ALLOWED,
+    tooltipPlacement = 'top',
+}: AmountProperties) => {
+    const actualFormattedAmount = Helpers.Currency.format(value, ticker, { withTicker });
 
-  if (value === 0 && !['ARK', 'DARK'].includes(formattedAmount.split(' ')[1])) {
-    const currencySymbol = formattedAmount.match(/[^\d.,]+/);
-    formattedAmount = `${currencySymbol}0.00`;
-  } else if (showSign) {
-    formattedAmount = `${isNegative ? '-' : '+'} ${formattedAmount}`;
-  }
+    let formattedAmount = cropToMaxDigits({
+        value,
+        ticker,
+        maxDigits,
+        withTicker,
+    });
 
-  return (
-    <Tooltip
-      disabled={formattedAmount === actualFormattedAmount}
-      content={actualFormattedAmount}
-      placement={tooltipPlacement}
-    >
-      <span>{formattedAmount}</span>
-    </Tooltip>
-  );
+    if (value === 0 && !['ARK', 'DARK'].includes(formattedAmount.split(' ')[1])) {
+        const currencySymbol = formattedAmount.match(/[^\d.,]+/);
+        formattedAmount = `${currencySymbol}0.00`;
+    } else if (showSign) {
+        formattedAmount = `${isNegative ? '-' : '+'} ${formattedAmount}`;
+    }
+
+    return (
+        <Tooltip
+            disabled={formattedAmount === actualFormattedAmount}
+            content={actualFormattedAmount}
+            placement={tooltipPlacement}
+        >
+            <span>{formattedAmount}</span>
+        </Tooltip>
+    );
 };
 
 export default Amount;

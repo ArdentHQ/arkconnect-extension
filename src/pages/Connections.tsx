@@ -6,19 +6,19 @@ import { Container } from '@/shared/components';
 import SubPageLayout from '@/components/settings/SubPageLayout';
 
 const Connections = () => {
-  const sessions = useAppSelector(SessionStore.selectSessions);
+    const sessions = useAppSelector(SessionStore.selectSessions);
 
-  return (
-    <SubPageLayout title='Connected Apps'>
-      {Object.values(sessions).length === 0 ? (
-        <EmptyConnections />
-      ) : (
-        <Container >
-          <ConnectionsList />
-        </Container>
-      )}
-    </SubPageLayout>
-  );
+    return (
+        <SubPageLayout title='Connected Apps'>
+            {Object.values(sessions).length === 0 ? (
+                <EmptyConnections />
+            ) : (
+                <Container>
+                    <ConnectionsList />
+                </Container>
+            )}
+        </SubPageLayout>
+    );
 };
 
 export default Connections;
