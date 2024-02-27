@@ -23,7 +23,7 @@ const SelectNetworkTypeModal = ({ onNetworkSelect, onClose, action = 'create' }:
                 </FlexContainer>
             }
             focusTrapOptions={{
-                initialFocus: false
+                initialFocus: false,
             }}
         >
             <Container>
