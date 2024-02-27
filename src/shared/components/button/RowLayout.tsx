@@ -25,7 +25,7 @@ import { isFirefox } from '@/lib/utils/isFirefox';
 import Amount from '@/components/wallet/Amount';
 
 type VariantProps = {
-  variant?: 'primary' | 'errorFree' | 'withBackground';
+  variant?: 'primary' | 'errorFree';
 };
 
 type BaseProps = ColorProps<Theme> &
@@ -111,25 +111,6 @@ const StyledRow = styled.div<BaseProps>`
           backgroundColor: `${theme.colors.inputBackground}`,
           boxShadow: '0px 1px 4px 0px rgba(0, 0, 0, 0.05)',
           border: `1px solid ${theme.colors.primary}`,
-
-          '&:focus-visible': isFirefox
-            ? {
-                'outline-style': 'solid',
-                'outline-width': '2px',
-                'outline-offset': '-2px',
-              }
-            : {},
-        },
-        withBackground: {
-          color: `${theme.colors.base}`,
-          '&.active': {
-            color: `${theme.colors.primary}`,
-            backgroundColor: `${theme.colors.lightGreen} !important`,
-          },
-
-          '&:hover': {
-            backgroundColor: `${theme.colors.lightestGray}`,
-          },
 
           '&:focus-visible': isFirefox
             ? {
