@@ -59,7 +59,6 @@
     "import/no-deprecated": "error",
     "import/no-duplicates": "error",
     "import/no-dynamic-require": "off",
-    "import/no-unresolved": "off",
     "import/no-named-as-default": "off",
     "eslint-plugin-import/no-cycle": "off"
   },
