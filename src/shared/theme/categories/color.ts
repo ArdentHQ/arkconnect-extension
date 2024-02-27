@@ -53,8 +53,6 @@ const warning700 = '#B54708';
 const warning800 = '#93370D';
 const warning900 = '#7A2E0E';
 
-const red400 = '#DE5846';
-
 const light = {
   primary: primary700,
   error: error600,
