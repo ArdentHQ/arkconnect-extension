@@ -58,7 +58,7 @@ const StyledTextArea = styled.textarea<BaseProps>`
   }
 
   &::placeholder {
-    color: ${({ theme }) => theme.colors.gray400};
+    color: ${({ theme }) => theme.colors.secondary400};
   }
   ${space}
   ${color}
@@ -72,13 +72,13 @@ const StyledTextArea = styled.textarea<BaseProps>`
       variants: {
         primary: {
           color: `${theme.colors.base}`,
-          border: `1px solid ${theme.colors.gray400}`,
+          border: `1px solid ${theme.colors.secondary400}`,
           backgroundColor: `${theme.colors.inputBackground}`,
           '&:focus': {
             border: `1px solid ${theme.colors.activeInput}`,
           },
           '&:disabled': {
-            backgroundColor: `${theme.colors.gray100}`,
+            backgroundColor: `${theme.colors.secondary100}`,
           },
           '&:read-only': {
             backgroundColor: `${theme.colors.inputBackground}`,
@@ -100,7 +100,7 @@ const StyledTextArea = styled.textarea<BaseProps>`
             border: `1px solid ${theme.colors.primary}`,
           },
           '&:disabled': {
-            backgroundColor: `${theme.colors.gray100}`,
+            backgroundColor: `${theme.colors.secondary100}`,
           },
         },
       },

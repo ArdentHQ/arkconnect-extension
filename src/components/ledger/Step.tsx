@@ -15,7 +15,7 @@ const Step = ({ step, disabled = false }: Props) => {
       borderRadius='44'
       backgroundColor='ledgerStep'
     >
-      <Paragraph $typeset='body' fontWeight='medium' color={disabled ? 'green700' : 'primary'}>
+      <Paragraph $typeset='body' fontWeight='medium' color={disabled ? 'primary700' : 'primary'}>
         {step}
       </Paragraph>
     </FlexContainer>

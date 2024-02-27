@@ -25,7 +25,7 @@ export const ConnectionStatus = () => {
         <StyledFlexContainer
           borderRadius='50'
           padding='8'
-          color={getThemeColor('green700', 'green600')}
+          color={getThemeColor('primary700', 'primary600')}
           className='c-pointer'
           onClick={() => setIsModalOpen(true)}
           as='button'

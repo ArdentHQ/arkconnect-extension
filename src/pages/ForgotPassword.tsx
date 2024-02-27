@@ -34,7 +34,7 @@ const ForgotPassword = () => {
         <Paragraph
           $typeset='headline'
           fontWeight='regular'
-          color={getThemeColor('gray500', 'gray300')}
+          color={getThemeColor('secondary500', 'secondary300')}
         >
           Unfortunately there is no recovery method available other than resetting the extension and
           re-importing your address(es). Ensure that you have your passphrase(s) saved.

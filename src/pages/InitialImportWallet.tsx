@@ -22,7 +22,7 @@ const InitialImportWallet = () => {
         $typeset='headline'
         fontWeight='regular'
         marginBottom='24'
-        color={getThemeColor('gray500', 'gray300')}
+        color={getThemeColor('secondary500', 'secondary300')}
       >
         Select an option below that you would like to proceed with...
       </Paragraph>

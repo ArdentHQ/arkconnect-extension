@@ -23,14 +23,14 @@ const ActionHeader = ({ appDomain, appLogo, icon, actionLabel, iconDimensions }:
           alignItems='center'
           width='56px'
           height='56px'
-          backgroundColor={getThemeColor('green100', 'lightGreen')}
+          backgroundColor={getThemeColor('primary100', 'lightGreen')}
           border='1px solid'
-          borderColor={getThemeColor('green300', 'green800')}
+          borderColor={getThemeColor('primary300', 'primary800')}
           borderRadius='16'
         >
           <Icon
             icon={icon}
-            color={getThemeColor('green700', 'green600')}
+            color={getThemeColor('primary700', 'primary600')}
             width={iconDimensions?.width ?? 32}
             height={iconDimensions?.height ?? 32}
           />

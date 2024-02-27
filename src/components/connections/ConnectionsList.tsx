@@ -161,7 +161,7 @@ const ConnectionsList = () => {
                 justifyContent='center'
                 borderRadius='50%'
                 overflow='hidden'
-                backgroundColor={currentThemeMode === ThemeMode.LIGHT ? 'gray50' : 'black'}
+                backgroundColor={currentThemeMode === ThemeMode.LIGHT ? 'secondary50' : 'black'}
               >
                 <ConnectionLogoImage appLogo={session.logo} alt={session.domain} roundCorners />
               </FlexContainer>
@@ -279,7 +279,7 @@ const StyledFlexContainer = styled(FlexContainer)<{ isDark?: boolean }>`
 
   &:hover {
     ${({ theme, isDark }) => `
-      background-color: ${isDark ? theme.colors.gray700 : theme.colors.gray50};
+      background-color: ${isDark ? theme.colors.secondary700 : theme.colors.secondary50};
     `}
   }
 

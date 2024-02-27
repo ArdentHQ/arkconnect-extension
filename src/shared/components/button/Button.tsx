@@ -57,8 +57,7 @@ const StyledButton = styled.button<BaseProps>`
   width: 100%;
   padding: 16px 28px;
   max-height: 52px;
-  transition: ${({ theme }) =>
-    isFirefox ? theme.transitions.firefoxSmoothEase : theme.transitions.smoothEase};
+  transition: ${({ theme }) => isFirefox ? theme.transitions.firefoxSmoothEase : theme.transitions.smoothEase};
   cursor: pointer;
   grid-gap: 12px;
 
@@ -67,7 +66,7 @@ const StyledButton = styled.button<BaseProps>`
     pointer-events: none;
   }
 
-  ${({ theme }) => (isFirefox ? theme.browserCompatibility.firefox.focus : '')}
+  ${({ theme }) => isFirefox ? theme.browserCompatibility.firefox.focus : ''}
 
   ${space}
   ${color}
@@ -84,13 +83,13 @@ const StyledButton = styled.button<BaseProps>`
           backgroundColor: `${theme.colors.primary}`,
           color: `${theme.colors.white}`,
           '&:hover': {
-            backgroundColor: `${theme.colors.green600}`,
+            backgroundColor: `${theme.colors.primary600}`,
           },
           '&:focus': {
             boxShadow: `0px 0px 0px 4px ${theme.colors.primaryFocused}`,
           },
           '&:disabled': {
-            color: `${theme.colors.gray400}`,
+            color: `${theme.colors.secondary400}`,
             backgroundColor: `${theme.colors.primaryDisabled}`,
           },
         },
@@ -132,7 +131,7 @@ const StyledButton = styled.button<BaseProps>`
           backgroundColor: `${theme.colors.primaryBackground}`,
           color: `${theme.colors.primary}`,
           '&:hover': {
-            backgroundColor: `${theme.colors.green50}`,
+            backgroundColor: `${theme.colors.primary50}`,
           },
           '&:disabled': {
             color: `${theme.colors.gray}`,
@@ -142,7 +141,7 @@ const StyledButton = styled.button<BaseProps>`
           backgroundColor: `${theme.colors.transparent}`,
           color: `${theme.colors.primary}`,
           '&:hover': {
-            color: `${theme.colors.green600}`,
+            color: `${theme.colors.primary600}`,
           },
           '&:disabled': {
             color: `${theme.colors.gray}`,

@@ -75,16 +75,16 @@ const Indicator = styled.div<{
 
     ${Input}:disabled + & {
       pointer-events: none;
-      border: 1px solid ${theme.colors.gray300};
+      border: 1px solid ${theme.colors.secondary300};
       background: ${theme.colors.disabledRadioBackground};
     }
   `}
 
-  ${({ isFocusWithin }) => `
+  ${({ isFocusWithin, theme }) => `
     ${
       isFocusWithin &&
       `
-        outline-color: #01b86c;
+        outline-color: ${theme.color.primary600};
         outline-style: solid;
         outline-width: 2px;
         outline-offset: 2px;
