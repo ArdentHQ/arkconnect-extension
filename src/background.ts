@@ -14,7 +14,6 @@ import { importWallets } from './background.helpers';
 import initAutoLock from './lib/background/initAutoLock';
 import { initializeEnvironment } from './lib/utils/env.background';
 import keepServiceWorkerAlive from './lib/background/keepServiceWorkerAlive';
-import { lte } from 'semver';
 import useSentryException from './lib/hooks/useSentryException';
 
 let PROFILE: Contracts.IProfile | null = null;
