@@ -255,26 +255,16 @@ const initRuntimeEventListener = () => {
         }
       }
 
-      if (extension.profile().wallets().count() === 0) {
-        extension.env().profiles().flush();
-        await extension.persist();
+      await extension.persist();
 
+      if (extension.profile().wallets().count() === 0) {
         return {
           error: undefined,
         };
       }
 
-      if (
-        extension.profile()?.data().has(ProfileData.PrimaryWalletId) &&
-        !extension
-          .profile()
-          .wallets()
-          .has(extension.profile()?.data().get(ProfileData.PrimaryWalletId) as string)
-      ) {
-        extension
-          .profile()
-          .data()
-          .set(ProfileData.PrimaryWalletId, extension.profile()?.wallets().first().id());
+      if (!extension.primaryWallet().exists()) {
+        extension.primaryWallet().set(extension.profile()?.wallets().first().id());
       }
 
       await extension.persist();
