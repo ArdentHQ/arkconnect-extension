@@ -7,11 +7,12 @@ import { useEffect, useState } from 'react';
 
 import { Contracts } from '@ardenthq/sdk-profiles';
 import ImportWallets from '@/components/ledger/ImportWallets';
+import ImportedWallet from '@/components/wallet/import/ImportedWallet';
 import { LedgerConnectionStep } from '@/components/ledger/LedgerConnectionStep';
 import SetupPassword from '@/components/settings/SetupPassword';
 import { ThemeMode } from '@/lib/store/ui';
 import browser from 'webextension-polyfill';
-import { getDefaultAlias } from '@/lib/utils/getDefaultAlias';
+import { getLedgerAlias } from '@/lib/utils/getDefaultAlias';
 import { getLocalValues } from '@/lib/utils/localStorage';
 import styled from 'styled-components';
 import { useAppDispatch } from '@/lib/store';
@@ -52,15 +53,17 @@ const ImportWithLedger = () => {
       passwordConfirm: '',
     },
     onSubmit: async (values, formikHelpers) => {
-      const wallets = values.wallets.map((wallet) => {
+      const wallets = values.wallets.map((wallet, index) => {
         return {
           address: wallet.address,
           network: network.id(),
           coin: network.coin(),
           path: wallet.path,
-          alias: getDefaultAlias({
-            profile,
+          alias: getLedgerAlias({
             network,
+            profile,
+            importCount: values.wallets.length,
+            index,
           }),
         };
       });
