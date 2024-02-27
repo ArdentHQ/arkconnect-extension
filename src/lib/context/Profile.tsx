@@ -1,7 +1,6 @@
 import { ReactNode, createContext, useContext, useEffect, useState } from 'react';
 import { Contracts } from '@ardenthq/sdk-profiles';
 import { useEnvironmentContext } from './Environment';
-import useLocaleCurrency from '../hooks/useLocalCurrency';
 import { useErrorHandlerContext } from './ErrorHandler';
 import * as WalletStore from '@/lib/store/wallet';
 import { useAppDispatch, useAppSelector } from '../store';
@@ -10,8 +9,6 @@ import * as SessionStore from '@/lib/store/session';
 import { useWalletBalance } from '../hooks/useWalletBalance';
 import { ProfileData } from '../background/contracts';
 import { LoadingFullScreen } from '@/shared/components/handleStates/LoadingFullScreen';
-import { setLocalValue } from '../utils/localStorage';
-import * as UIStore from '@/lib/store/ui';
 
 interface Context {
   profile: Contracts.IProfile;
@@ -31,7 +28,6 @@ export const ProfileProvider = ({ children }: Properties) => {
   const dispatch = useAppDispatch();
   const { onError } = useErrorHandlerContext();
   const { env } = useEnvironmentContext();
-  const { defaultCurrency } = useLocaleCurrency();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isProfileReady, setIsProfileReady] = useState<boolean>(false);
   const [profile, setProfile] = useState<Contracts.IProfile | undefined>(undefined);
@@ -73,38 +69,17 @@ export const ProfileProvider = ({ children }: Properties) => {
         type: 'GET_DATA',
       });
 
-      console.log({ GET_DATA: { data } });
       if (!data) {
-        // await createProfile();
+        onError('Failed to initialize profile', false);
         return;
       }
 
       const profile = await importProfile(data);
       profile.data().fill(profileData);
-      console.log({ wallets: profile.wallets().values(), profileData });
 
       await updateStore({ profile });
     } catch (error) {
       onError(error, false);
-    }
-  };
-
-  const createProfile = async (): Promise<Contracts.IProfile | undefined> => {
-    try {
-      env.profiles().flush();
-
-      const profile = await env.profiles().create('arkconnect');
-      await env.profiles().restore(profile);
-
-      profile.settings().set(Contracts.ProfileSetting.ExchangeCurrency, defaultCurrency);
-
-      setLocalValue('hasOnboarded', false);
-      dispatch(UIStore.testnetEnabledChanged(false));
-
-      setProfile(profile);
-      return profile;
-    } catch (error) {
-      onError(error);
     }
   };
 

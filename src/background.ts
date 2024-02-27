@@ -1,10 +1,8 @@
 import browser from 'webextension-polyfill';
-import { Contracts } from '@ardenthq/sdk-profiles';
 import { BACKGROUND_EVENT_LISTENERS_HANDLERS } from './lib/background/eventListenerHandlers';
 import { initializeEnvironment } from './lib/utils/env.background';
 import { AutoLockTimer, setLocalValue } from './lib/utils/localStorage';
 import initAutoLock from './lib/background/initAutoLock';
-import useSentryException from './lib/hooks/useSentryException';
 import keepServiceWorkerAlive from './lib/background/keepServiceWorkerAlive';
 import { LockHandler } from '@/lib/background/handleAutoLock';
 import { ExtensionEvents } from './lib/events';
