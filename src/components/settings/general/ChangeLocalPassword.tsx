@@ -1,16 +1,18 @@
-import { useFormik } from 'formik';
-import { object, string, ref } from 'yup';
-import { useNavigate } from 'react-router-dom';
-import browser from 'webextension-polyfill';
-import SubPageLayout from '../SubPageLayout';
+import * as ModalStore from '@/lib/store/modal';
+import * as Yup from 'yup';
+
 import { Button, Container, FlexContainer, Paragraph, PasswordInput } from '@/shared/components';
-import useToast from '@/lib/hooks/useToast';
-import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
+
+import SubPageLayout from '../SubPageLayout';
 import { ToastPosition } from '@/components/toast/ToastContainer';
+import browser from 'webextension-polyfill';
 import { isValidPassword } from '@/lib/utils/validations';
-import { useProfileContext } from '@/lib/context/Profile';
 import { useAppDispatch } from '@/lib/store';
-import { loadingModalUpdated } from '@/lib/store/modal';
+import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
+import { useFormik } from 'formik';
+import { useNavigate } from 'react-router-dom';
+import { useProfileContext } from '@/lib/context/Profile';
+import useToast from '@/lib/hooks/useToast';
 
 type ChangePasswordFormik = {
   oldPassword: string;
@@ -18,14 +20,14 @@ type ChangePasswordFormik = {
   confirmNewPassword: string;
 };
 
-const validationSchema = object().shape({
-  oldPassword: string().required(''),
-  newPassword: string()
+const validationSchema = Yup.object().shape({
+  oldPassword: Yup.string().required(''),
+  newPassword: Yup.string()
     .min(8, 'Requires at least eight characters and one number')
     .matches(/(?=.*\d)/, 'Requires at least eight characters and one number')
     .required(''),
-  confirmNewPassword: string()
-    .oneOf([ref('newPassword'), ''], 'Passwords do not match')
+  confirmNewPassword: Yup.string()
+    .oneOf([Yup.ref('newPassword'), ''], 'Passwords do not match')
     .required(''),
 });
 
@@ -50,7 +52,7 @@ const ChangeLocalPassword = () => {
         }
 
         dispatch(
-          loadingModalUpdated({
+          ModalStore.loadingModalUpdated({
             isOpen: true,
             isLoading: true,
             loadingMessage: 'Updating your password...',
@@ -69,7 +71,7 @@ const ChangeLocalPassword = () => {
 
         await initProfile();
 
-        dispatch(loadingModalUpdated({ isOpen: false, isLoading: false }));
+        dispatch(ModalStore.loadingModalUpdated({ isOpen: false, isLoading: false }));
         toast('success', 'Password changed successfully', ToastPosition.HIGH);
         navigate('/');
       } catch (error) {

@@ -1,19 +1,20 @@
-import browser from 'webextension-polyfill';
-import { Contracts } from '@ardenthq/sdk-profiles';
-import { Services } from '@ardenthq/sdk';
-import { BACKGROUND_EVENT_LISTENERS_HANDLERS } from './lib/background/eventListenerHandlers';
-import { initializeEnvironment } from './lib/utils/env.background';
 import { AutoLockTimer, setLocalValue } from './lib/utils/localStorage';
-import initAutoLock from './lib/background/initAutoLock';
-import useSentryException from './lib/hooks/useSentryException';
-import keepServiceWorkerAlive from './lib/background/keepServiceWorkerAlive';
-import { ExtensionEvents } from './lib/events';
-import { importWallets } from './background.helpers';
+import { ProfileData, SessionEntries } from './lib/background/contracts';
 import { createTestProfile, isDev } from './dev/utils/dev';
-import { ProfileData } from './lib/background/contracts';
-import { SendTransferInput } from './lib/background/extension.wallet';
+
+import { BACKGROUND_EVENT_LISTENERS_HANDLERS } from './lib/background/eventListenerHandlers';
+import { Contracts } from '@ardenthq/sdk-profiles';
+import { ExtensionEvents } from './lib/events';
 import { ExtensionProfile } from './lib/background/extension.profile';
 import { LockHandler } from '@/lib/background/handleAutoLock';
+import { SendTransferInput } from './lib/background/extension.wallet';
+import { Services } from '@ardenthq/sdk';
+import browser from 'webextension-polyfill';
+import { importWallets } from './background.helpers';
+import initAutoLock from './lib/background/initAutoLock';
+import { initializeEnvironment } from './lib/utils/env.background';
+import keepServiceWorkerAlive from './lib/background/keepServiceWorkerAlive';
+import useSentryException from './lib/hooks/useSentryException';
 
 let PROFILE: Contracts.IProfile | null = null;
 
@@ -238,30 +239,61 @@ const initRuntimeEventListener = () => {
         PROFILE?.auth().changePassword(request.data.oldPassword, request.data.newPassword);
 
         for (const wallet of PROFILE.wallets().values()) {
-          const mnemonic = await wallet.confirmKey().get(request.data.oldPassword);
+          let newWallet;
+          const oldWalletId = wallet.id();
 
-          const newWallet = await PROFILE.walletFactory().fromMnemonicWithBIP39({
-            coin: wallet.network().coin(),
-            network: wallet.network().id(),
-            mnemonic,
-          });
+          // Only non-ledgers have mnemonics
+          if (!wallet.isLedger()) {
+            const mnemonic = await wallet.confirmKey().get(request.data.oldPassword);
 
-          newWallet.mutator().alias(wallet.alias() as string);
-          await newWallet.confirmKey().set(mnemonic, PROFILE.password().get());
+            newWallet = await PROFILE.walletFactory().fromMnemonicWithBIP39({
+              coin: wallet.network().coin(),
+              network: wallet.network().id(),
+              mnemonic,
+            });
 
-          const id = wallet.id();
+            newWallet.mutator().alias(wallet.alias() as string);
+            await newWallet.confirmKey().set(mnemonic, PROFILE.password().get());
+          } else {
+            newWallet = await PROFILE.walletFactory().fromAddressWithDerivationPath({
+              address: wallet.address(),
+              network: wallet.network().id(),
+              coin: wallet.coinId(),
+              path: wallet.data().get(Contracts.WalletData.DerivationPath)!,
+            });
 
-          if (PROFILE.data().get(ProfileData.PrimaryWalletId) === id) {
+            newWallet.mutator().alias(wallet.alias() as string);
+          }
+
+          // Update primary wallet ID to match the new id of the same wallet
+          if (PROFILE.data().get(ProfileData.PrimaryWalletId) === oldWalletId) {
             PROFILE.data().set(ProfileData.PrimaryWalletId, newWallet.id());
           }
 
-          PROFILE.wallets().forget(id);
+          const sessions = PROFILE.data().get<SessionEntries>(ProfileData.Sessions);
+
+          if (sessions) {
+            // Adjust sessions' walletId to match new ones
+            for (const [sessionId, session] of Object.entries(sessions)) {
+              if (session.walletId === oldWalletId) {
+                session.walletId = newWallet.id();
+                sessions[sessionId] = session;
+              }
+            }
+          }
+
+          // Store updated sessions
+          PROFILE.data().set(ProfileData.Sessions, sessions);
+
+          PROFILE.wallets().forget(oldWalletId);
           PROFILE.wallets().push(newWallet);
         }
 
         await ENVIRONMENT.persist();
 
-        return Promise.resolve({ error: undefined });
+        return Promise.resolve({
+          error: undefined,
+        });
       } catch (error) {
         return Promise.resolve({ error });
       }
