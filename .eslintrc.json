@@ -17,7 +17,7 @@
     "ecmaVersion": "latest",
     "sourceType": "module"
   },
-  "plugins": ["react", "@typescript-eslint"],
+  "plugins": ["react", "@typescript-eslint", "unused-imports"],
   "rules": {
     "comma-dangle": ["error", "only-multiline"],
     "semi": [2, "always", { "omitLastInOneLineBlock": true }],
@@ -39,7 +39,8 @@
     "no-use-before-define": 0,
     "@typescript-eslint/no-use-before-define": 0,
     "@typescript-eslint/no-unused-vars": 2,
-    "@typescript-eslint/no-explicit-any": "off"
+    "@typescript-eslint/no-explicit-any": "off",
+    "unused-imports/no-unused-imports-ts": "error"
   },
   "settings": {
     "react": {
