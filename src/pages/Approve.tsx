@@ -1,18 +1,15 @@
 import { Contracts } from '@ardenthq/sdk-profiles';
-import { Button, Layout } from '@/shared/components';
+import { Layout } from '@/shared/components';
 import { useLocation } from 'react-router-dom';
 import ApproveTransaction from '@/components/approve/ApproveTransaction';
 import ApproveMessage from '@/components/approve/ApproveMessage';
 import ApproveVote from '@/components/approve/ApproveVote';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { useLedgerContext } from '@/lib/Ledger';
 import Modal from '@/shared/components/modal/Modal';
 import ApproveWithLedger from '@/components/ledger/ApproveWithLedger';
 import { isLedgerTransportSupported } from '@/lib/Ledger/transport';
 import * as WalletStore from '@/lib/store/wallet';
-import useCountTestnetAddresses from '@/lib/hooks/useNoTestnetAddressFound';
-import NoTestnetAddressFound from '@/components/approve/NoTestnetAddressFound';
-import removeWindowInstance from '@/lib/utils/removeWindowInstance';
 import { useAppSelector } from '@/lib/store';
 import { useProfileContext } from '@/lib/context/Profile';
 import * as UIStore from '@/lib/store/ui';
@@ -34,8 +31,6 @@ const Approve = () => {
   const { getThemeColor } = useThemeMode();
   const abortReference = useRef(new AbortController());
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isTestnetModalOpen, setIsTestnetModalOpen] = useState(false);
-  const testnetWalletsLength = useCountTestnetAddresses();
   const wallets = useAppSelector(WalletStore.selectWallets);
 
   const walletData = wallets.find((wallet) => wallet.walletId === location.state.session.walletId)!;
@@ -43,12 +38,6 @@ const Approve = () => {
 
   const locked = useAppSelector(UIStore.selectLocked);
   assertIsUnlocked(locked);
-
-  useEffect(() => {
-    if (location.state?.network === WalletStore.WalletNetwork.MAINNET) return;
-
-    if (!testnetWalletsLength) setIsTestnetModalOpen(true);
-  }, []);
 
   const approveWithLedger = async (
     profile: Contracts.IProfile,
@@ -65,21 +54,7 @@ const Approve = () => {
     setIsModalOpen(false);
   };
 
-  const handleRemoveWindowInstance = async () => {
-    await removeWindowInstance(location.state?.windowId);
-  };
-
-  let actionType =
-    location.state?.type === ApproveActionType.VOTE
-      ? ApproveActionType.VOTE
-      : ApproveActionType.UNVOTE;
-
   const hasVoted = wallet.voting().current().length > 0;
-
-  if (actionType === ApproveActionType.VOTE && hasVoted) {
-    actionType = ApproveActionType.SWITCH_VOTE;
-  }
-
   const getActionType  = (actionType: ApproveActionType): ApproveActionType => {
     switch (actionType) {
       case ApproveActionType.VOTE:
@@ -131,23 +106,6 @@ const Approve = () => {
             }
             wallet={wallet}
           />
-        </Modal>
-      )}
-
-      {isTestnetModalOpen && (
-        <Modal
-          onClose={() => {}}
-          variant='danger'
-          icon='alert-octagon'
-          onCancel={handleRemoveWindowInstance}
-          hideCloseButton
-          footer={({ onCancel }) => (
-            <Button variant='secondaryBlack' onClick={onCancel}>
-              Close
-            </Button>
-          )}
-        >
-          <NoTestnetAddressFound />
         </Modal>
       )}
     </Layout>
