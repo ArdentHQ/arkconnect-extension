@@ -10,12 +10,7 @@ export const CloseButton = () => {
     };
 
     return (
-        <ContainerWithHover
-            borderRadius='50'
-            padding='7'
-            onClick={handleNavigate}
-            as='button'
-        >
+        <ContainerWithHover borderRadius='50' padding='7' onClick={handleNavigate} as='button'>
             <Icon icon='x' width='18px' height='18px' color='base' />
         </ContainerWithHover>
     );
