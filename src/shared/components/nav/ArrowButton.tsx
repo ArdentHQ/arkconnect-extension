@@ -8,7 +8,7 @@ export const ArrowButton = ({
   disabled = false,
   onClick,
 }: {
-  action?: 'goBack' | 'goHome'
+  action?: 'goBack' | 'goHome';
   disabled?: boolean;
   onClick?: () => void;
 }) => {
@@ -21,8 +21,8 @@ export const ArrowButton = ({
       onClick();
       return;
     }
-    
-    if(action === 'goBack') {
+
+    if (action === 'goBack') {
       navigate(-1);
     } else {
       navigate('/');
@@ -30,8 +30,22 @@ export const ArrowButton = ({
   };
 
   return (
-    <ContainerWithHover borderRadius='50' padding='7' onClick={handleNavigate} tabIndex={0} as='button' border='none' backgroundColor='transparent' className={disabled ? '' : 'c-pointer'}>
-      <Icon icon='arrow-left' width='18px' height='18px' color={disabled ? 'disabledGray' : 'base'} />
+    <ContainerWithHover
+      borderRadius='50'
+      padding='7'
+      onClick={handleNavigate}
+      tabIndex={0}
+      as='button'
+      border='none'
+      backgroundColor='transparent'
+      className={disabled ? '' : 'c-pointer'}
+    >
+      <Icon
+        icon='arrow-left'
+        width='18px'
+        height='18px'
+        color={disabled ? 'disabledGray' : 'base'}
+      />
     </ContainerWithHover>
   );
 };

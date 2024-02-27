@@ -17,9 +17,9 @@ const VoteApproved = () => {
   const onClose = async () => {
     await removeWindowInstance(state?.windowId);
   };
-  
+
   const getTitle = () => {
-    switch(state?.type) {
+    switch (state?.type) {
       case ApproveActionType.VOTE:
         return 'Vote Approved';
       case ApproveActionType.UNVOTE:
@@ -51,12 +51,7 @@ const VoteApproved = () => {
         pt='24'
         gridGap='37px'
       >
-        <FlexContainer
-          flexDirection='column'
-          gridGap='24px'
-          alignItems='center'
-          width='100%'
-        >
+        <FlexContainer flexDirection='column' gridGap='24px' alignItems='center' width='100%'>
           <FlexContainer flexDirection='column' gridGap='16px' alignItems='center'>
             <Icon icon='completed' width='64px' height='64px' color='primary' />
             <Heading $typeset='h3' color='base' fontWeight='bold'>

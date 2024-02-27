@@ -10,6 +10,5 @@ export default {
         outline-width: 2px;
       }`,
     },
-  }
+  },
 };
-  

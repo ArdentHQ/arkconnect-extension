@@ -51,7 +51,9 @@ const ChangeLocalCurrency = () => {
             border='none'
             width='100%'
           >
-            <Paragraph $typeset='headline' as='span'>{currencyItem.label}</Paragraph>
+            <Paragraph $typeset='headline' as='span'>
+              {currencyItem.label}
+            </Paragraph>
             {currencyItem.value == currency && <Icon icon='check' width='20px' height='20px' />}
           </SettingsRowItem>
         ))}

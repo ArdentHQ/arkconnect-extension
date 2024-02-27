@@ -34,4 +34,3 @@ export function assertString(value: unknown): asserts value is NonNullable<strin
     });
   }
 }
-

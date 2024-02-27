@@ -55,26 +55,34 @@ const StyledRow = styled(Container)<BaseProps>`
       variants: {
         primary: {
           backgroundColor: `${theme.transitions.white}`,
-          transition: isFirefox ? `${theme.transitions.firefoxSmoothEase}` : `${theme.transitions.smoothEase}`,
+          transition: isFirefox
+            ? `${theme.transitions.firefoxSmoothEase}`
+            : `${theme.transitions.smoothEase}`,
 
-          '&:focus-visible': isFirefox ? {
-            'outline-style': 'solid',
-            'outline-width': '2px',
-            'outline-offset': '-2px',
-          } : {},
+          '&:focus-visible': isFirefox
+            ? {
+                'outline-style': 'solid',
+                'outline-width': '2px',
+                'outline-offset': '-2px',
+              }
+            : {},
 
           '&:hover': {
             backgroundColor: `${theme.colors.secondaryBlackShadow}`,
           },
         },
         error: {
-          transition: isFirefox ? `${theme.transitions.firefoxSmoothEase}` : `${theme.transitions.smoothEase}`,
+          transition: isFirefox
+            ? `${theme.transitions.firefoxSmoothEase}`
+            : `${theme.transitions.smoothEase}`,
 
-          '&:focus-visible': isFirefox ? {
-            'outline-style': 'solid',
-            'outline-width': '2px',
-            'outline-offset': '-2px',
-          } : {},
+          '&:focus-visible': isFirefox
+            ? {
+                'outline-style': 'solid',
+                'outline-width': '2px',
+                'outline-offset': '-2px',
+              }
+            : {},
 
           '&:hover': {
             backgroundColor: isDark ? 'rgba(204, 28, 0, 0.10)' : `${theme.colors.error50}`,

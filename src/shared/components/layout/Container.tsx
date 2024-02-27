@@ -21,8 +21,7 @@ export const Container = styled.div<
     LayoutProps<Theme> &
     BorderProps<Theme> &
     PositionProps<Theme> &
-    BoxShadowProps<Theme> &
-    { as?: void | WebTarget | undefined }
+    BoxShadowProps<Theme> & { as?: void | WebTarget | undefined }
 >`
   ${space}
   ${color}

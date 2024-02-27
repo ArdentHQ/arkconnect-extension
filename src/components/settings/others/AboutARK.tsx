@@ -43,7 +43,13 @@ const AboutARK = () => {
           href={`mailto:${constants.SUPPORT_EMAIL}?subject=ARK%20Connect`}
         >
           <RowLayout title='Support Email' iconTrailing='link-external' tabIndex={-1}>
-            <CopyButton className='c-pointer' onClick={copyEmailToClipboard} as='button' border='none' backgroundColor='transparent'>
+            <CopyButton
+              className='c-pointer'
+              onClick={copyEmailToClipboard}
+              as='button'
+              border='none'
+              backgroundColor='transparent'
+            >
               <Icon icon='copy' width='20px' height='20px' color='base' />
             </CopyButton>
           </RowLayout>

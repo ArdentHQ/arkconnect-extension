@@ -13,7 +13,7 @@ const Connections = () => {
       {Object.values(sessions).length === 0 ? (
         <EmptyConnections />
       ) : (
-        <Container >
+        <Container>
           <ConnectionsList />
         </Container>
       )}

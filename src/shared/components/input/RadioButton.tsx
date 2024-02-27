@@ -20,10 +20,12 @@ const Input = styled.input`
   opacity: 0;
   z-index: -1;
 
-  ${isFirefox ? `&:focus-visible {
+  ${isFirefox
+    ? `&:focus-visible {
     outline-style: solid;
     outline-width: 2px;
-  }` : ''}
+  }`
+    : ''}
 `;
 
 const Indicator = styled.div<{

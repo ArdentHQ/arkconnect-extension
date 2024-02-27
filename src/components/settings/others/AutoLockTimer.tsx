@@ -42,7 +42,9 @@ const AutoLockTimer = () => {
             border='none'
             width='100%'
           >
-            <Paragraph $typeset='headline' as='span'>{showAutoLockTimerValue(timerKey)}</Paragraph>
+            <Paragraph $typeset='headline' as='span'>
+              {showAutoLockTimerValue(timerKey)}
+            </Paragraph>
             {location.state?.autoLockTimer === timerKey && (
               <Icon icon='check' width='20px' height='20px' />
             )}

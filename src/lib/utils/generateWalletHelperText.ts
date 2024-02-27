@@ -1,6 +1,9 @@
 import { Contracts } from '@ardenthq/sdk-profiles';
 
-export const generateWalletHelperText = (wallet: Contracts.IReadWriteWallet, displayExtraData: boolean = true): string[] => {
+export const generateWalletHelperText = (
+  wallet: Contracts.IReadWriteWallet,
+  displayExtraData: boolean = true,
+): string[] => {
   const amount = wallet.balance().toString();
   const helpText = [amount];
 

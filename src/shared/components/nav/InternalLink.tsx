@@ -15,7 +15,7 @@ export const InternalLink = styled(Link)<
     text-decoration: underline;
   }
 
-  ${({ theme }) => isFirefox ? theme.browserCompatibility.firefox.focus : ''}
+  ${({ theme }) => (isFirefox ? theme.browserCompatibility.firefox.focus : '')}
 
   ${flexbox}
   ${layout}

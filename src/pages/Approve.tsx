@@ -80,7 +80,7 @@ const Approve = () => {
     actionType = ApproveActionType.SWITCH_VOTE;
   }
 
-  const getActionType  = (actionType: ApproveActionType): ApproveActionType => {
+  const getActionType = (actionType: ApproveActionType): ApproveActionType => {
     switch (actionType) {
       case ApproveActionType.VOTE:
         return hasVoted ? ApproveActionType.SWITCH_VOTE : ApproveActionType.VOTE;
@@ -117,7 +117,17 @@ const Approve = () => {
         />
       )}
       {isModalOpen && (
-        <Modal onClose={() => {}} containerPadding='0' contentStyles={{minHeight: '100vh', margin: '0', backgroundColor: getThemeColor('warning600', 'warning400')}} activateFocusTrap={false} hideCloseButton >
+        <Modal
+          onClose={() => {}}
+          containerPadding='0'
+          contentStyles={{
+            minHeight: '100vh',
+            margin: '0',
+            backgroundColor: getThemeColor('warning600', 'warning400'),
+          }}
+          activateFocusTrap={false}
+          hideCloseButton
+        >
           <ApproveWithLedger
             actionType={getActionType(location.state?.type)}
             appName={location.state?.session?.domain}

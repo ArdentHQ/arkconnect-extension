@@ -4,7 +4,6 @@ import { ComponentType, useState } from 'react';
 import { FormikProps } from 'formik';
 import { useNavigate } from 'react-router-dom';
 
-
 export type Step = {
   component: ComponentType<any>;
 };
@@ -54,10 +53,7 @@ const StepsNavigation = <T extends Record<string, any>>({
         color='base'
         pb='24'
       >
-        <ArrowButton
-          disabled={isPrevDisabled}
-          onClick={handleStepBack}
-        />
+        <ArrowButton disabled={isPrevDisabled} onClick={handleStepBack} />
         <FlexContainer
           height='8px'
           borderRadius='8'

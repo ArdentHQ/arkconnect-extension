@@ -84,7 +84,13 @@ export const useLedgerConnection = () => {
   );
 
   const connect = useCallback(
-    async (profile: Contracts.IProfile, coin: string, network: string, retryOptions?: Options, hideCompletedState: boolean = false) => {
+    async (
+      profile: Contracts.IProfile,
+      coin: string,
+      network: string,
+      retryOptions?: Options,
+      hideCompletedState: boolean = false,
+    ) => {
       const coinInstance = profile.coins().set(coin, network);
 
       if (!isLedgerTransportSupported()) {
@@ -99,7 +105,7 @@ export const useLedgerConnection = () => {
       abortRetryReference.current = false;
 
       try {
-        if (! hideCompletedState) {
+        if (!hideCompletedState) {
           reduxDispatch(
             ModalStore.loadingModalUpdated({
               isOpen: true,
@@ -113,9 +119,9 @@ export const useLedgerConnection = () => {
                 isOpen: false,
                 isLoading: false,
               }),
-              );
-              clearTimeout(ledgerTimeout);
-            }, 2500);
+            );
+            clearTimeout(ledgerTimeout);
+          }, 2500);
         }
         await persistLedgerConnection({
           coin: coinInstance,

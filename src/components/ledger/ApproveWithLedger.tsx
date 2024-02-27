@@ -27,10 +27,17 @@ type Props = {
   appLogo: string;
   address?: string;
   closeLedgerScreen: () => void;
-  wallet: Contracts.IReadWriteWallet
+  wallet: Contracts.IReadWriteWallet;
 };
 
-const ApproveWithLedger = ({ actionType, appName, appLogo, address, closeLedgerScreen, wallet }: Props) => {
+const ApproveWithLedger = ({
+  actionType,
+  appName,
+  appLogo,
+  address,
+  closeLedgerScreen,
+  wallet,
+}: Props) => {
   const { getThemeColor } = useThemeMode();
   const location = useLocation();
   const { state } = location;
@@ -39,9 +46,16 @@ const ApproveWithLedger = ({ actionType, appName, appLogo, address, closeLedgerS
     exchangeTicker: wallet.exchangeCurrency(),
     ticker: wallet.currency(),
   });
-  let fee = 0, total = 0, vote = null, unvote = null;
+  let fee = 0,
+    total = 0,
+    vote = null,
+    unvote = null;
 
-  if(actionType === ApproveActionType.VOTE || actionType === ApproveActionType.UNVOTE || actionType === ApproveActionType.SWITCH_VOTE) {
+  if (
+    actionType === ApproveActionType.VOTE ||
+    actionType === ApproveActionType.UNVOTE ||
+    actionType === ApproveActionType.SWITCH_VOTE
+  ) {
     const {
       values: { fee: voteFee, vote: voteAction, unvote: unvoteAction },
     } = useVoteForm(wallet, state);
@@ -60,7 +74,11 @@ const ApproveWithLedger = ({ actionType, appName, appLogo, address, closeLedgerS
     total = transactionTotal;
   }
 
-  const votingActionTypes = [ApproveActionType.VOTE, ApproveActionType.UNVOTE, ApproveActionType.SWITCH_VOTE];
+  const votingActionTypes = [
+    ApproveActionType.VOTE,
+    ApproveActionType.UNVOTE,
+    ApproveActionType.SWITCH_VOTE,
+  ];
 
   const getActionMessage = () => {
     switch (actionType) {
@@ -80,7 +98,7 @@ const ApproveWithLedger = ({ actionType, appName, appLogo, address, closeLedgerS
   };
 
   const getBottomMargin = () => {
-    switch(actionType) {
+    switch (actionType) {
       case ApproveActionType.VOTE:
       case ApproveActionType.UNVOTE:
         return '80';
@@ -113,49 +131,50 @@ const ApproveWithLedger = ({ actionType, appName, appLogo, address, closeLedgerS
           device before confirming your approval.
         </Paragraph>
         <Container mt='24'>
-          {
-            (votingActionTypes.includes(actionType)) && (
-              <RequestedVoteBody
-                unvote={unvote}
-                vote={vote}
-                fee={fee}
-                convertedFee={convert(fee)}
-                wallet={wallet}
-              />
-            )
-          }
-                    {
-            (actionType === ApproveActionType.TRANSACTION) && (
-              <RequestedTransactionBody
-                amount={state?.amount}
-                receiverAddress={state?.receiverAddress}
-                fee={fee}
-                total={total}
-                wallet={wallet}
-              />
-            )
-          }
-          {
-            (actionType === ApproveActionType.SIGNATURE) && (
-              <Container height='191px'>
-                <RequestedSignatureMessage
-                  data={state}
-                  />
-              </Container>
-            )
-          }
+          {votingActionTypes.includes(actionType) && (
+            <RequestedVoteBody
+              unvote={unvote}
+              vote={vote}
+              fee={fee}
+              convertedFee={convert(fee)}
+              wallet={wallet}
+            />
+          )}
+          {actionType === ApproveActionType.TRANSACTION && (
+            <RequestedTransactionBody
+              amount={state?.amount}
+              receiverAddress={state?.receiverAddress}
+              fee={fee}
+              total={total}
+              wallet={wallet}
+            />
+          )}
+          {actionType === ApproveActionType.SIGNATURE && (
+            <Container height='191px'>
+              <RequestedSignatureMessage data={state} />
+            </Container>
+          )}
         </Container>
 
-        <Container border='1px solid' borderColor='warning400' borderRadius='16' mt={getBottomMargin()} mb='24' overflow='hidden'>
-          {
-            !!address && (
-              <FlexContainer padding='14' justifyContent='center' backgroundColor={getThemeColor('secondaryBackground', 'lightBlack')}>
-                <Paragraph $typeset='headline' fontWeight='regular' color='base'>
-                  {trimAddress(address, 'long')}
-                </Paragraph>
-              </FlexContainer>
-            )
-          }
+        <Container
+          border='1px solid'
+          borderColor='warning400'
+          borderRadius='16'
+          mt={getBottomMargin()}
+          mb='24'
+          overflow='hidden'
+        >
+          {!!address && (
+            <FlexContainer
+              padding='14'
+              justifyContent='center'
+              backgroundColor={getThemeColor('secondaryBackground', 'lightBlack')}
+            >
+              <Paragraph $typeset='headline' fontWeight='regular' color='base'>
+                {trimAddress(address, 'long')}
+              </Paragraph>
+            </FlexContainer>
+          )}
           <FlexContainer
             justifyContent='center'
             alignItems='center'

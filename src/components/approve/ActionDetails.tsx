@@ -23,7 +23,13 @@ export const ActionDetailsRow = ({
   );
 };
 
-const ActionDetails = ({ children, maxHeight }: { children: React.ReactNode, maxHeight?: string }) => {
+const ActionDetails = ({
+  children,
+  maxHeight,
+}: {
+  children: React.ReactNode;
+  maxHeight?: string;
+}) => {
   return (
     <FlexContainer width='100%' height='100%' flexDirection='column' alignItems='center'>
       <Paragraph $typeset='body' fontWeight='medium' color='gray' mb='8' textAlign='center'>

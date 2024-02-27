@@ -22,13 +22,7 @@ const RemoveConnections = ({ numberOfSessions, sessionDomain }: Props) => {
           Are you certain you want to disconnect
           {numberOfSessions ? ' all ' : ' your connection with '}
         </Paragraph>
-        <Paragraph
-          $typeset='headline'
-          fontWeight='regular'
-          color='gray'
-          display='inline'
-          as='span'
-        >
+        <Paragraph $typeset='headline' fontWeight='regular' color='gray' display='inline' as='span'>
           {sessionDomain ? (
             <Paragraph $typeset='headline' color='base' display='inline'>
               <StyledDomain>{sessionDomain}</StyledDomain>

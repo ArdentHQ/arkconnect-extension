@@ -68,21 +68,16 @@ export const SettingsMenu = ({
   };
 
   return (
-    <Container 
-      marginX='16' 
-      width='100%' 
-      ref={dropdownRef} 
+    <Container
+      marginX='16'
+      width='100%'
+      ref={dropdownRef}
       borderRadius='12'
       boxShadow='0px 4px 6px -2px rgba(16, 24, 40, 0.03), 0px 12px 16px -4px rgba(16, 24, 40, 0.08)'
       backgroundColor='secondaryBackground'
     >
-      <SafeOutlineOverflowContainer width='100%' >
-        <FlexContainer
-          paddingY='8'
-          width='100%'
-          display='flex'
-          flexDirection='column'
-        >
+      <SafeOutlineOverflowContainer width='100%'>
+        <FlexContainer paddingY='8' width='100%' display='flex' flexDirection='column'>
           <SettingsOption
             title='Create & Import Address'
             iconLeading='plus-circle'
@@ -90,7 +85,9 @@ export const SettingsMenu = ({
               handleNavigation('/create-import-address');
             }}
             iconTrailing='arrow-right'
-            onKeyDown={(e) => handleSubmitKeyAction(e, () => handleNavigation('/create-import-address'))}
+            onKeyDown={(e) =>
+              handleSubmitKeyAction(e, () => handleNavigation('/create-import-address'))
+            }
           />
           <SettingsOption
             title='Connected Apps'
@@ -99,7 +96,12 @@ export const SettingsMenu = ({
             iconTrailing='arrow-right'
             onKeyDown={(e) => handleSubmitKeyAction(e, () => handleNavigation('/connections'))}
           />
-          <SettingsOption title='Lock Extension' iconLeading='lock' onClick={lockExtension} onKeyDown={(e) => handleSubmitKeyAction(e, lockExtension)} />
+          <SettingsOption
+            title='Lock Extension'
+            iconLeading='lock'
+            onClick={lockExtension}
+            onKeyDown={(e) => handleSubmitKeyAction(e, lockExtension)}
+          />
           <SettingsOption
             title='Dark Mode'
             iconLeading='moon'
@@ -114,7 +116,13 @@ export const SettingsMenu = ({
                 />
               </Container>
             }
-            onKeyDown={(e) => handleInputKeyAction(e, toggleThemeMode, e as unknown as ChangeEvent<HTMLInputElement>)}
+            onKeyDown={(e) =>
+              handleInputKeyAction(
+                e,
+                toggleThemeMode,
+                e as unknown as ChangeEvent<HTMLInputElement>,
+              )
+            }
           />
           <SettingsOption
             title='Change Password'
@@ -152,7 +160,11 @@ export const SettingsMenu = ({
                 },
               });
             }}
-            onKeyDown={(e) => handleSubmitKeyAction(e, () => handleNavigation('/autolock-timer', { state: { autoLockTimer } }))}
+            onKeyDown={(e) =>
+              handleSubmitKeyAction(e, () =>
+                handleNavigation('/autolock-timer', { state: { autoLockTimer } }),
+              )
+            }
           />
           <SettingsOption
             title='About ARK Connect'

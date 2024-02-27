@@ -57,7 +57,8 @@ const StyledButton = styled.button<BaseProps>`
   width: 100%;
   padding: 16px 28px;
   max-height: 52px;
-  transition: ${({ theme }) => isFirefox ? theme.transitions.firefoxSmoothEase : theme.transitions.smoothEase};
+  transition: ${({ theme }) =>
+    isFirefox ? theme.transitions.firefoxSmoothEase : theme.transitions.smoothEase};
   cursor: pointer;
   grid-gap: 12px;
 
@@ -66,7 +67,7 @@ const StyledButton = styled.button<BaseProps>`
     pointer-events: none;
   }
 
-  ${({ theme }) => isFirefox ? theme.browserCompatibility.firefox.focus : ''}
+  ${({ theme }) => (isFirefox ? theme.browserCompatibility.firefox.focus : '')}
 
   ${space}
   ${color}

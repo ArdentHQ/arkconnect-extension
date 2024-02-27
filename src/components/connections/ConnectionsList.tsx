@@ -272,7 +272,8 @@ const StyledRow = styled.div`
 const StyledFlexContainer = styled(FlexContainer)<{ isDark?: boolean }>`
   cursor: pointer;
   color: ${({ theme, isDark }) => (isDark ? theme.colors.error500 : theme.colors.error600)};
-  transition: ${({ theme }) => isFirefox ? theme.transitions.firefoxSmoothEase : theme.transitions.smoothEase};
+  transition: ${({ theme }) =>
+    isFirefox ? theme.transitions.firefoxSmoothEase : theme.transitions.smoothEase};
   border: none;
   background: ${({ theme }) => theme.colors.transparent};
 
@@ -282,7 +283,7 @@ const StyledFlexContainer = styled(FlexContainer)<{ isDark?: boolean }>`
     `}
   }
 
-  ${({ theme }) => isFirefox ? theme.browserCompatibility.firefox.focus : ''}
+  ${({ theme }) => (isFirefox ? theme.browserCompatibility.firefox.focus : '')}
 `;
 
 const StyledSpan = styled.span`
