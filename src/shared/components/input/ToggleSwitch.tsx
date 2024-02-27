@@ -5,23 +5,23 @@ import { handleInputKeyAction } from '@/lib/utils/handleKeyAction';
 import { isFirefox } from '@/lib/utils/isFirefox';
 
 type ToggleSwitchProps = {
-  checked: boolean;
-  onChange: (event: ChangeEvent<HTMLInputElement>) => void;
-  id: string;
-  disabled?: boolean;
-  title?: string;
-  helperText?: string;
+    checked: boolean;
+    onChange: (event: ChangeEvent<HTMLInputElement>) => void;
+    id: string;
+    disabled?: boolean;
+    title?: string;
+    helperText?: string;
 };
 
 const Input = styled.input`
-  height: 0;
-  width: 0;
-  opacity: 0;
-  z-index: -1;
+    height: 0;
+    width: 0;
+    opacity: 0;
+    z-index: -1;
 `;
 
 const Slider = styled.span`
-  ${({ theme }) => `
+    ${({ theme }) => `
     position: absolute;
     cursor: pointer;
     top: 0;
@@ -90,63 +90,68 @@ const Slider = styled.span`
 `;
 
 const Label = styled.label<{ disabled?: boolean; size?: string }>`
-  position: relative;
-  display: inline-block;
-  width: 36px;
-  height: 20px;
-  cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
-  pointer-events: ${(props) => (props.disabled ? 'none' : 'auto')};
+    position: relative;
+    display: inline-block;
+    width: 36px;
+    height: 20px;
+    cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
+    pointer-events: ${(props) => (props.disabled ? 'none' : 'auto')};
 
-  ${Input} {
-    opacity: 0;
-    width: 0;
-    height: 0;
-  }
+    ${Input} {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
 
-  ${({ theme }) => `
+    ${({ theme }) => `
     &:hover ${Slider} {
       background-color: ${theme.colors.inputHover};
     `};
 `;
 
 export const ToggleSwitch: FC<ToggleSwitchProps> = ({
-  checked,
-  onChange,
-  id,
-  disabled,
-  title,
-  helperText,
+    checked,
+    onChange,
+    id,
+    disabled,
+    title,
+    helperText,
 }) => {
-  return (
-    <Label htmlFor={id} disabled={disabled}>
-      <FlexContainer flexDirection='column' alignItems='flex-start' gridGap='5px' marginLeft='44'>
-        <Paragraph $typeset='headline' color='base' width='max-content'>
-          {title}
-        </Paragraph>
-        {helperText && (
-          <Paragraph $typeset='body' fontWeight='regular' color='gray'>
-            {helperText}
-          </Paragraph>
-        )}
-      </FlexContainer>
-      <Input
-        id={id}
-        type='checkbox'
-        disabled={disabled}
-        checked={checked}
-        onChange={onChange}
-        tabIndex={-1}
-      />
-      <Slider
-        role='checkbox'
-        tabIndex={0}
-        aria-label={`${title} slider`}
-        aria-checked={checked}
-        aria-disabled={disabled}
-        onKeyDown={(e: KeyboardEvent<HTMLSpanElement>) =>
-          handleInputKeyAction(e, onChange, e as unknown as ChangeEvent<HTMLInputElement>)
-        }
-      />
-    </Label>
-  );
+    return (
+        <Label htmlFor={id} disabled={disabled}>
+            <FlexContainer
+                flexDirection='column'
+                alignItems='flex-start'
+                gridGap='5px'
+                marginLeft='44'
+            >
+                <Paragraph $typeset='headline' color='base' width='max-content'>
+                    {title}
+                </Paragraph>
+                {helperText && (
+                    <Paragraph $typeset='body' fontWeight='regular' color='gray'>
+                        {helperText}
+                    </Paragraph>
+                )}
+            </FlexContainer>
+            <Input
+                id={id}
+                type='checkbox'
+                disabled={disabled}
+                checked={checked}
+                onChange={onChange}
+                tabIndex={-1}
+            />
+            <Slider
+                role='checkbox'
+                tabIndex={0}
+                aria-label={`${title} slider`}
+                aria-checked={checked}
+                aria-disabled={disabled}
+                onKeyDown={(e: KeyboardEvent<HTMLSpanElement>) =>
+                    handleInputKeyAction(e, onChange, e as unknown as ChangeEvent<HTMLInputElement>)
+                }
+            />
+        </Label>
+    );
 };
