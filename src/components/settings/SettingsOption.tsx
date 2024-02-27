@@ -64,7 +64,7 @@ const StyledRow = styled(Container)<BaseProps>`
           } : {},
 
           '&:hover': {
-            backgroundColor: `${theme.colors.secondaryBlackShadow}`,
+            backgroundColor: `${theme.colors.secondaryBlackHover}`,
           },
         },
         error: {
