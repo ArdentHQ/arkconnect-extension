@@ -167,7 +167,7 @@ const StyledButton = styled.button<BaseProps>`
                     '&:focus-visible': {
                         outline: 'none',
                         boxShadow: `0px 0px 0px 4px ${theme.colors.destructiveShadow}`,
-                    }
+                    },
                 },
                 destructiveSecondary: {
                     backgroundColor: `${theme.colors.background}`,
@@ -186,7 +186,7 @@ const StyledButton = styled.button<BaseProps>`
                     '&:focus-visible': {
                         outline: 'none',
                         boxShadow: `0px 0px 0px 4px ${theme.colors.destructiveShadow}`,
-                    }
+                    },
                 },
             },
         })};
