@@ -47,8 +47,6 @@ const AboutARK = () => {
                             className='c-pointer'
                             onClick={copyEmailToClipboard}
                             as='button'
-                            border='none'
-                            backgroundColor='transparent'
                         >
                             <Icon icon='copy' width='20px' height='20px' color='base' />
                         </CopyButton>

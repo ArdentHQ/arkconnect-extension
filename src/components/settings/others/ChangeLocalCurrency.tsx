@@ -47,8 +47,6 @@ const ChangeLocalCurrency = () => {
                         onClick={() => changeCurrency(currencyItem)}
                         tabIndex={0}
                         as='button'
-                        backgroundColor='transparent'
-                        border='none'
                         width='100%'
                     >
                         <Paragraph $typeset='headline' as='span'>

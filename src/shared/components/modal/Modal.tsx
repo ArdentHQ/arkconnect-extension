@@ -90,8 +90,6 @@ const ModalCloseIcon = ({ onClose }: { onClose: () => void }) => {
             onClick={onClose}
             className='c-pointer'
             as='button'
-            border='none'
-            backgroundColor='transparent'
         >
             <Icon
                 icon='x'

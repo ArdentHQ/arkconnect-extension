@@ -115,8 +115,6 @@ export const AddressesDropdown = ({
                         color='base'
                         className='c-pointer'
                         as='button'
-                        backgroundColor='transparent'
-                        border='none'
                         onClick={() => {
                             onClose();
                             navigate('/create-import-address');
@@ -225,8 +223,6 @@ const AddressRow = ({
                     onClose();
                     navigate('/address/settings', { state: { address } });
                 }}
-                border='none'
-                backgroundColor='transparent'
                 selected={isSelected}
             >
                 <Icon icon='transparent-settings' width='18px' height='18px' />

@@ -15,8 +15,6 @@ export const CloseButton = () => {
             padding='7'
             onClick={handleNavigate}
             as='button'
-            border='none'
-            backgroundColor='transparent'
         >
             <Icon icon='x' width='18px' height='18px' color='base' />
         </ContainerWithHover>
