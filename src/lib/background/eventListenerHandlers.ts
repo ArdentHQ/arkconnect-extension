@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import browser from 'webextension-polyfill';
 import { Contracts } from '@ardenthq/sdk-profiles';
 import {

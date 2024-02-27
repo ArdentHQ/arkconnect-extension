@@ -72,7 +72,7 @@ const EnterPassphrase = ({ goToNextStep, formik }: Props) => {
 
     setIsValidating(true);
 
-    let isValid = false;
+    let isValid: boolean;
 
     const passphraseLength = values.enteredPassphrase.split(' ').length;
 
@@ -85,7 +85,11 @@ const EnterPassphrase = ({ goToNextStep, formik }: Props) => {
         });
 
         isValid = true;
-      } catch {}
+      } catch {
+        isValid = false;
+      }
+    } else {
+      isValid = false;
     }
 
     setFieldValue('passphraseValidation', isValid ? 'errorFree' : 'destructive');

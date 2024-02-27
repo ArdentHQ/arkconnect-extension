@@ -118,13 +118,12 @@ export const useSendTransferForm = (
         recipients,
       });
 
-      const transactionInput: Services.TransactionInputs = {
+      const transactionInput: Services.TransferInput = {
         data,
         fee: +fee,
         signatory,
       };
 
-      // @ts-ignore
       const uuid = await wallet.transaction().signTransfer(transactionInput);
       const response = await wallet.transaction().broadcast(uuid);
 

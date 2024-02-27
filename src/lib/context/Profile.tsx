@@ -44,16 +44,14 @@ export const ProfileProvider = ({ children }: Properties) => {
 
   const getPrimaryWallet = () => {
     if (isLoading || !primaryWalletId) {
-      return undefined;
+      return;
     }
 
-    let primaryWallet;
-
     try {
-      primaryWallet = profile?.wallets().findById(primaryWalletId);
-    } catch (_e) {}
-
-    return primaryWallet;
+      return profile?.wallets().findById(primaryWalletId);
+    } catch (_e) {
+      return;
+    }
   };
 
   const convertedBalance = useWalletBalance(getPrimaryWallet());

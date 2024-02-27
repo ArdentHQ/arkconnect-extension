@@ -104,12 +104,11 @@ export const useVoteForm = (wallet: Contracts.IReadWriteWallet, request: Approve
         abortConnectionRetry,
       )(prepareLedger(wallet));
 
-      const voteTransactionInput: Services.TransactionInputs = {
+      const voteTransactionInput: Services.VoteInput = {
         ...data,
         signatory,
-      };
+      } as Services.VoteInput;
 
-      // @ts-ignore
       const uuid = await wallet.transaction().signVote(voteTransactionInput);
       const response = await wallet.transaction().broadcast(uuid);
 

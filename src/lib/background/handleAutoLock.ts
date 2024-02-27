@@ -26,7 +26,7 @@ export class LockHandler {
     this.#isLocked = false;
     this.#lockTimer = null;
     this.autoLockMinutes = null;
-  }
+  };
 
   setLastActiveTime = async (refreshAutoLockMinutes = false) => {
     if (this.#lockTimer) {

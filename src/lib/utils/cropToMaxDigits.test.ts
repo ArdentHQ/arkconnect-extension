@@ -39,10 +39,10 @@ describe('cropToMaxDigits', () => {
       .spyOn(Helpers.Currency, 'format')
       // returns 1,1 instead of 1.1 (as in `fr-FR` locale)
       .mockReturnValueOnce('1,1')
-      // returns 1 234 567,892 instead of 1,234,567.892 (as in `fr-FR` locale)
-      .mockReturnValueOnce('1 234 567,891511')
-      // returns 1 234 567,892 again but now with ticker
-      .mockReturnValueOnce('1 234 567,891511 ARK');
+      // returns 1 234 567,892 instead of 1,234,567.892 (as in `fr-FR` locale)
+      .mockReturnValueOnce('1 234 567,891511')
+      // returns 1 234 567,892 again but now with ticker
+      .mockReturnValueOnce('1 234 567,891511 ARK');
 
     const result = cropToMaxDigits({
       value: 1234567.891511,
@@ -51,7 +51,7 @@ describe('cropToMaxDigits', () => {
       withTicker: true,
     });
 
-    expect(result).toBe('1 234 567,891 ARK');
+    expect(result).toBe('1 234 567,891 ARK');
 
     currencyFormatSpy.mockRestore();
   });
@@ -83,10 +83,10 @@ describe('cropToMaxDigits', () => {
       .spyOn(Helpers.Currency, 'format')
       // returns 1,1 instead of 1.1 (as in `fr-FR` locale)
       .mockReturnValueOnce('1,1')
-      // returns 1 234 567,892 instead of 1,234,567.892 (as in `fr-FR` locale)
-      .mockReturnValueOnce('1 234 567,891511')
-      // returns 1 234 567,892 again but now with ticker
-      .mockReturnValueOnce('$1 234 567,891511');
+      // returns 1 234 567,892 instead of 1,234,567.892 (as in `fr-FR` locale)
+      .mockReturnValueOnce('1 234 567,891511')
+      // returns 1 234 567,892 again but now with ticker
+      .mockReturnValueOnce('$1 234 567,891511');
 
     const result = cropToMaxDigits({
       value: 1234567.891511,
@@ -95,7 +95,7 @@ describe('cropToMaxDigits', () => {
       withTicker: true,
     });
 
-    expect(result).toBe('$1 234 567,891');
+    expect(result).toBe('$1 234 567,891');
 
     currencyFormatSpy.mockRestore();
   });
@@ -127,8 +127,8 @@ describe('cropToMaxDigits', () => {
       .spyOn(Helpers.Currency, 'format')
       // returns 1,1 instead of 1.1 (as in `fr-FR` locale)
       .mockReturnValueOnce('1,1')
-      // returns 1 234 567,892 instead of 1,234,567.892 (as in `fr-FR` locale)
-      .mockReturnValue('1 234 567,891511');
+      // returns 1 234 567,892 instead of 1,234,567.892 (as in `fr-FR` locale)
+      .mockReturnValue('1 234 567,891511');
 
     const result = cropToMaxDigits({
       value: 1234567.891511,
@@ -137,7 +137,7 @@ describe('cropToMaxDigits', () => {
       withTicker: false,
     });
 
-    expect(result).toBe('1 234 567,891');
+    expect(result).toBe('1 234 567,891');
 
     currencyFormatSpy.mockRestore();
   });

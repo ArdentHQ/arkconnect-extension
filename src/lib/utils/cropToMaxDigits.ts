@@ -60,6 +60,7 @@ const cropToMaxDigits = ({
     const formatCash = Intl.NumberFormat([navigator.language, 'en-US'], {
       notation: 'compact',
       maximumFractionDigits: 1,
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore see https://github.com/microsoft/TypeScript/issues/52072
       roundingMode: 'floor',
     }).format(value);

@@ -8,14 +8,11 @@ import { useTooltip } from '@/shared/components/tooltip/useTooltip';
 import useThemeMode from '@/lib/hooks/useThemeMode';
 
 interface Properties extends TippyProps {
-  variant?: 'default' | 'danger';
   hideAfter?: number;
 }
 
 export const Tooltip = ({
-  className,
   offset,
-  variant = 'default',
   hideAfter,
   touch = false,
   disabled = false,
