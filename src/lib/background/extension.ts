@@ -1,16 +1,15 @@
 import { Contracts, Environment } from '@ardenthq/sdk-profiles';
 import { LockHandler } from './handleAutoLock';
 import { PrimaryWallet } from './extension.wallet.primary';
+import { initializeEnvironment } from '../utils/env.background';
 
 const exists = (profile?: Contracts.IProfile | null): profile is Contracts.IProfile => !!profile;
 
-export function ExtensionProfile({
-  env,
-  lockHandler,
-}: {
-  env: Environment;
-  lockHandler: LockHandler;
-}) {
+export const env = initializeEnvironment();
+
+export function Extension() {
+  const lockHandler = new LockHandler();
+
   return {
     /**
      * Determines whether the extension is in locked state.
@@ -158,6 +157,20 @@ export function ExtensionProfile({
       }
 
       await env.persist();
+    },
+    /**
+     * Returns the environment instance.
+     *
+     * @returns {Environment}
+     */
+    env(): Environment {
+      return env;
+    },
+    /**
+     * Returns the lock handler instance.
+     */
+    lockHandler() {
+      return lockHandler;
     },
   };
 }
