@@ -28,6 +28,7 @@ const ApproveBody = ({ wallet, header, children, error }: Props) => {
         ledgerIndicator={wallet.isLedger()}
         currency={wallet.currency()}
         address={wallet.address()}
+        tabIndex={-1}
       />
 
       {!!error && (
