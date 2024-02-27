@@ -16,6 +16,7 @@ interface LocalStorageValues {
   ratesCache?: {
     lastFetch: number;
     rates: Record<string, number>;
+    requestCount: number;
   };
 }
 
