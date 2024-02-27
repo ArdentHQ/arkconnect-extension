@@ -92,7 +92,6 @@ try {
 ```javascript
 type SignMessageRequest = {
   message: string;
-  network: 'Devnet' | 'Mainnet';
 }
 
 type SignMessageResponse = {
@@ -103,7 +102,6 @@ type SignMessageResponse = {
 
 const messageRequest = {
     message: 'The message you like to sign',
-    network: 'Devnet'
 }
 
 try {
@@ -121,7 +119,6 @@ try {
 type SignTransactionRequest = {
   amount: number;
   receiverAddress: string;
-  network: 'Devnet' | 'Mainnet';
 };
 
 type SignTransactionResponse = {
@@ -140,7 +137,6 @@ type SignTransactionResponse = {
 const transactionRequest = {
   amount: 100,
   receiverAddress: 'D6Z26L69gdk9qYmTv5uzk3uGepigtHY4ax',
-  network: 'Devnet'
 };
 
 try {
@@ -164,13 +160,18 @@ type SignVoteRequest = {
     amount: number;
     delegateAddress: string;
   };
-  network: 'Devnet' | 'Mainnet';
 };
 
 type SignVoteResponse = {
   id: string;
   sender: string;
-  delegate: string;
+  voteDelegateAddress?: string;
+  voteDelegateName?: string;
+  votePublicKey?: string;
+  unvoteDelegateAddress?: string;
+  unvoteDelegateName?: string;
+  unvotePublicKey?: string;
+  exchangeCurrency: string;
   exchangeCurrency: string;
   fee: number;
   convertedFee: number;
@@ -181,7 +182,6 @@ const voteRequest = {
     amount: 100,
     delegateAddress: 'DJmvhhiQFSrEQCq9FUxvcLcpcBjx7K3yLt',
   },
-  network: 'Devnet'
 };
 
 try {

@@ -20,6 +20,7 @@ const ConnectWithWallet = ({ wallet }: Props) => {
           color='primary'
           title='No wallets found in your profile!'
           helperText={'Create or import new wallet'}
+          tabIndex={-1}
         />
       )}
     </FlexContainer>

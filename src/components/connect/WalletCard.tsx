@@ -4,7 +4,7 @@ import { Container, FlexContainer, Paragraph } from '@/shared/components';
 import constants from '@/constants';
 import { generateWalletHelperText } from '@/lib/utils/generateWalletHelperText';
 import trimAddress from '@/lib/utils/trimAddress';
-import { LedgerIcon, TestnetIcon } from '../wallet/address/Address.blocks';
+import { Address, LedgerIcon, TestnetIcon } from '../wallet/address/Address.blocks';
 import Amount from '../wallet/Amount';
 
 type Props = React.ComponentProps<typeof StyledRow> & {
@@ -37,7 +37,7 @@ export const WalletCard = ({ wallet }: Props) => {
             <StyledFlexContainer color={'gray'}>
               {hasAlias && (
                 <>
-                  <Container>{trimAddress(wallet.address(), 10)}</Container>
+                  <Address address={wallet.address()} length={10} tooltipPlacement='bottom-start' />
                   <Container> • </Container>
                 </>
               )}
@@ -51,6 +51,7 @@ export const WalletCard = ({ wallet }: Props) => {
                       ticker={wallet.currency()}
                       key={index}
                       maxDigits={constants.SHORTER_CURRENCY_DIGITS_ALLOWED}
+                      tooltipPlacement='bottom-start'
                     />
                   );
                 } else {

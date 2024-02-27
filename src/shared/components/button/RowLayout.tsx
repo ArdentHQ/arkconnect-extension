@@ -19,8 +19,7 @@ import { Container, FlexContainer, Icon, IconDefinition, Paragraph } from '@/sha
 import { FlexVariantProps, flexVariant } from '@/shared/theme/variants';
 import { forwardRef } from 'react';
 import constants from '@/constants';
-import { LedgerIcon, TestnetIcon } from '@/components/wallet/address/Address.blocks';
-import trimAddress from '@/lib/utils/trimAddress';
+import { Address, LedgerIcon, TestnetIcon } from '@/components/wallet/address/Address.blocks';
 import { isFirefox } from '@/lib/utils/isFirefox';
 import Amount from '@/components/wallet/Amount';
 
@@ -35,7 +34,9 @@ type BaseProps = ColorProps<Theme> &
   ShadowProps<Theme> &
   BorderProps<Theme> &
   FlexVariantProps &
-  VariantProps;
+  VariantProps & {
+    hasPointer?: boolean;
+  };
 
 type RowLayoutProps = React.ComponentPropsWithRef<typeof StyledRow> & {
   iconLeading?: React.ReactNode;
@@ -60,13 +61,14 @@ const StyledRow = styled.div<BaseProps>`
   width: 100%;
   max-height: 74px;
   padding: 16px;
-  cursor: pointer;
   grid-gap: 12px;
 
   &:disabled {
     cursor: not-allowed;
     pointer-events: none;
   }
+
+  cursor: ${({ hasPointer }) => (hasPointer ? 'pointer' : 'auto')};
 
   ${({ as }) =>
     as === 'button' &&
@@ -148,7 +150,14 @@ export const RowLayout = forwardRef(function RowLayout(
   const containerAs = as === 'button' ? 'span' : undefined;
 
   return (
-    <StyledRow variant={variant} tabIndex={tabIndex} as={as} {...rest} ref={forwardedRef}>
+    <StyledRow
+      variant={variant}
+      tabIndex={tabIndex}
+      as={as}
+      {...rest}
+      hasPointer={rest.onClick !== undefined}
+      ref={forwardedRef}
+    >
       <FlexContainer width='100%' gridGap='12px' alignItems='flex-start' as={containerAs}>
         {iconLeading && iconLeading}
         <FlexContainer
@@ -181,7 +190,7 @@ export const RowLayout = forwardRef(function RowLayout(
               <StyledFlexContainer color={'gray'} as={containerAs}>
                 {address && (
                   <>
-                    <Container as={containerAs}>{trimAddress(address, 10)}</Container>
+                    <Address address={address} tooltipPlacement='bottom-start' />
                     <Container as={containerAs}> • </Container>
                   </>
                 )}
@@ -195,6 +204,7 @@ export const RowLayout = forwardRef(function RowLayout(
                             ticker={currency ?? ''}
                             withTicker={!!currency}
                             key={index}
+                            tooltipPlacement='bottom-start'
                           />
                         );
                       } else {
