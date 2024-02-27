@@ -8,10 +8,10 @@ import {
   BorderProps,
   variant,
 } from 'styled-system';
+import { MouseEvent, forwardRef } from 'react';
 import { Theme } from '@/shared/theme';
 import { Container, FlexContainer, Icon, IconDefinition, Paragraph } from '@/shared/components';
 import { FlexVariantProps } from '@/shared/theme/variants';
-import { MouseEvent, forwardRef } from 'react';
 import useThemeMode from '@/lib/hooks/useThemeMode';
 import { isFirefox } from '@/lib/utils/isFirefox';
 

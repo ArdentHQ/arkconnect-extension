@@ -1,5 +1,5 @@
-import { makeVariant } from './_utils';
 import { theme } from '../index';
+import { makeVariant } from './_utils';
 
 /**
  * NOTE: Temp content for example purposes

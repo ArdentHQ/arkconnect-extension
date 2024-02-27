@@ -1,9 +1,9 @@
+import { useLocation } from 'react-router-dom';
+import { ApproveActionType } from './Approve';
 import VoteApprovedBody from '@/components/approve/VoteApprovedBody';
 import constants from '@/constants';
 import removeWindowInstance from '@/lib/utils/removeWindowInstance';
 import { FlexContainer, Icon, Heading, Button, ExternalLink, Paragraph } from '@/shared/components';
-import { useLocation } from 'react-router-dom';
-import { ApproveActionType } from './Approve';
 import formatDomain from '@/lib/utils/formatDomain';
 import RequestedBy from '@/shared/components/actions/RequestedBy';
 import { useProfileContext } from '@/lib/context/Profile';

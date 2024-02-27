@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import TransactionApprovedBody from '@/components/approve/TransactionApprovedBody';
 import constants from '@/constants';
 import { useEnvironmentContext } from '@/lib/context/Environment';
@@ -6,8 +8,6 @@ import formatDomain from '@/lib/utils/formatDomain';
 import removeWindowInstance from '@/lib/utils/removeWindowInstance';
 import { FlexContainer, Icon, Heading, Button, ExternalLink, Paragraph } from '@/shared/components';
 import RequestedBy from '@/shared/components/actions/RequestedBy';
-import { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
 
 const TransactionApproved = () => {
   const { state } = useLocation();

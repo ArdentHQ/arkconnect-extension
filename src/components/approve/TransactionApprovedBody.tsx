@@ -1,11 +1,11 @@
-import useClipboard from '@/lib/hooks/useClipboard';
-import trimAddress from '@/lib/utils/trimAddress';
-import { FlexContainer, Paragraph, Container, Icon } from '@/shared/components';
 import { useLocation } from 'react-router-dom';
 import Amount from '../wallet/Amount';
 import { ToastPosition } from '../toast/ToastContainer';
-import getActiveCoin from '@/lib/utils/getActiveCoin';
 import ActionDetails, { ActionDetailsRow } from './ActionDetails';
+import useClipboard from '@/lib/hooks/useClipboard';
+import trimAddress from '@/lib/utils/trimAddress';
+import { FlexContainer, Paragraph, Container, Icon } from '@/shared/components';
+import getActiveCoin from '@/lib/utils/getActiveCoin';
 import { WalletNetwork } from '@/lib/store/wallet';
 
 const TransactionApprovedBody = () => {

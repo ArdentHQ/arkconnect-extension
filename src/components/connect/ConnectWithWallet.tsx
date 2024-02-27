@@ -1,6 +1,6 @@
 import { Contracts } from '@ardenthq/sdk-profiles';
-import { FlexContainer, Paragraph, RowLayout } from '@/shared/components';
 import { WalletCard } from './WalletCard';
+import { FlexContainer, Paragraph, RowLayout } from '@/shared/components';
 
 type Props = {
   wallet?: Contracts.IReadWriteWallet;

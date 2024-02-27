@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import browser from 'webextension-polyfill';
 import { Contracts } from '@ardenthq/sdk-profiles';
+import { Session } from '../store/session';
+import { WalletNetwork } from '../store/wallet';
 import {
   assertIsConnected,
   assertIsNotConnected,
@@ -8,8 +10,6 @@ import {
   getActiveSession,
   assertHasProfile,
 } from './assertions';
-import { Session } from '../store/session';
-import { WalletNetwork } from '../store/wallet';
 
 export type EventPayload<T> = {
   type: keyof typeof BACKGROUND_EVENT_LISTENERS_HANDLERS;

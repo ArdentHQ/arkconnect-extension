@@ -1,3 +1,5 @@
+import { useState } from 'react';
+import SubPageLayout from '../SubPageLayout';
 import {
   FlexContainer,
   Paragraph,
@@ -6,9 +8,7 @@ import {
   ToggleSwitch,
   PassphraseInput,
 } from '@/shared/components';
-import SubPageLayout from '../SubPageLayout';
 import useClipboard from '@/lib/hooks/useClipboard';
-import { useState } from 'react';
 import { ToastPosition } from '@/components/toast/ToastContainer';
 
 type Props = {

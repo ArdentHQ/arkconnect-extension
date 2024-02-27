@@ -1,10 +1,10 @@
-import { FlexContainer, Paragraph, Tooltip } from '@/shared/components';
-import Amount from '../wallet/Amount';
-import trimAddress from '@/lib/utils/trimAddress';
-import ActionDetails, { ActionDetailsRow } from './ActionDetails';
 import { Contracts } from '@ardenthq/sdk-profiles';
-import { getNetworkCurrency } from '@/lib/utils/getActiveCoin';
 import styled from 'styled-components';
+import Amount from '../wallet/Amount';
+import ActionDetails, { ActionDetailsRow } from './ActionDetails';
+import { FlexContainer, Paragraph, Tooltip } from '@/shared/components';
+import trimAddress from '@/lib/utils/trimAddress';
+import { getNetworkCurrency } from '@/lib/utils/getActiveCoin';
 
 type Props = {
   vote: Contracts.VoteRegistryItem | null;

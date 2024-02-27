@@ -1,5 +1,5 @@
-import { Container, Paragraph } from '@/shared/components';
 import styled from 'styled-components';
+import { Container, Paragraph } from '@/shared/components';
 
 const TestnetLabel = () => {
   return (

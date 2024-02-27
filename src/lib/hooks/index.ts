@@ -5,6 +5,7 @@ type ErrorCallback = (error: Error | unknown) => void;
 const useOnError = (): ErrorCallback => {
   const onError = (error: Error | unknown) => {
     if (import.meta.env.DEV) {
+      // eslint-disable-next-line no-console
       console.error(error);
     }
 

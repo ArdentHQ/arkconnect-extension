@@ -1,11 +1,11 @@
-import { Container, Paragraph, Icon } from '@/shared/components';
-import SubPageLayout, { SettingsRowItem } from '../SubPageLayout';
-import { Currency, general } from '@/lib/data/general';
-import useToast from '@/lib/hooks/useToast';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
-import { useProfileContext } from '@/lib/context/Profile';
 import { Contracts } from '@ardenthq/sdk-profiles';
+import SubPageLayout, { SettingsRowItem } from '../SubPageLayout';
+import { Container, Paragraph, Icon } from '@/shared/components';
+import { Currency, general } from '@/lib/data/general';
+import useToast from '@/lib/hooks/useToast';
+import { useProfileContext } from '@/lib/context/Profile';
 import { useEnvironmentContext } from '@/lib/context/Environment';
 import { ToastPosition } from '@/components/toast/ToastContainer';
 

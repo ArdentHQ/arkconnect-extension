@@ -1,17 +1,17 @@
 import { ReactNode, createContext, useContext, useEffect, useState } from 'react';
 import { Contracts } from '@ardenthq/sdk-profiles';
-import { useEnvironmentContext } from './Environment';
-import useLocaleCurrency from '../hooks/useLocalCurrency';
-import { useErrorHandlerContext } from './ErrorHandler';
-import * as WalletStore from '@/lib/store/wallet';
-import { useAppDispatch, useAppSelector } from '../store';
 import browser from 'webextension-polyfill';
-import * as SessionStore from '@/lib/store/session';
+import useLocaleCurrency from '../hooks/useLocalCurrency';
+import { useAppDispatch, useAppSelector } from '../store';
 import { useWalletBalance } from '../hooks/useWalletBalance';
 import { ProfileData } from '../background/contracts';
-import { LoadingFullScreen } from '@/shared/components/handleStates/LoadingFullScreen';
 import { setLocalValue } from '../utils/localStorage';
-import * as UIStore from '@/lib/store/ui';
+import { useEnvironmentContext } from './Environment';
+import { useErrorHandlerContext } from './ErrorHandler';
+import * as WalletStore from '@/lib/store/wallet';
+import * as SessionStore from '@/lib/store/session';
+import { LoadingFullScreen } from '@/shared/components/handleStates/LoadingFullScreen';
+import { testnetEnabledChanged } from '@/lib/store/ui';
 
 interface Context {
   profile: Contracts.IProfile;
@@ -95,7 +95,7 @@ export const ProfileProvider = ({ children }: Properties) => {
       profile.settings().set(Contracts.ProfileSetting.ExchangeCurrency, defaultCurrency);
 
       setLocalValue('hasOnboarded', false);
-      dispatch(UIStore.testnetEnabledChanged(false));
+      dispatch(testnetEnabledChanged(false));
 
       setProfile(profile);
       return profile;

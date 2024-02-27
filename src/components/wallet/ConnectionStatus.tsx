@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import ConnectionIndicator from './ConnectionIndicator';
 import { useActiveTabConnection } from '@/lib/hooks/useActiveTabConnection';
 import { Icon, Paragraph, Tooltip } from '@/shared/components';
 import Modal from '@/shared/components/modal/Modal';
@@ -7,7 +8,6 @@ import { StyledFlexContainer } from '@/shared/components/header/Header';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 import useThemeMode from '@/lib/hooks/useThemeMode';
 import DisconnectedAddress from '@/components/wallet/DisconnectedAddress';
-import ConnectionIndicator from './ConnectionIndicator';
 
 export const ConnectionStatus = () => {
   const { currentThemeMode, getThemeColor } = useThemeMode();

@@ -1,3 +1,8 @@
+import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import browser from 'webextension-polyfill';
+import SubPageLayout from '../SubPageLayout';
+import SelectNetworkTypeModal from './SelectNetworkTypeModal';
 import {
   RowLayout,
   Container,
@@ -7,14 +12,9 @@ import {
   Paragraph,
   Tooltip,
 } from '@/shared/components';
-import SubPageLayout from '../SubPageLayout';
 import { useAppDispatch } from '@/lib/store';
-import * as UIStore from '@/lib/store/ui';
-import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
-import SelectNetworkTypeModal from './SelectNetworkTypeModal';
+import { testnetEnabledChanged } from '@/lib/store/ui';
 import { handleSubmitKeyAction } from '@/lib/utils/handleKeyAction';
-import browser from 'webextension-polyfill';
 import { isFirefox } from '@/lib/utils/isFirefox';
 import { clearPersistScreenData } from '@/components/wallet/form-persist/helpers';
 
@@ -121,7 +121,7 @@ const CreateOrImportAddress = () => {
           onClose={onCloseModalHandler}
           action={networkModalState.action}
           onNetworkSelect={(isTestnet: boolean) => {
-            dispatch(UIStore.testnetEnabledChanged(isTestnet));
+            dispatch(testnetEnabledChanged(isTestnet));
             networkModalState.nextAction?.();
           }}
         />

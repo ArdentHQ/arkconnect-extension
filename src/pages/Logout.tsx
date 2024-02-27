@@ -1,15 +1,15 @@
-import { Button, FlexContainer, Paragraph, PasswordInput, WarningIcon } from '@/shared/components';
 import React, { useState } from 'react';
-import { ValidationVariant } from '@/components/wallet/create';
 import { useLocation, useNavigate } from 'react-router-dom';
+import browser from 'webextension-polyfill';
+import { Button, FlexContainer, Paragraph, PasswordInput, WarningIcon } from '@/shared/components';
+import { ValidationVariant } from '@/components/wallet/create';
 import { useAppDispatch, useAppSelector } from '@/lib/store';
-import * as WalletStore from '@/lib/store/wallet';
-import * as SessionStore from '@/lib/store/session';
+import { selectWalletsIds, walletRemoved } from '@/lib/store/wallet';
+import { selectSessions, sessionRemoved } from '@/lib/store/session';
 import { useProfileContext } from '@/lib/context/Profile';
 import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
 import { isValidPassword } from '@/lib/utils/validations';
 import { ExtensionEvents } from '@/lib/events';
-import browser from 'webextension-polyfill';
 import useThemeMode from '@/lib/hooks/useThemeMode';
 import SubPageLayout from '@/components/settings/SubPageLayout';
 
@@ -21,9 +21,9 @@ const Logout = () => {
   const [password, setPassword] = useState<string>('');
   const [validationVariant, setValidationVariant] = useState<ValidationVariant>('primary');
   const { getThemeColor } = useThemeMode();
-  const sessions = useAppSelector(SessionStore.selectSessions);
+  const sessions = useAppSelector(selectSessions);
   const { onError } = useErrorHandlerContext();
-  const walletsIds = useAppSelector(WalletStore.selectWalletsIds);
+  const walletsIds = useAppSelector(selectWalletsIds);
 
   const walletsToLogout = location.state;
 
@@ -48,7 +48,7 @@ const Logout = () => {
           if (session.walletId !== walletId) return;
           ExtensionEvents({ profile }).disconnect(session.domain);
 
-          dispatch(SessionStore.sessionRemoved([session.id]));
+          dispatch(sessionRemoved([session.id]));
         });
       });
 
@@ -65,7 +65,7 @@ const Logout = () => {
         return;
       }
 
-      await dispatch(WalletStore.walletRemoved(location.state));
+      await dispatch(walletRemoved(location.state));
 
       await initProfile();
       navigate('/');

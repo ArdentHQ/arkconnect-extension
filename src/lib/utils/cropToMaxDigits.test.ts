@@ -1,6 +1,6 @@
 import { it, describe, expect, vi } from 'vitest';
-import cropToMaxDigits from './cropToMaxDigits';
 import { Helpers } from '@ardenthq/sdk-profiles';
+import cropToMaxDigits from './cropToMaxDigits';
 
 describe('cropToMaxDigits', () => {
   it('crops number decimals to max digits', () => {

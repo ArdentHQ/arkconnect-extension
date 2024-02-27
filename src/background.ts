@@ -1,19 +1,19 @@
 import browser from 'webextension-polyfill';
 import { Contracts } from '@ardenthq/sdk-profiles';
+import { Services } from '@ardenthq/sdk';
 import { BACKGROUND_EVENT_LISTENERS_HANDLERS } from './lib/background/eventListenerHandlers';
 import { initializeEnvironment } from './lib/utils/env.background';
 import { AutoLockTimer, setLocalValue } from './lib/utils/localStorage';
 import initAutoLock from './lib/background/initAutoLock';
 import useSentryException from './lib/hooks/useSentryException';
 import keepServiceWorkerAlive from './lib/background/keepServiceWorkerAlive';
-import { LockHandler } from '@/lib/background/handleAutoLock';
 import { ExtensionEvents } from './lib/events';
 import { importWallets } from './background.helpers';
 import { createTestProfile, isDev } from './dev/utils/dev';
 import { ProfileData } from './lib/background/contracts';
-import { Services } from '@ardenthq/sdk';
 import { SendTransferInput } from './lib/background/extension.wallet';
 import { ExtensionProfile } from './lib/background/extension.profile';
+import { LockHandler } from '@/lib/background/handleAutoLock';
 
 let PROFILE: Contracts.IProfile | null = null;
 

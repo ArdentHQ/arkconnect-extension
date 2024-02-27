@@ -9,7 +9,7 @@ import {
   SignVoteData,
 } from '../background/eventListenerHandlers';
 import { useAppDispatch, useAppSelector } from '../store';
-import * as UIStore from '@/lib/store/ui';
+import { selectLocked, lockedChanged } from '@/lib/store/ui';
 import { getPersistedValues } from '@/components/wallet/form-persist';
 
 type Event = {
@@ -23,7 +23,7 @@ type Event = {
 const useBackgroundEventHandler = () => {
   const dispatch = useAppDispatch();
   const [events, setEvents] = useState<Event[]>([]);
-  const locked = useAppSelector(UIStore.selectLocked);
+  const locked = useAppSelector(selectLocked);
   const navigate = useNavigate();
   const { persistScreen } = getPersistedValues();
 
@@ -96,7 +96,7 @@ const useBackgroundEventHandler = () => {
   };
 
   const onLockExtension = () => {
-    dispatch(UIStore.lockedChanged(true));
+    dispatch(lockedChanged(true));
   };
 };
 

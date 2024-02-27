@@ -1,3 +1,7 @@
+import { useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import browser from 'webextension-polyfill';
 import {
   Button,
   Container,
@@ -9,15 +13,11 @@ import {
   InternalLink,
   Icon,
 } from '@/shared/components';
-import { useNavigate } from 'react-router-dom';
-import React, { useState } from 'react';
 import { ValidationVariant } from '@/components/wallet/create';
-import styled from 'styled-components';
 import { useProfileContext } from '@/lib/context/Profile';
 import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
 import { useAppDispatch } from '@/lib/store';
-import * as UIStore from '@/lib/store/ui';
-import browser from 'webextension-polyfill';
+import { lockedChanged } from '@/lib/store/ui';
 
 const EnterPassword = () => {
   const navigate = useNavigate();
@@ -43,7 +43,7 @@ const EnterPassword = () => {
 
       setValidationVariant('primary');
 
-      dispatch(UIStore.lockedChanged(false));
+      dispatch(lockedChanged(false));
 
       navigate('/');
     } catch (error) {

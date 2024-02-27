@@ -1,7 +1,7 @@
-import { RootState } from '@/lib/store';
 import { PayloadAction, createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { revertAll } from '../ui';
 import browser from 'webextension-polyfill';
+import { revertAll } from '../ui';
+import { RootState } from '@/lib/store';
 
 export type Session = {
   id: string;

@@ -1,6 +1,6 @@
-import { AutoLockTimer, getLocalValues } from '@/lib/utils/localStorage';
 import { Contracts } from '@ardenthq/sdk-profiles';
 import browser from 'webextension-polyfill';
+import { AutoLockTimer, getLocalValues } from '@/lib/utils/localStorage';
 
 export class LockHandler {
   #lockTimer: NodeJS.Timeout | null = null;
@@ -48,6 +48,7 @@ export class LockHandler {
         type: 'LOCK_EXTENSION_UI',
       })
       .catch((error) => {
+        // eslint-disable-next-line no-console
         console.log('Error occurred when sending `LOCK_EXTENSION_UI` message.', error);
       });
   };

@@ -1,6 +1,6 @@
-import { FlexContainer, Icon } from '@/shared/components';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import { FlexContainer, Icon } from '@/shared/components';
 import { isFirefox } from '@/lib/utils/isFirefox';
 
 export const ArrowButton = ({

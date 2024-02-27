@@ -13,6 +13,7 @@ const injectScript = (filename: string) => {
     container.insertBefore(scriptTag, container.children[0]);
     container.removeChild(scriptTag);
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.error('ArkConnect: Provider injection failed.', error);
   }
 };

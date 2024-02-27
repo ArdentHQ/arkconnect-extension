@@ -1,22 +1,22 @@
 import { useEffect, useState } from 'react';
 import { useFormik } from 'formik';
 import { Contracts } from '@ardenthq/sdk-profiles';
+import { useNavigate } from 'react-router-dom';
+import browser from 'webextension-polyfill';
+import SetupPassword from '../../settings/SetupPassword';
+import { clearPersistScreenData } from '../form-persist/helpers';
 import ConfirmPassphrase from './ConfirmPassphrase';
 import GeneratePassphrase from './GeneratePassphrase';
-import SetupPassword from '../../settings/SetupPassword';
 import StepsNavigation, { Step } from '@/components/steps/StepsNavigation';
 import { useAppDispatch, useAppSelector } from '@/lib/store';
-import * as ModalStore from '@/lib/store/modal';
+import { selectLoadingModal, loadingModalUpdated } from '@/lib/store/modal';
 import useToast from '@/lib/hooks/useToast';
 import useNetwork from '@/lib/hooks/useNetwork';
-import { useNavigate } from 'react-router-dom';
 import { useProfileContext } from '@/lib/context/Profile';
 import { getDefaultAlias } from '@/lib/utils/getDefaultAlias';
 import { HandleLoadingState } from '@/shared/components/handleStates/HandleLoadingState';
 import { assertNetwork } from '@/lib/utils/assertions';
 import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
-import browser from 'webextension-polyfill';
-import { clearPersistScreenData } from '../form-persist/helpers';
 import useLocaleCurrency from '@/lib/hooks/useLocalCurrency';
 import { getLocalValues } from '@/lib/utils/localStorage';
 
@@ -52,7 +52,7 @@ const CreateNewWallet = () => {
   const { defaultCurrency } = useLocaleCurrency();
   const { activeNetwork } = useNetwork();
   const [isGeneratingWallet, setIsGeneratingWallet] = useState(true);
-  const loadingModal = useAppSelector(ModalStore.selectLoadingModal);
+  const loadingModal = useAppSelector(selectLoadingModal);
   const [steps, setSteps] = useState<Step[]>([
     { component: GeneratePassphrase },
     { component: ConfirmPassphrase },
@@ -85,7 +85,7 @@ const CreateNewWallet = () => {
         loadingMessage: 'Setting up the wallet, please wait!',
       };
 
-      dispatch(ModalStore.loadingModalUpdated(loadingModal));
+      dispatch(loadingModalUpdated(loadingModal));
 
       if (!values.wallet) {
         toast('danger', 'Something went wrong while creating your wallet');
@@ -120,7 +120,7 @@ const CreateNewWallet = () => {
 
       setTimeout(() => {
         dispatch(
-          ModalStore.loadingModalUpdated({
+          loadingModalUpdated({
             ...loadingModal,
             isOpen: false,
             isLoading: false,

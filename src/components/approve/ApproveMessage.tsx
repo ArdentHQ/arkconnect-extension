@@ -1,16 +1,16 @@
+import { useLocation } from 'react-router-dom';
+import browser from 'webextension-polyfill';
+import { Contracts } from '@ardenthq/sdk-profiles';
 import ApproveBody from '@/components/approve/ApproveBody';
 import ApproveFooter from '@/components/approve/ApproveFooter';
 import ApproveHeader from '@/components/approve/ApproveHeader';
-import { useLocation } from 'react-router-dom';
 import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
 import { useProfileContext } from '@/lib/context/Profile';
-import browser from 'webextension-polyfill';
 import { ApproveActionType } from '@/pages/Approve';
 import { useMessageSigner } from '@/lib/hooks/useMessageSigner';
 import removeWindowInstance from '@/lib/utils/removeWindowInstance';
-import { Contracts } from '@ardenthq/sdk-profiles';
 import { useAppDispatch } from '@/lib/store';
-import * as ModalStore from '@/lib/store/modal';
+import { loadingModalUpdated } from '@/lib/store/modal';
 import useWalletSync from '@/lib/hooks/useWalletSync';
 import { useEnvironmentContext } from '@/lib/context/Environment';
 import RequestedSignatureMessage from '@/components/approve/RequestedSignatureMessage';
@@ -68,7 +68,7 @@ const ApproveMessage = ({
       if (wallet.isLedger()) {
         await approveWithLedger(profile, wallet);
       } else {
-        dispatch(ModalStore.loadingModalUpdated(loadingModal));
+        dispatch(loadingModalUpdated(loadingModal));
       }
 
       const signedMessageResult = await sign(wallet, message, {
@@ -78,7 +78,7 @@ const ApproveMessage = ({
       if (wallet.isLedger()) {
         closeLedgerScreen();
         dispatch(
-          ModalStore.loadingModalUpdated({
+          loadingModalUpdated({
             ...loadingModal,
             isLoading: false,
           }),
@@ -86,7 +86,7 @@ const ApproveMessage = ({
       } else {
         const clearLoadingModal = setTimeout(() => {
           dispatch(
-            ModalStore.loadingModalUpdated({
+            loadingModalUpdated({
               ...loadingModal,
               isLoading: false,
             }),
@@ -97,7 +97,7 @@ const ApproveMessage = ({
 
       const clearModal = setTimeout(() => {
         dispatch(
-          ModalStore.loadingModalUpdated({
+          loadingModalUpdated({
             isOpen: false,
             isLoading: false,
           }),
@@ -135,7 +135,7 @@ const ApproveMessage = ({
     reject();
 
     dispatch(
-      ModalStore.loadingModalUpdated({
+      loadingModalUpdated({
         isOpen: false,
         isLoading: false,
       }),

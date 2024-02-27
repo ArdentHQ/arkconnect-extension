@@ -1,3 +1,6 @@
+import { useEffect } from 'react';
+import Step from './Step';
+import { connectSteps } from './utils/connectionSteps';
 import constants from '@/constants';
 import {
   Button,
@@ -8,12 +11,9 @@ import {
   Icon,
   Paragraph,
 } from '@/shared/components';
-import Step from './Step';
 import { useProfileContext } from '@/lib/context/Profile';
 import { useLedgerContext } from '@/lib/Ledger';
-import { useEffect } from 'react';
 import useNetwork from '@/lib/hooks/useNetwork';
-import { connectSteps } from './utils/connectionSteps';
 import { useAppDispatch } from '@/lib/store';
 import * as ModalStore from '@/lib/store/modal';
 

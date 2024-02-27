@@ -1,7 +1,8 @@
+import styled from 'styled-components';
+import { Contracts } from '@ardenthq/sdk-profiles';
 import { Container, FlexContainer, Heading, Paragraph } from '@/shared/components';
 import useThemeMode from '@/lib/hooks/useThemeMode';
 import formatDomain from '@/lib/utils/formatDomain';
-import styled from 'styled-components';
 import {
   Address,
   AddressAlias,
@@ -9,7 +10,6 @@ import {
   LedgerIcon,
   TestnetIcon,
 } from '@/components/wallet/address/Address.blocks';
-import { Contracts } from '@ardenthq/sdk-profiles';
 import ConnectionLogoImage from '@/components/connections/ConnectionLogoImage';
 import { getNetworkCurrency } from '@/lib/utils/getActiveCoin';
 

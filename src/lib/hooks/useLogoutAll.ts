@@ -1,6 +1,6 @@
-import { useAppDispatch } from '@/lib/store';
 import { revertAll } from '../store/ui';
 import useOnError from '.';
+import { useAppDispatch } from '@/lib/store';
 
 const useLogoutAll = () => {
   const dispatch = useAppDispatch();

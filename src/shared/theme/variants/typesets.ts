@@ -1,6 +1,6 @@
-import { VariantProps } from '.';
-import { makeVariant } from './_utils';
 import typography, { SizeKey, TypesetKey } from '../categories/typography';
+import { makeVariant } from './_utils';
+import { VariantProps } from '.';
 
 // The properties that will be set on a component when using a typeset
 type Typeset = {

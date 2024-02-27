@@ -1,12 +1,12 @@
 import { NavigateOptions, useLocation, useNavigate } from 'react-router-dom';
-import { Container, FlexContainer, Paragraph, ToggleSwitch } from '@/shared/components';
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
-import { SettingsOption } from '@/components/settings/SettingsOption';
-import * as UIStore from '@/lib/store/ui';
-import * as WalletStore from '@/lib/store/wallet';
 import browser from 'webextension-polyfill';
-import { useProfileContext } from '@/lib/context/Profile';
 import { Contracts } from '@ardenthq/sdk-profiles';
+import { Container, FlexContainer, Paragraph, ToggleSwitch } from '@/shared/components';
+import { SettingsOption } from '@/components/settings/SettingsOption';
+import { lockedChanged } from '@/lib/store/ui';
+import { selectWalletsIds } from '@/lib/store/wallet';
+import { useProfileContext } from '@/lib/context/Profile';
 import { AutoLockTimer as AutoLockTimerEnum, getLocalValues } from '@/lib/utils/localStorage';
 import showAutoLockTimerValue from '@/lib/utils/showAutoLockTimerValue';
 import { useAppDispatch, useAppSelector } from '@/lib/store';
@@ -26,7 +26,7 @@ export const SettingsMenu = ({
   triggerRef: React.RefObject<HTMLElement | null>;
 }) => {
   const dispatch = useAppDispatch();
-  const walletsIds = useAppSelector(WalletStore.selectWalletsIds);
+  const walletsIds = useAppSelector(selectWalletsIds);
   const { toggleThemeMode, isDark } = useThemeMode();
   const navigate = useNavigate();
   const { pathname } = useLocation();
@@ -43,7 +43,7 @@ export const SettingsMenu = ({
 
   const lockExtension = async () => {
     await browser.runtime.sendMessage({ type: 'LOCK' });
-    dispatch(UIStore.lockedChanged(true));
+    dispatch(lockedChanged(true));
   };
 
   useEffect(() => {

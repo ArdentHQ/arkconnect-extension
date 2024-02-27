@@ -1,7 +1,7 @@
+import { PayloadAction, createAction, createSlice } from '@reduxjs/toolkit';
 import { ToastPosition } from '@/components/toast/ToastContainer';
 import { RootState } from '@/lib/store';
 import persist from '@/lib/store/persist';
-import { PayloadAction, createAction, createSlice } from '@reduxjs/toolkit';
 
 export enum ThemeMode {
   LIGHT = 'light',

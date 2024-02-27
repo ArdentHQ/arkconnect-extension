@@ -1,21 +1,21 @@
+import { useEffect, useState } from 'react';
+import styled from 'styled-components';
+import { useLocation } from 'react-router-dom';
+import browser from 'webextension-polyfill';
+import RemoveConnections from './RemoveConnections';
+import ConnectionLogoImage from './ConnectionLogoImage';
 import useThemeMode from '@/lib/hooks/useThemeMode';
 import { useAppDispatch, useAppSelector } from '@/lib/store';
 import * as SessionStore from '@/lib/store/session';
 import { ThemeMode } from '@/lib/store/ui';
 import Modal from '@/shared/components/modal/Modal';
 import { Button, Container, FlexContainer, Icon, Paragraph, Tooltip } from '@/shared/components';
-import { useEffect, useState } from 'react';
-import styled from 'styled-components';
-import RemoveConnections from './RemoveConnections';
 import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
-import { useLocation } from 'react-router-dom';
-import browser from 'webextension-polyfill';
 import formatDomain from '@/lib/utils/formatDomain';
 import removeWindowInstance from '@/lib/utils/removeWindowInstance';
-import ConnectionLogoImage from './ConnectionLogoImage';
 import trimAddress from '@/lib/utils/trimAddress';
 import { useProfileContext } from '@/lib/context/Profile';
-import * as WalletStore from '@/lib/store/wallet';
+import { selectPrimaryWalletId } from '@/lib/store/wallet';
 import { isFirefox } from '@/lib/utils/isFirefox';
 
 type StateProps = {
@@ -46,7 +46,7 @@ const ConnectionsList = () => {
   const [state, setState] = useState<StateProps>(initialState);
   const { onError } = useErrorHandlerContext();
   const dispatch = useAppDispatch();
-  const primaryWalletId = useAppSelector(WalletStore.selectPrimaryWalletId);
+  const primaryWalletId = useAppSelector(selectPrimaryWalletId);
 
   const getWalletName = (walletId: string) => {
     const wallet = profile.wallets().findById(walletId);

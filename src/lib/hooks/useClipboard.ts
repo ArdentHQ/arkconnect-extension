@@ -1,5 +1,5 @@
-import { ToastPosition } from '@/components/toast/ToastContainer';
 import useToast from './useToast';
+import { ToastPosition } from '@/components/toast/ToastContainer';
 import requestPermission from '@/lib/utils/requestPermission';
 
 const useClipboard = () => {

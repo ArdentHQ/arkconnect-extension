@@ -1,5 +1,5 @@
-import useThemeMode from '@/lib/hooks/useThemeMode';
 import { Icon } from '..';
+import useThemeMode from '@/lib/hooks/useThemeMode';
 import { ThemeMode } from '@/lib/store/ui';
 
 export const EmptyConnectionsIcon = () => {

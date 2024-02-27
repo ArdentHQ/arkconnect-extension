@@ -1,4 +1,8 @@
-import getNumberSuffix from '@/lib/utils/getNumberSuffix';
+import { FormikProps } from 'formik';
+import { useEffect, useState } from 'react';
+import { WalletFormScreen } from '../form-persist';
+import { persistScreenChanged } from '../form-persist/helpers';
+import { CreateWalletFormik, ValidationVariant } from '.';
 import {
   Button,
   Checkbox,
@@ -8,14 +12,10 @@ import {
   Input,
   Container,
 } from '@/shared/components';
-import { FormikProps } from 'formik';
-import { useEffect, useState } from 'react';
-import { CreateWalletFormik, ValidationVariant } from '.';
-import { WalletFormScreen } from '../form-persist';
-import { persistScreenChanged } from '../form-persist/helpers';
+import getNumberSuffix from '@/lib/utils/getNumberSuffix';
 import { TestnetIcon } from '@/components/wallet/address/Address.blocks';
 import { useAppSelector } from '@/lib/store';
-import * as UIStore from '@/lib/store/ui';
+import { selectTestnetEnabled } from '@/lib/store/ui';
 import { getLocalValues } from '@/lib/utils/localStorage';
 
 type Props = {
@@ -27,7 +27,7 @@ const ConfirmPassphrase = ({ goToNextStep, formik }: Props) => {
   const { values } = formik;
   const [validationStatus, setValidationStatus] = useState<ValidationVariant[]>([]);
 
-  const isTestnet = useAppSelector(UIStore.selectTestnetEnabled);
+  const isTestnet = useAppSelector(selectTestnetEnabled);
 
   useEffect(() => {
     (async () => {

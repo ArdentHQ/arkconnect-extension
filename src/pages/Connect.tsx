@@ -1,13 +1,13 @@
+import { useLocation } from 'react-router-dom';
+import { v4 as uuidv4 } from 'uuid';
+import browser from 'webextension-polyfill';
 import ConnectFooter from '@/components/connect/ConnectFooter';
 import ConnectWithWallet from '@/components/connect/ConnectWithWallet';
 import { useAppDispatch, useAppSelector } from '@/lib/store';
 import { Layout } from '@/shared/components';
-import { useLocation } from 'react-router-dom';
-import * as SessionStore from '@/lib/store/session';
-import * as WalletStore from '@/lib/store/wallet';
-import * as ModalStore from '@/lib/store/modal';
-import { v4 as uuidv4 } from 'uuid';
-import browser from 'webextension-polyfill';
+import { selectSessions, sessionAdded } from '@/lib/store/session';
+import { selectPrimaryWalletId } from '@/lib/store/wallet';
+import { loadingModalUpdated } from '@/lib/store/modal';
 import { useProfileContext } from '@/lib/context/Profile';
 import { selectLocked } from '@/lib/store/ui';
 import { assertIsUnlocked } from '@/lib/background/assertions';
@@ -17,9 +17,9 @@ import { useNotifyOnUnload } from '@/lib/hooks/useNotifyOnUnload';
 const Connect = () => {
   const location = useLocation();
   const dispatch = useAppDispatch();
-  const sessions = useAppSelector(SessionStore.selectSessions);
+  const sessions = useAppSelector(selectSessions);
   const { profile } = useProfileContext();
-  const primaryWalletId = useAppSelector(WalletStore.selectPrimaryWalletId);
+  const primaryWalletId = useAppSelector(selectPrimaryWalletId);
   const primaryWallet = primaryWalletId ? profile.wallets().findById(primaryWalletId) : undefined;
 
   const locked = useAppSelector(selectLocked);
@@ -55,7 +55,7 @@ const Connect = () => {
 
     const isConnected = isAlreadyConnected();
 
-    dispatch(ModalStore.loadingModalUpdated(loadingModal));
+    dispatch(loadingModalUpdated(loadingModal));
 
     if (!primaryWallet) {
       reject('Wallet not found');
@@ -70,7 +70,7 @@ const Connect = () => {
     if (primaryWallet) {
       const sessionId = uuidv4();
       await dispatch(
-        SessionStore.sessionAdded({
+        sessionAdded({
           id: sessionId,
           domain: location.state?.domain,
           createdAt: new Date().toISOString(),

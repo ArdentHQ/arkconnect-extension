@@ -1,4 +1,8 @@
 import { Contracts } from '@ardenthq/sdk-profiles';
+import { useFormik } from 'formik';
+import { useEffect, useState } from 'react';
+import styled from 'styled-components';
+import browser from 'webextension-polyfill';
 import ImportWallets from '@/components/ledger/ImportWallets';
 import { LedgerConnectionStep } from '@/components/ledger/LedgerConnectionStep';
 import SetupPassword from '@/components/settings/SetupPassword';
@@ -6,15 +10,11 @@ import StepsNavigation, { Step } from '@/components/steps/StepsNavigation';
 import { LedgerData, useLedgerContext } from '@/lib/Ledger';
 import useThemeMode from '@/lib/hooks/useThemeMode';
 import { Container, FlexContainer, Header, Icon, Paragraph } from '@/shared/components';
-import { useFormik } from 'formik';
-import { useEffect, useState } from 'react';
-import styled from 'styled-components';
 import { ThemeMode } from '@/lib/store/ui';
 import { useAppDispatch } from '@/lib/store';
-import * as ModalStore from '@/lib/store/modal';
+import { loadingModalUpdated } from '@/lib/store/modal';
 import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
 import { useProfileContext } from '@/lib/context/Profile';
-import browser from 'webextension-polyfill';
 import { getDefaultAlias } from '@/lib/utils/getDefaultAlias';
 import useLocaleCurrency from '@/lib/hooks/useLocalCurrency';
 import { getLocalValues } from '@/lib/utils/localStorage';
@@ -81,7 +81,7 @@ const ImportWithLedger = () => {
       await initProfile();
 
       dispatch(
-        ModalStore.loadingModalUpdated({
+        loadingModalUpdated({
           isOpen: true,
           isLoading: false,
           loadingMessage: 'Setting up your wallet',

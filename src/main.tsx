@@ -1,9 +1,9 @@
-import * as Sentry from '@sentry/react';
+import { init } from '@sentry/react';
 import ReactDOM from 'react-dom/client';
 import App, { MainWrapper } from './App';
 
 if (import.meta.env.VITE_SENTRY_DSN) {
-  Sentry.init({
+  init({
     dsn: import.meta.env.VITE_SENTRY_DSN,
     environment: import.meta.env.VITE_ENVIRONMENT,
   });

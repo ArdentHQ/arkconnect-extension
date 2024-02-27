@@ -14,9 +14,9 @@ import {
   border,
   BorderProps,
 } from 'styled-system';
+import { MutableRefObject } from 'react';
 import { Theme } from '@/shared/theme';
 import { Container, FlexContainer, Icon, IconDefinition, Paragraph } from '@/shared/components';
-import { MutableRefObject } from 'react';
 import useThemeMode, { GetThemeColor } from '@/lib/hooks/useThemeMode';
 
 type VariantProps = {

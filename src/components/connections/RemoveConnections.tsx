@@ -1,5 +1,5 @@
-import { Container, Heading, Paragraph } from '@/shared/components';
 import styled from 'styled-components';
+import { Container, Heading, Paragraph } from '@/shared/components';
 
 type Props = {
   sessionDomain?: string;

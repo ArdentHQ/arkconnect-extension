@@ -1,3 +1,5 @@
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import SubPageLayout from '../SubPageLayout';
 import {
   Button,
@@ -7,18 +9,16 @@ import {
   Paragraph,
   RowLayout,
 } from '@/shared/components';
-import * as WalletStore from '@/lib/store/wallet';
+import { selectWalletsIds } from '@/lib/store/wallet';
 import { useAppSelector } from '@/lib/store';
 import trimAddress from '@/lib/utils/trimAddress';
-import { useState } from 'react';
 import { generateWalletHelperText } from '@/lib/utils/generateWalletHelperText';
 import { useProfileContext } from '@/lib/context/Profile';
-import { useNavigate } from 'react-router-dom';
 import { handleSubmitKeyAction } from '@/lib/utils/handleKeyAction';
 
 const MultipleWalletLogout = () => {
   const { profile } = useProfileContext();
-  const walletsIds = useAppSelector(WalletStore.selectWalletsIds);
+  const walletsIds = useAppSelector(selectWalletsIds);
   const wallets = walletsIds
     .map((walletId) => profile.wallets().findById(walletId))
     .filter(Boolean);

@@ -1,19 +1,19 @@
 import styled from 'styled-components';
+import { Link, useLocation } from 'react-router-dom';
+import { useRef, useState } from 'react';
+import FocusTrap from 'focus-trap-react';
 import useThemeMode from '@/lib/hooks/useThemeMode';
 import { LogoIcon } from '@/components/Logo';
-import { Link, useLocation } from 'react-router-dom';
 import { Container, FlexContainer, Icon, Paragraph } from '@/shared/components';
 import trimAddress from '@/lib/utils/trimAddress';
 import { ConnectionStatus } from '@/components/wallet/ConnectionStatus';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 import { selectLocked } from '@/lib/store/ui';
 import { useAppSelector } from '@/lib/store';
-import { useRef, useState } from 'react';
 import { AddressesDropdown } from '@/shared/components/header/AddressesDropdown';
 import { useProfileContext } from '@/lib/context/Profile';
 import { DropdownMenuContainerProps, SettingsMenu } from '@/components/settings/SettingsMenu';
 import { handleSubmitKeyAction } from '@/lib/utils/handleKeyAction';
-import FocusTrap from 'focus-trap-react';
 import { StyledLogos } from '@/components/settings/others/AboutARK';
 import { isFirefox } from '@/lib/utils/isFirefox';
 

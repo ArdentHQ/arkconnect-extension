@@ -1,5 +1,5 @@
-import { Container, FlexContainer, Header } from '@/shared/components';
 import { ComponentProps } from 'react';
+import { Container, FlexContainer, Header } from '@/shared/components';
 
 interface Props extends ComponentProps<typeof Container> {
   children: React.ReactNode | React.ReactNode[];

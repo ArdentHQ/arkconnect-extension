@@ -14,10 +14,10 @@ import {
   BorderProps,
   variant,
 } from 'styled-system';
+import { forwardRef } from 'react';
 import { Theme } from '@/shared/theme';
 import { Container, FlexContainer, Icon, IconDefinition, Paragraph } from '@/shared/components';
 import { FlexVariantProps, flexVariant } from '@/shared/theme/variants';
-import { forwardRef } from 'react';
 import constants from '@/constants';
 import { LedgerIcon, TestnetIcon } from '@/components/wallet/address/Address.blocks';
 import trimAddress from '@/lib/utils/trimAddress';

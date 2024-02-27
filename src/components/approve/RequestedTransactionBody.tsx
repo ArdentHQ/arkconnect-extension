@@ -1,10 +1,10 @@
+import { Contracts } from '@ardenthq/sdk-profiles';
+import Amount from '../wallet/Amount';
+import ActionDetails, { ActionDetailsRow } from './ActionDetails';
 import trimAddress from '@/lib/utils/trimAddress';
 import { FlexContainer, Paragraph } from '@/shared/components';
-import Amount from '../wallet/Amount';
 import { getNetworkCurrency } from '@/lib/utils/getActiveCoin';
 import { useExchangeRate } from '@/lib/hooks/useExchangeRate';
-import { Contracts } from '@ardenthq/sdk-profiles';
-import ActionDetails, { ActionDetailsRow } from './ActionDetails';
 
 type Props = {
   amount: number;

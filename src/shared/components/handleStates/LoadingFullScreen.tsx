@@ -1,6 +1,6 @@
-import useThemeMode from '@/lib/hooks/useThemeMode';
 import { FlexContainer } from '../layout/FlexContainer';
 import { Loader } from '../loader/Loader';
+import useThemeMode from '@/lib/hooks/useThemeMode';
 
 export const LoadingFullScreen = () => {
   const { getThemeColor } = useThemeMode();

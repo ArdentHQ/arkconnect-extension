@@ -1,3 +1,9 @@
+import { useParams } from 'react-router-dom';
+import { object, string, boolean } from 'yup';
+import { useFormik } from 'formik';
+import { useState } from 'react';
+import SubPageLayout from '../SubPageLayout';
+import YourPrivateKey from './YourPrivateKey';
 import {
   Paragraph,
   FlexContainer,
@@ -6,12 +12,6 @@ import {
   Button,
   Checkbox,
 } from '@/shared/components';
-import SubPageLayout from '../SubPageLayout';
-import { useParams } from 'react-router-dom';
-import * as Yup from 'yup';
-import { useFormik } from 'formik';
-import { useState } from 'react';
-import YourPrivateKey from './YourPrivateKey';
 import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
 import { useProfileContext } from '@/lib/context/Profile';
 import YourPassphrase from '@/components/settings/general/YourPassphrase';
@@ -21,9 +21,9 @@ type SensitiveInfoFormik = {
   doNotShare: boolean;
 };
 
-const validationSchema = Yup.object().shape({
-  password: Yup.string().required(''),
-  doNotShare: Yup.boolean().required(''),
+const validationSchema = object().shape({
+  password: string().required(''),
+  doNotShare: boolean().required(''),
 });
 
 const texts = {

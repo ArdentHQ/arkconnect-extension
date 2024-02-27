@@ -1,4 +1,8 @@
 import { useEffect, useState } from 'react';
+import { FormikProps } from 'formik';
+import { WalletFormScreen } from '../form-persist';
+import { persistScreenChanged } from '../form-persist/helpers';
+import { CreateWalletFormik } from '.';
 import {
   Button,
   Container,
@@ -10,15 +14,11 @@ import {
   ToggleSwitch,
 } from '@/shared/components';
 import useToast from '@/lib/hooks/useToast';
-import { CreateWalletFormik } from '.';
-import { FormikProps } from 'formik';
 import { ToastPosition } from '@/components/toast/ToastContainer';
-import { WalletFormScreen } from '../form-persist';
-import { persistScreenChanged } from '../form-persist/helpers';
 import randomWordPositions from '@/lib/utils/randomWordPositions';
 import { TestnetIcon } from '@/components/wallet/address/Address.blocks';
 import { useAppSelector } from '@/lib/store';
-import * as UIStore from '@/lib/store/ui';
+import { selectTestnetEnabled } from '@/lib/store/ui';
 import { getLocalValues } from '@/lib/utils/localStorage';
 
 type Props = {
@@ -31,7 +31,7 @@ const GeneratePassphrase = ({ goToNextStep, formik }: Props) => {
 
   const toast = useToast();
 
-  const isTestnet = useAppSelector(UIStore.selectTestnetEnabled);
+  const isTestnet = useAppSelector(selectTestnetEnabled);
 
   useEffect(() => {
     (async () => {

@@ -1,12 +1,12 @@
 import { useAppSelector } from '@/lib/store';
-import * as ModalStore from '@/lib/store/modal';
+import { selectLoadingModal, CTA_CONTENT } from '@/lib/store/modal';
 import { FlexContainer, Heading, Icon, Loader, Paragraph } from '@/shared/components';
 
 const LoadingModal = () => {
   const { isLoading, isOpen, completedMessage, loadingMessage, completedDescription, CTA } =
-    useAppSelector(ModalStore.selectLoadingModal);
+    useAppSelector(selectLoadingModal);
 
-  const CTAContent = CTA ? ModalStore.CTA_CONTENT[CTA] : undefined;
+  const CTAContent = CTA ? CTA_CONTENT[CTA] : undefined;
 
   if (!isOpen) return null;
   return (

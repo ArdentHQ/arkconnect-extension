@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { color, ColorProps, flexbox, FlexboxProps, layout, LayoutProps } from 'styled-system';
-import { Theme } from '@/shared/theme';
 import { Link } from 'react-router-dom';
+import { Theme } from '@/shared/theme';
 import { isFirefox } from '@/lib/utils/isFirefox';
 
 export const InternalLink = styled(Link)<

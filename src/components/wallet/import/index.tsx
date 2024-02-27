@@ -1,22 +1,22 @@
 import { Contracts } from '@ardenthq/sdk-profiles';
-import SetupPassword from '../../settings/SetupPassword';
-import StepsNavigation, { Step } from '@/components/steps/StepsNavigation';
 import { FormikValues, useFormik } from 'formik';
+import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import browser from 'webextension-polyfill';
+import SetupPassword from '../../settings/SetupPassword';
+import { ValidationVariant } from '../create';
+import { getPersistedValues } from '../form-persist';
+import { clearPersistScreenData } from '../form-persist/helpers';
 import EnterPassphrase from './EnterPassphrase';
 import ImportedWallet from './ImportedWallet';
-import { ValidationVariant } from '../create';
-import { useNavigate } from 'react-router-dom';
+import StepsNavigation, { Step } from '@/components/steps/StepsNavigation';
 import { useAppDispatch, useAppSelector } from '@/lib/store';
-import * as ModalStore from '@/lib/store/modal';
+import { selectLoadingModal, loadingModalUpdated } from '@/lib/store/modal';
 import { useProfileContext } from '@/lib/context/Profile';
 import { HandleLoadingState } from '@/shared/components/handleStates/HandleLoadingState';
 import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
-import { useEffect, useState } from 'react';
 import useNetwork from '@/lib/hooks/useNetwork';
-import { getPersistedValues } from '../form-persist';
-import { clearPersistScreenData } from '../form-persist/helpers';
 import useWalletImport from '@/lib/hooks/useWalletImport';
-import browser from 'webextension-polyfill';
 import useLocaleCurrency from '@/lib/hooks/useLocalCurrency';
 import { getLocalValues } from '@/lib/utils/localStorage';
 
@@ -48,7 +48,7 @@ const ImportNewWallet = () => {
   const { persistScreen } = getPersistedValues();
   const { importWallet } = useWalletImport({ profile });
   const { activeNetwork } = useNetwork();
-  const loadingModal = useAppSelector(ModalStore.selectLoadingModal);
+  const loadingModal = useAppSelector(selectLoadingModal);
   const [steps, setSteps] = useState<Step[]>([
     { component: EnterPassphrase },
     { component: ImportedWallet },
@@ -99,7 +99,7 @@ const ImportNewWallet = () => {
         loadingMessage: 'Setting up the wallet, please wait!',
       };
 
-      dispatch(ModalStore.loadingModalUpdated(loadingModal));
+      dispatch(loadingModalUpdated(loadingModal));
 
       const { error } = await browser.runtime.sendMessage({
         type: 'IMPORT_WALLETS',
@@ -131,7 +131,7 @@ const ImportNewWallet = () => {
       //        Needs further investigation.
       setTimeout(() => {
         dispatch(
-          ModalStore.loadingModalUpdated({
+          loadingModalUpdated({
             ...loadingModal,
             isOpen: false,
             isLoading: false,

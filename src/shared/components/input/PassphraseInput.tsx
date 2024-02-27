@@ -14,9 +14,9 @@ import {
   border,
   BorderProps,
 } from 'styled-system';
+import { forwardRef } from 'react';
 import { Theme } from '@/shared/theme';
 import { Container, FlexContainer, Paragraph } from '@/shared/components';
-import { forwardRef } from 'react';
 
 type VariantProps = {
   variant?: 'primary' | 'destructive' | 'errorFree';

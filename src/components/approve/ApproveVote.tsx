@@ -1,20 +1,20 @@
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import browser from 'webextension-polyfill';
+import { Contracts } from '@ardenthq/sdk-profiles';
 import ApproveBody from '@/components/approve/ApproveBody';
 import ApproveFooter from '@/components/approve/ApproveFooter';
 import ApproveHeader from '@/components/approve/ApproveHeader';
-import * as WalletStore from '@/lib/store/wallet';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { WalletNetwork } from '@/lib/store/wallet';
 import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
-import { useEffect, useState } from 'react';
 import { useProfileContext } from '@/lib/context/Profile';
-import browser from 'webextension-polyfill';
 import { useExchangeRate } from '@/lib/hooks/useExchangeRate';
 import { ApproveActionType } from '@/pages/Approve';
 import { useVoteForm } from '@/lib/hooks/useVoteForm';
 import { HandleLoadingState } from '@/shared/components/handleStates/HandleLoadingState';
 import removeWindowInstance from '@/lib/utils/removeWindowInstance';
-import { Contracts } from '@ardenthq/sdk-profiles';
 import { useAppDispatch } from '@/lib/store';
-import * as ModalStore from '@/lib/store/modal';
+import { loadingModalUpdated } from '@/lib/store/modal';
 import useWalletSync from '@/lib/hooks/useWalletSync';
 import { useEnvironmentContext } from '@/lib/context/Environment';
 import RequestedVoteBody from '@/components/approve/RequestedVoteBody';
@@ -109,7 +109,7 @@ const ApproveVote = ({ abortReference, approveWithLedger, wallet, closeLedgerScr
       if (wallet.isLedger()) {
         await approveWithLedger(profile, wallet);
       } else {
-        dispatch(ModalStore.loadingModalUpdated(loadingModal));
+        dispatch(loadingModalUpdated(loadingModal));
       }
 
       const res = await submitForm(abortReference);
@@ -120,7 +120,7 @@ const ApproveVote = ({ abortReference, approveWithLedger, wallet, closeLedgerScr
 
       setTimeout(() => {
         dispatch(
-          ModalStore.loadingModalUpdated({
+          loadingModalUpdated({
             isOpen: false,
             isLoading: false,
           }),
@@ -159,8 +159,8 @@ const ApproveVote = ({ abortReference, approveWithLedger, wallet, closeLedgerScr
           vote: voteInfo,
           windowId: location.state?.windowId,
           walletNetwork: wallet.network().isTest()
-            ? WalletStore.WalletNetwork.DEVNET
-            : WalletStore.WalletNetwork.MAINNET,
+            ? WalletNetwork.DEVNET
+            : WalletNetwork.MAINNET,
           isTestnet: wallet.network().isTest(),
           type: actionType,
           session: state.session,

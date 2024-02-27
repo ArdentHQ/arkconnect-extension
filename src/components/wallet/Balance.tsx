@@ -1,5 +1,5 @@
-import { FlexContainer, Heading, Paragraph } from '@/shared/components';
 import Amount from './Amount';
+import { FlexContainer, Heading, Paragraph } from '@/shared/components';
 
 type BalanceProps = {
   convertedBalance?: number;

@@ -1,3 +1,8 @@
+import { useLocation } from 'react-router-dom';
+import { Contracts } from '@ardenthq/sdk-profiles';
+import RequestedVoteBody from '../approve/RequestedVoteBody';
+import RequestedTransactionBody from '../approve/RequestedTransactionBody';
+import RequestedSignatureMessage from '../approve/RequestedSignatureMessage';
 import useThemeMode from '@/lib/hooks/useThemeMode';
 import formatDomain from '@/lib/utils/formatDomain';
 import trimAddress from '@/lib/utils/trimAddress';
@@ -11,13 +16,8 @@ import {
   Loader,
   Paragraph,
 } from '@/shared/components';
-import RequestedVoteBody from '../approve/RequestedVoteBody';
-import { useLocation } from 'react-router-dom';
-import { Contracts } from '@ardenthq/sdk-profiles';
 import { useVoteForm } from '@/lib/hooks/useVoteForm';
 import { useExchangeRate } from '@/lib/hooks/useExchangeRate';
-import RequestedTransactionBody from '../approve/RequestedTransactionBody';
-import RequestedSignatureMessage from '../approve/RequestedSignatureMessage';
 import RequestedBy from '@/shared/components/actions/RequestedBy';
 import { useSendTransferForm } from '@/lib/hooks/useSendTransferForm';
 

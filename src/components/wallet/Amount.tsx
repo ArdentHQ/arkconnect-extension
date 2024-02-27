@@ -1,7 +1,7 @@
+import { Helpers } from '@ardenthq/sdk-profiles';
 import constants from '@/constants';
 import cropToMaxDigits from '@/lib/utils/cropToMaxDigits';
 import { Tooltip } from '@/shared/components';
-import { Helpers } from '@ardenthq/sdk-profiles';
 
 interface AmountProperties {
   ticker: string;

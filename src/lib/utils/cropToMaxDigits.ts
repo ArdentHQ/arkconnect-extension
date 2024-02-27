@@ -1,5 +1,5 @@
-import constants from '@/constants';
 import { Helpers } from '@ardenthq/sdk-profiles';
+import constants from '@/constants';
 
 const extractPrefix = (str: string): string => {
   // Regular expression to match everything before the first digit

@@ -1,30 +1,25 @@
-import routes from '@/routing';
-import * as UIStore from '@/lib/store/ui';
-import { theme as baseTheme } from '@/shared/theme';
-import { useAppSelector } from '@/lib/store';
-import { themeModes } from '@/shared/theme/categories/color';
-import ToastContainer from './components/toast/ToastContainer';
-import { Routes, Route } from 'react-router-dom';
-import { Container } from '@/shared/components';
-import LoadingModal from './shared/components/loader/LoadingModal';
-import { useEnvironmentContext } from './lib/context/Environment';
+import { Routes, Route , MemoryRouter } from 'react-router-dom';
 import { useLayoutEffect } from 'react';
-import { ProfileProvider } from './lib/context/Profile';
-import { useErrorHandlerContext } from './lib/context/ErrorHandler';
-import useBackgroundEventHandler from './lib/hooks/useBackgroundEventHandler';
-import AutoUnlockWrapper from './components/AutoUnlockWrapper';
-import { LedgerProvider } from './lib/Ledger';
 import { ThemeProvider, StyleSheetManager } from 'styled-components';
-import { theme } from '@/shared/theme';
-import store, { persistor } from '@/lib/store';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/es/integration/react';
-import { MemoryRouter } from 'react-router-dom';
 import shouldForwardProp from '@styled-system/should-forward-prop';
-import { EnvironmentProvider } from './lib/context/Environment';
-import { ErrorHandlerProvider } from './lib/context/ErrorHandler';
+import { LedgerProvider } from './lib/Ledger';
+import AutoUnlockWrapper from './components/AutoUnlockWrapper';
+import useBackgroundEventHandler from './lib/hooks/useBackgroundEventHandler';
+import { useErrorHandlerContext , ErrorHandlerProvider } from './lib/context/ErrorHandler';
+import { ProfileProvider } from './lib/context/Profile';
+import { useEnvironmentContext , EnvironmentProvider } from './lib/context/Environment';
+import LoadingModal from './shared/components/loader/LoadingModal';
+import ToastContainer from './components/toast/ToastContainer';
 import { initializeEnvironment } from './lib/utils/env';
 import { LoadingFullScreen } from './shared/components/handleStates/LoadingFullScreen';
+import store, { persistor , useAppSelector } from '@/lib/store';
+import { theme , theme as baseTheme } from '@/shared/theme';
+import { Container } from '@/shared/components';
+import { themeModes } from '@/shared/theme/categories/color';
+import { ThemeMode, selectThemeMode } from '@/lib/store/ui';
+import routes from '@/routing';
 
 const env = initializeEnvironment();
 
@@ -49,7 +44,7 @@ export const MainWrapper = ({ children }: { children?: React.ReactNode }) => {
 // Exported so can be reused in tests
 export const AppWrapper = ({
   children,
-  theme = { ...baseTheme, colors: themeModes[UIStore.ThemeMode.LIGHT] },
+  theme = { ...baseTheme, colors: themeModes[ThemeMode.LIGHT] },
 }: {
   children?: React.ReactNode;
   theme?: React.ComponentProps<typeof ThemeProvider>['theme'];
@@ -81,7 +76,7 @@ export const AppWrapper = ({
 const App = () => {
   const { onError } = useErrorHandlerContext();
   const { env, isEnvironmentBooted, setIsEnvironmentBooted } = useEnvironmentContext();
-  const themeMode = useAppSelector(UIStore.selectThemeMode);
+  const themeMode = useAppSelector(selectThemeMode);
 
   const theme = { ...baseTheme, colors: themeModes[themeMode] };
 

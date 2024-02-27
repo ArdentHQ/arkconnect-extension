@@ -1,5 +1,5 @@
-import { Container, FlexContainer, Paragraph } from '@/shared/components';
 import styled from 'styled-components';
+import { Container, FlexContainer, Paragraph } from '@/shared/components';
 
 export const ActionDetailsRow = ({
   label,

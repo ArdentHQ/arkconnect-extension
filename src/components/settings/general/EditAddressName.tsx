@@ -1,8 +1,8 @@
-import { Paragraph, FlexContainer, Input, Button, Container } from '@/shared/components';
-import SubPageLayout from '../SubPageLayout';
 import { useFormik } from 'formik';
 import { useNavigate, useParams } from 'react-router-dom';
-import * as Yup from 'yup';
+import { object, string } from 'yup';
+import SubPageLayout from '../SubPageLayout';
+import { Paragraph, FlexContainer, Input, Button, Container } from '@/shared/components';
 import useToast from '@/lib/hooks/useToast';
 import { useEnvironmentContext } from '@/lib/context/Environment';
 import { useProfileContext } from '@/lib/context/Profile';
@@ -11,8 +11,8 @@ type EditAddressNameFormik = {
   addressName?: string;
 };
 
-const validationSchema = Yup.object().shape({
-  addressName: Yup.string().required('').trim().max(20, '20 characters maximum'),
+const validationSchema = object().shape({
+  addressName: string().required('').trim().max(20, '20 characters maximum'),
 });
 
 const EditAddressName = () => {

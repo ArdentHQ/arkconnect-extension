@@ -1,6 +1,6 @@
-import { RootState } from '@/lib/store';
 import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { revertAll } from '../ui';
+import { RootState } from '@/lib/store';
 
 export enum WalletNetwork {
   DEVNET = 'Devnet',

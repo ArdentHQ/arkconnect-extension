@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import * as SessionStore from '@/lib/store/session';
-import { useAppSelector } from '@/lib/store';
 import browser from 'webextension-polyfill';
 import { Contracts } from '@ardenthq/sdk-profiles';
+import * as SessionStore from '@/lib/store/session';
+import { useAppSelector } from '@/lib/store';
 
 const getCurrentTab = async () => {
   const queryOptions = { active: true, lastFocusedWindow: true };

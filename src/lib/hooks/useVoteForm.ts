@@ -1,20 +1,19 @@
 import { Networks, Services } from '@ardenthq/sdk';
 import { Contracts } from '@ardenthq/sdk-profiles';
 import { useEffect, useState } from 'react';
-import { useEnvironmentContext } from '../context/Environment';
-import { precisionRound } from '../utils/precisionRound';
-import { handleBroadcastError } from '../utils/transactionHelpers';
-import * as SessionStore from '@/lib/store/session';
-import * as WalletStore from '@/lib/store/wallet';
-import { useAppSelector } from '../store';
-import { useFees } from './useFees';
-import { ApproveActionType } from '@/pages/Approve';
-import { useProfileContext } from '../context/Profile';
-import { useErrorHandlerContext } from '../context/ErrorHandler';
 import browser from 'webextension-polyfill';
 import { useLocation } from 'react-router-dom';
-import { withAbortPromise } from '../utils/transactionHelpers';
+import { useEnvironmentContext } from '../context/Environment';
+import { precisionRound } from '../utils/precisionRound';
+import { handleBroadcastError , withAbortPromise } from '../utils/transactionHelpers';
+import { useAppSelector } from '../store';
+import { useProfileContext } from '../context/Profile';
+import { useErrorHandlerContext } from '../context/ErrorHandler';
 import { useLedgerContext } from '../Ledger';
+import { useFees } from './useFees';
+import { ApproveActionType } from '@/pages/Approve';
+import { selectWallets } from '@/lib/store/wallet';
+import * as SessionStore from '@/lib/store/session';
 
 interface SendVoteForm {
   senderAddress: string;
@@ -69,7 +68,7 @@ export const useVoteForm = (wallet: Contracts.IReadWriteWallet, request: Approve
   const [loading, setLoading] = useState(true);
   const [formValues, setFormValues] = useState<SendVoteForm>(defaultState);
   const { persist } = useEnvironmentContext();
-  const wallets = useAppSelector(WalletStore.selectWallets);
+  const wallets = useAppSelector(selectWallets);
   const { abortConnectionRetry } = useLedgerContext();
 
   const resetForm = () => {

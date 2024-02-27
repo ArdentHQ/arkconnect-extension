@@ -1,9 +1,9 @@
-import { FlexContainer } from '@/shared/components';
-import { useAppDispatch, useAppSelector } from '@/lib/store';
-import * as UIStore from '@/lib/store/ui';
-import Toast from './Toast';
 import styled from 'styled-components';
 import { useEffect } from 'react';
+import Toast from './Toast';
+import { FlexContainer } from '@/shared/components';
+import { useAppDispatch, useAppSelector } from '@/lib/store';
+import { selectToasts, toastsReseted } from '@/lib/store/ui';
 
 export enum ToastPosition {
   LOWER = '32px',
@@ -13,12 +13,12 @@ export enum ToastPosition {
 
 const ToastContainer = () => {
   const dispatch = useAppDispatch();
-  const toasts = useAppSelector(UIStore.selectToasts);
+  const toasts = useAppSelector(selectToasts);
 
   useEffect(() => {
     if (!toasts.length) return;
 
-    dispatch(UIStore.toastsReseted());
+    dispatch(toastsReseted());
   }, []);
 
   return (

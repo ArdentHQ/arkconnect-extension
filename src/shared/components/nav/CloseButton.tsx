@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
-import { ContainerWithHover } from './ArrowButton';
 import { Icon } from '../icon';
+import { ContainerWithHover } from './ArrowButton';
 
 export const CloseButton = () => {
   const navigate = useNavigate();

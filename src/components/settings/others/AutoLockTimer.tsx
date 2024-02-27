@@ -1,10 +1,10 @@
-import { Container, Icon, Paragraph } from '@/shared/components';
-import SubPageLayout, { SettingsRowItem } from '../SubPageLayout';
-import useToast from '@/lib/hooks/useToast';
 import { useLocation, useNavigate } from 'react-router-dom';
+import browser from 'webextension-polyfill';
+import SubPageLayout, { SettingsRowItem } from '../SubPageLayout';
+import { Container, Icon, Paragraph } from '@/shared/components';
+import useToast from '@/lib/hooks/useToast';
 import { AutoLockTimer as AutoLockTimerEnum, setLocalValue } from '@/lib/utils/localStorage';
 import showAutoLockTimerValue from '@/lib/utils/showAutoLockTimerValue';
-import browser from 'webextension-polyfill';
 import { ToastPosition } from '@/components/toast/ToastContainer';
 
 const timerKeys = Object.values(AutoLockTimerEnum).filter(

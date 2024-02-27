@@ -1,8 +1,8 @@
-import { Heading, Paragraph, Button, Container, Input } from '@/shared/components';
 import { FormikProps } from 'formik';
-import { ImportedWalletFormik } from '.';
 import React, { useEffect, useState } from 'react';
 import { Contracts } from '@ardenthq/sdk-profiles';
+import { ImportedWalletFormik } from '.';
+import { Heading, Paragraph, Button, Container, Input } from '@/shared/components';
 
 type Props = {
   goToNextStep: () => void;

@@ -1,9 +1,9 @@
 import React from 'react';
-import { IconDefinition, IconSvg } from './index.generated';
 import styled from 'styled-components';
-export * from './index.generated';
 import { color, ColorProps, layout, LayoutProps } from 'styled-system';
+import { IconDefinition, IconSvg } from './index.generated';
 import { Theme } from '@/shared/theme';
+export * from './index.generated';
 
 type IconProps = {
   icon: IconDefinition;

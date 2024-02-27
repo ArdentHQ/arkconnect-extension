@@ -1,5 +1,5 @@
-import { VariantProps } from '.';
 import { makeVariant } from './_utils';
+import { VariantProps } from '.';
 
 /**
  * Variant for setting custom flex property

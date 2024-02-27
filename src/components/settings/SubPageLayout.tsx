@@ -1,3 +1,5 @@
+import styled from 'styled-components';
+import { ThemeValue } from 'styled-system';
 import {
   Layout,
   Container,
@@ -6,8 +8,6 @@ import {
   ArrowButton,
   CloseButton,
 } from '@/shared/components';
-import styled from 'styled-components';
-import { ThemeValue } from 'styled-system';
 import { Theme } from '@/shared/theme';
 import { isFirefox } from '@/lib/utils/isFirefox';
 

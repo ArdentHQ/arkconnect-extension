@@ -1,8 +1,8 @@
 import { ReactNode, createContext, useContext, useState } from 'react';
-import useOnError from '../hooks';
-import ErrorModal from '@/components/connect/ErrorModal';
-import removeWindowInstance from '../utils/removeWindowInstance';
 import { useLocation } from 'react-router-dom';
+import useOnError from '../hooks';
+import removeWindowInstance from '../utils/removeWindowInstance';
+import ErrorModal from '@/components/connect/ErrorModal';
 
 interface Context {
   onError: (error: Error | unknown, showErrorModal?: boolean) => void;

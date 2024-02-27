@@ -1,5 +1,10 @@
 import { useState, useEffect } from 'react';
 import { FormikProps } from 'formik';
+import { Contracts } from '@ardenthq/sdk-profiles';
+import browser from 'webextension-polyfill';
+import { clearPersistScreenData, persistScreenChanged } from '../form-persist/helpers';
+import { WalletFormScreen } from '../form-persist';
+import { ImportedWalletFormik } from '.';
 import {
   FlexContainer,
   Heading,
@@ -9,7 +14,6 @@ import {
   Container,
   PassphraseInput,
 } from '@/shared/components';
-import { ImportedWalletFormik } from '.';
 import useWalletImport from '@/lib/hooks/useWalletImport';
 import { useProfileContext } from '@/lib/context/Profile';
 import useWalletSync from '@/lib/hooks/useWalletSync';
@@ -18,12 +22,8 @@ import { getDefaultAlias } from '@/lib/utils/getDefaultAlias';
 import useNetwork from '@/lib/hooks/useNetwork';
 import { assertWallet } from '@/lib/utils/assertions';
 import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
-import { Contracts } from '@ardenthq/sdk-profiles';
 import { useAppSelector } from '@/lib/store';
-import * as WalletStore from '@/lib/store/wallet';
-import { clearPersistScreenData, persistScreenChanged } from '../form-persist/helpers';
-import { WalletFormScreen } from '../form-persist';
-import browser from 'webextension-polyfill';
+import { selectWalletsIds } from '@/lib/store/wallet';
 
 type Props = {
   goToNextStep: () => void;
@@ -35,7 +35,7 @@ const EnterPassphrase = ({ goToNextStep, formik }: Props) => {
   const [showPassphrase, setShowPassphrase] = useState<boolean>(false);
   const [isImporting, setIsImporting] = useState<boolean>(false);
   const [isValidating, setIsValidating] = useState<boolean>(false);
-  const walletsIds = useAppSelector(WalletStore.selectWalletsIds);
+  const walletsIds = useAppSelector(selectWalletsIds);
   const { activeNetwork } = useNetwork();
   const { profile, initProfile } = useProfileContext();
   const { onError } = useErrorHandlerContext();

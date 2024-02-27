@@ -1,7 +1,7 @@
+import styled from 'styled-components';
 import { Container, Icon } from '@/shared/components';
 
 import { ThemeMode } from '@/lib/store/ui';
-import styled from 'styled-components';
 import useThemeMode, { Color } from '@/lib/hooks/useThemeMode';
 
 type Props = {

@@ -1,3 +1,9 @@
+import { useCallback, useEffect, useMemo, useRef } from 'react';
+import { BIP44 } from '@ardenthq/sdk-cryptography';
+import { Contracts as ProfilesContracts } from '@ardenthq/sdk-profiles';
+import { FormikProps } from 'formik';
+import styled from 'styled-components';
+import Step from './Step';
 import {
   Button,
   Checkbox,
@@ -7,19 +13,13 @@ import {
   Paragraph,
   Tooltip,
 } from '@/shared/components';
-import Step from './Step';
 import trimAddress from '@/lib/utils/trimAddress';
-import { useCallback, useEffect, useMemo, useRef } from 'react';
-import { BIP44 } from '@ardenthq/sdk-cryptography';
-import { Contracts as ProfilesContracts } from '@ardenthq/sdk-profiles';
 import { useLedgerContext, useLedgerScanner } from '@/lib/Ledger';
 import useNetwork from '@/lib/hooks/useNetwork';
 import { useProfileContext } from '@/lib/context/Profile';
-import { FormikProps } from 'formik';
 import { ImportWithLedger } from '@/pages/ImportWithLedger';
 import { HandleLoadingState } from '@/shared/components/handleStates/HandleLoadingState';
 import useOnError from '@/lib/hooks';
-import styled from 'styled-components';
 import { getNetworkCurrency } from '@/lib/utils/getActiveCoin';
 import { AddressBalance } from '@/components/wallet/address/Address.blocks';
 

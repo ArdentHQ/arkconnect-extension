@@ -1,3 +1,6 @@
+import styled from 'styled-components';
+import browser from 'webextension-polyfill';
+import SubPageLayout from '../SubPageLayout';
 import {
   Container,
   ExternalLink,
@@ -6,11 +9,8 @@ import {
   Paragraph,
   RowLayout,
 } from '@/shared/components';
-import SubPageLayout from '../SubPageLayout';
-import styled from 'styled-components';
 import useClipboard from '@/lib/hooks/useClipboard';
 import constants from '@/constants';
-import browser from 'webextension-polyfill';
 import { isFirefox } from '@/lib/utils/isFirefox';
 
 const AboutARK = () => {

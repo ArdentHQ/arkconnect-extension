@@ -1,16 +1,16 @@
-import { Button, Container, FlexContainer, Paragraph, PasswordInput } from '@/shared/components';
-import SubPageLayout from '../SubPageLayout';
 import { useFormik } from 'formik';
-import * as Yup from 'yup';
+import { object, string, ref } from 'yup';
 import { useNavigate } from 'react-router-dom';
+import browser from 'webextension-polyfill';
+import SubPageLayout from '../SubPageLayout';
+import { Button, Container, FlexContainer, Paragraph, PasswordInput } from '@/shared/components';
 import useToast from '@/lib/hooks/useToast';
 import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
 import { ToastPosition } from '@/components/toast/ToastContainer';
 import { isValidPassword } from '@/lib/utils/validations';
-import browser from 'webextension-polyfill';
 import { useProfileContext } from '@/lib/context/Profile';
 import { useAppDispatch } from '@/lib/store';
-import * as ModalStore from '@/lib/store/modal';
+import { loadingModalUpdated } from '@/lib/store/modal';
 
 type ChangePasswordFormik = {
   oldPassword: string;
@@ -18,14 +18,14 @@ type ChangePasswordFormik = {
   confirmNewPassword: string;
 };
 
-const validationSchema = Yup.object().shape({
-  oldPassword: Yup.string().required(''),
-  newPassword: Yup.string()
+const validationSchema = object().shape({
+  oldPassword: string().required(''),
+  newPassword: string()
     .min(8, 'Requires at least eight characters and one number')
     .matches(/(?=.*\d)/, 'Requires at least eight characters and one number')
     .required(''),
-  confirmNewPassword: Yup.string()
-    .oneOf([Yup.ref('newPassword'), ''], 'Passwords do not match')
+  confirmNewPassword: string()
+    .oneOf([ref('newPassword'), ''], 'Passwords do not match')
     .required(''),
 });
 
@@ -50,7 +50,7 @@ const ChangeLocalPassword = () => {
         }
 
         dispatch(
-          ModalStore.loadingModalUpdated({
+          loadingModalUpdated({
             isOpen: true,
             isLoading: true,
             loadingMessage: 'Updating your password...',
@@ -69,7 +69,7 @@ const ChangeLocalPassword = () => {
 
         await initProfile();
 
-        dispatch(ModalStore.loadingModalUpdated({ isOpen: false, isLoading: false }));
+        dispatch(loadingModalUpdated({ isOpen: false, isLoading: false }));
         toast('success', 'Password changed successfully', ToastPosition.HIGH);
         navigate('/');
       } catch (error) {

@@ -3,13 +3,13 @@ import { Contracts } from '@ardenthq/sdk-profiles';
 import { Options } from 'p-retry';
 import { useCallback, useMemo, useReducer, useRef } from 'react';
 
+import { persistLedgerConnection } from '../utils/connection';
 import { connectionReducer, defaultConnectionState } from './connection.state';
+import { useLedgerImport } from './import';
 import { openTransport, closeDevices, isLedgerTransportSupported } from '@/lib/Ledger/transport';
 import { useEnvironmentContext } from '@/lib/context/Environment';
-import { useLedgerImport } from './import';
-import { persistLedgerConnection } from '../utils/connection';
 import { useAppDispatch } from '@/lib/store';
-import * as ModalStore from '@/lib/store/modal';
+import { loadingModalUpdated } from '@/lib/store/modal';
 import useSentryException from '@/lib/hooks/useSentryException';
 
 type LedgerConnectionError = { statusText?: string; message: string };
@@ -107,7 +107,7 @@ export const useLedgerConnection = () => {
       try {
         if (!hideCompletedState) {
           reduxDispatch(
-            ModalStore.loadingModalUpdated({
+            loadingModalUpdated({
               isOpen: true,
               isLoading: false,
               completedMessage: 'Ledger Connected!',
@@ -115,7 +115,7 @@ export const useLedgerConnection = () => {
           );
           const ledgerTimeout = setTimeout(() => {
             reduxDispatch(
-              ModalStore.loadingModalUpdated({
+              loadingModalUpdated({
                 isOpen: false,
                 isLoading: false,
               }),

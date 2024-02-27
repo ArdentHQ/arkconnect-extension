@@ -1,13 +1,13 @@
+import { useRef } from 'react';
+import styled from 'styled-components';
+import { KnownTarget } from 'styled-components/dist/types';
+import Amount from '../Amount';
 import { Alias, Container, FlexContainer, Icon, Paragraph, Tooltip } from '@/shared/components';
 import trimAddress from '@/lib/utils/trimAddress';
 import useThemeMode from '@/lib/hooks/useThemeMode';
 import { ToastPosition } from '@/components/toast/ToastContainer';
 import useClipboard from '@/lib/hooks/useClipboard';
 import { useIsTruncated } from '@/lib/hooks/useIsTruncated';
-import { useRef } from 'react';
-import styled from 'styled-components';
-import { KnownTarget } from 'styled-components/dist/types';
-import Amount from '../Amount';
 
 export const AddressAlias = ({
   alias,

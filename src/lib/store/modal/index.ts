@@ -1,6 +1,6 @@
-import { RootState } from '@/lib/store';
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { revertAll } from '../ui';
+import { RootState } from '@/lib/store';
 import InitiateListenLedger from '@/components/ledger/InitiateListenLedger';
 
 export enum CTAType {

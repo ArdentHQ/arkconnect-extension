@@ -1,12 +1,12 @@
+import { useLocation } from 'react-router-dom';
+import styled from 'styled-components';
+import { Contracts } from '@ardenthq/sdk-profiles';
+import Amount from '../wallet/Amount';
+import ActionDetails, { ActionDetailsRow } from './ActionDetails';
 import useClipboard from '@/lib/hooks/useClipboard';
 import trimAddress from '@/lib/utils/trimAddress';
 import { Container, FlexContainer, Icon, Paragraph, Tooltip } from '@/shared/components';
-import { useLocation } from 'react-router-dom';
-import Amount from '../wallet/Amount';
 import getActiveCoin from '@/lib/utils/getActiveCoin';
-import ActionDetails, { ActionDetailsRow } from './ActionDetails';
-import styled from 'styled-components';
-import { Contracts } from '@ardenthq/sdk-profiles';
 import { WalletNetwork } from '@/lib/store/wallet';
 
 const StyledSpan = styled.span`

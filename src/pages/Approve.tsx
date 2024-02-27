@@ -1,21 +1,21 @@
 import { Contracts } from '@ardenthq/sdk-profiles';
-import { Button, Layout } from '@/shared/components';
 import { useLocation } from 'react-router-dom';
+import { useEffect, useRef, useState } from 'react';
+import { Button, Layout } from '@/shared/components';
 import ApproveTransaction from '@/components/approve/ApproveTransaction';
 import ApproveMessage from '@/components/approve/ApproveMessage';
 import ApproveVote from '@/components/approve/ApproveVote';
-import { useEffect, useRef, useState } from 'react';
 import { useLedgerContext } from '@/lib/Ledger';
 import Modal from '@/shared/components/modal/Modal';
 import ApproveWithLedger from '@/components/ledger/ApproveWithLedger';
 import { isLedgerTransportSupported } from '@/lib/Ledger/transport';
-import * as WalletStore from '@/lib/store/wallet';
+import { selectWallets, WalletNetwork } from '@/lib/store/wallet';
 import useCountTestnetAddresses from '@/lib/hooks/useNoTestnetAddressFound';
 import NoTestnetAddressFound from '@/components/approve/NoTestnetAddressFound';
 import removeWindowInstance from '@/lib/utils/removeWindowInstance';
 import { useAppSelector } from '@/lib/store';
 import { useProfileContext } from '@/lib/context/Profile';
-import * as UIStore from '@/lib/store/ui';
+import { selectLocked } from '@/lib/store/ui';
 import { assertIsUnlocked } from '@/lib/background/assertions';
 import useThemeMode from '@/lib/hooks/useThemeMode';
 
@@ -36,16 +36,16 @@ const Approve = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isTestnetModalOpen, setIsTestnetModalOpen] = useState(false);
   const testnetWalletsLength = useCountTestnetAddresses();
-  const wallets = useAppSelector(WalletStore.selectWallets);
+  const wallets = useAppSelector(selectWallets);
 
   const walletData = wallets.find((wallet) => wallet.walletId === location.state.session.walletId)!;
   const wallet = profile.wallets().findById(walletData?.walletId);
 
-  const locked = useAppSelector(UIStore.selectLocked);
+  const locked = useAppSelector(selectLocked);
   assertIsUnlocked(locked);
 
   useEffect(() => {
-    if (location.state?.network === WalletStore.WalletNetwork.MAINNET) return;
+    if (location.state?.network === WalletNetwork.MAINNET) return;
 
     if (!testnetWalletsLength) setIsTestnetModalOpen(true);
   }, []);

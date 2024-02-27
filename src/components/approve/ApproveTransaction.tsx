@@ -1,21 +1,21 @@
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import browser from 'webextension-polyfill';
+import { Contracts } from '@ardenthq/sdk-profiles';
+import { BigNumber } from '@ardenthq/sdk-helpers';
 import ApproveBody from '@/components/approve/ApproveBody';
 import ApproveFooter from '@/components/approve/ApproveFooter';
 import ApproveHeader from '@/components/approve/ApproveHeader';
-import { useLocation, useNavigate } from 'react-router-dom';
 import { useSendTransferForm } from '@/lib/hooks/useSendTransferForm';
 import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
-import { useEffect, useState } from 'react';
 import { useProfileContext } from '@/lib/context/Profile';
-import browser from 'webextension-polyfill';
 import { ApproveActionType } from '@/pages/Approve';
 import removeWindowInstance from '@/lib/utils/removeWindowInstance';
-import { Contracts } from '@ardenthq/sdk-profiles';
 import { useAppDispatch } from '@/lib/store';
-import * as ModalStore from '@/lib/store/modal';
-import * as WalletStore from '@/lib/store/wallet';
+import { loadingModalUpdated } from '@/lib/store/modal';
+import { WalletNetwork } from '@/lib/store/wallet';
 import useWalletSync from '@/lib/hooks/useWalletSync';
 import { useEnvironmentContext } from '@/lib/context/Environment';
-import { BigNumber } from '@ardenthq/sdk-helpers';
 import RequestedTransactionBody from '@/components/approve/RequestedTransactionBody';
 import { useExchangeRate } from '@/lib/hooks/useExchangeRate';
 import { useNotifyOnUnload } from '@/lib/hooks/useNotifyOnUnload';
@@ -95,7 +95,7 @@ const ApproveTransaction = ({
       if (wallet.isLedger()) {
         await approveWithLedger(profile, wallet);
       } else {
-        dispatch(ModalStore.loadingModalUpdated(loadingModal));
+        dispatch(loadingModalUpdated(loadingModal));
       }
 
       const response = await submitForm(abortReference);
@@ -116,7 +116,7 @@ const ApproveTransaction = ({
       if (wallet.isLedger()) {
         closeLedgerScreen();
         dispatch(
-          ModalStore.loadingModalUpdated({
+          loadingModalUpdated({
             ...loadingModal,
             isLoading: false,
           }),
@@ -139,7 +139,7 @@ const ApproveTransaction = ({
       setSubmitted();
 
       dispatch(
-        ModalStore.loadingModalUpdated({
+        loadingModalUpdated({
           ...loadingModal,
           isLoading: false,
           isOpen: false,
@@ -151,8 +151,8 @@ const ApproveTransaction = ({
           transaction,
           windowId: location.state?.windowId,
           walletNetwork: wallet.network().isTest()
-            ? WalletStore.WalletNetwork.DEVNET
-            : WalletStore.WalletNetwork.MAINNET,
+            ? WalletNetwork.DEVNET
+            : WalletNetwork.MAINNET,
           isTestnet: wallet.network().isTest(),
           session,
         },

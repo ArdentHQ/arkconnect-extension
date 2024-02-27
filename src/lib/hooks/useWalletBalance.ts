@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { useExchangeRates } from '@/lib/hooks/useExchangeRates';
 import { Contracts } from '@ardenthq/sdk-profiles';
+import { useExchangeRates } from '@/lib/hooks/useExchangeRates';
 
 export const useWalletBalance = (primaryWallet: Contracts.IReadWriteWallet | undefined) => {
   const { isLoading, rates } = useExchangeRates();

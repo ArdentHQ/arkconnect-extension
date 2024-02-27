@@ -1,5 +1,9 @@
-import { Container, FlexContainer, Icon, Paragraph, RadioButton } from '@/shared/components';
 import { Contracts } from '@ardenthq/sdk-profiles';
+import { useNavigate } from 'react-router-dom';
+import { useRef } from 'react';
+import browser from 'webextension-polyfill';
+import styled from 'styled-components';
+import { Container, FlexContainer, Icon, Paragraph, RadioButton } from '@/shared/components';
 import useThemeMode from '@/lib/hooks/useThemeMode';
 import {
   AddressAlias,
@@ -9,16 +13,12 @@ import {
   TestnetIcon,
 } from '@/components/wallet/address/Address.blocks';
 import { getNetworkCurrency } from '@/lib/utils/getActiveCoin';
-import { useNavigate } from 'react-router-dom';
-import * as WalletStore from '@/lib/store/wallet';
+import { primaryWalletIdChanged } from '@/lib/store/wallet';
 import { ExtensionEvents } from '@/lib/events';
 import { useAppDispatch } from '@/lib/store';
 import useToast from '@/lib/hooks/useToast';
 import useOnClickOutside from '@/lib/hooks/useOnClickOutside';
-import { useRef } from 'react';
-import browser from 'webextension-polyfill';
 import { useProfileContext } from '@/lib/context/Profile';
-import styled from 'styled-components';
 import { DropdownMenuContainerProps } from '@/components/settings/SettingsMenu';
 import { isFirefox } from '@/lib/utils/isFirefox';
 
@@ -76,7 +76,7 @@ export const AddressesDropdown = ({
   const setPrimaryAddress = async (newPrimaryAddress: Contracts.IReadWriteWallet) => {
     if (newPrimaryAddress.id() === primaryAddressId) return;
 
-    await dispatch(WalletStore.primaryWalletIdChanged(newPrimaryAddress.id()));
+    await dispatch(primaryWalletIdChanged(newPrimaryAddress.id()));
 
     await browser.runtime.sendMessage({
       type: 'SET_PRIMARY_WALLET',

@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import Balance from '@/components/wallet/Balance';
 import {
   Container,
@@ -8,7 +9,6 @@ import {
   ExternalLink,
 } from '@/shared/components';
 import constants from '@/constants';
-import { useEffect } from 'react';
 import { clearPersistScreenData } from '@/components/wallet/form-persist/helpers';
 import { useProfileContext } from '@/lib/context/Profile';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';

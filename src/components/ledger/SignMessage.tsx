@@ -1,4 +1,7 @@
 import { Services } from '@ardenthq/sdk';
+import { FormikProps } from 'formik';
+import { useEffect, useRef, useState } from 'react';
+import { Helpers } from '@ardenthq/sdk-profiles';
 import trimAddress from '@/lib/utils/trimAddress';
 import { ImportWithLedger } from '@/pages/ImportWithLedger';
 import {
@@ -10,13 +13,10 @@ import {
   Loader,
   Paragraph,
 } from '@/shared/components';
-import { FormikProps } from 'formik';
-import { useEffect, useRef, useState } from 'react';
 import { useProfileContext } from '@/lib/context/Profile';
 import useNetwork from '@/lib/hooks/useNetwork';
 import { useMessageSigner } from '@/lib/hooks/useMessageSigner';
 import { useEnvironmentContext } from '@/lib/context/Environment';
-import { Helpers } from '@ardenthq/sdk-profiles';
 
 type Props = {
   formik: FormikProps<ImportWithLedger>;

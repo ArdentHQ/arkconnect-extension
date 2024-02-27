@@ -1,7 +1,7 @@
-import { FlexContainer, Paragraph } from '@/shared/components';
 import styled from 'styled-components';
-import formatDomain from '@/lib/utils/formatDomain';
 import ConnectionLogoImage from '../../../components/connections/ConnectionLogoImage';
+import { FlexContainer, Paragraph } from '@/shared/components';
+import formatDomain from '@/lib/utils/formatDomain';
 import useThemeMode from '@/lib/hooks/useThemeMode';
 
 type Props = {

@@ -1,10 +1,11 @@
-import SubPageLayout from '@/components/settings/SubPageLayout';
 import { Contracts } from '@ardenthq/sdk-profiles';
+import { useLocation, useNavigate } from 'react-router-dom';
+import Amount from './Amount';
+import SubPageLayout from '@/components/settings/SubPageLayout';
 import useThemeMode from '@/lib/hooks/useThemeMode';
 import { FlexContainer, Paragraph, Tooltip } from '@/shared/components';
 import { AddressAlias, LedgerIcon, TestnetIcon } from '@/components/wallet/address/Address.blocks';
 import { getNetworkCurrency } from '@/lib/utils/getActiveCoin';
-import { useLocation, useNavigate } from 'react-router-dom';
 import useClipboard from '@/lib/hooks/useClipboard';
 import { ToastPosition } from '@/components/toast/ToastContainer';
 import trimAddress from '@/lib/utils/trimAddress';
@@ -12,7 +13,6 @@ import { getExplorerDomain } from '@/lib/utils/networkUtils';
 import { SettingsOption } from '@/components/settings/SettingsOption';
 import SafeOutlineOverflowContainer from '@/shared/components/layout/SafeOutlineOverflowContainer';
 import { handleSubmitKeyAction } from '@/lib/utils/handleKeyAction';
-import Amount from './Amount';
 
 export const AddressSettings = () => {
   const { state } = useLocation();
