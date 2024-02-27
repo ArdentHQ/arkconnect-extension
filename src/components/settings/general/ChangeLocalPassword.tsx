@@ -75,6 +75,10 @@ const ChangeLocalPassword = () => {
         if (id) {
           console.log('newid', id);
           await dispatch(WalletStore.primaryWalletIdChanged(id));
+          await browser.runtime.sendMessage({
+            type: 'SET_PRIMARY_WALLET',
+            data: { primaryWalletId: id },
+          });
         }
 
         dispatch(ModalStore.loadingModalUpdated({ isOpen: false, isLoading: false }));
