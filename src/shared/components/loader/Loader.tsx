@@ -1,5 +1,3 @@
-import useThemeMode from '@/lib/hooks/useThemeMode';
-import { ThemeMode } from '@/lib/store/ui';
 import styled, { keyframes } from 'styled-components';
 import { variant as styledSystemVariant } from 'styled-system';
 
@@ -10,10 +8,8 @@ type LoaderProps = React.ComponentPropsWithRef<typeof StyledLoader> & {
 type LoaderVariant = 'small' | 'big' | 'warning';
 
 export const Loader = ({ variant, ...rest }: LoaderProps) => {
-  const { currentThemeMode } = useThemeMode();
   return (
     <StyledLoader
-      borderColor={currentThemeMode === ThemeMode.DARK ? '#3B3B3B' : '#EEE'}
       variant={variant}
       {...rest}
     />
@@ -29,11 +25,11 @@ const spin = keyframes`
   }
 `;
 
-const StyledLoader = styled.div<{ variant: LoaderVariant; borderColor?: string }>`
+const StyledLoader = styled.div<{ variant: LoaderVariant }>`
   border-radius: 50%;
   animation: ${spin} 1s linear infinite;
 
-  ${({ theme, borderColor }) =>
+  ${({ theme }) =>
     styledSystemVariant({
       variants: {
         small: {
@@ -45,7 +41,7 @@ const StyledLoader = styled.div<{ variant: LoaderVariant; borderColor?: string }
         big: {
           width: '64px',
           height: '64px',
-          border: `6px solid ${borderColor}`,
+          border: `6px solid ${theme.colors.loaderBackground}`,
           borderTop: `6px solid ${theme.colors.primary}`,
         },
         warning: {
