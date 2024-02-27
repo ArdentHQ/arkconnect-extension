@@ -164,6 +164,10 @@ const StyledButton = styled.button<BaseProps>`
                     '&:disabled': {
                         backgroundColor: `${theme.colors.destructivePrimaryDisabled}`,
                     },
+                    '&:focus-visible': {
+                        outline: 'none',
+                        boxShadow: `0px 0px 0px 4px ${theme.colors.destructiveShadow}`,
+                    }
                 },
                 destructiveSecondary: {
                     backgroundColor: `${theme.colors.background}`,
@@ -179,6 +183,10 @@ const StyledButton = styled.button<BaseProps>`
                         border: `1px solid ${theme.colors.error200}`,
                         color: `${theme.colors.error300}`,
                     },
+                    '&:focus-visible': {
+                        outline: 'none',
+                        boxShadow: `0px 0px 0px 4px ${theme.colors.destructiveShadow}`,
+                    }
                 },
             },
         })};
