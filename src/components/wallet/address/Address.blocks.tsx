@@ -8,6 +8,7 @@ import { useRef } from 'react';
 import styled from 'styled-components';
 import { KnownTarget } from 'styled-components/dist/types';
 import Amount from '../Amount';
+import { TippyProps } from '@tippyjs/react';
 
 export const AddressAlias = ({
   alias,
@@ -75,10 +76,18 @@ export const TestnetIcon = ({ as }: { as?: KnownTarget }) => {
   );
 };
 
-export const Address = ({ address, length = 10 }: { address: string; length?: number }) => {
+export const Address = ({
+  address,
+  length = 10,
+  tooltipPlacement = 'top',
+}: {
+  address: string;
+  length?: number;
+  tooltipPlacement?: TippyProps['placement'];
+}) => {
   return (
     <Container>
-      <Tooltip content={address} placement='top'>
+      <Tooltip content={address} placement={tooltipPlacement}>
         <Paragraph $typeset='body' color='gray'>
           {trimAddress(address, length)}
         </Paragraph>
