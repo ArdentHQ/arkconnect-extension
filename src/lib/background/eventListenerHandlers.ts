@@ -62,7 +62,7 @@ const createExtensionWindow = async (onWindowReady: (id?: number) => void) => {
     return;
   }
 
-  const POPUP_WIDTH = 375;
+  const POPUP_WIDTH = 370;
 
   let left = 0;
   let top = 0;
@@ -133,8 +133,6 @@ const handleOnConnect = async (
 ) => {
   try {
     if (!profile) {
-      initWindow(payload);
-
       throw new Error('No profile found. Please connect your wallet and try again.');
     } else {
       assertHasWallet(profile);
@@ -148,7 +146,7 @@ const handleOnConnect = async (
       data: {
         status: 'failed',
         domain: payload.data.domain,
-        message: error.message,
+        message: 'Wallet is locked.',
         tabId: payload.data.tabId,
       },
     });
@@ -166,7 +164,7 @@ const handleIsConnected = async (
       type: `${payload.type}_RESOLVE`,
       data: {
         status: 'success',
-        isConnected: getActiveSession({
+        isConnected: !!getActiveSession({
           payload,
           profile,
         }),

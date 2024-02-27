@@ -10,13 +10,8 @@ import {
 } from '@/shared/components';
 import { useFormik } from 'formik';
 import constants from '@/constants';
-import {
-  createWalletChanged,
-  importWalletChanged,
-  persistScreenChanged,
-} from '../wallet/form-persist/helpers';
+import { persistScreenChanged } from '../wallet/form-persist/helpers';
 import { WalletFormScreen } from '../wallet/form-persist';
-import { useLocation } from 'react-router-dom';
 import { getLocalValues, setLocalValue } from '@/lib/utils/localStorage';
 
 type Props = {
@@ -32,7 +27,6 @@ type PasswordValidation = {
 
 const SetupPassword = ({ formik }: Props) => {
   const { values } = formik;
-  const location = useLocation();
 
   const [validation, setValidation] = useState<PasswordValidation>({
     password: 'primary',
@@ -40,7 +34,6 @@ const SetupPassword = ({ formik }: Props) => {
   });
 
   const isValid = Object.values(validation).every((status) => status === 'errorFree');
-  const isImportingWallet = location.pathname === '/wallet/import';
 
   useEffect(() => {
     validatePassword();
@@ -65,11 +58,6 @@ const SetupPassword = ({ formik }: Props) => {
 
   const handleTermsAndConditionsChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
     formik.setFieldValue('termsAndConditionsConfirmed', evt.target.checked);
-    if (isImportingWallet) {
-      importWalletChanged({ termsAndConditionsConfirmed: evt.target.checked });
-    } else {
-      createWalletChanged({ termsAndConditionsConfirmed: evt.target.checked });
-    }
   };
 
   const handlePasswordChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
@@ -118,7 +106,7 @@ const SetupPassword = ({ formik }: Props) => {
           variant={validation.password}
           labelText='Password'
           onChange={handlePasswordChange}
-          value={values.password}
+          value={values.password ?? ''}
           helperText={
             validation.password !== 'errorFree'
               ? 'Requires at least 8 characters and one number'
@@ -127,7 +115,7 @@ const SetupPassword = ({ formik }: Props) => {
         />
         <PasswordInput
           name='passwordConfirm'
-          value={values.passwordConfirm}
+          value={values.passwordConfirm ?? ''}
           variant={validation.passwordConfirm}
           labelText='Confirm Password'
           onChange={handlePasswordConfirmChange}

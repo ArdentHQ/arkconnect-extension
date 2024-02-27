@@ -35,6 +35,7 @@ export default defineConfig(({ mode }) => {
         additionalInputs: ['src/inpage.ts'],
         webExtConfig: {
           startUrl: process.env.VITE_START_URL ?? 'about:blank',
+          firefox: process.env.VITE_FIREFOX_BINARY,
         },
         browser: process.env.BROWSER || 'chrome',
       }),

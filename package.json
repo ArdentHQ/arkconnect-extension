@@ -1,12 +1,13 @@
 {
   "name": "ark-connect-webext",
   "private": true,
-  "version": "1.3.0",
+  "version": "1.4.0",
   "type": "module",
   "scripts": {
     "dev": "VITE_SEED_ADDRESSES=true vite",
     "dev:firefox": "VITE_SEED_ADDRESSES=true BROWSER=firefox vite",
     "dev:bare": "vite",
+    "dev:bare:firefox": "BROWSER=firefox vite",
     "test": "vitest",
     "build": "rm -rf dist && tsc && vite build && zip build.zip dist",
     "build:firefox": "rm -rf dist && BROWSER=firefox vite build --config vite.production.config.ts",

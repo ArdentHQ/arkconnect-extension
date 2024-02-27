@@ -5,10 +5,7 @@ import SubPageLayout from '@/components/settings/SubPageLayout';
 import useThemeMode from '@/lib/hooks/useThemeMode';
 import { isFirefox } from '@/lib/utils/isFirefox';
 import { useEffect } from 'react';
-import {
-  clearImportWalletData,
-  clearPersistScreenData,
-} from '@/components/wallet/form-persist/helpers';
+import { clearPersistScreenData } from '@/components/wallet/form-persist/helpers';
 
 const InitialImportWallet = () => {
   const navigate = useNavigate();
@@ -17,7 +14,6 @@ const InitialImportWallet = () => {
 
   useEffect(() => {
     clearPersistScreenData();
-    clearImportWalletData();
   }, []);
 
   return (

@@ -21,12 +21,7 @@ import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
 import { Contracts } from '@ardenthq/sdk-profiles';
 import { useAppSelector } from '@/lib/store';
 import * as WalletStore from '@/lib/store/wallet';
-import {
-  clearImportWalletData,
-  clearPersistScreenData,
-  importWalletChanged,
-  persistScreenChanged,
-} from '../form-persist/helpers';
+import { clearPersistScreenData, persistScreenChanged } from '../form-persist/helpers';
 import { WalletFormScreen } from '../form-persist';
 import browser from 'webextension-polyfill';
 
@@ -163,8 +158,6 @@ const EnterPassphrase = ({ goToNextStep, formik }: Props) => {
           });
 
           clearPersistScreenData();
-          clearImportWalletData();
-          clearImportWalletData();
 
           await initProfile();
         }
@@ -176,11 +169,6 @@ const EnterPassphrase = ({ goToNextStep, formik }: Props) => {
 
         formik.setFieldValue('wallet', wallet);
         formik.setFieldValue('addressName', importedWalletAlias);
-
-        importWalletChanged({
-          addressName: importedWalletAlias,
-          wallet,
-        });
       }
 
       goToNextStep();
