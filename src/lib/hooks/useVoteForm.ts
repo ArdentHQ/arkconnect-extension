@@ -1,19 +1,19 @@
 import { Networks, Services } from '@ardenthq/sdk';
 import { Contracts } from '@ardenthq/sdk-profiles';
 import { useEffect, useState } from 'react';
-import browser from 'webextension-polyfill';
-import { useLocation } from 'react-router-dom';
 import { useEnvironmentContext } from '../context/Environment';
 import { precisionRound } from '../utils/precisionRound';
-import { handleBroadcastError, withAbortPromise } from '../utils/transactionHelpers';
+import { handleBroadcastError } from '../utils/transactionHelpers';
+import * as SessionStore from '@/lib/store/session';
+import * as WalletStore from '@/lib/store/wallet';
 import { useAppSelector } from '../store';
-import { useProfileContext } from '../context/Profile';
-import { useErrorHandlerContext } from '../context/ErrorHandler';
-import { useLedgerContext } from '../Ledger';
 import { useFees } from './useFees';
 import { ApproveActionType } from '@/pages/Approve';
-import { selectWallets } from '@/lib/store/wallet';
-import * as SessionStore from '@/lib/store/session';
+import { useProfileContext } from '../context/Profile';
+import { useErrorHandlerContext } from '../context/ErrorHandler';
+import browser from 'webextension-polyfill';
+import { withAbortPromise } from '../utils/transactionHelpers';
+import { useLedgerContext } from '../Ledger';
 
 interface SendVoteForm {
   senderAddress: string;
@@ -63,12 +63,11 @@ export const useVoteForm = (wallet: Contracts.IReadWriteWallet, request: Approve
   const { env } = useEnvironmentContext();
   const { profile } = useProfileContext();
   const { onError } = useErrorHandlerContext();
-  const { state } = useLocation();
   const { calculate } = useFees();
   const [loading, setLoading] = useState(true);
   const [formValues, setFormValues] = useState<SendVoteForm>(defaultState);
   const { persist } = useEnvironmentContext();
-  const wallets = useAppSelector(selectWallets);
+  const wallets = useAppSelector(WalletStore.selectWallets);
   const { abortConnectionRetry } = useLedgerContext();
 
   const resetForm = () => {
@@ -103,11 +102,12 @@ export const useVoteForm = (wallet: Contracts.IReadWriteWallet, request: Approve
         abortConnectionRetry,
       )(prepareLedger(wallet));
 
-      const voteTransactionInput: Services.VoteInput = {
+      const voteTransactionInput: Services.TransactionInputs = {
         ...data,
         signatory,
-      } as Services.VoteInput;
+      };
 
+      // @ts-ignore
       const uuid = await wallet.transaction().signVote(voteTransactionInput);
       const response = await wallet.transaction().broadcast(uuid);
 
@@ -168,11 +168,7 @@ export const useVoteForm = (wallet: Contracts.IReadWriteWallet, request: Approve
 
   useEffect(() => {
     (async () => {
-      if (
-        !wallet.id() ||
-        !wallets.some((w) => w.walletId === wallet.id()) ||
-        wallet.network().name() !== state?.network
-      ) {
+      if (!wallet.id() || !wallets.some((w) => w.walletId === wallet.id())) {
         return;
       }
 
