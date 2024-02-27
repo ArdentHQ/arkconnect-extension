@@ -4,6 +4,8 @@ import { StubStorage } from './StubStorage';
 import { HttpClient } from '@/lib/services/HttpClient';
 import { connectedTransport as ledgerTransportFactory } from '@/lib/utils/transport';
 
+export const httpClient = new HttpClient(10);
+
 const getEnvironmentWithMocks = () =>
   new Environment({
     coins: { ARK },
@@ -13,5 +15,3 @@ const getEnvironmentWithMocks = () =>
   });
 
 export const env = getEnvironmentWithMocks();
-
-export const httpClient = new HttpClient(10);
