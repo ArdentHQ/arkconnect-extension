@@ -1,7 +1,5 @@
 import styled, { keyframes } from 'styled-components';
 import { variant as styledSystemVariant } from 'styled-system';
-import useThemeMode from '@/lib/hooks/useThemeMode';
-import { ThemeMode } from '@/lib/store/ui';
 
 type LoaderProps = React.ComponentPropsWithRef<typeof StyledLoader> & {
   variant: LoaderVariant;
