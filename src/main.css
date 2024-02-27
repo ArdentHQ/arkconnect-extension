@@ -194,6 +194,11 @@ body {
   outline-color: #01b86c;
 }
 
+*:focus-visible {
+  outline-style: solid;
+  outline-width: 2px;
+}
+
 #extension-root {
   height: 100%;
 }
