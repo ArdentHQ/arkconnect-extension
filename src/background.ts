@@ -205,6 +205,7 @@ const initRuntimeEventListener = () => {
       extensionProfile.primaryWallet().set(request.data.primaryWalletId);
       await ENVIRONMENT.persist();
     } else if (request.type === 'SET_SESSIONS') {
+      console.log('set sessions', request.data.sessions);
       if (!PROFILE) {
         return;
       }
@@ -266,10 +267,22 @@ const initRuntimeEventListener = () => {
           }
 
           // Update primary wallet ID to match the new id of the same wallet
-          console.log(PROFILE.data().get(ProfileData.PrimaryWalletId), oldWalletId, newWallet.id());
           if (PROFILE.data().get(ProfileData.PrimaryWalletId) === oldWalletId) {
             PROFILE.data().set(ProfileData.PrimaryWalletId, newWallet.id());
           }
+
+          const sessions = PROFILE.data().get(ProfileData.Sessions);
+
+          // Adjust sessions' walletId to match new ones
+          for (const [sessionId, session] of Object.entries(sessions)) {
+            if (session.walletId === oldWalletId) {
+              session.walletId = newWallet.id();
+              sessions[sessionId] = session;
+            }
+          }
+
+          // Update sessions
+          PROFILE.data().set(ProfileData.Sessions, sessions);
 
           PROFILE.wallets().forget(oldWalletId);
           PROFILE.wallets().push(newWallet);
@@ -278,7 +291,6 @@ const initRuntimeEventListener = () => {
         await ENVIRONMENT.persist();
 
         return Promise.resolve({
-          id: PROFILE.data().get(ProfileData.PrimaryWalletId),
           error: undefined,
         });
       } catch (error) {

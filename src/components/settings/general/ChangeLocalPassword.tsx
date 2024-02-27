@@ -1,5 +1,4 @@
 import * as ModalStore from '@/lib/store/modal';
-import * as WalletStore from '@/lib/store/wallet';
 import * as Yup from 'yup';
 
 import { Button, Container, FlexContainer, Paragraph, PasswordInput } from '@/shared/components';
@@ -60,7 +59,7 @@ const ChangeLocalPassword = () => {
           }),
         );
 
-        const { id, error } = await browser.runtime.sendMessage({
+        const { error } = await browser.runtime.sendMessage({
           type: 'CHANGE_PASSWORD',
           data: { newPassword: formik.values.newPassword, oldPassword: formik.values.oldPassword },
         });
@@ -71,15 +70,6 @@ const ChangeLocalPassword = () => {
         }
 
         await initProfile();
-
-        if (id) {
-          console.log('newid', id);
-          await dispatch(WalletStore.primaryWalletIdChanged(id));
-          await browser.runtime.sendMessage({
-            type: 'SET_PRIMARY_WALLET',
-            data: { primaryWalletId: id },
-          });
-        }
 
         dispatch(ModalStore.loadingModalUpdated({ isOpen: false, isLoading: false }));
         toast('success', 'Password changed successfully', ToastPosition.HIGH);
