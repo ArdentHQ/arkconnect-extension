@@ -1,4 +1,5 @@
 import { AutoLockTimer, setLocalValue } from './lib/utils/localStorage';
+import { ProfileData, SessionEntries } from './lib/background/contracts';
 import { createTestProfile, isDev } from './dev/utils/dev';
 
 import { BACKGROUND_EVENT_LISTENERS_HANDLERS } from './lib/background/eventListenerHandlers';
@@ -6,7 +7,6 @@ import { Contracts } from '@ardenthq/sdk-profiles';
 import { ExtensionEvents } from './lib/events';
 import { ExtensionProfile } from './lib/background/extension.profile';
 import { LockHandler } from '@/lib/background/handleAutoLock';
-import { ProfileData } from './lib/background/contracts';
 import { SendTransferInput } from './lib/background/extension.wallet';
 import { Services } from '@ardenthq/sdk';
 import browser from 'webextension-polyfill';
@@ -205,7 +205,6 @@ const initRuntimeEventListener = () => {
       extensionProfile.primaryWallet().set(request.data.primaryWalletId);
       await ENVIRONMENT.persist();
     } else if (request.type === 'SET_SESSIONS') {
-      console.log('set sessions', request.data.sessions);
       if (!PROFILE) {
         return;
       }
@@ -271,17 +270,19 @@ const initRuntimeEventListener = () => {
             PROFILE.data().set(ProfileData.PrimaryWalletId, newWallet.id());
           }
 
-          const sessions = PROFILE.data().get(ProfileData.Sessions);
+          const sessions = PROFILE.data().get<SessionEntries>(ProfileData.Sessions);
 
-          // Adjust sessions' walletId to match new ones
-          for (const [sessionId, session] of Object.entries(sessions)) {
-            if (session.walletId === oldWalletId) {
-              session.walletId = newWallet.id();
-              sessions[sessionId] = session;
+          if (sessions) {
+            // Adjust sessions' walletId to match new ones
+            for (const [sessionId, session] of Object.entries(sessions)) {
+              if (session.walletId === oldWalletId) {
+                session.walletId = newWallet.id();
+                sessions[sessionId] = session;
+              }
             }
           }
 
-          // Update sessions
+          // Store updated sessions
           PROFILE.data().set(ProfileData.Sessions, sessions);
 
           PROFILE.wallets().forget(oldWalletId);
