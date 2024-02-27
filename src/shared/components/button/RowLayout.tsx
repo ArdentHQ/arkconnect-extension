@@ -36,7 +36,7 @@ type BaseProps = ColorProps<Theme> &
   BorderProps<Theme> &
   FlexVariantProps &
   VariantProps & {
-    hasPointer: boolean;
+    hasPointer?: boolean;
   };
 
 type RowLayoutProps = React.ComponentPropsWithRef<typeof StyledRow> & {
