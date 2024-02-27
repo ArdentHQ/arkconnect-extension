@@ -1,5 +1,4 @@
 import { Contracts, Environment } from '@ardenthq/sdk-profiles';
-import { getDefaultAlias, getLedgerAlias } from '@/lib/utils/getDefaultAlias';
 
 import { Coins } from '@ardenthq/sdk';
 import { LedgerData } from '../Ledger.contracts';
