@@ -12,8 +12,9 @@
     "build": "rm -rf dist && tsc && vite build && zip build.zip dist",
     "build:firefox": "rm -rf dist && BROWSER=firefox vite build --config vite.production.config.ts",
     "build:chrome": "rm -rf dist && BROWSER=chrome vite build --config vite.production.config.ts",
+    "format": "pnpm lint && pnpm prettier",
     "lint": "npx eslint -c .eslintrc.json --cache --ext .jsx,.js,.tsx,.ts src --fix",
-    "format": "prettier --write src/**/*.{js,jsx,ts,tsx} --config .prettierrc.json",
+    "prettier": "prettier --write src/**/*.{js,jsx,ts,tsx} --config .prettierrc.json",
     "preview": "vite preview",
     "generate:icons": "node scripts/generate-icons.js"
   },
