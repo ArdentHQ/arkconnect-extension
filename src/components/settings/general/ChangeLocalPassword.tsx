@@ -1,14 +1,14 @@
+import * as Yup from 'yup';
 import { Button, Container, FlexContainer, Paragraph, PasswordInput } from '@/shared/components';
 import SubPageLayout from '../SubPageLayout';
-import { useFormik } from 'formik';
-import * as Yup from 'yup';
-import { useNavigate } from 'react-router-dom';
-import useToast from '@/lib/hooks/useToast';
-import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
 import { ToastPosition } from '@/components/toast/ToastContainer';
-import { isValidPassword } from '@/lib/utils/validations';
 import browser from 'webextension-polyfill';
+import { isValidPassword } from '@/lib/utils/validations';
+import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
+import { useFormik } from 'formik';
+import { useNavigate } from 'react-router-dom';
 import { useProfileContext } from '@/lib/context/Profile';
+import useToast from '@/lib/hooks/useToast';
 import useLoadingModal from '@/lib/hooks/useLoadingModal';
 
 type ChangePasswordFormik = {

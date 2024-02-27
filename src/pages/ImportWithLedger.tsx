@@ -1,21 +1,22 @@
+import { Container, FlexContainer, Header, Icon, Paragraph } from '@/shared/components';
+import { LedgerData, useLedgerContext } from '@/lib/Ledger';
+import StepsNavigation, { Step } from '@/components/steps/StepsNavigation';
+import { useEffect, useState } from 'react';
 import { Contracts } from '@ardenthq/sdk-profiles';
 import ImportWallets from '@/components/ledger/ImportWallets';
 import { LedgerConnectionStep } from '@/components/ledger/LedgerConnectionStep';
 import SetupPassword from '@/components/settings/SetupPassword';
-import StepsNavigation, { Step } from '@/components/steps/StepsNavigation';
-import { LedgerData, useLedgerContext } from '@/lib/Ledger';
-import useThemeMode from '@/lib/hooks/useThemeMode';
-import { Container, FlexContainer, Header, Icon, Paragraph } from '@/shared/components';
-import { useFormik } from 'formik';
-import { useEffect, useState } from 'react';
-import styled from 'styled-components';
 import { ThemeMode } from '@/lib/store/ui';
-import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
-import { useProfileContext } from '@/lib/context/Profile';
 import browser from 'webextension-polyfill';
 import { getDefaultAlias } from '@/lib/utils/getDefaultAlias';
-import useLocaleCurrency from '@/lib/hooks/useLocalCurrency';
 import { getLocalValues } from '@/lib/utils/localStorage';
+import styled from 'styled-components';
+import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
+import { useFormik } from 'formik';
+import useLocaleCurrency from '@/lib/hooks/useLocalCurrency';
+import useNetwork from '@/lib/hooks/useNetwork';
+import { useProfileContext } from '@/lib/context/Profile';
+import useThemeMode from '@/lib/hooks/useThemeMode';
 import useLoadingModal from '@/lib/hooks/useLoadingModal';
 
 export type ImportWithLedger = {
@@ -28,6 +29,7 @@ export type ImportWithLedger = {
 
 const ImportWithLedger = () => {
   const { currentThemeMode } = useThemeMode();
+  const { activeNetwork: network } = useNetwork();
   const { profile, initProfile } = useProfileContext();
   const { defaultCurrency } = useLocaleCurrency();
   const { error, removeErrors } = useLedgerContext();
@@ -53,21 +55,18 @@ const ImportWithLedger = () => {
       passwordConfirm: '',
     },
     onSubmit: async (values, formikHelpers) => {
-      const wallets = profile
-        .wallets()
-        .values()
-        .map((wallet) => {
-          return {
-            address: wallet.address(),
-            network: wallet.network().id(),
-            coin: wallet.network().coin(),
-            path: wallet.data().get(Contracts.WalletData.DerivationPath),
-            alias: getDefaultAlias({
-              profile,
-              network: wallet.network(),
-            }),
-          };
-        });
+      const wallets = values.wallets.map((wallet) => {
+        return {
+          address: wallet.address,
+          network: network.id(),
+          coin: network.coin(),
+          path: wallet.path,
+          alias: getDefaultAlias({
+            profile,
+            network,
+          }),
+        };
+      });
 
       const { error } = await browser.runtime.sendMessage({
         type: 'IMPORT_WALLETS',
