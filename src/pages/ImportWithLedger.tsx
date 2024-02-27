@@ -52,7 +52,7 @@ const ImportWithLedger = () => {
       passwordConfirm: '',
     },
     onSubmit: async (values, formikHelpers) => {
-      const wallets = values.wallets.map((wallet, idx) => {
+      const wallets = values.wallets.map((wallet) => {
         return {
           address: wallet.address,
           network: network.id(),
