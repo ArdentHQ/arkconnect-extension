@@ -128,13 +128,15 @@ const StyledIconWrapper = styled(Container)`
   right: 16px;
   transform: translateY(-50%);
 
-  & #corner-down-left {
-    stroke: #0add84;
-  }
+  ${({ theme }) => `
+    & #corner-down-left {
+      stroke: ${theme.colors.primary500};
+    }
 
-  &.disabled #corner-down-left {
-    stroke: #a3a3a3;
-  }
+    &.disabled #corner-down-left {
+      stroke: ${theme.colors.secondary400};
+    }
+  `}
 `;
 
 export default EnterPassword;

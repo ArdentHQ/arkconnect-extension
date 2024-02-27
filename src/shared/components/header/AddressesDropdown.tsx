@@ -26,9 +26,7 @@ const StyledFlexContainer = styled(FlexContainer)<DropdownMenuContainerProps>`
   ${(props) => `
   transition: ${isFirefox ? 'background 0.2s ease-in-out' : 'all 0.2s ease-in-out'};
   &:hover {
-    background-color: ${
-      props.selected ? props.theme.colors.lightGreenHover : props.theme.colors.lightGrayHover
-    }
+    background-color: ${props.theme.colors.lightGrayHover};
   }
   background-color: 'transparent';
 
@@ -155,7 +153,7 @@ const StyledWrapper = styled(FlexContainer)<{ isDark: boolean; selected: boolean
     !props.selected
       ? `
     &:hover {
-      background-color: ${props.isDark ? '#484646' : props.theme.colors.gray50}
+      background-color: ${props.isDark ? '#484646' : props.theme.colors.secondary50}
     }
   `
       : ''
@@ -186,7 +184,7 @@ const AddressRow = ({
       alignItems='center'
       selected={isSelected}
       isDark={isDark()}
-      backgroundColor={isSelected ? getThemeColor('green50', '#02a86326') : undefined}
+      backgroundColor={isSelected ? getThemeColor('primary50', '#02a86326') : undefined}
     >
       <FlexContainer gridGap='12' alignItems='center'>
         <Container>

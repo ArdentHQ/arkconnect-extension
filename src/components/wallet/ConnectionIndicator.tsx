@@ -6,7 +6,7 @@ const ConnectionIndicator = ({ isConnected }: { isConnected: boolean }) => {
 
   return (
     <ModalIcon
-      color={isConnected ? getThemeColor('green700', 'green600') : 'gray'}
+      color={isConnected ? getThemeColor('primary700', 'primary600') : 'gray'}
       icon={isConnected ? 'globe-with-dot' : 'globe'}
       iconClassName={isConnected ? `${currentThemeMode} globeIcon` : undefined}
     />

@@ -83,13 +83,13 @@ const StyledButton = styled.button<BaseProps>`
           backgroundColor: `${theme.colors.primary}`,
           color: `${theme.colors.white}`,
           '&:hover': {
-            backgroundColor: `${theme.colors.green600}`,
+            backgroundColor: `${theme.colors.primary600}`,
           },
           '&:focus': {
             boxShadow: `0px 0px 0px 4px ${theme.colors.primaryFocused}`,
           },
           '&:disabled': {
-            color: `${theme.colors.gray400}`,
+            color: `${theme.colors.secondary400}`,
             backgroundColor: `${theme.colors.primaryDisabled}`,
           },
         },
@@ -131,7 +131,7 @@ const StyledButton = styled.button<BaseProps>`
           backgroundColor: `${theme.colors.primaryBackground}`,
           color: `${theme.colors.primary}`,
           '&:hover': {
-            backgroundColor: `${theme.colors.green50}`,
+            backgroundColor: `${theme.colors.primary50}`,
           },
           '&:disabled': {
             color: `${theme.colors.gray}`,
@@ -141,7 +141,7 @@ const StyledButton = styled.button<BaseProps>`
           backgroundColor: `${theme.colors.transparent}`,
           color: `${theme.colors.primary}`,
           '&:hover': {
-            color: `${theme.colors.green600}`,
+            color: `${theme.colors.primary600}`,
           },
           '&:disabled': {
             color: `${theme.colors.gray}`,
