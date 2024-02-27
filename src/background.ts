@@ -268,12 +268,12 @@ const initRuntimeEventListener = () => {
         extension.profile()?.data().has(ProfileData.PrimaryWalletId) &&
         !extension
           .profile()
-          ?.wallets()
+          .wallets()
           .has(extension.profile()?.data().get(ProfileData.PrimaryWalletId) as string)
       ) {
         extension
           .profile()
-          ?.data()
+          .data()
           .set(ProfileData.PrimaryWalletId, extension.profile()?.wallets().first().id());
       }
 
