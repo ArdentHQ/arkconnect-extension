@@ -4,38 +4,38 @@ import { Navigate } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
 
 const SplashScreen = () => {
-  const [animationFinished, setAnimationFinished] = useState<boolean>(false);
+    const [animationFinished, setAnimationFinished] = useState<boolean>(false);
 
-  useEffect(() => {
-    const animationTimeout = setTimeout(() => {
-      setAnimationFinished(true);
-    }, 3000);
+    useEffect(() => {
+        const animationTimeout = setTimeout(() => {
+            setAnimationFinished(true);
+        }, 3000);
 
-    return () => {
-      clearTimeout(animationTimeout);
-    };
-  }, []);
+        return () => {
+            clearTimeout(animationTimeout);
+        };
+    }, []);
 
-  if (animationFinished) return <Navigate to={'/onboarding'} />;
+    if (animationFinished) return <Navigate to={'/onboarding'} />;
 
-  return (
-    <SplashScreenWrapper>
-      <AnimatedContent>
-        <Icon
-          className='splash-screen-icon'
-          icon='logo-icon'
-          color='white'
-          width='38px'
-          height='38px'
-        />
-        <Icon className='splash-screen-icon' icon='logo-text' width='170px' height='16px' />
-      </AnimatedContent>
-      <ContainersWrapper>
-        <GreenContainer />
-        <WhiteContainer />
-      </ContainersWrapper>
-    </SplashScreenWrapper>
-  );
+    return (
+        <SplashScreenWrapper>
+            <AnimatedContent>
+                <Icon
+                    className='splash-screen-icon'
+                    icon='logo-icon'
+                    color='white'
+                    width='38px'
+                    height='38px'
+                />
+                <Icon className='splash-screen-icon' icon='logo-text' width='170px' height='16px' />
+            </AnimatedContent>
+            <ContainersWrapper>
+                <GreenContainer />
+                <WhiteContainer />
+            </ContainersWrapper>
+        </SplashScreenWrapper>
+    );
 };
 
 const fadeInAndTransform = keyframes`
@@ -93,51 +93,51 @@ const translateUp = keyframes`
 `;
 
 const SplashScreenWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 600px;
-  width: 100%;
-  background-color: ${({ theme }) => theme.colors.primary700};
-  animation: ${slideUp} 1.2s ease-in-out 1.8s forwards;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 600px;
+    width: 100%;
+    background-color: ${({ theme }) => theme.colors.primary700};
+    animation: ${slideUp} 1.2s ease-in-out 1.8s forwards;
 `;
 
 const AnimatedContent = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  grid-gap: 16px;
-  animation:
-    ${fadeInAndTransform} 0.8s ease-in-out forwards,
-    ${scale} 0.4s ease-in-out 1s forwards;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    grid-gap: 16px;
+    animation:
+        ${fadeInAndTransform} 0.8s ease-in-out forwards,
+        ${scale} 0.4s ease-in-out 1s forwards;
 `;
 
 const ContainersWrapper = styled.div`
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  transform: translateY(100%);
-  animation: ${translateUp} 0.7s ease-in-out 1.8s forwards;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    transform: translateY(100%);
+    animation: ${translateUp} 0.7s ease-in-out 1.8s forwards;
 `;
 
 const GreenContainer = styled.div`
-  width: 100%;
-  height: 200px;
-  background-color: ${({ theme }) => theme.colors.primary650};
-  animation: ${decreaseHeight} 0.5s ease-in-out 2s forwards;
+    width: 100%;
+    height: 200px;
+    background-color: ${({ theme }) => theme.colors.primary650};
+    animation: ${decreaseHeight} 0.5s ease-in-out 2s forwards;
 `;
 
 const WhiteContainer = styled.div`
-  width: 100%;
-  height: 60px;
-  background-color: ${({ theme }) => theme.colors.base};
+    width: 100%;
+    height: 60px;
+    background-color: ${({ theme }) => theme.colors.base};
 `;
 
 export default SplashScreen;
