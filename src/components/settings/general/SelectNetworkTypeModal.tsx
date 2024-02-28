@@ -22,6 +22,9 @@ const SelectNetworkTypeModal = ({ onNetworkSelect, onClose, action = 'create' }:
                     </Button>
                 </FlexContainer>
             }
+            focusTrapOptions={{
+                initialFocus: false,
+            }}
         >
             <Container>
                 <Heading $typeset='h4' fontWeight='medium' color='base' mb='6'>

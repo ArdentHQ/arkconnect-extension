@@ -65,6 +65,9 @@ export const ConnectionStatus = () => {
                         <Modal
                             onClose={() => setIsModalOpen(false)}
                             icon={<ConnectionIndicator isConnected={true} />}
+                            focusTrapOptions={{
+                                initialFocus: false,
+                            }}
                         >
                             <ConnectedAddress
                                 connectedTo={connectedTo}
@@ -77,6 +80,9 @@ export const ConnectionStatus = () => {
                         <Modal
                             onClose={() => setIsModalOpen(false)}
                             icon={<ConnectionIndicator isConnected={false} />}
+                            focusTrapOptions={{
+                                initialFocus: false,
+                            }}
                         >
                             <DisconnectedAddress />
                         </Modal>
