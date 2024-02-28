@@ -120,7 +120,7 @@ export const AddressesDropdown = ({
                             navigate('/create-import-address');
                         }}
                     >
-                        <Icon icon='plus' width='18px' height='18px' />
+                        <Icon icon='plus' className='h-4.5 w-4.5' />
                     </StyledFlexContainer>
                 </FlexContainer>
             </Container>
@@ -225,7 +225,7 @@ const AddressRow = ({
                 }}
                 selected={isSelected}
             >
-                <Icon icon='transparent-settings' width='18px' height='18px' />
+                <Icon icon='transparent-settings' className='h-4.5 w-4.5' />
             </StyledFlexContainerSettings>
         </StyledWrapper>
     );
