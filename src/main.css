@@ -197,6 +197,8 @@ body {
 *:focus-visible {
   outline-style: solid;
   outline-width: 2px;
+  outline-offset: 2px;
+  transition: outline-width 0s !important;
 }
 
 #extension-root {
