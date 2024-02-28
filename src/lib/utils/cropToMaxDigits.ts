@@ -1,4 +1,5 @@
 import { Helpers } from '@ardenthq/sdk-profiles';
+import { Numeral } from '@ardenthq/sdk-intl';
 import constants from '@/constants';
 
 const extractPrefix = (str: string): string => {
@@ -26,6 +27,21 @@ const cropToMaxDigits = ({
 }) => {
     // If no ticker is provided "default" withTicker to false
     const addTicker = withTicker && !!ticker;
+
+    const numeral = Numeral.make(undefined, {
+        currencyDisplay: 'name',
+        maximumFractionDigits: 8,
+        minimumFractionDigits: 0,
+    });
+
+    console.log(numeral.formatAsCurrency(Math.abs(value), 'BTC'));
+
+    console.log(
+        numeral
+            .formatAsCurrency(Math.abs(value), 'BTC')
+            .replace('BTC', withTicker ? ticker.toUpperCase() : '')
+            .trim(),
+    );
 
     const decimalSeparator = Helpers.Currency.format(1.1, ticker, { withTicker: false }).split(
         '',
