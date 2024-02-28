@@ -83,8 +83,8 @@ export const Header = () => {
         return (
             <StyledHeader isDark={isDark()} padding='17px 16px' withShadow={!isOnboardingPage}>
                 <StyledLogos alignItems='center' gridGap='8px'>
-                    <Icon icon='logo-inverted' width='24px' height='24px' color='primary' />
-                    <Icon icon='logo-text' width='122px' height='12px' color='primary' />
+                    <Icon icon='logo-inverted' className='h-6 w-6 text-theme-primary-700 dark:text-theme-primary-650' />
+                    <Icon icon='logo-text' className='w-[122px] h-3 text-theme-primary-700 dark:text-theme-primary-650' />
                 </StyledLogos>
             </StyledHeader>
         );
@@ -110,7 +110,7 @@ export const Header = () => {
                     <FlexContainer alignItems='center'>
                         {/*Logo*/}
                         <StyledLink to='/'>
-                            <LogoIcon color='primary' />
+                            <LogoIcon className='text-theme-primary-700 dark:text-theme-primary-650' />
                         </StyledLink>
 
                         {/*Wallets dropdown*/}
@@ -138,7 +138,7 @@ export const Header = () => {
                                     {trimAddress(primaryWallet.address(), 7)}
                                 </Paragraph>
                                 <FlexContainer alignSelf='self-end' color='base' as='span'>
-                                    <Icon icon='arrow-down' width='16px' height='16px' />
+                                    <Icon icon='arrow-down' className='h-4 w-4' />
                                 </FlexContainer>
                             </StyledFlexContainer>
                         </FlexContainer>
@@ -162,7 +162,7 @@ export const Header = () => {
                             onKeyDown={(e) => handleSubmitKeyAction(e, handleSettingsClick)}
                             tabIndex={0}
                         >
-                            <Icon icon='more-vertical' width='16px' height='16px' />
+                            <Icon icon='more-vertical' className='h-4 w-4' />
                         </StyledFlexContainer>
                     </FlexContainer>
                 </FlexContainer>
