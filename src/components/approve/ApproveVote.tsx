@@ -145,6 +145,8 @@ const ApproveVote = ({ abortReference, approveWithLedger, wallet, closeLedgerScr
 
             setSubmitted();
 
+            await loadingModal.closeDelayed();
+
             navigate('/vote/success', {
                 state: {
                     vote: voteInfo,
@@ -157,8 +159,6 @@ const ApproveVote = ({ abortReference, approveWithLedger, wallet, closeLedgerScr
                     session: state.session,
                 },
             });
-
-            loadingModal.close();
         } catch (error: any) {
             closeLedgerScreen();
             reject(error.message);

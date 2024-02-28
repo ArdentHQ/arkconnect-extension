@@ -12,6 +12,8 @@ const ARK_CONNECT_DEMO = 'https://demo.arkconnect.io';
 
 const SHOW_MESSAGE_AFTER_ACTION_DURING_MS = 3000;
 
+const TRANSACTION_CONFIRMATION_DELAY_MS = 3000;
+
 // Using 9 considering that the minimum amount of ARK is 0.00000001 which
 // is 8 digits in total.
 const MAX_CURRENCY_DIGITS_ALLOWED = 9;
@@ -30,6 +32,7 @@ const constants = {
     MAX_CURRENCY_DIGITS_ALLOWED,
     ARK_CONNECT_DEMO,
     SHOW_MESSAGE_AFTER_ACTION_DURING_MS,
+    TRANSACTION_CONFIRMATION_DELAY_MS,
 };
 
 export default constants;

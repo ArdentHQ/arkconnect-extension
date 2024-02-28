@@ -15,6 +15,11 @@ const useLoadingModal = ({
 
     const dispatch = useAppDispatch();
 
+    const delay = async () =>
+        await new Promise((resolve) =>
+            setTimeout(resolve, constants.TRANSACTION_CONFIRMATION_DELAY_MS),
+        );
+
     const open = () => {
         dispatch(
             loadingModalUpdated({
@@ -63,6 +68,12 @@ const useLoadingModal = ({
         );
     };
 
+    const closeDelayed = async (): Promise<void> => {
+        await delay();
+
+        close();
+    };
+
     const setCompletedAndClose = (): Promise<void> => {
         setCompleted();
 
@@ -87,6 +98,7 @@ const useLoadingModal = ({
         isLoading,
         open,
         close,
+        closeDelayed,
         setLoading,
         setCompleted,
         setCompletedAndClose,

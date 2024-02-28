@@ -127,6 +127,8 @@ const ApproveTransaction = ({
 
             setSubmitted();
 
+            await loadingModal.closeDelayed();
+
             navigate('/transaction/success', {
                 state: {
                     transaction,
@@ -138,8 +140,6 @@ const ApproveTransaction = ({
                     session,
                 },
             });
-
-            loadingModal.close();
         } catch (error: any) {
             if (wallet.isLedger()) {
                 closeLedgerScreen();
