@@ -1,32 +1,23 @@
 import React from 'react';
-import styled from 'styled-components';
-import { color, ColorProps, layout, LayoutProps } from 'styled-system';
 import { IconDefinition, IconSvg } from './index.generated';
-import { Theme } from '@/shared/theme';
+import cn from 'classnames';
 export * from './index.generated';
 
 type IconProps = {
     icon: IconDefinition;
     style?: React.CSSProperties;
     className?: string;
-} & ColorProps<Theme> &
-    LayoutProps<Theme>;
+};
 
 export const Icon: React.FC<IconProps> = ({ icon, style, className, ...rest }) => {
     return (
-        <StyledIcon
+        <span
             {...rest}
             {...{ style }}
-            className={'Icon ' + (className ? className : '')}
+            className={cn('block', 'Icon ' + (className ? className : ''))}
             role='img'
         >
             {IconSvg[icon]}
-        </StyledIcon>
+        </span>
     );
 };
-
-const StyledIcon = styled.span<ColorProps<Theme> & LayoutProps<Theme>>`
-    ${layout}
-    ${color}
-  display: block;
-`;
