@@ -58,7 +58,7 @@ const VoteApproved = () => {
                     width='100%'
                 >
                     <FlexContainer flexDirection='column' gridGap='16px' alignItems='center'>
-                        <Icon icon='completed' width='64px' height='64px' color='primary' />
+                        <Icon icon='completed' className='text-theme-primary-700 dark:text-theme-primary-650 h-16 w-16' />
                         <Heading $typeset='h3' color='base' fontWeight='bold'>
                             {getTitle()}
                         </Heading>
@@ -85,7 +85,7 @@ const VoteApproved = () => {
                         <Paragraph $typeset='headline' fontWeight='medium' as='span'>
                             View transaction on ARKScan
                         </Paragraph>
-                        <Icon icon='link-external' width='20px' height='20px' />
+                        <Icon icon='link-external' className='h-5 w-5' />
                     </ExternalLink>
                 </FlexContainer>
             </FlexContainer>
