@@ -86,13 +86,7 @@ const ModalCloseIcon = ({ onClose }: { onClose: () => void }) => {
     const { getThemeColor } = useThemeMode();
 
     return (
-        <Container
-            onClick={onClose}
-            className='c-pointer'
-            as='button'
-            border='none'
-            backgroundColor='transparent'
-        >
+        <Container onClick={onClose} className='c-pointer' as='button'>
             <Icon
                 icon='x'
                 color={getThemeColor('lightBlack', 'white')}

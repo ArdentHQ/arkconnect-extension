@@ -194,6 +194,11 @@ body {
   outline-color: #01b86c;
 }
 
+button {
+  background-color: transparent;
+  border: none;
+}
+
 #extension-root {
   height: 100%;
 }

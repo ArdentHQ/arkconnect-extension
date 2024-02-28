@@ -1,9 +1,9 @@
-import { Coins } from '@ardenthq/sdk';
 import { Contracts, Environment } from '@ardenthq/sdk-profiles';
-import { useCallback } from 'react';
+
+import { Coins } from '@ardenthq/sdk';
 import { LedgerData } from '../Ledger.contracts';
 import { LedgerDevice } from './connection.state';
-import { getDefaultAlias } from '@/lib/utils/getDefaultAlias';
+import { useCallback } from 'react';
 import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
 
 interface LedgerWalletImportProperties {
@@ -27,13 +27,6 @@ export const useLedgerImport = ({ device, env }: LedgerWalletImportProperties) =
                         });
 
                         profile.wallets().push(wallet);
-
-                        wallet.mutator().alias(
-                            getDefaultAlias({
-                                network: wallet.network(),
-                                profile,
-                            }),
-                        );
 
                         wallet.data().set(Contracts.WalletData.LedgerModel, device?.id);
 
