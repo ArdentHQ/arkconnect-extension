@@ -201,6 +201,11 @@ body {
   transition: outline-width 0s !important;
 }
 
+button {
+  background-color: transparent;
+  border: none;
+}
+
 #extension-root {
   height: 100%;
 }
