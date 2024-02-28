@@ -1,166 +1,164 @@
 import { ReactNode, createContext, useContext, useEffect, useState } from 'react';
 import { Contracts } from '@ardenthq/sdk-profiles';
-import { useEnvironmentContext } from './Environment';
-import useLocaleCurrency from '../hooks/useLocalCurrency';
-import { useErrorHandlerContext } from './ErrorHandler';
-import * as WalletStore from '@/lib/store/wallet';
-import { useAppDispatch, useAppSelector } from '../store';
 import browser from 'webextension-polyfill';
-import * as SessionStore from '@/lib/store/session';
+import useLocaleCurrency from '../hooks/useLocalCurrency';
+import { useAppDispatch, useAppSelector } from '../store';
 import { useWalletBalance } from '../hooks/useWalletBalance';
 import { ProfileData } from '../background/contracts';
-import { LoadingFullScreen } from '@/shared/components/handleStates/LoadingFullScreen';
 import { setLocalValue } from '../utils/localStorage';
-import * as UIStore from '@/lib/store/ui';
+import { useEnvironmentContext } from './Environment';
+import { useErrorHandlerContext } from './ErrorHandler';
+import * as WalletStore from '@/lib/store/wallet';
+import * as SessionStore from '@/lib/store/session';
+import { LoadingFullScreen } from '@/shared/components/handleStates/LoadingFullScreen';
+import { testnetEnabledChanged } from '@/lib/store/ui';
 
 interface Context {
-  profile: Contracts.IProfile;
-  initProfile: () => Promise<void>;
-  importProfile: (profileData: string) => Promise<Contracts.IProfile>;
-  convertedBalance?: number;
-  isProfileReady: boolean;
+    profile: Contracts.IProfile;
+    initProfile: () => Promise<void>;
+    importProfile: (profileData: string) => Promise<Contracts.IProfile>;
+    convertedBalance?: number;
+    isProfileReady: boolean;
 }
 
 interface Properties {
-  children: ReactNode;
+    children: ReactNode;
 }
 
 const ProfileContext = createContext<Context | undefined>(undefined);
 
 export const ProfileProvider = ({ children }: Properties) => {
-  const dispatch = useAppDispatch();
-  const { onError } = useErrorHandlerContext();
-  const { env } = useEnvironmentContext();
-  const { defaultCurrency } = useLocaleCurrency();
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [isProfileReady, setIsProfileReady] = useState<boolean>(false);
-  const [profile, setProfile] = useState<Contracts.IProfile | undefined>(undefined);
+    const dispatch = useAppDispatch();
+    const { onError } = useErrorHandlerContext();
+    const { env } = useEnvironmentContext();
+    const { defaultCurrency } = useLocaleCurrency();
+    const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [isProfileReady, setIsProfileReady] = useState<boolean>(false);
+    const [profile, setProfile] = useState<Contracts.IProfile | undefined>(undefined);
 
-  const primaryWalletId = useAppSelector(WalletStore.selectPrimaryWalletId);
+    const primaryWalletId = useAppSelector(WalletStore.selectPrimaryWalletId);
 
-  useEffect(() => {
-    void initProfile();
-  }, []);
+    useEffect(() => {
+        void initProfile();
+    }, []);
 
-  const getPrimaryWallet = () => {
-    if (isLoading || !primaryWalletId) {
-      return undefined;
-    }
+    const getPrimaryWallet = () => {
+        if (isLoading || !primaryWalletId) {
+            return;
+        }
 
-    let primaryWallet;
+        try {
+            return profile?.wallets().findById(primaryWalletId);
+        } catch (_e) {
+            return;
+        }
+    };
 
-    try {
-      primaryWallet = profile?.wallets().findById(primaryWalletId);
-    } catch (_e) {}
+    const convertedBalance = useWalletBalance(getPrimaryWallet());
 
-    return primaryWallet;
-  };
+    const initProfile = async () => {
+        setIsProfileReady(false);
 
-  const convertedBalance = useWalletBalance(getPrimaryWallet());
+        await restoreProfile();
 
-  const initProfile = async () => {
-    setIsProfileReady(false);
+        setIsProfileReady(true);
+        setIsLoading(false);
+    };
 
-    await restoreProfile();
+    const restoreProfile = async () => {
+        try {
+            const { data, profileData } = await browser.runtime.sendMessage({
+                type: 'GET_DATA',
+            });
 
-    setIsProfileReady(true);
-    setIsLoading(false);
-  };
+            if (!data) {
+                await createProfile();
+                return;
+            }
 
-  const restoreProfile = async () => {
-    try {
-      const { data, profileData } = await browser.runtime.sendMessage({
-        type: 'GET_DATA',
-      });
+            const profile = await importProfile(data);
+            profile.data().fill(profileData);
 
-      if (!data) {
-        await createProfile();
-        return;
-      }
+            await updateStore({ profile });
+        } catch (error) {
+            onError(error, false);
+        }
+    };
 
-      const profile = await importProfile(data);
-      profile.data().fill(profileData);
+    const createProfile = async (): Promise<Contracts.IProfile | undefined> => {
+        try {
+            env.profiles().flush();
 
-      await updateStore({ profile });
-    } catch (error) {
-      onError(error, false);
-    }
-  };
+            const profile = await env.profiles().create('arkconnect');
+            await env.profiles().restore(profile);
 
-  const createProfile = async (): Promise<Contracts.IProfile | undefined> => {
-    try {
-      env.profiles().flush();
+            profile.settings().set(Contracts.ProfileSetting.ExchangeCurrency, defaultCurrency);
 
-      const profile = await env.profiles().create('arkconnect');
-      await env.profiles().restore(profile);
+            setLocalValue('hasOnboarded', false);
+            dispatch(testnetEnabledChanged(false));
 
-      profile.settings().set(Contracts.ProfileSetting.ExchangeCurrency, defaultCurrency);
+            setProfile(profile);
+            return profile;
+        } catch (error) {
+            onError(error);
+        }
+    };
 
-      setLocalValue('hasOnboarded', false);
-      dispatch(UIStore.testnetEnabledChanged(false));
+    const updateStore = async ({ profile }: { profile: Contracts.IProfile }) => {
+        await updateStoreWallets({ profile });
 
-      setProfile(profile);
-      return profile;
-    } catch (error) {
-      onError(error);
-    }
-  };
+        const sessions = profile.data().get(ProfileData.Sessions) as
+            | SessionStore.SessionEntries
+            | undefined;
 
-  const updateStore = async ({ profile }: { profile: Contracts.IProfile }) => {
-    await updateStoreWallets({ profile });
+        if (sessions) {
+            await dispatch(SessionStore.sessionsLoaded(sessions));
+        }
+    };
 
-    const sessions = profile.data().get(ProfileData.Sessions) as
-      | SessionStore.SessionEntries
-      | undefined;
+    const updateStoreWallets = async ({ profile }: { profile: Contracts.IProfile }) => {
+        const wallets: WalletStore.WalletEntries = profile
+            .wallets()
+            .values()
+            .map((wallet) => ({ walletId: wallet.id() }));
 
-    if (sessions) {
-      await dispatch(SessionStore.sessionsLoaded(sessions));
-    }
-  };
+        await dispatch(WalletStore.walletsLoaded(wallets));
 
-  const updateStoreWallets = async ({ profile }: { profile: Contracts.IProfile }) => {
-    const wallets: WalletStore.WalletEntries = profile
-      .wallets()
-      .values()
-      .map((wallet) => ({ walletId: wallet.id() }));
+        const primaryWalletId = profile.data().get('PRIMARY_WALLET_ID') as string;
+        await dispatch(WalletStore.primaryWalletIdChanged(primaryWalletId));
+    };
 
-    await dispatch(WalletStore.walletsLoaded(wallets));
+    const importProfile = async (profileDump: string): Promise<Contracts.IProfile> => {
+        env.profiles().flush();
 
-    const primaryWalletId = profile.data().get('PRIMARY_WALLET_ID') as string;
-    await dispatch(WalletStore.primaryWalletIdChanged(primaryWalletId));
-  };
+        const newProfile = await env.profiles().import(profileDump);
+        env.profiles().push(newProfile);
 
-  const importProfile = async (profileDump: string): Promise<Contracts.IProfile> => {
-    env.profiles().flush();
+        await env.profiles().restore(newProfile);
+        await newProfile.sync();
 
-    const newProfile = await env.profiles().import(profileDump);
-    env.profiles().push(newProfile);
+        await env.wallets().syncByProfile(newProfile);
 
-    await env.profiles().restore(newProfile);
-    await newProfile.sync();
+        setProfile(newProfile);
 
-    await env.wallets().syncByProfile(newProfile);
+        return newProfile;
+    };
 
-    setProfile(newProfile);
+    if (isLoading || !profile) return <LoadingFullScreen />;
 
-    return newProfile;
-  };
-
-  if (isLoading || !profile) return <LoadingFullScreen />;
-
-  return (
-    <ProfileContext.Provider
-      value={{
-        profile,
-        initProfile,
-        importProfile,
-        convertedBalance,
-        isProfileReady,
-      }}
-    >
-      {children}
-    </ProfileContext.Provider>
-  );
+    return (
+        <ProfileContext.Provider
+            value={{
+                profile,
+                initProfile,
+                importProfile,
+                convertedBalance,
+                isProfileReady,
+            }}
+        >
+            {children}
+        </ProfileContext.Provider>
+    );
 };
 
 /**
@@ -171,9 +169,9 @@ export const ProfileProvider = ({ children }: Properties) => {
  */
 
 export const useProfileContext = (): Context => {
-  const value = useContext(ProfileContext);
-  if (value === undefined) {
-    throw new Error('[useProfile] Component not wrapped within a Provider');
-  }
-  return value;
+    const value = useContext(ProfileContext);
+    if (value === undefined) {
+        throw new Error('[useProfile] Component not wrapped within a Provider');
+    }
+    return value;
 };

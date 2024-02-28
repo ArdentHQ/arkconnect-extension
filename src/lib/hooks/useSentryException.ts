@@ -1,7 +1,7 @@
-import * as Sentry from '@sentry/react';
+import { captureException } from '@sentry/react';
 
 const useSentryException = (error: Error | unknown): void => {
-  Sentry.captureException(error);
+    captureException(error);
 };
 
 export default useSentryException;

@@ -1,48 +1,48 @@
 import { ReactNode, createContext, useContext, useState } from 'react';
-import useOnError from '../hooks';
-import ErrorModal from '@/components/connect/ErrorModal';
-import removeWindowInstance from '../utils/removeWindowInstance';
 import { useLocation } from 'react-router-dom';
+import useOnError from '../hooks';
+import removeWindowInstance from '../utils/removeWindowInstance';
+import ErrorModal from '@/components/connect/ErrorModal';
 
 interface Context {
-  onError: (error: Error | unknown, showErrorModal?: boolean) => void;
+    onError: (error: Error | unknown, showErrorModal?: boolean) => void;
 }
 
 interface Properties {
-  children: ReactNode;
+    children: ReactNode;
 }
 
 const ErrorHandlerContext = createContext<Context | undefined>(undefined);
 
 export const ErrorHandlerProvider = ({ children }: Properties) => {
-  const { state } = useLocation();
-  const [showErrorModal, setShowErrorModal] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const onError = useOnError();
+    const { state } = useLocation();
+    const [showErrorModal, setShowErrorModal] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+    const onError = useOnError();
 
-  const handleOnError = (error: Error | unknown, showErrorModal: boolean = true) => {
-    onError(error);
-    if (showErrorModal) {
-      setError((error as Error)?.message);
-      setShowErrorModal(showErrorModal);
-    }
-  };
+    const handleOnError = (error: Error | unknown, showErrorModal: boolean = true) => {
+        onError(error);
+        if (showErrorModal) {
+            setError((error as Error)?.message);
+            setShowErrorModal(showErrorModal);
+        }
+    };
 
-  const handleClose = async () => {
-    setShowErrorModal(false);
-    await removeWindowInstance(state?.windowId);
-  };
+    const handleClose = async () => {
+        setShowErrorModal(false);
+        await removeWindowInstance(state?.windowId);
+    };
 
-  return (
-    <ErrorHandlerContext.Provider
-      value={{
-        onError: handleOnError,
-      }}
-    >
-      {showErrorModal && <ErrorModal error={error} onClose={handleClose} />}
-      {children}
-    </ErrorHandlerContext.Provider>
-  );
+    return (
+        <ErrorHandlerContext.Provider
+            value={{
+                onError: handleOnError,
+            }}
+        >
+            {showErrorModal && <ErrorModal error={error} onClose={handleClose} />}
+            {children}
+        </ErrorHandlerContext.Provider>
+    );
 };
 
 /**
@@ -53,9 +53,9 @@ export const ErrorHandlerProvider = ({ children }: Properties) => {
  */
 
 export const useErrorHandlerContext = (): Context => {
-  const value = useContext(ErrorHandlerContext);
-  if (value === undefined) {
-    throw new Error('[useErrorHandler] Component not wrapped within a Provider');
-  }
-  return value;
+    const value = useContext(ErrorHandlerContext);
+    if (value === undefined) {
+        throw new Error('[useErrorHandler] Component not wrapped within a Provider');
+    }
+    return value;
 };

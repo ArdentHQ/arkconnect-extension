@@ -1,17 +1,17 @@
 import styled from 'styled-components';
 import {
-  space,
-  SpaceProps,
-  color,
-  ColorProps,
-  layout,
-  LayoutProps,
-  position,
-  PositionProps,
-  shadow,
-  ShadowProps,
-  border,
-  BorderProps,
+    space,
+    SpaceProps,
+    color,
+    ColorProps,
+    layout,
+    LayoutProps,
+    position,
+    PositionProps,
+    shadow,
+    ShadowProps,
+    border,
+    BorderProps,
 } from 'styled-system';
 import { Theme } from '@/shared/theme';
 import { FlexContainer, Icon, IconDefinition, Paragraph } from '@/shared/components';
@@ -19,22 +19,22 @@ import { FlexVariantProps, flexVariant } from '@/shared/theme/variants';
 import { isFirefox } from '@/lib/utils/isFirefox';
 
 type BaseProps = ColorProps<Theme> &
-  SpaceProps<Theme> &
-  LayoutProps<Theme> &
-  PositionProps<Theme> &
-  ShadowProps<Theme> &
-  BorderProps<Theme> &
-  FlexVariantProps;
+    SpaceProps<Theme> &
+    LayoutProps<Theme> &
+    PositionProps<Theme> &
+    ShadowProps<Theme> &
+    BorderProps<Theme> &
+    FlexVariantProps;
 
 type BigButtonProps = React.ComponentPropsWithRef<typeof StyledButton> & {
-  iconLeading?: IconDefinition;
-  iconTrailing?: IconDefinition;
-  title: string;
-  helperText?: string;
+    iconLeading?: IconDefinition;
+    iconTrailing?: IconDefinition;
+    title: string;
+    helperText?: string;
 };
 
 const StyledButton = styled.button<BaseProps>`
-  ${({ theme }) => `
+    ${({ theme }) => `
   border: 1px solid transparent;
   border-radius: ${theme.radii['20']}px;
   background-color: ${theme.colors.inputBackground};
@@ -59,7 +59,7 @@ const StyledButton = styled.button<BaseProps>`
     pointer-events: none;
   }
 `}
-  ${space}
+    ${space}
   ${color}
   ${layout}
   ${position}
@@ -69,39 +69,49 @@ const StyledButton = styled.button<BaseProps>`
 `;
 
 export const BigButton = ({
-  iconLeading,
-  iconTrailing,
-  title,
-  helperText,
-  ...rest
+    iconLeading,
+    iconTrailing,
+    title,
+    helperText,
+    ...rest
 }: BigButtonProps) => {
-  return (
-    <StyledButton {...rest}>
-      <FlexContainer width='100%' gridGap='12px' alignItems='flex-start'>
-        {iconLeading && <Icon width='24px' height='24px' icon={iconLeading} />}
-        <FlexContainer alignItems='center' justifyContent='space-between' width='100%'>
-          <FlexContainer flexDirection='column' alignItems='flex-start' width='100%' gridGap='8px'>
-            {title && (
-              <Paragraph $typeset='headline' fontWeight='medium' color='base'>
-                {title}
-              </Paragraph>
-            )}
-            {helperText && (
-              <Paragraph $typeset='body' fontWeight='regular' color='gray' textAlign='left'>
-                {helperText}
-              </Paragraph>
-            )}
-          </FlexContainer>
-          <FlexContainer
-            height='100%'
-            $flexVariant='columnCenter'
-            justifyContent='center'
-            color='base'
-          >
-            {iconTrailing && <Icon width='20px' height='20px' icon={iconTrailing} />}
-          </FlexContainer>
-        </FlexContainer>
-      </FlexContainer>
-    </StyledButton>
-  );
+    return (
+        <StyledButton {...rest}>
+            <FlexContainer width='100%' gridGap='12px' alignItems='flex-start'>
+                {iconLeading && <Icon width='24px' height='24px' icon={iconLeading} />}
+                <FlexContainer alignItems='center' justifyContent='space-between' width='100%'>
+                    <FlexContainer
+                        flexDirection='column'
+                        alignItems='flex-start'
+                        width='100%'
+                        gridGap='8px'
+                    >
+                        {title && (
+                            <Paragraph $typeset='headline' fontWeight='medium' color='base'>
+                                {title}
+                            </Paragraph>
+                        )}
+                        {helperText && (
+                            <Paragraph
+                                $typeset='body'
+                                fontWeight='regular'
+                                color='gray'
+                                textAlign='left'
+                            >
+                                {helperText}
+                            </Paragraph>
+                        )}
+                    </FlexContainer>
+                    <FlexContainer
+                        height='100%'
+                        $flexVariant='columnCenter'
+                        justifyContent='center'
+                        color='base'
+                    >
+                        {iconTrailing && <Icon width='20px' height='20px' icon={iconTrailing} />}
+                    </FlexContainer>
+                </FlexContainer>
+            </FlexContainer>
+        </StyledButton>
+    );
 };

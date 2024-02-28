@@ -1,83 +1,83 @@
-import { RootState } from '@/lib/store';
 import { PayloadAction, createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { revertAll } from '../ui';
 import browser from 'webextension-polyfill';
+import { revertAll } from '../ui';
+import { RootState } from '@/lib/store';
 
 export type Session = {
-  id: string;
-  domain: string;
-  logo: string;
-  createdAt: string;
-  walletId: string;
+    id: string;
+    domain: string;
+    logo: string;
+    createdAt: string;
+    walletId: string;
 };
 
 export type SessionEntries = { [id: string]: Session };
 
 type SessionState = {
-  sessions: SessionEntries;
+    sessions: SessionEntries;
 };
 
 const initialState: SessionState = {
-  sessions: {},
+    sessions: {},
 };
 
 const saveSessions = async (sessions: SessionEntries) => {
-  await browser.runtime.sendMessage({
-    type: 'SET_SESSIONS',
-    data: { sessions },
-  });
+    await browser.runtime.sendMessage({
+        type: 'SET_SESSIONS',
+        data: { sessions },
+    });
 };
 
 export const sessionSlice = createSlice({
-  name: 'session',
-  initialState,
-  reducers: {
-    sessionAdded: (state, action: PayloadAction<Session>) => {
-      state.sessions[action.payload.id] = action.payload;
-    },
+    name: 'session',
+    initialState,
+    reducers: {
+        sessionAdded: (state, action: PayloadAction<Session>) => {
+            state.sessions[action.payload.id] = action.payload;
+        },
 
-    sessionRemoved: (state, action: PayloadAction<string | string[]>) => {
-      for (const sessionId of action.payload) {
-        delete state.sessions[sessionId];
-      }
-    },
+        sessionRemoved: (state, action: PayloadAction<string | string[]>) => {
+            for (const sessionId of action.payload) {
+                delete state.sessions[sessionId];
+            }
+        },
 
-    sessionsLoaded: (state, action: PayloadAction<SessionEntries>) => {
-      state.sessions = action.payload;
+        sessionsLoaded: (state, action: PayloadAction<SessionEntries>) => {
+            state.sessions = action.payload;
+        },
     },
-  },
-  extraReducers: (builder) => builder.addCase(revertAll, () => initialState),
+    extraReducers: (builder) => builder.addCase(revertAll, () => initialState),
 });
 
 export const sessionsLoaded = createAsyncThunk(
-  'session/sessionsLoaded',
-  async (sessions: SessionEntries, { dispatch }) => {
-    dispatch(sessionSlice.actions.sessionsLoaded(sessions));
-  },
+    'session/sessionsLoaded',
+    async (sessions: SessionEntries, { dispatch }) => {
+        dispatch(sessionSlice.actions.sessionsLoaded(sessions));
+    },
 );
 
 export const selectSessions = (state: RootState) => state.session.sessions;
 
 export const sessionAdded = createAsyncThunk(
-  'session/sessionAdded',
-  async (session: Session, { getState, dispatch }) => {
-    dispatch(sessionSlice.actions.sessionAdded(session));
+    'session/sessionAdded',
+    async (session: Session, { getState, dispatch }) => {
+        dispatch(sessionSlice.actions.sessionAdded(session));
 
-    const state = getState() as RootState;
+        const state = getState() as RootState;
 
-    await saveSessions(state.session.sessions);
-  },
+        await saveSessions(state.session.sessions);
+    },
 );
 
 export const sessionRemoved = createAsyncThunk(
-  'session/sessionRemoved',
-  async (sessionIds: string[], { getState, dispatch }) => {
-    dispatch(sessionSlice.actions.sessionRemoved(sessionIds));
+    'session/sessionRemoved',
+    async (sessionIds: string[], { getState, dispatch }) => {
+        dispatch(sessionSlice.actions.sessionRemoved(sessionIds));
 
-    const state = getState() as RootState;
+        const state = getState() as RootState;
 
-    await saveSessions(state.session.sessions);
-  },
+        await saveSessions(state.session.sessions);
+    },
 );
 
 export default sessionSlice.reducer;

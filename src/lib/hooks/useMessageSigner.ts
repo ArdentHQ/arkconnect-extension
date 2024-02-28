@@ -3,61 +3,61 @@ import { Contracts as ProfileContracts } from '@ardenthq/sdk-profiles';
 import browser from 'webextension-polyfill';
 
 const signWithLedger = async (message: string, wallet: ProfileContracts.IReadWriteWallet) => {
-  const path = wallet.data().get<string>(ProfileContracts.WalletData.DerivationPath);
+    const path = wallet.data().get<string>(ProfileContracts.WalletData.DerivationPath);
 
-  let signatory = wallet.publicKey();
+    let signatory = wallet.publicKey();
 
-  if (!signatory) {
-    signatory = await wallet.coin().ledger().getPublicKey(path!);
-  }
+    if (!signatory) {
+        signatory = await wallet.coin().ledger().getPublicKey(path!);
+    }
 
-  const signature = await wallet.ledger().signMessage(path!, message);
+    const signature = await wallet.ledger().signMessage(path!, message);
 
-  return {
-    message,
-    signatory,
-    signature,
-  };
+    return {
+        message,
+        signatory,
+        signature,
+    };
 };
 
 const withAbortPromise =
-  (signal?: AbortSignal) =>
-  <T>(promise: Promise<T>) =>
-    new Promise<T>((resolve, reject) => {
-      if (signal) {
-        signal.addEventListener('abort', () => reject('ERR_ABORT'));
-      }
+    (signal?: AbortSignal) =>
+    <T>(promise: Promise<T>) =>
+        new Promise<T>((resolve, reject) => {
+            if (signal) {
+                signal.addEventListener('abort', () => reject('ERR_ABORT'));
+            }
 
-      return promise.then(resolve).catch(reject);
-    });
+            return promise.then(resolve).catch(reject);
+        });
 
 const sign = async (
-  wallet: ProfileContracts.IReadWriteWallet,
-  message: string,
-  options?: {
-    abortSignal?: AbortSignal;
-  },
-): Promise<Services.SignedMessage> => {
-  if (wallet.isLedger()) {
-    return withAbortPromise(options?.abortSignal)(signWithLedger(message, wallet));
-  }
-
-  const { error, signatory, signature } = await browser.runtime.sendMessage({
-    type: 'SIGN_MESSAGE',
-    data: {
-      message,
+    wallet: ProfileContracts.IReadWriteWallet,
+    message: string,
+    options?: {
+        abortSignal?: AbortSignal;
     },
-  });
+): Promise<Services.SignedMessage> => {
+    if (wallet.isLedger()) {
+        return withAbortPromise(options?.abortSignal)(signWithLedger(message, wallet));
+    }
 
-  if (error) {
-    throw new Error(error);
-  }
+    const { error, signatory, signature } = await browser.runtime.sendMessage({
+        type: 'SIGN_MESSAGE',
+        data: {
+            message,
+        },
+    });
 
-  return {
-    signatory,
-    message,
-    signature,
-  };
+    if (error) {
+        throw new Error(error);
+    }
+
+    return {
+        signatory,
+        message,
+        signature,
+    };
 };
 
 export const useMessageSigner = () => ({ sign });
