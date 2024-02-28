@@ -53,7 +53,7 @@ const ChangeLocalCurrency = () => {
                             {currencyItem.label}
                         </Paragraph>
                         {currencyItem.value == currency && (
-                            <Icon icon='check' width='20px' height='20px' />
+                            <Icon icon='check' className='h-5 w-5' />
                         )}
                     </SettingsRowItem>
                 ))}
