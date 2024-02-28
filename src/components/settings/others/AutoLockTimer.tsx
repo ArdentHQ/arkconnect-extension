@@ -38,8 +38,6 @@ const AutoLockTimer = () => {
                         onClick={() => changeAutoLockTimer(timerKey)}
                         tabIndex={0}
                         as='button'
-                        backgroundColor='transparent'
-                        border='none'
                         width='100%'
                     >
                         <Paragraph $typeset='headline' as='span'>
