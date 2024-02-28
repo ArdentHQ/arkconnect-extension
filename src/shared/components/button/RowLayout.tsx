@@ -209,7 +209,7 @@ export const RowLayout = forwardRef(function RowLayout(
                                                   <Amount
                                                       value={Number(item)}
                                                       maxDigits={
-                                                          constants.SHORTER_CURRENCY_DIGITS_ALLOWED
+                                                          constants.MAX_CURRENCY_DIGITS_ALLOWED
                                                       }
                                                       ticker={currency ?? ''}
                                                       withTicker={!!currency}
