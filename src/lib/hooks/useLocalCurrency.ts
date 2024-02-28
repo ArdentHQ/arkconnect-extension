@@ -3,39 +3,39 @@ import LocaleCurrency from 'locale-currency';
 import { useCurrencyOptions } from './useCurrencyOptions';
 
 const useLocaleCurrency = () => {
-  const currencyOptions = useCurrencyOptions('cryptocompare');
+    const currencyOptions = useCurrencyOptions('cryptocompare');
 
-  const localeCurrency = useMemo(() => {
-    let locale = Intl.DateTimeFormat().resolvedOptions().locale;
+    const localeCurrency = useMemo(() => {
+        let locale = Intl.DateTimeFormat().resolvedOptions().locale;
 
-    if (!locale.includes('-')) {
-      locale = navigator.language;
-    }
+        if (!locale.includes('-')) {
+            locale = navigator.language;
+        }
 
-    let currency = LocaleCurrency.getCurrency(locale) as string | null;
+        let currency = LocaleCurrency.getCurrency(locale) as string | null;
 
-    if (!currency) {
-      currency = 'USD';
-    }
+        if (!currency) {
+            currency = 'USD';
+        }
 
-    return currency;
-  }, []);
+        return currency;
+    }, []);
 
-  const defaultCurrency = useMemo(() => {
-    const [fiatOptions] = currencyOptions;
+    const defaultCurrency = useMemo(() => {
+        const [fiatOptions] = currencyOptions;
 
-    if (
-      fiatOptions.options.some(
-        (option) => `${option.value}`.toLowerCase() === localeCurrency.toLowerCase(),
-      )
-    ) {
-      return localeCurrency;
-    }
+        if (
+            fiatOptions.options.some(
+                (option) => `${option.value}`.toLowerCase() === localeCurrency.toLowerCase(),
+            )
+        ) {
+            return localeCurrency;
+        }
 
-    return 'USD';
-  }, [currencyOptions, localeCurrency]);
+        return 'USD';
+    }, [currencyOptions, localeCurrency]);
 
-  return { defaultCurrency, localeCurrency };
+    return { defaultCurrency, localeCurrency };
 };
 
 export default useLocaleCurrency;

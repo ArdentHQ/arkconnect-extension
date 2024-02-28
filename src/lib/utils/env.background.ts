@@ -5,22 +5,22 @@ import { initializeArkNetworks } from '@/lib/utils/migrations/initialize-ark-net
 import { connectedTransport as ledgerTransportFactory } from '@/lib/utils/transport';
 
 export const initializeEnvironment = (): Environment => {
-  const storage = 'indexeddb';
-  const env = new Environment({
-    coins: {
-      ARK,
-    },
-    httpClient,
-    ledgerTransportFactory,
-    storage,
-  });
+    const storage = 'indexeddb';
+    const env = new Environment({
+        coins: {
+            ARK,
+        },
+        httpClient,
+        ledgerTransportFactory,
+        storage,
+    });
 
-  env.setMigrations(
-    {
-      '0.0.9': initializeArkNetworks,
-    },
-    '0.0.9',
-  );
+    env.setMigrations(
+        {
+            '0.0.9': initializeArkNetworks,
+        },
+        '0.0.9',
+    );
 
-  return env;
+    return env;
 };

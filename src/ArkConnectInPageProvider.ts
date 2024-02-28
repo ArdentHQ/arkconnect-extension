@@ -68,19 +68,18 @@ type DisconnectResponse = {
 
 type SignMessageRequest = {
     message: string;
-} & NetworkType;
+};
 
 type SignMessageResponse = {
     message: string;
     signatory: string;
     signature: string;
-    network?: WalletNetwork;
 };
 
 type SignTransactionRequest = {
     amount: number;
     receiverAddress: string;
-} & NetworkType;
+};
 
 type SignTransactionResponse = {
     id: string;
@@ -93,7 +92,6 @@ type SignTransactionResponse = {
     convertedFee: number;
     total: number;
     convertedTotal: number;
-    network?: WalletNetwork;
 };
 
 type SignVoteRequest = {
@@ -105,16 +103,21 @@ type SignVoteRequest = {
         amount: number;
         delegateAddress: string;
     };
-} & NetworkType;
+};
 
 type SignVoteResponse = {
     id: string;
     sender: string;
-    delegate: string;
+    voteDelegateAddress?: string;
+    voteDelegateName?: string;
+    votePublicKey?: string;
+    unvoteDelegateAddress?: string;
+    unvoteDelegateName?: string;
+    unvotePublicKey?: string;
     exchangeCurrency: string;
     fee: number;
     convertedFee: number;
-} & NetworkType;
+};
 
 const signVoteRequestShape: SignVoteRequest = {
     vote: {
@@ -181,7 +184,10 @@ export class ArkConnectInPageProvider {
                         type: Events.IS_CONNECTED_RESOLVE,
                         callback: (event) => resolve(event.data.data.isConnected),
                     },
-                    { type: Events.IS_CONNECTED_REJECT, callback: (event) => reject(event.data.data) },
+                    {
+                        type: Events.IS_CONNECTED_REJECT,
+                        callback: (event) => reject(event.data.data),
+                    },
                 ]);
 
                 window.addEventListener('message', eventListener, false);
@@ -193,10 +199,19 @@ export class ArkConnectInPageProvider {
 
     disconnect() {
         return new Promise(
-            (resolve: (data: DisconnectResponse) => void, reject: (error: ErrorResponse) => void) => {
+            (
+                resolve: (data: DisconnectResponse) => void,
+                reject: (error: ErrorResponse) => void,
+            ) => {
                 const eventListener = this._getEventListener([
-                    { type: Events.DISCONNECT_RESOLVE, callback: (event) => resolve(event.data.data) },
-                    { type: Events.DISCONNECT_REJECT, callback: (event) => reject(event.data.data) },
+                    {
+                        type: Events.DISCONNECT_RESOLVE,
+                        callback: (event) => resolve(event.data.data),
+                    },
+                    {
+                        type: Events.DISCONNECT_REJECT,
+                        callback: (event) => reject(event.data.data),
+                    },
                 ]);
 
                 window.addEventListener('message', eventListener, false);
@@ -214,7 +229,10 @@ export class ArkConnectInPageProvider {
                         type: Events.GET_NETWORK_RESOLVE,
                         callback: (event) => resolve(event.data.data.network),
                     },
-                    { type: Events.GET_NETWORK_REJECT, callback: (event) => reject(event.data.data) },
+                    {
+                        type: Events.GET_NETWORK_REJECT,
+                        callback: (event) => reject(event.data.data),
+                    },
                 ]);
 
                 window.addEventListener('message', eventListener, false);
@@ -232,7 +250,10 @@ export class ArkConnectInPageProvider {
                         type: Events.GET_ADDRESS_RESOLVE,
                         callback: (event) => resolve(event.data.data.address),
                     },
-                    { type: Events.GET_ADDRESS_REJECT, callback: (event) => reject(event.data.data) },
+                    {
+                        type: Events.GET_ADDRESS_REJECT,
+                        callback: (event) => reject(event.data.data),
+                    },
                 ]);
 
                 window.addEventListener('message', eventListener, false);
@@ -250,7 +271,10 @@ export class ArkConnectInPageProvider {
                         type: Events.GET_BALANCE_RESOLVE,
                         callback: (event) => resolve(event.data.data.balance),
                     },
-                    { type: Events.GET_BALANCE_REJECT, callback: (event) => reject(event.data.data) },
+                    {
+                        type: Events.GET_BALANCE_REJECT,
+                        callback: (event) => reject(event.data.data),
+                    },
                 ]);
 
                 window.addEventListener('message', eventListener, false);
@@ -262,7 +286,10 @@ export class ArkConnectInPageProvider {
 
     signMessage(request: SignMessageRequest) {
         return new Promise(
-            (resolve: (data: SignMessageResponse) => void, reject: (error: ErrorResponse) => void) => {
+            (
+                resolve: (data: SignMessageResponse) => void,
+                reject: (error: ErrorResponse) => void,
+            ) => {
                 if (!isValidObjectByType<SignMessageRequest>(request, signMessageRequestShape)) {
                     reject({
                         domain: window.location.origin,
@@ -297,7 +324,10 @@ export class ArkConnectInPageProvider {
                                 signature: event.data.data.signature,
                             }),
                     },
-                    { type: Events.SIGN_MESSAGE_REJECT, callback: (event) => reject(event.data.data) },
+                    {
+                        type: Events.SIGN_MESSAGE_REJECT,
+                        callback: (event) => reject(event.data.data),
+                    },
                 ]);
 
                 window.addEventListener('message', eventListener, {
@@ -306,7 +336,6 @@ export class ArkConnectInPageProvider {
 
                 this._sendMessage(Messages.SIGN_MESSAGE, {
                     ...request,
-                    network: request?.network ?? WalletNetwork.MAINNET,
                     type: 'signature',
                 });
             },
@@ -319,7 +348,12 @@ export class ArkConnectInPageProvider {
                 resolve: (data: SignTransactionResponse) => void,
                 reject: (error: ErrorResponse) => void,
             ) => {
-                if (!isValidObjectByType<SignTransactionRequest>(request, signTransactionRequestShape)) {
+                if (
+                    !isValidObjectByType<SignTransactionRequest>(
+                        request,
+                        signTransactionRequestShape,
+                    )
+                ) {
                     reject({
                         domain: window.location.origin,
                         status: 'failed',
@@ -344,14 +378,16 @@ export class ArkConnectInPageProvider {
                         type: Events.SIGN_TRANSACTION_RESOLVE,
                         callback: (event) => resolve(event.data.data.transaction),
                     },
-                    { type: Events.SIGN_TRANSACTION_REJECT, callback: (event) => resolve(event.data.data) },
+                    {
+                        type: Events.SIGN_TRANSACTION_REJECT,
+                        callback: (event) => resolve(event.data.data),
+                    },
                 ]);
 
                 window.addEventListener('message', eventListener, false);
 
                 this._sendMessage(Messages.SIGN_TRANSACTION, {
                     ...request,
-                    network: request?.network ?? WalletNetwork.MAINNET,
                     type: 'transfer',
                 });
             },
@@ -374,15 +410,20 @@ export class ArkConnectInPageProvider {
                 }
 
                 const eventListener = this._getEventListener([
-                    { type: Events.SIGN_VOTE_RESOLVE, callback: (event) => resolve(event.data.data.vote) },
-                    { type: Events.SIGN_VOTE_REJECT, callback: (event) => resolve(event.data.data) },
+                    {
+                        type: Events.SIGN_VOTE_RESOLVE,
+                        callback: (event) => resolve(event.data.data.vote),
+                    },
+                    {
+                        type: Events.SIGN_VOTE_REJECT,
+                        callback: (event) => resolve(event.data.data),
+                    },
                 ]);
 
                 window.addEventListener('message', eventListener, false);
 
                 this._sendMessage(Messages.SIGN_VOTE, {
                     ...request,
-                    network: request?.network ?? WalletNetwork.MAINNET,
                     type: request.vote ? 'vote' : 'unvote',
                 });
             },

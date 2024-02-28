@@ -8,34 +8,31 @@ import { useTooltip } from '@/shared/components/tooltip/useTooltip';
 import useThemeMode from '@/lib/hooks/useThemeMode';
 
 interface Properties extends TippyProps {
-  variant?: 'default' | 'danger';
-  hideAfter?: number;
+    hideAfter?: number;
 }
 
 export const Tooltip = ({
-  className,
-  offset,
-  variant = 'default',
-  hideAfter,
-  touch = false,
-  disabled = false,
-  ...properties
+    offset,
+    hideAfter,
+    touch = false,
+    disabled = false,
+    ...properties
 }: Properties): JSX.Element => {
-  const { currentThemeMode } = useThemeMode();
+    const { currentThemeMode } = useThemeMode();
 
-  const { handleShow } = useTooltip({ hideAfter });
+    const { handleShow } = useTooltip({ hideAfter });
 
-  return (
-    <Tippy
-      animation='shift-away-subtle'
-      offset={offset ?? [0, 7]}
-      arrow={roundArrow}
-      theme={`ark-${currentThemeMode}`}
-      duration={150}
-      onShown={handleShow}
-      disabled={disabled}
-      touch={touch}
-      {...properties}
-    />
-  );
+    return (
+        <Tippy
+            animation='shift-away-subtle'
+            offset={offset ?? [0, 7]}
+            arrow={roundArrow}
+            theme={`ark-${currentThemeMode}`}
+            duration={150}
+            onShown={handleShow}
+            disabled={disabled}
+            touch={touch}
+            {...properties}
+        />
+    );
 };
