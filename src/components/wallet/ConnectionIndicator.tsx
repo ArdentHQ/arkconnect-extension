@@ -10,8 +10,8 @@ const ConnectionIndicator = ({ isConnected }: { isConnected: boolean }) => {
             icon={isConnected ? 'globe-with-dot' : 'globe'}
             iconClassName={cn('', {
                 [`${currentThemeMode} globeIcon`]: isConnected,
-                'text-theme-primary-700 dark:text-theme-primary-600' : isConnected,
-                'text-theme-secondary-500 dark:text-theme-secondary-300': !isConnected
+                'text-theme-primary-700 dark:text-theme-primary-600': isConnected,
+                'text-theme-secondary-500 dark:text-theme-secondary-300': !isConnected,
             })}
         />
     );
