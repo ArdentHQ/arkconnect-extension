@@ -42,7 +42,7 @@ export const LedgerIcon = ({ as }: { as?: KnownTarget }) => {
     return (
         <Tooltip content='Ledger Address' placement='top'>
             <FlexContainer color='gray' as={as}>
-                <Icon icon='ledger-address' width='14px' height='14px' />
+                <Icon icon='ledger-address' className='h-3.5 w-3.5' />
             </FlexContainer>
         </Tooltip>
     );
@@ -112,7 +112,7 @@ export const AddressWithCopy = ({ address, length = 10 }: { address: string; len
                     <Paragraph $typeset='body' color='gray'>
                         {trimmedAddress}
                     </Paragraph>
-                    <Icon icon='copy' width='13px' height='13px' />
+                    <Icon icon='copy' className='h-[13px] w-[13px]' />
                 </FlexContainer>
             </Tooltip>
         </Container>
