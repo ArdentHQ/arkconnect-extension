@@ -29,8 +29,6 @@ export const ConnectionStatus = () => {
                     className='c-pointer'
                     onClick={() => setIsModalOpen(true)}
                     as='button'
-                    backgroundColor='transparent'
-                    border='none'
                 >
                     <Icon
                         icon='globe-with-dot'
@@ -55,8 +53,6 @@ export const ConnectionStatus = () => {
                         className='c-pointer'
                         onClick={() => setIsModalOpen(true)}
                         as='button'
-                        backgroundColor='transparent'
-                        border='none'
                     >
                         <Icon icon='globe' width='16px' height='16px' />
                     </StyledFlexContainer>

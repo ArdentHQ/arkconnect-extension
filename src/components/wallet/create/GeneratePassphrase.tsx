@@ -156,8 +156,6 @@ const GeneratePassphrase = ({ goToNextStep, formik }: Props) => {
                     className='c-pointer'
                     onClick={copyPassphraseToClipboard}
                     as='button'
-                    border='none'
-                    backgroundColor='transparent'
                     alignItems='center'
                     height='20px'
                     overflow='hidden'
