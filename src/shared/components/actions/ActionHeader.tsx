@@ -1,16 +1,17 @@
 import RequestedBy from './RequestedBy';
 import { FlexContainer, Heading, Icon, IconDefinition } from '@/shared/components';
 import useThemeMode from '@/lib/hooks/useThemeMode';
+import cn from 'classnames';
 
 type Props = {
     appLogo?: string;
     appDomain: string;
     icon: IconDefinition;
     actionLabel: string;
-    iconDimensions?: { width: number; height: number };
+    iconClassNames?: string;
 };
 
-const ActionHeader = ({ appDomain, appLogo, icon, actionLabel, iconDimensions }: Props) => {
+const ActionHeader = ({ appDomain, appLogo, icon, actionLabel, iconClassNames }: Props) => {
     const { getThemeColor } = useThemeMode();
 
     return (
@@ -30,9 +31,7 @@ const ActionHeader = ({ appDomain, appLogo, icon, actionLabel, iconDimensions }:
                 >
                     <Icon
                         icon={icon}
-                        color={getThemeColor('primary700', 'primary600')}
-                        width={iconDimensions?.width ?? 32}
-                        height={iconDimensions?.height ?? 32}
+                        className={cn('text-theme-primary-700 dark:text-theme-primary-600 h-8 w-8', iconClassNames)}
                     />
                 </FlexContainer>
 
