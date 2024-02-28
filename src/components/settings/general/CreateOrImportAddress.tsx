@@ -140,7 +140,7 @@ const LeadingIcon = ({ icon }: { icon: IconDefinition }) => {
             color='gray'
             as='span'
         >
-            <Icon width='20px' height='20px' icon={icon} />
+            <Icon className='h-5 w-5' icon={icon} />
         </FlexContainer>
     );
 };
