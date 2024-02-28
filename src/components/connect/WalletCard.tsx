@@ -54,7 +54,7 @@ export const WalletCard = ({ wallet }: Props) => {
                                             withTicker
                                             ticker={wallet.currency()}
                                             key={index}
-                                            maxDigits={constants.SHORTER_CURRENCY_DIGITS_ALLOWED}
+                                            maxDigits={constants.MAX_CURRENCY_DIGITS_ALLOWED}
                                             tooltipPlacement='bottom-start'
                                         />
                                     );
