@@ -95,7 +95,7 @@ const TransactionApprovedBody = () => {
                                 copy(state?.transaction.id, 'Transaction ID', ToastPosition.HIGH)
                             }
                         >
-                            <Icon icon='copy' color='primary' width='20px' height='20px' />
+                            <Icon icon='copy' className='text-theme-primary-700 dark:text-theme-primary-650 w-5 h-5' />
                         </Container>
                     </FlexContainer>
                 </ActionDetailsRow>
