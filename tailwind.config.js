@@ -9,6 +9,7 @@ export default {
         sans: ["var(--font-dm-sans)", ...defaultTheme.fontFamily.sans],
       },
     },
+    darkMode: "class",
     colors: {
       transparent: "transparent",
       black: "rgb(var(--theme-color-black) / <alpha-value>)",
