@@ -22,6 +22,7 @@ import constants from '@/constants';
 import { Address, LedgerIcon, TestnetIcon } from '@/components/wallet/address/Address.blocks';
 import { isFirefox } from '@/lib/utils/isFirefox';
 import Amount from '@/components/wallet/Amount';
+import cn from 'classnames';
 
 type VariantProps = {
     variant?: 'primary' | 'errorFree';
@@ -53,6 +54,7 @@ type RowLayoutProps = React.ComponentPropsWithRef<typeof StyledRow> & {
     address?: string;
     tabIndex?: number;
     as?: void | WebTarget | undefined;
+    iconClassName?: string
 };
 
 const StyledRow = styled.div<BaseProps>`
@@ -143,6 +145,7 @@ export const RowLayout = forwardRef(function RowLayout(
         address,
         tabIndex = 0,
         as,
+        iconClassName,
         ...rest
     }: RowLayoutProps,
     forwardedRef: React.Ref<HTMLDivElement>,
@@ -263,10 +266,11 @@ export const RowLayout = forwardRef(function RowLayout(
                             <FlexContainer alignItems='center' gridGap='8px' as={containerAs}>
                                 {iconTrailing && (
                                     <Icon
-                                        width='20px'
-                                        height='20px'
+                                        className={cn('h-5 w-5', {
+                                            'text-theme-secondary-500 dark:text-theme-secondary-300': disabled,
+                                            'text-light-black dark:text-white': !disabled
+                                        }, iconClassName)}
                                         icon={iconTrailing}
-                                        color={color || disabled ? 'gray' : 'base'}
                                     />
                                 )}
                             </FlexContainer>
