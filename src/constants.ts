@@ -13,7 +13,6 @@ const ARK_CONNECT_DEMO = 'https://demo.arkconnect.io';
 // Using 9 considering that the minimum amount of ARK is 0.00000001 which
 // is 8 digits in total.
 const MAX_CURRENCY_DIGITS_ALLOWED = 9;
-const SHORTER_CURRENCY_DIGITS_ALLOWED = 9;
 
 const constants = {
     SUPPORT_EMAIL,
@@ -27,7 +26,6 @@ const constants = {
     PRIVACY_POLICY,
     ARK_CONNECT,
     MAX_CURRENCY_DIGITS_ALLOWED,
-    SHORTER_CURRENCY_DIGITS_ALLOWED,
     ARK_CONNECT_DEMO,
 };
 
