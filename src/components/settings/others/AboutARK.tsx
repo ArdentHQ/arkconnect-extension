@@ -27,8 +27,14 @@ const AboutARK = () => {
         <SubPageLayout title='About ARK Connect'>
             <FlexContainer alignItems='center' flexDirection='column' gridGap='16px' mb='24' mt='8'>
                 <StyledLogos alignItems='center' flexDirection='column' gridGap='16px'>
-                    <Icon icon='logo-inverted' className='h-[3.25rem] w-[3.25rem] text-theme-primary-700 dark:text-theme-primary-650' />
-                    <Icon icon='logo-text' className='w-[228px] h-[21px] text-theme-primary-700 dark:text-theme-primary-650' />
+                    <Icon
+                        icon='logo-inverted'
+                        className='h-[3.25rem] w-[3.25rem] text-theme-primary-700 dark:text-theme-primary-650'
+                    />
+                    <Icon
+                        icon='logo-text'
+                        className='w-[228px] h-[21px] text-theme-primary-700 dark:text-theme-primary-650'
+                    />
                 </StyledLogos>
                 <Paragraph $typeset='body' fontWeight='regular' color='gray'>
                     Version {browser.runtime.getManifest().version}
@@ -48,7 +54,10 @@ const AboutARK = () => {
                             onClick={copyEmailToClipboard}
                             as='button'
                         >
-                            <Icon icon='copy' className='h-5 w-5 text-light-black dark:text-white' />
+                            <Icon
+                                icon='copy'
+                                className='h-5 w-5 text-light-black dark:text-white'
+                            />
                         </CopyButton>
                     </RowLayout>
                 </ExternalLink>

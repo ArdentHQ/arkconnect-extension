@@ -112,7 +112,10 @@ const VoteApprovedBody = ({ wallet }: { wallet: Contracts.IReadWriteWallet }) =>
                             className='c-pointer'
                             onClick={() => copy(state?.vote.id, 'Transaction ID')}
                         >
-                            <Icon icon='copy' className='text-theme-primary-700 dark:text-theme-primary-650 w-5 h-5' />
+                            <Icon
+                                icon='copy'
+                                className='text-theme-primary-700 dark:text-theme-primary-650 w-5 h-5'
+                            />
                         </Container>
                     </FlexContainer>
                 </ActionDetailsRow>

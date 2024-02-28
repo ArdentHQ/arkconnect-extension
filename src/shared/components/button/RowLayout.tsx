@@ -54,7 +54,7 @@ type RowLayoutProps = React.ComponentPropsWithRef<typeof StyledRow> & {
     address?: string;
     tabIndex?: number;
     as?: void | WebTarget | undefined;
-    iconClassName?: string
+    iconClassName?: string;
 };
 
 const StyledRow = styled.div<BaseProps>`
@@ -266,10 +266,15 @@ export const RowLayout = forwardRef(function RowLayout(
                             <FlexContainer alignItems='center' gridGap='8px' as={containerAs}>
                                 {iconTrailing && (
                                     <Icon
-                                        className={cn('h-5 w-5', {
-                                            'text-theme-secondary-500 dark:text-theme-secondary-300': disabled,
-                                            'text-light-black dark:text-white': !disabled
-                                        }, iconClassName)}
+                                        className={cn(
+                                            'h-5 w-5',
+                                            {
+                                                'text-theme-secondary-500 dark:text-theme-secondary-300':
+                                                    disabled,
+                                                'text-light-black dark:text-white': !disabled,
+                                            },
+                                            iconClassName,
+                                        )}
                                         icon={iconTrailing}
                                     />
                                 )}

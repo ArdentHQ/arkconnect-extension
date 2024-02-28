@@ -120,7 +120,10 @@ const ApproveWithLedger = ({
                     gridGap='12px'
                 >
                     <ContainerWithHover borderRadius='50' padding='7' onClick={closeLedgerScreen}>
-                        <Icon icon='arrow-left' className='text-theme-primary-700 dark:text-theme-primary-650 w-4.5 h-4.5' />
+                        <Icon
+                            icon='arrow-left'
+                            className='text-theme-primary-700 dark:text-theme-primary-650 w-4.5 h-4.5'
+                        />
                     </ContainerWithHover>
                 </FlexContainer>
                 <Heading $typeset='h3' fontWeight='bold' color='base' mb='8' mt='16'>

@@ -70,7 +70,10 @@ const Home = () => {
                                 </Paragraph>
                                 <Icon icon='link-external' className='h-4 w-4' />
                             </ExternalLink>
-                            <Icon icon='divider' className='w-0.5 h-4.5 text-theme-primary-650 dark:text-theme-primary-600' />
+                            <Icon
+                                icon='divider'
+                                className='w-0.5 h-4.5 text-theme-primary-650 dark:text-theme-primary-600'
+                            />
 
                             <ExternalLink
                                 gridGap='8px'
