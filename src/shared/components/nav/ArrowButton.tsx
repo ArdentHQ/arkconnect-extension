@@ -36,8 +36,6 @@ export const ArrowButton = ({
             onClick={handleNavigate}
             tabIndex={0}
             as='button'
-            border='none'
-            backgroundColor='transparent'
             className={disabled ? '' : 'c-pointer'}
         >
             <Icon
