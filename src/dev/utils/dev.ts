@@ -28,11 +28,7 @@ export const getTestingAddresses = (): TestingAddress[] => {
     return addresses;
 };
 
-export const createTestProfile = async ({
-    env,
-}: {
-    env: Environment;
-}): Promise<Contracts.IProfile> => {
+export const createTestProfile = async ({ env }: { env: Environment }): Promise<void> => {
     const password = 'password';
 
     env.profiles().flush();
@@ -63,6 +59,4 @@ export const createTestProfile = async ({
     await env.persist();
 
     setLocalValue('hasOnboarded', true);
-
-    return profile;
 };

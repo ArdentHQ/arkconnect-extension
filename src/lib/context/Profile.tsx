@@ -1,17 +1,15 @@
 import { ReactNode, createContext, useContext, useEffect, useState } from 'react';
 import { Contracts } from '@ardenthq/sdk-profiles';
-import browser from 'webextension-polyfill';
-import useLocaleCurrency from '../hooks/useLocalCurrency';
-import { useAppDispatch, useAppSelector } from '../store';
-import { useWalletBalance } from '../hooks/useWalletBalance';
-import { ProfileData } from '../background/contracts';
-import { setLocalValue } from '../utils/localStorage';
 import { useEnvironmentContext } from './Environment';
 import { useErrorHandlerContext } from './ErrorHandler';
 import * as WalletStore from '@/lib/store/wallet';
+import { useAppDispatch, useAppSelector } from '../store';
+import browser from 'webextension-polyfill';
 import * as SessionStore from '@/lib/store/session';
+import { useWalletBalance } from '../hooks/useWalletBalance';
+import { ProfileData } from '../background/contracts';
 import { LoadingFullScreen } from '@/shared/components/handleStates/LoadingFullScreen';
-import { testnetEnabledChanged } from '@/lib/store/ui';
+import { testnetEnabledChanged } from '../store/ui';
 
 interface Context {
     profile: Contracts.IProfile;
@@ -31,7 +29,6 @@ export const ProfileProvider = ({ children }: Properties) => {
     const dispatch = useAppDispatch();
     const { onError } = useErrorHandlerContext();
     const { env } = useEnvironmentContext();
-    const { defaultCurrency } = useLocaleCurrency();
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [isProfileReady, setIsProfileReady] = useState<boolean>(false);
     const [profile, setProfile] = useState<Contracts.IProfile | undefined>(undefined);
@@ -44,14 +41,16 @@ export const ProfileProvider = ({ children }: Properties) => {
 
     const getPrimaryWallet = () => {
         if (isLoading || !primaryWalletId) {
-            return;
+            return undefined;
         }
 
+        let primaryWallet;
+
         try {
-            return profile?.wallets().findById(primaryWalletId);
-        } catch (_e) {
-            return;
-        }
+            primaryWallet = profile?.wallets().findById(primaryWalletId);
+        } catch (_e) {}
+
+        return primaryWallet;
     };
 
     const convertedBalance = useWalletBalance(getPrimaryWallet());
@@ -72,35 +71,20 @@ export const ProfileProvider = ({ children }: Properties) => {
             });
 
             if (!data) {
-                await createProfile();
+                onError('Failed to initialize profile', false);
                 return;
             }
 
             const profile = await importProfile(data);
             profile.data().fill(profileData);
 
+            if (profile.wallets().count() === 0) {
+                dispatch(testnetEnabledChanged(false));
+            }
+
             await updateStore({ profile });
         } catch (error) {
             onError(error, false);
-        }
-    };
-
-    const createProfile = async (): Promise<Contracts.IProfile | undefined> => {
-        try {
-            env.profiles().flush();
-
-            const profile = await env.profiles().create('arkconnect');
-            await env.profiles().restore(profile);
-
-            profile.settings().set(Contracts.ProfileSetting.ExchangeCurrency, defaultCurrency);
-
-            setLocalValue('hasOnboarded', false);
-            dispatch(testnetEnabledChanged(false));
-
-            setProfile(profile);
-            return profile;
-        } catch (error) {
-            onError(error);
         }
     };
 

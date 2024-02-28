@@ -84,7 +84,7 @@ const Indicator = styled.div<{
     ${
         isFocusWithin &&
         `
-        outline-color: ${theme.color.primary600};
+        outline-color: ${theme.colors.primary600};
         outline-style: solid;
         outline-width: 2px;
         outline-offset: 2px;

@@ -1,17 +1,16 @@
 import { useEffect, useState } from 'react';
 import { Contracts } from '@ardenthq/sdk-profiles';
-import browser from 'webextension-polyfill';
 import styled from 'styled-components';
 import { useFormik } from 'formik';
+import browser from 'webextension-polyfill';
 import { Container, FlexContainer, Header, Icon, Paragraph } from '@/shared/components';
 import { LedgerData, useLedgerContext } from '@/lib/Ledger';
 import StepsNavigation, { Step } from '@/components/steps/StepsNavigation';
-
 import ImportWallets from '@/components/ledger/ImportWallets';
 import { LedgerConnectionStep } from '@/components/ledger/LedgerConnectionStep';
 import SetupPassword from '@/components/settings/SetupPassword';
 import { ThemeMode } from '@/lib/store/ui';
-import { getDefaultAlias } from '@/lib/utils/getDefaultAlias';
+import { getLedgerAlias } from '@/lib/utils/getDefaultAlias';
 import { getLocalValues } from '@/lib/utils/localStorage';
 import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
 import useLocaleCurrency from '@/lib/hooks/useLocalCurrency';
@@ -56,15 +55,17 @@ const ImportWithLedger = () => {
             passwordConfirm: '',
         },
         onSubmit: async (values, formikHelpers) => {
-            const wallets = values.wallets.map((wallet) => {
+            const wallets = values.wallets.map((wallet, index) => {
                 return {
                     address: wallet.address,
                     network: network.id(),
                     coin: network.coin(),
                     path: wallet.path,
-                    alias: getDefaultAlias({
-                        profile,
+                    alias: getLedgerAlias({
                         network,
+                        profile,
+                        importCount: values.wallets.length,
+                        index,
                     }),
                 };
             });
