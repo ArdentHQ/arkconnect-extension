@@ -210,26 +210,30 @@ const ImportWallets = ({ goToNextStep, formik }: Props) => {
     );
 };
 
-const StyledFlexContainer = styled(FlexContainer)<{ isImported: boolean, isSelected: boolean }>`
+const StyledFlexContainer = styled(FlexContainer)<{ isImported: boolean; isSelected: boolean }>`
     transition: all 0.5s ease;
     ${({ theme, isImported, isSelected }) => `
-      ${isImported ? `
+      ${
+          isImported
+              ? `
         background-color: ${theme.colors.disabledCheckbox};
-      ` : `
+      `
+              : `
         ${isSelected ? `background-color: ${theme.colors.checkboxBackground};` : ''}
 
         &:hover {
           background-color: ${theme.colors.lightestGray};
         }
-        `}
+        `
+      }
       `}
-    `;
+`;
 
 const StyledContainer = styled(Container)`
-  ${({ theme }) => `
+    ${({ theme }) => `
     border-top: 1px solid ${theme.colors.dividerGray};
     border-bottom: 1px solid ${theme.colors.dividerGray};
   `}
-`
+`;
 
 export default ImportWallets;

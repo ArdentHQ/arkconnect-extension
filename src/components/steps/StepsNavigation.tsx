@@ -48,10 +48,7 @@ const StepsNavigation = <T extends Record<string, any>>({
 
     return (
         <>
-            <StyledFlexContainer
-                color='base'
-                {...stepsProps}
-            >
+            <StyledFlexContainer color='base' {...stepsProps}>
                 <ArrowButton disabled={isPrevDisabled} onClick={handleStepBack} />
                 <FlexContainer
                     height='8px'
@@ -85,10 +82,10 @@ const StepsNavigation = <T extends Record<string, any>>({
 };
 
 const StyledFlexContainer = styled(FlexContainer)`
-  grid-gap: 16px;
-  justify-content: space-between;
-  align-items: center;
-  padding-bottom: 24px;
+    grid-gap: 16px;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 24px;
 `;
 
 export default StepsNavigation;
