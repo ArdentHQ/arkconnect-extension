@@ -14,6 +14,7 @@ import { Container, FlexContainer, Icon, IconDefinition, Paragraph } from '@/sha
 import { FlexVariantProps } from '@/shared/theme/variants';
 import useThemeMode from '@/lib/hooks/useThemeMode';
 import { isFirefox } from '@/lib/utils/isFirefox';
+import cn from 'classnames';
 
 type VariantProps = {
     variant?: 'primary' | 'error';
@@ -36,6 +37,7 @@ type SettingsOptionProps = React.ComponentPropsWithRef<typeof StyledRow> & {
     rightContent?: React.ReactNode;
     color?: ColorProps<Theme>;
     disabled?: boolean;
+    iconClassName?: string;
 };
 
 const StyledRow = styled(Container)<BaseProps>`
@@ -117,6 +119,7 @@ export const SettingsOption = forwardRef(function RowLayout(
         color,
         disabled,
         onClick,
+        iconClassName,
         ...rest
     }: SettingsOptionProps,
     forwardedRef: React.Ref<HTMLDivElement>,
@@ -152,7 +155,7 @@ export const SettingsOption = forwardRef(function RowLayout(
                         className='icon-leading'
                         as='span'
                     >
-                        <Icon width='20px' height='20px' icon={iconLeading} />
+                        <Icon className='w-5 h-5' icon={iconLeading} />
                     </FlexContainer>
                 </FlexContainer>
                 <FlexContainer
@@ -183,15 +186,11 @@ export const SettingsOption = forwardRef(function RowLayout(
                             <FlexContainer alignItems='center' gridGap='8px' as='span'>
                                 {iconTrailing && (
                                     <Icon
-                                        width='20px'
-                                        height='20px'
                                         icon={iconTrailing}
-                                        color={
-                                            color || disabled
-                                                ? 'gray'
-                                                : getThemeColor('base', 'white')
-                                        }
-                                        className='icon-trailing'
+                                        className={cn('icon-trailing w-5 h-5', {
+                                            'text-theme-secondary-500 dark:text-theme-secondary-300': disabled,
+                                            'text-light-black dark:text-white': !disabled,
+                                        }, iconClassName)}
                                     />
                                 )}
                             </FlexContainer>
