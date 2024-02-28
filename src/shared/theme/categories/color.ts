@@ -216,7 +216,7 @@ const dark = {
     secondaryBlackButton: white,
     secondaryBlackHover: secondary700,
     secondaryBlackShadow: '#3B3A3A',
-    primaryFocused: '#4ACD97',
+    primaryFocused: 'rgba(74, 205, 151, 0.24)',
     testNetLabel: 'rgba(247, 144, 9, 0.10)',
     ledgerStep: secondary600,
     ledgerWalletStep: 'rgba(2, 168, 99, 0.20)',
