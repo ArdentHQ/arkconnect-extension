@@ -1,4 +1,4 @@
-import { ComponentProps, ReactNode, useRef } from 'react';
+import { ReactNode, useRef } from 'react';
 import styled from 'styled-components';
 import FocusTrap from 'focus-trap-react';
 import Portal from '../utils/Portal';
@@ -11,7 +11,8 @@ import {
     Container,
     Icon,
 } from '@/shared/components';
-import useThemeMode from '@/lib/hooks/useThemeMode';
+import cn from 'classnames';
+import { ColorProps, Theme } from 'styled-system';
 
 const Backdrop = styled.div`
     position: fixed;
@@ -83,15 +84,11 @@ type ModalProps = {
 };
 
 const ModalCloseIcon = ({ onClose }: { onClose: () => void }) => {
-    const { getThemeColor } = useThemeMode();
-
     return (
         <Container onClick={onClose} className='c-pointer' as='button'>
             <Icon
                 icon='x'
-                color={getThemeColor('lightBlack', 'white')}
-                width='18px'
-                height='18px'
+                className='h-4.5 w-4.5 text-light-black dark:text-white'
             />
         </Container>
     );
@@ -106,8 +103,7 @@ export const ModalIcon = ({
     icon: IconDefinition;
     iconClassName?: string;
     variant?: 'danger';
-    color?: ComponentProps<typeof IconComponent>['color'];
-}) => {
+} & ColorProps<Theme>)  => {
     return (
         <FlexContainer
             width='52px'
@@ -121,7 +117,7 @@ export const ModalIcon = ({
             alignItems='center'
             boxShadow='0px 0.91667px 3.66667px 0px rgba(0, 0, 0, 0.05)'
         >
-            <IconComponent icon={icon} width='24px' height='24px' className={iconClassName} />
+            <IconComponent icon={icon} className={cn('h-6 w-6', iconClassName)} />
         </FlexContainer>
     );
 };
