@@ -104,7 +104,7 @@ const StyledButton = styled.button<BaseProps>`
                     },
                     '&:focus-visible': {
                         outline: 'none',
-                        boxShadow: `0px 0px 0px 4px ${theme.colors.primaryFocused}`,
+                        boxShadow: `0px 0px 0px 4px ${theme.colors.secondaryFocused}`,
                     },
                     '&:disabled': {
                         border: `1px solid ${theme.colors.lightGray}`,
