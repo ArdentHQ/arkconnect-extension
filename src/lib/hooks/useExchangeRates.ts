@@ -3,8 +3,6 @@ import { getLocalValues, setLocalValue } from '@/lib/utils/localStorage';
 import { general } from '@/lib/data/general';
 
 const ONE_MINUTE_IN_MS = 60000;
-const MAX_COINGECKO_REQUESTS_PER_MINUTE =
-    import.meta.env.VITE_MAX_COINGECKO_REQUESTS_PER_MINUTE ?? 10;
 const COINGECKO_API_URL = 'https://api.coingecko.com/api/v3/simple/price';
 const COIN_ID = 'ark';
 
@@ -28,31 +26,21 @@ export const useExchangeRates = () => {
     useEffect(() => {
         const getRates = async () => {
             const now = Date.now();
-            let { ratesCache } = await getLocalValues();
+            const { ratesCache } = await getLocalValues();
 
-            if (!ratesCache) {
-                ratesCache = { lastFetch: 0, rates: {}, requestCount: 0 };
-            }
+            if (ratesCache === undefined || now - ratesCache.lastFetch >= ONE_MINUTE_IN_MS) {
+                const rates = await fetchRates();
 
-            if (now - ratesCache.lastFetch < ONE_MINUTE_IN_MS) {
-                if (ratesCache.requestCount < MAX_COINGECKO_REQUESTS_PER_MINUTE) {
-                    ratesCache.rates = await fetchRates();
-                    ratesCache.requestCount += 1;
-                } else {
-                    // If MAX_COINGECKO_REQUESTS_PER_MINUTE is reached, use cached rates
-                    setRates(ratesCache.rates);
-                    setLoading(false);
-                    return;
-                }
+                await setLocalValue('ratesCache', {
+                    lastFetch: now,
+                    rates: rates,
+                });
+
+                setRates(rates);
             } else {
-                ratesCache.lastFetch = now;
-                ratesCache.rates = await fetchRates();
-                ratesCache.requestCount = 1;
+                setRates(ratesCache.rates);
             }
 
-            await setLocalValue('ratesCache', ratesCache);
-
-            setRates(ratesCache.rates);
             setLoading(false);
         };
 

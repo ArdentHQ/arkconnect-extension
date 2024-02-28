@@ -16,7 +16,6 @@ interface LocalStorageValues {
     ratesCache?: {
         lastFetch: number;
         rates: Record<string, number>;
-        requestCount: number;
     };
 }
 
@@ -38,6 +37,7 @@ export const getLocalValues = async (): Promise<LocalStorageValues> => {
         autoLockTimer: localValues?.autoLockTimer,
         devModeSeeded: localValues?.devModeSeeded ?? false,
         hasOnboarded: localValues?.hasOnboarded ?? false,
+        ratesCache: localValues?.ratesCache,
     };
 };
 
