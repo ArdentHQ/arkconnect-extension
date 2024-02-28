@@ -111,7 +111,7 @@ const Connect = () => {
                 appLogo={location.state?.favicon}
                 icon='action-connect'
                 actionLabel='Connect to App'
-                iconDimensions={{ width: 22, height: 31 }}
+                iconClassNames='w-[22px] h-[31px]'
             />
 
             <ConnectWithWallet wallet={primaryWallet} />

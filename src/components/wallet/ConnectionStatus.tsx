@@ -32,9 +32,7 @@ export const ConnectionStatus = () => {
                 >
                     <Icon
                         icon='globe-with-dot'
-                        className={currentThemeMode + ' globeIcon'}
-                        width='16px'
-                        height='16px'
+                        className={currentThemeMode + ' globeIcon h-4 w-4'}
                     />
                 </StyledFlexContainer>
             ) : (
@@ -54,7 +52,7 @@ export const ConnectionStatus = () => {
                         onClick={() => setIsModalOpen(true)}
                         as='button'
                     >
-                        <Icon icon='globe' width='16px' height='16px' />
+                        <Icon icon='globe' className='h-4 w-4' />
                     </StyledFlexContainer>
                 </Tooltip>
             )}
