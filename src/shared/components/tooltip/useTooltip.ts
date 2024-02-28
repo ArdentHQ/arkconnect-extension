@@ -1,21 +1,21 @@
 import { type Instance } from 'tippy.js';
 
 export const useTooltip = (properties?: {
-  hideAfter?: number;
+    hideAfter?: number;
 }): {
-  handleShow: (instance: Instance) => void;
+    handleShow: (instance: Instance) => void;
 } => {
-  const handleShow = (instance: Instance): void => {
-    if (!properties?.hideAfter) {
-      return;
-    }
+    const handleShow = (instance: Instance): void => {
+        if (!properties?.hideAfter) {
+            return;
+        }
 
-    setTimeout(() => {
-      instance.hide();
-    }, properties.hideAfter);
-  };
+        setTimeout(() => {
+            instance.hide();
+        }, properties.hideAfter);
+    };
 
-  return {
-    handleShow,
-  };
+    return {
+        handleShow,
+    };
 };

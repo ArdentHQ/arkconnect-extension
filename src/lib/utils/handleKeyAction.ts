@@ -5,7 +5,7 @@ type ClickHandlerWithArg<T> = (arg: T) => void;
 export const handleInputKeyAction = <T>(
     event: KeyboardEvent<HTMLButtonElement | HTMLDivElement | HTMLSpanElement>,
     onClick: ClickHandlerWithArg<T>,
-    arg: T
+    arg: T,
 ) => {
     if (event.key === 'Enter' || event.key === ' ') {
         event.preventDefault();

@@ -2,44 +2,44 @@ import { ReactNode, createContext, useCallback, useContext, useState } from 'rea
 import { Environment } from '@ardenthq/sdk-profiles';
 
 interface Context {
-  env: Environment;
-  state?: Record<string, unknown>;
-  persist: () => Promise<void>;
-  isEnvironmentBooted: boolean;
-  setIsEnvironmentBooted: (isBooted: boolean) => void;
+    env: Environment;
+    state?: Record<string, unknown>;
+    persist: () => Promise<void>;
+    isEnvironmentBooted: boolean;
+    setIsEnvironmentBooted: (isBooted: boolean) => void;
 }
 
 interface Properties {
-  children: ReactNode;
-  env: Environment;
+    children: ReactNode;
+    env: Environment;
 }
 
 const EnvironmentContext = createContext<Context | undefined>(undefined);
 
 export const EnvironmentProvider = ({ children, env }: Properties) => {
-  const [state, setState] = useState<any>(undefined);
-  const [isEnvironmentBooted, setIsEnvironmentBooted] = useState<boolean>(false);
+    const [state, setState] = useState<any>(undefined);
+    const [isEnvironmentBooted, setIsEnvironmentBooted] = useState<boolean>(false);
 
-  const persist = useCallback(async () => {
-    await env.persist();
+    const persist = useCallback(async () => {
+        await env.persist();
 
-    // Force update
-    setState({});
-  }, [env]);
+        // Force update
+        setState({});
+    }, [env]);
 
-  return (
-    <EnvironmentContext.Provider
-      value={{
-        env,
-        isEnvironmentBooted,
-        state,
-        persist,
-        setIsEnvironmentBooted,
-      }}
-    >
-      {children}
-    </EnvironmentContext.Provider>
-  );
+    return (
+        <EnvironmentContext.Provider
+            value={{
+                env,
+                isEnvironmentBooted,
+                state,
+                persist,
+                setIsEnvironmentBooted,
+            }}
+        >
+            {children}
+        </EnvironmentContext.Provider>
+    );
 };
 
 /**
@@ -51,9 +51,9 @@ export const EnvironmentProvider = ({ children, env }: Properties) => {
  */
 
 export const useEnvironmentContext = (): Context => {
-  const value = useContext(EnvironmentContext);
-  if (value === undefined) {
-    throw new Error('[useEnvironment] Component not wrapped within a Provider');
-  }
-  return value;
+    const value = useContext(EnvironmentContext);
+    if (value === undefined) {
+        throw new Error('[useEnvironment] Component not wrapped within a Provider');
+    }
+    return value;
 };

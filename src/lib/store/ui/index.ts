@@ -1,71 +1,71 @@
+import { PayloadAction, createAction, createSlice } from '@reduxjs/toolkit';
 import { ToastPosition } from '@/components/toast/ToastContainer';
 import { RootState } from '@/lib/store';
 import persist from '@/lib/store/persist';
-import { PayloadAction, createAction, createSlice } from '@reduxjs/toolkit';
 
 export enum ThemeMode {
-  LIGHT = 'light',
-  DARK = 'dark',
+    LIGHT = 'light',
+    DARK = 'dark',
 }
 
 export type ToastType = 'warning' | 'danger' | 'success';
 
 export type Toast = {
-  type: ToastType;
-  message: string;
-  toastPosition?: ToastPosition;
+    type: ToastType;
+    message: string;
+    toastPosition?: ToastPosition;
 };
 
 export type UIState = {
-  themeMode: ThemeMode;
-  toasts: Toast[];
-  testnetEnabled: boolean;
-  locked: boolean;
+    themeMode: ThemeMode;
+    toasts: Toast[];
+    testnetEnabled: boolean;
+    locked: boolean;
 };
 
 const initialState: UIState = {
-  themeMode: ThemeMode.LIGHT,
-  toasts: [],
-  testnetEnabled: false,
-  locked: false,
+    themeMode: ThemeMode.LIGHT,
+    toasts: [],
+    testnetEnabled: false,
+    locked: false,
 };
 
 export const revertAll = createAction('REVERT_ALL');
 
 export const uiSlice = createSlice({
-  name: 'ui',
-  initialState,
-  reducers: {
-    themeModeUpdated: (state, action: PayloadAction<ThemeMode>) => {
-      state.themeMode = action.payload;
-    },
-    toastAdded: (state, action: PayloadAction<Toast>) => {
-      state.toasts.push(action.payload);
-    },
-    toastRemoved: (state, action: PayloadAction<Toast>) => {
-      state.toasts = state.toasts.filter((toast) => toast.message !== action.payload.message);
-    },
-    toastsReseted: (state) => {
-      state.toasts = [];
-    },
-    testnetEnabledChanged: (state, action: PayloadAction<boolean>) => {
-      state.testnetEnabled = action.payload;
-    },
+    name: 'ui',
+    initialState,
+    reducers: {
+        themeModeUpdated: (state, action: PayloadAction<ThemeMode>) => {
+            state.themeMode = action.payload;
+        },
+        toastAdded: (state, action: PayloadAction<Toast>) => {
+            state.toasts.push(action.payload);
+        },
+        toastRemoved: (state, action: PayloadAction<Toast>) => {
+            state.toasts = state.toasts.filter((toast) => toast.message !== action.payload.message);
+        },
+        toastsReseted: (state) => {
+            state.toasts = [];
+        },
+        testnetEnabledChanged: (state, action: PayloadAction<boolean>) => {
+            state.testnetEnabled = action.payload;
+        },
 
-    lockedChanged: (state, action: PayloadAction<boolean>) => {
-      state.locked = action.payload;
+        lockedChanged: (state, action: PayloadAction<boolean>) => {
+            state.locked = action.payload;
+        },
     },
-  },
-  extraReducers: (builder) => builder.addCase(revertAll, () => initialState),
+    extraReducers: (builder) => builder.addCase(revertAll, () => initialState),
 });
 
 export const {
-  themeModeUpdated,
-  toastAdded,
-  toastRemoved,
-  toastsReseted,
-  testnetEnabledChanged,
-  lockedChanged,
+    themeModeUpdated,
+    toastAdded,
+    toastRemoved,
+    toastsReseted,
+    testnetEnabledChanged,
+    lockedChanged,
 } = uiSlice.actions;
 
 export const selectThemeMode = (state: RootState) => state.ui.themeMode;

@@ -5,11 +5,11 @@ import { VariantConfig } from '.';
 // Usage:
 //    const defaultProps = makeDefaultProps(buttonVariantConfig, 'primary');
 const makeDefaultProps = <T extends VariantConfig>(
-  variantConfig: T,
-  defaultValue: keyof T['variants'],
+    variantConfig: T,
+    defaultValue: keyof T['variants'],
 ) => {
-  const key = (variantConfig.prop ?? variantConfig.scale) as string;
-  return { [key]: defaultValue };
+    const key = (variantConfig.prop ?? variantConfig.scale) as string;
+    return { [key]: defaultValue };
 };
 
 // Utility function for creating a variant and (optionally) default props.
@@ -19,11 +19,11 @@ const makeDefaultProps = <T extends VariantConfig>(
 //      defaultProps: defaultButtonProps
 //    } = makeVariant(buttonVariantConfig, 'primary');
 export const makeVariant = <T extends VariantConfig>(
-  variantConfig: T,
-  defaultValue?: keyof T['variants'],
+    variantConfig: T,
+    defaultValue?: keyof T['variants'],
 ) => {
-  return {
-    variant: variant(variantConfig),
-    defaultProps: defaultValue ? makeDefaultProps(variantConfig, defaultValue) : {},
-  };
+    return {
+        variant: variant(variantConfig),
+        defaultProps: defaultValue ? makeDefaultProps(variantConfig, defaultValue) : {},
+    };
 };

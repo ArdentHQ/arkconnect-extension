@@ -1,426 +1,364 @@
-import { AutoLockTimer, setLocalValue } from './lib/utils/localStorage';
-import { ProfileData, SessionEntries } from './lib/background/contracts';
-import { createTestProfile, isDev } from './dev/utils/dev';
-
-import { BACKGROUND_EVENT_LISTENERS_HANDLERS } from './lib/background/eventListenerHandlers';
-import { Contracts } from '@ardenthq/sdk-profiles';
-import { ExtensionEvents } from './lib/events';
-import { ExtensionProfile } from './lib/background/extension.profile';
-import { LockHandler } from '@/lib/background/handleAutoLock';
-import { SendTransferInput } from './lib/background/extension.wallet';
-import { Services } from '@ardenthq/sdk';
 import browser from 'webextension-polyfill';
-import { importWallets } from './background.helpers';
+import { BACKGROUND_EVENT_LISTENERS_HANDLERS } from './lib/background/eventListenerHandlers';
+import { AutoLockTimer, setLocalValue } from './lib/utils/localStorage';
 import initAutoLock from './lib/background/initAutoLock';
-import { initializeEnvironment } from './lib/utils/env.background';
 import keepServiceWorkerAlive from './lib/background/keepServiceWorkerAlive';
-import useSentryException from './lib/hooks/useSentryException';
+import { ExtensionEvents } from './lib/events';
+import { importWallets } from './background.helpers';
+import { createTestProfile, isDev } from './dev/utils/dev';
+import { ProfileData } from './lib/background/contracts';
+import { Services } from '@ardenthq/sdk';
+import { SendTransferInput } from './lib/background/extension.wallet';
+import { Extension } from './lib/background/extension';
+import { Contracts } from '@ardenthq/sdk-profiles';
+import { SessionEntries } from './lib/store/session';
+import { UUID } from '@ardenthq/sdk-cryptography';
 
-let PROFILE: Contracts.IProfile | null = null;
+const initialPassword = UUID.random();
 
-const lockHandler = new LockHandler();
-
-const bootEnvironment = async () => {
-  try {
-    await ENVIRONMENT.verify();
-    await ENVIRONMENT.boot();
-  } catch (error: any) {
-    useSentryException(new Error('Failed to boot environment'));
-  }
-};
-
-const updateProfile = async (
-  profileDump: Record<string, any>,
-  password: string,
-): Promise<Contracts.IProfile | null> => {
-  ENVIRONMENT.profiles().flush();
-  ENVIRONMENT.profiles().fill(profileDump);
-  const existingData = PROFILE?.data().all();
-
-  await bootEnvironment();
-
-  try {
-    const profile = ENVIRONMENT.profiles().first();
-    await ENVIRONMENT.profiles().restore(profile, password);
-
-    if (existingData) {
-      profile.data().fill(existingData);
-    }
-
-    await ENVIRONMENT.persist();
-
-    PROFILE = profile;
-
-    return PROFILE;
-  } catch (error: any) {
-    useSentryException(new Error('Failed to update profile'));
-  }
-
-  return null;
-};
+const extension = Extension();
+extension.reset(initialPassword);
 
 // @TODO: Cleanup/interface handlers & reduce cognitive complexity.
 const initRuntimeEventListener = () => {
-  browser.runtime.onMessage.addListener(async function (request) {
-    const type = request.type as keyof typeof BACKGROUND_EVENT_LISTENERS_HANDLERS;
-    const extensionProfile = ExtensionProfile({ profile: PROFILE, env: ENVIRONMENT, lockHandler });
+    browser.runtime.onMessage.addListener(async function (request) {
+        const type = request.type as keyof typeof BACKGROUND_EVENT_LISTENERS_HANDLERS;
 
-    if (request.type === 'SEND_VOTE') {
-      try {
-        extensionProfile.assertLockedStatus();
-        extensionProfile.assertPrimaryWallet();
+        if (request.type === 'SEND_VOTE') {
+            try {
+                extension.assertLockedStatus();
+                extension.assertPrimaryWallet();
 
-        return await extensionProfile
-          .primaryWallet()
-          .wallet()
-          .sendVote(request.data as Services.VoteInput);
-      } catch (error) {
-        return {
-          error: 'FAILED_TO_BROADCAST',
-          errorStack: error,
-        };
-      }
-    }
-
-    if (request.type === 'SEND_TRANSACTION') {
-      extensionProfile.assertLockedStatus();
-      extensionProfile.assertPrimaryWallet();
-
-      try {
-        return await extensionProfile
-          .primaryWallet()
-          .wallet()
-          .sendTransfer(request.data as SendTransferInput);
-      } catch (error) {
-        return {
-          error: 'FAILED_TO_BROADCAST',
-          errorStack: error,
-        };
-      }
-    }
-
-    if (request.type === 'SIGN_MESSAGE') {
-      extensionProfile.assertLockedStatus();
-      extensionProfile.assertPrimaryWallet();
-
-      try {
-        return extensionProfile.primaryWallet().wallet().signMessage(request.data.message);
-      } catch (error) {
-        return { error: 'FAILED_TO_SIGN', errorStack: error };
-      }
-    }
-
-    if (request.type === 'GET_DATA') {
-      if (!PROFILE) {
-        return { error: 'MISSING_PROFILE' };
-      }
-
-      if (extensionProfile.isLocked()) {
-        return { error: 'LOCKED' };
-      }
-
-      try {
-        return extensionProfile.exportAsReadOnly();
-      } catch (error) {
-        return {
-          error: 'FAILED_TO_EXPORT_PROFILE',
-          errorStack: error,
-        };
-      }
-    }
-
-    if (request.type === 'IMPORT_WALLETS') {
-      // If profile doesn't exist, it means that it's an initial import.
-      // In that case, password should be provided to instantiate the new profile.
-      try {
-        if (!PROFILE) {
-          PROFILE = await extensionProfile.reset(request.data.password, request.data);
-        }
-
-        await importWallets({ profile: PROFILE, wallets: request.data.wallets });
-        await ENVIRONMENT.persist();
-
-        return { error: undefined };
-      } catch (error) {
-        return {
-          error: 'FAILED_TO_IMPORT_WALLETS',
-          errorStack: error,
-        };
-      }
-    }
-
-    if (request.type === 'SET_DATA') {
-      if (!request.data.profileDump) {
-        return {
-          error: 'PROFILE_DATA_MISSING',
-        };
-      }
-
-      if (!PROFILE) {
-        return {
-          error: 'PROFILE_MISSING',
-        };
-      }
-
-      if (extensionProfile.isLocked()) {
-        return {
-          error: 'LOCKED',
-        };
-      }
-
-      const password = PROFILE.password().get();
-
-      const dump = Object.values(request.data.profileDump)[0] as Record<string, string>;
-
-      const requestedProfile = await ENVIRONMENT.profiles().import(dump.data);
-      await ENVIRONMENT.profiles().restore(requestedProfile);
-
-      requestedProfile.auth().setPassword(password);
-      requestedProfile.password().set(password);
-
-      const encryptedExport = await ENVIRONMENT.profiles().export(requestedProfile);
-
-      const updatedProfile = await updateProfile(
-        {
-          [requestedProfile.id()]: {
-            ...ENVIRONMENT.profiles().dump(requestedProfile),
-            data: encryptedExport,
-            id: requestedProfile.id(),
-          },
-        },
-        password,
-      );
-
-      if (!updatedProfile) {
-        return {
-          error: 'PROFILE_MISSING',
-        };
-      }
-
-      return {
-        profileDump: ENVIRONMENT.profiles().dump(PROFILE),
-        error: null,
-      };
-    } else if (request.type === 'SET_PRIMARY_WALLET') {
-      extensionProfile.primaryWallet().set(request.data.primaryWalletId);
-      await ENVIRONMENT.persist();
-    } else if (request.type === 'SET_SESSIONS') {
-      if (!PROFILE) {
-        return;
-      }
-
-      PROFILE.data().set(ProfileData.Sessions, request.data.sessions);
-      await ENVIRONMENT.persist();
-    } else if (request.type === 'AUTOLOCK_TIMER_CHANGED') {
-      await lockHandler.setLastActiveTime(true);
-      return;
-    } else if (request.type === 'REGISTERED_ACTIVITY') {
-      await lockHandler.setLastActiveTime();
-      return;
-    } else if (request.type === 'LOCK') {
-      lockHandler.lock();
-      return;
-    } else if (request.type === 'CHECK_LOCK') {
-      return Promise.resolve({ isLocked: lockHandler.isLocked() });
-    } else if (request.type === 'CHANGE_PASSWORD') {
-      try {
-        if (!PROFILE) {
-          return {
-            error: 'LOCKED',
-          };
-        }
-
-        if (PROFILE.password().get() !== request.data.oldPassword) {
-          return {
-            error: 'INVALID_PASSWORD',
-          };
-        }
-
-        PROFILE?.auth().changePassword(request.data.oldPassword, request.data.newPassword);
-
-        for (const wallet of PROFILE.wallets().values()) {
-          let newWallet;
-          const oldWalletId = wallet.id();
-
-          // Only non-ledgers have mnemonics
-          if (!wallet.isLedger()) {
-            const mnemonic = await wallet.confirmKey().get(request.data.oldPassword);
-
-            newWallet = await PROFILE.walletFactory().fromMnemonicWithBIP39({
-              coin: wallet.network().coin(),
-              network: wallet.network().id(),
-              mnemonic,
-            });
-
-            newWallet.mutator().alias(wallet.alias() as string);
-            await newWallet.confirmKey().set(mnemonic, PROFILE.password().get());
-          } else {
-            newWallet = await PROFILE.walletFactory().fromAddressWithDerivationPath({
-              address: wallet.address(),
-              network: wallet.network().id(),
-              coin: wallet.coinId(),
-              path: wallet.data().get(Contracts.WalletData.DerivationPath)!,
-            });
-
-            newWallet.mutator().alias(wallet.alias() as string);
-          }
-
-          // Update primary wallet ID to match the new id of the same wallet
-          if (PROFILE.data().get(ProfileData.PrimaryWalletId) === oldWalletId) {
-            PROFILE.data().set(ProfileData.PrimaryWalletId, newWallet.id());
-          }
-
-          const sessions = PROFILE.data().get<SessionEntries>(ProfileData.Sessions);
-
-          if (sessions) {
-            // Adjust sessions' walletId to match new ones
-            for (const [sessionId, session] of Object.entries(sessions)) {
-              if (session.walletId === oldWalletId) {
-                session.walletId = newWallet.id();
-                sessions[sessionId] = session;
-              }
+                return await extension
+                    .primaryWallet()
+                    .wallet()
+                    .sendVote(request.data as Services.VoteInput);
+            } catch (error) {
+                return {
+                    error: 'FAILED_TO_BROADCAST',
+                    errorStack: error,
+                };
             }
-          }
-
-          // Store updated sessions
-          PROFILE.data().set(ProfileData.Sessions, sessions);
-
-          PROFILE.wallets().forget(oldWalletId);
-          PROFILE.wallets().push(newWallet);
         }
 
-        await ENVIRONMENT.persist();
+        if (request.type === 'SEND_TRANSACTION') {
+            extension.assertLockedStatus();
+            extension.assertPrimaryWallet();
 
-        return Promise.resolve({
-          error: undefined,
-        });
-      } catch (error) {
-        return Promise.resolve({ error });
-      }
-    } else if (request.type === 'RESET') {
-      if (!PROFILE) {
-        return;
-      }
-
-      ENVIRONMENT.profiles().flush();
-
-      PROFILE = null;
-      await ENVIRONMENT.persist();
-
-      // reset lock handler
-      lockHandler.reset();
-      return;
-    } else if (request.type === 'REMOVE_WALLETS') {
-      if (PROFILE?.password().get() !== request.data.password) {
-        return {
-          error: 'Invalid password.',
-        };
-      }
-
-      const walletIds = request.data.walletIds ?? [];
-      for (const id of walletIds) {
-        const wallet = PROFILE?.wallets().has(id) ? PROFILE?.wallets().findById(id) : undefined;
-
-        if (wallet) {
-          PROFILE?.wallets().forget(id);
+            try {
+                return await extension
+                    .primaryWallet()
+                    .wallet()
+                    .sendTransfer(request.data as SendTransferInput);
+            } catch (error) {
+                return {
+                    error: 'FAILED_TO_BROADCAST',
+                    errorStack: error,
+                };
+            }
         }
-      }
 
-      if (PROFILE?.wallets().count() === 0) {
-        ENVIRONMENT.profiles().flush();
-        PROFILE = null;
-        await ENVIRONMENT.persist();
+        if (request.type === 'SIGN_MESSAGE') {
+            extension.assertLockedStatus();
+            extension.assertPrimaryWallet();
 
-        return {
-          error: undefined,
-        };
-      }
+            try {
+                return extension.primaryWallet().wallet().signMessage(request.data.message);
+            } catch (error) {
+                return { error: 'FAILED_TO_SIGN', errorStack: error };
+            }
+        }
 
-      if (
-        PROFILE?.data().has(ProfileData.PrimaryWalletId) &&
-        !PROFILE?.wallets().has(PROFILE?.data().get(ProfileData.PrimaryWalletId) as string)
-      ) {
-        PROFILE?.data().set(ProfileData.PrimaryWalletId, PROFILE?.wallets().first().id());
-      }
+        if (request.type === 'GET_DATA') {
+            try {
+                return extension.exportAsReadOnly();
+            } catch (error) {
+                return {
+                    error: 'FAILED_TO_EXPORT_PROFILE',
+                    errorStack: error,
+                };
+            }
+        }
 
-      await ENVIRONMENT.persist();
+        if (request.type === 'IMPORT_WALLETS') {
+            try {
+                if (!!request.data.password) {
+                    await extension.reset(request.data.password, request.data);
+                }
 
-      return {
-        error: undefined,
-      };
-    } else if (request.type === 'VALIDATE_PASSWORD') {
-      return Promise.resolve({
-        isValid: PROFILE?.password().get() === request.data.password,
-      });
-    } else if (request.type === 'UNLOCK') {
-      const isLocked = await lockHandler.unlock(PROFILE, request.data.password);
-      return Promise.resolve({ isLocked });
-    }
-    // We don't return early in cases with `_RESOLVE` as they
-    // send a browser message in addition
-    else if (request.type === 'DISCONNECT_RESOLVE') {
-      ExtensionEvents({ profile: PROFILE }).disconnect(request.data.domain);
-    } else if (request.type === 'CONNECT_RESOLVE') {
-      ExtensionEvents({ profile: PROFILE }).connect(request.data.domain);
-    }
+                await importWallets({
+                    profile: extension.profile(),
+                    wallets: request.data.wallets,
+                });
+                await extension.persist();
 
-    if (!BACKGROUND_EVENT_LISTENERS_HANDLERS[type]) {
-      return;
-    }
+                return { error: undefined };
+            } catch (error) {
+                return {
+                    error: 'FAILED_TO_IMPORT_WALLETS',
+                    errorStack: error,
+                };
+            }
+        }
 
-    if (request.data.tabId && (type.endsWith('_RESOLVE') || type.endsWith('_REJECT'))) {
-      browser.tabs.sendMessage(request.data.tabId, request);
-      return;
-    }
-  });
+        if (request.type === 'SET_DATA') {
+            if (!request.data.profileDump) {
+                return {
+                    error: 'PROFILE_DATA_MISSING',
+                };
+            }
+
+            if (extension.isLocked()) {
+                return {
+                    error: 'LOCKED',
+                };
+            }
+
+            const password = extension.profile().password().get();
+            const data = extension.profile().data().all();
+
+            const dump = Object.values(request.data.profileDump)[0] as Record<string, string>;
+
+            const requestedProfile = await extension.env().profiles().import(dump.data);
+            await extension.env().profiles().restore(requestedProfile);
+
+            requestedProfile.auth().setPassword(password);
+
+            const encryptedExport = await extension.env().profiles().export(requestedProfile);
+
+            await extension.resetFromDump(
+                {
+                    [requestedProfile.id()]: {
+                        ...extension.env().profiles().dump(requestedProfile),
+                        data: encryptedExport,
+                        id: requestedProfile.id(),
+                    },
+                },
+                password,
+                data,
+            );
+
+            return {
+                profileDump: extension.env().profiles().dump(extension.profile()),
+                error: null,
+            };
+        } else if (request.type === 'SET_PRIMARY_WALLET') {
+            extension.primaryWallet().set(request.data.primaryWalletId);
+            await extension.env().persist();
+        } else if (request.type === 'SET_SESSIONS') {
+            extension.profile().data().set(ProfileData.Sessions, request.data.sessions);
+            await extension.env().persist();
+        } else if (request.type === 'AUTOLOCK_TIMER_CHANGED') {
+            await extension.lockHandler().setLastActiveTime(true);
+            return;
+        } else if (request.type === 'REGISTERED_ACTIVITY') {
+            await extension.lockHandler().setLastActiveTime();
+            return;
+        } else if (request.type === 'LOCK') {
+            extension.lockHandler().lock();
+            return;
+        } else if (request.type === 'CHECK_LOCK') {
+            return Promise.resolve({ isLocked: extension.lockHandler().isLocked() });
+        } else if (request.type === 'CHANGE_PASSWORD') {
+            try {
+                if (extension.isLocked()) {
+                    return {
+                        error: 'LOCKED',
+                    };
+                }
+
+                if (extension.profile().password().get() !== request.data.oldPassword) {
+                    return {
+                        error: 'INVALID_PASSWORD',
+                    };
+                }
+
+                extension
+                    .profile()
+                    .auth()
+                    .changePassword(request.data.oldPassword, request.data.newPassword);
+
+                for (const wallet of extension.profile().wallets().values()) {
+                    let newWallet;
+                    const oldWalletId = wallet.id();
+
+                    // Only non-ledgers have mnemonics
+                    if (!wallet.isLedger()) {
+                        const mnemonic = await wallet.confirmKey().get(request.data.oldPassword);
+
+                        newWallet = await extension
+                            .profile()
+                            .walletFactory()
+                            .fromMnemonicWithBIP39({
+                                coin: wallet.network().coin(),
+                                network: wallet.network().id(),
+                                mnemonic,
+                            });
+
+                        newWallet.mutator().alias(wallet.alias() as string);
+                        await newWallet
+                            .confirmKey()
+                            .set(mnemonic, extension.profile().password().get());
+                    } else {
+                        newWallet = await extension
+                            .profile()
+                            .walletFactory()
+                            .fromAddressWithDerivationPath({
+                                address: wallet.address(),
+                                network: wallet.network().id(),
+                                coin: wallet.coinId(),
+                                path: wallet.data().get(Contracts.WalletData.DerivationPath)!,
+                            });
+
+                        newWallet.mutator().alias(wallet.alias() as string);
+                    }
+
+                    // Update primary wallet ID to match the new id of the same wallet
+                    if (
+                        extension.profile().data().get(ProfileData.PrimaryWalletId) === oldWalletId
+                    ) {
+                        extension.profile().data().set(ProfileData.PrimaryWalletId, newWallet.id());
+                    }
+
+                    const sessions = extension
+                        .profile()
+                        .data()
+                        .get<SessionEntries>(ProfileData.Sessions);
+
+                    if (sessions) {
+                        // Adjust sessions' walletId to match new ones
+                        for (const [sessionId, session] of Object.entries(sessions)) {
+                            if (session.walletId === oldWalletId) {
+                                session.walletId = newWallet.id();
+                                sessions[sessionId] = session;
+                            }
+                        }
+                    }
+
+                    // Store updated sessions
+                    extension.profile().data().set(ProfileData.Sessions, sessions);
+
+                    extension.profile().wallets().forget(oldWalletId);
+                    extension.profile().wallets().push(newWallet);
+                }
+
+                await extension.persist();
+
+                return Promise.resolve({ error: undefined });
+            } catch (error) {
+                return Promise.resolve({ error });
+            }
+        } else if (request.type === 'RESET') {
+            extension.reset(initialPassword);
+        } else if (request.type === 'REMOVE_WALLETS') {
+            if (extension.profile()?.password().get() !== request.data.password) {
+                return {
+                    error: 'Invalid password.',
+                };
+            }
+
+            const walletIds = request.data.walletIds ?? [];
+            for (const id of walletIds) {
+                const wallet = extension.profile()?.wallets().has(id)
+                    ? extension.profile().wallets().findById(id)
+                    : undefined;
+
+                if (wallet) {
+                    extension.profile().wallets().forget(id);
+                }
+            }
+
+            await extension.persist();
+
+            if (extension.profile().wallets().count() === 0) {
+                setLocalValue('hasOnboarded', false);
+                return {
+                    error: undefined,
+                };
+            }
+
+            if (!extension.primaryWallet().exists()) {
+                extension.primaryWallet().set(extension.profile().wallets().first().id());
+            }
+
+            await extension.persist();
+
+            return {
+                error: undefined,
+            };
+        } else if (request.type === 'VALIDATE_PASSWORD') {
+            return Promise.resolve({
+                isValid: extension.profile()?.password().get() === request.data.password,
+            });
+        } else if (request.type === 'UNLOCK') {
+            const isLocked = await extension
+                .lockHandler()
+                .unlock(extension.profile(), request.data.password);
+
+            return Promise.resolve({ isLocked });
+        }
+        // We don't return early in cases with `_RESOLVE` as they
+        // send a browser message in addition
+        else if (request.type === 'DISCONNECT_RESOLVE') {
+            ExtensionEvents({ profile: extension.profile() }).disconnect(request.data.domain);
+        } else if (request.type === 'CONNECT_RESOLVE') {
+            ExtensionEvents({ profile: extension.profile() }).connect(request.data.domain);
+        }
+
+        if (!BACKGROUND_EVENT_LISTENERS_HANDLERS[type]) {
+            return;
+        }
+
+        if (request.data.tabId && (type.endsWith('_RESOLVE') || type.endsWith('_REJECT'))) {
+            browser.tabs.sendMessage(request.data.tabId, request);
+            return;
+        }
+    });
 };
 
 const setupEventListeners = async (message: any, port: browser.Runtime.Port) => {
-  const type = message.type as keyof typeof BACKGROUND_EVENT_LISTENERS_HANDLERS;
+    const type = message.type as keyof typeof BACKGROUND_EVENT_LISTENERS_HANDLERS;
 
-  if (!BACKGROUND_EVENT_LISTENERS_HANDLERS[type]) {
-    return;
-  }
+    if (!BACKGROUND_EVENT_LISTENERS_HANDLERS[type]) {
+        return;
+    }
 
-  BACKGROUND_EVENT_LISTENERS_HANDLERS[type].callback(
-    {
-      ...message,
-      data: {
-        ...message.data,
-        tabId: port.sender?.tab?.id,
-        port: port,
-      },
-    },
-    PROFILE,
-  );
+    BACKGROUND_EVENT_LISTENERS_HANDLERS[type].callback(
+        {
+            ...message,
+            data: {
+                ...message.data,
+                tabId: port.sender?.tab?.id,
+                port: port,
+            },
+        },
+        extension.profile(),
+    );
 };
 
 const setupProfileWithFixtures = async () => {
-  if (isDev()) {
-    PROFILE = await createTestProfile({ env: ENVIRONMENT });
-    PROFILE.data().set(ProfileData.PrimaryWalletId, PROFILE.wallets().first().id());
+    if (isDev()) {
+        await createTestProfile({ env: extension.env() });
+        extension
+            .profile()
+            .data()
+            .set(ProfileData.PrimaryWalletId, extension.profile().wallets().first().id());
 
-    await ENVIRONMENT.persist();
-  }
+        await extension.persist();
+    }
 };
 
-/**
- * Ensure that the Environment object will not be recreated when the state changes,
- * as the data is stored in memory by the `DataRepository`.
- */
-export const ENVIRONMENT = initializeEnvironment();
-
 browser.runtime.onInstalled.addListener(async () => {
-  await setLocalValue('autoLockTimer', AutoLockTimer.TWENTY_FOUR_HOURS);
+    await setLocalValue('autoLockTimer', AutoLockTimer.TWENTY_FOUR_HOURS);
 });
 
-initAutoLock(lockHandler);
+initAutoLock(extension.lockHandler());
 initRuntimeEventListener();
 keepServiceWorkerAlive();
 setupProfileWithFixtures();
 
 browser.runtime.onConnect.addListener((port) => {
-  if (port.name === 'ark-content-script') {
-    port.onMessage.addListener(setupEventListeners);
-  }
+    if (port.name === 'ark-content-script') {
+        port.onMessage.addListener(setupEventListeners);
+    }
 });

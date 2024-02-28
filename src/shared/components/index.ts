@@ -8,7 +8,7 @@ export * from './nav/CloseButton';
 export * from './nav/InternalLink';
 export * from './nav/ExternalLink';
 export * from './icon';
-export * from './icon/illustration/';
+export * from './icon/illustration';
 export * from './button/Button';
 export * from './loader/Loader';
 export * from './input/Input';
