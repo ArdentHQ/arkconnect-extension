@@ -271,13 +271,14 @@ const initRuntimeEventListener = () => {
             await extension.persist();
 
             if (extension.profile().wallets().count() === 0) {
+                setLocalValue('hasOnboarded', false);
                 return {
                     error: undefined,
                 };
             }
 
             if (!extension.primaryWallet().exists()) {
-                extension.primaryWallet().set(extension.profile()?.wallets().first().id());
+                extension.primaryWallet().set(extension.profile().wallets().first().id());
             }
 
             await extension.persist();
