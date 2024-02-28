@@ -86,12 +86,13 @@ const StyledButton = styled.button<BaseProps>`
                     '&:hover': {
                         backgroundColor: `${theme.colors.primary600}`,
                     },
-                    '&:focus': {
-                        boxShadow: `0px 0px 0px 4px ${theme.colors.primaryFocused}`,
-                    },
                     '&:disabled': {
                         color: `${theme.colors.secondary400}`,
                         backgroundColor: `${theme.colors.primaryDisabled}`,
+                    },
+                    '&:focus-visible': {
+                        outline: 'none',
+                        boxShadow: `0px 0px 0px 4px ${theme.colors.primaryFocused}`,
                     },
                 },
                 secondary: {
@@ -101,8 +102,9 @@ const StyledButton = styled.button<BaseProps>`
                     '&:hover': {
                         backgroundColor: `${theme.colors.secondaryButtonHover}`,
                     },
-                    '&:focus': {
-                        boxShadow: '0px 0px 0px 4px #E5F3ED',
+                    '&:focus-visible': {
+                        outline: 'none',
+                        boxShadow: `0px 0px 0px 4px ${theme.colors.primaryFocused}`,
                     },
                     '&:disabled': {
                         border: `1px solid ${theme.colors.lightGray}`,
