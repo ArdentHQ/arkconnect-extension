@@ -11,7 +11,7 @@ export const CloseButton = () => {
 
     return (
         <ContainerWithHover borderRadius='50' padding='7' onClick={handleNavigate} as='button'>
-            <Icon icon='x' width='18px' height='18px' color='base' />
+            <Icon icon='x' className='h-4.5 w-4.5 text-light-black dark:text-white' />
         </ContainerWithHover>
     );
 };
