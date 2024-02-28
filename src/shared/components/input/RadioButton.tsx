@@ -26,50 +26,52 @@ export const RadioButton: FC<RadioButtonProps> = ({
     const [isFocusWithin, setIsFocusWithin] = useState(false);
 
     return (
-      <label 
-        className={cn('relative flex min-h-5 w-5', {
-          'cursor-not-allowed pointer-events-none': disabled,
-          'cursor-pointer pointer-events-auto group': !disabled,
-        })} 
-        htmlFor={id}
-      >
-        <div className='flex flex-col items-start gap-[0.3125rem]'>
-          {
-            title && (
-              <p className='text-base font-normal leading-tight text-subtle-black dark:text-white'>{title}</p>
-            )
-          }
-          {
-            helperText && (
-              <p className='text-sm font-normal leading-tight text-theme-secondary-600 dark:text-theme-secondary-300'>{helperText}</p>
-            )
-          }
-        </div>
-        <input
-            id={id}
-            type='radio'
-            role='radio'
-            name={name}
-            disabled={disabled}
-            onChange={onChange}
-            checked={checked}
-            aria-checked={checked}
-            aria-disabled={disabled}
-            aria-label={`${title} radio button`}
-            tabIndex={tabIndex}
-            onFocus={(event) => {
-                setIsFocusWithin(event.relatedTarget !== null);
-            }}
-            onBlur={() => {
-                setIsFocusWithin(false);
-            }}
-            className={cn('h-0 w-0 opacity-0 z-[-1]', {
-              'focus-visible:outline-solid focus-visible:outline-2': isFirefox,
+        <label
+            className={cn('relative flex min-h-5 w-5', {
+                'cursor-not-allowed pointer-events-none': disabled,
+                'cursor-pointer pointer-events-auto group': !disabled,
             })}
-        />
-        <div className={cn('radio-indicator', {
-          'outline outline-theme-primary-600 outline-2 outline-offset-2': isFocusWithin
-        })} ></div>
-      </label>
+            htmlFor={id}
+        >
+            <div className='flex flex-col items-start gap-[0.3125rem]'>
+                {title && (
+                    <p className='text-base font-normal leading-tight text-subtle-black dark:text-white'>
+                        {title}
+                    </p>
+                )}
+                {helperText && (
+                    <p className='text-sm font-normal leading-tight text-theme-secondary-600 dark:text-theme-secondary-300'>
+                        {helperText}
+                    </p>
+                )}
+            </div>
+            <input
+                id={id}
+                type='radio'
+                role='radio'
+                name={name}
+                disabled={disabled}
+                onChange={onChange}
+                checked={checked}
+                aria-checked={checked}
+                aria-disabled={disabled}
+                aria-label={`${title} radio button`}
+                tabIndex={tabIndex}
+                onFocus={(event) => {
+                    setIsFocusWithin(event.relatedTarget !== null);
+                }}
+                onBlur={() => {
+                    setIsFocusWithin(false);
+                }}
+                className={cn('h-0 w-0 opacity-0 z-[-1]', {
+                    'focus-visible:outline-solid focus-visible:outline-2': isFirefox,
+                })}
+            />
+            <div
+                className={cn('radio-indicator', {
+                    'outline outline-theme-primary-600 outline-2 outline-offset-2': isFocusWithin,
+                })}
+            ></div>
+        </label>
     );
 };
