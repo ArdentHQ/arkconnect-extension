@@ -31,7 +31,10 @@ const ActionHeader = ({ appDomain, appLogo, icon, actionLabel, iconClassNames }:
                 >
                     <Icon
                         icon={icon}
-                        className={cn('text-theme-primary-700 dark:text-theme-primary-600 h-8 w-8', iconClassNames)}
+                        className={cn(
+                            'text-theme-primary-700 dark:text-theme-primary-600 h-8 w-8',
+                            iconClassNames,
+                        )}
                     />
                 </FlexContainer>
 

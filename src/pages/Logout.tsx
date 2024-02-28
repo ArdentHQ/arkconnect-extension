@@ -146,7 +146,7 @@ const Logout = () => {
                 </Paragraph>
 
                 <FlexContainer justifyContent='center' alignContent='center' mt='16'>
-                    <WarningIcon iconClassName="w-[146px] h-[135px]" />
+                    <WarningIcon iconClassName='w-[146px] h-[135px]' />
                 </FlexContainer>
 
                 <FlexContainer mt='24' flexDirection='column' gridGap='6'>

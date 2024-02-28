@@ -83,8 +83,14 @@ export const Header = () => {
         return (
             <StyledHeader isDark={isDark()} padding='17px 16px' withShadow={!isOnboardingPage}>
                 <StyledLogos alignItems='center' gridGap='8px'>
-                    <Icon icon='logo-inverted' className='h-6 w-6 text-theme-primary-700 dark:text-theme-primary-650' />
-                    <Icon icon='logo-text' className='w-[122px] h-3 text-theme-primary-700 dark:text-theme-primary-650' />
+                    <Icon
+                        icon='logo-inverted'
+                        className='h-6 w-6 text-theme-primary-700 dark:text-theme-primary-650'
+                    />
+                    <Icon
+                        icon='logo-text'
+                        className='w-[122px] h-3 text-theme-primary-700 dark:text-theme-primary-650'
+                    />
                 </StyledLogos>
             </StyledHeader>
         );

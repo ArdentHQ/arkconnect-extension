@@ -86,10 +86,7 @@ type ModalProps = {
 const ModalCloseIcon = ({ onClose }: { onClose: () => void }) => {
     return (
         <Container onClick={onClose} className='c-pointer' as='button'>
-            <Icon
-                icon='x'
-                className='h-4.5 w-4.5 text-light-black dark:text-white'
-            />
+            <Icon icon='x' className='h-4.5 w-4.5 text-light-black dark:text-white' />
         </Container>
     );
 };
@@ -103,7 +100,7 @@ export const ModalIcon = ({
     icon: IconDefinition;
     iconClassName?: string;
     variant?: 'danger';
-} & ColorProps<Theme>)  => {
+} & ColorProps<Theme>) => {
     return (
         <FlexContainer
             width='52px'

@@ -187,10 +187,15 @@ export const SettingsOption = forwardRef(function RowLayout(
                                 {iconTrailing && (
                                     <Icon
                                         icon={iconTrailing}
-                                        className={cn('icon-trailing w-5 h-5', {
-                                            'text-theme-secondary-500 dark:text-theme-secondary-300': disabled,
-                                            'text-light-black dark:text-white': !disabled,
-                                        }, iconClassName)}
+                                        className={cn(
+                                            'icon-trailing w-5 h-5',
+                                            {
+                                                'text-theme-secondary-500 dark:text-theme-secondary-300':
+                                                    disabled,
+                                                'text-light-black dark:text-white': !disabled,
+                                            },
+                                            iconClassName,
+                                        )}
                                     />
                                 )}
                             </FlexContainer>
