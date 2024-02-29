@@ -24,7 +24,6 @@ import { assertWallet } from '@/lib/utils/assertions';
 import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
 import { useAppSelector } from '@/lib/store';
 import { selectWalletsIds } from '@/lib/store/wallet';
-import { ScreenName } from '@/lib/background/contracts';
 
 type Props = {
     goToNextStep: () => void;
@@ -96,17 +95,6 @@ const EnterPassphrase = ({ goToNextStep, formik }: Props) => {
         setFieldValue('passphraseValidation', isValid ? 'errorFree' : 'destructive');
 
         setIsValidating(false);
-
-        if (isValid) {
-            await browser.runtime.sendMessage({
-                type: 'SET_LAST_SCREEN',
-                screenName: ScreenName.ImportWallet,
-                step: 1,
-                data: {
-                    passphrase: values.enteredPassphrase,
-                },
-            });
-        }
     };
 
     const checkIfWalletWasImported = () => {

@@ -12,6 +12,15 @@ export type Session = {
     walletId: string;
 };
 
+interface WalletCreateScreenData {
+    mnemonic: string;
+    network: string;
+    coin: string;
+    confirmationNumbers: number[];
+    confirmPassphrase: string[];
+    step: number;
+}
+
 export enum ScreenName {
     CreateWallet = 'CREATE_WALLET',
 }
@@ -19,7 +28,7 @@ export enum ScreenName {
 export interface LastScreen {
     screenName: ScreenName;
     step?: number;
-    data: unknown;
+    data: WalletCreateScreenData;
 }
 
 export type SessionEntries = { [id: string]: Session };

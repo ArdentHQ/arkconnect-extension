@@ -77,7 +77,7 @@ const CreateNewWallet = () => {
                 const confirmPassphrase = lastScreen.data.confirmPassphrase;
                 const step = lastScreen.data.step;
 
-                if (mnemonic && mnemonic && coin) {
+                if (mnemonic && network && coin) {
                     const wallet = await profile.walletFactory().fromMnemonicWithBIP39({
                         coin,
                         network,
@@ -183,6 +183,7 @@ const CreateNewWallet = () => {
 
     // Persist the exact step if user goes back 'n forth.
     const handleStepChange = (step: number) => {
+        console.log({ step });
         if (step === -1) {
             browser.runtime.sendMessage({ type: 'CLEAR_LAST_SCREEN' });
             return;
