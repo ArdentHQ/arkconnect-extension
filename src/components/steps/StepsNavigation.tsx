@@ -13,6 +13,7 @@ type StepNavigationProps<T> = {
     formik?: FormikProps<T>;
     disabledSteps?: number[];
     defaultStep?: number;
+    onStepChange?: (step: number) => void;
 };
 
 const StepsNavigation = <T extends Record<string, any>>({
@@ -20,6 +21,7 @@ const StepsNavigation = <T extends Record<string, any>>({
     formik,
     disabledSteps,
     defaultStep,
+    onStepChange,
 }: StepNavigationProps<T>) => {
     const navigate = useNavigate();
     const [currentStep, setCurrentStep] = useState<number>(defaultStep || 0);
@@ -28,14 +30,17 @@ const StepsNavigation = <T extends Record<string, any>>({
     const handleStepBack = () => {
         if (currentStep > 0) {
             setCurrentStep(currentStep - 1);
+            onStepChange?.(currentStep - 1);
         } else {
             navigate(-1);
+            onStepChange?.(-1);
         }
     };
 
     const handleStepForward = () => {
         if (steps.length > currentStep + 1) {
             setCurrentStep(currentStep + 1);
+            onStepChange?.(currentStep + 1);
             return;
         }
         formik?.submitForm();

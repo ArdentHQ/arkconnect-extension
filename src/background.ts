@@ -6,7 +6,7 @@ import keepServiceWorkerAlive from './lib/background/keepServiceWorkerAlive';
 import { ExtensionEvents } from './lib/events';
 import { importWallets } from './background.helpers';
 import { createTestProfile, isDev } from './dev/utils/dev';
-import { ProfileData } from './lib/background/contracts';
+import { ProfileData, ScreenName } from './lib/background/contracts';
 import { Services } from '@ardenthq/sdk';
 import { SendTransferInput } from './lib/background/extension.wallet';
 import { Extension } from './lib/background/extension';
@@ -101,7 +101,7 @@ const initRuntimeEventListener = () => {
             }
         }
 
-        if (request.type === 'SET_DATA') {
+        if (request.type === 'PERSIST') {
             if (!request.data.profileDump) {
                 return {
                     error: 'PROFILE_DATA_MISSING',
@@ -116,11 +116,13 @@ const initRuntimeEventListener = () => {
 
             const password = extension.profile().password().get();
             const data = extension.profile().data().all();
+            console.log({ data });
 
             const dump = Object.values(request.data.profileDump)[0] as Record<string, string>;
 
             const requestedProfile = await extension.env().profiles().import(dump.data);
             await extension.env().profiles().restore(requestedProfile);
+            console.log({ requestedData: requestedProfile.data().all() });
 
             requestedProfile.auth().setPassword(password);
 
@@ -142,7 +144,29 @@ const initRuntimeEventListener = () => {
                 profileDump: extension.env().profiles().dump(extension.profile()),
                 error: null,
             };
-        } else if (request.type === 'SET_PRIMARY_WALLET') {
+        }
+
+        if (request.type === 'GET_LAST_SCREEN') {
+            return extension.profile().data().get(ProfileData.LastScreen);
+        }
+
+        if (request.type === 'SET_LAST_SCREEN') {
+            extension.profile().data().set(ProfileData.LastScreen, {
+                screenName: request.screenName,
+                data: request.data,
+            });
+
+            await extension.persist();
+            return;
+        }
+
+        if (request.type === 'CLEAR_LAST_SCREEN') {
+            extension.profile().data().set(ProfileData.LastScreen, undefined);
+            await extension.persist();
+            return;
+        }
+
+        if (request.type === 'SET_PRIMARY_WALLET') {
             extension.primaryWallet().set(request.data.primaryWalletId);
             await extension.env().persist();
         } else if (request.type === 'SET_SESSIONS') {

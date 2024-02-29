@@ -39,23 +39,6 @@ const SetupPassword = ({ formik }: Props) => {
         validatePassword();
     }, [values.password, values.passwordConfirm]);
 
-    useEffect(() => {
-        const locationHref = window.location.href;
-
-        if (locationHref.includes('import_with_ledger')) return;
-
-        (async () => {
-            const { hasOnboarded } = await getLocalValues();
-
-            if (hasOnboarded) {
-                persistScreenChanged({
-                    screen: WalletFormScreen.OVERVIEW,
-                    step: 0,
-                });
-            }
-        })();
-    }, []);
-
     const handleTermsAndConditionsChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
         formik.setFieldValue('termsAndConditionsConfirmed', evt.target.checked);
     };

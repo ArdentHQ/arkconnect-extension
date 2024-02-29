@@ -17,9 +17,11 @@ export class ExtensionClientStorage implements Storage {
     }
 
     public async set(key: string, value: string | object): Promise<void> {
+        console.log({ key, value });
         if (key === 'profiles') {
+            console.log({ value });
             const { profileDump } = await browser.runtime.sendMessage({
-                type: 'SET_DATA',
+                type: 'PERSIST',
                 data: { profileDump: value },
             });
 

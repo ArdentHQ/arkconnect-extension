@@ -9,6 +9,7 @@ import useThemeMode from '@/lib/hooks/useThemeMode';
 import { getPersistedValues } from './wallet/form-persist';
 import { useIdleTimer } from 'react-idle-timer';
 import browser from 'webextension-polyfill';
+import { LastScreen, ProfileData, ScreenName } from '@/lib/background/contracts';
 
 type Props = {
     children: React.ReactNode | React.ReactNode[];
@@ -57,8 +58,25 @@ const AutoUnlockWrapper = ({ children }: Props) => {
     };
 
     const handlePersistScreenRedirect = () => {
-        if (!persistScreen) return;
-        navigate(persistScreen.screen);
+        if (persistScreen) {
+            navigate(persistScreen.screen);
+            return;
+        }
+
+        const lastScreen = profile.data().get(ProfileData.LastScreen) as LastScreen | undefined;
+        console.log('handlePersistScreenRedirect', { lastScreen });
+
+        if (!lastScreen) {
+            return;
+        }
+
+        if (lastScreen.screenName === ScreenName.ImportWallet) {
+            navigate('/wallet/import');
+        }
+
+        if (lastScreen.screenName === ScreenName.CreateWallet) {
+            navigate('/wallet/create');
+        }
     };
 
     const handleAutoLockNavigation = () => {
