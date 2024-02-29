@@ -51,7 +51,7 @@ const StyledRow = styled(Container)<BaseProps>`
     background: none;
 
     &:focus-visible {
-        outline-offset: -2px
+        outline-offset: -2px;
     }
 
     ${({ theme, isDark }) =>
