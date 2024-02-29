@@ -14,4 +14,41 @@
     [type='radio']:disabled + .radio-indicator {
         @apply pointer-events-none border border-solid border-theme-secondary-300 bg-theme-secondary-100 dark:bg-black
     }
+
+
+    .checkbox-indicator {
+        @apply w-5 h-5 bg-transparent absolute top-0 border border-solid border-theme-primary-700 dark:border-theme-primary-600 rounded-md hover:bg-[#CCEEE0] dark:hover:bg-theme-primary-900
+    }
+
+    .checkbox-indicator::after {
+        @apply content-[""] absolute hidden
+    }
+
+    .checkbox-indicator:disabled {
+        @apply cursor-not-allowed
+    }
+
+    [type='checkbox']:checked + .checkbox-indicator::after {
+        @apply block rotate-45 top-[0.1rem] left-[0.35rem] w-[35%] h-[70%] border-solid border-white dark:border-light-black border-t-0 border-r-[0.15rem] border-b-[0.15rem] border-l-0
+    }
+
+    [type='checkbox']:disabled + .checkbox-indicator {
+        @apply border border-solid border-theme-secondary-300 bg-theme-secondary-100 dark:bg-transparent
+    }
+
+    [type='checkbox']:disabled + .checkbox-indicator::after {
+        @apply border border-solid border-theme-secondary-300 dark:border-theme-secondary-100 border-t-0 border-r-[0.15rem] border-b-[0.15rem] border-l-0
+    }
+
+    [type='checkbox']:checked + .checkbox-indicator {
+        @apply bg-theme-primary-700 dark:bg-theme-primary-650 hover:bg-theme-primary-50 dark:hover:bg-theme-primary-950
+    }
+
+    [type='checkbox']:not(:disabled):checked + .checkbox-indicator::after {
+        @apply hover:border-solid hover:border-theme-primary-700 dark:hover:border-theme-primary-650 hover:border-t-0 hover:border-r-[0.15rem] hover:border-b-[0.15rem] hover:border-l-0 group-hover:border-solid group-hover:border-theme-primary-700 dark:group-hover:border-theme-primary-650 group-hover:border-t-0 group-hover:border-r-[0.15rem] group-hover:border-b-[0.15rem] group-hover:border-l-0
+    }
+
+    [type='checkbox']:not(:disabled):checked + .checkbox-indicator {
+        @apply group-hover:bg-theme-primary-50 group-hover:dark:bg-theme-primary-950
+    }
 }
