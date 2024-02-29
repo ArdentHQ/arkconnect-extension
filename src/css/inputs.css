@@ -14,4 +14,40 @@
     [type='radio']:disabled + .radio-indicator {
         @apply pointer-events-none border border-solid border-theme-secondary-300 bg-theme-secondary-100 dark:bg-black
     }
+
+    .toggle-switch-slider {
+        @apply absolute cursor-pointer top-0 left-0 right-0 bottom-0 bg-theme-secondary-200 dark:bg-theme-secondary-600 duration-[0.4s] rounded-xl z-[1] hover:bg-theme-primary-700 dark:hover:bg-theme-primary-650 group-hover:bg-[#CCEEE0] dark:group-hover:bg-theme-primary-900
+    }
+
+    .toggle-switch-slider::before {
+        @apply absolute content-[""] h-4 w-4 left-[0.2rem] bottom-[0.15rem] bg-white duration-[0.4s] rounded-full fill-white drop-shadow-[0_1px_3px_rgba(16,24,40,0.10)]
+    }
+
+    [type='checkbox']:checked + .toggle-switch-slider {
+        @apply bg-theme-primary-700 dark:bg-theme-primary-650 hover:bg-theme-primary-700 dark:hover:bg-theme-primary-600
+    }
+
+    [type='checkbox']:checked + .toggle-switch-slider::before {
+        @apply transform translate-x-[0.9rem]
+    }
+
+    [type='checkbox']:disabled + .toggle-switch-slider {
+        @apply pointer-events-none
+    }
+
+    [type='checkbox']:disabled:not(:checked) + .toggle-switch-slider {
+        @apply bg-theme-secondary-100 dark:bg-theme-secondary-400
+    }
+
+    [type='checkbox']:disabled:not(:checked) + .toggle-switch-slider::before {
+        @apply bg-theme-secondary-300 drop-shadow-[0_1px_3px_rgba(16,24,40,0.10)]
+    }
+
+    [type='checkbox']:disabled:checked + .toggle-switch-slider {
+        @apply bg-[#9ADCC1] dark:bg-theme-primary-800
+    }
+
+    [type='checkbox']:disabled:checked + .toggle-switch-slider::before {
+        @apply bg-white
+    }
 }
