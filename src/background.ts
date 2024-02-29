@@ -19,12 +19,13 @@ const runtimeEventHandlers = RuntimeEventHandlers(extension);
 const initRuntimeEventListener = () => {
     browser.runtime.onMessage.addListener(async function (request) {
         const type = request.type as RuntimeEventTypes;
+        console.log('runtime handler', type);
 
         if (runtimeEventHandlers[type]) {
             await runtimeEventHandlers[type](request);
         }
 
-        if (request.data.tabId && (type.endsWith('_RESOLVE') || type.endsWith('_REJECT'))) {
+        if (request?.data?.tabId && (type.endsWith('_RESOLVE') || type.endsWith('_REJECT'))) {
             void browser.tabs.sendMessage(request.data.tabId, request);
         }
     });
@@ -33,6 +34,7 @@ const initRuntimeEventListener = () => {
 const setupEventListeners = async (message: any, port: browser.Runtime.Port) => {
     const type = message.type as keyof typeof BACKGROUND_EVENT_LISTENERS_HANDLERS;
 
+    console.log('event handler', type);
     if (!BACKGROUND_EVENT_LISTENERS_HANDLERS[type]) {
         return;
     }

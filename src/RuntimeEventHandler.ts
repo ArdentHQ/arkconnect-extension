@@ -8,6 +8,7 @@ import { SessionEntries } from '@/lib/store/session';
 import { setLocalValue } from '@/lib/utils/localStorage';
 import { UUID } from '@ardenthq/sdk-cryptography';
 import { ExtensionEvents } from '@/lib/events';
+
 export enum RuntimeEventTypes {
     SEND_VOTE = 'SEND_VOTE',
     SEND_TRANSACTION = 'SEND_TRANSACTION',
@@ -78,6 +79,7 @@ export function RuntimeEventHandlers(extension: ReturnType<typeof Extension>) {
         },
 
         [RuntimeEventTypes.GET_DATA]: async (_request: any) => {
+            console.log(12312);
             try {
                 return extension.exportAsReadOnly();
             } catch (error) {
