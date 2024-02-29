@@ -71,7 +71,7 @@ const StepsNavigation = <T extends Record<string, any>>({
                     </Paragraph>
                 </Container>
             </StyledFlexContainer>
-            <FlexContainer flexDirection='column' height='100%' px={currentStep === 1 ? '0' : '24'}>
+            <FlexContainer flexDirection='column' height='100%'>
                 <CurrentStepComponent
                     goToNextStep={handleStepForward}
                     goToPrevStep={handleStepBack}
