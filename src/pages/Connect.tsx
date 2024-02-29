@@ -1,18 +1,18 @@
+import { useLocation } from 'react-router-dom';
+import { v4 as uuidv4 } from 'uuid';
+import browser from 'webextension-polyfill';
 import ConnectFooter from '@/components/connect/ConnectFooter';
 import ConnectWithWallet from '@/components/connect/ConnectWithWallet';
 import { useAppDispatch, useAppSelector } from '@/lib/store';
 import { Layout } from '@/shared/components';
-import { useLocation } from 'react-router-dom';
 import * as SessionStore from '@/lib/store/session';
 import * as WalletStore from '@/lib/store/wallet';
-import * as ModalStore from '@/lib/store/modal';
-import { v4 as uuidv4 } from 'uuid';
-import browser from 'webextension-polyfill';
 import { useProfileContext } from '@/lib/context/Profile';
 import { selectLocked } from '@/lib/store/ui';
 import { assertIsUnlocked } from '@/lib/background/assertions';
 import ActionHeader from '@/shared/components/actions/ActionHeader';
 import { useNotifyOnUnload } from '@/lib/hooks/useNotifyOnUnload';
+import useLoadingModal from '@/lib/hooks/useLoadingModal';
 
 const Connect = () => {
     const location = useLocation();
@@ -21,6 +21,11 @@ const Connect = () => {
     const { profile } = useProfileContext();
     const primaryWalletId = useAppSelector(WalletStore.selectPrimaryWalletId);
     const primaryWallet = primaryWalletId ? profile.wallets().findById(primaryWalletId) : undefined;
+
+    const loadingModal = useLoadingModal({
+        completedMessage: 'Securely Connected',
+        loadingMessage: 'Connecting...',
+    });
 
     const locked = useAppSelector(selectLocked);
     assertIsUnlocked(locked);
@@ -49,16 +54,9 @@ const Connect = () => {
     };
 
     const onSubmit = async () => {
-        const loadingModal = {
-            isOpen: true,
-            isLoading: true,
-            completedMessage: 'Securely Connected',
-            loadingMessage: 'Connecting...',
-        };
+        loadingModal.setLoading();
 
         const isConnected = isAlreadyConnected();
-
-        dispatch(ModalStore.loadingModalUpdated(loadingModal));
 
         if (!primaryWallet) {
             reject('Wallet not found');

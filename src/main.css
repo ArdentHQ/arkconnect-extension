@@ -200,6 +200,12 @@ body {
   outline-color: #01b86c;
 }
 
+*:focus-visible {
+  outline-style: solid;
+  outline-width: 2px;
+  transition: outline-width 0s !important;
+}
+
 button {
   background-color: transparent;
   border: none;
