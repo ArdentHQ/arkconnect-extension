@@ -1,5 +1,4 @@
 import browser from 'webextension-polyfill';
-import { Services } from '@ardenthq/sdk';
 import { Contracts } from '@ardenthq/sdk-profiles';
 import { UUID } from '@ardenthq/sdk-cryptography';
 import { BACKGROUND_EVENT_LISTENERS_HANDLERS } from './lib/background/eventListenerHandlers';
@@ -9,7 +8,7 @@ import keepServiceWorkerAlive from './lib/background/keepServiceWorkerAlive';
 import { ExtensionEvents } from './lib/events';
 import { importWallets } from './background.helpers';
 import { createTestProfile, isDev } from './dev/utils/dev';
-import { ProfileData, ScreenName } from './lib/background/contracts';
+import { ProfileData } from './lib/background/contracts';
 import { Services } from '@ardenthq/sdk';
 import { SendTransferInput } from './lib/background/extension.wallet';
 import { Extension } from './lib/background/extension';
