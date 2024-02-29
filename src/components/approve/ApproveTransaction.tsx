@@ -11,14 +11,13 @@ import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
 import { useProfileContext } from '@/lib/context/Profile';
 import { ApproveActionType } from '@/pages/Approve';
 import removeWindowInstance from '@/lib/utils/removeWindowInstance';
-import { useAppDispatch } from '@/lib/store';
-import { loadingModalUpdated } from '@/lib/store/modal';
 import { WalletNetwork } from '@/lib/store/wallet';
 import useWalletSync from '@/lib/hooks/useWalletSync';
 import { useEnvironmentContext } from '@/lib/context/Environment';
 import RequestedTransactionBody from '@/components/approve/RequestedTransactionBody';
 import { useExchangeRate } from '@/lib/hooks/useExchangeRate';
 import { useNotifyOnUnload } from '@/lib/hooks/useNotifyOnUnload';
+import useLoadingModal from '@/lib/hooks/useLoadingModal';
 
 type Props = {
     abortReference: AbortController;
@@ -36,7 +35,6 @@ const ApproveTransaction = ({
     wallet,
     closeLedgerScreen,
 }: Props) => {
-    const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const location = useLocation();
     const { domain, tabId, session, amount, receiverAddress } = location.state;
@@ -45,7 +43,9 @@ const ApproveTransaction = ({
     const { syncAll } = useWalletSync({ env, profile });
     const { onError } = useErrorHandlerContext();
     const [error, setError] = useState<string | undefined>();
-
+    const loadingModal = useLoadingModal({
+        loadingMessage: 'Processing transaction...',
+    });
     const { convert } = useExchangeRate({
         exchangeTicker: wallet.exchangeCurrency(),
         ticker: wallet.currency(),
@@ -86,16 +86,13 @@ const ApproveTransaction = ({
 
     const onSubmit = async () => {
         try {
+            if (!wallet.isLedger()) {
+                loadingModal.setLoading();
+            }
             await syncAll(wallet);
-            const loadingModal = {
-                isOpen: true,
-                isLoading: true,
-                loadingMessage: 'Processing transaction...',
-            };
+
             if (wallet.isLedger()) {
                 await approveWithLedger(profile, wallet);
-            } else {
-                dispatch(loadingModalUpdated(loadingModal));
             }
 
             const response = await submitForm(abortReference);
@@ -115,15 +112,7 @@ const ApproveTransaction = ({
 
             if (wallet.isLedger()) {
                 closeLedgerScreen();
-                dispatch(
-                    loadingModalUpdated({
-                        ...loadingModal,
-                        isLoading: false,
-                    }),
-                );
             }
-
-            closeLedgerScreen();
 
             await browser.runtime.sendMessage({
                 type: 'SIGN_TRANSACTION_RESOLVE',
@@ -138,13 +127,7 @@ const ApproveTransaction = ({
 
             setSubmitted();
 
-            dispatch(
-                loadingModalUpdated({
-                    ...loadingModal,
-                    isLoading: false,
-                    isOpen: false,
-                }),
-            );
+            await loadingModal.closeDelayed();
 
             navigate('/transaction/success', {
                 state: {
