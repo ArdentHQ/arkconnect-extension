@@ -8,11 +8,9 @@ import {
     PasswordInput,
 } from '@/shared/components';
 import React, { useEffect, useState } from 'react';
-import { getLocalValues, setLocalValue } from '@/lib/utils/localStorage';
+import { setLocalValue } from '@/lib/utils/localStorage';
 
-import { WalletFormScreen } from '../wallet/form-persist';
 import constants from '@/constants';
-import { persistScreenChanged } from '../wallet/form-persist/helpers';
 import { useFormik } from 'formik';
 
 type Props = {
