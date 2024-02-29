@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { ThemeValue } from 'styled-system';
 import { useAppDispatch, useAppSelector } from '@/lib/store';
 import { selectThemeMode, themeModeUpdated, ThemeMode } from '@/lib/store/ui';
@@ -12,6 +12,14 @@ export type GetThemeColor = (lightClass: Color | HexCode, darkClass: Color | Hex
 const useThemeMode = () => {
     const dispatch = useAppDispatch();
     const currentThemeMode = useAppSelector(selectThemeMode);
+
+    useEffect(() => {
+        if (currentThemeMode === ThemeMode.DARK) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    }, [currentThemeMode]);
 
     const toggleThemeMode = (
         evt: React.MouseEvent<HTMLElement> | React.ChangeEvent<HTMLElement>,
