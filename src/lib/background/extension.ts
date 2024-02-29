@@ -1,7 +1,7 @@
 import { Contracts, Environment } from '@ardenthq/sdk-profiles';
+import { initializeEnvironment } from '../utils/env.background';
 import { LockHandler } from './handleAutoLock';
 import { PrimaryWallet } from './extension.wallet.primary';
-import { initializeEnvironment } from '../utils/env.background';
 
 const exists = (profile?: Contracts.IProfile | null): profile is Contracts.IProfile => !!profile;
 
@@ -94,6 +94,8 @@ export function Extension() {
             }
 
             env.profiles().flush();
+
+            await env.persist();
 
             const profile = await env.profiles().create('arkconnect');
             profile.auth().setPassword(password);
