@@ -9,12 +9,12 @@ import { useProfileContext } from '@/lib/context/Profile';
 import { ApproveActionType } from '@/pages/Approve';
 import { useMessageSigner } from '@/lib/hooks/useMessageSigner';
 import removeWindowInstance from '@/lib/utils/removeWindowInstance';
-import { useAppDispatch } from '@/lib/store';
-import { loadingModalUpdated } from '@/lib/store/modal';
 import useWalletSync from '@/lib/hooks/useWalletSync';
 import { useEnvironmentContext } from '@/lib/context/Environment';
 import RequestedSignatureMessage from '@/components/approve/RequestedSignatureMessage';
 import { useNotifyOnUnload } from '@/lib/hooks/useNotifyOnUnload';
+import useLoadingModal from '@/lib/hooks/useLoadingModal';
+import constants from '@/constants';
 
 type Props = {
     abortReference: AbortController;
@@ -33,13 +33,16 @@ const ApproveMessage = ({
     closeLedgerScreen,
 }: Props) => {
     const location = useLocation();
-    const dispatch = useAppDispatch();
     const { env } = useEnvironmentContext();
     const { domain, tabId, session, message } = location.state;
     const { profile } = useProfileContext();
     const { syncAll } = useWalletSync({ env, profile });
     const { onError } = useErrorHandlerContext();
     const { sign } = useMessageSigner();
+    const loadingModal = useLoadingModal({
+        completedMessage: 'Signed Successfully',
+        loadingMessage: 'Signing...',
+    });
 
     const reject = (message: string = 'Sign message denied!') => {
         browser.runtime.sendMessage({
@@ -57,18 +60,14 @@ const ApproveMessage = ({
 
     const onSubmit = async () => {
         try {
+            if (!wallet.isLedger()) {
+                loadingModal.setLoading();
+            }
+
             await syncAll(wallet);
-            const loadingModal = {
-                isOpen: true,
-                isLoading: true,
-                completedMessage: 'Signed Successfully',
-                loadingMessage: 'Signing...',
-            };
 
             if (wallet.isLedger()) {
                 await approveWithLedger(profile, wallet);
-            } else {
-                dispatch(loadingModalUpdated(loadingModal));
             }
 
             const signedMessageResult = await sign(wallet, message, {
@@ -77,35 +76,9 @@ const ApproveMessage = ({
 
             if (wallet.isLedger()) {
                 closeLedgerScreen();
-                dispatch(
-                    loadingModalUpdated({
-                        ...loadingModal,
-                        isLoading: false,
-                    }),
-                );
-            } else {
-                const clearLoadingModal = setTimeout(() => {
-                    dispatch(
-                        loadingModalUpdated({
-                            ...loadingModal,
-                            isLoading: false,
-                        }),
-                    );
-                    clearTimeout(clearLoadingModal);
-                }, 1500);
             }
 
-            const clearModal = setTimeout(() => {
-                dispatch(
-                    loadingModalUpdated({
-                        isOpen: false,
-                        isLoading: false,
-                    }),
-                );
-                clearTimeout(clearModal);
-            }, 3000);
-
-            browser.runtime.sendMessage({
+            await browser.runtime.sendMessage({
                 type: 'SIGN_MESSAGE_RESOLVE',
                 data: {
                     domain,
@@ -120,7 +93,12 @@ const ApproveMessage = ({
 
             setSubmitted();
 
-            await removeWindowInstance(location.state?.windowId, 3000);
+            loadingModal.setCompleted();
+
+            await removeWindowInstance(
+                location.state?.windowId,
+                constants.SHOW_MESSAGE_AFTER_ACTION_DURING_MS,
+            );
         } catch (error: any) {
             if (wallet.isLedger()) {
                 closeLedgerScreen();
@@ -134,12 +112,8 @@ const ApproveMessage = ({
     const onCancel = async () => {
         reject();
 
-        dispatch(
-            loadingModalUpdated({
-                isOpen: false,
-                isLoading: false,
-            }),
-        );
+        loadingModal.close();
+
         await removeWindowInstance(location.state?.windowId, 100);
     };
 

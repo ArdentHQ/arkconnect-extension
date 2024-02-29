@@ -8,8 +8,6 @@ import { clearPersistScreenData } from '../form-persist/helpers';
 import ConfirmPassphrase from './ConfirmPassphrase';
 import GeneratePassphrase from './GeneratePassphrase';
 import StepsNavigation, { Step } from '@/components/steps/StepsNavigation';
-import { useAppDispatch, useAppSelector } from '@/lib/store';
-import { selectLoadingModal, loadingModalUpdated } from '@/lib/store/modal';
 import useToast from '@/lib/hooks/useToast';
 import useNetwork from '@/lib/hooks/useNetwork';
 import { useProfileContext } from '@/lib/context/Profile';
@@ -19,6 +17,7 @@ import { assertNetwork } from '@/lib/utils/assertions';
 import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
 import useLocaleCurrency from '@/lib/hooks/useLocalCurrency';
 import { getLocalValues } from '@/lib/utils/localStorage';
+import useLoadingModal from '@/lib/hooks/useLoadingModal';
 
 export type CreateWalletFormik = {
     wallet?: Contracts.IReadWriteWallet;
@@ -46,17 +45,19 @@ export type ValidationVariant = 'primary' | 'destructive' | 'errorFree';
 const CreateNewWallet = () => {
     const toast = useToast();
     const navigate = useNavigate();
-    const dispatch = useAppDispatch();
     const { onError } = useErrorHandlerContext();
     const { profile, initProfile } = useProfileContext();
     const { defaultCurrency } = useLocaleCurrency();
     const { activeNetwork } = useNetwork();
     const [isGeneratingWallet, setIsGeneratingWallet] = useState(true);
-    const loadingModal = useAppSelector(selectLoadingModal);
     const [steps, setSteps] = useState<Step[]>([
         { component: GeneratePassphrase },
         { component: ConfirmPassphrase },
     ]);
+    const loadingModal = useLoadingModal({
+        completedMessage: 'Your Wallet is Ready!',
+        loadingMessage: 'Setting up the wallet, please wait!',
+    });
 
     useEffect(() => {
         (async () => {
@@ -78,14 +79,7 @@ const CreateNewWallet = () => {
     const formik = useFormik<CreateWalletFormik>({
         initialValues: initialCreateWalletData,
         onSubmit: async (values, formikHelpers) => {
-            const loadingModal = {
-                isOpen: true,
-                isLoading: true,
-                completedMessage: 'Your Wallet is Ready!',
-                loadingMessage: 'Setting up the wallet, please wait!',
-            };
-
-            dispatch(loadingModalUpdated(loadingModal));
+            loadingModal.setLoading();
 
             if (!values.wallet) {
                 toast('danger', 'Something went wrong while creating your wallet');
@@ -118,18 +112,11 @@ const CreateNewWallet = () => {
             // Fetch updated profile data and update store.
             await initProfile();
 
-            setTimeout(() => {
-                dispatch(
-                    loadingModalUpdated({
-                        ...loadingModal,
-                        isOpen: false,
-                        isLoading: false,
-                    }),
-                );
+            await loadingModal.setCompletedAndClose();
 
-                formikHelpers.resetForm();
-                navigate('/');
-            }, 500);
+            formikHelpers.resetForm();
+
+            navigate('/');
         },
     });
 
@@ -162,7 +149,9 @@ const CreateNewWallet = () => {
 
     return (
         <HandleLoadingState
-            loading={isGeneratingWallet || !formik.values.passphrase.length || loadingModal.isOpen}
+            loading={
+                isGeneratingWallet || !formik.values.passphrase.length || loadingModal.isLoading
+            }
         >
             <StepsNavigation<CreateWalletFormik> steps={steps} formik={formik} />
         </HandleLoadingState>
