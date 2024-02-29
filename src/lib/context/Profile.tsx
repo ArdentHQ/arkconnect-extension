@@ -1,15 +1,14 @@
 import { ReactNode, createContext, useContext, useEffect, useState } from 'react';
 import { Contracts } from '@ardenthq/sdk-profiles';
+import browser from 'webextension-polyfill';
+import { useAppDispatch, useAppSelector } from '../store';
+import { useWalletBalance } from '../hooks/useWalletBalance';
+import { ProfileData } from '../background/contracts';
 import { useEnvironmentContext } from './Environment';
 import { useErrorHandlerContext } from './ErrorHandler';
 import * as WalletStore from '@/lib/store/wallet';
-import { useAppDispatch, useAppSelector } from '../store';
-import browser from 'webextension-polyfill';
 import * as SessionStore from '@/lib/store/session';
-import { useWalletBalance } from '../hooks/useWalletBalance';
-import { ProfileData } from '../background/contracts';
 import { LoadingFullScreen } from '@/shared/components/handleStates/LoadingFullScreen';
-import { testnetEnabledChanged } from '../store/ui';
 
 interface Context {
     profile: Contracts.IProfile;
@@ -77,10 +76,6 @@ export const ProfileProvider = ({ children }: Properties) => {
 
             const profile = await importProfile(data);
             profile.data().fill(profileData);
-
-            if (profile.wallets().count() === 0) {
-                dispatch(testnetEnabledChanged(false));
-            }
 
             await updateStore({ profile });
         } catch (error) {
