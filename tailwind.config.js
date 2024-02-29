@@ -39,6 +39,8 @@ export default {
         "rgb(var(--theme-color-primary-800) / <alpha-value>)",
       "theme-primary-900":
         "rgb(var(--theme-color-primary-900) / <alpha-value>)",
+      "theme-primary-950":
+        "rgb(var(--theme-color-primary-950) / <alpha-value>)",
 
       // secondary
       "theme-secondary-25": "rgb(var(--theme-color-secondary-25) / <alpha-value>)",
@@ -51,6 +53,7 @@ export default {
       "theme-secondary-600": "rgb(var(--theme-color-secondary-600) / <alpha-value>)",
       "theme-secondary-700": "rgb(var(--theme-color-secondary-700) / <alpha-value>)",
       "theme-secondary-800": "rgb(var(--theme-color-secondary-800) / <alpha-value>)",
+      "theme-secondary-900": "rgb(var(--theme-color-secondary-900) / <alpha-value>)",
 
       // error
       "theme-error-25": "rgb(var(--theme-color-error-25) / <alpha-value>)",
