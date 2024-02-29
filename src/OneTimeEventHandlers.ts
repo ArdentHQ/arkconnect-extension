@@ -9,7 +9,7 @@ import { setLocalValue } from '@/lib/utils/localStorage';
 import { UUID } from '@ardenthq/sdk-cryptography';
 import { ExtensionEvents } from '@/lib/events';
 
-export enum RuntimeEventTypes {
+export enum OneTimeEvents {
     SEND_VOTE = 'SEND_VOTE',
     SEND_TRANSACTION = 'SEND_TRANSACTION',
     SIGN_MESSAGE = 'SIGN_MESSAGE',
@@ -31,9 +31,9 @@ export enum RuntimeEventTypes {
     CONNECT_RESOLVE = 'CONNECT_RESOLVE',
 }
 
-export function RuntimeEventHandlers(extension: ReturnType<typeof Extension>) {
+export function OneTimeEventHandlers(extension: ReturnType<typeof Extension>) {
     return {
-        [RuntimeEventTypes.SEND_VOTE]: async (request: any) => {
+        [OneTimeEvents.SEND_VOTE]: async (request: any) => {
             try {
                 extension.assertLockedStatus();
                 extension.assertPrimaryWallet();
@@ -50,7 +50,7 @@ export function RuntimeEventHandlers(extension: ReturnType<typeof Extension>) {
             }
         },
 
-        [RuntimeEventTypes.SEND_TRANSACTION]: async (request: any) => {
+        [OneTimeEvents.SEND_TRANSACTION]: async (request: any) => {
             extension.assertLockedStatus();
             extension.assertPrimaryWallet();
 
@@ -67,7 +67,7 @@ export function RuntimeEventHandlers(extension: ReturnType<typeof Extension>) {
             }
         },
 
-        [RuntimeEventTypes.SIGN_MESSAGE]: async (request: any) => {
+        [OneTimeEvents.SIGN_MESSAGE]: async (request: any) => {
             extension.assertLockedStatus();
             extension.assertPrimaryWallet();
 
@@ -78,8 +78,7 @@ export function RuntimeEventHandlers(extension: ReturnType<typeof Extension>) {
             }
         },
 
-        [RuntimeEventTypes.GET_DATA]: async (_request: any) => {
-            console.log(12312);
+        [OneTimeEvents.GET_DATA]: async (_request: any) => {
             try {
                 return extension.exportAsReadOnly();
             } catch (error) {
@@ -90,7 +89,7 @@ export function RuntimeEventHandlers(extension: ReturnType<typeof Extension>) {
             }
         },
 
-        [RuntimeEventTypes.IMPORT_WALLETS]: async (request: any) => {
+        [OneTimeEvents.IMPORT_WALLETS]: async (request: any) => {
             try {
                 if (request.data.password) {
                     await extension.reset(request.data.password, request.data);
@@ -111,7 +110,7 @@ export function RuntimeEventHandlers(extension: ReturnType<typeof Extension>) {
             }
         },
 
-        [RuntimeEventTypes.SET_DATA]: async (request: any) => {
+        [OneTimeEvents.SET_DATA]: async (request: any) => {
             if (!request.data.profileDump) {
                 return {
                     error: 'PROFILE_DATA_MISSING',
@@ -154,31 +153,31 @@ export function RuntimeEventHandlers(extension: ReturnType<typeof Extension>) {
             };
         },
 
-        [RuntimeEventTypes.SET_PRIMARY_WALLET]: async (request: any) => {
+        [OneTimeEvents.SET_PRIMARY_WALLET]: async (request: any) => {
             extension.primaryWallet().set(request.data.primaryWalletId);
             await extension.env().persist();
         },
 
-        [RuntimeEventTypes.SET_SESSIONS]: async (request: any) => {
+        [OneTimeEvents.SET_SESSIONS]: async (request: any) => {
             extension.profile().data().set(ProfileData.Sessions, request.data.sessions);
             await extension.env().persist();
         },
 
-        [RuntimeEventTypes.REFRESH_AUTOLOCK_TIMER]: async (_request: any) => {
+        [OneTimeEvents.REFRESH_AUTOLOCK_TIMER]: async (_request: any) => {
             if (!extension.isLocked()) {
                 await extension.lockHandler().setLastActiveTime(true);
             }
         },
 
-        [RuntimeEventTypes.REGISTER_ACTIVITY]: async (_request: any) => {
+        [OneTimeEvents.REGISTER_ACTIVITY]: async (_request: any) => {
             await extension.lockHandler().setLastActiveTime();
         },
 
-        [RuntimeEventTypes.LOCK]: async (_request: any) => {
+        [OneTimeEvents.LOCK]: async (_request: any) => {
             extension.lockHandler().lock();
         },
 
-        [RuntimeEventTypes.UNLOCK]: async (request: any) => {
+        [OneTimeEvents.UNLOCK]: async (request: any) => {
             const isLocked = await extension
                 .lockHandler()
                 .unlock(extension.profile(), request.data.password);
@@ -186,11 +185,11 @@ export function RuntimeEventHandlers(extension: ReturnType<typeof Extension>) {
             return Promise.resolve({ isLocked });
         },
 
-        [RuntimeEventTypes.CHECK_LOCK]: async (_request: any) => {
+        [OneTimeEvents.CHECK_LOCK]: async (_request: any) => {
             return Promise.resolve({ isLocked: extension.lockHandler().isLocked() });
         },
 
-        [RuntimeEventTypes.CHANGE_PASSWORD]: async (request: any) => {
+        [OneTimeEvents.CHANGE_PASSWORD]: async (request: any) => {
             try {
                 if (extension.isLocked()) {
                     return {
@@ -281,13 +280,13 @@ export function RuntimeEventHandlers(extension: ReturnType<typeof Extension>) {
             }
         },
 
-        [RuntimeEventTypes.RESET]: async (_request: any) => {
+        [OneTimeEvents.RESET]: async (_request: any) => {
             setLocalValue('hasOnboarded', false);
 
             extension.reset(UUID.random());
         },
 
-        [RuntimeEventTypes.REMOVE_WALLETS]: async (request: any) => {
+        [OneTimeEvents.REMOVE_WALLETS]: async (request: any) => {
             if (extension.profile()?.password().get() !== request.data.password) {
                 return {
                     error: 'Invalid password.',
@@ -326,17 +325,17 @@ export function RuntimeEventHandlers(extension: ReturnType<typeof Extension>) {
             };
         },
 
-        [RuntimeEventTypes.VALIDATE_PASSWORD]: async (request: any) => {
+        [OneTimeEvents.VALIDATE_PASSWORD]: async (request: any) => {
             return Promise.resolve({
                 isValid: extension.profile()?.password().get() === request.data.password,
             });
         },
 
-        [RuntimeEventTypes.DISCONNECT_RESOLVE]: async (request: any) => {
+        [OneTimeEvents.DISCONNECT_RESOLVE]: async (request: any) => {
             void ExtensionEvents({ profile: extension.profile() }).disconnect(request.data.domain);
         },
 
-        [RuntimeEventTypes.CONNECT_RESOLVE]: async (request: any) => {
+        [OneTimeEvents.CONNECT_RESOLVE]: async (request: any) => {
             void ExtensionEvents({ profile: extension.profile() }).connect(request.data.domain);
         },
     };

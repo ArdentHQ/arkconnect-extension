@@ -12,7 +12,7 @@ import {
 } from './assertions';
 
 export type EventPayload<T> = {
-    type: keyof typeof BACKGROUND_EVENT_LISTENERS_HANDLERS;
+    type: keyof typeof longLivedConnectionHandlers;
     data: T & DefaultPayload;
 };
 
@@ -26,10 +26,6 @@ type DefaultPayload = {
 
 export type ConnectData = {
     favicon: string;
-};
-
-export type EventListenerData = {
-    eventName: string;
 };
 
 export type SignMessageData = {
@@ -51,8 +47,6 @@ export type SignVoteData = {
     receiverAddress: string;
     session: Session;
 };
-
-const forwardEvent = { callback: () => {} };
 
 let extensionWindowId: number | null = null;
 
@@ -420,50 +414,14 @@ const handleSignVote = async (
     }
 };
 
-export const BACKGROUND_EVENT_LISTENERS_HANDLERS = {
-    CONNECT: {
-        callback: handleOnConnect,
-    },
-    CONNECT_RESOLVE: forwardEvent,
-    CONNECT_REJECT: forwardEvent,
-    IS_CONNECTED: {
-        callback: handleIsConnected,
-    },
-    IS_CONNECTED_RESOLVE: forwardEvent,
-    IS_CONNECTED_REJECT: forwardEvent,
-    DISCONNECT: {
-        callback: handleDisconnect,
-    },
-    DISCONNECT_RESOLVE: forwardEvent,
-    DISCONNECT_REJECT: forwardEvent,
-    GET_ADDRESS: {
-        callback: handleGetAddress,
-    },
-    GET_ADDRESS_RESOLVE: forwardEvent,
-    GET_ADDRESS_REJECT: forwardEvent,
-    GET_BALANCE: {
-        callback: handleGetBalance,
-    },
-    GET_BALANCE_RESOLVE: forwardEvent,
-    GET_BALANCE_REJECT: forwardEvent,
-    GET_NETWORK: {
-        callback: handleGetNetwork,
-    },
-    GET_NETWORK_RESOLVE: forwardEvent,
-    GET_NETWORK_REJECT: forwardEvent,
-    SIGN_MESSAGE: {
-        callback: handleSignMessage,
-    },
-    SIGN_MESSAGE_RESOLVE: forwardEvent,
-    SIGN_MESSAGE_REJECT: forwardEvent,
-    SIGN_TRANSACTION: {
-        callback: handleSignTransaction,
-    },
-    SIGN_TRANSACTION_RESOLVE: forwardEvent,
-    SIGN_TRANSACTION_REJECT: forwardEvent,
-    SIGN_VOTE: {
-        callback: handleSignVote,
-    },
-    SIGN_VOTE_RESOLVE: forwardEvent,
-    SIGN_VOTE_REJECT: forwardEvent,
+export const longLivedConnectionHandlers = {
+    CONNECT: handleOnConnect,
+    IS_CONNECTED: handleIsConnected,
+    DISCONNECT: handleDisconnect,
+    GET_ADDRESS: handleGetAddress,
+    GET_BALANCE: handleGetBalance,
+    GET_NETWORK: handleGetNetwork,
+    SIGN_MESSAGE: handleSignMessage,
+    SIGN_TRANSACTION: handleSignTransaction,
+    SIGN_VOTE: handleSignVote,
 };
