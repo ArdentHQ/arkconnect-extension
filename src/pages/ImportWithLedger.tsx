@@ -97,7 +97,7 @@ const ImportWithLedger = () => {
         (async () => {
             const { hasOnboarded } = await getLocalValues();
             if (!hasOnboarded) {
-                setSteps([...steps, { component: SetupPassword, containerPaddingX: '24'  }]);
+                setSteps([...steps, { component: SetupPassword, containerPaddingX: '24' }]);
             }
         })();
     }, []);
