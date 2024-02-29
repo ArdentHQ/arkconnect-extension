@@ -1,0 +1,17 @@
+@layer utilities {
+    .radio-indicator {
+        @apply border border-solid border-theme-primary-700 dark:border-theme-primary-600 h-5 w-5 absolute top-0 rounded-[10px] transition-smoothEase hover:bg-[#CCEEE0] hover:dark:bg-theme-primary-900 focus:shadow-[0_0_0_2px_#E5FFF4] focus:shadow-[#E5FFF4] active:shadow-[0_0_0_2px_#E5FFF4] after:content-[""] after:absolute after:hidden
+    }
+
+    [type='radio']:checked + .radio-indicator::after {
+        @apply block border border-solid border-theme-primary-700 bg-theme-primary-700 rounded-full dark:border-theme-primary-600 dark:bg-theme-primary-600 w-2 h-2 top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2
+    }
+
+    [type='radio']:disabled:checked + .radio-indicator::after {
+        @apply bg-theme-secondary-300 border-theme-secondary-300 dark:bg-theme-secondary-100 dark:border-theme-secondary-100
+    }
+
+    [type='radio']:disabled + .radio-indicator {
+        @apply pointer-events-none border border-solid border-theme-secondary-300 bg-theme-secondary-100 dark:bg-black
+    }
+}
