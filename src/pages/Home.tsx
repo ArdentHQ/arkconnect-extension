@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import styled from 'styled-components';
 import Balance from '@/components/wallet/Balance';
 import {
     Container,
@@ -89,7 +90,7 @@ const Home = () => {
                             </ExternalLink>
                         </FlexContainer>
                     </Container>
-                    <ExternalLink
+                    <StyledExternalLink
                         href={constants.ARK_CONNECT_DEMO}
                         color={getThemeColor('primary', 'primary600')}
                     >
@@ -105,11 +106,16 @@ const Home = () => {
                             </Paragraph>
                             <Icon icon='link-external' width='16px' height='16px' />
                         </FlexContainer>
-                    </ExternalLink>
+                    </StyledExternalLink>
                 </Container>
             </Container>
         </Layout>
     );
 };
+
+const StyledExternalLink = styled(ExternalLink)`
+    display: block;
+    border-radius: 16px;
+`;
 
 export default Home;
