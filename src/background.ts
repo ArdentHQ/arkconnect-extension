@@ -20,7 +20,7 @@ const initOneTimeEventListeners = () => {
     browser.runtime.onMessage.addListener(async function (request) {
         const type = request.type as OneTimeEvents;
 
-        console.log('one time event', type);
+        console.log('->->one time event:', type);
         let response;
         if (oneTimeEventHandlers[type]) {
             response = await oneTimeEventHandlers[type](request);
@@ -37,7 +37,7 @@ const initOneTimeEventListeners = () => {
 const handleLongLivedConnection = async (message: any, port: browser.Runtime.Port) => {
     const type = message.type as keyof typeof longLivedConnectionHandlers;
 
-    console.log('long lived connection event', type);
+    console.log('->long lived connection event:', type);
     if (longLivedConnectionHandlers[type]) {
         void longLivedConnectionHandlers[type](
             {
