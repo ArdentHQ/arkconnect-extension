@@ -7,14 +7,14 @@ import keepServiceWorkerAlive from './lib/background/keepServiceWorkerAlive';
 import { createTestProfile, isDev } from './dev/utils/dev';
 import { ProfileData } from './lib/background/contracts';
 import { Extension } from './lib/background/extension';
-import {RuntimeEventHandlers, RuntimeEventTypes} from "@/RuntimeEventHandler";
+import { RuntimeEventHandlers, RuntimeEventTypes } from '@/RuntimeEventHandler';
 
 const initialPassword = UUID.random();
 
 const extension = Extension();
 extension.reset(initialPassword);
 
-const runtimeEventHandlers = RuntimeEventHandlers(extension)
+const runtimeEventHandlers = RuntimeEventHandlers(extension);
 
 const initRuntimeEventListener = () => {
     browser.runtime.onMessage.addListener(async function (request) {
