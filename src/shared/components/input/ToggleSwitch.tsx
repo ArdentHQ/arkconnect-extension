@@ -1,8 +1,7 @@
 import { FC, ChangeEvent, KeyboardEvent } from 'react';
-import styled from 'styled-components';
-import { FlexContainer, Paragraph } from '@/shared/components';
 import { handleInputKeyAction } from '@/lib/utils/handleKeyAction';
 import { isFirefox } from '@/lib/utils/isFirefox';
+import cn from 'classnames';
 
 type ToggleSwitchProps = {
     checked: boolean;
@@ -13,102 +12,6 @@ type ToggleSwitchProps = {
     helperText?: string;
 };
 
-const Input = styled.input`
-    height: 0;
-    width: 0;
-    opacity: 0;
-    z-index: -1;
-`;
-
-const Slider = styled.span`
-    ${({ theme }) => `
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: ${theme.colors.toggleInactive};
-    transition: 0.4s;
-    border-radius: 12px;
-    transition: ${isFirefox ? theme.transitions.firefoxSmoothEase : theme.transitions.smoothEase};
-    z-index: 1;
-
-    &::before {
-      position: absolute;
-      content: '';
-      height: 16px;
-      width: 16px;
-      left: 0.2em;
-      bottom: 0.15em;
-      background-color: ${theme.colors.white};
-      transition: 0.4s;
-      border-radius: 50%;
-      fill: ${theme.colors.white};
-      filter: drop-shadow(0px 1px 2px rgba(16, 24, 40, 0.06)) drop-shadow(0px 1px 3px rgba(16, 24, 40, 0.10));
-    }
-
-    ${isFirefox ? theme.browserCompatibility.firefox.focus : ''}
-
-    &:hover {
-      background-color: ${theme.colors.primary};
-    }
-
-    ${Input}:checked + & {
-      background-color: ${theme.colors.primary};
-
-      &:hover {
-        background-color: ${theme.colors.toggleHover};
-      }
-    }
-
-    ${Input}:checked + &::before {
-      transform: translateX(0.9em);
-    }
-
-    ${Input}:disabled + & {
-      pointer-events: none;
-    }
-
-    ${Input}:disabled:not(:checked) + & {
-      background-color: ${theme.colors.lightGray}
-
-      &::before {
-        background-color: ${theme.colors.secondary300};
-        filter: drop-shadow(0px 1px 2px rgba(16, 24, 40, 0.06)) drop-shadow(0px 1px 3px rgba(16, 24, 40, 0.10));
-      }
-    }
-
-    ${Input}:disabled:checked + & {
-      background-color: ${theme.colors.disabledChecked};
-
-      &::before {
-        background-color: ${theme.colors.white};
-      }
-    }
-  `}
-`;
-
-const Label = styled.label<{ disabled?: boolean; size?: string }>`
-    position: relative;
-    display: inline-block;
-    width: 36px;
-    height: 20px;
-    cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
-    pointer-events: ${(props) => (props.disabled ? 'none' : 'auto')};
-
-    ${Input} {
-        opacity: 0;
-        width: 0;
-        height: 0;
-    }
-
-    ${({ theme }) => `
-    &:hover ${Slider} {
-      background-color: ${theme.colors.inputHover};
-    `};
-`;
-
 export const ToggleSwitch: FC<ToggleSwitchProps> = ({
     checked,
     onChange,
@@ -117,41 +20,49 @@ export const ToggleSwitch: FC<ToggleSwitchProps> = ({
     title,
     helperText,
 }) => {
-    return (
-        <Label htmlFor={id} disabled={disabled}>
-            <FlexContainer
-                flexDirection='column'
-                alignItems='flex-start'
-                gridGap='5px'
-                marginLeft='44'
-            >
-                <Paragraph $typeset='headline' color='base' width='max-content'>
-                    {title}
-                </Paragraph>
-                {helperText && (
-                    <Paragraph $typeset='body' fontWeight='regular' color='gray'>
-                        {helperText}
-                    </Paragraph>
-                )}
-            </FlexContainer>
-            <Input
-                id={id}
-                type='checkbox'
-                disabled={disabled}
-                checked={checked}
-                onChange={onChange}
-                tabIndex={-1}
-            />
-            <Slider
-                role='checkbox'
-                tabIndex={0}
-                aria-label={`${title} slider`}
-                aria-checked={checked}
-                aria-disabled={disabled}
-                onKeyDown={(e: KeyboardEvent<HTMLSpanElement>) =>
-                    handleInputKeyAction(e, onChange, e as unknown as ChangeEvent<HTMLInputElement>)
-                }
-            />
-        </Label>
-    );
+  return (
+    <label 
+      htmlFor={id}
+      className={cn('relative flex w-9 h-5 group', {
+        'cursor-not-allowed pointer-events-none': disabled,
+        'cursor-pointer pointer-events-auto': !disabled,
+      })}
+    >
+      <div className='flex flex-col items-start gap-[5px] ml-11'>
+        <p className='w-max text-base-black dark:text-white font-normal leading-tight text-base'>
+          {title}
+        </p>
+        {
+          helperText && (
+            <p className='text-theme-secondary-600 dark:text-theme-secondary-300 font-normal text-sm leading-tight'>
+              {helperText}
+            </p>
+          )
+        }
+    </div>
+    <input 
+      id={id}
+      type='checkbox'
+      disabled={disabled}
+      checked={checked}
+      onChange={onChange}
+      tabIndex={-1}
+      className='h-0 w-0 opacity-0 hidden'
+    />
+    <div 
+      role='checkbox'
+      tabIndex={0}
+      aria-label={`${title} slider`}
+      aria-checked={checked}
+      aria-disabled={disabled}
+      onKeyDown={(e: KeyboardEvent<HTMLSpanElement>) =>
+          handleInputKeyAction(e, onChange, e as unknown as ChangeEvent<HTMLInputElement>)
+      }
+      className={cn('toggle-switch-slider', {
+        'transition-firefoxSmoothEase focus-visible:outline focus-visible:outline-2': isFirefox,
+        'transition-smoothEase': !isFirefox
+      })}
+    />
+    </label>
+  )
 };
