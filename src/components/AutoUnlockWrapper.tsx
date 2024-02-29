@@ -64,14 +64,9 @@ const AutoUnlockWrapper = ({ children }: Props) => {
         }
 
         const lastScreen = profile.data().get(ProfileData.LastScreen) as LastScreen | undefined;
-        console.log('handlePersistScreenRedirect', { lastScreen });
 
         if (!lastScreen) {
             return;
-        }
-
-        if (lastScreen.screenName === ScreenName.ImportWallet) {
-            navigate('/wallet/import');
         }
 
         if (lastScreen.screenName === ScreenName.CreateWallet) {

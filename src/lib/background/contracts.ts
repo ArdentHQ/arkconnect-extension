@@ -13,7 +13,6 @@ export type Session = {
 };
 
 export enum ScreenName {
-    ImportWallet = 'IMPORT_WALLET',
     CreateWallet = 'CREATE_WALLET',
 }
 
