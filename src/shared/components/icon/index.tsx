@@ -10,11 +10,7 @@ type IconProps = {
 
 export const Icon: React.FC<IconProps> = ({ icon, className, ...rest }) => {
     return (
-        <span
-            {...rest}
-            className={cn('block', 'Icon ' + (className ? className : ''))}
-            role='img'
-        >
+        <span {...rest} className={cn('block', 'Icon ' + (className ? className : ''))} role='img'>
             {IconSvg[icon]}
         </span>
     );
