@@ -146,10 +146,6 @@ const initRuntimeEventListener = () => {
             };
         }
 
-        if (request.type === 'GET_LAST_SCREEN') {
-            return extension.profile().data().get(ProfileData.LastScreen);
-        }
-
         if (request.type === 'SET_LAST_SCREEN') {
             extension.profile().data().set(ProfileData.LastScreen, {
                 screenName: request.screenName,

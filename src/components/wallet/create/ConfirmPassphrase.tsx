@@ -26,6 +26,8 @@ const ConfirmPassphrase = ({ goToNextStep, formik }: Props) => {
     const { values } = formik;
     const [validationStatus, setValidationStatus] = useState<ValidationVariant[]>([]);
 
+    console.log({ values, confirmPassphrase: values.confirmPassphrase });
+
     const isTestnet = useAppSelector(selectTestnetEnabled);
 
     useEffect(() => {
@@ -77,22 +79,6 @@ const ConfirmPassphrase = ({ goToNextStep, formik }: Props) => {
         });
         checkConfirmation();
     };
-
-    // Persist state when entering
-    useEffect(() => {
-        browser.runtime.sendMessage({
-            type: 'SET_LAST_SCREEN',
-            screenName: ScreenName.CreateWallet,
-            data: {
-                step: 1,
-                mnemonic: values.passphrase.join(' '),
-                network: values.wallet?.networkId(),
-                coin: values.wallet?.network().coin(),
-                confirmationNumbers: values.confirmationNumbers,
-                confirmPassphrase: values.confirmPassphrase,
-            },
-        });
-    }, [values]);
 
     return (
         <>

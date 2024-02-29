@@ -188,11 +188,30 @@ const CreateNewWallet = () => {
             return;
         }
 
+        if (step === 0) {
+            const confirmationNumbers = randomWordPositions(24);
+            formik.setFieldValue('confirmationNumbers', confirmationNumbers);
+            formik.setFieldValue('confirmPassphrase', ['', '', '']);
+
+            browser.runtime.sendMessage({
+                type: 'SET_LAST_SCREEN',
+                screenName: ScreenName.CreateWallet,
+                data: {
+                    step,
+                    mnemonic: formik.values.passphrase.join(' '),
+                    network: activeNetwork.id(),
+                    coin: activeNetwork.coin(),
+                    confirmationNumbers,
+                },
+            });
+            return;
+        }
+
         browser.runtime.sendMessage({
             type: 'SET_LAST_SCREEN',
             screenName: ScreenName.CreateWallet,
             data: {
-                step: step,
+                step,
                 mnemonic: formik.values.passphrase.join(' '),
                 network: activeNetwork.id(),
                 coin: activeNetwork.coin(),
