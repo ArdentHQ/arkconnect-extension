@@ -1,32 +1,14 @@
 import { useState } from 'react';
-import browser from 'webextension-polyfill';
-import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
-import useLogoutAll from '@/lib/hooks/useLogoutAll';
 import { Button, Checkbox, FlexContainer, Paragraph, WarningIcon } from '@/shared/components';
 import SubPageLayout from '@/components/settings/SubPageLayout';
 import useThemeMode from '@/lib/hooks/useThemeMode';
-import { useProfileContext } from '@/lib/context/Profile';
+import useResetExtension from '@/lib/hooks/useResetExtension';
 
 const ForgotPassword = () => {
-    const logoutAll = useLogoutAll();
+    const resetExtension = useResetExtension();
     const [lostPasswordAwareness, setLostPasswordAwareness] = useState<boolean>(false);
-    const { onError } = useErrorHandlerContext();
-
-    const { initProfile } = useProfileContext();
 
     const { getThemeColor } = useThemeMode();
-
-    const handleLogout = async () => {
-        try {
-            await browser.runtime.sendMessage({ type: 'RESET' });
-
-            await logoutAll();
-
-            await initProfile();
-        } catch (error) {
-            onError(error);
-        }
-    };
 
     return (
         <SubPageLayout title='Forgot Password?' onBack='goBack' paddingBottom='0'>
@@ -57,7 +39,7 @@ const ForgotPassword = () => {
                         variant='primary'
                         disabled={!lostPasswordAwareness}
                         mt='24'
-                        onClick={handleLogout}
+                        onClick={resetExtension}
                     >
                         Reset Extension
                     </Button>
