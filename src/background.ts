@@ -26,7 +26,7 @@ const initOneTimeEventListeners = () => {
             response = await oneTimeEventHandlers[type](request);
         }
 
-        if (request.data.tabId && (type.endsWith('_RESOLVE') || type.endsWith('_REJECT'))) {
+        if (request?.data?.tabId && (type.endsWith('_RESOLVE') || type.endsWith('_REJECT'))) {
             void browser.tabs.sendMessage(request.data.tabId, request);
         }
 
