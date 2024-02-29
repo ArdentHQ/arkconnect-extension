@@ -92,8 +92,8 @@ const CreateNewWallet = () => {
                         formik.setFieldValue('confirmPassphrase', confirmPassphrase);
                     }
 
-                    if (step === 1) {
-                        setDefaultStep(1);
+                    if (step) {
+                        setDefaultStep(step);
                     }
                 }
 
