@@ -26,8 +26,6 @@ const ConfirmPassphrase = ({ goToNextStep, formik }: Props) => {
     const { values } = formik;
     const [validationStatus, setValidationStatus] = useState<ValidationVariant[]>([]);
 
-    console.log({ values, confirmPassphrase: values.confirmPassphrase });
-
     const isTestnet = useAppSelector(selectTestnetEnabled);
 
     useEffect(() => {

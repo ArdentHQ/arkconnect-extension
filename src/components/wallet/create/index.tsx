@@ -183,7 +183,6 @@ const CreateNewWallet = () => {
 
     // Persist the exact step if user goes back 'n forth.
     const handleStepChange = (step: number) => {
-        console.log({ step });
         if (step === -1) {
             browser.runtime.sendMessage({ type: 'CLEAR_LAST_SCREEN' });
             return;

@@ -116,13 +116,11 @@ const initRuntimeEventListener = () => {
 
             const password = extension.profile().password().get();
             const data = extension.profile().data().all();
-            console.log({ data });
 
             const dump = Object.values(request.data.profileDump)[0] as Record<string, string>;
 
             const requestedProfile = await extension.env().profiles().import(dump.data);
             await extension.env().profiles().restore(requestedProfile);
-            console.log({ requestedData: requestedProfile.data().all() });
 
             requestedProfile.auth().setPassword(password);
 
