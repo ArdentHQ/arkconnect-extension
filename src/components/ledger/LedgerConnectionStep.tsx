@@ -95,7 +95,7 @@ export const LedgerConnectionStep = ({
     );
 
     return (
-        <Container px='24'>
+        <Container>
             <Heading $typeset='h3' fontWeight='bold' color='base' mb='24'>
                 Connect Your Ledger Device
             </Heading>
