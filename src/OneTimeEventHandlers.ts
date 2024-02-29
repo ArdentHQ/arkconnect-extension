@@ -111,7 +111,7 @@ export function OneTimeEventHandlers(extension: ReturnType<typeof Extension>) {
         },
 
         [OneTimeEvents.SET_DATA]: async (request: any) => {
-            return await handleSetData(request, extension)
+            return await handleSetData(request, extension);
         },
 
         [OneTimeEvents.SET_PRIMARY_WALLET]: async (request: any) => {
@@ -221,7 +221,7 @@ const handleSetData = async (request: any, extension: ReturnType<typeof Extensio
         profileDump: extension.env().profiles().dump(extension.profile()),
         error: null,
     };
-}
+};
 
 const handleChangePassword = async (request: any, extension: ReturnType<typeof Extension>) => {
     try {
@@ -250,19 +250,14 @@ const handleChangePassword = async (request: any, extension: ReturnType<typeof E
             if (!wallet.isLedger()) {
                 const mnemonic = await wallet.confirmKey().get(request.data.oldPassword);
 
-                newWallet = await extension
-                    .profile()
-                    .walletFactory()
-                    .fromMnemonicWithBIP39({
-                        coin: wallet.network().coin(),
-                        network: wallet.network().id(),
-                        mnemonic,
-                    });
+                newWallet = await extension.profile().walletFactory().fromMnemonicWithBIP39({
+                    coin: wallet.network().coin(),
+                    network: wallet.network().id(),
+                    mnemonic,
+                });
 
                 newWallet.mutator().alias(wallet.alias() as string);
-                await newWallet
-                    .confirmKey()
-                    .set(mnemonic, extension.profile().password().get());
+                await newWallet.confirmKey().set(mnemonic, extension.profile().password().get());
             } else {
                 newWallet = await extension
                     .profile()
@@ -278,16 +273,11 @@ const handleChangePassword = async (request: any, extension: ReturnType<typeof E
             }
 
             // Update primary wallet ID to match the new id of the same wallet
-            if (
-                extension.profile().data().get(ProfileData.PrimaryWalletId) === oldWalletId
-            ) {
+            if (extension.profile().data().get(ProfileData.PrimaryWalletId) === oldWalletId) {
                 extension.profile().data().set(ProfileData.PrimaryWalletId, newWallet.id());
             }
 
-            const sessions = extension
-                .profile()
-                .data()
-                .get<SessionEntries>(ProfileData.Sessions);
+            const sessions = extension.profile().data().get<SessionEntries>(ProfileData.Sessions);
 
             if (sessions) {
                 // Adjust sessions' walletId to match new ones
@@ -312,7 +302,7 @@ const handleChangePassword = async (request: any, extension: ReturnType<typeof E
     } catch (error) {
         return Promise.resolve({ error });
     }
-}
+};
 
 const handleRemoveWallets = async (request: any, extension: ReturnType<typeof Extension>) => {
     if (extension.profile()?.password().get() !== request.data.password) {
@@ -351,4 +341,4 @@ const handleRemoveWallets = async (request: any, extension: ReturnType<typeof Ex
     return {
         error: undefined,
     };
-}
+};
