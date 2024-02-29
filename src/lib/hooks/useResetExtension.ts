@@ -1,4 +1,5 @@
 import browser from 'webextension-polyfill';
+import { useNavigate } from 'react-router-dom';
 import { useProfileContext } from '../context/Profile';
 import useOnError from '.';
 import { revertAll } from '@/lib/store/ui';
@@ -9,6 +10,8 @@ const useResetExtension = () => {
     const dispatch = useAppDispatch();
     const onError = useOnError();
     const { initProfile } = useProfileContext();
+
+    const navigate = useNavigate();
 
     const resetUi = () => {
         dispatch(revertAll());
@@ -26,6 +29,8 @@ const useResetExtension = () => {
 
     const resetExtension = async () => {
         try {
+            navigate('/splash-screen');
+
             resetUi();
 
             clearPersistedData();
