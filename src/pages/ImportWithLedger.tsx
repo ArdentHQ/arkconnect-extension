@@ -36,7 +36,7 @@ const ImportWithLedger = () => {
     const { error, removeErrors } = useLedgerContext();
     const { onError } = useErrorHandlerContext();
     const [steps, setSteps] = useState<Step[]>([
-        { component: LedgerConnectionStep },
+        { component: LedgerConnectionStep, containerPaddingX: '24' },
         { component: ImportWallets },
     ]);
     const loadingModal = useLoadingModal({
@@ -97,7 +97,7 @@ const ImportWithLedger = () => {
         (async () => {
             const { hasOnboarded } = await getLocalValues();
             if (!hasOnboarded) {
-                setSteps([...steps, { component: SetupPassword }]);
+                setSteps([...steps, { component: SetupPassword, containerPaddingX: '24' }]);
             }
         })();
     }, []);
