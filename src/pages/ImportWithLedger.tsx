@@ -1,26 +1,23 @@
-import * as ModalStore from '@/lib/store/modal';
-
+import { useEffect, useState } from 'react';
+import { Contracts } from '@ardenthq/sdk-profiles';
+import styled from 'styled-components';
+import { useFormik } from 'formik';
+import browser from 'webextension-polyfill';
 import { Container, FlexContainer, Header, Icon, Paragraph } from '@/shared/components';
 import { LedgerData, useLedgerContext } from '@/lib/Ledger';
 import StepsNavigation, { Step } from '@/components/steps/StepsNavigation';
-import { useEffect, useState } from 'react';
-
-import { Contracts } from '@ardenthq/sdk-profiles';
 import ImportWallets from '@/components/ledger/ImportWallets';
 import { LedgerConnectionStep } from '@/components/ledger/LedgerConnectionStep';
 import SetupPassword from '@/components/settings/SetupPassword';
 import { ThemeMode } from '@/lib/store/ui';
-import browser from 'webextension-polyfill';
 import { getLedgerAlias } from '@/lib/utils/getDefaultAlias';
 import { getLocalValues } from '@/lib/utils/localStorage';
-import styled from 'styled-components';
-import { useAppDispatch } from '@/lib/store';
 import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
-import { useFormik } from 'formik';
 import useLocaleCurrency from '@/lib/hooks/useLocalCurrency';
 import useNetwork from '@/lib/hooks/useNetwork';
 import { useProfileContext } from '@/lib/context/Profile';
 import useThemeMode from '@/lib/hooks/useThemeMode';
+import useLoadingModal from '@/lib/hooks/useLoadingModal';
 
 export type ImportWithLedger = {
     wallets: LedgerData[];
@@ -35,13 +32,19 @@ const ImportWithLedger = () => {
     const { activeNetwork: network } = useNetwork();
     const { profile, initProfile } = useProfileContext();
     const { defaultCurrency } = useLocaleCurrency();
-    const dispatch = useAppDispatch();
     const { error, removeErrors } = useLedgerContext();
     const { onError } = useErrorHandlerContext();
     const [steps, setSteps] = useState<Step[]>([
         { component: LedgerConnectionStep },
         { component: ImportWallets },
     ]);
+    const loadingModal = useLoadingModal({
+        loadingMessage: 'Setting up your wallet',
+        completedMessage: 'Your wallet is ready!',
+        other: {
+            completedDescription: 'You can now open the extension and manage your addresses!',
+        },
+    });
 
     const formik = useFormik<ImportWithLedger>({
         initialValues: {
@@ -83,16 +86,7 @@ const ImportWithLedger = () => {
 
             await initProfile();
 
-            dispatch(
-                ModalStore.loadingModalUpdated({
-                    isOpen: true,
-                    isLoading: false,
-                    loadingMessage: 'Setting up your wallet',
-                    completedMessage: 'Your wallet is ready!',
-                    completedDescription:
-                        'You can now open the extension and manage your addresses!',
-                }),
-            );
+            loadingModal.open();
 
             formikHelpers.resetForm();
         },
