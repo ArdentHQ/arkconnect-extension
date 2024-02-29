@@ -25,7 +25,7 @@ export const RadioButton: FC<RadioButtonProps> = ({
 }) => {
     const [isFocusWithin, setIsFocusWithin] = useState(false);
 
-    return(
+    return (
         <label
             className={cn('relative flex min-h-5 w-5', {
                 'cursor-not-allowed pointer-events-none': disabled,
@@ -73,5 +73,5 @@ export const RadioButton: FC<RadioButtonProps> = ({
                 })}
             />
         </label>
-    )
+    );
 };
