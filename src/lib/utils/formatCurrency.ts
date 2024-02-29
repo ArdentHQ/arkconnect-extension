@@ -4,13 +4,14 @@ const formatCurrency = (
     value: number,
     ticker: string,
     options?: {
-        locale?: string;
         withTicker?: boolean;
     },
 ) => {
+    const locale = navigator.languages ? navigator.languages[0] : navigator.language ?? 'en-US';
+
     return Helpers.Currency.format(value, ticker, {
         ...options,
-        locale: options?.locale ?? 'en-US',
+        locale,
     });
 };
 
