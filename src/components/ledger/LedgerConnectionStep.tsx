@@ -1,7 +1,5 @@
-import { useEffect } from 'react';
-import Step from './Step';
-import { connectSteps } from './utils/connectionSteps';
-import constants from '@/constants';
+import * as ModalStore from '@/lib/store/modal';
+
 import {
     Button,
     Container,
@@ -11,13 +9,16 @@ import {
     Icon,
     Paragraph,
 } from '@/shared/components';
-import { useProfileContext } from '@/lib/context/Profile';
-import { useLedgerContext } from '@/lib/Ledger';
-import useNetwork from '@/lib/hooks/useNetwork';
-import * as ModalStore from '@/lib/store/modal';
 
+import Step from './Step';
+import { connectSteps } from './utils/connectionSteps';
+import constants from '@/constants';
+import { useEffect } from 'react';
 import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
+import { useLedgerContext } from '@/lib/Ledger';
 import useLoadingModal from '@/lib/hooks/useLoadingModal';
+import useNetwork from '@/lib/hooks/useNetwork';
+import { useProfileContext } from '@/lib/context/Profile';
 
 export const LedgerConnectionStep = ({
     goToNextStep,
@@ -95,15 +96,15 @@ export const LedgerConnectionStep = ({
 
     return (
         <Container>
-            <Heading $typeset='h3' fontWeight='bold' color='base' mb='24' px='24'>
+            <Heading $typeset='h3' fontWeight='bold' color='base' mb='24'>
                 Connect Your Ledger Device
             </Heading>
-            <FlexContainer my='24' justifyContent='center' px='24'>
+            <FlexContainer my='24' justifyContent='center'>
                 <Icon icon='ledger-device' width='220px' height='120px' />
             </FlexContainer>
             <Container mb='24'>
                 {connectSteps.map((step, index) => (
-                    <FlexContainer key={index} alignItems='flex-start' gridGap='8px' px='24'>
+                    <FlexContainer key={index} alignItems='flex-start' gridGap='8px'>
                         <Step step={index + 1} />
                         <Paragraph
                             fontWeight='regular'
@@ -116,7 +117,7 @@ export const LedgerConnectionStep = ({
                     </FlexContainer>
                 ))}
             </Container>
-            <Container px='24' pb='16'>
+            <Container pb='16'>
                 <Button variant='primary' onClick={handleListenDevice}>
                     Continue
                 </Button>

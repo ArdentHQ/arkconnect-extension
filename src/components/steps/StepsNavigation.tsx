@@ -1,9 +1,10 @@
+import { ArrowButton, Container, FlexContainer, Paragraph } from '@/shared/components';
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ComponentType, useState } from 'react';
+
 import { FormikProps } from 'formik';
-import { useNavigate } from 'react-router-dom';
-import { ArrowButton, Container, FlexContainer, Paragraph } from '@/shared/components';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 
 export type Step = {
     component: ComponentType<any>;
@@ -70,7 +71,7 @@ const StepsNavigation = <T extends Record<string, any>>({
                     </Paragraph>
                 </Container>
             </StyledFlexContainer>
-            <FlexContainer flexDirection='column' height='100%'>
+            <FlexContainer flexDirection='column' height='100%' px={currentStep === 1 ? '0' : '24'}>
                 <CurrentStepComponent
                     goToNextStep={handleStepForward}
                     goToPrevStep={handleStepBack}
