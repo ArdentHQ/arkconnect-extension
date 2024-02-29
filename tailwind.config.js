@@ -3,13 +3,13 @@ const defaultTheme = require("tailwindcss/defaultTheme");
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ["./src/**/*.{js,ts,jsx,tsx,css}"],
+  darkMode: "class",
   theme: {
     extend: {
       fontFamily: {
         sans: ["var(--font-dm-sans)", ...defaultTheme.fontFamily.sans],
       },
     },
-    darkMode: "class",
     colors: {
       transparent: "transparent",
       black: "rgb(var(--theme-color-black) / <alpha-value>)",
