@@ -24,7 +24,7 @@ import { assertWallet } from '@/lib/utils/assertions';
 import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
 import { useAppSelector } from '@/lib/store';
 import { selectWalletsIds } from '@/lib/store/wallet';
-import { ProfileData, ScreenName } from '@/lib/background/contracts';
+import { ScreenName } from '@/lib/background/contracts';
 
 type Props = {
     goToNextStep: () => void;

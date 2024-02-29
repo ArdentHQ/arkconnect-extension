@@ -8,19 +8,19 @@ import { connectionReducer, defaultConnectionState } from './connection.state';
 import { useLedgerImport } from './import';
 import { openTransport, closeDevices, isLedgerTransportSupported } from '@/lib/Ledger/transport';
 import { useEnvironmentContext } from '@/lib/context/Environment';
-import { useAppDispatch } from '@/lib/store';
-import { loadingModalUpdated } from '@/lib/store/modal';
 import useSentryException from '@/lib/hooks/useSentryException';
+import useLoadingModal from '@/lib/hooks/useLoadingModal';
 
 type LedgerConnectionError = { statusText?: string; message: string };
 
 export const useLedgerConnection = () => {
     const { env } = useEnvironmentContext();
-    const reduxDispatch = useAppDispatch();
     const [state, dispatch] = useReducer(connectionReducer, defaultConnectionState);
     const abortRetryReference = useRef<boolean>(false);
     const { device, isBusy, isConnected, isWaiting, error } = state;
-
+    const loadingModal = useLoadingModal({
+        completedMessage: 'Ledger Connected!',
+    });
     const { importLedgerWallets } = useLedgerImport({ device, env });
 
     // Actively listen to WebUSB devices and emit ONE device that was either accepted before,
@@ -108,21 +108,10 @@ export const useLedgerConnection = () => {
 
             try {
                 if (!hideCompletedState) {
-                    reduxDispatch(
-                        loadingModalUpdated({
-                            isOpen: true,
-                            isLoading: false,
-                            completedMessage: 'Ledger Connected!',
-                        }),
-                    );
-                    const ledgerTimeout = setTimeout(() => {
-                        reduxDispatch(
-                            loadingModalUpdated({
-                                isOpen: false,
-                                isLoading: false,
-                            }),
-                        );
-                        clearTimeout(ledgerTimeout);
+                    loadingModal.open();
+
+                    setTimeout(() => {
+                        loadingModal.close();
                     }, 2500);
                 }
                 await persistLedgerConnection({

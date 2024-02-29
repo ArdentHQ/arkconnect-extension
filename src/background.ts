@@ -1,4 +1,7 @@
 import browser from 'webextension-polyfill';
+import { Services } from '@ardenthq/sdk';
+import { Contracts } from '@ardenthq/sdk-profiles';
+import { UUID } from '@ardenthq/sdk-cryptography';
 import { BACKGROUND_EVENT_LISTENERS_HANDLERS } from './lib/background/eventListenerHandlers';
 import { AutoLockTimer, setLocalValue } from './lib/utils/localStorage';
 import initAutoLock from './lib/background/initAutoLock';
@@ -10,9 +13,7 @@ import { ProfileData, ScreenName } from './lib/background/contracts';
 import { Services } from '@ardenthq/sdk';
 import { SendTransferInput } from './lib/background/extension.wallet';
 import { Extension } from './lib/background/extension';
-import { Contracts } from '@ardenthq/sdk-profiles';
 import { SessionEntries } from './lib/store/session';
-import { UUID } from '@ardenthq/sdk-cryptography';
 
 const initialPassword = UUID.random();
 
@@ -82,7 +83,7 @@ const initRuntimeEventListener = () => {
 
         if (request.type === 'IMPORT_WALLETS') {
             try {
-                if (!!request.data.password) {
+                if (request.data.password) {
                     await extension.reset(request.data.password, request.data);
                 }
 
@@ -273,6 +274,8 @@ const initRuntimeEventListener = () => {
                 return Promise.resolve({ error });
             }
         } else if (request.type === 'RESET') {
+            setLocalValue('hasOnboarded', false);
+
             extension.reset(initialPassword);
         } else if (request.type === 'REMOVE_WALLETS') {
             if (extension.profile()?.password().get() !== request.data.password) {

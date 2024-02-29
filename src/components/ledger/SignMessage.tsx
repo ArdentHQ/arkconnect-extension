@@ -1,7 +1,6 @@
 import { Services } from '@ardenthq/sdk';
 import { FormikProps } from 'formik';
 import { useEffect, useRef, useState } from 'react';
-import { Helpers } from '@ardenthq/sdk-profiles';
 import trimAddress from '@/lib/utils/trimAddress';
 import { ImportWithLedger } from '@/pages/ImportWithLedger';
 import {
@@ -17,6 +16,7 @@ import { useProfileContext } from '@/lib/context/Profile';
 import useNetwork from '@/lib/hooks/useNetwork';
 import { useMessageSigner } from '@/lib/hooks/useMessageSigner';
 import { useEnvironmentContext } from '@/lib/context/Environment';
+import formatCurrency from '@/lib/utils/formatCurrency';
 
 type Props = {
     formik: FormikProps<ImportWithLedger>;
@@ -119,7 +119,7 @@ const SignMessage = ({ formik, goToNextStep, goToPrevStep }: Props) => {
                         </Paragraph>
                         <Paragraph $typeset='headline' fontWeight='regular' color='base'>
                             {ledgerWallet.balance !== undefined &&
-                                Helpers.Currency.format(
+                                formatCurrency(
                                     ledgerWallet.balance,
                                     activeNetwork.id() === 'ark.devnet' ? 'DARK' : 'ARK',
                                     { withTicker: true },
