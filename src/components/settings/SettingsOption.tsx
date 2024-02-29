@@ -50,6 +50,10 @@ const StyledRow = styled(Container)<BaseProps>`
     border: none;
     background: none;
 
+    &:focus-visible {
+        z-index: 1;
+    }
+
     ${({ theme, isDark }) =>
         variant({
             variants: {
