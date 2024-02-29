@@ -19,7 +19,7 @@ const useThemeMode = () => {
         } else {
             document.documentElement.classList.remove('dark');
         }
-    }, [currentThemeMode])
+    }, [currentThemeMode]);
 
     const toggleThemeMode = (
         evt: React.MouseEvent<HTMLElement> | React.ChangeEvent<HTMLElement>,
