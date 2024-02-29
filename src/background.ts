@@ -249,9 +249,7 @@ const initRuntimeEventListener = () => {
                 return Promise.resolve({ error });
             }
         } else if (request.type === 'RESET') {
-            setLocalValue('hasOnboarded', false);
-
-            extension.reset(initialPassword);
+            await extension.reset(initialPassword);
         } else if (request.type === 'REMOVE_WALLETS') {
             if (extension.profile()?.password().get() !== request.data.password) {
                 return {
