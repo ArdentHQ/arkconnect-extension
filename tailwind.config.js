@@ -14,6 +14,7 @@ export default {
       transparent: "transparent",
       black: "rgb(var(--theme-color-black) / <alpha-value>)",
       "subtle-black": "rgb(var(--theme-color-subtle-black) / <alpha-value>)",
+      "light-black": "rgb(var(--theme-color-light-black) / <alpha-value>)",
 
       white: "rgb(var(--theme-color-white) / <alpha-value>)",
       "subtle-white": "rgb(var(--theme-color-subtle-white) / <alpha-value>)",
