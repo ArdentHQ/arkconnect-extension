@@ -1,7 +1,6 @@
 import { FC, ChangeEvent, useState } from 'react';
-import styled from 'styled-components';
-import { FlexContainer, Paragraph } from '@/shared/components';
 import { isFirefox } from '@/lib/utils/isFirefox';
+import cn from 'classnames';
 
 type RadioButtonProps = {
     checked: boolean;
@@ -13,100 +12,6 @@ type RadioButtonProps = {
     disabled?: boolean;
     tabIndex?: number;
 };
-
-const Input = styled.input`
-    height: 0;
-    width: 0;
-    opacity: 0;
-    z-index: -1;
-
-    ${isFirefox
-        ? `&:focus-visible {
-    outline-style: solid;
-    outline-width: 2px;
-  }`
-        : ''}
-`;
-
-const Indicator = styled.div<{
-    isFocusWithin?: boolean;
-}>`
-    ${({ theme }) => `
-    border: 1px solid ${theme.colors.radioButton};
-    border-radius: 10px;
-    width: 20px;
-    height: 20px;
-    position: absolute;
-    top: 0;
-    transition: ${theme.transitions.smoothEase};
-    transition-property: background-color, border-color;
-
-    &:not(:disabled):hover {
-      background-color: ${theme.colors.inputHover};
-    }
-
-    &:focus,
-    &:active {
-      box-shadow: 0px 0px 0px 2px #E5FFF4;
-    }
-
-    &::after {
-      content: "";
-      position: absolute;
-      display: none;
-    }
-
-    ${Input}:checked + &::after {
-      display: block;
-      border: solid ${theme.colors.radioButton};
-      border-radius: 1em;
-      background-color: ${theme.colors.radioButton};
-      width: 0.5em;
-      height: 0.5em;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-    }
-
-    ${Input}:disabled:checked + &::after {
-      background-color: ${theme.colors.disabledRadio};
-      border: solid ${theme.colors.disabledRadio}
-    }
-
-    ${Input}:disabled + & {
-      pointer-events: none;
-      border: 1px solid ${theme.colors.secondary300};
-      background: ${theme.colors.disabledRadioBackground};
-    }
-  `}
-
-    ${({ isFocusWithin, theme }) => `
-    ${
-        isFocusWithin &&
-        `
-        outline-color: ${theme.colors.primary600};
-        outline-style: solid;
-        outline-width: 2px;
-        outline-offset: 2px;
-      `
-    }
-  `}
-`;
-
-const Label = styled.label<{ disabled?: boolean }>`
-    position: relative;
-    display: inline-block;
-    cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
-    pointer-events: ${(props) => (props.disabled ? 'none' : 'auto')};
-    display: flex;
-    min-height: 20px;
-    width: 20px;
-
-    ${({ theme }) => `
-    &:hover ${Indicator} {
-      background-color: ${theme.colors.inputHover};
-    `};
-`;
 
 export const RadioButton: FC<RadioButtonProps> = ({
     checked,
@@ -120,21 +25,27 @@ export const RadioButton: FC<RadioButtonProps> = ({
 }) => {
     const [isFocusWithin, setIsFocusWithin] = useState(false);
 
-    return (
-        <Label htmlFor={id} disabled={disabled}>
-            <FlexContainer flexDirection='column' alignItems='flex-start' gridGap='5px'>
+    return(
+        <label
+            className={cn('relative flex min-h-5 w-5', {
+                'cursor-not-allowed pointer-events-none': disabled,
+                'cursor-pointer pointer-events-auto group': !disabled,
+            })}
+            htmlFor={id}
+        >
+            <div className='flex flex-col items-start gap-[0.3125rem]'>
                 {title && (
-                    <Paragraph $typeset='headline' color='base'>
+                    <p className='text-base font-normal leading-tight text-subtle-black dark:text-white'>
                         {title}
-                    </Paragraph>
+                    </p>
                 )}
                 {helperText && (
-                    <Paragraph $typeset='body' fontWeight='regular' color='gray'>
+                    <p className='text-sm font-normal leading-tight text-theme-secondary-600 dark:text-theme-secondary-300'>
                         {helperText}
-                    </Paragraph>
+                    </p>
                 )}
-            </FlexContainer>
-            <Input
+            </div>
+            <input
                 id={id}
                 type='radio'
                 role='radio'
@@ -152,8 +63,15 @@ export const RadioButton: FC<RadioButtonProps> = ({
                 onBlur={() => {
                     setIsFocusWithin(false);
                 }}
+                className={cn('h-0 w-0 opacity-0 z-[-1]', {
+                    'focus-visible:outline-solid focus-visible:outline-2': isFirefox,
+                })}
             />
-            <Indicator isFocusWithin={isFocusWithin} />
-        </Label>
-    );
+            <div
+                className={cn('radio-indicator', {
+                    'outline outline-theme-primary-600 outline-2 outline-offset-2': isFocusWithin,
+                })}
+            />
+        </label>
+    )
 };
