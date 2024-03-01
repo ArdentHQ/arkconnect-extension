@@ -19,7 +19,7 @@ const AutoLockTimer = () => {
     const changeAutoLockTimer = async (autoLockValue: AutoLockTimerEnum) => {
         await setLocalValue('autoLockTimer', autoLockValue);
         browser.runtime.sendMessage({
-            type: 'AUTOLOCK_TIMER_CHANGED',
+            type: 'REFRESH_AUTOLOCK_TIMER',
             data: {
                 autoLockValue,
             },

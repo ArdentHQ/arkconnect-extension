@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 
 export type Step = {
     component: ComponentType<any>;
+    containerPaddingX?: '0' | '24';
 };
 
 type StepNavigationProps<T> = React.ComponentProps<typeof StyledFlexContainer> & {
@@ -71,7 +72,11 @@ const StepsNavigation = <T extends Record<string, any>>({
                     </Paragraph>
                 </Container>
             </StyledFlexContainer>
-            <FlexContainer flexDirection='column' height='100%' px={currentStep === 1 ? '0' : '24'}>
+            <FlexContainer
+                flexDirection='column'
+                height='100%'
+                px={steps[currentStep].containerPaddingX}
+            >
                 <CurrentStepComponent
                     goToNextStep={handleStepForward}
                     goToPrevStep={handleStepBack}
