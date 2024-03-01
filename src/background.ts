@@ -17,7 +17,7 @@ import { SessionEntries } from './lib/store/session';
 const initialPassword = UUID.random();
 
 const extension = Extension();
-extension.reset(initialPassword);
+extension.boot(initialPassword);
 
 // @TODO: Cleanup/interface handlers & reduce cognitive complexity.
 const initRuntimeEventListener = () => {
@@ -70,6 +70,17 @@ const initRuntimeEventListener = () => {
         }
 
         if (request.type === 'GET_DATA') {
+            // Prevent from sending actual profile data on locked state.
+            if (extension.isLocked()) {
+                const emptyProfile = await extension.createEmptyProfile();
+                const data = await extension.env().profiles().export(emptyProfile);
+
+                return {
+                    data,
+                    profileData: undefined,
+                };
+            }
+
             try {
                 return extension.exportAsReadOnly();
             } catch (error) {
@@ -293,11 +304,18 @@ const initRuntimeEventListener = () => {
                 isValid: extension.profile()?.password().get() === request.data.password,
             });
         } else if (request.type === 'UNLOCK') {
-            const isLocked = await extension
-                .lockHandler()
-                .unlock(extension.profile(), request.data.password);
+            try {
+                await extension.unlock(request.data.password);
 
-            return Promise.resolve({ isLocked });
+                return {
+                    isLocked: extension.isLocked(),
+                };
+            } catch (error) {
+                return {
+                    isLocked: true,
+                    errorStack: error,
+                };
+            }
         }
         // We don't return early in cases with `_RESOLVE` as they
         // send a browser message in addition
