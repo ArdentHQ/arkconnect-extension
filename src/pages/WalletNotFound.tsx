@@ -1,4 +1,4 @@
-import { FlexContainer, Paragraph, EmptyConnectionsIcon, Layout } from '@/shared/components';
+import { EmptyConnectionsIcon, FlexContainer, Layout, Paragraph } from '@/shared/components';
 
 const WalletNotFound = () => {
     return (

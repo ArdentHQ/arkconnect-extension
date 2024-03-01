@@ -1,8 +1,7 @@
 import styled from 'styled-components';
 import {
-    variant,
-    space,
-    SpaceProps,
+    border,
+    BorderProps,
     color,
     ColorProps,
     layout,
@@ -11,12 +10,13 @@ import {
     PositionProps,
     shadow,
     ShadowProps,
-    border,
-    BorderProps,
+    space,
+    SpaceProps,
+    variant,
 } from 'styled-system';
 import { Theme } from '@/shared/theme';
 import { Icon, IconDefinition, Loader } from '@/shared/components';
-import { FlexVariantProps, flexVariant } from '@/shared/theme/variants';
+import { flexVariant, FlexVariantProps } from '@/shared/theme/variants';
 import { isFirefox } from '@/lib/utils/isFirefox';
 
 type VariantProps = {

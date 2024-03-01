@@ -1,7 +1,7 @@
 import { Contracts } from '@ardenthq/sdk-profiles';
 import { useNavigate } from 'react-router-dom';
 import { useRef } from 'react';
-import browser from 'webextension-polyfill';
+import { runtime } from 'webextension-polyfill';
 import styled from 'styled-components';
 import { Container, FlexContainer, Icon, Paragraph, RadioButton } from '@/shared/components';
 import useThemeMode from '@/lib/hooks/useThemeMode';
@@ -76,7 +76,7 @@ export const AddressesDropdown = ({
 
         await dispatch(primaryWalletIdChanged(newPrimaryAddress.id()));
 
-        await browser.runtime.sendMessage({
+        await runtime.sendMessage({
             type: 'SET_PRIMARY_WALLET',
             data: { primaryWalletId: newPrimaryAddress.id() },
         });

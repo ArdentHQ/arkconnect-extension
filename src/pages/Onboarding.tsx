@@ -1,22 +1,22 @@
-import React, { useState, useEffect } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import {
-    Container,
-    ProgressBar,
-    FingerPrintIcon,
-    ControlConnectionsIcon,
-    TransactionsPassphraseIcon,
-    Heading,
-    FlexContainer,
     Button,
+    Container,
+    ControlConnectionsIcon,
+    FingerPrintIcon,
+    FlexContainer,
     Header,
+    Heading,
+    ProgressBar,
+    TransactionsPassphraseIcon,
 } from '@/shared/components';
 
 type OnboardingScreen = {
     id: number;
-    illustration: React.ReactNode;
-    heading: React.ReactNode;
+    illustration: ReactNode;
+    heading: ReactNode;
 };
 
 const Onboarding = () => {

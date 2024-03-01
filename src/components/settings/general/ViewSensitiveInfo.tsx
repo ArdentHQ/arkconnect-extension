@@ -1,16 +1,16 @@
 import { useParams } from 'react-router-dom';
-import { object, string, boolean } from 'yup';
+import { boolean, object, string } from 'yup';
 import { useFormik } from 'formik';
 import { useState } from 'react';
 import SubPageLayout from '../SubPageLayout';
 import YourPrivateKey from './YourPrivateKey';
 import {
-    Paragraph,
-    FlexContainer,
-    PasswordInput,
-    Container,
     Button,
     Checkbox,
+    Container,
+    FlexContainer,
+    Paragraph,
+    PasswordInput,
 } from '@/shared/components';
 import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
 import { useProfileContext } from '@/lib/context/Profile';

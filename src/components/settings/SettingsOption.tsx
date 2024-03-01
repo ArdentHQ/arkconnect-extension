@@ -1,14 +1,14 @@
 import styled from 'styled-components';
 import {
-    SpaceProps,
+    BorderProps,
     ColorProps,
     LayoutProps,
     PositionProps,
     ShadowProps,
-    BorderProps,
+    SpaceProps,
     variant,
 } from 'styled-system';
-import { MouseEvent, forwardRef } from 'react';
+import { forwardRef, MouseEvent } from 'react';
 import { Theme } from '@/shared/theme';
 import { Container, FlexContainer, Icon, IconDefinition, Paragraph } from '@/shared/components';
 import { FlexVariantProps } from '@/shared/theme/variants';

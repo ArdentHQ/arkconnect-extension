@@ -4,10 +4,10 @@ import {
     ColorProps,
     flexbox,
     FlexboxProps,
-    layout,
-    LayoutProps,
     gridGap,
     GridGapProps,
+    layout,
+    LayoutProps,
 } from 'styled-system';
 import { Theme } from '@/shared/theme';
 

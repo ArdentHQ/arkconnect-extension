@@ -1,9 +1,10 @@
-import { ReactNode, createContext, useContext, useEffect, useState } from 'react';
+import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
 import { Contracts } from '@ardenthq/sdk-profiles';
-import browser from 'webextension-polyfill';
+import { runtime } from 'webextension-polyfill';
 import { useAppDispatch, useAppSelector } from '../store';
 import { useWalletBalance } from '../hooks/useWalletBalance';
 import { ProfileData } from '../background/contracts';
+import { testnetEnabledChanged } from '../store/ui';
 import { useEnvironmentContext } from './Environment';
 import { useErrorHandlerContext } from './ErrorHandler';
 import * as WalletStore from '@/lib/store/wallet';
@@ -47,7 +48,9 @@ export const ProfileProvider = ({ children }: Properties) => {
 
         try {
             primaryWallet = profile?.wallets().findById(primaryWalletId);
-        } catch (_e) {}
+        } catch (_e) {
+            primaryWallet = undefined;
+        }
 
         return primaryWallet;
     };
@@ -65,7 +68,7 @@ export const ProfileProvider = ({ children }: Properties) => {
 
     const restoreProfile = async () => {
         try {
-            const { data, profileData } = await browser.runtime.sendMessage({
+            const { data, profileData } = await runtime.sendMessage({
                 type: 'GET_DATA',
             });
 
@@ -76,6 +79,10 @@ export const ProfileProvider = ({ children }: Properties) => {
 
             const profile = await importProfile(data);
             profile.data().fill(profileData);
+
+            if (profile.wallets().count() === 0) {
+                dispatch(testnetEnabledChanged(false));
+            }
 
             await updateStore({ profile });
         } catch (error) {

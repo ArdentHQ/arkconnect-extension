@@ -1,19 +1,19 @@
+import { useEffect, useState } from 'react';
+import { Contracts } from '@ardenthq/sdk-profiles';
+import { runtime } from 'webextension-polyfill';
+import styled from 'styled-components';
+import { useFormik } from 'formik';
 import { Container, FlexContainer, Header, Icon, Paragraph } from '@/shared/components';
 import { LedgerData, useLedgerContext } from '@/lib/Ledger';
 import StepsNavigation, { Step } from '@/components/steps/StepsNavigation';
-import { useEffect, useState } from 'react';
 
-import { Contracts } from '@ardenthq/sdk-profiles';
 import ImportWallets from '@/components/ledger/ImportWallets';
 import { LedgerConnectionStep } from '@/components/ledger/LedgerConnectionStep';
 import SetupPassword from '@/components/settings/SetupPassword';
 import { ThemeMode } from '@/lib/store/ui';
-import browser from 'webextension-polyfill';
 import { getLedgerAlias } from '@/lib/utils/getDefaultAlias';
 import { getLocalValues } from '@/lib/utils/localStorage';
-import styled from 'styled-components';
 import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
-import { useFormik } from 'formik';
 import useLoadingModal from '@/lib/hooks/useLoadingModal';
 import useLocaleCurrency from '@/lib/hooks/useLocalCurrency';
 import useNetwork from '@/lib/hooks/useNetwork';
@@ -71,7 +71,7 @@ const ImportWithLedger = () => {
                 };
             });
 
-            const { error } = await browser.runtime.sendMessage({
+            const { error } = await runtime.sendMessage({
                 type: 'IMPORT_WALLETS',
                 data: {
                     currency: defaultCurrency,

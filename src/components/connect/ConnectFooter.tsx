@@ -1,4 +1,4 @@
-import { Container, Paragraph, Grid, Button } from '@/shared/components';
+import { Button, Container, Grid, Paragraph } from '@/shared/components';
 
 type ConnectFooterProps = {
     onSubmit: () => Promise<void>;

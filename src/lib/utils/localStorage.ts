@@ -1,4 +1,4 @@
-import browser from 'webextension-polyfill';
+import { storage } from 'webextension-polyfill';
 
 const KEY = import.meta.env.VITE_PUBLIC_LOCAL_STORAGE_KEY as string;
 
@@ -22,7 +22,7 @@ interface LocalStorageValues {
 type LocalStorageKeys = keyof LocalStorageValues;
 
 const parseLocalStorageValues = async (): Promise<LocalStorageValues> => {
-    const res = await browser.storage.local.get(KEY);
+    const res = await storage.local.get(KEY);
 
     if (res === null) {
         return {} as LocalStorageValues;
@@ -52,9 +52,9 @@ export const setLocalValue = async (
         [key]: value,
     };
 
-    await browser.storage.local.set({ [KEY]: newValue });
+    await storage.local.set({ [KEY]: newValue });
 };
 
 export const clearLocalStorage = async () => {
-    await browser.storage.local.remove(KEY);
+    await storage.local.remove(KEY);
 };

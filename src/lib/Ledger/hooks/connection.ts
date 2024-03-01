@@ -6,7 +6,7 @@ import { useCallback, useMemo, useReducer, useRef } from 'react';
 import { persistLedgerConnection } from '../utils/connection';
 import { connectionReducer, defaultConnectionState } from './connection.state';
 import { useLedgerImport } from './import';
-import { openTransport, closeDevices, isLedgerTransportSupported } from '@/lib/Ledger/transport';
+import { closeDevices, isLedgerTransportSupported, openTransport } from '@/lib/Ledger/transport';
 import { useEnvironmentContext } from '@/lib/context/Environment';
 import useSentryException from '@/lib/hooks/useSentryException';
 import useLoadingModal from '@/lib/hooks/useLoadingModal';

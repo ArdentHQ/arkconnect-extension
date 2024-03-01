@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import { ChangeEvent, KeyboardEvent, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import browser from 'webextension-polyfill';
+import { runtime } from 'webextension-polyfill';
 import { Button, FlexContainer, Paragraph, PasswordInput, WarningIcon } from '@/shared/components';
 import { ValidationVariant } from '@/components/wallet/create';
 import { useAppDispatch, useAppSelector } from '@/lib/store';
@@ -12,7 +12,6 @@ import { isValidPassword } from '@/lib/utils/validations';
 import { ExtensionEvents } from '@/lib/events';
 import useThemeMode from '@/lib/hooks/useThemeMode';
 import SubPageLayout from '@/components/settings/SubPageLayout';
-import useResetExtension from '@/lib/hooks/useResetExtension';
 
 const Logout = () => {
     const dispatch = useAppDispatch();
@@ -25,7 +24,6 @@ const Logout = () => {
     const sessions = useAppSelector(SessionStore.selectSessions);
     const { onError } = useErrorHandlerContext();
     const walletsIds = useAppSelector(WalletStore.selectWalletsIds);
-    const resetExtension = useResetExtension();
 
     const walletsToLogout = location.state;
 
@@ -54,18 +52,13 @@ const Logout = () => {
                 });
             });
 
-            const { error, noWallets } = await browser.runtime.sendMessage({
+            const { error } = await runtime.sendMessage({
                 type: 'REMOVE_WALLETS',
                 data: {
                     password,
                     walletIds: walletsToDelete,
                 },
             });
-
-            if (noWallets) {
-                await resetExtension();
-                return;
-            }
 
             if (error) {
                 onError(error);
@@ -81,13 +74,13 @@ const Logout = () => {
         }
     };
 
-    const handlePasswordChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
+    const handlePasswordChange = (evt: ChangeEvent<HTMLInputElement>) => {
         setPassword(evt.target.value);
         if (validationVariant !== 'destructive') return;
         setValidationVariant('primary');
     };
 
-    const handleEnterKey = async (evt: React.KeyboardEvent<HTMLInputElement>) => {
+    const handleEnterKey = async (evt: KeyboardEvent<HTMLInputElement>) => {
         if (evt.key === 'Enter') {
             await logoutWallet();
         }
