@@ -3,6 +3,7 @@ import { LockHandler } from './handleAutoLock';
 import { PrimaryWallet } from './extension.wallet.primary';
 import { initializeEnvironment } from '../utils/env.background';
 import { getLocalValues } from '../utils/localStorage';
+import { createTestProfile, isDev } from '@/dev/utils/dev';
 
 const exists = (profile?: Contracts.IProfile | null): profile is Contracts.IProfile => !!profile;
 
@@ -181,6 +182,11 @@ export function Extension() {
          * @returns {Promise<void>}
          */
         async boot(password?: string): Promise<void> {
+            if (isDev()) {
+                await createTestProfile({ env });
+                return;
+            }
+
             await env.verify();
             await env.boot();
 
