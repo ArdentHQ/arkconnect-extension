@@ -52,9 +52,9 @@ export function ExtensionEvents(properties?: ExtensionEventsProperties) {
             }
 
             const sessions = Object.values(profile.data().get(ProfileData.Sessions) ?? {});
-            const tabs = await tabs.query({});
+            const queriedTabs = await tabs.query({});
 
-            const sessionTabs = tabs.filter((tab) => {
+            const sessionTabs = queriedTabs.filter((tab) => {
                 if (!tab.id) {
                     return false;
                 }
