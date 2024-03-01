@@ -11,6 +11,7 @@ import {
     layout,
     LayoutProps,
 } from 'styled-system';
+import { AnchorHTMLAttributes, HTMLAttributes } from 'react';
 import { Theme } from '@/shared/theme';
 
 // Using a button because links are not focusable in Firefox
@@ -45,18 +46,20 @@ interface Properties
         LayoutProps<Theme>,
         GridGapProps<Theme>,
         Omit<ColorProps<Theme>, 'color'>,
-        BorderRadiusProps<Theme> {
+        BorderRadiusProps<Theme>,
+        Pick<HTMLAttributes<HTMLButtonElement>, 'children'>,
+        Pick<AnchorHTMLAttributes<HTMLAnchorElement>, 'href' | 'target'> {
     href?: string;
+    target?: string;
     color?: string & ColorProps<Theme>['color'];
     onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
-    children: React.ReactNode;
 }
 
-export const ExternalLink = ({ href, color, onClick, ...properties }: Properties) => {
+export const ExternalLink = ({ href, target, color, onClick, ...properties }: Properties) => {
     const clickHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
 
-        window.open(href, '_blank');
+        window.open(href, target);
 
         onClick?.(event);
     };
