@@ -9,13 +9,11 @@ const useActiveNetwork = () => {
 
     let selectedNetwork = state?.isTestnet ? WalletNetwork.DEVNET : WalletNetwork.MAINNET;
 
-    if (profile.wallets().count() === 0) {
+    if ((profile.wallets().count() ?? 0) === 0) {
         selectedNetwork = WalletNetwork.MAINNET;
     }
 
-    console.log(selectedNetwork);
-
-    const networks = profile.availableNetworks();
+    const networks = profile.availableNetworks() ?? [];
 
     return networks.find((n) => n.name() === selectedNetwork) || networks[0];
 };
