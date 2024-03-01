@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect, MouseEvent, ChangeEvent } from 'react';
 import { ThemeValue } from 'styled-system';
 import { useAppDispatch, useAppSelector } from '@/lib/store';
 import { selectThemeMode, ThemeMode, themeModeUpdated } from '@/lib/store/ui';
@@ -22,7 +22,7 @@ const useThemeMode = () => {
     }, [currentThemeMode]);
 
     const toggleThemeMode = (
-        evt: React.MouseEvent<HTMLElement> | React.ChangeEvent<HTMLElement>,
+        evt: MouseEvent<HTMLElement> | ChangeEvent<HTMLElement>,
     ) => {
         evt.preventDefault();
         evt.stopPropagation();

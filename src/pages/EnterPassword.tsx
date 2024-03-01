@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import React, { useState } from 'react';
+import { useState, ChangeEvent, KeyboardEvent } from 'react';
 import styled from 'styled-components';
 import { runtime } from 'webextension-polyfill';
 import {
@@ -51,13 +51,13 @@ const EnterPassword = () => {
         }
     };
 
-    const handlePasswordChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
+    const handlePasswordChange = (evt: ChangeEvent<HTMLInputElement>) => {
         setPassword(evt.target.value);
         if (validationVariant !== 'destructive') return;
         setValidationVariant('primary');
     };
 
-    const handleEnterKey = (evt: React.KeyboardEvent<HTMLInputElement>) => {
+    const handleEnterKey = (evt: KeyboardEvent<HTMLInputElement>) => {
         if (evt.key === 'Enter') {
             unlockExtension();
         }

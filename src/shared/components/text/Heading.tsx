@@ -1,4 +1,4 @@
-import React from 'react';
+import { PropsWithChildren } from 'react';
 import styled from 'styled-components';
 import {
     color,
@@ -31,7 +31,7 @@ const StyledHeading = styled.h1<BaseProps>`
   ${typesetVariant}
 `;
 
-type Props = React.PropsWithChildren<BaseProps>;
+type Props = PropsWithChildren<BaseProps>;
 
 export const Heading = (props: Props) => {
     if (!props.$typeset) {

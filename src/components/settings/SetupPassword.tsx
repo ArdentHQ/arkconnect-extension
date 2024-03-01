@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState, ChangeEvent } from 'react';
 import { useFormik } from 'formik';
 import { WalletFormScreen } from '../wallet/form-persist';
 import { persistScreenChanged } from '../wallet/form-persist/helpers';
@@ -57,15 +57,15 @@ const SetupPassword = ({ formik }: Props) => {
         })();
     }, []);
 
-    const handleTermsAndConditionsChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
+    const handleTermsAndConditionsChange = (evt: ChangeEvent<HTMLInputElement>) => {
         formik.setFieldValue('termsAndConditionsConfirmed', evt.target.checked);
     };
 
-    const handlePasswordChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
+    const handlePasswordChange = (evt: ChangeEvent<HTMLInputElement>) => {
         formik.setFieldValue('password', evt.target.value);
     };
 
-    const handlePasswordConfirmChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
+    const handlePasswordConfirmChange = (evt: ChangeEvent<HTMLInputElement>) => {
         formik.setFieldValue('passwordConfirm', evt.target.value);
     };
 

@@ -106,7 +106,7 @@ export const useVoteForm = (wallet: Contracts.IReadWriteWallet, request: Approve
                 signatory,
             };
 
-            // @ts-ignore
+            // @ts-expect-error
             const uuid = await wallet.transaction().signVote(voteTransactionInput);
             const response = await wallet.transaction().broadcast(uuid);
 

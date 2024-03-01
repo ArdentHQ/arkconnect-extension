@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState, ReactNode } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { useLocation, useNavigate } from 'react-router-dom';
 import {
@@ -17,8 +17,8 @@ import useLogoutAll from '@/lib/hooks/useLogoutAll';
 
 type OnboardingScreen = {
     id: number;
-    illustration: React.ReactNode;
-    heading: React.ReactNode;
+    illustration: ReactNode;
+    heading: ReactNode;
 };
 
 const Onboarding = () => {

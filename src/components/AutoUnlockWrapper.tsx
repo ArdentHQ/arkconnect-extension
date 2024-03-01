@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useState } from 'react';
+import { useEffect, useLayoutEffect, useState, ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useIdleTimer } from 'react-idle-timer';
 import { runtime } from 'webextension-polyfill';
@@ -11,7 +11,7 @@ import * as UIStore from '@/lib/store/ui';
 import useThemeMode from '@/lib/hooks/useThemeMode';
 
 type Props = {
-    children: React.ReactNode | React.ReactNode[];
+    children: ReactNode | ReactNode[];
 };
 
 const AutoUnlockWrapper = ({ children }: Props) => {

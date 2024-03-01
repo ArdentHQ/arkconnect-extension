@@ -1,5 +1,5 @@
 import { init } from '@sentry/react';
-import ReactDOM from 'react-dom/client';
+import { createRoot} from 'react-dom/client';
 import App, { MainWrapper } from './App';
 
 if (import.meta.env.VITE_SENTRY_DSN) {
@@ -9,7 +9,7 @@ if (import.meta.env.VITE_SENTRY_DSN) {
     });
 }
 
-ReactDOM.createRoot(document.getElementById('extension-root')!).render(
+createRoot(document.getElementById('extension-root')!).render(
     <MainWrapper>
         <App />
     </MainWrapper>,

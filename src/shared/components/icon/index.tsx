@@ -1,4 +1,4 @@
-import React from 'react';
+import {CSSProperties, FC} from 'react';
 import styled from 'styled-components';
 import { color, ColorProps, layout, LayoutProps } from 'styled-system';
 import { IconDefinition, IconSvg } from './index.generated';
@@ -7,12 +7,12 @@ export * from './index.generated';
 
 type IconProps = {
     icon: IconDefinition;
-    style?: React.CSSProperties;
+    style?: CSSProperties;
     className?: string;
 } & ColorProps<Theme> &
     LayoutProps<Theme>;
 
-export const Icon: React.FC<IconProps> = ({ icon, style, className, ...rest }) => {
+export const Icon: FC<IconProps> = ({ icon, style, className, ...rest }) => {
     return (
         <StyledIcon
             {...rest}
