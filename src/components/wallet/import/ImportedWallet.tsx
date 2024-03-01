@@ -1,5 +1,5 @@
 import { FormikProps } from 'formik';
-import { useEffect, useState, ChangeEvent } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { Contracts } from '@ardenthq/sdk-profiles';
 import { ImportedWalletFormik } from '.';
 import { Button, Container, Heading, Input, Paragraph } from '@/shared/components';

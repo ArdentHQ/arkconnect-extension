@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useState, ReactNode } from 'react';
+import { ReactNode, useEffect, useLayoutEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useIdleTimer } from 'react-idle-timer';
 import { runtime } from 'webextension-polyfill';

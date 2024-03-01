@@ -1,4 +1,4 @@
-import { useEffect, useState, ChangeEvent } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { useFormik } from 'formik';
 import { WalletFormScreen } from '../wallet/form-persist';
 import { persistScreenChanged } from '../wallet/form-persist/helpers';
