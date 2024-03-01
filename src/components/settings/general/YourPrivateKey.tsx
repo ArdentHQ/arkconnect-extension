@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import SubPageLayout from '../SubPageLayout';
 import {
+    Button,
+    Container,
     FlexContainer,
     Paragraph,
-    Container,
-    Button,
-    ToggleSwitch,
     PassphraseInput,
+    ToggleSwitch,
 } from '@/shared/components';
 import useClipboard from '@/lib/hooks/useClipboard';
 import { ToastPosition } from '@/components/toast/ToastContainer';

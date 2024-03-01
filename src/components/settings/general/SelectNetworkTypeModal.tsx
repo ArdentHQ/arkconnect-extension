@@ -1,4 +1,4 @@
-import { Container, FlexContainer, Heading, Paragraph, Button } from '@/shared/components';
+import { Button, Container, FlexContainer, Heading, Paragraph } from '@/shared/components';
 import Modal from '@/shared/components/modal/Modal';
 
 type Props = {

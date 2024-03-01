@@ -1,8 +1,7 @@
 import styled, { css } from 'styled-components';
 import {
-    variant,
-    space,
-    SpaceProps,
+    border,
+    BorderProps,
     color,
     ColorProps,
     layout,
@@ -11,8 +10,9 @@ import {
     PositionProps,
     shadow,
     ShadowProps,
-    border,
-    BorderProps,
+    space,
+    SpaceProps,
+    variant,
 } from 'styled-system';
 import { forwardRef } from 'react';
 import { Theme } from '@/shared/theme';

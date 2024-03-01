@@ -1,14 +1,14 @@
-import React from 'react';
+import { PropsWithChildren } from 'react';
 import styled from 'styled-components';
 import {
-    fontWeight,
-    FontWeightProps,
-    textAlign,
-    TextAlignProps,
-    space,
-    SpaceProps,
     color,
     ColorProps,
+    fontWeight,
+    FontWeightProps,
+    space,
+    SpaceProps,
+    textAlign,
+    TextAlignProps,
     width,
     WidthProps,
 } from 'styled-system';
@@ -31,7 +31,7 @@ const StyledHeading = styled.h1<BaseProps>`
   ${typesetVariant}
 `;
 
-type Props = React.PropsWithChildren<BaseProps>;
+type Props = PropsWithChildren<BaseProps>;
 
 export const Heading = (props: Props) => {
     if (!props.$typeset) {
