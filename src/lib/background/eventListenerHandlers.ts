@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import browser from 'webextension-polyfill';
+import { runtime, tabs, Runtime, windows } from 'webextension-polyfill';
 import { Contracts } from '@ardenthq/sdk-profiles';
 import { Session } from '../store/session';
 import { WalletNetwork } from '../store/wallet';
@@ -19,7 +19,7 @@ export type EventPayload<T> = {
 type DefaultPayload = {
     domain: string;
     tabId: number;
-    port: browser.Runtime.Port;
+    port: Runtime.Port;
     windowId?: number;
     network: WalletNetwork;
 };
@@ -53,7 +53,7 @@ let extensionWindowId: number | null = null;
 const createExtensionWindow = async (onWindowReady: (id?: number) => void) => {
     // Check if a window is already open
     if (extensionWindowId !== null) {
-        await browser.windows.update(extensionWindowId, { focused: true });
+        await windows.update(extensionWindowId, { focused: true });
         return;
     }
 
@@ -63,7 +63,7 @@ const createExtensionWindow = async (onWindowReady: (id?: number) => void) => {
     let top = 0;
 
     try {
-        const lastFocused = await browser.windows.getLastFocused();
+        const lastFocused = await windows.getLastFocused();
 
         // Position window in top right corner of lastFocused window.
         top = lastFocused.top ?? 0;
@@ -78,7 +78,7 @@ const createExtensionWindow = async (onWindowReady: (id?: number) => void) => {
         left = Math.max(screenX + (outerWidth - POPUP_WIDTH), 0);
     }
 
-    const newTab = await browser.windows.create({
+    const newTab = await windows.create({
         url: '/src/main.html',
         type: 'popup',
         width: POPUP_WIDTH,
@@ -93,19 +93,19 @@ const createExtensionWindow = async (onWindowReady: (id?: number) => void) => {
     extensionWindowId = newTab.id;
 
     const onUpdatedListener = async (id: number) => {
-        const tab = await browser.tabs.get(id);
+        const tab = await tabs.get(id);
         if (extensionWindowId !== tab.windowId || tab.status === 'loading') return;
 
         onWindowReady(extensionWindowId);
 
-        browser.tabs.onUpdated.removeListener(onUpdatedListener);
+        tabs.onUpdated.removeListener(onUpdatedListener);
     };
 
-    browser.tabs.onUpdated.addListener(onUpdatedListener);
+    tabs.onUpdated.addListener(onUpdatedListener);
 
-    browser.windows.onRemoved.addListener((removedWindowId) => {
+    windows.onRemoved.addListener((removedWindowId) => {
         if (removedWindowId === extensionWindowId) {
-            browser.tabs.onUpdated.removeListener(onUpdatedListener);
+            tabs.onUpdated.removeListener(onUpdatedListener);
             extensionWindowId = null; // Reset the global variable when the window is closed
         }
     });
@@ -115,7 +115,7 @@ const initWindow = async (payload: EventPayload<ConnectData>) => {
     await createExtensionWindow((id) => {
         const { port, ...rest } = payload.data;
 
-        browser.runtime.sendMessage({
+        runtime.sendMessage({
             type: `${payload.type}_UI`,
             data: { ...rest, windowId: id },
         });
@@ -136,7 +136,7 @@ const handleOnConnect = async (
             initWindow(payload);
         }
     } catch (error: any) {
-        browser.tabs.sendMessage(payload.data.tabId, {
+        tabs.sendMessage(payload.data.tabId, {
             type: `${payload.type}_REJECT`,
             data: {
                 status: 'failed',
@@ -155,7 +155,7 @@ const handleIsConnected = async (
     try {
         assertHasWallet(profile);
 
-        browser.tabs.sendMessage(payload.data.tabId, {
+        tabs.sendMessage(payload.data.tabId, {
             type: `${payload.type}_RESOLVE`,
             data: {
                 status: 'success',
@@ -168,7 +168,7 @@ const handleIsConnected = async (
             },
         });
     } catch (error: any) {
-        browser.tabs.sendMessage(payload.data.tabId, {
+        tabs.sendMessage(payload.data.tabId, {
             type: `${payload.type}_REJECT`,
             data: {
                 status: 'failed',
@@ -191,13 +191,13 @@ const handleDisconnect = async (
         await createExtensionWindow((id) => {
             const { port, ...rest } = payload.data;
 
-            browser.runtime.sendMessage({
+            runtime.sendMessage({
                 type: `${payload.type}_UI`,
                 data: { ...rest, windowId: id },
             });
         });
     } catch (error: any) {
-        browser.tabs.sendMessage(payload.data.tabId, {
+        tabs.sendMessage(payload.data.tabId, {
             type: `${payload.type}_REJECT`,
             data: {
                 status: 'failed',
@@ -222,7 +222,7 @@ const handleGetAddress = async (
 
         const wallet = profile?.wallets().findById(activeSession.walletId);
 
-        browser.tabs.sendMessage(payload.data.tabId, {
+        tabs.sendMessage(payload.data.tabId, {
             type: `${payload.type}_RESOLVE`,
             data: {
                 status: 'success',
@@ -232,7 +232,7 @@ const handleGetAddress = async (
             },
         });
     } catch (error: any) {
-        browser.tabs.sendMessage(payload.data.tabId, {
+        tabs.sendMessage(payload.data.tabId, {
             type: `${payload.type}_REJECT`,
             data: {
                 status: 'failed',
@@ -257,7 +257,7 @@ const handleGetNetwork = async (
 
         const wallet = profile?.wallets().findById(activeSession.walletId);
 
-        browser.tabs.sendMessage(payload.data.tabId, {
+        tabs.sendMessage(payload.data.tabId, {
             type: `${payload.type}_RESOLVE`,
             data: {
                 status: 'success',
@@ -267,7 +267,7 @@ const handleGetNetwork = async (
             },
         });
     } catch (error: any) {
-        browser.tabs.sendMessage(payload.data.tabId, {
+        tabs.sendMessage(payload.data.tabId, {
             type: `${payload.type}_REJECT`,
             data: {
                 status: 'failed',
@@ -290,7 +290,7 @@ const handleGetBalance = async (
 
         const wallet = profile?.wallets().findById(activeSession.walletId);
 
-        browser.tabs.sendMessage(payload.data.tabId, {
+        tabs.sendMessage(payload.data.tabId, {
             type: `${payload.type}_RESOLVE`,
             data: {
                 status: 'success',
@@ -300,7 +300,7 @@ const handleGetBalance = async (
             },
         });
     } catch (error: any) {
-        browser.tabs.sendMessage(payload.data.tabId, {
+        tabs.sendMessage(payload.data.tabId, {
             type: `${payload.type}_REJECT`,
             data: {
                 status: 'failed',
@@ -328,13 +328,13 @@ const handleSignMessage = async (
         await createExtensionWindow((id) => {
             const { port, ...rest } = payload.data;
 
-            browser.runtime.sendMessage({
+            runtime.sendMessage({
                 type: `${payload.type}_UI`,
                 data: { ...rest, session: { ...activeSession, wallet }, windowId: id },
             });
         });
     } catch (error: any) {
-        browser.tabs.sendMessage(payload.data.tabId, {
+        tabs.sendMessage(payload.data.tabId, {
             type: `${payload.type}_REJECT`,
             data: {
                 status: 'failed',
@@ -362,13 +362,13 @@ const handleSignTransaction = async (
         await createExtensionWindow((id) => {
             const { port, ...rest } = payload.data;
 
-            browser.runtime.sendMessage({
+            runtime.sendMessage({
                 type: `${payload.type}_UI`,
                 data: { ...rest, session: { ...activeSession, wallet }, windowId: id },
             });
         });
     } catch (error: any) {
-        browser.tabs.sendMessage(payload.data.tabId, {
+        tabs.sendMessage(payload.data.tabId, {
             type: `${payload.type}_REJECT`,
             data: {
                 status: 'failed',
@@ -396,13 +396,13 @@ const handleSignVote = async (
         await createExtensionWindow((id) => {
             const { port, ...rest } = payload.data;
 
-            browser.runtime.sendMessage({
+            runtime.sendMessage({
                 type: `${payload.type}_UI`,
                 data: { ...rest, session: { ...activeSession, wallet }, windowId: id },
             });
         });
     } catch (error: any) {
-        browser.tabs.sendMessage(payload.data.tabId, {
+        tabs.sendMessage(payload.data.tabId, {
             type: `${payload.type}_REJECT`,
             data: {
                 status: 'failed',

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import browser from 'webextension-polyfill';
+import { runtime, tabs } from 'webextension-polyfill';
 import SubPageLayout from '../SubPageLayout';
 import {
     Container,
@@ -31,7 +31,7 @@ const AboutARK = () => {
                     <Icon icon='logo-text' width='228px' height='21px' color='primary' />
                 </StyledLogos>
                 <Paragraph $typeset='body' fontWeight='regular' color='gray'>
-                    Version {browser.runtime.getManifest().version}
+                    Version {runtime.getManifest().version}
                 </Paragraph>
             </FlexContainer>
             <FlexContainer flexDirection='column' gridGap='8px' color='base'>

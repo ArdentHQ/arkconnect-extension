@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import browser from 'webextension-polyfill';
+import { runtime, tabs } from 'webextension-polyfill';
 import { useEffect } from 'react';
 import { BigButton, Paragraph, Tooltip } from '@/shared/components';
 import SubPageLayout from '@/components/settings/SubPageLayout';
@@ -55,8 +55,8 @@ const InitialImportWallet = () => {
                         disabled={isFirefox}
                         onClick={() => {
                             if (isFirefox) return;
-                            browser.tabs.create({
-                                url: browser.runtime.getURL('/src/main.html?import_with_ledger'),
+                            tabs.create({
+                                url: runtime.getURL('/src/main.html?import_with_ledger'),
                             });
                             window.close(); // Close extension popup as we navigate away
                         }}

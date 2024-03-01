@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import browser from 'webextension-polyfill';
+import { runtime, tabs } from 'webextension-polyfill';
 import { revertAll } from '../ui';
 import { RootState } from '@/lib/store';
 
@@ -22,7 +22,7 @@ const initialState: SessionState = {
 };
 
 const saveSessions = async (sessions: SessionEntries) => {
-    await browser.runtime.sendMessage({
+    await runtime.sendMessage({
         type: 'SET_SESSIONS',
         data: { sessions },
     });

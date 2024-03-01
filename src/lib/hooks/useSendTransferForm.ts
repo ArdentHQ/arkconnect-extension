@@ -2,7 +2,7 @@ import { BigNumber } from '@ardenthq/sdk-helpers';
 import { Networks, Services } from '@ardenthq/sdk';
 import { Contracts } from '@ardenthq/sdk-profiles';
 import { useEffect, useState } from 'react';
-import browser from 'webextension-polyfill';
+import { runtime, tabs } from 'webextension-polyfill';
 import { useEnvironmentContext } from '../context/Environment';
 import { precisionRound } from '../utils/precisionRound';
 import { assertWallet } from '../utils/assertions';
@@ -143,7 +143,7 @@ export const useSendTransferForm = (
             };
         }
 
-        const { response, error, transaction } = await browser.runtime.sendMessage({
+        const { response, error, transaction } = await runtime.sendMessage({
             type: 'SEND_TRANSACTION',
             data: {
                 recipients,

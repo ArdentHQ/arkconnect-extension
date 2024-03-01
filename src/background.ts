@@ -1,4 +1,4 @@
-import browser from 'webextension-polyfill';
+import { runtime, Runtime } from 'webextension-polyfill';
 import { UUID } from '@ardenthq/sdk-cryptography';
 import { longLivedConnectionHandlers } from './lib/background/eventListenerHandlers';
 import { AutoLockTimer, setLocalValue } from './lib/utils/localStorage';
@@ -17,7 +17,7 @@ extension.reset(initialPassword);
 const oneTimeEventHandlers = OneTimeEventHandlers(extension);
 
 const initOneTimeEventListeners = () => {
-    browser.runtime.onMessage.addListener(async function (request) {
+    runtime.onMessage.addListener(async function (request) {
         const type = request.type as OneTimeEvents;
 
         console.log('->->one time event:', type);
@@ -27,14 +27,14 @@ const initOneTimeEventListeners = () => {
         }
 
         if (request?.data?.tabId && (type.endsWith('_RESOLVE') || type.endsWith('_REJECT'))) {
-            void browser.tabs.sendMessage(request.data.tabId, request);
+            void tabs.sendMessage(request.data.tabId, request);
         }
 
         return response;
     });
 };
 
-const handleLongLivedConnection = async (message: any, port: browser.Runtime.Port) => {
+const handleLongLivedConnection = async (message: any, port: Runtime.Port) => {
     const type = message.type as keyof typeof longLivedConnectionHandlers;
 
     console.log('->long lived connection event:', type);
@@ -65,7 +65,7 @@ const setupProfileWithFixtures = async () => {
     }
 };
 
-browser.runtime.onInstalled.addListener(async () => {
+runtime.onInstalled.addListener(async () => {
     await setLocalValue('autoLockTimer', AutoLockTimer.TWENTY_FOUR_HOURS);
 });
 
@@ -74,7 +74,7 @@ initOneTimeEventListeners();
 keepServiceWorkerAlive();
 setupProfileWithFixtures();
 
-browser.runtime.onConnect.addListener((port) => {
+runtime.onConnect.addListener((port) => {
     if (port.name === 'ark-content-script') {
         port.onMessage.addListener(handleLongLivedConnection);
     }

@@ -1,6 +1,6 @@
 import { Services } from '@ardenthq/sdk';
 import { Contracts as ProfileContracts } from '@ardenthq/sdk-profiles';
-import browser from 'webextension-polyfill';
+import { runtime, tabs } from 'webextension-polyfill';
 
 const signWithLedger = async (message: string, wallet: ProfileContracts.IReadWriteWallet) => {
     const path = wallet.data().get<string>(ProfileContracts.WalletData.DerivationPath);
@@ -42,7 +42,7 @@ const sign = async (
         return withAbortPromise(options?.abortSignal)(signWithLedger(message, wallet));
     }
 
-    const { error, signatory, signature } = await browser.runtime.sendMessage({
+    const { error, signatory, signature } = await runtime.sendMessage({
         type: 'SIGN_MESSAGE',
         data: {
             message,

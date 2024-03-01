@@ -1,4 +1,4 @@
-import browser from 'webextension-polyfill';
+import { runtime, tabs } from 'webextension-polyfill';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -29,7 +29,7 @@ const useBackgroundEventHandler = () => {
 
     useEffect(() => {
         // Listen for messages from background script
-        browser.runtime.onMessage.addListener(function (request) {
+        runtime.onMessage.addListener(function (request) {
             switch (request.type) {
                 case 'CONNECT_UI': {
                     setEvents([...events, { request, callback: onConnect }]);

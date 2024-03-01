@@ -1,4 +1,4 @@
-import browser from 'webextension-polyfill';
+import { runtime, tabs } from 'webextension-polyfill';
 import { Contracts } from '@ardenthq/sdk-profiles';
 import { ProfileData } from '../background/contracts';
 
@@ -52,7 +52,7 @@ export function ExtensionEvents(properties?: ExtensionEventsProperties) {
             }
 
             const sessions = Object.values(profile.data().get(ProfileData.Sessions) ?? {});
-            const tabs = await browser.tabs.query({});
+            const tabs = await tabs.query({});
 
             const sessionTabs = tabs.filter((tab) => {
                 if (!tab.id) {
@@ -83,7 +83,7 @@ export function ExtensionEvents(properties?: ExtensionEventsProperties) {
             const tabIds = await this.sessionTabIds(domain);
 
             for (const id of tabIds) {
-                browser.tabs.sendMessage(id, {
+                tabs.sendMessage(id, {
                     type: ExtensionSupportedEvents.Disconnected,
                 });
             }
@@ -98,7 +98,7 @@ export function ExtensionEvents(properties?: ExtensionEventsProperties) {
             const tabIds = await this.sessionTabIds();
 
             for (const id of tabIds) {
-                browser.tabs.sendMessage(id, {
+                tabs.sendMessage(id, {
                     type: ExtensionSupportedEvents.AddressChanged,
                     data,
                 });
@@ -115,7 +115,7 @@ export function ExtensionEvents(properties?: ExtensionEventsProperties) {
             const tabIds = await this.sessionTabIds(domain);
 
             for (const id of tabIds) {
-                browser.tabs.sendMessage(id, {
+                tabs.sendMessage(id, {
                     type: ExtensionSupportedEvents.Connected,
                 });
             }

@@ -1,7 +1,7 @@
 import { Networks, Services } from '@ardenthq/sdk';
 import { Contracts } from '@ardenthq/sdk-profiles';
 import { useEffect, useState } from 'react';
-import browser from 'webextension-polyfill';
+import { runtime, tabs } from 'webextension-polyfill';
 import { useEnvironmentContext } from '../context/Environment';
 import { precisionRound } from '../utils/precisionRound';
 import { handleBroadcastError , withAbortPromise } from '../utils/transactionHelpers';
@@ -122,7 +122,7 @@ export const useVoteForm = (wallet: Contracts.IReadWriteWallet, request: Approve
             };
         }
 
-        const { transaction, response, error } = await browser.runtime.sendMessage({
+        const { transaction, response, error } = await runtime.sendMessage({
             type: 'SEND_VOTE',
             data,
         });
@@ -193,7 +193,7 @@ export const useVoteForm = (wallet: Contracts.IReadWriteWallet, request: Approve
                 }));
             } catch (error: any) {
                 onError(error);
-                browser.runtime.sendMessage({
+                runtime.sendMessage({
                     type: 'SIGN_VOTE_REJECT',
                     data: {
                         domain: request.domain,

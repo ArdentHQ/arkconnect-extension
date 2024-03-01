@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import browser from 'webextension-polyfill';
+import { runtime, tabs } from 'webextension-polyfill';
 import {
     Button,
     Container,
@@ -29,7 +29,7 @@ const EnterPassword = () => {
 
     const unlockExtension = async () => {
         try {
-            const status = await browser.runtime.sendMessage({
+            const status = await runtime.sendMessage({
                 type: 'UNLOCK',
                 data: { password },
             });

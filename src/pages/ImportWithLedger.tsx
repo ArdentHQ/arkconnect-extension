@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Contracts } from '@ardenthq/sdk-profiles';
-import browser from 'webextension-polyfill';
+import { runtime, tabs } from 'webextension-polyfill';
 import styled from 'styled-components';
 import { useFormik } from 'formik';
 import { Container, FlexContainer, Header, Icon, Paragraph } from '@/shared/components';
@@ -71,7 +71,7 @@ const ImportWithLedger = () => {
                 };
             });
 
-            const { error } = await browser.runtime.sendMessage({
+            const { error } = await runtime.sendMessage({
                 type: 'IMPORT_WALLETS',
                 data: {
                     currency: defaultCurrency,
