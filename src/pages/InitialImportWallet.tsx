@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import browser from 'webextension-polyfill';
 import { useEffect } from 'react';
-import { Paragraph, BigButton, Tooltip } from '@/shared/components';
+import { BigButton, Paragraph, Tooltip } from '@/shared/components';
 import SubPageLayout from '@/components/settings/SubPageLayout';
 import useThemeMode from '@/lib/hooks/useThemeMode';
 import { isFirefox } from '@/lib/utils/isFirefox';

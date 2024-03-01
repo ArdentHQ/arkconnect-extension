@@ -4,11 +4,11 @@ import { Contracts } from '@ardenthq/sdk-profiles';
 import { Session } from '../store/session';
 import { WalletNetwork } from '../store/wallet';
 import {
+    assertHasProfile,
+    assertHasWallet,
     assertIsConnected,
     assertIsNotConnected,
-    assertHasWallet,
     getActiveSession,
-    assertHasProfile,
 } from './assertions';
 
 export type EventPayload<T> = {

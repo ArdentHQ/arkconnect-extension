@@ -2,7 +2,7 @@ import { FormikProps } from 'formik';
 import React, { useEffect, useState } from 'react';
 import { Contracts } from '@ardenthq/sdk-profiles';
 import { ImportedWalletFormik } from '.';
-import { Heading, Paragraph, Button, Container, Input } from '@/shared/components';
+import { Button, Container, Heading, Input, Paragraph } from '@/shared/components';
 
 type Props = {
     goToNextStep: () => void;

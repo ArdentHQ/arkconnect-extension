@@ -1,23 +1,23 @@
+import { useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import browser from 'webextension-polyfill';
 import {
     Button,
     Container,
+    FlexContainer,
+    Icon,
+    InternalLink,
     Layout,
     LockIcon,
-    FlexContainer,
-    PasswordInput,
     Paragraph,
-    InternalLink,
-    Icon,
+    PasswordInput,
 } from '@/shared/components';
-import { useNavigate } from 'react-router-dom';
-import React, { useState } from 'react';
 import { ValidationVariant } from '@/components/wallet/create';
-import styled from 'styled-components';
 import { useProfileContext } from '@/lib/context/Profile';
 import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
 import { useAppDispatch } from '@/lib/store';
 import * as UIStore from '@/lib/store/ui';
-import browser from 'webextension-polyfill';
 
 const EnterPassword = () => {
     const navigate = useNavigate();

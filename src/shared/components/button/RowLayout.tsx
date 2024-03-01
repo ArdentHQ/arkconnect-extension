@@ -1,7 +1,7 @@
 import styled, { WebTarget } from 'styled-components';
 import {
-    space,
-    SpaceProps,
+    border,
+    BorderProps,
     color,
     ColorProps,
     layout,
@@ -10,14 +10,14 @@ import {
     PositionProps,
     shadow,
     ShadowProps,
-    border,
-    BorderProps,
+    space,
+    SpaceProps,
     variant,
 } from 'styled-system';
 import { forwardRef } from 'react';
 import { Theme } from '@/shared/theme';
 import { Container, FlexContainer, Icon, IconDefinition, Paragraph } from '@/shared/components';
-import { FlexVariantProps, flexVariant } from '@/shared/theme/variants';
+import { flexVariant, FlexVariantProps } from '@/shared/theme/variants';
 import constants from '@/constants';
 import { Address, LedgerIcon, TestnetIcon } from '@/components/wallet/address/Address.blocks';
 import { isFirefox } from '@/lib/utils/isFirefox';

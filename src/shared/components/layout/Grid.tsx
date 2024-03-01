@@ -1,19 +1,19 @@
 import styled from 'styled-components';
 import {
-    space,
-    SpaceProps,
     border,
     BorderProps,
-    grid,
-    GridProps,
-    LayoutProps,
-    layout,
-    FlexboxProps,
-    flexbox,
     boxShadow,
     BoxShadowProps,
     color,
     ColorProps,
+    flexbox,
+    FlexboxProps,
+    grid,
+    GridProps,
+    layout,
+    LayoutProps,
+    space,
+    SpaceProps,
 } from 'styled-system';
 import { Theme } from '@/shared/theme';
 

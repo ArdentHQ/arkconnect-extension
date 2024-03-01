@@ -1,14 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
 import {
-    fontWeight,
-    FontWeightProps,
-    textAlign,
-    TextAlignProps,
-    space,
-    SpaceProps,
     color,
     ColorProps,
+    fontWeight,
+    FontWeightProps,
+    space,
+    SpaceProps,
+    textAlign,
+    TextAlignProps,
     width,
     WidthProps,
 } from 'styled-system';

@@ -12,7 +12,7 @@ import showAutoLockTimerValue from '@/lib/utils/showAutoLockTimerValue';
 import { useAppDispatch, useAppSelector } from '@/lib/store';
 import useThemeMode from '@/lib/hooks/useThemeMode';
 import useOnClickOutside from '@/lib/hooks/useOnClickOutside';
-import { handleSubmitKeyAction, handleInputKeyAction } from '@/lib/utils/handleKeyAction';
+import { handleInputKeyAction, handleSubmitKeyAction } from '@/lib/utils/handleKeyAction';
 import SafeOutlineOverflowContainer from '@/shared/components/layout/SafeOutlineOverflowContainer';
 export interface DropdownMenuContainerProps {
     selected?: boolean;

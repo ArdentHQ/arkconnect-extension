@@ -4,12 +4,12 @@ import browser from 'webextension-polyfill';
 import SubPageLayout from '../SubPageLayout';
 import SelectNetworkTypeModal from './SelectNetworkTypeModal';
 import {
-    RowLayout,
     Container,
     FlexContainer,
     Icon,
     IconDefinition,
     Paragraph,
+    RowLayout,
     Tooltip,
 } from '@/shared/components';
 import { useAppDispatch } from '@/lib/store';

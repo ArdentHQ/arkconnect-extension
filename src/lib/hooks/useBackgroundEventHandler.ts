@@ -9,7 +9,7 @@ import {
     SignVoteData,
 } from '../background/eventListenerHandlers';
 import { useAppDispatch, useAppSelector } from '../store';
-import { selectLocked, lockedChanged } from '@/lib/store/ui';
+import { lockedChanged, selectLocked } from '@/lib/store/ui';
 import { getPersistedValues } from '@/components/wallet/form-persist';
 
 type Event = {

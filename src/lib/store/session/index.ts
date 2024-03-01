@@ -1,4 +1,4 @@
-import { PayloadAction, createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import browser from 'webextension-polyfill';
 import { revertAll } from '../ui';
 import { RootState } from '@/lib/store';

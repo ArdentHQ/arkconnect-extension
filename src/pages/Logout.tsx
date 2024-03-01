@@ -1,7 +1,8 @@
-import { Button, FlexContainer, Paragraph, PasswordInput, WarningIcon } from '@/shared/components';
 import React, { useState } from 'react';
-import { ValidationVariant } from '@/components/wallet/create';
 import { useLocation, useNavigate } from 'react-router-dom';
+import browser from 'webextension-polyfill';
+import { Button, FlexContainer, Paragraph, PasswordInput, WarningIcon } from '@/shared/components';
+import { ValidationVariant } from '@/components/wallet/create';
 import { useAppDispatch, useAppSelector } from '@/lib/store';
 import * as WalletStore from '@/lib/store/wallet';
 import * as SessionStore from '@/lib/store/session';
@@ -9,7 +10,6 @@ import { useProfileContext } from '@/lib/context/Profile';
 import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
 import { isValidPassword } from '@/lib/utils/validations';
 import { ExtensionEvents } from '@/lib/events';
-import browser from 'webextension-polyfill';
 import useThemeMode from '@/lib/hooks/useThemeMode';
 import SubPageLayout from '@/components/settings/SubPageLayout';
 

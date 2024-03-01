@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { ThemeValue } from 'styled-system';
 import { useAppDispatch, useAppSelector } from '@/lib/store';
-import { selectThemeMode, themeModeUpdated, ThemeMode } from '@/lib/store/ui';
+import { selectThemeMode, ThemeMode, themeModeUpdated } from '@/lib/store/ui';
 import { Theme } from '@/shared/theme';
 
 export type Color = ThemeValue<'colors', Theme>;

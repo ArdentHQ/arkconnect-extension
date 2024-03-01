@@ -1,3 +1,7 @@
+import React, { useEffect, useState } from 'react';
+import { useFormik } from 'formik';
+import { WalletFormScreen } from '../wallet/form-persist';
+import { persistScreenChanged } from '../wallet/form-persist/helpers';
 import {
     Button,
     Checkbox,
@@ -7,13 +11,9 @@ import {
     Paragraph,
     PasswordInput,
 } from '@/shared/components';
-import React, { useEffect, useState } from 'react';
 import { getLocalValues, setLocalValue } from '@/lib/utils/localStorage';
 
-import { WalletFormScreen } from '../wallet/form-persist';
 import constants from '@/constants';
-import { persistScreenChanged } from '../wallet/form-persist/helpers';
-import { useFormik } from 'formik';
 
 type Props = {
     formik: ReturnType<typeof useFormik>;
