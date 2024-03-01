@@ -53,13 +53,8 @@ export const uiSlice = createSlice({
     extraReducers: (builder) => builder.addCase(revertAll, () => initialState),
 });
 
-export const {
-    themeModeUpdated,
-    toastAdded,
-    toastRemoved,
-    toastsReseted,
-    lockedChanged,
-} = uiSlice.actions;
+export const { themeModeUpdated, toastAdded, toastRemoved, toastsReseted, lockedChanged } =
+    uiSlice.actions;
 
 export const selectThemeMode = (state: RootState) => state.ui.themeMode;
 export const selectToasts = (state: RootState) => state.ui.toasts;

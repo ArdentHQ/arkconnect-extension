@@ -36,7 +36,7 @@ const EnterPassphrase = ({ goToNextStep, formik }: Props) => {
     const [isImporting, setIsImporting] = useState<boolean>(false);
     const [isValidating, setIsValidating] = useState<boolean>(false);
     const walletsIds = useAppSelector(selectWalletsIds);
-    const activeNetwork  = useActiveNetwork();
+    const activeNetwork = useActiveNetwork();
     const { profile, initProfile } = useProfileContext();
     const { onError } = useErrorHandlerContext();
     const { env } = useEnvironmentContext();

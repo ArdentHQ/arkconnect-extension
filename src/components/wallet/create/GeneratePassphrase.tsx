@@ -1,14 +1,23 @@
-import {useEffect, useState} from 'react';
-import {FormikProps} from 'formik';
-import {WalletFormScreen} from '../form-persist';
-import {persistScreenChanged} from '../form-persist/helpers';
-import {CreateWalletFormik} from '.';
-import {Button, Container, FlexContainer, Grid, Heading, Icon, Paragraph, ToggleSwitch} from '@/shared/components';
+import { useEffect, useState } from 'react';
+import { FormikProps } from 'formik';
+import { WalletFormScreen } from '../form-persist';
+import { persistScreenChanged } from '../form-persist/helpers';
+import { CreateWalletFormik } from '.';
+import {
+    Button,
+    Container,
+    FlexContainer,
+    Grid,
+    Heading,
+    Icon,
+    Paragraph,
+    ToggleSwitch,
+} from '@/shared/components';
 import useToast from '@/lib/hooks/useToast';
-import {ToastPosition} from '@/components/toast/ToastContainer';
+import { ToastPosition } from '@/components/toast/ToastContainer';
 import randomWordPositions from '@/lib/utils/randomWordPositions';
-import {TestnetIcon} from '@/components/wallet/address/Address.blocks';
-import {getLocalValues} from '@/lib/utils/localStorage';
+import { TestnetIcon } from '@/components/wallet/address/Address.blocks';
+import { getLocalValues } from '@/lib/utils/localStorage';
 import useActiveNetwork from '@/lib/hooks/useActiveNetwork';
 
 type Props = {

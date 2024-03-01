@@ -38,11 +38,12 @@ const CreateOrImportAddress = () => {
 
     const handleCreateNewAddress = () => {
         setNetworkModalState({
-            nextAction: (isTestnet: boolean) => navigate('/wallet/create', {
-                state: {
-                    isTestnet
-                }
-            }),
+            nextAction: (isTestnet: boolean) =>
+                navigate('/wallet/create', {
+                    state: {
+                        isTestnet,
+                    },
+                }),
             isOpen: true,
             action: 'create',
         });
@@ -50,11 +51,12 @@ const CreateOrImportAddress = () => {
 
     const handleImportAddress = () => {
         setNetworkModalState({
-            nextAction: (isTestnet: boolean) => navigate('/wallet/import', {
-                state: {
-                    isTestnet
-                }
-            }),
+            nextAction: (isTestnet: boolean) =>
+                navigate('/wallet/import', {
+                    state: {
+                        isTestnet,
+                    },
+                }),
             isOpen: true,
             action: 'import',
         });
