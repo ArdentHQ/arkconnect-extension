@@ -48,7 +48,9 @@ export const ProfileProvider = ({ children }: Properties) => {
 
         try {
             primaryWallet = profile?.wallets().findById(primaryWalletId);
-        } catch (_e) {}
+        } catch (_e) {
+            // @ts-expect-error there is a race condition, profile wallets can be empty
+        }
 
         return primaryWallet;
     };
