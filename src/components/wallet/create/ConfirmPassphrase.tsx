@@ -15,7 +15,7 @@ import {
 import getNumberSuffix from '@/lib/utils/getNumberSuffix';
 import { TestnetIcon } from '@/components/wallet/address/Address.blocks';
 import { getLocalValues } from '@/lib/utils/localStorage';
-import useActiveNetwork from "@/lib/hooks/useActiveNetwork";
+import useActiveNetwork from '@/lib/hooks/useActiveNetwork';
 
 type Props = {
     goToNextStep: () => void;

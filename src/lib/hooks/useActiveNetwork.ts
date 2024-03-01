@@ -1,6 +1,6 @@
-import {useLocation} from "react-router-dom";
-import {WalletNetwork} from "@/lib/store/wallet";
-import {useProfileContext} from "@/lib/context/Profile";
+import {useLocation} from 'react-router-dom';
+import {WalletNetwork} from '@/lib/store/wallet';
+import {useProfileContext} from '@/lib/context/Profile';
 
 const useActiveNetwork = ()=> {
     const { profile } = useProfileContext();
