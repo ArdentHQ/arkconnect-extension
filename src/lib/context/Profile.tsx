@@ -48,6 +48,7 @@ export const ProfileProvider = ({ children }: Properties) => {
 
         try {
             primaryWallet = profile?.wallets().findById(primaryWalletId);
+        // ts-expect-error ignore catch
         } catch (_e) {}
 
         return primaryWallet;
