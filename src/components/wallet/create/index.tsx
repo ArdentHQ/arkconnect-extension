@@ -15,7 +15,7 @@ import { HandleLoadingState } from '@/shared/components/handleStates/HandleLoadi
 import { assertNetwork } from '@/lib/utils/assertions';
 import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
 import useLocaleCurrency from '@/lib/hooks/useLocalCurrency';
-import { getLocalValues, setLocalValue } from '@/lib/utils/localStorage';
+import { getLocalValues } from '@/lib/utils/localStorage';
 import { LastScreen, ProfileData, ScreenName } from '@/lib/background/contracts';
 import randomWordPositions from '@/lib/utils/randomWordPositions';
 import useLoadingModal from '@/lib/hooks/useLoadingModal';
