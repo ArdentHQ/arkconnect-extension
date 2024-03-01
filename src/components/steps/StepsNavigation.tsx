@@ -1,10 +1,10 @@
-import { ArrowButton, Container, FlexContainer, Paragraph } from '@/shared/components';
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ComponentType, useState } from 'react';
 
 import { FormikProps } from 'formik';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import { ArrowButton, Container, FlexContainer, Paragraph } from '@/shared/components';
 
 export type Step = {
     component: ComponentType<any>;

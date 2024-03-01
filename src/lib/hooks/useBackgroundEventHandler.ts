@@ -1,4 +1,4 @@
-import browser from 'webextension-polyfill';
+import { runtime } from 'webextension-polyfill';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -9,7 +9,7 @@ import {
     SignVoteData,
 } from '../background/eventListenerHandlers';
 import { useAppDispatch, useAppSelector } from '../store';
-import { selectLocked, lockedChanged } from '@/lib/store/ui';
+import { lockedChanged, selectLocked } from '@/lib/store/ui';
 import { getPersistedValues } from '@/components/wallet/form-persist';
 
 type Event = {
@@ -29,7 +29,7 @@ const useBackgroundEventHandler = () => {
 
     useEffect(() => {
         // Listen for messages from background script
-        browser.runtime.onMessage.addListener(function (request) {
+        runtime.onMessage.addListener(function (request) {
             switch (request.type) {
                 case 'CONNECT_UI': {
                     setEvents([...events, { request, callback: onConnect }]);

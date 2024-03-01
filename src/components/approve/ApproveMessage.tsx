@@ -1,5 +1,5 @@
 import { useLocation } from 'react-router-dom';
-import browser from 'webextension-polyfill';
+import { runtime } from 'webextension-polyfill';
 import { Contracts } from '@ardenthq/sdk-profiles';
 import ApproveBody from '@/components/approve/ApproveBody';
 import ApproveFooter from '@/components/approve/ApproveFooter';
@@ -45,7 +45,7 @@ const ApproveMessage = ({
     });
 
     const reject = (message: string = 'Sign message denied!') => {
-        browser.runtime.sendMessage({
+        runtime.sendMessage({
             type: 'SIGN_MESSAGE_REJECT',
             data: {
                 domain,
@@ -78,7 +78,7 @@ const ApproveMessage = ({
                 closeLedgerScreen();
             }
 
-            await browser.runtime.sendMessage({
+            await runtime.sendMessage({
                 type: 'SIGN_MESSAGE_RESOLVE',
                 data: {
                     domain,

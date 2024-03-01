@@ -430,7 +430,7 @@ export class ArkConnectInPageProvider {
         );
     }
 
-    private _sendMessage(type: Messages, data?: {}) {
+    private _sendMessage(type: Messages, data: object = {}) {
         window.postMessage(
             {
                 type,

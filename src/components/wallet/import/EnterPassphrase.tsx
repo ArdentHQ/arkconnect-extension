@@ -1,18 +1,18 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { FormikProps } from 'formik';
 import { Contracts } from '@ardenthq/sdk-profiles';
-import browser from 'webextension-polyfill';
+import { runtime } from 'webextension-polyfill';
 import { clearPersistScreenData, persistScreenChanged } from '../form-persist/helpers';
 import { WalletFormScreen } from '../form-persist';
 import { ImportedWalletFormik } from '.';
 import {
+    Button,
+    Container,
     FlexContainer,
     Heading,
     Paragraph,
-    ToggleSwitch,
-    Button,
-    Container,
     PassphraseInput,
+    ToggleSwitch,
 } from '@/shared/components';
 import useWalletImport from '@/lib/hooks/useWalletImport';
 import { useProfileContext } from '@/lib/context/Profile';
@@ -146,7 +146,7 @@ const EnterPassphrase = ({ goToNextStep, formik }: Props) => {
                 assertWallet(wallet);
 
                 if (!isNewProfile) {
-                    await browser.runtime.sendMessage({
+                    await runtime.sendMessage({
                         type: 'IMPORT_WALLETS',
                         data: {
                             wallets: [

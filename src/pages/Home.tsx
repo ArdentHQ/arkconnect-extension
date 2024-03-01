@@ -3,11 +3,11 @@ import styled from 'styled-components';
 import Balance from '@/components/wallet/Balance';
 import {
     Container,
+    ExternalLink,
     FlexContainer,
-    Paragraph,
     Icon,
     Layout,
-    ExternalLink,
+    Paragraph,
 } from '@/shared/components';
 import constants from '@/constants';
 import { clearPersistScreenData } from '@/components/wallet/form-persist/helpers';

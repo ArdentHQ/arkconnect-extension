@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useFormik } from 'formik';
 import { Contracts } from '@ardenthq/sdk-profiles';
 import { useNavigate } from 'react-router-dom';
-import browser from 'webextension-polyfill';
+import { runtime } from 'webextension-polyfill';
 import SetupPassword from '../../settings/SetupPassword';
 import { clearPersistScreenData } from '../form-persist/helpers';
 import ConfirmPassphrase from './ConfirmPassphrase';
@@ -87,7 +87,7 @@ const CreateNewWallet = () => {
                 return;
             }
 
-            const { error } = await browser.runtime.sendMessage({
+            const { error } = await runtime.sendMessage({
                 type: 'IMPORT_WALLETS',
                 data: {
                     currency: defaultCurrency,

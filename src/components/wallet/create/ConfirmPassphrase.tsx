@@ -6,11 +6,11 @@ import { CreateWalletFormik, ValidationVariant } from '.';
 import {
     Button,
     Checkbox,
+    Container,
     FlexContainer,
     Heading,
-    Paragraph,
     Input,
-    Container,
+    Paragraph,
 } from '@/shared/components';
 import getNumberSuffix from '@/lib/utils/getNumberSuffix';
 import { TestnetIcon } from '@/components/wallet/address/Address.blocks';

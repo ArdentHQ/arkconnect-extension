@@ -1,6 +1,6 @@
 import { NavigateOptions, useLocation, useNavigate } from 'react-router-dom';
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
-import browser from 'webextension-polyfill';
+import { runtime } from 'webextension-polyfill';
 import { Contracts } from '@ardenthq/sdk-profiles';
 import { Container, FlexContainer, Paragraph, ToggleSwitch } from '@/shared/components';
 import { SettingsOption } from '@/components/settings/SettingsOption';
@@ -12,7 +12,7 @@ import showAutoLockTimerValue from '@/lib/utils/showAutoLockTimerValue';
 import { useAppDispatch, useAppSelector } from '@/lib/store';
 import useThemeMode from '@/lib/hooks/useThemeMode';
 import useOnClickOutside from '@/lib/hooks/useOnClickOutside';
-import { handleSubmitKeyAction, handleInputKeyAction } from '@/lib/utils/handleKeyAction';
+import { handleInputKeyAction, handleSubmitKeyAction } from '@/lib/utils/handleKeyAction';
 import SafeOutlineOverflowContainer from '@/shared/components/layout/SafeOutlineOverflowContainer';
 export interface DropdownMenuContainerProps {
     selected?: boolean;
@@ -42,7 +42,7 @@ export const SettingsMenu = ({
     };
 
     const lockExtension = async () => {
-        await browser.runtime.sendMessage({ type: 'LOCK' });
+        await runtime.sendMessage({ type: 'LOCK' });
         dispatch(lockedChanged(true));
     };
 
