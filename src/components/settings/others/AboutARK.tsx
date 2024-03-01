@@ -35,12 +35,13 @@ const AboutARK = () => {
                 </Paragraph>
             </FlexContainer>
             <FlexContainer flexDirection='column' gridGap='8px' color='base'>
-                <StyledExternalLink
+                <ExternalLink
                     alignItems='center'
                     display='flex'
                     justifyContent='space-between'
                     width='100%'
                     href={`mailto:${constants.SUPPORT_EMAIL}?subject=ARK%20Connect`}
+                    borderRadius='16'
                 >
                     <RowLayout title='Support Email' iconTrailing='link-external' tabIndex={-1}>
                         <CopyButton
@@ -51,49 +52,49 @@ const AboutARK = () => {
                             <Icon icon='copy' width='20px' height='20px' color='base' />
                         </CopyButton>
                     </RowLayout>
-                </StyledExternalLink>
+                </ExternalLink>
 
-                <StyledExternalLink
+                <ExternalLink
                     alignItems='center'
                     display='flex'
                     justifyContent='space-between'
                     width='100%'
                     href={constants.ARK_CONNECT}
                     target='_blank'
-                    rel='noopener noreferrer'
+                    borderRadius='16'
                 >
                     <RowLayout
                         title='Official Website'
                         iconTrailing='link-external'
                         tabIndex={-1}
                     />
-                </StyledExternalLink>
-                <StyledExternalLink
+                </ExternalLink>
+                <ExternalLink
                     alignItems='center'
                     display='flex'
                     justifyContent='space-between'
                     width='100%'
                     href={constants.TERMS_OF_SERVICE}
                     target='_blank'
-                    rel='noopener noreferrer'
+                    borderRadius='16'
                 >
                     <RowLayout
                         title='Terms of Service'
                         iconTrailing='link-external'
                         tabIndex={-1}
                     />
-                </StyledExternalLink>
-                <StyledExternalLink
+                </ExternalLink>
+                <ExternalLink
                     alignItems='center'
                     display='flex'
                     justifyContent='space-between'
                     width='100%'
                     href={constants.PRIVACY_POLICY}
                     target='_blank'
-                    rel='noopener noreferrer'
+                    borderRadius='16'
                 >
                     <RowLayout title='Privacy Policy' iconTrailing='link-external' tabIndex={-1} />
-                </StyledExternalLink>
+                </ExternalLink>
             </FlexContainer>
         </SubPageLayout>
     );
@@ -117,10 +118,6 @@ export const StyledLogos = styled(FlexContainer)`
 
 export const CopyButton = styled(Container)`
     ${({ theme }) => `${isFirefox ? theme.browserCompatibility.firefox.focus : ''}`}
-`;
-
-const StyledExternalLink = styled(ExternalLink)`
-    border-radius: 16px;
 `;
 
 export default AboutARK;
