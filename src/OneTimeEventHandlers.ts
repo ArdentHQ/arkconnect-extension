@@ -6,7 +6,6 @@ import { SendTransferInput } from '@/lib/background/extension.wallet';
 import { importWallets } from '@/background.helpers';
 import { ProfileData } from '@/lib/background/contracts';
 import { SessionEntries } from '@/lib/store/session';
-import { setLocalValue } from '@/lib/utils/localStorage';
 import { ExtensionEvents } from '@/lib/events';
 
 export enum OneTimeEvents {
@@ -155,9 +154,7 @@ export function OneTimeEventHandlers(extension: ReturnType<typeof Extension>) {
         },
 
         [OneTimeEvents.RESET]: async (_request: any) => {
-            setLocalValue('hasOnboarded', false);
-
-            extension.reset(UUID.random());
+            await extension.reset(UUID.random());
         },
 
         [OneTimeEvents.REMOVE_WALLETS]: async (request: any) => {
@@ -325,10 +322,8 @@ const handleRemoveWallets = async (request: any, extension: ReturnType<typeof Ex
     await extension.persist();
 
     if (extension.profile().wallets().count() === 0) {
-        setLocalValue('hasOnboarded', false);
-
         return {
-            error: undefined,
+            noWallets: true,
         };
     }
 
