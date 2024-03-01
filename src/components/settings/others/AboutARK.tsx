@@ -35,24 +35,33 @@ const AboutARK = () => {
                 </Paragraph>
             </FlexContainer>
             <FlexContainer flexDirection='column' gridGap='8px' color='base'>
-                <ExternalLink
-                    alignItems='center'
-                    display='flex'
-                    justifyContent='space-between'
-                    width='100%'
-                    href={`mailto:${constants.SUPPORT_EMAIL}?subject=ARK%20Connect`}
-                    borderRadius='16'
-                >
-                    <RowLayout title='Support Email' iconTrailing='link-external' tabIndex={-1}>
-                        <CopyButton
-                            className='c-pointer'
-                            onClick={copyEmailToClipboard}
-                            as='button'
-                        >
-                            <Icon icon='copy' width='20px' height='20px' color='base' />
-                        </CopyButton>
-                    </RowLayout>
-                </ExternalLink>
+                <FlexContainer flexDirection='row' position='relative' alignItems='center'>
+                    <ExternalLink
+                        alignItems='center'
+                        display='flex'
+                        justifyContent='space-between'
+                        width='100%'
+                        href={`mailto:${constants.SUPPORT_EMAIL}?subject=ARK%20Connect`}
+                        borderRadius='16'
+                    >
+                        <RowLayout
+                            title='Support Email'
+                            iconTrailing='link-external'
+                            tabIndex={-1}
+                        ></RowLayout>
+                    </ExternalLink>
+
+                    <CopyButton
+                        className='c-pointer'
+                        onClick={copyEmailToClipboard}
+                        position='absolute'
+                        mr='50'
+                        right='0'
+                        as='button'
+                    >
+                        <Icon icon='copy' width='20px' height='20px' color='base' />
+                    </CopyButton>
+                </FlexContainer>
 
                 <ExternalLink
                     alignItems='center'
