@@ -7,7 +7,13 @@ const useActiveNetwork = () => {
 
     const { state } = useLocation();
 
-    const selectedNetwork = state?.isTestnet ? WalletNetwork.DEVNET : WalletNetwork.MAINNET;
+    let selectedNetwork = state?.isTestnet ? WalletNetwork.DEVNET : WalletNetwork.MAINNET;
+
+    if (profile.wallets().count() === 0) {
+        selectedNetwork = WalletNetwork.MAINNET;
+    }
+
+    console.log(selectedNetwork);
 
     const networks = profile.availableNetworks();
 

@@ -66,9 +66,11 @@ const CreateOrImportAddress = () => {
         if (isFirefox) return;
 
         setNetworkModalState({
-            nextAction: () => {
+            nextAction: (isTestnet: boolean) => {
+                const testnetParam = isTestnet ? 'isTestnet' : '';
+
                 void tabs.create({
-                    url: runtime.getURL('/src/main.html?import_with_ledger'),
+                    url: runtime.getURL(`/src/main.html?import_with_ledger&${testnetParam}`),
                 });
                 window.close(); // Close extension popup as we navigate away
             },
