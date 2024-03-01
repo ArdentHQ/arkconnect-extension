@@ -146,7 +146,6 @@ const SetupPassword = ({ formik }: Props) => {
                         <ExternalLink
                             href={constants.TERMS_OF_SERVICE}
                             target='_blank'
-                            rel='noopener noreferrer'
                             color='primary'
                         >
                             Terms of Service
@@ -155,7 +154,6 @@ const SetupPassword = ({ formik }: Props) => {
                         <ExternalLink
                             href={constants.PRIVACY_POLICY}
                             target='_blank'
-                            rel='noopener noreferrer'
                             color='primary'
                         >
                             Privacy Policy
