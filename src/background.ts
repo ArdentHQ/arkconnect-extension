@@ -8,7 +8,6 @@ import initAutoLock from './lib/background/initAutoLock';
 import keepServiceWorkerAlive from './lib/background/keepServiceWorkerAlive';
 import { ExtensionEvents } from './lib/events';
 import { importWallets } from './background.helpers';
-import { createTestProfile, isDev } from './dev/utils/dev';
 import { ProfileData } from './lib/background/contracts';
 import { SendTransferInput } from './lib/background/extension.wallet';
 import { Extension } from './lib/background/extension';
@@ -356,18 +355,6 @@ const setupEventListeners = async (message: any, port: browser.Runtime.Port) => 
     );
 };
 
-const setupProfileWithFixtures = async () => {
-    if (isDev()) {
-        await createTestProfile({ env: extension.env() });
-        extension
-            .profile()
-            .data()
-            .set(ProfileData.PrimaryWalletId, extension.profile().wallets().first().id());
-
-        await extension.persist();
-    }
-};
-
 browser.runtime.onInstalled.addListener(async () => {
     await setLocalValue('autoLockTimer', AutoLockTimer.TWENTY_FOUR_HOURS);
 });
@@ -375,7 +362,6 @@ browser.runtime.onInstalled.addListener(async () => {
 initAutoLock(extension.lockHandler());
 initRuntimeEventListener();
 keepServiceWorkerAlive();
-setupProfileWithFixtures();
 
 browser.runtime.onConnect.addListener((port) => {
     if (port.name === 'ark-content-script') {
