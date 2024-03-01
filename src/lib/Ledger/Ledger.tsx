@@ -1,9 +1,9 @@
-import React, { createContext, useContext } from 'react';
+import { createContext, ReactNode, useContext } from 'react';
 
 import { useLedgerConnection } from './hooks/connection';
 
 interface Properties {
-    children: React.ReactNode;
+    children: ReactNode;
 }
 
 const LedgerContext = createContext<any>(undefined);

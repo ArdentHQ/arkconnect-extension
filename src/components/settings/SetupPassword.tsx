@@ -1,18 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { useFormik } from 'formik';
-import { persistScreenChanged } from '../wallet/form-persist/helpers';
 import { WalletFormScreen } from '../wallet/form-persist';
-import constants from '@/constants';
+import { persistScreenChanged } from '../wallet/form-persist/helpers';
 import {
     Button,
     Checkbox,
+    ExternalLink,
     FlexContainer,
     Heading,
     Paragraph,
     PasswordInput,
-    ExternalLink,
 } from '@/shared/components';
 import { getLocalValues, setLocalValue } from '@/lib/utils/localStorage';
+
+import constants from '@/constants';
 
 type Props = {
     formik: ReturnType<typeof useFormik>;
@@ -56,15 +57,15 @@ const SetupPassword = ({ formik }: Props) => {
         })();
     }, []);
 
-    const handleTermsAndConditionsChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
+    const handleTermsAndConditionsChange = (evt: ChangeEvent<HTMLInputElement>) => {
         formik.setFieldValue('termsAndConditionsConfirmed', evt.target.checked);
     };
 
-    const handlePasswordChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
+    const handlePasswordChange = (evt: ChangeEvent<HTMLInputElement>) => {
         formik.setFieldValue('password', evt.target.value);
     };
 
-    const handlePasswordConfirmChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
+    const handlePasswordConfirmChange = (evt: ChangeEvent<HTMLInputElement>) => {
         formik.setFieldValue('passwordConfirm', evt.target.value);
     };
 

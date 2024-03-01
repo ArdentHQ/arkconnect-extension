@@ -2,7 +2,7 @@ import { useFormik } from 'formik';
 import { useNavigate, useParams } from 'react-router-dom';
 import { object, string } from 'yup';
 import SubPageLayout from '../SubPageLayout';
-import { Paragraph, FlexContainer, Input, Button, Container } from '@/shared/components';
+import { Button, Container, FlexContainer, Input, Paragraph } from '@/shared/components';
 import useToast from '@/lib/hooks/useToast';
 import { useEnvironmentContext } from '@/lib/context/Environment';
 import { useProfileContext } from '@/lib/context/Profile';

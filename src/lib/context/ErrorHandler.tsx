@@ -1,4 +1,4 @@
-import { ReactNode, createContext, useContext, useState } from 'react';
+import { createContext, ReactNode, useContext, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import useOnError from '../hooks';
 import removeWindowInstance from '../utils/removeWindowInstance';

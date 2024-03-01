@@ -1,8 +1,8 @@
 import { FormikProps } from 'formik';
-import React, { useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { Contracts } from '@ardenthq/sdk-profiles';
 import { ImportedWalletFormik } from '.';
-import { Heading, Paragraph, Button, Container, Input } from '@/shared/components';
+import { Button, Container, Heading, Input, Paragraph } from '@/shared/components';
 
 type Props = {
     goToNextStep: () => void;
@@ -32,7 +32,7 @@ const ImportedWallet = ({ goToNextStep, formik }: Props) => {
         }
     };
 
-    const handleAddressNameChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
+    const handleAddressNameChange = (evt: ChangeEvent<HTMLInputElement>) => {
         const addressName = evt.target.value.trim() === '' ? '' : evt.target.value;
         formik.setFieldValue('addressName', addressName);
     };

@@ -1,14 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ComponentType, useState } from 'react';
+
 import { FormikProps } from 'formik';
+import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { ArrowButton, Container, FlexContainer, Paragraph } from '@/shared/components';
 
 export type Step = {
     component: ComponentType<any>;
+    containerPaddingX?: '0' | '24';
 };
 
-type StepNavigationProps<T> = {
+type StepNavigationProps<T> = React.ComponentProps<typeof StyledFlexContainer> & {
     steps: Step[];
     formik?: FormikProps<T>;
     disabledSteps?: number[];
@@ -20,6 +23,7 @@ const StepsNavigation = <T extends Record<string, any>>({
     formik,
     disabledSteps,
     defaultStep,
+    ...stepsProps
 }: StepNavigationProps<T>) => {
     const navigate = useNavigate();
     const [currentStep, setCurrentStep] = useState<number>(defaultStep || 0);
@@ -46,13 +50,7 @@ const StepsNavigation = <T extends Record<string, any>>({
 
     return (
         <>
-            <FlexContainer
-                justifyContent='space-between'
-                gridGap='16px'
-                alignItems='center'
-                color='base'
-                pb='24'
-            >
+            <StyledFlexContainer color='base' {...stepsProps}>
                 <ArrowButton disabled={isPrevDisabled} onClick={handleStepBack} />
                 <FlexContainer
                     height='8px'
@@ -73,8 +71,12 @@ const StepsNavigation = <T extends Record<string, any>>({
                         {currentStep + 1}/{totalSteps}
                     </Paragraph>
                 </Container>
-            </FlexContainer>
-            <FlexContainer flexDirection='column' height='100%'>
+            </StyledFlexContainer>
+            <FlexContainer
+                flexDirection='column'
+                height='100%'
+                px={steps[currentStep].containerPaddingX}
+            >
                 <CurrentStepComponent
                     goToNextStep={handleStepForward}
                     goToPrevStep={handleStepBack}
@@ -84,5 +86,12 @@ const StepsNavigation = <T extends Record<string, any>>({
         </>
     );
 };
+
+const StyledFlexContainer = styled(FlexContainer)`
+    grid-gap: 16px;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 24px;
+`;
 
 export default StepsNavigation;

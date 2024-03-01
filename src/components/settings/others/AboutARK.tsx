@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import browser from 'webextension-polyfill';
+import { runtime } from 'webextension-polyfill';
 import SubPageLayout from '../SubPageLayout';
 import {
     Container,
@@ -31,11 +31,11 @@ const AboutARK = () => {
                     <Icon icon='logo-text' width='228px' height='21px' color='primary' />
                 </StyledLogos>
                 <Paragraph $typeset='body' fontWeight='regular' color='gray'>
-                    Version {browser.runtime.getManifest().version}
+                    Version {runtime.getManifest().version}
                 </Paragraph>
             </FlexContainer>
             <FlexContainer flexDirection='column' gridGap='8px' color='base'>
-                <ExternalLink
+                <StyledExternalLink
                     alignItems='center'
                     display='flex'
                     justifyContent='space-between'
@@ -51,9 +51,9 @@ const AboutARK = () => {
                             <Icon icon='copy' width='20px' height='20px' color='base' />
                         </CopyButton>
                     </RowLayout>
-                </ExternalLink>
+                </StyledExternalLink>
 
-                <ExternalLink
+                <StyledExternalLink
                     alignItems='center'
                     display='flex'
                     justifyContent='space-between'
@@ -67,8 +67,8 @@ const AboutARK = () => {
                         iconTrailing='link-external'
                         tabIndex={-1}
                     />
-                </ExternalLink>
-                <ExternalLink
+                </StyledExternalLink>
+                <StyledExternalLink
                     alignItems='center'
                     display='flex'
                     justifyContent='space-between'
@@ -82,8 +82,8 @@ const AboutARK = () => {
                         iconTrailing='link-external'
                         tabIndex={-1}
                     />
-                </ExternalLink>
-                <ExternalLink
+                </StyledExternalLink>
+                <StyledExternalLink
                     alignItems='center'
                     display='flex'
                     justifyContent='space-between'
@@ -93,7 +93,7 @@ const AboutARK = () => {
                     rel='noopener noreferrer'
                 >
                     <RowLayout title='Privacy Policy' iconTrailing='link-external' tabIndex={-1} />
-                </ExternalLink>
+                </StyledExternalLink>
             </FlexContainer>
         </SubPageLayout>
     );
@@ -117,6 +117,10 @@ export const StyledLogos = styled(FlexContainer)`
 
 export const CopyButton = styled(Container)`
     ${({ theme }) => `${isFirefox ? theme.browserCompatibility.firefox.focus : ''}`}
+`;
+
+const StyledExternalLink = styled(ExternalLink)`
+    border-radius: 16px;
 `;
 
 export default AboutARK;

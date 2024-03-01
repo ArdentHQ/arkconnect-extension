@@ -1,4 +1,4 @@
-import { it, describe, expect, vi, beforeAll, MockInstance, afterAll } from 'vitest';
+import { afterAll, beforeAll, describe, expect, it, MockInstance, vi } from 'vitest';
 import requestPermission from './requestPermission';
 
 let globalNaviatorSpy: MockInstance;
