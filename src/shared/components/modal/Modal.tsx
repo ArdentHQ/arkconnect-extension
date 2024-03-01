@@ -4,12 +4,12 @@ import FocusTrap from 'focus-trap-react';
 import Portal from '../utils/Portal';
 import useOnClickOutside from '@/lib/hooks/useOnClickOutside';
 import {
-    FlexContainer,
-    IconDefinition,
-    Icon as IconComponent,
     Button,
     Container,
+    FlexContainer,
     Icon,
+    Icon as IconComponent,
+    IconDefinition,
 } from '@/shared/components';
 import cn from 'classnames';
 import { ColorProps, Theme } from 'styled-system';

@@ -1,5 +1,5 @@
 import { Contracts } from '@ardenthq/sdk-profiles';
-import browser from 'webextension-polyfill';
+import { runtime } from 'webextension-polyfill';
 import { AutoLockTimer, getLocalValues } from '@/lib/utils/localStorage';
 
 export class LockHandler {
@@ -43,7 +43,7 @@ export class LockHandler {
 
     _onTimeout = () => {
         this.lock();
-        browser.runtime
+        runtime
             .sendMessage({
                 type: 'LOCK_EXTENSION_UI',
             })

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-import { Input, Container, Icon, FlexContainer } from '@/shared/components';
+import { Container, FlexContainer, Icon, Input } from '@/shared/components';
 import { isFirefox } from '@/lib/utils/isFirefox';
 
 type Props = React.ComponentProps<typeof Input> & {

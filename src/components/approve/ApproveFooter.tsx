@@ -1,4 +1,4 @@
-import { Grid, Button } from '@/shared/components';
+import { Button, Grid } from '@/shared/components';
 
 type Props = {
     disabled?: boolean;

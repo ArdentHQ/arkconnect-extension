@@ -1,10 +1,10 @@
 import { Contracts } from '@ardenthq/sdk-profiles';
-import { Layout } from '@/shared/components';
 import { useLocation } from 'react-router-dom';
+import { useRef, useState } from 'react';
+import { Layout } from '@/shared/components';
 import ApproveTransaction from '@/components/approve/ApproveTransaction';
 import ApproveMessage from '@/components/approve/ApproveMessage';
 import ApproveVote from '@/components/approve/ApproveVote';
-import { useRef, useState } from 'react';
 import { useLedgerContext } from '@/lib/Ledger';
 import Modal from '@/shared/components/modal/Modal';
 import ApproveWithLedger from '@/components/ledger/ApproveWithLedger';

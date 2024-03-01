@@ -23,7 +23,7 @@ interface LedgerAliasInput {
 export const getDefaultAlias = ({ profile, network }: GetDefaultAliasInput): string => {
     const sameCoinWallets = profile.wallets().findByCoinWithNetwork(network.coin(), network.id());
 
-    let counter = sameCoinWallets.length;
+    const counter = sameCoinWallets.length;
 
     return generateAlias({ profile, network, counter });
 };
@@ -43,7 +43,7 @@ export const getLedgerAlias = ({
     // addresses) and subtract the amount of wallets we are
     // importing to counter this. The index (+ 1) is used to
     // manually increment the labels
-    let counter = sameCoinWallets.length - importCount + index + 1;
+    const counter = sameCoinWallets.length - importCount + index + 1;
 
     return generateAlias({ profile, network, counter });
 };

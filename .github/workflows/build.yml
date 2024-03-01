@@ -1,40 +1,40 @@
 name: Build Extension
 
 on:
-  push:
-    branches:
-      - 'main'
-      - 'develop'
-  pull_request:
-    types: [ready_for_review, synchronize, opened]
+    push:
+        branches:
+            - 'main'
+            - 'develop'
+    pull_request:
+        types: [ready_for_review, synchronize, opened]
 
 jobs:
-  linux:
-    runs-on: ubuntu-latest
+    linux:
+        runs-on: ubuntu-latest
 
-    concurrency:
-      group: ${{ github.head_ref }}-build
-      cancel-in-progress: true
+        concurrency:
+            group: ${{ github.head_ref }}-build
+            cancel-in-progress: true
 
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: ${{ github.head_ref }}
+        steps:
+            - uses: actions/checkout@v4
+              with:
+                  ref: ${{ github.head_ref }}
 
-      - uses: pnpm/action-setup@v2
-        with:
-          version: 8
+            - uses: pnpm/action-setup@v2
+              with:
+                  version: 8
 
-      - name: Install Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
+            - name: Install Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: 20
 
-      - name: Setup env
-        run: cp .env.example .env
+            - name: Setup env
+              run: cp .env.example .env
 
-      - name: Install pnpm dependencies
-        run: pnpm i --frozen-lockfile
+            - name: Install pnpm dependencies
+              run: pnpm i --frozen-lockfile
 
-      - name: Build
-        run: pnpm build
+            - name: Build
+              run: pnpm build

@@ -34,7 +34,6 @@ export const AddressSettings = () => {
                     backgroundColor='secondaryBackground'
                     display='flex'
                     flexDirection='column'
-                    overflow='hidden'
                 >
                     <SettingsOption
                         iconLeading='pencil'

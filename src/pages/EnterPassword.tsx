@@ -1,23 +1,23 @@
+import { useNavigate } from 'react-router-dom';
+import { ChangeEvent, KeyboardEvent, useState } from 'react';
+import styled from 'styled-components';
+import { runtime } from 'webextension-polyfill';
 import {
     Button,
     Container,
+    FlexContainer,
+    Icon,
+    InternalLink,
     Layout,
     LockIcon,
-    FlexContainer,
-    PasswordInput,
     Paragraph,
-    InternalLink,
-    Icon,
+    PasswordInput,
 } from '@/shared/components';
-import { useNavigate } from 'react-router-dom';
-import React, { useState } from 'react';
 import { ValidationVariant } from '@/components/wallet/create';
-import styled from 'styled-components';
 import { useProfileContext } from '@/lib/context/Profile';
 import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
 import { useAppDispatch } from '@/lib/store';
 import * as UIStore from '@/lib/store/ui';
-import browser from 'webextension-polyfill';
 
 const EnterPassword = () => {
     const navigate = useNavigate();
@@ -29,7 +29,7 @@ const EnterPassword = () => {
 
     const unlockExtension = async () => {
         try {
-            const status = await browser.runtime.sendMessage({
+            const status = await runtime.sendMessage({
                 type: 'UNLOCK',
                 data: { password },
             });
@@ -51,13 +51,13 @@ const EnterPassword = () => {
         }
     };
 
-    const handlePasswordChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
+    const handlePasswordChange = (evt: ChangeEvent<HTMLInputElement>) => {
         setPassword(evt.target.value);
         if (validationVariant !== 'destructive') return;
         setValidationVariant('primary');
     };
 
-    const handleEnterKey = (evt: React.KeyboardEvent<HTMLInputElement>) => {
+    const handleEnterKey = (evt: KeyboardEvent<HTMLInputElement>) => {
         if (evt.key === 'Enter') {
             unlockExtension();
         }
