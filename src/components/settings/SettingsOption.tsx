@@ -35,7 +35,6 @@ type SettingsOptionProps = React.ComponentPropsWithRef<typeof StyledRow> & {
     iconTrailing?: IconDefinition;
     title: string;
     rightContent?: React.ReactNode;
-    color?: ColorProps<Theme>;
     disabled?: boolean;
     iconClassName?: string;
 };
@@ -120,7 +119,6 @@ export const SettingsOption = forwardRef(function RowLayout(
         title,
         rightContent,
         variant = 'primary',
-        color,
         disabled,
         onClick,
         iconClassName,

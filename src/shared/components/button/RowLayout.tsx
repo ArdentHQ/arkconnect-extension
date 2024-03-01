@@ -48,7 +48,6 @@ type RowLayoutProps = React.ComponentPropsWithRef<typeof StyledRow> & {
     children?: React.ReactNode | React.ReactNode[];
     testnetIndicator?: boolean;
     ledgerIndicator?: boolean;
-    color?: ColorProps<Theme>;
     disabled?: boolean;
     currency?: string;
     address?: string;
@@ -139,7 +138,6 @@ export const RowLayout = forwardRef(function RowLayout(
         testnetIndicator,
         ledgerIndicator,
         variant = 'primary',
-        color,
         disabled,
         currency,
         address,

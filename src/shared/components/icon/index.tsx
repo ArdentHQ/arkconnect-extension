@@ -1,4 +1,3 @@
-import React from 'react';
 import { IconDefinition, IconSvg } from './index.generated';
 import cn from 'classnames';
 export * from './index.generated';
