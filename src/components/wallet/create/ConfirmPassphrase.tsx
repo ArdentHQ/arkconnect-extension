@@ -15,8 +15,7 @@ import {
 import getNumberSuffix from '@/lib/utils/getNumberSuffix';
 import { TestnetIcon } from '@/components/wallet/address/Address.blocks';
 import { getLocalValues } from '@/lib/utils/localStorage';
-import {WalletNetwork} from "@/lib/store/wallet";
-import {useSelectedNetwork} from "@/lib/hooks/useSelectedNetwork";
+import useActiveNetwork from "@/lib/hooks/useActiveNetwork";
 
 type Props = {
     goToNextStep: () => void;
@@ -27,7 +26,7 @@ const ConfirmPassphrase = ({ goToNextStep, formik }: Props) => {
     const { values } = formik;
     const [validationStatus, setValidationStatus] = useState<ValidationVariant[]>([]);
 
-    const selectedNetwork = useSelectedNetwork();
+    const selectedNetwork = useActiveNetwork();
 
     useEffect(() => {
         (async () => {
@@ -86,7 +85,7 @@ const ConfirmPassphrase = ({ goToNextStep, formik }: Props) => {
                 <Heading $typeset='h4' fontWeight='medium' color='base'>
                     Confirm Your Passphrase
                 </Heading>
-                {selectedNetwork === WalletNetwork.DEVNET && <TestnetIcon />}
+                {selectedNetwork.isTest() && <TestnetIcon />}
             </FlexContainer>
 
             <Paragraph $typeset='headline' color='gray' mb='16'>

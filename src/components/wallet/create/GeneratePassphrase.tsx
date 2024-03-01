@@ -3,14 +3,13 @@ import {FormikProps} from 'formik';
 import {WalletFormScreen} from '../form-persist';
 import {persistScreenChanged} from '../form-persist/helpers';
 import {CreateWalletFormik} from '.';
-import {Button, Container, FlexContainer, Grid, Heading, Icon, Paragraph, ToggleSwitch,} from '@/shared/components';
+import {Button, Container, FlexContainer, Grid, Heading, Icon, Paragraph, ToggleSwitch} from '@/shared/components';
 import useToast from '@/lib/hooks/useToast';
 import {ToastPosition} from '@/components/toast/ToastContainer';
 import randomWordPositions from '@/lib/utils/randomWordPositions';
 import {TestnetIcon} from '@/components/wallet/address/Address.blocks';
 import {getLocalValues} from '@/lib/utils/localStorage';
-import {useSelectedNetwork} from "@/lib/hooks/useSelectedNetwork";
-import {WalletNetwork} from "@/lib/store/wallet";
+import useActiveNetwork from "@/lib/hooks/useActiveNetwork";
 
 type Props = {
     goToNextStep: () => void;
@@ -22,7 +21,7 @@ const GeneratePassphrase = ({ goToNextStep, formik }: Props) => {
 
     const toast = useToast();
 
-    const selectedNetwork = useSelectedNetwork();
+    const selectedNetwork = useActiveNetwork();
 
     useEffect(() => {
         (async () => {
@@ -81,7 +80,7 @@ const GeneratePassphrase = ({ goToNextStep, formik }: Props) => {
                 <Heading $typeset='h3' fontWeight='bold' color='base'>
                     Save Your Secret Passphrase
                 </Heading>
-                {selectedNetwork === WalletNetwork.DEVNET && <TestnetIcon />}
+                {selectedNetwork.isTest() && <TestnetIcon />}
             </FlexContainer>
             <Paragraph $typeset='headline' color='gray' mb='16'>
                 Write down or copy your passphrase. Make sure to store it safely.

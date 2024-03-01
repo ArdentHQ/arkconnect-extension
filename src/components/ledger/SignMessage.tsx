@@ -13,7 +13,7 @@ import {
     Paragraph,
 } from '@/shared/components';
 import { useProfileContext } from '@/lib/context/Profile';
-import useNetwork from '@/lib/hooks/useNetwork';
+import useActiveNetwork from '@/lib/hooks/useActiveNetwork';
 import { useMessageSigner } from '@/lib/hooks/useMessageSigner';
 import { useEnvironmentContext } from '@/lib/context/Environment';
 import formatCurrency from '@/lib/utils/formatCurrency';
@@ -28,7 +28,7 @@ const SignMessage = ({ formik, goToNextStep, goToPrevStep }: Props) => {
     const { profile } = useProfileContext();
     const { env } = useEnvironmentContext();
     const abortReference = useRef(new AbortController());
-    const { activeNetwork } = useNetwork();
+    const activeNetwork = useActiveNetwork();
     const { sign } = useMessageSigner();
     const [signedMessage, setSignedMessage] = useState<Services.SignedMessage | undefined>(
         undefined,
