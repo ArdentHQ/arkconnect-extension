@@ -55,8 +55,8 @@ const AutoUnlockWrapper = ({ children }: Props) => {
         if (locationHref.includes('import_with_ledger')) {
             navigate('/ledger-import', {
                 state: {
-                    isTestnet: locationHref.includes('isTestnet')
-                }
+                    isTestnet: locationHref.includes('isTestnet'),
+                },
             });
         }
     };
