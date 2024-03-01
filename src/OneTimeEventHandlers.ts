@@ -1,12 +1,12 @@
 import { Services } from '@ardenthq/sdk';
+import { Contracts } from '@ardenthq/sdk-profiles';
+import { UUID } from '@ardenthq/sdk-cryptography';
 import { Extension } from '@/lib/background/extension';
 import { SendTransferInput } from '@/lib/background/extension.wallet';
 import { importWallets } from '@/background.helpers';
 import { ProfileData } from '@/lib/background/contracts';
-import { Contracts } from '@ardenthq/sdk-profiles';
 import { SessionEntries } from '@/lib/store/session';
 import { setLocalValue } from '@/lib/utils/localStorage';
-import { UUID } from '@ardenthq/sdk-cryptography';
 import { ExtensionEvents } from '@/lib/events';
 
 export enum OneTimeEvents {

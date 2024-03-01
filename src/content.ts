@@ -1,15 +1,15 @@
-import browser from 'webextension-polyfill';
+import { runtime } from 'webextension-polyfill';
 import { longLivedConnectionHandlers } from './lib/background/eventListenerHandlers';
 import { ExtensionEvents } from './lib/events';
 
-const port = browser.runtime.connect({ name: 'ark-content-script' });
+const port = runtime.connect({ name: 'ark-content-script' });
 
 const injectScript = (filename: string) => {
     try {
         const container = document.head || document.documentElement;
         const scriptTag = document.createElement('script');
         scriptTag.setAttribute('async', 'false');
-        scriptTag.src = browser.runtime.getURL(filename);
+        scriptTag.src = runtime.getURL(filename);
         container.insertBefore(scriptTag, container.children[0]);
         container.removeChild(scriptTag);
     } catch (error) {
@@ -44,7 +44,7 @@ const setupEventListeners = () => {
 };
 
 // Send back the response event to inpage script
-browser.runtime.onMessage.addListener(function (request) {
+runtime.onMessage.addListener(function (request) {
     if (ExtensionEvents().isSupported(request.type)) {
         window.postMessage(request, '*');
         return;

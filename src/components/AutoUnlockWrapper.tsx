@@ -1,17 +1,17 @@
-import React, { useEffect, useLayoutEffect, useState } from 'react';
+import { ReactNode, useEffect, useLayoutEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useIdleTimer } from 'react-idle-timer';
+import { runtime } from 'webextension-polyfill';
+import { getPersistedValues } from './wallet/form-persist';
 import { useProfileContext } from '@/lib/context/Profile';
 import { HandleLoadingState } from '@/shared/components/handleStates/HandleLoadingState';
 import { FlexContainer } from '@/shared/components';
 import { useAppDispatch, useAppSelector } from '@/lib/store';
 import * as UIStore from '@/lib/store/ui';
 import useThemeMode from '@/lib/hooks/useThemeMode';
-import { getPersistedValues } from './wallet/form-persist';
-import { useIdleTimer } from 'react-idle-timer';
-import browser from 'webextension-polyfill';
 
 type Props = {
-    children: React.ReactNode | React.ReactNode[];
+    children: ReactNode | ReactNode[];
 };
 
 const AutoUnlockWrapper = ({ children }: Props) => {
@@ -25,7 +25,7 @@ const AutoUnlockWrapper = ({ children }: Props) => {
 
     useLayoutEffect(() => {
         const checkLocked = async () => {
-            const status = await browser.runtime.sendMessage({ type: 'CHECK_LOCK' });
+            const status = await runtime.sendMessage({ type: 'CHECK_LOCK' });
 
             dispatch(UIStore.lockedChanged(status.isLocked));
         };
@@ -44,7 +44,7 @@ const AutoUnlockWrapper = ({ children }: Props) => {
     useIdleTimer({
         throttle: 1000,
         onAction: () => {
-            browser.runtime.sendMessage({ type: 'REGISTER_ACTIVITY' });
+            runtime.sendMessage({ type: 'REGISTER_ACTIVITY' });
         },
         disabled: locked,
     });

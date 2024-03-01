@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import browser from 'webextension-polyfill';
+import { runtime } from 'webextension-polyfill';
 import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
 import useLogoutAll from '@/lib/hooks/useLogoutAll';
 import { Button, Checkbox, FlexContainer, Paragraph, WarningIcon } from '@/shared/components';
@@ -18,7 +18,7 @@ const ForgotPassword = () => {
 
     const handleLogout = async () => {
         try {
-            await browser.runtime.sendMessage({ type: 'RESET' });
+            await runtime.sendMessage({ type: 'RESET' });
 
             await logoutAll();
 

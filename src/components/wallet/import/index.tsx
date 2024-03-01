@@ -2,7 +2,7 @@ import { Contracts } from '@ardenthq/sdk-profiles';
 import { FormikValues, useFormik } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import browser from 'webextension-polyfill';
+import { runtime } from 'webextension-polyfill';
 import SetupPassword from '../../settings/SetupPassword';
 import { ValidationVariant } from '../create';
 import { getPersistedValues } from '../form-persist';
@@ -94,7 +94,7 @@ const ImportNewWallet = () => {
         onSubmit: async (values: FormikValues, formikHelpers) => {
             loadingModal.setLoading();
 
-            const { error } = await browser.runtime.sendMessage({
+            const { error } = await runtime.sendMessage({
                 type: 'IMPORT_WALLETS',
                 data: {
                     currency: defaultCurrency,

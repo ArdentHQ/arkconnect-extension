@@ -1,5 +1,5 @@
 import { useAppSelector } from '@/lib/store';
-import { selectLoadingModal, CTA_CONTENT } from '@/lib/store/modal';
+import { CTA_CONTENT, selectLoadingModal } from '@/lib/store/modal';
 import { FlexContainer, Heading, Icon, Loader, Paragraph } from '@/shared/components';
 
 const LoadingModal = () => {

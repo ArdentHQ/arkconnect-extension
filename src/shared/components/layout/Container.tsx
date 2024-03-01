@@ -1,17 +1,17 @@
 import styled, { WebTarget } from 'styled-components';
 import {
-    space,
-    SpaceProps,
+    border,
+    BorderProps,
+    boxShadow,
+    BoxShadowProps,
     color,
     ColorProps,
     layout,
     LayoutProps,
-    border,
-    BorderProps,
     position,
     PositionProps,
-    BoxShadowProps,
-    boxShadow,
+    space,
+    SpaceProps,
 } from 'styled-system';
 import { Theme } from '@/shared/theme';
 

@@ -1,4 +1,4 @@
-import { it, describe, expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import showAutoLockTimerValue from './showAutoLockTimerValue';
 import { AutoLockTimer as AutoLockTimerEnum } from '@/lib/utils/localStorage';
 

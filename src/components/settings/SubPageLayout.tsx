@@ -1,12 +1,12 @@
 import styled from 'styled-components';
 import { ThemeValue } from 'styled-system';
 import {
-    Layout,
+    ArrowButton,
+    CloseButton,
     Container,
     FlexContainer,
     Heading,
-    ArrowButton,
-    CloseButton,
+    Layout,
 } from '@/shared/components';
 import { Theme } from '@/shared/theme';
 import { isFirefox } from '@/lib/utils/isFirefox';

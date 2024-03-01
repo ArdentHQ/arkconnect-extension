@@ -1,3 +1,6 @@
+import { useEffect } from 'react';
+import Step from './Step';
+import { connectSteps } from './utils/connectionSteps';
 import * as ModalStore from '@/lib/store/modal';
 
 import {
@@ -10,10 +13,7 @@ import {
     Paragraph,
 } from '@/shared/components';
 
-import Step from './Step';
-import { connectSteps } from './utils/connectionSteps';
 import constants from '@/constants';
-import { useEffect } from 'react';
 import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
 import { useLedgerContext } from '@/lib/Ledger';
 import useLoadingModal from '@/lib/hooks/useLoadingModal';
