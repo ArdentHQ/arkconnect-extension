@@ -4,7 +4,6 @@ import { PrimaryWallet } from './extension.wallet.primary';
 import { initializeEnvironment } from '../utils/env.background';
 import { getLocalValues } from '../utils/localStorage';
 import { createTestProfile, isDev } from '@/dev/utils/dev';
-import { ProfileData } from './contracts';
 
 const exists = (profile?: Contracts.IProfile | null): profile is Contracts.IProfile => !!profile;
 
