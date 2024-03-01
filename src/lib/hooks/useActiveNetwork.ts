@@ -3,7 +3,7 @@ import { WalletNetwork } from '@/lib/store/wallet';
 import { useProfileContext } from '@/lib/context/Profile';
 
 const useActiveNetwork = () => {
-    const { profile} = useProfileContext();
+    const { profile } = useProfileContext();
 
     const { state } = useLocation();
 
