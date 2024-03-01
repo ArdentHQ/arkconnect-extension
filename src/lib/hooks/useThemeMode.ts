@@ -21,9 +21,7 @@ const useThemeMode = () => {
         }
     }, [currentThemeMode]);
 
-    const toggleThemeMode = (
-        evt: MouseEvent<HTMLElement> | ChangeEvent<HTMLElement>,
-    ) => {
+    const toggleThemeMode = (evt: MouseEvent<HTMLElement> | ChangeEvent<HTMLElement>) => {
         evt.preventDefault();
         evt.stopPropagation();
         dispatch(

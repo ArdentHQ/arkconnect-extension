@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { runtime } from 'webextension-polyfill';
 import { useEnvironmentContext } from '../context/Environment';
 import { precisionRound } from '../utils/precisionRound';
-import { handleBroadcastError , withAbortPromise } from '../utils/transactionHelpers';
+import { handleBroadcastError, withAbortPromise } from '../utils/transactionHelpers';
 import { useAppSelector } from '../store';
 import { useProfileContext } from '../context/Profile';
 import { useErrorHandlerContext } from '../context/ErrorHandler';
