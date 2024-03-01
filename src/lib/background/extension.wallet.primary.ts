@@ -59,5 +59,19 @@ export function PrimaryWallet({ profile }: { profile: Contracts.IProfile | null 
 
             profile?.data().set(ProfileData.PrimaryWalletId, id);
         },
+        /**
+         *  Sets the first wallet as primary, if it exists.
+         *
+         * @returns {void}
+         */
+        reset(): void {
+            if (!profile) {
+                return;
+            }
+
+            if (profile?.wallets().count() > 0) {
+                this.set(profile.wallets().first().id());
+            }
+        },
     };
 }
