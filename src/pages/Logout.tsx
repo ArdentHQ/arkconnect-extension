@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { runtime, tabs } from 'webextension-polyfill';
+import { runtime } from 'webextension-polyfill';
 import { Button, FlexContainer, Paragraph, PasswordInput, WarningIcon } from '@/shared/components';
 import { ValidationVariant } from '@/components/wallet/create';
 import { useAppDispatch, useAppSelector } from '@/lib/store';

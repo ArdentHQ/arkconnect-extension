@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { runtime, tabs } from 'webextension-polyfill';
+import { runtime } from 'webextension-polyfill';
 import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
 import useLogoutAll from '@/lib/hooks/useLogoutAll';
 import { Button, Checkbox, FlexContainer, Paragraph, WarningIcon } from '@/shared/components';

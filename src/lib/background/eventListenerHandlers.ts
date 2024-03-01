@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { runtime, tabs, Runtime, windows } from 'webextension-polyfill';
+import { Runtime, runtime, tabs, windows } from 'webextension-polyfill';
 import { Contracts } from '@ardenthq/sdk-profiles';
 import { Session } from '../store/session';
 import { WalletNetwork } from '../store/wallet';

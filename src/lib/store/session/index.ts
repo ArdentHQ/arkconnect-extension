@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { runtime, tabs } from 'webextension-polyfill';
+import { runtime } from 'webextension-polyfill';
 import { revertAll } from '../ui';
 import { RootState } from '@/lib/store';
 

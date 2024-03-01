@@ -1,4 +1,4 @@
-import { runtime, tabs } from 'webextension-polyfill';
+import { runtime } from 'webextension-polyfill';
 
 export const isValidPassword = async (password: string) => {
     const { isValid } = await runtime.sendMessage({

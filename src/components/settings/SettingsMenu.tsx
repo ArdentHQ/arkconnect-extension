@@ -1,6 +1,6 @@
 import { NavigateOptions, useLocation, useNavigate } from 'react-router-dom';
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
-import { runtime, tabs } from 'webextension-polyfill';
+import { runtime } from 'webextension-polyfill';
 import { Contracts } from '@ardenthq/sdk-profiles';
 import { Container, FlexContainer, Paragraph, ToggleSwitch } from '@/shared/components';
 import { SettingsOption } from '@/components/settings/SettingsOption';

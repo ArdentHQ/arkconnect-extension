@@ -1,7 +1,7 @@
 import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useIdleTimer } from 'react-idle-timer';
-import { runtime, tabs } from 'webextension-polyfill';
+import { runtime } from 'webextension-polyfill';
 import { getPersistedValues } from './wallet/form-persist';
 import { useProfileContext } from '@/lib/context/Profile';
 import { HandleLoadingState } from '@/shared/components/handleStates/HandleLoadingState';

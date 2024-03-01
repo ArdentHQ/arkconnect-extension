@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useLocation } from 'react-router-dom';
-import { runtime, tabs } from 'webextension-polyfill';
+import { runtime } from 'webextension-polyfill';
 import RemoveConnections from './RemoveConnections';
 import ConnectionLogoImage from './ConnectionLogoImage';
 import useThemeMode from '@/lib/hooks/useThemeMode';

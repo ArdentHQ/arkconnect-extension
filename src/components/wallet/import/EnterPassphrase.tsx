@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { FormikProps } from 'formik';
 import { Contracts } from '@ardenthq/sdk-profiles';
-import { runtime, tabs } from 'webextension-polyfill';
+import { runtime } from 'webextension-polyfill';
 import { clearPersistScreenData, persistScreenChanged } from '../form-persist/helpers';
 import { WalletFormScreen } from '../form-persist';
 import { ImportedWalletFormik } from '.';

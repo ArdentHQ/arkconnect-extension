@@ -1,6 +1,6 @@
 import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
 import { Contracts } from '@ardenthq/sdk-profiles';
-import { runtime, tabs } from 'webextension-polyfill';
+import { runtime } from 'webextension-polyfill';
 import { useAppDispatch, useAppSelector } from '../store';
 import { useWalletBalance } from '../hooks/useWalletBalance';
 import { ProfileData } from '../background/contracts';

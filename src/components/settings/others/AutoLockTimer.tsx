@@ -1,5 +1,5 @@
 import { useLocation, useNavigate } from 'react-router-dom';
-import { runtime, tabs } from 'webextension-polyfill';
+import { runtime } from 'webextension-polyfill';
 import SubPageLayout, { SettingsRowItem } from '../SubPageLayout';
 import { Container, Icon, Paragraph } from '@/shared/components';
 import useToast from '@/lib/hooks/useToast';

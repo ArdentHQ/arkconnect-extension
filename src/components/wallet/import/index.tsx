@@ -2,7 +2,7 @@ import { Contracts } from '@ardenthq/sdk-profiles';
 import { FormikValues, useFormik } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { runtime, tabs } from 'webextension-polyfill';
+import { runtime } from 'webextension-polyfill';
 import SetupPassword from '../../settings/SetupPassword';
 import { ValidationVariant } from '../create';
 import { getPersistedValues } from '../form-persist';

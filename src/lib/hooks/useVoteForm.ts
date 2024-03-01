@@ -1,7 +1,7 @@
 import { Networks, Services } from '@ardenthq/sdk';
 import { Contracts } from '@ardenthq/sdk-profiles';
 import { useEffect, useState } from 'react';
-import { runtime, tabs } from 'webextension-polyfill';
+import { runtime } from 'webextension-polyfill';
 import { useEnvironmentContext } from '../context/Environment';
 import { precisionRound } from '../utils/precisionRound';
 import { handleBroadcastError , withAbortPromise } from '../utils/transactionHelpers';

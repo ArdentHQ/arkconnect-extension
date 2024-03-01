@@ -1,4 +1,4 @@
-import { runtime, tabs } from 'webextension-polyfill';
+import { tabs } from 'webextension-polyfill';
 import { Contracts } from '@ardenthq/sdk-profiles';
 import { ProfileData } from '../background/contracts';
 

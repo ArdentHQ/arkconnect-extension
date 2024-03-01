@@ -1,4 +1,4 @@
-import { runtime, tabs } from 'webextension-polyfill';
+import { runtime } from 'webextension-polyfill';
 
 const keepServiceWorkerAlive = () => {
     const keepAliveInterval = setInterval(runtime.getPlatformInfo, 20e3);

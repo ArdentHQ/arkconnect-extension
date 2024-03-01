@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { runtime, tabs } from 'webextension-polyfill';
+import { runtime } from 'webextension-polyfill';
 import SubPageLayout from '../SubPageLayout';
 import {
     Container,

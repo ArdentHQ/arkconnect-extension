@@ -1,4 +1,4 @@
-import { runtime, tabs } from 'webextension-polyfill';
+import { runtime } from 'webextension-polyfill';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {

@@ -1,6 +1,6 @@
 import { Services } from '@ardenthq/sdk';
 import { Contracts as ProfileContracts } from '@ardenthq/sdk-profiles';
-import { runtime, tabs } from 'webextension-polyfill';
+import { runtime } from 'webextension-polyfill';
 
 const signWithLedger = async (message: string, wallet: ProfileContracts.IReadWriteWallet) => {
     const path = wallet.data().get<string>(ProfileContracts.WalletData.DerivationPath);

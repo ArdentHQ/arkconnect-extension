@@ -1,7 +1,7 @@
 import { Contracts } from '@ardenthq/sdk-profiles';
 import { useNavigate } from 'react-router-dom';
 import { useRef } from 'react';
-import { runtime, tabs } from 'webextension-polyfill';
+import { runtime } from 'webextension-polyfill';
 import styled from 'styled-components';
 import { Container, FlexContainer, Icon, Paragraph, RadioButton } from '@/shared/components';
 import useThemeMode from '@/lib/hooks/useThemeMode';

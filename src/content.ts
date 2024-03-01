@@ -1,4 +1,4 @@
-import { runtime, tabs } from 'webextension-polyfill';
+import { runtime } from 'webextension-polyfill';
 import { longLivedConnectionHandlers } from './lib/background/eventListenerHandlers';
 import { ExtensionEvents } from './lib/events';
 
