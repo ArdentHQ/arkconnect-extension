@@ -15,7 +15,7 @@ import { HandleLoadingState } from '@/shared/components/handleStates/HandleLoadi
 import { assertNetwork } from '@/lib/utils/assertions';
 import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
 import useLocaleCurrency from '@/lib/hooks/useLocalCurrency';
-import { getLocalValues } from '@/lib/utils/localStorage';
+import { getLocalValues, setLocalValue } from '@/lib/utils/localStorage';
 import { LastScreen, ProfileData, ScreenName } from '@/lib/background/contracts';
 import randomWordPositions from '@/lib/utils/randomWordPositions';
 import useLoadingModal from '@/lib/hooks/useLoadingModal';
@@ -183,12 +183,17 @@ const CreateNewWallet = () => {
     };
 
     // Persist the exact step if user goes back 'n forth.
-    const handleStepChange = (step: number) => {
+    const handleStepChange = async (step: number) => {
         if (step === -1) {
+            const { hasOnboarded } = await getLocalValues();
             browser.runtime.sendMessage({ type: 'CLEAR_LAST_SCREEN' });
             profile.data().set(ProfileData.LastScreen, undefined);
-            navigate('/create-import-address');
-            return;
+
+            if (hasOnboarded) {
+                return navigate('/create-import-address');
+            }
+
+            return navigate('/splash-screen');
         }
 
         if (step === 0) {
