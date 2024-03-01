@@ -117,6 +117,7 @@ const CreateNewWallet = () => {
     useEffect(() => {
         return () => {
             browser.runtime.sendMessage({ type: 'CLEAR_LAST_SCREEN' });
+            profile.data().set(ProfileData.LastScreen, undefined);
         };
     }, []);
 
@@ -185,6 +186,8 @@ const CreateNewWallet = () => {
     const handleStepChange = (step: number) => {
         if (step === -1) {
             browser.runtime.sendMessage({ type: 'CLEAR_LAST_SCREEN' });
+            profile.data().set(ProfileData.LastScreen, undefined);
+            navigate('/create-import-address');
             return;
         }
 
