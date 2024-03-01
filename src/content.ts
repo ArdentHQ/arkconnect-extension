@@ -1,5 +1,5 @@
 import browser from 'webextension-polyfill';
-import { BACKGROUND_EVENT_LISTENERS_HANDLERS } from './lib/background/eventListenerHandlers';
+import { longLivedConnectionHandlers } from './lib/background/eventListenerHandlers';
 import { ExtensionEvents } from './lib/events';
 
 const port = browser.runtime.connect({ name: 'ark-content-script' });
@@ -27,13 +27,13 @@ const setupEventListeners = () => {
                 return;
             }
 
-            const type = event.data.type as keyof typeof BACKGROUND_EVENT_LISTENERS_HANDLERS;
+            const type = event.data.type as keyof typeof longLivedConnectionHandlers;
 
             if (type?.endsWith('_RESOLVE') || type?.endsWith('_REJECT')) {
                 return;
             }
 
-            if (!BACKGROUND_EVENT_LISTENERS_HANDLERS[type]) {
+            if (!longLivedConnectionHandlers[type]) {
                 return;
             }
 

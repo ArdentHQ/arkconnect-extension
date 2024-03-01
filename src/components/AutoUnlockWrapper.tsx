@@ -44,7 +44,7 @@ const AutoUnlockWrapper = ({ children }: Props) => {
     useIdleTimer({
         throttle: 1000,
         onAction: () => {
-            browser.runtime.sendMessage({ type: 'REGISTERED_ACTIVITY' });
+            browser.runtime.sendMessage({ type: 'REGISTER_ACTIVITY' });
         },
         disabled: locked,
     });
