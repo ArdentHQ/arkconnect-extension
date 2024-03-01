@@ -1,5 +1,5 @@
 import { init } from '@sentry/react';
-import { createRoot} from 'react-dom/client';
+import { createRoot } from 'react-dom/client';
 import App, { MainWrapper } from './App';
 
 if (import.meta.env.VITE_SENTRY_DSN) {

@@ -1,4 +1,4 @@
-import {CSSProperties, FC} from 'react';
+import { CSSProperties, FC } from 'react';
 import styled from 'styled-components';
 import { color, ColorProps, layout, LayoutProps } from 'styled-system';
 import { IconDefinition, IconSvg } from './index.generated';
