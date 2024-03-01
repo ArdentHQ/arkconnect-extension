@@ -1,5 +1,4 @@
 import browser from 'webextension-polyfill';
-import { Services } from '@ardenthq/sdk';
 import { Contracts } from '@ardenthq/sdk-profiles';
 import { UUID } from '@ardenthq/sdk-cryptography';
 import { BACKGROUND_EVENT_LISTENERS_HANDLERS } from './lib/background/eventListenerHandlers';
@@ -9,6 +8,7 @@ import keepServiceWorkerAlive from './lib/background/keepServiceWorkerAlive';
 import { ExtensionEvents } from './lib/events';
 import { importWallets } from './background.helpers';
 import { ProfileData } from './lib/background/contracts';
+import { Services } from '@ardenthq/sdk';
 import { SendTransferInput } from './lib/background/extension.wallet';
 import { Extension } from './lib/background/extension';
 import { SessionEntries } from './lib/store/session';
@@ -111,7 +111,7 @@ const initRuntimeEventListener = () => {
             }
         }
 
-        if (request.type === 'SET_DATA') {
+        if (request.type === 'PERSIST') {
             if (!request.data.profileDump) {
                 return {
                     error: 'PROFILE_DATA_MISSING',
@@ -152,7 +152,25 @@ const initRuntimeEventListener = () => {
                 profileDump: extension.env().profiles().dump(extension.profile()),
                 error: null,
             };
-        } else if (request.type === 'SET_PRIMARY_WALLET') {
+        }
+
+        if (request.type === 'SET_LAST_SCREEN') {
+            extension.profile().data().set(ProfileData.LastScreen, {
+                screenName: request.screenName,
+                data: request.data,
+            });
+
+            await extension.persist();
+            return;
+        }
+
+        if (request.type === 'CLEAR_LAST_SCREEN') {
+            extension.profile().data().set(ProfileData.LastScreen, undefined);
+            await extension.persist();
+            return;
+        }
+
+        if (request.type === 'SET_PRIMARY_WALLET') {
             extension.primaryWallet().set(request.data.primaryWalletId);
             await extension.env().persist();
         } else if (request.type === 'SET_SESSIONS') {
