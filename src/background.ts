@@ -1,4 +1,4 @@
-import { runtime, tabs, Runtime } from 'webextension-polyfill';
+import { Runtime, runtime, tabs } from 'webextension-polyfill';
 import { UUID } from '@ardenthq/sdk-cryptography';
 import { longLivedConnectionHandlers } from './lib/background/eventListenerHandlers';
 import { AutoLockTimer, setLocalValue } from './lib/utils/localStorage';
