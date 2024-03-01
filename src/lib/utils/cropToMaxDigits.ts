@@ -1,4 +1,4 @@
-import { Helpers } from '@ardenthq/sdk-profiles';
+import formatCurrency from './formatCurrency';
 import constants from '@/constants';
 
 const extractPrefix = (str: string): string => {
@@ -27,15 +27,13 @@ const cropToMaxDigits = ({
     // If no ticker is provided "default" withTicker to false
     const addTicker = withTicker && !!ticker;
 
-    const decimalSeparator = Helpers.Currency.format(1.1, ticker, { withTicker: false }).split(
-        '',
-    )[1];
+    const decimalSeparator = formatCurrency(1.1, ticker, { withTicker: false }).split('')[1];
 
-    const formattedValueWithoutTicker = Helpers.Currency.format(value, ticker, {
+    const formattedValueWithoutTicker = formatCurrency(value, ticker, {
         withTicker: false,
     });
 
-    const formattedValue = Helpers.Currency.format(value, ticker, { withTicker: addTicker });
+    const formattedValue = formatCurrency(value, ticker, { withTicker: addTicker });
 
     let integersPart = formattedValueWithoutTicker.split(decimalSeparator)[0];
 

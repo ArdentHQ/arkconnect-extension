@@ -1,8 +1,7 @@
 import styled from 'styled-components';
 import {
-    variant,
-    space,
-    SpaceProps,
+    border,
+    BorderProps,
     color,
     ColorProps,
     layout,
@@ -11,12 +10,13 @@ import {
     PositionProps,
     shadow,
     ShadowProps,
-    border,
-    BorderProps,
+    space,
+    SpaceProps,
+    variant,
 } from 'styled-system';
 import { Theme } from '@/shared/theme';
 import { Icon, IconDefinition, Loader } from '@/shared/components';
-import { FlexVariantProps, flexVariant } from '@/shared/theme/variants';
+import { flexVariant, FlexVariantProps } from '@/shared/theme/variants';
 import { isFirefox } from '@/lib/utils/isFirefox';
 
 type VariantProps = {
@@ -86,12 +86,13 @@ const StyledButton = styled.button<BaseProps>`
                     '&:hover': {
                         backgroundColor: `${theme.colors.primary600}`,
                     },
-                    '&:focus': {
-                        boxShadow: `0px 0px 0px 4px ${theme.colors.primaryFocused}`,
-                    },
                     '&:disabled': {
                         color: `${theme.colors.secondary400}`,
                         backgroundColor: `${theme.colors.primaryDisabled}`,
+                    },
+                    '&:focus-visible': {
+                        outline: 'none',
+                        boxShadow: `0px 0px 0px 4px ${theme.colors.primaryFocused}`,
                     },
                 },
                 secondary: {
@@ -101,8 +102,9 @@ const StyledButton = styled.button<BaseProps>`
                     '&:hover': {
                         backgroundColor: `${theme.colors.secondaryButtonHover}`,
                     },
-                    '&:focus': {
-                        boxShadow: '0px 0px 0px 4px #E5F3ED',
+                    '&:focus-visible': {
+                        outline: 'none',
+                        boxShadow: `0px 0px 0px 4px ${theme.colors.secondaryFocused}`,
                     },
                     '&:disabled': {
                         border: `1px solid ${theme.colors.lightGray}`,

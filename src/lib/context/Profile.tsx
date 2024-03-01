@@ -1,15 +1,15 @@
-import { ReactNode, createContext, useContext, useEffect, useState } from 'react';
+import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
 import { Contracts } from '@ardenthq/sdk-profiles';
+import { runtime } from 'webextension-polyfill';
+import { useAppDispatch, useAppSelector } from '../store';
+import { useWalletBalance } from '../hooks/useWalletBalance';
+import { ProfileData } from '../background/contracts';
+import { testnetEnabledChanged } from '../store/ui';
 import { useEnvironmentContext } from './Environment';
 import { useErrorHandlerContext } from './ErrorHandler';
 import * as WalletStore from '@/lib/store/wallet';
-import { useAppDispatch, useAppSelector } from '../store';
-import browser from 'webextension-polyfill';
 import * as SessionStore from '@/lib/store/session';
-import { useWalletBalance } from '../hooks/useWalletBalance';
-import { ProfileData } from '../background/contracts';
 import { LoadingFullScreen } from '@/shared/components/handleStates/LoadingFullScreen';
-import { testnetEnabledChanged } from '../store/ui';
 
 interface Context {
     profile: Contracts.IProfile;
@@ -48,7 +48,9 @@ export const ProfileProvider = ({ children }: Properties) => {
 
         try {
             primaryWallet = profile?.wallets().findById(primaryWalletId);
-        } catch (_e) {}
+        } catch (_e) {
+            primaryWallet = undefined;
+        }
 
         return primaryWallet;
     };
@@ -66,7 +68,7 @@ export const ProfileProvider = ({ children }: Properties) => {
 
     const restoreProfile = async () => {
         try {
-            const { data, profileData } = await browser.runtime.sendMessage({
+            const { data, profileData } = await runtime.sendMessage({
                 type: 'GET_DATA',
             });
 

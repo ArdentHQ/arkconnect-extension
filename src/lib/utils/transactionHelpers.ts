@@ -1,4 +1,4 @@
-import { Services, Coins } from '@ardenthq/sdk';
+import { Coins, Services } from '@ardenthq/sdk';
 import { RecipientItem } from '../hooks/useSendTransferForm';
 
 interface BuildTransferDataProperties {

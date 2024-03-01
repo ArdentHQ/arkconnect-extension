@@ -1,4 +1,4 @@
-import { setLocalValue, PersistScreen, deleteLocalValue } from '.';
+import { deleteLocalValue, PersistScreen, setLocalValue } from '.';
 
 export const LOCAL_STORAGE_KEY = 'persist:form';
 

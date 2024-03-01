@@ -1,18 +1,17 @@
-import * as ModalStore from '@/lib/store/modal';
 import * as Yup from 'yup';
 
-import { Button, Container, FlexContainer, Paragraph, PasswordInput } from '@/shared/components';
-
-import SubPageLayout from '../SubPageLayout';
-import { ToastPosition } from '@/components/toast/ToastContainer';
-import browser from 'webextension-polyfill';
-import { isValidPassword } from '@/lib/utils/validations';
-import { useAppDispatch } from '@/lib/store';
-import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
+import { runtime } from 'webextension-polyfill';
 import { useFormik } from 'formik';
 import { useNavigate } from 'react-router-dom';
+import SubPageLayout from '../SubPageLayout';
+import { Button, Container, FlexContainer, Paragraph, PasswordInput } from '@/shared/components';
+
+import { ToastPosition } from '@/components/toast/ToastContainer';
+import { isValidPassword } from '@/lib/utils/validations';
+import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
 import { useProfileContext } from '@/lib/context/Profile';
 import useToast from '@/lib/hooks/useToast';
+import useLoadingModal from '@/lib/hooks/useLoadingModal';
 
 type ChangePasswordFormik = {
     oldPassword: string;
@@ -36,7 +35,9 @@ const ChangeLocalPassword = () => {
     const navigate = useNavigate();
     const toast = useToast();
     const { initProfile } = useProfileContext();
-    const dispatch = useAppDispatch();
+    const loadingModal = useLoadingModal({
+        loadingMessage: 'Updating your password...',
+    });
     const formik = useFormik<ChangePasswordFormik>({
         initialValues: {
             oldPassword: '',
@@ -51,15 +52,9 @@ const ChangeLocalPassword = () => {
                     return;
                 }
 
-                dispatch(
-                    ModalStore.loadingModalUpdated({
-                        isOpen: true,
-                        isLoading: true,
-                        loadingMessage: 'Updating your password...',
-                    }),
-                );
+                loadingModal.setLoading();
 
-                const { error } = await browser.runtime.sendMessage({
+                const { error } = await runtime.sendMessage({
                     type: 'CHANGE_PASSWORD',
                     data: {
                         newPassword: formik.values.newPassword,
@@ -74,9 +69,10 @@ const ChangeLocalPassword = () => {
 
                 await initProfile();
 
-                dispatch(ModalStore.loadingModalUpdated({ isOpen: false, isLoading: false }));
                 toast('success', 'Password changed successfully', ToastPosition.HIGH);
                 navigate('/');
+
+                loadingModal.close();
             } catch (error) {
                 toast('danger', 'Something went wrong!', ToastPosition.HIGH);
                 onError(error);

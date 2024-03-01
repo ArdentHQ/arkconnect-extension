@@ -1,22 +1,20 @@
-import * as ModalStore from '@/lib/store/modal';
-
+import { useEffect, useState } from 'react';
+import { Contracts } from '@ardenthq/sdk-profiles';
+import { runtime } from 'webextension-polyfill';
+import styled from 'styled-components';
+import { useFormik } from 'formik';
 import { Container, FlexContainer, Header, Icon, Paragraph } from '@/shared/components';
 import { LedgerData, useLedgerContext } from '@/lib/Ledger';
 import StepsNavigation, { Step } from '@/components/steps/StepsNavigation';
-import { useEffect, useState } from 'react';
 
-import { Contracts } from '@ardenthq/sdk-profiles';
 import ImportWallets from '@/components/ledger/ImportWallets';
 import { LedgerConnectionStep } from '@/components/ledger/LedgerConnectionStep';
 import SetupPassword from '@/components/settings/SetupPassword';
 import { ThemeMode } from '@/lib/store/ui';
-import browser from 'webextension-polyfill';
 import { getLedgerAlias } from '@/lib/utils/getDefaultAlias';
 import { getLocalValues } from '@/lib/utils/localStorage';
-import styled from 'styled-components';
-import { useAppDispatch } from '@/lib/store';
 import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
-import { useFormik } from 'formik';
+import useLoadingModal from '@/lib/hooks/useLoadingModal';
 import useLocaleCurrency from '@/lib/hooks/useLocalCurrency';
 import useNetwork from '@/lib/hooks/useNetwork';
 import { useProfileContext } from '@/lib/context/Profile';
@@ -35,13 +33,19 @@ const ImportWithLedger = () => {
     const { activeNetwork: network } = useNetwork();
     const { profile, initProfile } = useProfileContext();
     const { defaultCurrency } = useLocaleCurrency();
-    const dispatch = useAppDispatch();
     const { error, removeErrors } = useLedgerContext();
     const { onError } = useErrorHandlerContext();
     const [steps, setSteps] = useState<Step[]>([
-        { component: LedgerConnectionStep },
+        { component: LedgerConnectionStep, containerPaddingX: '24' },
         { component: ImportWallets },
     ]);
+    const loadingModal = useLoadingModal({
+        loadingMessage: 'Setting up your wallet',
+        completedMessage: 'Your wallet is ready!',
+        other: {
+            completedDescription: 'You can now open the extension and manage your addresses!',
+        },
+    });
 
     const formik = useFormik<ImportWithLedger>({
         initialValues: {
@@ -67,7 +71,7 @@ const ImportWithLedger = () => {
                 };
             });
 
-            const { error } = await browser.runtime.sendMessage({
+            const { error } = await runtime.sendMessage({
                 type: 'IMPORT_WALLETS',
                 data: {
                     currency: defaultCurrency,
@@ -83,16 +87,7 @@ const ImportWithLedger = () => {
 
             await initProfile();
 
-            dispatch(
-                ModalStore.loadingModalUpdated({
-                    isOpen: true,
-                    isLoading: false,
-                    loadingMessage: 'Setting up your wallet',
-                    completedMessage: 'Your wallet is ready!',
-                    completedDescription:
-                        'You can now open the extension and manage your addresses!',
-                }),
-            );
+            loadingModal.open();
 
             formikHelpers.resetForm();
         },
@@ -102,7 +97,7 @@ const ImportWithLedger = () => {
         (async () => {
             const { hasOnboarded } = await getLocalValues();
             if (!hasOnboarded) {
-                setSteps([...steps, { component: SetupPassword }]);
+                setSteps([...steps, { component: SetupPassword, containerPaddingX: '24' }]);
             }
         })();
     }, []);
@@ -119,12 +114,17 @@ const ImportWithLedger = () => {
             >
                 <FlexContainer justifyContent='center' alignItems='center' height='100%'>
                     <Container
-                        p='24'
+                        py='24'
                         width='355px'
                         backgroundColor='secondaryBackground'
                         borderRadius='8'
                     >
-                        <StepsNavigation steps={steps} formik={formik} disabledSteps={[0, 2]} />
+                        <StepsNavigation
+                            steps={steps}
+                            formik={formik}
+                            disabledSteps={[0, 2]}
+                            px='24'
+                        />
                     </Container>
                 </FlexContainer>
                 {error && (

@@ -6,7 +6,7 @@ import { useEnvironmentContext } from '@/lib/context/Environment';
 import { useProfileContext } from '@/lib/context/Profile';
 import formatDomain from '@/lib/utils/formatDomain';
 import removeWindowInstance from '@/lib/utils/removeWindowInstance';
-import { FlexContainer, Icon, Heading, Button, ExternalLink, Paragraph } from '@/shared/components';
+import { Button, ExternalLink, FlexContainer, Heading, Icon, Paragraph } from '@/shared/components';
 import RequestedBy from '@/shared/components/actions/RequestedBy';
 
 const TransactionApproved = () => {

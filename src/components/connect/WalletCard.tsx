@@ -1,11 +1,11 @@
 import { Contracts } from '@ardenthq/sdk-profiles';
 import styled from 'styled-components';
+import { Address, LedgerIcon, TestnetIcon } from '../wallet/address/Address.blocks';
+import Amount from '../wallet/Amount';
 import { Container, FlexContainer, Paragraph } from '@/shared/components';
 import constants from '@/constants';
 import { generateWalletHelperText } from '@/lib/utils/generateWalletHelperText';
 import trimAddress from '@/lib/utils/trimAddress';
-import { Address, LedgerIcon, TestnetIcon } from '../wallet/address/Address.blocks';
-import Amount from '../wallet/Amount';
 
 type Props = React.ComponentProps<typeof StyledRow> & {
     wallet: Contracts.IReadWriteWallet;
