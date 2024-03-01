@@ -1,4 +1,4 @@
-import browser from 'webextension-polyfill';
+import { runtime } from 'webextension-polyfill';
 import { useNavigate } from 'react-router-dom';
 import { useProfileContext } from '../context/Profile';
 import useOnError from '.';
@@ -24,7 +24,7 @@ const useResetExtension = () => {
     };
 
     const resetEnvironment = async () => {
-        await browser.runtime.sendMessage({ type: 'RESET' });
+        await runtime.sendMessage({ type: 'RESET' });
     };
 
     const resetExtension = async () => {
