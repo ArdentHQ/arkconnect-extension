@@ -19,14 +19,12 @@ export type Toast = {
 export type UIState = {
     themeMode: ThemeMode;
     toasts: Toast[];
-    testnetEnabled: boolean;
     locked: boolean;
 };
 
 const initialState: UIState = {
     themeMode: ThemeMode.LIGHT,
     toasts: [],
-    testnetEnabled: false,
     locked: false,
 };
 
@@ -48,10 +46,6 @@ export const uiSlice = createSlice({
         toastsReseted: (state) => {
             state.toasts = [];
         },
-        testnetEnabledChanged: (state, action: PayloadAction<boolean>) => {
-            state.testnetEnabled = action.payload;
-        },
-
         lockedChanged: (state, action: PayloadAction<boolean>) => {
             state.locked = action.payload;
         },
@@ -64,13 +58,11 @@ export const {
     toastAdded,
     toastRemoved,
     toastsReseted,
-    testnetEnabledChanged,
     lockedChanged,
 } = uiSlice.actions;
 
 export const selectThemeMode = (state: RootState) => state.ui.themeMode;
 export const selectToasts = (state: RootState) => state.ui.toasts;
-export const selectTestnetEnabled = (state: RootState) => state.ui.testnetEnabled;
 export const selectLocked = (state: RootState) => state.ui.locked;
 
 export const uiReducer = persist('ui', uiSlice.reducer);

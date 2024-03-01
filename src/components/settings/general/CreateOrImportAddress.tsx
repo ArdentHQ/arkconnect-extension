@@ -12,21 +12,18 @@ import {
     RowLayout,
     Tooltip,
 } from '@/shared/components';
-import { useAppDispatch } from '@/lib/store';
-import { testnetEnabledChanged } from '@/lib/store/ui';
 import { handleSubmitKeyAction } from '@/lib/utils/handleKeyAction';
 import { isFirefox } from '@/lib/utils/isFirefox';
 import { clearPersistScreenData } from '@/components/wallet/form-persist/helpers';
 
 type NetworkModalState = {
-    nextAction?: () => void;
+    nextAction?: (isTestnet: boolean) => void;
     isOpen: boolean;
     action?: 'import' | 'create';
 };
 
 const CreateOrImportAddress = () => {
     const navigate = useNavigate();
-    const dispatch = useAppDispatch();
 
     // Clear any old data
     clearPersistScreenData();
@@ -41,7 +38,11 @@ const CreateOrImportAddress = () => {
 
     const handleCreateNewAddress = () => {
         setNetworkModalState({
-            nextAction: () => navigate('/wallet/create'),
+            nextAction: (isTestnet: boolean) => navigate('/wallet/create', {
+                state: {
+                    isTestnet
+                }
+            }),
             isOpen: true,
             action: 'create',
         });
@@ -49,7 +50,11 @@ const CreateOrImportAddress = () => {
 
     const handleImportAddress = () => {
         setNetworkModalState({
-            nextAction: () => navigate('/wallet/import'),
+            nextAction: (isTestnet: boolean) => navigate('/wallet/import', {
+                state: {
+                    isTestnet
+                }
+            }),
             isOpen: true,
             action: 'import',
         });
@@ -122,8 +127,7 @@ const CreateOrImportAddress = () => {
                     onClose={onCloseModalHandler}
                     action={networkModalState.action}
                     onNetworkSelect={(isTestnet: boolean) => {
-                        dispatch(testnetEnabledChanged(isTestnet));
-                        networkModalState.nextAction?.();
+                        networkModalState.nextAction?.(isTestnet);
                     }}
                 />
             )}

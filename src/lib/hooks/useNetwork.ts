@@ -1,8 +1,7 @@
 import { Networks } from '@ardenthq/sdk';
 import { useProfileContext } from '../context/Profile';
 import { profileAllEnabledNetworks } from '../utils/networkUtils';
-import { useAppSelector } from '../store';
-import { selectTestnetEnabled } from '@/lib/store/ui';
+import {useSelectedNetwork} from "@/lib/hooks/useSelectedNetwork";
 
 type UseNetwork = {
     activeNetwork: Networks.Network;
@@ -12,10 +11,11 @@ type UseNetwork = {
 const useNetwork = (): UseNetwork => {
     const { profile } = useProfileContext();
     const networks = profileAllEnabledNetworks(profile);
-    const testNetEnabled = useAppSelector(selectTestnetEnabled);
+
+    const selectedNetwork = useSelectedNetwork();
 
     const activeNetwork =
-        networks.find((n) => n.name() === (testNetEnabled ? 'Devnet' : 'Mainnet')) || networks[0];
+        networks.find((n) => n.name() === selectedNetwork) || networks[0];
 
     return {
         activeNetwork,
