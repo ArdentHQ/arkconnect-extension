@@ -1,48 +1,48 @@
 name: Test
 on:
-  push:
-    branches:
-      - master
-      - develop
-  pull_request:
-    types:
-      - ready_for_review
-      - synchronize
-      - opened
+    push:
+        branches:
+            - master
+            - develop
+    pull_request:
+        types:
+            - ready_for_review
+            - synchronize
+            - opened
 jobs:
-  application:
-    concurrency:
-      group: ${{ github.head_ref }}-test-app
-      cancel-in-progress: true
+    application:
+        concurrency:
+            group: ${{ github.head_ref }}-test-app
+            cancel-in-progress: true
 
-    runs-on: ubuntu-latest
+        runs-on: ubuntu-latest
 
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: ${{ github.head_ref }}
+        steps:
+            - uses: actions/checkout@v4
+              with:
+                  ref: ${{ github.head_ref }}
 
-      - uses: pnpm/action-setup@v2
-        with:
-          version: 8
+            - uses: pnpm/action-setup@v2
+              with:
+                  version: 8
 
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: pnpm
+            - uses: actions/setup-node@v4
+              with:
+                  node-version: 20
+                  cache: pnpm
 
-      - name: Update System
-        run: sudo apt-get update
+            - name: Update System
+              run: sudo apt-get update
 
-      - name: Install (Ledger Requirements)
-        run: sudo apt-get install libudev-dev libusb-1.0-0-dev
+            - name: Install (Ledger Requirements)
+              run: sudo apt-get install libudev-dev libusb-1.0-0-dev
 
-      - name: Install (pnpm)
-        run: pnpm install --frozen-lockfile
+            - name: Install (pnpm)
+              run: pnpm install --frozen-lockfile
 
-      - name: Test App
-        uses: nick-fields/retry@v3
-        with:
-          timeout_minutes: 20
-          max_attempts: 1
-          command: pnpm test
+            - name: Test App
+              uses: nick-fields/retry@v3
+              with:
+                  timeout_minutes: 20
+                  max_attempts: 1
+                  command: pnpm test
