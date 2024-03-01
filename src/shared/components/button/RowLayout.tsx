@@ -68,7 +68,7 @@ const StyledRow = styled.div<BaseProps>`
         pointer-events: none;
     }
 
-    cursor: ${({ hasPointer }) => (hasPointer ? 'pointer' : 'auto')};
+    cursor: ${({ hasPointer }) => (hasPointer ? 'pointer' : 'inherit')};
 
     ${({ as }) =>
         as === 'button' &&

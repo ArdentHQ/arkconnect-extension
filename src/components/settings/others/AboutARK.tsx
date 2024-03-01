@@ -48,7 +48,7 @@ const AboutARK = () => {
                             title='Support Email'
                             iconTrailing='link-external'
                             tabIndex={-1}
-                        ></RowLayout>
+                        />
                     </ExternalLink>
 
                     <CopyButton
