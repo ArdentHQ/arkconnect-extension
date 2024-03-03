@@ -108,8 +108,8 @@ const SignMessage = ({ formik, goToNextStep, goToPrevStep }: Props) => {
                         signedMessage
                             ? 'primary'
                             : hasLedgerResponded
-                            ? 'rejectedBorder'
-                            : 'warning400'
+                              ? 'rejectedBorder'
+                              : 'warning400'
                     }
                     borderRadius='16'
                 >

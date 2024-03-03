@@ -57,8 +57,8 @@ const Onboarding = () => {
                             activeOnboardingScreen === index
                                 ? 'isActive'
                                 : activeOnboardingScreen > index
-                                ? 'isPrev'
-                                : 'isNext'
+                                  ? 'isPrev'
+                                  : 'isNext'
                         }`}
                         $flexVariant='columnCenter'
                         gridGap='24px'
