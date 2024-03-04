@@ -1,13 +1,16 @@
-import { ReactNode, useEffect, useLayoutEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useIdleTimer } from 'react-idle-timer';
-import { runtime } from 'webextension-polyfill';
-import { getPersistedValues } from './wallet/form-persist';
-import { useProfileContext } from '@/lib/context/Profile';
-import { HandleLoadingState } from '@/shared/components/handleStates/HandleLoadingState';
-import { FlexContainer } from '@/shared/components';
-import { useAppDispatch, useAppSelector } from '@/lib/store';
 import * as UIStore from '@/lib/store/ui';
+
+import { LastScreen, ProfileData, ScreenName } from '@/lib/background/contracts';
+import { ReactNode, useEffect, useLayoutEffect, useState } from 'react';
+import { useAppDispatch, useAppSelector } from '@/lib/store';
+
+import { FlexContainer } from '@/shared/components';
+import { getPersistedValues } from './wallet/form-persist';
+import { HandleLoadingState } from '@/shared/components/handleStates/HandleLoadingState';
+import { runtime } from 'webextension-polyfill';
+import { useIdleTimer } from 'react-idle-timer';
+import { useNavigate } from 'react-router-dom';
+import { useProfileContext } from '@/lib/context/Profile';
 import useThemeMode from '@/lib/hooks/useThemeMode';
 
 type Props = {
@@ -57,8 +60,20 @@ const AutoUnlockWrapper = ({ children }: Props) => {
     };
 
     const handlePersistScreenRedirect = () => {
-        if (!persistScreen) return;
-        navigate(persistScreen.screen);
+        if (persistScreen) {
+            navigate(persistScreen.screen);
+            return;
+        }
+
+        const lastScreen = profile.data().get(ProfileData.LastScreen) as LastScreen | undefined;
+
+        if (!lastScreen) {
+            return;
+        }
+
+        if (lastScreen.screenName === ScreenName.CreateWallet) {
+            navigate('/wallet/create');
+        }
     };
 
     const handleAutoLockNavigation = () => {
