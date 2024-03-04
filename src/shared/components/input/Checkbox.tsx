@@ -1,9 +1,7 @@
 import { ChangeEvent, FC, useState } from 'react';
-import styled from 'styled-components';
-import { FlexContainer, Paragraph } from '@/shared/components';
+import cn from 'classnames';
 import { handleInputKeyAction } from '@/lib/utils/handleKeyAction';
 import { isFirefox } from '@/lib/utils/isFirefox';
-import cn from 'classnames';
 
 type CheckboxProps = {
     checked: boolean;
