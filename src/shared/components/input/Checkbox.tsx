@@ -36,12 +36,12 @@ export const Checkbox: FC<CheckboxProps> = ({
         >
             <span className='flex flex-col items-start gap-[5px] ml-7'>
                 {title && (
-                    <p className='text-base font-normal leading-tight text-light-black dark:text-white'>
+                    <p className='typeset-heading'>
                         {title}
                     </p>
                 )}
                 {helperText && (
-                    <span className='text-sm font-normal leading-tight text-theme-secondary-600 dark:text-theme-secondary-300'>
+                    <span className='typeset-body'>
                         {helperText}
                     </span>
                 )}
