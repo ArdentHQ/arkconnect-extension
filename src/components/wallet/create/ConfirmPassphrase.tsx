@@ -1,5 +1,6 @@
 import { FormikProps } from 'formik';
 import { useEffect, useState } from 'react';
+import { runtime } from 'webextension-polyfill';
 import { CreateWalletFormik, ValidationVariant } from '.';
 import {
     Button,
@@ -15,7 +16,6 @@ import { TestnetIcon } from '@/components/wallet/address/Address.blocks';
 import { useAppSelector } from '@/lib/store';
 import { selectTestnetEnabled } from '@/lib/store/ui';
 import { ScreenName } from '@/lib/background/contracts';
-import browser from 'webextension-polyfill';
 
 type Props = {
     goToNextStep: () => void;
@@ -61,9 +61,9 @@ const ConfirmPassphrase = ({ goToNextStep, formik }: Props) => {
         const confirmPassphrase = values.confirmPassphrase;
         confirmPassphrase[index] = evt.target.value;
 
-        formik.setFieldValue(`confirmPassphrase`, confirmPassphrase);
+        formik.setFieldValue('confirmPassphrase', confirmPassphrase);
 
-        browser.runtime.sendMessage({
+        runtime.sendMessage({
             type: 'SET_LAST_SCREEN',
             screenName: ScreenName.CreateWallet,
             data: {

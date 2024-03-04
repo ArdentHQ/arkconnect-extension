@@ -19,7 +19,6 @@ import { getLocalValues } from '@/lib/utils/localStorage';
 import { LastScreen, ProfileData, ScreenName } from '@/lib/background/contracts';
 import randomWordPositions from '@/lib/utils/randomWordPositions';
 import useLoadingModal from '@/lib/hooks/useLoadingModal';
-import browser from 'webextension-polyfill';
 
 export type CreateWalletFormik = {
     wallet?: Contracts.IReadWriteWallet;
@@ -117,7 +116,7 @@ const CreateNewWallet = () => {
 
     useEffect(() => {
         return () => {
-            browser.runtime.sendMessage({ type: 'CLEAR_LAST_SCREEN' });
+            runtime.sendMessage({ type: 'CLEAR_LAST_SCREEN' });
             profile.data().set(ProfileData.LastScreen, undefined);
         };
     }, []);
@@ -155,7 +154,7 @@ const CreateNewWallet = () => {
                 return;
             }
 
-            await browser.runtime.sendMessage({ type: 'CLEAR_LAST_SCREEN' });
+            await runtime.sendMessage({ type: 'CLEAR_LAST_SCREEN' });
 
             // Fetch updated profile data and update store.
             await initProfile();
@@ -187,7 +186,7 @@ const CreateNewWallet = () => {
     const handleStepChange = async (step: number) => {
         if (step === -1) {
             const { hasOnboarded } = await getLocalValues();
-            browser.runtime.sendMessage({ type: 'CLEAR_LAST_SCREEN' });
+            runtime.sendMessage({ type: 'CLEAR_LAST_SCREEN' });
             profile.data().set(ProfileData.LastScreen, undefined);
 
             if (hasOnboarded) {
@@ -202,7 +201,7 @@ const CreateNewWallet = () => {
             formik.setFieldValue('confirmationNumbers', confirmationNumbers);
             formik.setFieldValue('confirmPassphrase', ['', '', '']);
 
-            browser.runtime.sendMessage({
+            runtime.sendMessage({
                 type: 'SET_LAST_SCREEN',
                 screenName: ScreenName.CreateWallet,
                 data: {
@@ -216,7 +215,7 @@ const CreateNewWallet = () => {
             return;
         }
 
-        browser.runtime.sendMessage({
+        runtime.sendMessage({
             type: 'SET_LAST_SCREEN',
             screenName: ScreenName.CreateWallet,
             data: {
@@ -239,7 +238,7 @@ const CreateNewWallet = () => {
             formik.setFieldValue('wallet', response.wallet);
             formik.setFieldValue('passphrase', response.mnemonic.split(' '));
 
-            await browser.runtime.sendMessage({
+            await runtime.sendMessage({
                 type: 'SET_LAST_SCREEN',
                 screenName: ScreenName.CreateWallet,
                 data: {
