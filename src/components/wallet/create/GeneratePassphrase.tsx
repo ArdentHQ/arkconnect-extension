@@ -161,7 +161,7 @@ const GeneratePassphrase = ({ goToNextStep, formik }: Props) => {
                     overflow='hidden'
                 >
                     <Container as='span' display='inline-block'>
-                        <Icon icon='copy' width='18px' height='18px' />
+                        <Icon icon='copy' className='h-4.5 w-4.5' />
                     </Container>
 
                     <Paragraph
