@@ -1,14 +1,14 @@
+import { Runtime, runtime, tabs } from 'webextension-polyfill';
+import { UUID } from '@ardenthq/sdk-cryptography';
 import { AutoLockTimer, setLocalValue } from './lib/utils/localStorage';
 import { createTestProfile, isDev } from './dev/utils/dev';
-import { OneTimeEventHandlers, OneTimeEvents } from '@/OneTimeEventHandlers';
-import { Runtime, runtime, tabs } from 'webextension-polyfill';
 
 import { Extension } from './lib/background/extension';
 import initAutoLock from './lib/background/initAutoLock';
 import keepServiceWorkerAlive from './lib/background/keepServiceWorkerAlive';
 import { longLivedConnectionHandlers } from './lib/background/eventListenerHandlers';
 import { ProfileData } from './lib/background/contracts';
-import { UUID } from '@ardenthq/sdk-cryptography';
+import { OneTimeEventHandlers, OneTimeEvents } from '@/OneTimeEventHandlers';
 
 const initialPassword = UUID.random();
 
