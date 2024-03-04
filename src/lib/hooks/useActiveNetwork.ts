@@ -13,8 +13,6 @@ const useActiveNetwork = () => {
         selectedNetwork = WalletNetwork.MAINNET;
     }
 
-    console.log(selectedNetwork);
-
     const networks = profile.availableNetworks();
 
     return networks.find((n) => n.name() === selectedNetwork) || networks[0];
