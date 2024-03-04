@@ -1,5 +1,6 @@
-import cn from 'classnames';
 import { IconDefinition, IconSvg } from './index.generated';
+
+import cn from 'classnames';
 export * from './index.generated';
 
 type IconProps = {
@@ -9,7 +10,7 @@ type IconProps = {
 
 export const Icon = ({ icon, className, ...rest }: IconProps) => {
     return (
-        <span {...rest} className={cn('block', 'Icon ' + (className ? className : ''))} role='img'>
+        <span {...rest} className={cn('block', className ? className : '')} role='img'>
             {IconSvg[icon]}
         </span>
     );
