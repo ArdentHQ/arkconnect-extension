@@ -17,12 +17,15 @@ const EyeButton = ({
     labelText?: string;
 }) => {
     return (
-        <button 
-            className={cn('flex cursor-pointer text-light-black dark:text-white w-7 h-7 rounded-full justify-center items-center', {
-                'focus-visible:outline focus-visible:outline-2': isFirefox,
-                'top-9': labelText,
-                'top-3': !labelText,
-            })}
+        <button
+            className={cn(
+                'flex cursor-pointer text-light-black dark:text-white w-7 h-7 rounded-full justify-center items-center',
+                {
+                    'focus-visible:outline focus-visible:outline-2': isFirefox,
+                    'top-9': labelText,
+                    'top-3': !labelText,
+                },
+            )}
             onClick={onClick}
         >
             <Icon
