@@ -109,4 +109,21 @@
     [type='checkbox']:disabled:checked + .toggle-switch-slider::before {
         @apply bg-white
     }
+
+    /** Text Input **/
+    .text-input {
+        @apply text-light-black dark:text-white border border-solid bg-white dark:bg-subtle-black focus:border focus:border-solid
+    }
+
+    .text-input-primary {
+        @apply border-theme-secondary-400 dark:border-theme-secondary-500 focus:border-light-black focus:dark:border-theme-secondary-300 disabled:bg-theme-secondary-100
+       }
+   
+    .text-input-destructive {
+        @apply border-theme-error-500 focus:border-theme-error-600 focus:dark:border-theme-error-500
+    }
+
+    .text-input-errorFree {
+        @apply border-theme-primary-700 dark:border-theme-primary-650  focus:border-theme-primary-700 focus:dark:border-theme-primary-650 disabled:bg-theme-secondary-100
+    }
 }
