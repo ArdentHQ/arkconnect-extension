@@ -28,7 +28,10 @@ const EyeButton = ({
             alignItems='center'
             top={labelText ? '36px' : '12px'}
         >
-            <Icon width='20px' height='20px' icon={showPassword ? 'eye-off' : 'eye'} color='base' />
+            <Icon
+                className='h-5 w-5 text-light-black dark:text-white'
+                icon={showPassword ? 'eye-off' : 'eye'}
+            />
         </StyledEyeWrapper>
     );
 };
@@ -45,7 +48,7 @@ export const PasswordInput = ({ labelText, ...props }: Props) => {
                 type={showPassword ? 'text' : 'password'}
                 labelText={labelText}
                 {...props}
-                paddingRight='40'
+                className='pr-10'
                 trailing={
                     <EyeButton
                         showPassword={showPassword}

@@ -1,18 +1,19 @@
 import { Runtime, runtime, tabs } from 'webextension-polyfill';
 import { UUID } from '@ardenthq/sdk-cryptography';
-import { longLivedConnectionHandlers } from './lib/background/eventListenerHandlers';
 import { AutoLockTimer, setLocalValue } from './lib/utils/localStorage';
+import { createTestProfile, isDev } from './dev/utils/dev';
+
+import { Extension } from './lib/background/extension';
 import initAutoLock from './lib/background/initAutoLock';
 import keepServiceWorkerAlive from './lib/background/keepServiceWorkerAlive';
-import { createTestProfile, isDev } from './dev/utils/dev';
+import { longLivedConnectionHandlers } from './lib/background/eventListenerHandlers';
 import { ProfileData } from './lib/background/contracts';
-import { Extension } from './lib/background/extension';
 import { OneTimeEventHandlers, OneTimeEvents } from '@/OneTimeEventHandlers';
 
 const initialPassword = UUID.random();
 
 const extension = Extension();
-extension.reset(initialPassword);
+extension.boot(initialPassword);
 
 const oneTimeEventHandlers = OneTimeEventHandlers(extension);
 

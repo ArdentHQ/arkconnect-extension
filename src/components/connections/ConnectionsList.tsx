@@ -225,7 +225,10 @@ const ConnectionsList = () => {
                                     }}
                                     as='button'
                                 >
-                                    <Icon icon='slash' width='18px' height='18px' />
+                                    <Icon
+                                        icon='slash'
+                                        className='text-light-black dark:text-white w-4.5 h-4.5'
+                                    />
                                 </StyledFlexContainer>
                             </Tooltip>
                         </StyledRow>
