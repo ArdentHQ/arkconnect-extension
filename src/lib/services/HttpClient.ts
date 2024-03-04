@@ -1,6 +1,7 @@
 import { Http } from '@ardenthq/sdk';
 import hash from 'string-hash';
 import { Cache } from './Cache';
+import {SocksProxyAgent} from "socks-proxy-agent";
 
 type Primitive = null | undefined | string | number | boolean | symbol | bigint;
 
@@ -11,6 +12,12 @@ export class HttpClient extends Http.AbstractRequest {
         super();
 
         this.cache = new Cache(ttl);
+    }
+
+    public withSocksProxy(host: string): HttpClient {
+        this._options.agent = new SocksProxyAgent(host);
+
+        return this;
     }
 
     protected async send(
