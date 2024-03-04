@@ -1,14 +1,18 @@
+import cn from 'classnames';
 import { ModalIcon } from '@/shared/components';
 import useThemeMode from '@/lib/hooks/useThemeMode';
 
 const ConnectionIndicator = ({ isConnected }: { isConnected: boolean }) => {
-    const { currentThemeMode, getThemeColor } = useThemeMode();
+    const { currentThemeMode } = useThemeMode();
 
     return (
         <ModalIcon
-            color={isConnected ? getThemeColor('primary700', 'primary600') : 'gray'}
             icon={isConnected ? 'globe-with-dot' : 'globe'}
-            iconClassName={isConnected ? `${currentThemeMode} globeIcon` : undefined}
+            iconClassName={cn('', {
+                [`${currentThemeMode} globeIcon`]: isConnected,
+                'text-theme-primary-700 dark:text-theme-primary-600': isConnected,
+                'text-theme-secondary-500 dark:text-theme-secondary-300': !isConnected,
+            })}
         />
     );
 };

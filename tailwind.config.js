@@ -2,18 +2,25 @@ const defaultTheme = require('tailwindcss/defaultTheme');
 
 /** @type {import('tailwindcss').Config} */
 export default {
-    content: ['./src/**/*.{js,ts,jsx,tsx}'],
+    content: ['./src/**/*.{js,ts,jsx,tsx,css}'],
     darkMode: 'class',
     theme: {
         extend: {
             fontFamily: {
                 sans: ['var(--font-dm-sans)', ...defaultTheme.fontFamily.sans],
             },
+            spacing: {
+                3.5: '0.875rem',
+                4.5: '1.125rem',
+                30: '7.5rem',
+                50: '12.5rem',
+            },
         },
         colors: {
             transparent: 'transparent',
             black: 'rgb(var(--theme-color-black) / <alpha-value>)',
             'subtle-black': 'rgb(var(--theme-color-subtle-black) / <alpha-value>)',
+            'light-black': 'rgb(var(--theme-color-light-black) / <alpha-value>)',
 
             white: 'rgb(var(--theme-color-white) / <alpha-value>)',
             'subtle-white': 'rgb(var(--theme-color-subtle-white) / <alpha-value>)',

@@ -109,6 +109,7 @@ export const SettingsMenu = ({
                     <SettingsOption
                         title='Dark Mode'
                         iconLeading='moon'
+                        iconClassName='text-light-black'
                         color='lightBlack'
                         onClick={(evt) => toggleThemeMode(evt)}
                         rightContent={
@@ -132,6 +133,7 @@ export const SettingsMenu = ({
                         title='Change Password'
                         iconLeading='shield-border'
                         iconTrailing='arrow-right'
+                        iconClassName='text-light-black'
                         color='lightBlack'
                         onClick={() => handleNavigation('/local-password')}
                         onKeyDown={(e) =>

@@ -133,9 +133,7 @@ const ImportWithLedger = () => {
                             <FlexContainer alignItems='center' gridGap='8px'>
                                 <Icon
                                     icon='information-circle'
-                                    width='20px'
-                                    height='20px'
-                                    color='ledgerErrorText'
+                                    className='h-5 w-5 text-theme-error-600 dark:text-white'
                                 />
                                 <Paragraph
                                     color='ledgerConnectionError'
@@ -148,10 +146,7 @@ const ImportWithLedger = () => {
                             <Container p='8' onClick={removeErrors}>
                                 <Icon
                                     icon='x'
-                                    width='16px'
-                                    height='16px'
-                                    color='ledgerErrorText'
-                                    className='c-pointer'
+                                    className='c-pointer h-4 w-4 text-theme-error-600 dark:text-white'
                                 />
                             </Container>
                         </FlexContainer>

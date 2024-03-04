@@ -68,9 +68,12 @@ const Home = () => {
                                 <Paragraph $typeset='body' fontWeight='medium'>
                                     Explorer
                                 </Paragraph>
-                                <Icon icon='link-external' width='16px' height='16px' />
+                                <Icon icon='link-external' className='h-4 w-4' />
                             </ExternalLink>
-                            <Icon icon='divider' width='2px' height='18px' color='dividerGreen' />
+                            <Icon
+                                icon='divider'
+                                className='w-0.5 h-4.5 text-theme-primary-650 dark:text-theme-primary-600'
+                            />
 
                             <ExternalLink
                                 gridGap='8px'
@@ -85,7 +88,7 @@ const Home = () => {
                                 <Paragraph $typeset='body' fontWeight='medium'>
                                     {primaryWallet?.network().isTest() ? 'Faucet' : 'Exchanges'}
                                 </Paragraph>
-                                <Icon icon='link-external' width='16px' height='16px' />
+                                <Icon icon='link-external' className='w-4 h-4' />
                             </ExternalLink>
                         </FlexContainer>
                     </Container>
@@ -99,11 +102,11 @@ const Home = () => {
                             justifyContent='space-between'
                             alignItems='center'
                         >
-                            <Icon icon='speakerphone' width='18px' height='18px' />
+                            <Icon icon='speakerphone' className='h-4.5 w-4.5' />
                             <Paragraph $typeset='body' fontWeight='medium'>
                                 Try Our Demo App Now!
                             </Paragraph>
-                            <Icon icon='link-external' width='16px' height='16px' />
+                            <Icon icon='link-external' className='h-4 w-4' />
                         </FlexContainer>
                     </ExternalLink>
                 </Container>
