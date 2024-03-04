@@ -34,16 +34,8 @@ export const Checkbox: FC<CheckboxProps> = ({
             })}
         >
             <span className='flex flex-col items-start gap-[5px] ml-7'>
-                {title && (
-                    <p className='typeset-heading'>
-                        {title}
-                    </p>
-                )}
-                {helperText && (
-                    <span className='typeset-body'>
-                        {helperText}
-                    </span>
-                )}
+                {title && <p className='typeset-heading'>{title}</p>}
+                {helperText && <span className='typeset-body'>{helperText}</span>}
             </span>
 
             <input
