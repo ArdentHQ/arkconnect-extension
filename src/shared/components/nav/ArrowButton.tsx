@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import cn from 'classnames';
 import { FlexContainer, Icon } from '@/shared/components';
 import { isFirefox } from '@/lib/utils/isFirefox';
-import cn from 'classnames';
 
 export const ArrowButton = ({
     action = 'goBack',

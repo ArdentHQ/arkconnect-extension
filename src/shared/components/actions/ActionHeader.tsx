@@ -1,7 +1,7 @@
+import cn from 'classnames';
 import RequestedBy from './RequestedBy';
 import { FlexContainer, Heading, Icon, IconDefinition } from '@/shared/components';
 import useThemeMode from '@/lib/hooks/useThemeMode';
-import cn from 'classnames';
 
 type Props = {
     appLogo?: string;

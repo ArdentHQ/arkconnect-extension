@@ -9,12 +9,12 @@ import {
     variant,
 } from 'styled-system';
 import { forwardRef, MouseEvent } from 'react';
+import cn from 'classnames';
 import { Theme } from '@/shared/theme';
 import { Container, FlexContainer, Icon, IconDefinition, Paragraph } from '@/shared/components';
 import { FlexVariantProps } from '@/shared/theme/variants';
 import useThemeMode from '@/lib/hooks/useThemeMode';
 import { isFirefox } from '@/lib/utils/isFirefox';
-import cn from 'classnames';
 
 type VariantProps = {
     variant?: 'primary' | 'error';

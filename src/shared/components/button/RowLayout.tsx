@@ -15,6 +15,7 @@ import {
     variant,
 } from 'styled-system';
 import { forwardRef } from 'react';
+import cn from 'classnames';
 import { Theme } from '@/shared/theme';
 import { Container, FlexContainer, Icon, IconDefinition, Paragraph } from '@/shared/components';
 import { flexVariant, FlexVariantProps } from '@/shared/theme/variants';
@@ -22,7 +23,6 @@ import constants from '@/constants';
 import { Address, LedgerIcon, TestnetIcon } from '@/components/wallet/address/Address.blocks';
 import { isFirefox } from '@/lib/utils/isFirefox';
 import Amount from '@/components/wallet/Amount';
-import cn from 'classnames';
 
 type VariantProps = {
     variant?: 'primary' | 'errorFree';

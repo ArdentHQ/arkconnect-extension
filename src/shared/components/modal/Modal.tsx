@@ -1,6 +1,8 @@
 import { ReactNode, useRef } from 'react';
 import styled from 'styled-components';
 import FocusTrap from 'focus-trap-react';
+import cn from 'classnames';
+import { ColorProps, Theme } from 'styled-system';
 import Portal from '../utils/Portal';
 import useOnClickOutside from '@/lib/hooks/useOnClickOutside';
 import {
@@ -11,8 +13,6 @@ import {
     Icon as IconComponent,
     IconDefinition,
 } from '@/shared/components';
-import cn from 'classnames';
-import { ColorProps, Theme } from 'styled-system';
 
 const Backdrop = styled.div`
     position: fixed;

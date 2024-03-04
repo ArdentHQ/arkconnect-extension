@@ -1,7 +1,7 @@
 import { ColorProps, LayoutProps } from 'styled-system';
+import cn from 'classnames';
 import { Icon } from '@/shared/components/';
 import { Theme } from '@/shared/theme';
-import cn from 'classnames';
 
 type LogoProps = {
     className?: string;

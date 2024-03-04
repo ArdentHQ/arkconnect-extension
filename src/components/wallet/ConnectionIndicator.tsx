@@ -1,6 +1,6 @@
+import cn from 'classnames';
 import { ModalIcon } from '@/shared/components';
 import useThemeMode from '@/lib/hooks/useThemeMode';
-import cn from 'classnames';
 
 const ConnectionIndicator = ({ isConnected }: { isConnected: boolean }) => {
     const { currentThemeMode } = useThemeMode();
