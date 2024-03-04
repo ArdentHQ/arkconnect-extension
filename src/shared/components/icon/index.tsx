@@ -1,6 +1,6 @@
+import cn from 'classnames';
 import { IconDefinition, IconSvg } from './index.generated';
 
-import cn from 'classnames';
 export * from './index.generated';
 
 type IconProps = {
