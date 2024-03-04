@@ -57,7 +57,6 @@ export default defineConfig({
             output: {
                 manualChunks: {
                     utils: ['semver', 'yup', 'uuid', 'assert', 'p-retry', 'string-hash'],
-                    crypto: ['crypto-js'],
                     sdk: ['@ardenthq/sdk'],
                     'sdk-ark': ['@ardenthq/sdk-ark'],
                     'sdk-cryptography': ['@ardenthq/sdk-cryptography'],
