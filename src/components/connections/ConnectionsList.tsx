@@ -173,8 +173,8 @@ const ConnectionsList = () => {
                                 />
                             </FlexContainer>
 
-                            <div className='flex-1 overflow-auto flex flex-col justify-between'>
-                                <div className='overflow-auto'>
+                            <div className='flex-1 flex flex-col justify-between'>
+                                <div>
                                     <Tooltip
                                         content={
                                             <StyledSpan>
@@ -187,7 +187,6 @@ const ConnectionsList = () => {
                                             $typeset='headline'
                                             fontWeight='medium'
                                             color='base'
-                                            className='truncate max-w-full'
                                         >
                                             {formatDomain(session.domain, false)}
                                         </Paragraph>
