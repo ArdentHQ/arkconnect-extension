@@ -48,7 +48,7 @@ export const PasswordInput = ({ labelText, ...props }: Props) => {
                 type={showPassword ? 'text' : 'password'}
                 labelText={labelText}
                 {...props}
-                paddingRight='40'
+                className='pr-10'
                 trailing={
                     <EyeButton
                         showPassword={showPassword}
