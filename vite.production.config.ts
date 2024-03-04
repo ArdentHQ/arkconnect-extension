@@ -56,15 +56,7 @@ export default defineConfig({
         rollupOptions: {
             output: {
                 manualChunks: {
-                    utils: [
-                        'semver',
-                        'yup',
-                        'uuid',
-                        'assert',
-                        'p-retry',
-                        'string-hash',
-                        'socks-proxy-agent',
-                    ],
+                    utils: ['semver', 'yup', 'uuid', 'assert', 'p-retry', 'string-hash'],
                     sdk: ['@ardenthq/sdk'],
                     'sdk-ark': ['@ardenthq/sdk-ark'],
                     'sdk-cryptography': ['@ardenthq/sdk-cryptography'],
