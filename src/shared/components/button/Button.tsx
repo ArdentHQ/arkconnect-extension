@@ -211,9 +211,9 @@ export const Button = ({
 
     return (
         <StyledButton $flexVariant='rowCenter' {...rest}>
-            {iconLeading && <Icon width='20px' height='20px' icon={iconLeading} />}
+            {iconLeading && <Icon className='h-5 w-5' icon={iconLeading} />}
             {children}
-            {iconTrailing && <Icon width='20px' height='20px' icon={iconTrailing} />}
+            {iconTrailing && <Icon className='h-5 w-5' icon={iconTrailing} />}
         </StyledButton>
     );
 };

@@ -44,7 +44,7 @@ const AutoLockTimer = () => {
                             {showAutoLockTimerValue(timerKey)}
                         </Paragraph>
                         {location.state?.autoLockTimer === timerKey && (
-                            <Icon icon='check' width='20px' height='20px' />
+                            <Icon icon='check' className='h-5 w-5' />
                         )}
                     </SettingsRowItem>
                 ))}
