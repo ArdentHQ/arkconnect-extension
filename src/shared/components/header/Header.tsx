@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { Link, useLocation } from 'react-router-dom';
 import { useRef, useState } from 'react';
 import FocusTrap from 'focus-trap-react';
+import cn from 'classnames';
 import useThemeMode from '@/lib/hooks/useThemeMode';
 import { LogoIcon } from '@/components/Logo';
 import { Container, FlexContainer, Icon, Paragraph } from '@/shared/components';
@@ -144,7 +145,15 @@ export const Header = () => {
                                     {trimAddress(primaryWallet.address(), 7)}
                                 </Paragraph>
                                 <FlexContainer alignSelf='self-end' color='base' as='span'>
-                                    <Icon icon='arrow-down' className='h-4 w-4' />
+                                    <Icon
+                                        icon='arrow-down'
+                                        className={cn(
+                                            'h-4 w-4 transition-transform ease-in-out delay-150',
+                                            {
+                                                'transform rotate-180': showAddressesDropdown,
+                                            },
+                                        )}
+                                    />
                                 </FlexContainer>
                             </StyledFlexContainer>
                         </FlexContainer>
