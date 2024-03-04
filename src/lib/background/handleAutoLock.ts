@@ -12,7 +12,7 @@ export class LockHandler {
         return this.#isLocked;
     };
 
-    unlock = async (profile: Contracts.IProfile | null, password: string | null) => {
+    unlock = async (profile: Contracts.IProfile, password: string | null | undefined) => {
         this.#isLocked = profile?.password().get() !== password;
 
         return this.#isLocked;

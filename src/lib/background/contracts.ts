@@ -1,6 +1,7 @@
 export enum ProfileData {
     PrimaryWalletId = 'PRIMARY_WALLET_ID',
     Sessions = 'SESSIONS',
+    LastScreen = 'LAST_SCREEN',
 }
 
 type Session = {
@@ -10,5 +11,24 @@ type Session = {
     createdAt: string;
     walletId: string;
 };
+
+interface WalletCreateScreenData {
+    mnemonic: string;
+    network: string;
+    coin: string;
+    confirmationNumbers: number[];
+    confirmPassphrase: string[];
+    step: number;
+}
+
+export enum ScreenName {
+    CreateWallet = 'CREATE_WALLET',
+}
+
+export interface LastScreen {
+    screenName: ScreenName;
+    step?: number;
+    data: WalletCreateScreenData;
+}
 
 export type SessionEntries = { [id: string]: Session };
