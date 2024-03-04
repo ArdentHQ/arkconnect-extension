@@ -15,7 +15,18 @@ export const TextArea = forwardRef(function TextArea(
     props: TextAreaProps,
     ref: React.Ref<HTMLTextAreaElement>,
 ) {
-    const { labelText, helperText, variant, id, rows, hideText, value, onChange, className, ...rest } = props;
+    const {
+        labelText,
+        helperText,
+        variant,
+        id,
+        rows,
+        hideText,
+        value,
+        onChange,
+        className,
+        ...rest
+    } = props;
 
     const getValue = () => {
         if (!value || typeof value !== 'string') return '';
@@ -34,21 +45,20 @@ export const TextArea = forwardRef(function TextArea(
 
     return (
         <div className='flex flex-col gap-1.5'>
-            {
-                labelText && (
-                    <label
-                        htmlFor={id}
-                        className='text-theme-secondary-500 dark:text-theme-secondary-300 font-medium text-sm leading-tight'
-                    >
-                        {labelText}
-                    </label>
-                )
-            }
+            {labelText && (
+                <label
+                    htmlFor={id}
+                    className='text-theme-secondary-500 dark:text-theme-secondary-300 font-medium text-sm leading-tight'
+                >
+                    {labelText}
+                </label>
+            )}
 
             <div className='relative w-full'>
                 <textarea
                     className={cn(
-                        'leading-5 text-base font-normal w-full p-3 rounded-lg shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] transition-smoothEase border-none outline-none resize-none disabled:cursor-not-allowed disabled:pointer-events-none placeholder:text-theme-secondary-400', {
+                        'leading-5 text-base font-normal w-full p-3 rounded-lg shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] transition-smoothEase border-none outline-none resize-none disabled:cursor-not-allowed disabled:pointer-events-none placeholder:text-theme-secondary-400',
+                        {
                             'textarea-primary': variant === 'primary',
                             'textarea-destructive': variant === 'destructive',
                             'textarea-errorFree': variant === 'errorFree',
@@ -64,20 +74,17 @@ export const TextArea = forwardRef(function TextArea(
                 />
             </div>
 
-            {
-                helperText && (
-                    <p
-                        className={cn(
-                            'text-sm font-normal leading-tight', {
-                                'text-theme-error-600 dark:text-theme-error-500': variant === 'destructive',
-                                'text-theme-secondary-500 dark:text-theme-secondary-300': variant !== 'destructive',
-                            }
-                        )}
-                    >
-                        {helperText}
-                    </p>
-                )
-            }
+            {helperText && (
+                <p
+                    className={cn('text-sm font-normal leading-tight', {
+                        'text-theme-error-600 dark:text-theme-error-500': variant === 'destructive',
+                        'text-theme-secondary-500 dark:text-theme-secondary-300':
+                            variant !== 'destructive',
+                    })}
+                >
+                    {helperText}
+                </p>
+            )}
         </div>
     );
 });
