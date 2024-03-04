@@ -44,9 +44,6 @@ dependencies:
   classnames:
     specifier: ^2.5.1
     version: 2.5.1
-  crypto-js:
-    specifier: ^4.1.1
-    version: 4.1.1
   focus-trap-react:
     specifier: ^10.2.3
     version: 10.2.3(prop-types@15.8.1)(react-dom@18.2.0)(react@18.2.0)
@@ -115,9 +112,6 @@ devDependencies:
   '@testing-library/react':
     specifier: ^14.1.2
     version: 14.1.2(react-dom@18.2.0)(react@18.2.0)
-  '@types/crypto-js':
-    specifier: ^4.1.1
-    version: 4.1.1
   '@types/react':
     specifier: ^18.2.15
     version: 18.2.15
@@ -2600,10 +2594,6 @@ packages:
     dependencies:
       '@types/filesystem': 0.0.35
       '@types/har-format': 1.2.15
-    dev: true
-
-  /@types/crypto-js@4.1.1:
-    resolution: {integrity: sha512-BG7fQKZ689HIoc5h+6D2Dgq1fABRa0RbBWKBd9SP/MVRVXROflpm5fhwyATX5duFmbStzyzyycPB8qUYKDH3NA==}
     dev: true
 
   /@types/estree@1.0.5:
