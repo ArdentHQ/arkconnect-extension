@@ -1,15 +1,15 @@
-import * as UIStore from '@/lib/store/ui';
-
-import { LastScreen, ProfileData, ScreenName } from '@/lib/background/contracts';
 import { ReactNode, useEffect, useLayoutEffect, useState } from 'react';
-import { useAppDispatch, useAppSelector } from '@/lib/store';
-
-import { FlexContainer } from '@/shared/components';
-import { getPersistedValues } from './wallet/form-persist';
-import { HandleLoadingState } from '@/shared/components/handleStates/HandleLoadingState';
 import { runtime } from 'webextension-polyfill';
 import { useIdleTimer } from 'react-idle-timer';
 import { useNavigate } from 'react-router-dom';
+import { getPersistedValues } from './wallet/form-persist';
+import * as UIStore from '@/lib/store/ui';
+
+import { LastScreen, ProfileData, ScreenName } from '@/lib/background/contracts';
+import { useAppDispatch, useAppSelector } from '@/lib/store';
+
+import { FlexContainer } from '@/shared/components';
+import { HandleLoadingState } from '@/shared/components/handleStates/HandleLoadingState';
 import { useProfileContext } from '@/lib/context/Profile';
 import useThemeMode from '@/lib/hooks/useThemeMode';
 
