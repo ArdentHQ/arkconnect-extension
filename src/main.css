@@ -1,4 +1,5 @@
 @import "./css/variables.css";
+@import "./css/transitions.css";
 @import "./css/inputs.css";
 
 @tailwind base;

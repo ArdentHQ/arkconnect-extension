@@ -5,5 +5,5 @@ import { ThemeMode } from '@/lib/store/ui';
 export const LockIcon = () => {
     const { currentThemeMode } = useThemeMode();
     const icon = currentThemeMode === ThemeMode.LIGHT ? 'lock-light' : 'lock-dark';
-    return <Icon icon={icon} width='190px' height='190px' />;
+    return <Icon icon={icon} className='h-[190px] w-[190px]' />;
 };
