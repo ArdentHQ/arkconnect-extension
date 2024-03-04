@@ -1,8 +1,7 @@
 import styled from 'styled-components';
 import {
-    variant,
-    space,
-    SpaceProps,
+    border,
+    BorderProps,
     color,
     ColorProps,
     layout,
@@ -11,12 +10,13 @@ import {
     PositionProps,
     shadow,
     ShadowProps,
-    border,
-    BorderProps,
+    space,
+    SpaceProps,
+    variant,
 } from 'styled-system';
 import { Theme } from '@/shared/theme';
 import { Icon, IconDefinition, Loader } from '@/shared/components';
-import { FlexVariantProps, flexVariant } from '@/shared/theme/variants';
+import { flexVariant, FlexVariantProps } from '@/shared/theme/variants';
 import { isFirefox } from '@/lib/utils/isFirefox';
 
 type VariantProps = {
@@ -219,9 +219,9 @@ export const Button = ({
 
     return (
         <StyledButton $flexVariant='rowCenter' {...rest}>
-            {iconLeading && <Icon width='20px' height='20px' icon={iconLeading} />}
+            {iconLeading && <Icon className='h-5 w-5' icon={iconLeading} />}
             {children}
-            {iconTrailing && <Icon width='20px' height='20px' icon={iconTrailing} />}
+            {iconTrailing && <Icon className='h-5 w-5' icon={iconTrailing} />}
         </StyledButton>
     );
 };

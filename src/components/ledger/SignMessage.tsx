@@ -99,7 +99,7 @@ const SignMessage = ({ formik, goToNextStep, goToPrevStep }: Props) => {
                 Sign the message on your Ledger to import the address
             </Heading>
             <FlexContainer justifyContent='center' my='24'>
-                <Icon width='146px' height='105px' icon='ledger-message' />
+                <Icon className='w-[146px] h-[105px]' icon='ledger-message' />
             </FlexContainer>
             {ledgerWallet && (
                 <Container
@@ -137,7 +137,7 @@ const SignMessage = ({ formik, goToNextStep, goToPrevStep }: Props) => {
                             borderBottomRightRadius='16'
                             borderBottomLeftRadius='16'
                         >
-                            <Icon icon='check' width='20px' height='20px' />
+                            <Icon icon='check' className='w-5 h-5' />
                             <Paragraph $typeset='body' fontWeight='medium'>
                                 Signed
                             </Paragraph>
@@ -153,7 +153,7 @@ const SignMessage = ({ formik, goToNextStep, goToPrevStep }: Props) => {
                             borderBottomRightRadius='16'
                             borderBottomLeftRadius='16'
                         >
-                            <Icon icon='x' width='18px' height='18px' />
+                            <Icon icon='x' className='h-4.5 w-4.5' />
                             <Paragraph $typeset='body' fontWeight='medium'>
                                 Request Rejected
                             </Paragraph>

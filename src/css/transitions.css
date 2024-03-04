@@ -1,0 +1,9 @@
+@layer utilities {
+    .transition-smoothEase {
+        @apply transition-all duration-300 ease-in-out;
+    }
+  
+    .transition-firefoxSmoothEase {
+        @apply transition-[background] duration-300 ease-in-out;
+    }
+}

@@ -1,3 +1,6 @@
+import { useEffect } from 'react';
+import Step from './Step';
+import { connectSteps } from './utils/connectionSteps';
 import * as ModalStore from '@/lib/store/modal';
 
 import {
@@ -10,10 +13,7 @@ import {
     Paragraph,
 } from '@/shared/components';
 
-import Step from './Step';
-import { connectSteps } from './utils/connectionSteps';
 import constants from '@/constants';
-import { useEffect } from 'react';
 import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
 import { useLedgerContext } from '@/lib/Ledger';
 import useLoadingModal from '@/lib/hooks/useLoadingModal';
@@ -100,7 +100,7 @@ export const LedgerConnectionStep = ({
                 Connect Your Ledger Device
             </Heading>
             <FlexContainer my='24' justifyContent='center'>
-                <Icon icon='ledger-device' width='220px' height='120px' />
+                <Icon icon='ledger-device' className='w-[13.75rem] h-[7.5rem]' />
             </FlexContainer>
             <Container mb='24'>
                 {connectSteps.map((step, index) => (
@@ -134,7 +134,7 @@ export const LedgerConnectionStep = ({
                 <Paragraph $typeset='headline' fontWeight='medium'>
                     Support Email
                 </Paragraph>
-                <Icon icon='link-external' width='20px' height='20px' />
+                <Icon icon='link-external' className='w-5 h-5' />
             </ExternalLink>
         </Container>
     );

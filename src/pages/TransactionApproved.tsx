@@ -6,7 +6,7 @@ import { useEnvironmentContext } from '@/lib/context/Environment';
 import { useProfileContext } from '@/lib/context/Profile';
 import formatDomain from '@/lib/utils/formatDomain';
 import removeWindowInstance from '@/lib/utils/removeWindowInstance';
-import { FlexContainer, Icon, Heading, Button, ExternalLink, Paragraph } from '@/shared/components';
+import { Button, ExternalLink, FlexContainer, Heading, Icon, Paragraph } from '@/shared/components';
 import RequestedBy from '@/shared/components/actions/RequestedBy';
 
 const TransactionApproved = () => {
@@ -51,7 +51,10 @@ const TransactionApproved = () => {
                     width='100%'
                 >
                     <FlexContainer flexDirection='column' gridGap='16px' alignItems='center'>
-                        <Icon icon='completed' width='64px' height='64px' color='primary' />
+                        <Icon
+                            icon='completed'
+                            className='w-16 h-16 text-theme-primary-700 dark:text-theme-primary-650'
+                        />
                         <Heading $typeset='h3' color='base' fontWeight='bold'>
                             Transaction Approved
                         </Heading>
@@ -78,7 +81,7 @@ const TransactionApproved = () => {
                         <Paragraph $typeset='headline' fontWeight='medium' as='span'>
                             View transaction on ARKScan
                         </Paragraph>
-                        <Icon icon='link-external' width='20px' height='20px' />
+                        <Icon icon='link-external' className='h-5 w-5' />
                     </ExternalLink>
                 </FlexContainer>
             </FlexContainer>

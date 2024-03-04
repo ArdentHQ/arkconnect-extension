@@ -1,7 +1,7 @@
 import { Contracts } from '@ardenthq/sdk-profiles';
 import { useNavigate } from 'react-router-dom';
 import { useRef } from 'react';
-import browser from 'webextension-polyfill';
+import { runtime } from 'webextension-polyfill';
 import styled from 'styled-components';
 import { Container, FlexContainer, Icon, Paragraph, RadioButton } from '@/shared/components';
 import useThemeMode from '@/lib/hooks/useThemeMode';
@@ -76,7 +76,7 @@ export const AddressesDropdown = ({
 
         await dispatch(primaryWalletIdChanged(newPrimaryAddress.id()));
 
-        await browser.runtime.sendMessage({
+        await runtime.sendMessage({
             type: 'SET_PRIMARY_WALLET',
             data: { primaryWalletId: newPrimaryAddress.id() },
         });
@@ -120,7 +120,7 @@ export const AddressesDropdown = ({
                             navigate('/create-import-address');
                         }}
                     >
-                        <Icon icon='plus' width='18px' height='18px' />
+                        <Icon icon='plus' className='h-4.5 w-4.5' />
                     </StyledFlexContainer>
                 </FlexContainer>
             </Container>
@@ -225,7 +225,7 @@ const AddressRow = ({
                 }}
                 selected={isSelected}
             >
-                <Icon icon='transparent-settings' width='18px' height='18px' />
+                <Icon icon='transparent-settings' className='h-4.5 w-4.5' />
             </StyledFlexContainerSettings>
         </StyledWrapper>
     );

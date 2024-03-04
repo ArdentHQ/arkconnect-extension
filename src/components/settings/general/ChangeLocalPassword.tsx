@@ -1,6 +1,6 @@
 import * as Yup from 'yup';
 
-import browser from 'webextension-polyfill';
+import { runtime } from 'webextension-polyfill';
 import { useFormik } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import SubPageLayout from '../SubPageLayout';
@@ -54,7 +54,7 @@ const ChangeLocalPassword = () => {
 
                 loadingModal.setLoading();
 
-                const { error } = await browser.runtime.sendMessage({
+                const { error } = await runtime.sendMessage({
                     type: 'CHANGE_PASSWORD',
                     data: {
                         newPassword: formik.values.newPassword,

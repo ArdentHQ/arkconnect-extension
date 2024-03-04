@@ -1,14 +1,14 @@
+import { useRef } from 'react';
+import styled from 'styled-components';
+import { KnownTarget } from 'styled-components/dist/types';
+import { TippyProps } from '@tippyjs/react';
+import Amount from '../Amount';
 import { Alias, Container, FlexContainer, Icon, Paragraph, Tooltip } from '@/shared/components';
 import trimAddress from '@/lib/utils/trimAddress';
 import useThemeMode from '@/lib/hooks/useThemeMode';
 import { ToastPosition } from '@/components/toast/ToastContainer';
 import useClipboard from '@/lib/hooks/useClipboard';
 import { useIsTruncated } from '@/lib/hooks/useIsTruncated';
-import { useRef } from 'react';
-import styled from 'styled-components';
-import { KnownTarget } from 'styled-components/dist/types';
-import Amount from '../Amount';
-import { TippyProps } from '@tippyjs/react';
 
 export const AddressAlias = ({
     alias,
@@ -42,7 +42,7 @@ export const LedgerIcon = ({ as }: { as?: KnownTarget }) => {
     return (
         <Tooltip content='Ledger Address' placement='top'>
             <FlexContainer color='gray' as={as}>
-                <Icon icon='ledger-address' width='14px' height='14px' />
+                <Icon icon='ledger-address' className='h-3.5 w-3.5' />
             </FlexContainer>
         </Tooltip>
     );
@@ -112,7 +112,7 @@ export const AddressWithCopy = ({ address, length = 10 }: { address: string; len
                     <Paragraph $typeset='body' color='gray'>
                         {trimmedAddress}
                     </Paragraph>
-                    <Icon icon='copy' width='13px' height='13px' />
+                    <Icon icon='copy' className='h-[13px] w-[13px]' />
                 </FlexContainer>
             </Tooltip>
         </Container>

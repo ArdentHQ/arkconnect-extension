@@ -1,10 +1,10 @@
-import { ArrowButton, Container, FlexContainer, Paragraph } from '@/shared/components';
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ComponentType, useState } from 'react';
 
 import { FormikProps } from 'formik';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import { ArrowButton, Container, FlexContainer, Paragraph } from '@/shared/components';
 
 export type Step = {
     component: ComponentType<any>;
@@ -16,6 +16,7 @@ type StepNavigationProps<T> = React.ComponentProps<typeof StyledFlexContainer> &
     formik?: FormikProps<T>;
     disabledSteps?: number[];
     defaultStep?: number;
+    onStepChange?: (step: number) => void;
 };
 
 const StepsNavigation = <T extends Record<string, any>>({
@@ -23,6 +24,7 @@ const StepsNavigation = <T extends Record<string, any>>({
     formik,
     disabledSteps,
     defaultStep,
+    onStepChange,
     ...stepsProps
 }: StepNavigationProps<T>) => {
     const navigate = useNavigate();
@@ -32,14 +34,17 @@ const StepsNavigation = <T extends Record<string, any>>({
     const handleStepBack = () => {
         if (currentStep > 0) {
             setCurrentStep(currentStep - 1);
+            onStepChange?.(currentStep - 1);
         } else {
             navigate(-1);
+            onStepChange?.(-1);
         }
     };
 
     const handleStepForward = () => {
         if (steps.length > currentStep + 1) {
             setCurrentStep(currentStep + 1);
+            onStepChange?.(currentStep + 1);
             return;
         }
         formik?.submitForm();

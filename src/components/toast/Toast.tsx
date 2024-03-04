@@ -12,7 +12,7 @@ const Toast = ({ type, message }: UIStore.Toast) => {
             borderRadius='8'
             marginTop='8'
         >
-            <Icon icon={type as IconDefinition} width='20px' height='20px' />
+            <Icon icon={type as IconDefinition} className='h-5 w-5' />
             <Paragraph $typeset='body' fontWeight='regular' color='background' marginLeft='4'>
                 {message}
             </Paragraph>

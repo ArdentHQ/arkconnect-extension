@@ -1,17 +1,20 @@
-import React, { useEffect, useLayoutEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useProfileContext } from '@/lib/context/Profile';
-import { HandleLoadingState } from '@/shared/components/handleStates/HandleLoadingState';
-import { FlexContainer } from '@/shared/components';
-import { useAppDispatch, useAppSelector } from '@/lib/store';
-import * as UIStore from '@/lib/store/ui';
-import useThemeMode from '@/lib/hooks/useThemeMode';
-import { getPersistedValues } from './wallet/form-persist';
+import { ReactNode, useEffect, useLayoutEffect, useState } from 'react';
+import { runtime } from 'webextension-polyfill';
 import { useIdleTimer } from 'react-idle-timer';
-import browser from 'webextension-polyfill';
+import { useNavigate } from 'react-router-dom';
+import { getPersistedValues } from './wallet/form-persist';
+import * as UIStore from '@/lib/store/ui';
+
+import { LastScreen, ProfileData, ScreenName } from '@/lib/background/contracts';
+import { useAppDispatch, useAppSelector } from '@/lib/store';
+
+import { FlexContainer } from '@/shared/components';
+import { HandleLoadingState } from '@/shared/components/handleStates/HandleLoadingState';
+import { useProfileContext } from '@/lib/context/Profile';
+import useThemeMode from '@/lib/hooks/useThemeMode';
 
 type Props = {
-    children: React.ReactNode | React.ReactNode[];
+    children: ReactNode | ReactNode[];
 };
 
 const AutoUnlockWrapper = ({ children }: Props) => {
@@ -25,7 +28,7 @@ const AutoUnlockWrapper = ({ children }: Props) => {
 
     useLayoutEffect(() => {
         const checkLocked = async () => {
-            const status = await browser.runtime.sendMessage({ type: 'CHECK_LOCK' });
+            const status = await runtime.sendMessage({ type: 'CHECK_LOCK' });
 
             dispatch(UIStore.lockedChanged(status.isLocked));
         };
@@ -44,7 +47,7 @@ const AutoUnlockWrapper = ({ children }: Props) => {
     useIdleTimer({
         throttle: 1000,
         onAction: () => {
-            browser.runtime.sendMessage({ type: 'REGISTERED_ACTIVITY' });
+            runtime.sendMessage({ type: 'REGISTER_ACTIVITY' });
         },
         disabled: locked,
     });
@@ -57,8 +60,20 @@ const AutoUnlockWrapper = ({ children }: Props) => {
     };
 
     const handlePersistScreenRedirect = () => {
-        if (!persistScreen) return;
-        navigate(persistScreen.screen);
+        if (persistScreen) {
+            navigate(persistScreen.screen);
+            return;
+        }
+
+        const lastScreen = profile.data().get(ProfileData.LastScreen) as LastScreen | undefined;
+
+        if (!lastScreen) {
+            return;
+        }
+
+        if (lastScreen.screenName === ScreenName.CreateWallet) {
+            navigate('/wallet/create');
+        }
     };
 
     const handleAutoLockNavigation = () => {

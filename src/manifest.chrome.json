@@ -1,38 +1,32 @@
 {
-  "name": "ARK Connect",
-  "description": "ARK Connect is an open source browser extension that allows users to connect their ARK address to Web3 applications.",
-  "manifest_version": 3,
-  "icons": {
-    "16": "icon/16.png",
-    "32": "icon/32.png",
-    "48": "icon/48.png",
-    "96": "icon/96.png",
-    "128": "icon/128.png"
-  },
-  "action": {
-    "default_popup": "src/main.html"
-  },
-  "background": {
-    "service_worker": "src/background.ts"
-  },
-  "permissions": [
-    "activeTab",
-    "storage",
-    "clipboardWrite",
-    "tabs",
-    "unlimitedStorage"
-  ],
-  "content_scripts": [
-    {
-      "matches": ["https://*/*"],
-      "js": ["src/content.ts"],
-      "run_at": "document_start"
-    }
-  ],
-  "web_accessible_resources": [
-    {
-      "resources": ["src/inpage.js"],
-      "matches": ["<all_urls>"]
-    }
-  ]
+    "name": "ARK Connect",
+    "description": "ARK Connect is an open source browser extension that allows users to connect their ARK address to Web3 applications.",
+    "manifest_version": 3,
+    "icons": {
+        "16": "icon/16.png",
+        "32": "icon/32.png",
+        "48": "icon/48.png",
+        "96": "icon/96.png",
+        "128": "icon/128.png"
+    },
+    "action": {
+        "default_popup": "src/main.html"
+    },
+    "background": {
+        "service_worker": "src/background.ts"
+    },
+    "permissions": ["activeTab", "storage", "clipboardWrite", "tabs", "unlimitedStorage"],
+    "content_scripts": [
+        {
+            "matches": ["https://*/*"],
+            "js": ["src/content.ts"],
+            "run_at": "document_start"
+        }
+    ],
+    "web_accessible_resources": [
+        {
+            "resources": ["src/inpage.js"],
+            "matches": ["<all_urls>"]
+        }
+    ]
 }

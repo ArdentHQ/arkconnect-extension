@@ -22,6 +22,7 @@ const ApproveBody = ({ wallet, header, children, error }: Props) => {
             <RowLayout
                 variant='errorFree'
                 color='primary'
+                iconClassName='text-theme-primary-700 dark:text-theme-primary-650'
                 title={wallet.alias() ? wallet.alias() : trimAddress(wallet.address(), 'long')}
                 helperText={generateWalletHelperText(wallet, false)}
                 testnetIndicator={wallet.network().isTest()}

@@ -8,5 +8,5 @@ export const TransactionsPassphraseIcon = () => {
         currentThemeMode === ThemeMode.LIGHT
             ? 'transactions-passphrase-light'
             : 'transactions-passphrase-dark';
-    return <Icon icon={icon} width='200px' height='200px' />;
+    return <Icon icon={icon} className='h-50 w-50' />;
 };
