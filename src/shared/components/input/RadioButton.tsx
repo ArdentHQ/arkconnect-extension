@@ -63,7 +63,7 @@ export const RadioButton: FC<RadioButtonProps> = ({
                 onBlur={() => {
                     setIsFocusWithin(false);
                 }}
-                className={cn('h-0 w-0 opacity-0 z-[-1]', {
+                className={cn('h-0 w-0 opacity-0', {
                     'focus-visible:outline-solid focus-visible:outline-2': isFirefox,
                 })}
             />
