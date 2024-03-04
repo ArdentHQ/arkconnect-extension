@@ -9,82 +9,95 @@ import useThemeMode from '@/lib/hooks/useThemeMode';
 import { getPersistedValues } from './wallet/form-persist';
 import { useIdleTimer } from 'react-idle-timer';
 import browser from 'webextension-polyfill';
+import { LastScreen, ProfileData, ScreenName } from '@/lib/background/contracts';
 
 type Props = {
-  children: React.ReactNode | React.ReactNode[];
+    children: React.ReactNode | React.ReactNode[];
 };
 
 const AutoUnlockWrapper = ({ children }: Props) => {
-  const dispatch = useAppDispatch();
-  const { currentThemeMode } = useThemeMode();
-  const { persistScreen } = getPersistedValues();
-  const { profile, isProfileReady } = useProfileContext();
-  const navigate = useNavigate();
-  const [isLoadingLocalData, setIsLoadingLocalData] = useState<boolean>(true);
-  const locked = useAppSelector(UIStore.selectLocked);
+    const dispatch = useAppDispatch();
+    const { currentThemeMode } = useThemeMode();
+    const { persistScreen } = getPersistedValues();
+    const { profile, isProfileReady } = useProfileContext();
+    const navigate = useNavigate();
+    const [isLoadingLocalData, setIsLoadingLocalData] = useState<boolean>(true);
+    const locked = useAppSelector(UIStore.selectLocked);
 
-  useLayoutEffect(() => {
-    const checkLocked = async () => {
-      const status = await browser.runtime.sendMessage({ type: 'CHECK_LOCK' });
+    useLayoutEffect(() => {
+        const checkLocked = async () => {
+            const status = await browser.runtime.sendMessage({ type: 'CHECK_LOCK' });
 
-      dispatch(UIStore.lockedChanged(status.isLocked));
+            dispatch(UIStore.lockedChanged(status.isLocked));
+        };
+
+        void checkLocked();
+    }, [locked]);
+
+    useEffect(() => {
+        handleAutoLockNavigation();
+        setIsLoadingLocalData(false);
+
+        handlePersistScreenRedirect();
+        handleLedgerNavigation();
+    }, [locked, profile.id()]);
+
+    useIdleTimer({
+        throttle: 1000,
+        onAction: () => {
+            browser.runtime.sendMessage({ type: 'REGISTERED_ACTIVITY' });
+        },
+        disabled: locked,
+    });
+
+    const handleLedgerNavigation = () => {
+        const locationHref = window.location.href;
+
+        if (!locationHref.includes('import_with_ledger')) return;
+        navigate('/ledger-import');
     };
 
-    void checkLocked();
-  }, [locked]);
+    const handlePersistScreenRedirect = () => {
+        if (persistScreen) {
+            navigate(persistScreen.screen);
+            return;
+        }
 
-  useEffect(() => {
-    handleAutoLockNavigation();
-    setIsLoadingLocalData(false);
+        const lastScreen = profile.data().get(ProfileData.LastScreen) as LastScreen | undefined;
 
-    handlePersistScreenRedirect();
-    handleLedgerNavigation();
-  }, [locked, profile.id()]);
+        if (!lastScreen) {
+            return;
+        }
 
-  useIdleTimer({
-    throttle: 1000,
-    onAction: () => {
-      browser.runtime.sendMessage({ type: 'REGISTERED_ACTIVITY' });
-    },
-    disabled: locked,
-  });
+        if (lastScreen.screenName === ScreenName.CreateWallet) {
+            navigate('/wallet/create');
+        }
+    };
 
-  const handleLedgerNavigation = () => {
-    const locationHref = window.location.href;
+    const handleAutoLockNavigation = () => {
+        if (locked) {
+            navigate('/enter-password');
+            return;
+        }
 
-    if (!locationHref.includes('import_with_ledger')) return;
-    navigate('/ledger-import');
-  };
+        if (isProfileReady && profile.wallets().count() === 0) {
+            navigate('/splash-screen');
+            return;
+        }
+    };
 
-  const handlePersistScreenRedirect = () => {
-    if (!persistScreen) return;
-    navigate(persistScreen.screen);
-  };
-
-  const handleAutoLockNavigation = () => {
-    if (locked) {
-      navigate('/enter-password');
-      return;
-    }
-
-    if (isProfileReady && profile.wallets().count() === 0) {
-      navigate('/splash-screen');
-      return;
-    }
-  };
-
-  return (
-    <FlexContainer
-      flexDirection='column'
-      height='100vh'
-      width='100vw'
-      justifyContent='center'
-      alignItems='center'
-      bg={currentThemeMode === UIStore.ThemeMode.DARK ? 'lightBlack' : 'subtleWhite'}
-    >
-      <HandleLoadingState loading={isLoadingLocalData}>{children}</HandleLoadingState>
-    </FlexContainer>
-  );
+    return (
+        <FlexContainer
+            flexDirection='column'
+            height='100vh'
+            width='100vw'
+            justifyContent='center'
+            alignItems='center'
+            bg={currentThemeMode === UIStore.ThemeMode.DARK ? 'lightBlack' : 'subtleWhite'}
+        >
+            <HandleLoadingState loading={isLoadingLocalData}>{children}</HandleLoadingState>
+        </FlexContainer>
+    );
 };
 
 export default AutoUnlockWrapper;

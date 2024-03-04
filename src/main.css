@@ -194,6 +194,11 @@ body {
   outline-color: #01b86c;
 }
 
+button {
+  background-color: transparent;
+  border: none;
+}
+
 #extension-root {
   height: 100%;
 }
@@ -240,16 +245,16 @@ body {
   height: 100vh;
   overflow-y: auto;
   overflow-x: hidden;
-  width: 375px;
-  max-width: 375px;
+  width: 370px;
+  max-width: 370px;
 }
 
 .main-container {
-  width: 375px;
+  width: 370px;
 }
 
 .dialog-wrapper {
-  max-width: 375px;
+  max-width: 370px;
 }
 
 .tippy-box[data-theme*='ark'] {
