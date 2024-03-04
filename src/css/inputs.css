@@ -45,8 +45,12 @@
         @apply cursor-not-allowed
     }
 
+    [type='checkbox'] + .checkbox-indicator::after {
+        @apply border-t-0 border-r-[2px] border-b-[2px] border-l-0
+    }
+
     [type='checkbox']:checked + .checkbox-indicator::after {
-        @apply block rotate-45 top-px left-[6px] w-[35%] h-[70%] border-solid border-white dark:border-light-black border-t-0 border-r-[2px] border-b-[2px] border-l-0
+        @apply block rotate-45 top-px left-[6px] w-[35%] h-[70%] border-solid border-white dark:border-light-black
     }
 
     [type='checkbox']:disabled + .checkbox-indicator {
@@ -54,7 +58,7 @@
     }
 
     [type='checkbox']:disabled + .checkbox-indicator::after {
-        @apply border border-solid border-theme-secondary-300 dark:border-theme-secondary-100 border-t-0 border-r-[2px] border-b-[2px] border-l-0
+        @apply border border-solid border-theme-secondary-300 dark:border-theme-secondary-100
     }
 
     [type='checkbox']:checked + .checkbox-indicator {
