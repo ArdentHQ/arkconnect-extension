@@ -63,7 +63,6 @@ export default defineConfig({
                         'assert',
                         'p-retry',
                         'string-hash',
-                        'socks-proxy-agent',
                     ],
                     crypto: ['crypto-js'],
                     sdk: ['@ardenthq/sdk'],
