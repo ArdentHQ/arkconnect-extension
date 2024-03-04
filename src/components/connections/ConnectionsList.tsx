@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useLocation } from 'react-router-dom';
-import browser from 'webextension-polyfill';
+import { runtime } from 'webextension-polyfill';
 import RemoveConnections from './RemoveConnections';
 import ConnectionLogoImage from './ConnectionLogoImage';
 import useThemeMode from '@/lib/hooks/useThemeMode';
@@ -65,7 +65,7 @@ const ConnectionsList = () => {
     const disconnectSessions = async (sessions: SessionStore.Session[]) => {
         await dispatch(SessionStore.sessionRemoved(sessions.map((s) => s.id)));
 
-        await browser.runtime.sendMessage({
+        await runtime.sendMessage({
             type: 'DISCONNECT_RESOLVE',
             data: {
                 domain: sessions[0].domain,
@@ -225,7 +225,10 @@ const ConnectionsList = () => {
                                     }}
                                     as='button'
                                 >
-                                    <Icon icon='slash' width='18px' height='18px' />
+                                    <Icon
+                                        icon='slash'
+                                        className='text-light-black dark:text-white w-4.5 h-4.5'
+                                    />
                                 </StyledFlexContainer>
                             </Tooltip>
                         </StyledRow>
@@ -242,7 +245,7 @@ const ConnectionsList = () => {
                     icon='alert-octagon'
                     variant='danger'
                     onResolve={async () => {
-                        await browser.runtime.sendMessage({
+                        await runtime.sendMessage({
                             type: 'DISCONNECT_RESOLVE',
                             data: {
                                 domain: state.sessionDomain,

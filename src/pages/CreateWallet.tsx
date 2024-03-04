@@ -1,5 +1,5 @@
 import CreateNewWallet from '@/components/wallet/create';
-import { Layout, FlexContainer } from '@/shared/components';
+import { FlexContainer, Layout } from '@/shared/components';
 
 const CreateWallet = () => {
     return (

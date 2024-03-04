@@ -22,13 +22,10 @@ const SplashScreen = () => {
         <SplashScreenWrapper>
             <AnimatedContent>
                 <Icon
-                    className='splash-screen-icon'
+                    className='splash-screen-icon text-white h-[38px] w-[38px]'
                     icon='logo-icon'
-                    color='white'
-                    width='38px'
-                    height='38px'
                 />
-                <Icon className='splash-screen-icon' icon='logo-text' width='170px' height='16px' />
+                <Icon className='splash-screen-icon h-4 w-[170px]' icon='logo-text' />
             </AnimatedContent>
             <ContainersWrapper>
                 <GreenContainer />

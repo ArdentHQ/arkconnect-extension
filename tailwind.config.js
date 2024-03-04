@@ -9,6 +9,12 @@ export default {
       fontFamily: {
         sans: ["var(--font-dm-sans)", ...defaultTheme.fontFamily.sans],
       },
+      spacing: {
+          3.5: '0.875rem',
+          4.5: '1.125rem',
+          30: '7.5rem',
+          50: '12.5rem',
+      },
     },
     colors: {
       transparent: "transparent",
@@ -93,4 +99,3 @@ export default {
   },
   plugins: [],
 }
-

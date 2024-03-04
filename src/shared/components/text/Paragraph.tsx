@@ -1,20 +1,20 @@
 import styled from 'styled-components';
 import {
     color,
-    space,
-    SpaceProps,
     ColorProps,
-    fontWeight,
-    FontWeightProps,
-    textAlign,
-    TextAlignProps,
-    layout,
-    LayoutProps,
     display,
     DisplayProps,
+    fontWeight,
+    FontWeightProps,
+    layout,
+    LayoutProps,
+    space,
+    SpaceProps,
+    textAlign,
+    TextAlignProps,
 } from 'styled-system';
 import { Theme } from '../../theme';
-import { typesetVariant, TextVariantProps, defaultTypsetProps } from '../../theme/variants';
+import { defaultTypsetProps, TextVariantProps, typesetVariant } from '../../theme/variants';
 
 type BaseProps = ColorProps<Theme> &
     SpaceProps<Theme> &

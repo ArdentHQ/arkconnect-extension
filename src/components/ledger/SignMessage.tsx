@@ -1,7 +1,6 @@
 import { Services } from '@ardenthq/sdk';
 import { FormikProps } from 'formik';
 import { useEffect, useRef, useState } from 'react';
-import { Helpers } from '@ardenthq/sdk-profiles';
 import trimAddress from '@/lib/utils/trimAddress';
 import { ImportWithLedger } from '@/pages/ImportWithLedger';
 import {
@@ -17,6 +16,7 @@ import { useProfileContext } from '@/lib/context/Profile';
 import useNetwork from '@/lib/hooks/useNetwork';
 import { useMessageSigner } from '@/lib/hooks/useMessageSigner';
 import { useEnvironmentContext } from '@/lib/context/Environment';
+import formatCurrency from '@/lib/utils/formatCurrency';
 
 type Props = {
     formik: FormikProps<ImportWithLedger>;
@@ -99,7 +99,7 @@ const SignMessage = ({ formik, goToNextStep, goToPrevStep }: Props) => {
                 Sign the message on your Ledger to import the address
             </Heading>
             <FlexContainer justifyContent='center' my='24'>
-                <Icon width='146px' height='105px' icon='ledger-message' />
+                <Icon className='w-[146px] h-[105px]' icon='ledger-message' />
             </FlexContainer>
             {ledgerWallet && (
                 <Container
@@ -119,7 +119,7 @@ const SignMessage = ({ formik, goToNextStep, goToPrevStep }: Props) => {
                         </Paragraph>
                         <Paragraph $typeset='headline' fontWeight='regular' color='base'>
                             {ledgerWallet.balance !== undefined &&
-                                Helpers.Currency.format(
+                                formatCurrency(
                                     ledgerWallet.balance,
                                     activeNetwork.id() === 'ark.devnet' ? 'DARK' : 'ARK',
                                     { withTicker: true },
@@ -137,7 +137,7 @@ const SignMessage = ({ formik, goToNextStep, goToPrevStep }: Props) => {
                             borderBottomRightRadius='16'
                             borderBottomLeftRadius='16'
                         >
-                            <Icon icon='check' width='20px' height='20px' />
+                            <Icon icon='check' className='w-5 h-5' />
                             <Paragraph $typeset='body' fontWeight='medium'>
                                 Signed
                             </Paragraph>
@@ -153,7 +153,7 @@ const SignMessage = ({ formik, goToNextStep, goToPrevStep }: Props) => {
                             borderBottomRightRadius='16'
                             borderBottomLeftRadius='16'
                         >
-                            <Icon icon='x' width='18px' height='18px' />
+                            <Icon icon='x' className='h-4.5 w-4.5' />
                             <Paragraph $typeset='body' fontWeight='medium'>
                                 Request Rejected
                             </Paragraph>

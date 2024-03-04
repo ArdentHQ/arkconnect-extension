@@ -1,7 +1,7 @@
-import browser from 'webextension-polyfill';
+import { runtime } from 'webextension-polyfill';
 
 export const isValidPassword = async (password: string) => {
-    const { isValid } = await browser.runtime.sendMessage({
+    const { isValid } = await runtime.sendMessage({
         type: 'VALIDATE_PASSWORD',
         data: { password },
     });

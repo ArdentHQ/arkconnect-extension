@@ -1,24 +1,24 @@
-import React, { useState, useEffect } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { useLocation, useNavigate } from 'react-router-dom';
 import {
-    Container,
-    ProgressBar,
-    FingerPrintIcon,
-    ControlConnectionsIcon,
-    TransactionsPassphraseIcon,
-    Heading,
-    FlexContainer,
     Button,
+    Container,
+    ControlConnectionsIcon,
+    FingerPrintIcon,
+    FlexContainer,
     Header,
+    Heading,
+    ProgressBar,
+    TransactionsPassphraseIcon,
 } from '@/shared/components';
 import { useProfileContext } from '@/lib/context/Profile';
 import useLogoutAll from '@/lib/hooks/useLogoutAll';
 
 type OnboardingScreen = {
     id: number;
-    illustration: React.ReactNode;
-    heading: React.ReactNode;
+    illustration: ReactNode;
+    heading: ReactNode;
 };
 
 const Onboarding = () => {

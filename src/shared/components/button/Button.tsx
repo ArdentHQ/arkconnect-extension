@@ -1,8 +1,7 @@
 import styled from 'styled-components';
 import {
-    variant,
-    space,
-    SpaceProps,
+    border,
+    BorderProps,
     color,
     ColorProps,
     layout,
@@ -11,12 +10,13 @@ import {
     PositionProps,
     shadow,
     ShadowProps,
-    border,
-    BorderProps,
+    space,
+    SpaceProps,
+    variant,
 } from 'styled-system';
 import { Theme } from '@/shared/theme';
 import { Icon, IconDefinition, Loader } from '@/shared/components';
-import { FlexVariantProps, flexVariant } from '@/shared/theme/variants';
+import { flexVariant, FlexVariantProps } from '@/shared/theme/variants';
 import { isFirefox } from '@/lib/utils/isFirefox';
 
 type VariantProps = {
@@ -86,12 +86,13 @@ const StyledButton = styled.button<BaseProps>`
                     '&:hover': {
                         backgroundColor: `${theme.colors.primary600}`,
                     },
-                    '&:focus': {
-                        boxShadow: `0px 0px 0px 4px ${theme.colors.primaryFocused}`,
-                    },
                     '&:disabled': {
                         color: `${theme.colors.secondary400}`,
                         backgroundColor: `${theme.colors.primaryDisabled}`,
+                    },
+                    '&:focus-visible': {
+                        outline: 'none',
+                        boxShadow: `0px 0px 0px 4px ${theme.colors.primaryFocused}`,
                     },
                 },
                 secondary: {
@@ -101,8 +102,9 @@ const StyledButton = styled.button<BaseProps>`
                     '&:hover': {
                         backgroundColor: `${theme.colors.secondaryButtonHover}`,
                     },
-                    '&:focus': {
-                        boxShadow: '0px 0px 0px 4px #E5F3ED',
+                    '&:focus-visible': {
+                        outline: 'none',
+                        boxShadow: `0px 0px 0px 4px ${theme.colors.secondaryFocused}`,
                     },
                     '&:disabled': {
                         border: `1px solid ${theme.colors.lightGray}`,
@@ -209,9 +211,9 @@ export const Button = ({
 
     return (
         <StyledButton $flexVariant='rowCenter' {...rest}>
-            {iconLeading && <Icon width='20px' height='20px' icon={iconLeading} />}
+            {iconLeading && <Icon className='h-5 w-5' icon={iconLeading} />}
             {children}
-            {iconTrailing && <Icon width='20px' height='20px' icon={iconTrailing} />}
+            {iconTrailing && <Icon className='h-5 w-5' icon={iconTrailing} />}
         </StyledButton>
     );
 };

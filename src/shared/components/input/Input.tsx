@@ -1,8 +1,7 @@
 import styled from 'styled-components';
 import {
-    variant,
-    space,
-    SpaceProps,
+    border,
+    BorderProps,
     color,
     ColorProps,
     layout,
@@ -11,8 +10,9 @@ import {
     PositionProps,
     shadow,
     ShadowProps,
-    border,
-    BorderProps,
+    space,
+    SpaceProps,
+    variant,
 } from 'styled-system';
 import { MutableRefObject } from 'react';
 import { Theme } from '@/shared/theme';
@@ -144,7 +144,7 @@ export const Input = ({
             <Container position='relative' width='100%'>
                 {iconLeading && (
                     <TrailingLeadingWrapper isLeading>
-                        <Icon width='20px' height='20px' icon={iconLeading} />
+                        <Icon className='h-5 w-5' icon={iconLeading} />
                     </TrailingLeadingWrapper>
                 )}
 
@@ -160,7 +160,7 @@ export const Input = ({
 
                 {iconTrailing && (
                     <TrailingLeadingWrapper isTrailing>
-                        <Icon width='20px' height='20px' icon={iconTrailing} />
+                        <Icon className='h-5 w-5' icon={iconTrailing} />
                     </TrailingLeadingWrapper>
                 )}
 

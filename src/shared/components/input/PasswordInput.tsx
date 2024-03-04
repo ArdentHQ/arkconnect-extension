@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-import { Input, Container, Icon, FlexContainer } from '@/shared/components';
+import { Container, FlexContainer, Icon, Input } from '@/shared/components';
 import { isFirefox } from '@/lib/utils/isFirefox';
 
 type Props = React.ComponentProps<typeof Input> & {
@@ -28,7 +28,10 @@ const EyeButton = ({
             alignItems='center'
             top={labelText ? '36px' : '12px'}
         >
-            <Icon width='20px' height='20px' icon={showPassword ? 'eye-off' : 'eye'} color='base' />
+            <Icon
+                className='h-5 w-5 text-light-black dark:text-white'
+                icon={showPassword ? 'eye-off' : 'eye'}
+            />
         </StyledEyeWrapper>
     );
 };

@@ -1,4 +1,6 @@
-import { FC, ChangeEvent, useState } from 'react';
+import { ChangeEvent, FC, useState } from 'react';
+import styled from 'styled-components';
+import { FlexContainer, Paragraph } from '@/shared/components';
 import { isFirefox } from '@/lib/utils/isFirefox';
 import cn from 'classnames';
 

@@ -1,10 +1,10 @@
-import browser from 'webextension-polyfill';
+import { runtime, windows } from 'webextension-polyfill';
 import { LockHandler } from '@/lib/background/handleAutoLock';
 
 const initAutoLock = (lockHandler: LockHandler) => {
-    browser.runtime.onStartup.addListener(async () => {
-        const windows = await browser.windows.getAll();
-        if (windows.length === 1) {
+    runtime.onStartup.addListener(async () => {
+        const allWindows = await windows.getAll();
+        if (allWindows.length === 1) {
             lockHandler.lock();
         }
     });

@@ -1,9 +1,9 @@
+import { useLocation } from 'react-router-dom';
+import { ApproveActionType } from './Approve';
 import VoteApprovedBody from '@/components/approve/VoteApprovedBody';
 import constants from '@/constants';
 import removeWindowInstance from '@/lib/utils/removeWindowInstance';
-import { FlexContainer, Icon, Heading, Button, ExternalLink, Paragraph } from '@/shared/components';
-import { useLocation } from 'react-router-dom';
-import { ApproveActionType } from './Approve';
+import { Button, ExternalLink, FlexContainer, Heading, Icon, Paragraph } from '@/shared/components';
 import formatDomain from '@/lib/utils/formatDomain';
 import RequestedBy from '@/shared/components/actions/RequestedBy';
 import { useProfileContext } from '@/lib/context/Profile';
@@ -58,7 +58,10 @@ const VoteApproved = () => {
                     width='100%'
                 >
                     <FlexContainer flexDirection='column' gridGap='16px' alignItems='center'>
-                        <Icon icon='completed' width='64px' height='64px' color='primary' />
+                        <Icon
+                            icon='completed'
+                            className='text-theme-primary-700 dark:text-theme-primary-650 h-16 w-16'
+                        />
                         <Heading $typeset='h3' color='base' fontWeight='bold'>
                             {getTitle()}
                         </Heading>
@@ -85,7 +88,7 @@ const VoteApproved = () => {
                         <Paragraph $typeset='headline' fontWeight='medium' as='span'>
                             View transaction on ARKScan
                         </Paragraph>
-                        <Icon icon='link-external' width='20px' height='20px' />
+                        <Icon icon='link-external' className='h-5 w-5' />
                     </ExternalLink>
                 </FlexContainer>
             </FlexContainer>

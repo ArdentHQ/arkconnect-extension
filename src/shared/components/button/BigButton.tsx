@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import {
-    space,
-    SpaceProps,
+    border,
+    BorderProps,
     color,
     ColorProps,
     layout,
@@ -10,12 +10,12 @@ import {
     PositionProps,
     shadow,
     ShadowProps,
-    border,
-    BorderProps,
+    space,
+    SpaceProps,
 } from 'styled-system';
 import { Theme } from '@/shared/theme';
 import { FlexContainer, Icon, IconDefinition, Paragraph } from '@/shared/components';
-import { FlexVariantProps, flexVariant } from '@/shared/theme/variants';
+import { flexVariant, FlexVariantProps } from '@/shared/theme/variants';
 import { isFirefox } from '@/lib/utils/isFirefox';
 
 type BaseProps = ColorProps<Theme> &
@@ -78,7 +78,7 @@ export const BigButton = ({
     return (
         <StyledButton {...rest}>
             <FlexContainer width='100%' gridGap='12px' alignItems='flex-start'>
-                {iconLeading && <Icon width='24px' height='24px' icon={iconLeading} />}
+                {iconLeading && <Icon className='h-6 w-6' icon={iconLeading} />}
                 <FlexContainer alignItems='center' justifyContent='space-between' width='100%'>
                     <FlexContainer
                         flexDirection='column'
@@ -108,7 +108,7 @@ export const BigButton = ({
                         justifyContent='center'
                         color='base'
                     >
-                        {iconTrailing && <Icon width='20px' height='20px' icon={iconTrailing} />}
+                        {iconTrailing && <Icon className='h-5 w-5' icon={iconTrailing} />}
                     </FlexContainer>
                 </FlexContainer>
             </FlexContainer>

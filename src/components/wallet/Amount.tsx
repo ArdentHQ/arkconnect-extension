@@ -1,8 +1,8 @@
+import { Helpers } from '@ardenthq/sdk-profiles';
+import { TippyProps } from '@tippyjs/react';
 import constants from '@/constants';
 import cropToMaxDigits from '@/lib/utils/cropToMaxDigits';
 import { Tooltip } from '@/shared/components';
-import { Helpers } from '@ardenthq/sdk-profiles';
-import { TippyProps } from '@tippyjs/react';
 
 interface AmountProperties {
     ticker: string;
