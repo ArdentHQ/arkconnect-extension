@@ -1,13 +1,13 @@
 import { Contracts } from '@ardenthq/sdk-profiles';
+import { Services } from '@ardenthq/sdk';
+import { UUID } from '@ardenthq/sdk-cryptography';
 import { Extension } from '@/lib/background/extension';
 import { ExtensionEvents } from '@/lib/events';
 import { importWallets } from '@/background.helpers';
 import { ProfileData } from '@/lib/background/contracts';
 import { SendTransferInput } from '@/lib/background/extension.wallet';
-import { Services } from '@ardenthq/sdk';
 import { SessionEntries } from '@/lib/store/session';
 import { setLocalValue } from '@/lib/utils/localStorage';
-import { UUID } from '@ardenthq/sdk-cryptography';
 
 export enum OneTimeEvents {
     SEND_VOTE = 'SEND_VOTE',
