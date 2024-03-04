@@ -1,6 +1,6 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import browser from 'webextension-polyfill';
+import { runtime } from 'webextension-polyfill';
 import { Contracts } from '@ardenthq/sdk-profiles';
 import ApproveBody from '@/components/approve/ApproveBody';
 import ApproveFooter from '@/components/approve/ApproveFooter';
@@ -87,7 +87,7 @@ const ApproveVote = ({ abortReference, approveWithLedger, wallet, closeLedgerScr
     });
 
     const reject = (message: string = 'Sign vote denied!') => {
-        browser.runtime.sendMessage({
+        runtime.sendMessage({
             type: 'SIGN_VOTE_REJECT',
             data: {
                 domain: state.domain,
@@ -110,6 +110,7 @@ const ApproveVote = ({ abortReference, approveWithLedger, wallet, closeLedgerScr
 
             if (wallet.isLedger()) {
                 await approveWithLedger(profile, wallet);
+                loadingModal.setLoading();
             }
 
             const res = await submitForm(abortReference);
@@ -132,7 +133,7 @@ const ApproveVote = ({ abortReference, approveWithLedger, wallet, closeLedgerScr
                 convertedFee: convert(res.fee),
             };
 
-            await browser.runtime.sendMessage({
+            await runtime.sendMessage({
                 type: 'SIGN_VOTE_RESOLVE',
                 data: {
                     domain: state.domain,

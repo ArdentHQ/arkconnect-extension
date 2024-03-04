@@ -1,0 +1,13 @@
+@layer base {
+    p {
+        @apply leading-tight font-normal
+    }
+
+    .typeset-heading {
+        @apply text-base text-subtle-black dark:text-white
+    }
+
+    .typeset-body {
+        @apply text-sm text-theme-secondary-600 dark:text-theme-secondary-300
+    }
+}

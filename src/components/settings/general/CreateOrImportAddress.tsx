@@ -1,15 +1,15 @@
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import browser from 'webextension-polyfill';
+import { runtime, tabs } from 'webextension-polyfill';
 import SubPageLayout from '../SubPageLayout';
 import SelectNetworkTypeModal from './SelectNetworkTypeModal';
 import {
-    RowLayout,
     Container,
     FlexContainer,
     Icon,
     IconDefinition,
     Paragraph,
+    RowLayout,
     Tooltip,
 } from '@/shared/components';
 import { useAppDispatch } from '@/lib/store';
@@ -60,8 +60,8 @@ const CreateOrImportAddress = () => {
 
         setNetworkModalState({
             nextAction: () => {
-                void browser.tabs.create({
-                    url: browser.runtime.getURL('/src/main.html?import_with_ledger'),
+                void tabs.create({
+                    url: runtime.getURL('/src/main.html?import_with_ledger'),
                 });
                 window.close(); // Close extension popup as we navigate away
             },
@@ -140,7 +140,7 @@ const LeadingIcon = ({ icon }: { icon: IconDefinition }) => {
             color='gray'
             as='span'
         >
-            <Icon width='20px' height='20px' icon={icon} />
+            <Icon className='h-5 w-5' icon={icon} />
         </FlexContainer>
     );
 };

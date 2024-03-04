@@ -1,5 +1,5 @@
 import { Contracts } from '@ardenthq/sdk-profiles';
-import browser from 'webextension-polyfill';
+import { runtime } from 'webextension-polyfill';
 import { AutoLockTimer, getLocalValues } from '@/lib/utils/localStorage';
 
 export class LockHandler {
@@ -12,7 +12,7 @@ export class LockHandler {
         return this.#isLocked;
     };
 
-    unlock = async (profile: Contracts.IProfile | null, password: string | null) => {
+    unlock = async (profile: Contracts.IProfile, password: string | null | undefined) => {
         this.#isLocked = profile?.password().get() !== password;
 
         return this.#isLocked;
@@ -43,7 +43,7 @@ export class LockHandler {
 
     _onTimeout = () => {
         this.lock();
-        browser.runtime
+        runtime
             .sendMessage({
                 type: 'LOCK_EXTENSION_UI',
             })

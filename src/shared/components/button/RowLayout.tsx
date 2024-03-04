@@ -1,7 +1,7 @@
 import styled, { WebTarget } from 'styled-components';
 import {
-    space,
-    SpaceProps,
+    border,
+    BorderProps,
     color,
     ColorProps,
     layout,
@@ -10,14 +10,15 @@ import {
     PositionProps,
     shadow,
     ShadowProps,
-    border,
-    BorderProps,
+    space,
+    SpaceProps,
     variant,
 } from 'styled-system';
 import { forwardRef } from 'react';
+import cn from 'classnames';
 import { Theme } from '@/shared/theme';
 import { Container, FlexContainer, Icon, IconDefinition, Paragraph } from '@/shared/components';
-import { FlexVariantProps, flexVariant } from '@/shared/theme/variants';
+import { flexVariant, FlexVariantProps } from '@/shared/theme/variants';
 import constants from '@/constants';
 import { Address, LedgerIcon, TestnetIcon } from '@/components/wallet/address/Address.blocks';
 import { isFirefox } from '@/lib/utils/isFirefox';
@@ -47,12 +48,12 @@ type RowLayoutProps = React.ComponentPropsWithRef<typeof StyledRow> & {
     children?: React.ReactNode | React.ReactNode[];
     testnetIndicator?: boolean;
     ledgerIndicator?: boolean;
-    color?: ColorProps<Theme>;
     disabled?: boolean;
     currency?: string;
     address?: string;
     tabIndex?: number;
     as?: void | WebTarget | undefined;
+    iconClassName?: string;
 };
 
 const StyledRow = styled.div<BaseProps>`
@@ -68,7 +69,7 @@ const StyledRow = styled.div<BaseProps>`
         pointer-events: none;
     }
 
-    cursor: ${({ hasPointer }) => (hasPointer ? 'pointer' : 'auto')};
+    cursor: ${({ hasPointer }) => (hasPointer ? 'pointer' : 'inherit')};
 
     ${({ as }) =>
         as === 'button' &&
@@ -137,12 +138,12 @@ export const RowLayout = forwardRef(function RowLayout(
         testnetIndicator,
         ledgerIndicator,
         variant = 'primary',
-        color,
         disabled,
         currency,
         address,
         tabIndex = 0,
         as,
+        iconClassName,
         ...rest
     }: RowLayoutProps,
     forwardedRef: React.Ref<HTMLDivElement>,
@@ -263,10 +264,16 @@ export const RowLayout = forwardRef(function RowLayout(
                             <FlexContainer alignItems='center' gridGap='8px' as={containerAs}>
                                 {iconTrailing && (
                                     <Icon
-                                        width='20px'
-                                        height='20px'
+                                        className={cn(
+                                            'h-5 w-5',
+                                            {
+                                                'text-theme-secondary-500 dark:text-theme-secondary-300':
+                                                    disabled,
+                                                'text-light-black dark:text-white': !disabled,
+                                            },
+                                            iconClassName,
+                                        )}
                                         icon={iconTrailing}
-                                        color={color || disabled ? 'gray' : 'base'}
                                     />
                                 )}
                             </FlexContainer>

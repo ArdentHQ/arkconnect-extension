@@ -1,7 +1,8 @@
-import { Button, FlexContainer, Paragraph, PasswordInput, WarningIcon } from '@/shared/components';
-import React, { useState } from 'react';
-import { ValidationVariant } from '@/components/wallet/create';
+import { ChangeEvent, KeyboardEvent, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { runtime } from 'webextension-polyfill';
+import { Button, FlexContainer, Paragraph, PasswordInput, WarningIcon } from '@/shared/components';
+import { ValidationVariant } from '@/components/wallet/create';
 import { useAppDispatch, useAppSelector } from '@/lib/store';
 import * as WalletStore from '@/lib/store/wallet';
 import * as SessionStore from '@/lib/store/session';
@@ -9,7 +10,6 @@ import { useProfileContext } from '@/lib/context/Profile';
 import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
 import { isValidPassword } from '@/lib/utils/validations';
 import { ExtensionEvents } from '@/lib/events';
-import browser from 'webextension-polyfill';
 import useThemeMode from '@/lib/hooks/useThemeMode';
 import SubPageLayout from '@/components/settings/SubPageLayout';
 
@@ -52,7 +52,7 @@ const Logout = () => {
                 });
             });
 
-            const { error } = await browser.runtime.sendMessage({
+            const { error } = await runtime.sendMessage({
                 type: 'REMOVE_WALLETS',
                 data: {
                     password,
@@ -74,13 +74,13 @@ const Logout = () => {
         }
     };
 
-    const handlePasswordChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
+    const handlePasswordChange = (evt: ChangeEvent<HTMLInputElement>) => {
         setPassword(evt.target.value);
         if (validationVariant !== 'destructive') return;
         setValidationVariant('primary');
     };
 
-    const handleEnterKey = async (evt: React.KeyboardEvent<HTMLInputElement>) => {
+    const handleEnterKey = async (evt: KeyboardEvent<HTMLInputElement>) => {
         if (evt.key === 'Enter') {
             await logoutWallet();
         }
@@ -146,7 +146,7 @@ const Logout = () => {
                 </Paragraph>
 
                 <FlexContainer justifyContent='center' alignContent='center' mt='16'>
-                    <WarningIcon width='146px' height='135px' />
+                    <WarningIcon iconClassName='w-[146px] h-[135px]' />
                 </FlexContainer>
 
                 <FlexContainer mt='24' flexDirection='column' gridGap='6'>

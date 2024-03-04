@@ -1,5 +1,5 @@
 import { useLocation, useNavigate } from 'react-router-dom';
-import browser from 'webextension-polyfill';
+import { runtime } from 'webextension-polyfill';
 import SubPageLayout, { SettingsRowItem } from '../SubPageLayout';
 import { Container, Icon, Paragraph } from '@/shared/components';
 import useToast from '@/lib/hooks/useToast';
@@ -18,8 +18,8 @@ const AutoLockTimer = () => {
 
     const changeAutoLockTimer = async (autoLockValue: AutoLockTimerEnum) => {
         await setLocalValue('autoLockTimer', autoLockValue);
-        browser.runtime.sendMessage({
-            type: 'AUTOLOCK_TIMER_CHANGED',
+        runtime.sendMessage({
+            type: 'REFRESH_AUTOLOCK_TIMER',
             data: {
                 autoLockValue,
             },
@@ -44,7 +44,7 @@ const AutoLockTimer = () => {
                             {showAutoLockTimerValue(timerKey)}
                         </Paragraph>
                         {location.state?.autoLockTimer === timerKey && (
-                            <Icon icon='check' width='20px' height='20px' />
+                            <Icon icon='check' className='h-5 w-5' />
                         )}
                     </SettingsRowItem>
                 ))}

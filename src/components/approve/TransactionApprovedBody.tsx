@@ -4,7 +4,7 @@ import { ToastPosition } from '../toast/ToastContainer';
 import ActionDetails, { ActionDetailsRow } from './ActionDetails';
 import useClipboard from '@/lib/hooks/useClipboard';
 import trimAddress from '@/lib/utils/trimAddress';
-import { FlexContainer, Paragraph, Container, Icon } from '@/shared/components';
+import { Container, FlexContainer, Icon, Paragraph } from '@/shared/components';
 import getActiveCoin from '@/lib/utils/getActiveCoin';
 import { WalletNetwork } from '@/lib/store/wallet';
 
@@ -95,7 +95,10 @@ const TransactionApprovedBody = () => {
                                 copy(state?.transaction.id, 'Transaction ID', ToastPosition.HIGH)
                             }
                         >
-                            <Icon icon='copy' color='primary' width='20px' height='20px' />
+                            <Icon
+                                icon='copy'
+                                className='text-theme-primary-700 dark:text-theme-primary-650 w-5 h-5'
+                            />
                         </Container>
                     </FlexContainer>
                 </ActionDetailsRow>

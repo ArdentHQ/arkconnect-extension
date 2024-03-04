@@ -1,6 +1,6 @@
 import { useLocation } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
-import browser from 'webextension-polyfill';
+import { runtime, windows } from 'webextension-polyfill';
 import ConnectFooter from '@/components/connect/ConnectFooter';
 import ConnectWithWallet from '@/components/connect/ConnectWithWallet';
 import { useAppDispatch, useAppSelector } from '@/lib/store';
@@ -31,7 +31,7 @@ const Connect = () => {
     assertIsUnlocked(locked);
 
     const reject = (message = 'Connection denied!') => {
-        browser.runtime.sendMessage({
+        runtime.sendMessage({
             type: 'CONNECT_REJECT',
             data: {
                 domain: location.state?.domain,
@@ -80,7 +80,7 @@ const Connect = () => {
                 }),
             );
 
-            await browser.runtime.sendMessage({
+            await runtime.sendMessage({
                 type: 'CONNECT_RESOLVE',
                 data: {
                     domain: location.state?.domain,
@@ -92,14 +92,14 @@ const Connect = () => {
 
             setSubmitted();
 
-            await browser.windows.remove(location.state?.windowId);
+            await windows.remove(location.state?.windowId);
             return;
         }
     };
 
     const onCancel = async () => {
         reject();
-        await browser.windows.remove(location.state?.windowId);
+        await windows.remove(location.state?.windowId);
     };
 
     return (
@@ -109,7 +109,7 @@ const Connect = () => {
                 appLogo={location.state?.favicon}
                 icon='action-connect'
                 actionLabel='Connect to App'
-                iconDimensions={{ width: 22, height: 31 }}
+                iconClassNames='w-[22px] h-[31px]'
             />
 
             <ConnectWithWallet wallet={primaryWallet} />

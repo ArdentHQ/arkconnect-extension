@@ -1,80 +1,87 @@
 {
-  "root": true,
-  "env": {
-    "browser": true,
-    "es2021": true
-  },
-  "extends": [
-    "eslint:recommended",
-    "plugin:react/recommended",
-    "plugin:@typescript-eslint/recommended",
-    "plugin:import/errors",
-    "plugin:import/typescript",
-    "plugin:import/warnings"
-  ],
-  "parser": "@typescript-eslint/parser",
-  "parserOptions": {
-    "ecmaFeatures": {
-      "jsx": true
+    "root": true,
+    "env": {
+        "browser": true,
+        "es2021": true
     },
-    "ecmaVersion": "latest",
-    "sourceType": "module"
-  },
-  "plugins": ["react", "@typescript-eslint", "unused-imports"],
-  "rules": {
-    "comma-dangle": ["error", "only-multiline"],
-    "semi": [2, "always", { "omitLastInOneLineBlock": true }],
-    "quotes": ["error", "single"],
-    "no-console": ["warn"],
-    "no-prototype-builtins": 1,
-    "camelcase": 1,
-    "react/react-in-jsx-scope": "off",
-    "react/jsx-key": 2,
-    "react/jsx-uses-vars": 2,
-    "react/jsx-no-duplicate-props": 2,
-    "react/jsx-no-undef": 2,
-    "react/no-deprecated": 2,
-    "react/no-direct-mutation-state": 2,
-    "react/no-find-dom-node": 2,
-    "react/no-is-mounted": 2,
-    "react/no-unknown-property": 2,
-    "react/require-render-return": 2,
-    "no-use-before-define": 0,
-    "@typescript-eslint/no-use-before-define": 0,
-    "@typescript-eslint/no-unused-vars": [
-      "error",
-      {
-        "argsIgnorePattern": "^_",
-        "varsIgnorePattern": "^_",
-        "caughtErrorsIgnorePattern": "^_"
-      }
+    "extends": [
+        "eslint:recommended",
+        "plugin:react/recommended",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:import/errors",
+        "plugin:import/typescript",
+        "plugin:import/warnings"
     ],
-    "@typescript-eslint/no-explicit-any": "off",
-    "unused-imports/no-unused-imports-ts": "error",
-    "import/order": "error",
-    "import/default": "error",
-    "import/extensions": "off",
-    "import/first": "error",
-    "import/no-absolute-path": "error",
-    "import/no-deprecated": "error",
-    "import/no-duplicates": "error",
-    "import/no-dynamic-require": "off",
-    "import/no-named-as-default": "off",
-    "import/no-unresolved": "error",
-    "eslint-plugin-import/no-cycle": "off"
-  },
-  "settings": {
-    "react": {
-      "version": "detect"
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true
+        },
+        "ecmaVersion": "latest",
+        "sourceType": "module"
     },
-    "import/parsers": {
-      "@typescript-eslint/parser": [".ts", ".tsx"]
+    "plugins": ["react", "@typescript-eslint", "unused-imports"],
+    "rules": {
+        "comma-dangle": ["error", "only-multiline"],
+        "semi": [2, "always", { "omitLastInOneLineBlock": true }],
+        "quotes": ["error", "single"],
+        "no-console": ["warn"],
+        "no-prototype-builtins": 1,
+        "camelcase": 1,
+        "react/react-in-jsx-scope": "off",
+        "react/jsx-key": 2,
+        "react/jsx-uses-vars": 2,
+        "react/jsx-no-duplicate-props": 2,
+        "react/jsx-no-undef": 2,
+        "react/no-deprecated": 2,
+        "react/no-direct-mutation-state": 2,
+        "react/no-find-dom-node": 2,
+        "react/no-is-mounted": 2,
+        "react/no-unknown-property": 2,
+        "react/require-render-return": 2,
+        "no-use-before-define": 0,
+        "@typescript-eslint/no-use-before-define": 0,
+        "@typescript-eslint/no-unused-vars": [
+            "error",
+            {
+                "argsIgnorePattern": "^_",
+                "varsIgnorePattern": "^_",
+                "caughtErrorsIgnorePattern": "^_"
+            }
+        ],
+        "@typescript-eslint/no-explicit-any": "off",
+        "unused-imports/no-unused-imports-ts": "error",
+        "import/order": "error",
+        "import/default": "error",
+        "import/extensions": "off",
+        "import/first": "error",
+        "import/no-absolute-path": "error",
+        "import/no-deprecated": "error",
+        "import/no-duplicates": "error",
+        "import/no-dynamic-require": "off",
+        "import/no-named-as-default": "off",
+        "import/no-unresolved": "error",
+        "eslint-plugin-import/no-cycle": "off",
+        "sort-imports": [
+            "error",
+            {
+                "ignoreCase": true,
+                "ignoreDeclarationSort": true
+            }
+        ]
     },
-    "import/resolver": {
-      "typescript": {
-        "alwaysTryTypes": true,
-        "project": "./tsconfig.json"
-      }
+    "settings": {
+        "react": {
+            "version": "detect"
+        },
+        "import/parsers": {
+            "@typescript-eslint/parser": [".ts", ".tsx"]
+        },
+        "import/resolver": {
+            "typescript": {
+                "alwaysTryTypes": true,
+                "project": "./tsconfig.json"
+            }
+        }
     }
-  }
 }

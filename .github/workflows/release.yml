@@ -1,54 +1,55 @@
 name: Build Extension For Release
 
 on:
-  workflow_dispatch:
-  push:
-    branches:
-      - 'main'
-      - 'develop'
+    workflow_dispatch:
+    push:
+        branches:
+            - 'main'
+            - 'develop'
+            - 'rc-*'
 
 jobs:
-  linux:
-    runs-on: ubuntu-latest
+    linux:
+        runs-on: ubuntu-latest
 
-    concurrency:
-      group: ${{ github.head_ref }}-draft-build
-      cancel-in-progress: true
+        concurrency:
+            group: ${{ github.head_ref }}-draft-build
+            cancel-in-progress: true
 
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: ${{ github.head_ref }}
+        steps:
+            - uses: actions/checkout@v4
+              with:
+                  ref: ${{ github.head_ref }}
 
-      - uses: pnpm/action-setup@v2
-        with:
-          version: 8
+            - uses: pnpm/action-setup@v2
+              with:
+                  version: 8
 
-      - name: Install Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
+            - name: Install Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: 20
 
-      - name: Setup env
-        run: cp .env.example .env
+            - name: Setup env
+              run: cp .env.example .env
 
-      - name: Install pnpm dependencies
-        run: pnpm i --frozen-lockfile
+            - name: Install pnpm dependencies
+              run: pnpm i --frozen-lockfile
 
-      - name: Build Chrome
-        run: pnpm build:chrome
+            - name: Build Chrome
+              run: pnpm build:chrome
 
-      - name: Upload Chrome Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: build-chrome
-          path: ./dist
+            - name: Upload Chrome Artifact
+              uses: actions/upload-artifact@v4
+              with:
+                  name: build-chrome
+                  path: ./dist
 
-      - name: Build Firefox
-        run: pnpm build:firefox
+            - name: Build Firefox
+              run: pnpm build:firefox
 
-      - name: Upload Firefox Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: build-firefox
-          path: ./dist
+            - name: Upload Firefox Artifact
+              uses: actions/upload-artifact@v4
+              with:
+                  name: build-firefox
+                  path: ./dist

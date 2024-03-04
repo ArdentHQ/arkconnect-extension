@@ -1,4 +1,4 @@
-import { FlexContainer, Paragraph, EmptyConnectionsIcon } from '@/shared/components';
+import { EmptyConnectionsIcon, FlexContainer, Paragraph } from '@/shared/components';
 
 const EmptyConnections = () => {
     return (
