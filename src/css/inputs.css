@@ -1,0 +1,13 @@
+@layer utilities {
+    .input-primary {
+     @apply text-light-black dark:text-white border border-solid border-theme-secondary-400 dark:border-theme-secondary-500 bg-white dark:bg-subtle-black focus:border focus:border-solid focus:border-light-black focus:dark:border-theme-secondary-300 disabled:bg-theme-secondary-100
+    }
+
+    .input-destructive {
+        @apply text-light-black dark:text-white border border-solid border-theme-error-500 bg-white dark:bg-subtle-black focus:border focus:border-solid focus:border-theme-error-600 focus:dark:border-theme-error-500
+    }
+
+    .input-errorFree {
+        @apply text-light-black dark:text-white border border-solid border-theme-primary-700 dark:border-theme-primary-650 bg-white dark:bg-subtle-black focus:border focus:border-solid focus:border-theme-primary-700 focus:dark:border-theme-primary-650 disabled:bg-theme-secondary-100
+    }
+}
