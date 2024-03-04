@@ -27,15 +27,16 @@ export const Checkbox: FC<CheckboxProps> = ({
     const [isFocusWithin, setIsFocusWithin] = useState(false);
 
     return (
-        <div
+        <label
+            htmlFor={id}
             className={cn('relative flex group', {
                 'cursor-not-allowed pointer-events-none': disabled,
                 'cursor-pointer pointer-events-auto': !disabled,
             })}
         >
             <span className='flex flex-col items-start gap-[5px] ml-7'>
-                {title && <p className='typeset-heading'>{title}</p>}
-                {helperText && <span className='typeset-body'>{helperText}</span>}
+                {title && <span className='leading-tight font-normal typeset-heading'>{title}</span>}
+                {helperText && <span className='leading-tight font-normal typeset-body'>{helperText}</span>}
             </span>
 
             <input
@@ -54,7 +55,7 @@ export const Checkbox: FC<CheckboxProps> = ({
                 }}
                 className='h-0 w-0 opacity-0 z-[-1]'
             />
-            <div
+            <span
                 role='checkbox'
                 aria-label={`${title} checkbox`}
                 aria-checked={checked}
@@ -69,6 +70,6 @@ export const Checkbox: FC<CheckboxProps> = ({
                     'cursor-not-allowed': disabled,
                 })}
             />
-        </div>
+        </label>
     );
 };
