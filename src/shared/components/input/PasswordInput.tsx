@@ -26,7 +26,6 @@ const EyeButton = ({
             borderRadius='50%'
             justifyContent='center'
             alignItems='center'
-            top={labelText ? '36px' : '12px'}
         >
             <Icon
                 className='h-5 w-5 text-light-black dark:text-white'
