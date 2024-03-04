@@ -5,7 +5,7 @@ import { PrimaryWallet } from './extension.wallet.primary';
 
 const exists = (profile?: Contracts.IProfile | null): profile is Contracts.IProfile => !!profile;
 
-export const env = initializeEnvironment();
+const env = initializeEnvironment();
 
 export function Extension() {
     const lockHandler = new LockHandler();

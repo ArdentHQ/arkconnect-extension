@@ -3,7 +3,7 @@ export enum ProfileData {
     Sessions = 'SESSIONS',
 }
 
-export type Session = {
+type Session = {
     id: string;
     domain: string;
     logo: string;
