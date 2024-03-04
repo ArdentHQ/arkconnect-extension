@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { ThemeValue } from 'styled-system';
 import { useAppDispatch, useAppSelector } from '@/lib/store';
 import { selectThemeMode, ThemeMode, themeModeUpdated } from '@/lib/store/ui';
