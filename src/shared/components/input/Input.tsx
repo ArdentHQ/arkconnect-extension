@@ -68,14 +68,11 @@ export const Input = ({
                 </div>
             )}
 
-            {trailing && (
-                <div className='absolute top-1/2 left-auto right-3'>
-                    {trailing}
-                </div>
-            )}
+            {trailing && <div className='absolute top-1/2 left-auto right-3'>{trailing}</div>}
 
             {helperText && (
-                <p className={cn('text-sm leading-tight font-normal', {
+                <p
+                    className={cn('text-sm leading-tight font-normal', {
                         'text-theme-error-500': variant === 'destructive',
                         'text-theme-secondary-500 dark:text-theme-secondary-300':
                             variant !== 'destructive',
