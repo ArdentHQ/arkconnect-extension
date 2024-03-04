@@ -57,7 +57,7 @@ export const TextArea = forwardRef(function TextArea(
             <div className='relative w-full'>
                 <textarea
                     className={cn(
-                        'leading-5 text-base font-normal w-full p-3 rounded-lg shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] transition-smoothEase border-none outline-none resize-none disabled:cursor-not-allowed disabled:pointer-events-none placeholder:text-theme-secondary-400',
+                        'leading-5 text-base font-normal w-full p-3 rounded-lg shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] transition-smoothEase border-none outline-none resize-none disabled:cursor-not-allowed disabled:pointer-events-none placeholder:text-theme-secondary-400 textarea',
                         {
                             'textarea-primary': variant === 'primary',
                             'textarea-destructive': variant === 'destructive',
