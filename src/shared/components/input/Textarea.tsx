@@ -1,117 +1,32 @@
 // Note: currently unused but keeping it as basic component for future use
-
-import styled from 'styled-components';
-import {
-    border,
-    BorderProps,
-    color,
-    ColorProps,
-    layout,
-    LayoutProps,
-    position,
-    PositionProps,
-    shadow,
-    ShadowProps,
-    space,
-    SpaceProps,
-    variant,
-} from 'styled-system';
 import { forwardRef } from 'react';
-import { Theme } from '@/shared/theme';
-import { Container, FlexContainer, Paragraph } from '@/shared/components';
+import cn from 'classnames';
 
-type VariantProps = {
-    variant?: 'primary' | 'destructive' | 'errorFree';
-};
-
-type BaseProps = ColorProps<Theme> &
-    SpaceProps<Theme> &
-    LayoutProps<Theme> &
-    PositionProps<Theme> &
-    ShadowProps<Theme> &
-    BorderProps<Theme> &
-    VariantProps;
-
-type TextAreaProps = React.ComponentPropsWithRef<typeof StyledTextArea> & {
+type TextAreaProps = React.ComponentPropsWithRef<'textarea'> & {
     disabled?: boolean;
     labelText?: string;
     helperText?: string;
     hideText?: boolean;
+    className?: string;
+    variant?: 'primary' | 'destructive' | 'errorFree';
 };
-
-const StyledTextArea = styled.textarea<BaseProps>`
-    font-family: ${({ theme }) => theme.fonts.regular};
-    font-size: ${({ theme }) => theme.fontSizes.headline}px;
-    font-weight: ${({ theme }) => theme.fontWeights.regular};
-    width: 100%;
-    padding: 12px;
-    border-radius: 8px;
-    box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
-    transition: ${({ theme }) => theme.transitions.smoothEase};
-    border: none;
-    outline: none;
-    resize: none;
-
-    &:disabled {
-        cursor: not-allowed;
-        pointer-events: none;
-    }
-
-    &::placeholder {
-        color: ${({ theme }) => theme.colors.secondary400};
-    }
-    ${space}
-    ${color}
-  ${layout}
-  ${position}
-  ${shadow}
-  ${border}
-
-  ${({ theme }) =>
-        variant({
-            variants: {
-                primary: {
-                    color: `${theme.colors.base}`,
-                    border: `1px solid ${theme.colors.secondary400}`,
-                    backgroundColor: `${theme.colors.inputBackground}`,
-                    '&:focus': {
-                        border: `1px solid ${theme.colors.activeInput}`,
-                    },
-                    '&:disabled': {
-                        backgroundColor: `${theme.colors.secondary100}`,
-                    },
-                    '&:read-only': {
-                        backgroundColor: `${theme.colors.inputBackground}`,
-                    },
-                },
-                destructive: {
-                    color: `${theme.colors.base}`,
-                    border: `1px solid ${theme.colors.error300}`,
-                    backgroundColor: `${theme.colors.inputBackground}`,
-                    '&:focus': {
-                        border: `1px solid ${theme.colors.error}`,
-                    },
-                },
-                errorFree: {
-                    color: `${theme.colors.base}`,
-                    border: `1px solid ${theme.colors.primary}`,
-                    backgroundColor: `${theme.colors.inputBackground}`,
-                    '&:focus': {
-                        border: `1px solid ${theme.colors.primary}`,
-                    },
-                    '&:disabled': {
-                        backgroundColor: `${theme.colors.secondary100}`,
-                    },
-                },
-            },
-        })};
-`;
 
 export const TextArea = forwardRef(function TextArea(
     props: TextAreaProps,
     ref: React.Ref<HTMLTextAreaElement>,
 ) {
-    const { labelText, helperText, variant, id, rows, hideText, value, onChange, ...rest } = props;
+    const {
+        labelText,
+        helperText,
+        variant,
+        id,
+        rows,
+        hideText,
+        value,
+        onChange,
+        className,
+        ...rest
+    } = props;
 
     const getValue = () => {
         if (!value || typeof value !== 'string') return '';
@@ -129,15 +44,27 @@ export const TextArea = forwardRef(function TextArea(
     };
 
     return (
-        <FlexContainer flexDirection='column' gridGap='6px'>
+        <div className='flex flex-col gap-1.5'>
             {labelText && (
-                <Paragraph as='label' htmlFor={id} $typeset='body' fontWeight='medium' color='gray'>
+                <label
+                    htmlFor={id}
+                    className='text-theme-secondary-500 dark:text-theme-secondary-300 font-medium text-sm leading-tight'
+                >
                     {labelText}
-                </Paragraph>
+                </label>
             )}
-            <Container position='relative' width='100%'>
-                <StyledTextArea
-                    variant={variant}
+
+            <div className='relative w-full'>
+                <textarea
+                    className={cn(
+                        'leading-5 text-base font-normal w-full p-3 rounded-lg shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] transition-smoothEase border-none outline-none resize-none disabled:cursor-not-allowed disabled:pointer-events-none placeholder:text-theme-secondary-400 textarea',
+                        {
+                            'textarea-primary': variant === 'primary',
+                            'textarea-destructive': variant === 'destructive',
+                            'textarea-errorFree': variant === 'errorFree',
+                        },
+                        className,
+                    )}
                     rows={rows || 4}
                     ref={ref}
                     id={id}
@@ -145,17 +72,19 @@ export const TextArea = forwardRef(function TextArea(
                     onChange={handleOnChange}
                     {...rest}
                 />
-            </Container>
+            </div>
 
             {helperText && (
-                <Paragraph
-                    $typeset='body'
-                    fontWeight='regular'
-                    color={variant == 'destructive' ? 'error' : 'gray'}
+                <p
+                    className={cn('text-sm font-normal leading-tight', {
+                        'text-theme-error-600 dark:text-theme-error-500': variant === 'destructive',
+                        'text-theme-secondary-500 dark:text-theme-secondary-300':
+                            variant !== 'destructive',
+                    })}
                 >
                     {helperText}
-                </Paragraph>
+                </p>
             )}
-        </FlexContainer>
+        </div>
     );
 });
