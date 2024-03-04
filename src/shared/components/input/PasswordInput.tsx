@@ -31,7 +31,7 @@ const EyeButton = ({
             <Icon
                 className='h-5 w-5 text-light-black dark:text-white'
                 icon={showPassword ? 'eye-off' : 'eye'}
-            />            
+            />
         </button>
     );
 };
