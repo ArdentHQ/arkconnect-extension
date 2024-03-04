@@ -20,7 +20,7 @@
     }
 
     .toggle-switch-slider::before {
-        @apply absolute content-[""] h-4 w-4 left-[0.2rem] bottom-[0.15rem] bg-white duration-[0.4s] rounded-full fill-white drop-shadow-[0_1px_3px_rgba(16,24,40,0.10)]
+        @apply absolute content-[""] h-4 w-4 left-[3px] bottom-0.5 bg-white duration-[0.4s] rounded-full fill-white drop-shadow-[0_1px_3px_rgba(16,24,40,0.10)]
     }
 
     [type='checkbox']:checked + .toggle-switch-slider {
@@ -28,7 +28,7 @@
     }
 
     [type='checkbox']:checked + .toggle-switch-slider::before {
-        @apply transform translate-x-[0.9rem]
+        @apply transform translate-x-[14px]
     }
 
     [type='checkbox']:disabled + .toggle-switch-slider {
