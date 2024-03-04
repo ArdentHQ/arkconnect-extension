@@ -1,118 +1,18 @@
-import styled from 'styled-components';
-import {
-    border,
-    BorderProps,
-    color,
-    ColorProps,
-    layout,
-    LayoutProps,
-    position,
-    PositionProps,
-    shadow,
-    ShadowProps,
-    space,
-    SpaceProps,
-    variant,
-} from 'styled-system';
 import { MutableRefObject } from 'react';
-import { Theme } from '@/shared/theme';
-import { Container, FlexContainer, Icon, IconDefinition, Paragraph } from '@/shared/components';
-import useThemeMode, { GetThemeColor } from '@/lib/hooks/useThemeMode';
+import cn from 'classnames';
+import { Icon, IconDefinition } from '@/shared/components';
 
-type VariantProps = {
-    variant?: 'primary' | 'destructive' | 'errorFree';
-};
-
-type GetThemeColorProps = {
-    getThemeColor?: GetThemeColor;
-};
-
-type BaseProps = ColorProps<Theme> &
-    SpaceProps<Theme> &
-    LayoutProps<Theme> &
-    PositionProps<Theme> &
-    ShadowProps<Theme> &
-    BorderProps<Theme> &
-    VariantProps &
-    GetThemeColorProps;
-
-type InputProps = React.ComponentPropsWithRef<typeof StyledInput> & {
+type InputProps = React.ComponentPropsWithRef<'input'> & {
     iconLeading?: IconDefinition;
     iconTrailing?: IconDefinition;
-    paddingRight?: React.ComponentProps<typeof Container>['paddingRight'];
     trailing?: React.ReactNode;
     disabled?: boolean;
     labelText?: string;
     helperText?: string;
     innerRef?: MutableRefObject<HTMLInputElement | null>;
+    variant?: 'primary' | 'destructive' | 'errorFree';
+    className?: string;
 };
-
-const StyledInput = styled.input<BaseProps>`
-    font-family: ${({ theme }) => theme.fonts.regular};
-    font-size: ${({ theme }) => theme.fontSizes.headline}px;
-    font-weight: ${({ theme }) => theme.fontWeights.regular};
-    width: 100%;
-    padding: 16px 12px;
-    max-height: 52px;
-    border-radius: 8px;
-    transition: ${({ theme }) => theme.transitions.smoothEase};
-    border: none;
-    outline: none;
-
-    &:disabled {
-        cursor: not-allowed;
-        pointer-events: none;
-    }
-
-    &::placeholder {
-        color: ${({ theme }) => theme.colors.secondary400};
-    }
-    ${space}
-    ${color}
-  ${layout}
-  ${position}
-  ${shadow}
-  ${border}
-
-  ${({ theme, getThemeColor }) =>
-        variant({
-            variants: {
-                primary: {
-                    color: `${theme.colors.base}`,
-                    border: `1px solid ${getThemeColor?.(
-                        theme.colors.secondary400,
-                        theme.colors.secondary500,
-                    )}`,
-                    backgroundColor: `${theme.colors.inputBackground}`,
-                    '&:focus': {
-                        border: `1px solid ${theme.colors.activeInput}`,
-                    },
-                    '&:disabled': {
-                        backgroundColor: `${theme.colors.secondary100}`,
-                    },
-                },
-                destructive: {
-                    color: `${theme.colors.base}`,
-                    border: `1px solid ${theme.colors.error500}`,
-                    backgroundColor: `${theme.colors.inputBackground}`,
-                    '&:focus': {
-                        border: `1px solid ${theme.colors.error}`,
-                    },
-                },
-                errorFree: {
-                    color: `${theme.colors.base}`,
-                    border: `1px solid ${theme.colors.primary}`,
-                    backgroundColor: `${theme.colors.inputBackground}`,
-                    '&:focus': {
-                        border: `1px solid ${theme.colors.primary}`,
-                    },
-                    '&:disabled': {
-                        backgroundColor: `${theme.colors.secondary100}`,
-                    },
-                },
-            },
-        })};
-`;
 
 export const Input = ({
     iconLeading,
@@ -123,67 +23,64 @@ export const Input = ({
     variant,
     id,
     innerRef,
-    paddingRight,
+    className,
     ...rest
 }: InputProps) => {
-    const { getThemeColor } = useThemeMode();
-
     return (
-        <FlexContainer flexDirection='column' gridGap='6px'>
+        <div className='flex flex-col gap-1.5'>
             {labelText && (
-                <Paragraph
-                    as='label'
+                <label
                     htmlFor={id}
-                    $typeset='body'
-                    fontWeight='medium'
-                    color='label'
+                    className='text-theme-secondary-500 dark:text-theme-secondary-200 font-medium text-sm leading-tight'
                 >
                     {labelText}
-                </Paragraph>
+                </label>
             )}
-            <Container position='relative' width='100%'>
+
+            <div className='relative w-full'>
                 {iconLeading && (
-                    <TrailingLeadingWrapper isLeading>
+                    <div className={'absolute top-1/2 left-3 right-auto'}>
                         <Icon className='h-5 w-5' icon={iconLeading} />
-                    </TrailingLeadingWrapper>
+                    </div>
                 )}
+            </div>
 
-                <StyledInput
-                    paddingLeft={iconLeading && '40'}
-                    paddingRight={paddingRight || (iconTrailing && '40')}
-                    variant={variant}
-                    id={id}
-                    ref={innerRef}
-                    getThemeColor={getThemeColor}
-                    {...rest}
-                />
-
-                {iconTrailing && (
-                    <TrailingLeadingWrapper isTrailing>
-                        <Icon className='h-5 w-5' icon={iconTrailing} />
-                    </TrailingLeadingWrapper>
+            <input
+                className={cn(
+                    'text-base font-normal w-full px-3 py-4 max-h-13 rounded-lg transition-smoothEase border-none outline-none disabled:cursor-not-allowed disabled:pointer-events-none placeholder:text-theme-secondary-400 text-input',
+                    {
+                        'text-input-primary': variant === 'primary',
+                        'text-input-destructive': variant === 'destructive',
+                        'text-input-errorFree': variant === 'errorFree',
+                        'pl-10': iconLeading,
+                        'pr-10': iconTrailing,
+                    },
+                    className,
                 )}
+                id={id}
+                ref={innerRef}
+                {...rest}
+            />
 
-                {trailing && <TrailingLeadingWrapper isTrailing>{trailing}</TrailingLeadingWrapper>}
-            </Container>
+            {iconTrailing && (
+                <div className='absolute top-1/2 left-auto right-3'>
+                    <Icon className='h-5 w-5' icon={iconTrailing} />
+                </div>
+            )}
+
+            {trailing && <div className='absolute top-1/2 left-auto right-3'>{trailing}</div>}
 
             {helperText && (
-                <Paragraph
-                    $typeset='body'
-                    fontWeight='regular'
-                    color={variant == 'destructive' ? 'error500' : 'gray'}
+                <p
+                    className={cn('text-sm leading-tight font-normal', {
+                        'text-theme-error-500': variant === 'destructive',
+                        'text-theme-secondary-500 dark:text-theme-secondary-300':
+                            variant !== 'destructive',
+                    })}
                 >
                     {helperText}
-                </Paragraph>
+                </p>
             )}
-        </FlexContainer>
+        </div>
     );
 };
-
-const TrailingLeadingWrapper = styled.div<{ isLeading?: boolean; isTrailing?: boolean }>`
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    left: ${({ isLeading }) => (isLeading ? '12px' : 'auto')};
-    right: ${({ isTrailing }) => (isTrailing ? '12px' : 'auto')};
-`;
