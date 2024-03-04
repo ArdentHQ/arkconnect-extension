@@ -35,12 +35,12 @@ export const RadioButton: FC<RadioButtonProps> = ({
         >
             <div className='flex flex-col items-start gap-[0.3125rem]'>
                 {title && (
-                    <p className='text-base font-normal leading-tight text-subtle-black dark:text-white'>
+                    <p className='typeset-heading'>
                         {title}
                     </p>
                 )}
                 {helperText && (
-                    <p className='text-sm font-normal leading-tight text-theme-secondary-600 dark:text-theme-secondary-300'>
+                    <p className='typeset-body'>
                         {helperText}
                     </p>
                 )}
