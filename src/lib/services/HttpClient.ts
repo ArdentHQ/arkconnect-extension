@@ -1,5 +1,6 @@
 import { Http } from '@ardenthq/sdk';
 import hash from 'string-hash';
+import { SocksProxyAgent } from 'socks-proxy-agent';
 import { Cache } from './Cache';
 
 type Primitive = null | undefined | string | number | boolean | symbol | bigint;
