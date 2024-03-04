@@ -18,6 +18,7 @@ const ConnectWithWallet = ({ wallet }: Props) => {
                 <RowLayout
                     variant='errorFree'
                     color='primary'
+                    iconClassName='text-theme-primary-700 dark:text-theme-primary-650'
                     title='No wallets found in your profile!'
                     helperText={'Create or import new wallet'}
                     tabIndex={-1}

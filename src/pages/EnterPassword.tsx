@@ -105,7 +105,7 @@ const EnterPassword = () => {
                             }
                             as='span'
                         >
-                            <Icon icon='corner-down-left' width='20px' height='20px' />
+                            <Icon icon='corner-down-left' className='h-5 w-5' />
                         </StyledIconWrapper>
                     </Button>
                     <InternalLink

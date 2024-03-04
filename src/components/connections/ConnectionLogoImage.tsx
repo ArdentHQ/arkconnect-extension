@@ -54,7 +54,12 @@ const ConnectionLogoImage = ({
     const defaultFavicon =
         currentThemeMode === ThemeMode.LIGHT ? 'default-favicon-light' : 'default-favicon-dark';
 
-    return <Icon icon={defaultFavicon} width={'15px'} height={'15px'} color='primary' />;
+    return (
+        <Icon
+            icon={defaultFavicon}
+            className='text-theme-primary-700 dark:text-theme-primary-650 w-[15px] h-[15px]'
+        />
+    );
 };
 
 export default ConnectionLogoImage;

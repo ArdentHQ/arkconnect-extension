@@ -6,5 +6,5 @@ export const EmptyConnectionsIcon = () => {
     const { currentThemeMode } = useThemeMode();
     const icon =
         currentThemeMode === ThemeMode.LIGHT ? 'connections-empty-light' : 'connections-empty-dark';
-    return <Icon icon={icon} width='120px' height='120px' />;
+    return <Icon icon={icon} className='h-30 w-30' />;
 };
