@@ -27,8 +27,7 @@ export const Checkbox: FC<CheckboxProps> = ({
     const [isFocusWithin, setIsFocusWithin] = useState(false);
 
     return (
-        <label
-            htmlFor={id}
+        <div
             className={cn('relative flex group', {
                 'cursor-not-allowed pointer-events-none': disabled,
                 'cursor-pointer pointer-events-auto': !disabled,
@@ -78,6 +77,6 @@ export const Checkbox: FC<CheckboxProps> = ({
                     'cursor-not-allowed': disabled,
                 })}
             />
-        </label>
+        </div>
     );
 };
