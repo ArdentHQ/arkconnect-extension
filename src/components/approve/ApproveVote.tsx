@@ -110,6 +110,7 @@ const ApproveVote = ({ abortReference, approveWithLedger, wallet, closeLedgerScr
 
             if (wallet.isLedger()) {
                 await approveWithLedger(profile, wallet);
+                loadingModal.setLoading();
             }
 
             const res = await submitForm(abortReference);
