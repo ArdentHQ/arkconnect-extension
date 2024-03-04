@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import styled from 'styled-components';
-import { Container, FlexContainer, Icon, Input } from '@/shared/components';
+import cn from 'classnames';
+import { Icon, Input } from '@/shared/components';
 import { isFirefox } from '@/lib/utils/isFirefox';
 
 type Props = React.ComponentProps<typeof Input> & {
@@ -17,22 +17,19 @@ const EyeButton = ({
     labelText?: string;
 }) => {
     return (
-        <StyledEyeWrapper
-            as='button'
+        <button 
+            className={cn('flex cursor-pointer text-light-black dark:text-white w-7 h-7 rounded-full justify-center items-center', {
+                'focus-visible:outline focus-visible:outline-2': isFirefox,
+                'top-9': labelText,
+                'top-3': !labelText,
+            })}
             onClick={onClick}
-            color='base'
-            width='28px'
-            height='28px'
-            borderRadius='50%'
-            justifyContent='center'
-            alignItems='center'
-            top={labelText ? '36px' : '12px'}
         >
             <Icon
                 className='h-5 w-5 text-light-black dark:text-white'
                 icon={showPassword ? 'eye-off' : 'eye'}
             />
-        </StyledEyeWrapper>
+        </button>
     );
 };
 
@@ -43,7 +40,7 @@ export const PasswordInput = ({ labelText, ...props }: Props) => {
     };
 
     return (
-        <Container position='relative' color='base'>
+        <div className='relative text-light-black dark:text-white'>
             <Input
                 type={showPassword ? 'text' : 'password'}
                 labelText={labelText}
@@ -57,11 +54,6 @@ export const PasswordInput = ({ labelText, ...props }: Props) => {
                     />
                 }
             />
-        </Container>
+        </div>
     );
 };
-
-const StyledEyeWrapper = styled(FlexContainer)`
-    cursor: pointer;
-    ${({ theme }) => (isFirefox ? theme.browserCompatibility.firefox.focus : '')}
-`;
