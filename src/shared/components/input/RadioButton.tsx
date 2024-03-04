@@ -34,16 +34,8 @@ export const RadioButton: FC<RadioButtonProps> = ({
             htmlFor={id}
         >
             <div className='flex flex-col items-start gap-[0.3125rem]'>
-                {title && (
-                    <p className='typeset-heading'>
-                        {title}
-                    </p>
-                )}
-                {helperText && (
-                    <p className='typeset-body'>
-                        {helperText}
-                    </p>
-                )}
+                {title && <p className='typeset-heading'>{title}</p>}
+                {helperText && <p className='typeset-body'>{helperText}</p>}
             </div>
             <input
                 id={id}
