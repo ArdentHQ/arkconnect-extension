@@ -65,7 +65,6 @@ export default defineConfig({
                         'string-hash',
                         'socks-proxy-agent',
                     ],
-                    crypto: ['crypto-js'],
                     sdk: ['@ardenthq/sdk'],
                     'sdk-ark': ['@ardenthq/sdk-ark'],
                     'sdk-cryptography': ['@ardenthq/sdk-cryptography'],
