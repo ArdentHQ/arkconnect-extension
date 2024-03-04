@@ -23,7 +23,10 @@ const LoadingModal = () => {
             <FlexContainer flexDirection='column' alignItems='center' gridGap='24px' px='16'>
                 {!isLoading ? (
                     <>
-                        <Icon icon='completed' width='64px' height='64px' color='primary' />
+                        <Icon
+                            icon='completed'
+                            className='w-16 h-16 text-theme-primary-700 dark:text-theme-primary-650'
+                        />
                         <FlexContainer
                             flexDirection='column'
                             justifyContent='center'
