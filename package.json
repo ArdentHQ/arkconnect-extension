@@ -32,7 +32,6 @@
         "@tippyjs/react": "^4.2.6",
         "assert": "2.0.0",
         "classnames": "^2.5.1",
-        "crypto-js": "^4.1.1",
         "focus-trap-react": "^10.2.3",
         "formik": "^2.4.3",
         "locale-currency": "^0.0.2",
@@ -57,7 +56,6 @@
     "devDependencies": {
         "@samrum/vite-plugin-web-extension": "^5.0.0",
         "@testing-library/react": "^14.1.2",
-        "@types/crypto-js": "^4.1.1",
         "@types/react": "^18.2.15",
         "@types/react-dom": "^18.2.7",
         "@types/semver": "^7.5.6",
