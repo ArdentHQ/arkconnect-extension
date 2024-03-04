@@ -35,8 +35,12 @@ export const Checkbox: FC<CheckboxProps> = ({
             })}
         >
             <span className='flex flex-col items-start gap-[5px] ml-7'>
-                {title && <span className='leading-tight font-normal typeset-heading'>{title}</span>}
-                {helperText && <span className='leading-tight font-normal typeset-body'>{helperText}</span>}
+                {title && (
+                    <span className='leading-tight font-normal typeset-heading'>{title}</span>
+                )}
+                {helperText && (
+                    <span className='leading-tight font-normal typeset-body'>{helperText}</span>
+                )}
             </span>
 
             <input
