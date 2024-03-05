@@ -122,7 +122,7 @@ const ImportNewWallet = () => {
             await loadingModal.setCompletedAndClose();
 
             formikHelpers.resetForm();
-            navigate('/');
+            // navigate('/');
         },
     });
 
