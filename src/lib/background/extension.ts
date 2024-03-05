@@ -98,6 +98,8 @@ export function Extension() {
 
             env.profiles().flush();
 
+            await env.persist();
+
             const profile = await env.profiles().create('arkconnect');
             profile.auth().setPassword(password);
             env.profiles().push(profile);
