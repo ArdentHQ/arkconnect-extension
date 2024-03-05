@@ -1,0 +1,41 @@
+@layer utilities {
+    .button-base {
+        @apply relative border-none text-base leading-5 font-bold rounded-2xl w-full py-4 px-7 max-h-13 cursor-pointer gap-3 disabled:cursor-not-allowed disabled:pointer-events-none flex justify-center items-center flex-row
+    }
+
+    .button-primary {
+        @apply  bg-theme-primary-700 dark:bg-theme-primary-650 text-white hover:bg-theme-primary-600 disabled:text-theme-secondary-400 disabled:bg-theme-secondary-100 dark:disabled:bg-theme-secondary-700 focus:shadow-[0_0_0_4px_#E5F3ED] dark:focus:shadow-[0_0_0_4px_rgba(74,205,151,0.24)] focus-visible:outline-2  focus-visible:outline-theme-primary-600
+    }
+
+    .button-secondary {
+        @apply  text-theme-primary-700 dark:text-theme-primary-650 bg-white dark:bg-light-black border border-solid border-theme-primary-700 dark:border-theme-primary-650 hover:bg-theme-secondary-800 dark:hover:bg-theme-secondary-800 focus-visible:outline-none focus-visible:shadow-[0_0_0_4px_#E5F3ED] dark:focus-visible:shadow-[0_0_0_4px_#2B3D35] disabled:border disabled:border-solid disabled:border-theme-secondary-100 dark:disabled:border-theme-secondary-400 disabled:text-theme-secondary-500 dark:disabled:text-theme-secondary-300 disabled:bg-white dark:disabled:bg-light-black
+    }
+
+    .button-secondaryBlack {
+        @apply  border border-solid border-subtle-black dark:border-white bg-white dark:bg-light-black text-subtle-black dark:text-white font-medium shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] hover:bg-theme-secondary-50 dark:hover:bg-theme-secondary-700 focus:shadow-[0_0_0_4px_theme-secondary-50] dark:focus:shadow-[0_0_0_4px_#3B3A3A] disabled:border disabled:border-solid disabled:border-theme-secondary-200 dark:disabled:border-theme-secondary-500 disabled:text-theme-secondary-200 dark:disabled:text-theme-secondary-500 disabled:bg-light-black dark:disabled:bg-white
+    }
+
+    .button-primaryText {
+        @apply  bg-subtle-white dark:bg-light-black text-theme-primary-700 dark:text-theme-primary-650 hover:bg-theme-primary-50 disabled:text-theme-secondary-500 dark:disabled:text-theme-secondary-400
+    }
+
+    .button-primaryLink {
+        @apply  bg-transparent text-theme-primary-700 dark:text-theme-primary-650 hover:text-theme-primary-600 disabled:text-theme-secondary-500 dark:disabled:text-theme-secondary-400 p-0
+    }
+
+    .button-primaryLinkDestructive {
+        @apply  bg-subtle-white dark:bg-light-black text-theme-error-600 dark:text-theme-error-500 p-0 font-medium focus-visible:outline-2 focus-visible:outline-theme-error-700 
+    }
+
+    .button-linkDestructive {
+        @apply  bg-transparent text-theme-error-600 dark:text-theme-error-500 p-0 font-medium 
+    }
+
+    .button-destructivePrimary {
+        @apply  bg-theme-error-600 dark:bg-theme-error-500 text-white hover:bg-theme-error-700 disabled:bg-theme-error-300 dark:disabled:bg-[rgba(240,68,56,0.20)] focus:shadow-[0_0_0_4px_theme-error-100] dark:focus:shadow-[0_0_0_4px_#552D2A] focus-visible:outline-2 focus-visible:outline-theme-error-700 focus-visible:outline-offset-1
+    }
+
+    .button-destructiveSecondary {
+        @apply  bg-white dark:bg-light-black border border-solid border-r-theme-error-600 dark:border-theme-error-500 hover:bg-theme-error-50 dark:hover:bg-[rgba(91,16,5,0.08)] focus:shadow-[0_0_0_4px_theme-error-100] dark:focus:shadow-[0_0_0_4px_#43302F] disabled:border disabled:border-solid disabled:border-theme-error-200 disabled:text-theme-error-300 focus-visible:outline-2 focus-visible:outline-theme-error-700 focus-visible:outline-offset-1
+    }
+}
