@@ -141,7 +141,7 @@ const ConnectionsList = () => {
                 onClick={() => {
                     setSessionsToRemove(Object.values(sessions));
                 }}
-                mt='16'
+                className='mt-4'
             >
                 Disconnect All
             </Button>

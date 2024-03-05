@@ -166,7 +166,7 @@ const SetupPassword = ({ formik }: Props) => {
             </FlexContainer>
 
             <Button
-                mt='24'
+                className='mt-6'
                 variant='primary'
                 disabled={!values.termsAndConditionsConfirmed || !isValid}
                 onClick={submitForm}

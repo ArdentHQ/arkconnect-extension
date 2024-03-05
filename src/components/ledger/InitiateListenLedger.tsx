@@ -4,7 +4,7 @@ import { Button } from '@/shared/components';
 const InitiateListenLedger = () => {
     const { listenDevice } = useLedgerContext();
     return (
-        <Button variant='secondary' onClick={listenDevice} width='300px'>
+        <Button variant='secondary' onClick={listenDevice} className='w-[300px]'>
             Reinitiate Ledger Window
         </Button>
     );

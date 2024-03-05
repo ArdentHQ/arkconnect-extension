@@ -232,7 +232,7 @@ const EnterPassphrase = ({ goToNextStep, formik }: Props) => {
 
             <Button
                 variant='primary'
-                mt='auto'
+                className='mt-auto'
                 isLoading={isImporting || isValidating}
                 disabled={values.passphraseValidation !== 'errorFree'}
                 onClick={handleWalletImport}

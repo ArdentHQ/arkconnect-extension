@@ -75,7 +75,7 @@ const ErrorModal = ({ error, onClose }: Props) => {
                     width='100%'
                     maxWidth='340px'
                 >
-                    <Button variant='primary' onClick={onClose} mb='24'>
+                    <Button variant='primary' onClick={onClose} className='mb-6'>
                         Close
                     </Button>
                     <ExternalLink
