@@ -164,6 +164,7 @@ const ConnectionsList = () => {
                                 backgroundColor={
                                     currentThemeMode === ThemeMode.LIGHT ? 'secondary50' : 'black'
                                 }
+                                className='flex-shrink-0'
                             >
                                 <ConnectionLogoImage
                                     appLogo={session.logo}
@@ -172,7 +173,7 @@ const ConnectionsList = () => {
                                 />
                             </FlexContainer>
 
-                            <Container width='calc(100% - 96px)'>
+                            <div className='flex-1 flex flex-col justify-between'>
                                 <div>
                                     <Tooltip
                                         content={
@@ -186,9 +187,8 @@ const ConnectionsList = () => {
                                             $typeset='headline'
                                             fontWeight='medium'
                                             color='base'
-                                            display='inline'
                                         >
-                                            <span>{formatDomain(session.domain, false)}</span>
+                                            {formatDomain(session.domain, false)}
                                         </Paragraph>
                                     </Tooltip>
                                 </div>
@@ -210,7 +210,7 @@ const ConnectionsList = () => {
                                         </strong>
                                     </Paragraph>
                                 </Tooltip>
-                            </Container>
+                            </div>
 
                             <Tooltip content='Disconnect' placement='left'>
                                 <StyledFlexContainer
@@ -224,6 +224,7 @@ const ConnectionsList = () => {
                                         handleRemoveSession(session);
                                     }}
                                     as='button'
+                                    className='flex-shrink-0'
                                 >
                                     <Icon
                                         icon='slash'
@@ -281,7 +282,7 @@ const StyledRow = styled.div`
   justify-content: space-between;
   width: 100%;
   min-height: 58px;
-  padding: 8px;
+  padding: 12px;
   grid-gap: 12px;
   position: relative;
 `}
