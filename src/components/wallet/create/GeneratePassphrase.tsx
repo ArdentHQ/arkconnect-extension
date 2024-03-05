@@ -14,8 +14,7 @@ import {
 import useToast from '@/lib/hooks/useToast';
 import { ToastPosition } from '@/components/toast/ToastContainer';
 import { TestnetIcon } from '@/components/wallet/address/Address.blocks';
-import { useAppSelector } from '@/lib/store';
-import { selectTestnetEnabled } from '@/lib/store/ui';
+import useActiveNetwork from '@/lib/hooks/useActiveNetwork';
 
 type Props = {
     goToNextStep: () => void;
@@ -27,7 +26,7 @@ const GeneratePassphrase = ({ goToNextStep, formik }: Props) => {
 
     const toast = useToast();
 
-    const isTestnet = useAppSelector(selectTestnetEnabled);
+    const selectedNetwork = useActiveNetwork();
 
     const copyPassphraseToClipboard = async () => {
         try {
@@ -65,7 +64,7 @@ const GeneratePassphrase = ({ goToNextStep, formik }: Props) => {
                 <Heading $typeset='h3' fontWeight='bold' color='base'>
                     Save Your Secret Passphrase
                 </Heading>
-                {isTestnet && <TestnetIcon />}
+                {selectedNetwork.isTest() && <TestnetIcon />}
             </FlexContainer>
             <Paragraph $typeset='headline' color='gray' mb='16'>
                 Write down or copy your passphrase. Make sure to store it safely.

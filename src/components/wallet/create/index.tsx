@@ -8,7 +8,7 @@ import ConfirmPassphrase from './ConfirmPassphrase';
 import GeneratePassphrase from './GeneratePassphrase';
 import StepsNavigation, { Step } from '@/components/steps/StepsNavigation';
 import useToast from '@/lib/hooks/useToast';
-import useNetwork from '@/lib/hooks/useNetwork';
+import useActiveNetwork from '@/lib/hooks/useActiveNetwork';
 import { useProfileContext } from '@/lib/context/Profile';
 import { getDefaultAlias } from '@/lib/utils/getDefaultAlias';
 import { HandleLoadingState } from '@/shared/components/handleStates/HandleLoadingState';
@@ -49,7 +49,7 @@ const CreateNewWallet = () => {
     const { onError } = useErrorHandlerContext();
     const { profile, initProfile } = useProfileContext();
     const { defaultCurrency } = useLocaleCurrency();
-    const { activeNetwork } = useNetwork();
+    const activeNetwork = useActiveNetwork();
     const [isGeneratingWallet, setIsGeneratingWallet] = useState(true);
     const [steps, setSteps] = useState<Step[]>([
         { component: GeneratePassphrase },

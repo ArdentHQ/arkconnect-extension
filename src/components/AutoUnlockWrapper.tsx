@@ -55,8 +55,13 @@ const AutoUnlockWrapper = ({ children }: Props) => {
     const handleLedgerNavigation = () => {
         const locationHref = window.location.href;
 
-        if (!locationHref.includes('import_with_ledger')) return;
-        navigate('/ledger-import');
+        if (locationHref.includes('import_with_ledger')) {
+            navigate('/ledger-import', {
+                state: {
+                    isTestnet: locationHref.includes('isTestnet'),
+                },
+            });
+        }
     };
 
     const handlePersistScreenRedirect = () => {
