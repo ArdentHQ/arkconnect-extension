@@ -30,7 +30,7 @@ export const PassphraseInput = forwardRef(function TextArea(
                     htmlFor={id}
                     className='typeset-body font-medium text-theme-secondary-500 dark:text-theme-secondary-300'
                 >
-
+                    {labelText}
                 </label>
             )}
             
