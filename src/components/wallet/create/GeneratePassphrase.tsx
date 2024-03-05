@@ -1,7 +1,5 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { FormikProps } from 'formik';
-import { WalletFormScreen } from '../form-persist';
-import { persistScreenChanged } from '../form-persist/helpers';
 import { CreateWalletFormik } from '.';
 import {
     Button,
@@ -16,10 +14,7 @@ import {
 import useToast from '@/lib/hooks/useToast';
 import { ToastPosition } from '@/components/toast/ToastContainer';
 import { TestnetIcon } from '@/components/wallet/address/Address.blocks';
-import { getLocalValues } from '@/lib/utils/localStorage';
 import useActiveNetwork from '@/lib/hooks/useActiveNetwork';
-import { useAppSelector } from '@/lib/store';
-import { selectTestnetEnabled } from '@/lib/store/ui';
 
 type Props = {
     goToNextStep: () => void;

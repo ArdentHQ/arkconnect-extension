@@ -13,10 +13,7 @@ import {
 } from '@/shared/components';
 import getNumberSuffix from '@/lib/utils/getNumberSuffix';
 import { TestnetIcon } from '@/components/wallet/address/Address.blocks';
-import { getLocalValues } from '@/lib/utils/localStorage';
 import useActiveNetwork from '@/lib/hooks/useActiveNetwork';
-import { useAppSelector } from '@/lib/store';
-import { selectTestnetEnabled } from '@/lib/store/ui';
 import { ScreenName } from '@/lib/background/contracts';
 
 type Props = {
