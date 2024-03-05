@@ -1,10 +1,7 @@
 import { MutableRefObject } from 'react';
 import cn from 'classnames';
-import { Icon, IconDefinition } from '@/shared/components';
 
 type InputProps = React.ComponentPropsWithRef<'input'> & {
-    iconLeading?: IconDefinition;
-    iconTrailing?: IconDefinition;
     trailing?: React.ReactNode;
     disabled?: boolean;
     labelText?: string;
@@ -15,8 +12,6 @@ type InputProps = React.ComponentPropsWithRef<'input'> & {
 };
 
 export const Input = ({
-    iconLeading,
-    iconTrailing,
     trailing,
     labelText,
     helperText,
@@ -37,38 +32,24 @@ export const Input = ({
                 </label>
             )}
 
-            <div className='relative w-full'>
-                {iconLeading && (
-                    <div className={'absolute top-1/2 left-3 right-auto'}>
-                        <Icon className='h-5 w-5' icon={iconLeading} />
-                    </div>
-                )}
+            <div className='relative w-full flex items-center'>
+                <input
+                    className={cn(
+                        'text-base font-normal w-full px-3 py-4 max-h-13 rounded-lg transition-smoothEase border-none outline-none disabled:cursor-not-allowed disabled:pointer-events-none placeholder:text-theme-secondary-400 text-input',
+                        {
+                            'text-input-primary': variant === 'primary',
+                            'text-input-destructive': variant === 'destructive',
+                            'text-input-errorFree': variant === 'errorFree',
+                        },
+                        className,
+                    )}
+                    id={id}
+                    ref={innerRef}
+                    {...rest}
+                />
+
+                {trailing && <div className='absolute left-auto right-3'>{trailing}</div>}
             </div>
-
-            <input
-                className={cn(
-                    'text-base font-normal w-full px-3 py-4 max-h-13 rounded-lg transition-smoothEase border-none outline-none disabled:cursor-not-allowed disabled:pointer-events-none placeholder:text-theme-secondary-400 text-input',
-                    {
-                        'text-input-primary': variant === 'primary',
-                        'text-input-destructive': variant === 'destructive',
-                        'text-input-errorFree': variant === 'errorFree',
-                        'pl-10': iconLeading,
-                        'pr-10': iconTrailing,
-                    },
-                    className,
-                )}
-                id={id}
-                ref={innerRef}
-                {...rest}
-            />
-
-            {iconTrailing && (
-                <div className='absolute top-1/2 left-auto right-3'>
-                    <Icon className='h-5 w-5' icon={iconTrailing} />
-                </div>
-            )}
-
-            {trailing && <div className='absolute top-1/2 left-auto right-3'>{trailing}</div>}
 
             {helperText && (
                 <p

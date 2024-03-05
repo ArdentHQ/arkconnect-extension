@@ -142,7 +142,7 @@ const signMessageRequestShape: SignMessageRequest = {
     message: 'string',
 };
 
-export class ArkConnectInPageProvider {
+class ArkConnectInPageProvider {
     private _signMessageAbortController: AbortController | null = null;
 
     readonly loaded = true;
