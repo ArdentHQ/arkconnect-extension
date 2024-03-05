@@ -13,19 +13,19 @@ type ButtonProps = React.ComponentPropsWithRef<'button'> & {
     variant?: ButtonVariant
 };
 
-const buttonClass: Record<string, ButtonVariant>  = {
-    'button-primary': 'primary',
-    'button-secondary': 'secondary',
-    'button-secondaryBlack': 'secondaryBlack',
-    'button-primaryText': 'primaryText',
-    'button-primaryLink': 'primaryLink',
-    'button-primaryLinkDestructive': 'primaryLinkDestructive',
-    'button-linkDestructive': 'linkDestructive',
-    'button-destructivePrimary': 'destructivePrimary',
-    'button-destructiveSecondary': 'destructiveSecondary',
+const buttonClass: Record<ButtonVariant, string>  = {
+    'primary': 'button-primary',
+    'secondary': 'button-secondary',
+    'secondaryBlack': 'button-secondaryBlack',
+    'primaryText': 'button-primaryText',
+    'primaryLink': 'button-primaryLink',
+    'primaryLinkDestructive': 'button-primaryLinkDestructive',
+    'linkDestructive': 'button-linkDestructive',
+    'destructivePrimary': 'button-destructivePrimary',
+    'destructiveSecondary': 'button-destructiveSecondary',
 };
 
-const buttonVariantClass = (variant?: ButtonVariant) => variant ? buttonClass[variant] : '';
+const getButtonClass = (variant?: ButtonVariant) => variant ? buttonClass[variant] : '';
 
 export const Button = ({
     iconLeading,
@@ -59,7 +59,12 @@ export const Button = ({
         <button
             className={cn(
                 'button-base',
-                {[buttonVariantClass(variant)]: buttonVariantClass(variant)},
+                {
+                    'transition-firefoxSmoothEase focus-visible:outline focus-visible:outline-2':
+                        isFirefox,
+                    'transition-smoothEase': !isFirefox,
+                    [getButtonClass(variant)]: variant,
+                },
                 className,
             )}
             {...rest}
