@@ -34,6 +34,8 @@ export const Button = ({
 
     return (
         <button className={cn('button-base', {
+            'transition-firefoxSmoothEase focus-visible:outline focus-visible:outline-2': isFirefox,
+            'transition-smoothEase': !isFirefox,
             'button-primary': variant === 'primary',
             'button-secondary': variant === 'secondary',
             'button-secondaryBlack': variant === 'secondaryBlack',
