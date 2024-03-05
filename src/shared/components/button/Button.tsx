@@ -2,7 +2,16 @@ import cn from 'classnames';
 import { Icon, IconDefinition, Loader } from '@/shared/components';
 import { isFirefox } from '@/lib/utils/isFirefox';
 
-type ButtonVariant = 'primary' | 'secondary' | 'secondaryBlack' | 'primaryText' | 'primaryLink' | 'primaryLinkDestructive' | 'linkDestructive' | 'destructivePrimary' | 'destructiveSecondary';
+type ButtonVariant =
+    | 'primary'
+    | 'secondary'
+    | 'secondaryBlack'
+    | 'primaryText'
+    | 'primaryLink'
+    | 'primaryLinkDestructive'
+    | 'linkDestructive'
+    | 'destructivePrimary'
+    | 'destructiveSecondary';
 
 type ButtonProps = React.ComponentPropsWithRef<'button'> & {
     iconLeading?: IconDefinition;
@@ -10,10 +19,10 @@ type ButtonProps = React.ComponentPropsWithRef<'button'> & {
     isLoading?: boolean;
     disabled?: boolean;
     className?: string;
-    variant?: ButtonVariant
+    variant?: ButtonVariant;
 };
 
-const buttonClass: Record<string, ButtonVariant>  = {
+const buttonClass: Record<string, ButtonVariant> = {
     'button-primary': 'primary',
     'button-secondary': 'secondary',
     'button-secondaryBlack': 'secondaryBlack',
@@ -25,7 +34,7 @@ const buttonClass: Record<string, ButtonVariant>  = {
     'button-destructiveSecondary': 'destructiveSecondary',
 };
 
-const buttonVariantClass = (variant?: ButtonVariant) => variant ? buttonClass[variant] : '';
+const buttonVariantClass = (variant?: ButtonVariant) => (variant ? buttonClass[variant] : '');
 
 export const Button = ({
     iconLeading,
@@ -59,7 +68,7 @@ export const Button = ({
         <button
             className={cn(
                 'button-base',
-                {[buttonVariantClass(variant)]: buttonVariantClass(variant)},
+                { [buttonVariantClass(variant)]: buttonVariantClass(variant) },
                 className,
             )}
             {...rest}
