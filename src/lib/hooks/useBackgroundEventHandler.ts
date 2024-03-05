@@ -8,8 +8,8 @@ import {
     SignTransactionData,
     SignVoteData,
 } from '../background/eventListenerHandlers';
-import { useAppDispatch, useAppSelector } from '../store';
-import { lockedChanged, selectLocked } from '@/lib/store/ui';
+import { useAppDispatch } from '../store';
+import { lockedChanged } from '@/lib/store/ui';
 
 type Event = {
     callback: any;
@@ -22,7 +22,6 @@ type Event = {
 const useBackgroundEventHandler = () => {
     const dispatch = useAppDispatch();
     const [events, setEvents] = useState<Event[]>([]);
-    const locked = useAppSelector(selectLocked);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -55,7 +54,7 @@ const useBackgroundEventHandler = () => {
                 }
             }
         });
-    }, [locked]);
+    }, []);
 
     const runEventHandlers = useCallback(() => {
         const eventsLength = events.length;
@@ -69,7 +68,7 @@ const useBackgroundEventHandler = () => {
         }
 
         return eventsLength
-    }, [events, locked]);
+    }, [events]);
 
     const onConnect = (request: EventPayload<ConnectData>) => {
         navigate('/connect', {
