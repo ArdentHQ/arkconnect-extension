@@ -31,8 +31,7 @@ const InitialImportWallet = () => {
                 iconTrailing='arrow-right'
                 title='Enter Passphrase'
                 helperText='Use your 12 or 24-word passphrase to securely access your address.'
-                color='primary'
-                mb='8'
+                className='mb-2 text-theme-primary-700 dark:text-theme-primary-650'
                 onClick={() => navigate('/wallet/import')}
             />
 
@@ -60,7 +59,7 @@ const InitialImportWallet = () => {
                             });
                             window.close(); // Close extension popup as we navigate away
                         }}
-                        color='primary'
+                        className='text-theme-primary-700 dark:text-theme-primary-650'
                     />
                 </div>
             </Tooltip>
