@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import ConnectionIndicator from './ConnectionIndicator';
+import { DisconnectSessionModal } from './DisconnectSessionModal';
 import { useActiveTabConnection } from '@/lib/hooks/useActiveTabConnection';
 import { Icon, Paragraph, Tooltip } from '@/shared/components';
 import Modal from '@/shared/components/modal/Modal';
@@ -11,6 +12,7 @@ import DisconnectedAddress from '@/components/wallet/DisconnectedAddress';
 
 export const ConnectionStatus = () => {
     const { currentThemeMode, getThemeColor } = useThemeMode();
+    const [isDisconnectModalOpen, setIsDisconnectModalOpen] = useState(false);
 
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
@@ -72,6 +74,10 @@ export const ConnectionStatus = () => {
                                 wallet={primaryWallet}
                                 logo={logo}
                                 address={primaryWallet.address()}
+                                onDisconnect={() => {
+                                    setIsModalOpen(false);
+                                    setIsDisconnectModalOpen(true);
+                                }}
                             />
                         </Modal>
                     ) : (
@@ -87,6 +93,13 @@ export const ConnectionStatus = () => {
                     )}
                 </>
             )}
+
+            <DisconnectSessionModal
+                isOpen={isDisconnectModalOpen}
+                session={tabSession}
+                onConfirm={() => setIsDisconnectModalOpen(false)}
+                onCancel={() => setIsDisconnectModalOpen(false)}
+            />
         </>
     );
 };
