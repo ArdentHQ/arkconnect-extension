@@ -17,7 +17,7 @@ import constants from '@/constants';
 import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
 import { useLedgerContext } from '@/lib/Ledger';
 import useLoadingModal from '@/lib/hooks/useLoadingModal';
-import useNetwork from '@/lib/hooks/useNetwork';
+import useActiveNetwork from '@/lib/hooks/useActiveNetwork';
 import { useProfileContext } from '@/lib/context/Profile';
 
 export const LedgerConnectionStep = ({
@@ -30,7 +30,7 @@ export const LedgerConnectionStep = ({
 }) => {
     const { profile: activeProfile } = useProfileContext();
     const { onError } = useErrorHandlerContext();
-    const { activeNetwork: network } = useNetwork();
+    const network = useActiveNetwork();
     const loadingModal = useLoadingModal({
         completedMessage: 'Ledger Connected!',
         loadingMessage: 'Waiting for you to choose and connect a Ledger device.',
