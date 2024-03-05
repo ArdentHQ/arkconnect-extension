@@ -2,23 +2,30 @@ import cn from 'classnames';
 import { Icon, IconDefinition, Loader } from '@/shared/components';
 import { isFirefox } from '@/lib/utils/isFirefox';
 
+type ButtonVariant = 'primary' | 'secondary' | 'secondaryBlack' | 'primaryText' | 'primaryLink' | 'primaryLinkDestructive' | 'linkDestructive' | 'destructivePrimary' | 'destructiveSecondary';
+
 type ButtonProps = React.ComponentPropsWithRef<'button'> & {
     iconLeading?: IconDefinition;
     iconTrailing?: IconDefinition;
     isLoading?: boolean;
     disabled?: boolean;
     className?: string;
-    variant?:
-        | 'primary'
-        | 'secondary'
-        | 'secondaryBlack'
-        | 'primaryText'
-        | 'primaryLink'
-        | 'primaryLinkDestructive'
-        | 'linkDestructive'
-        | 'destructivePrimary'
-        | 'destructiveSecondary';
+    variant?: ButtonVariant
 };
+
+const buttonClass: Record<string, ButtonVariant>  = {
+    'button-primary': 'primary',
+    'button-secondary': 'secondary',
+    'button-secondaryBlack': 'secondaryBlack',
+    'button-primaryText': 'primaryText',
+    'button-primaryLink': 'primaryLink',
+    'button-primaryLinkDestructive': 'primaryLinkDestructive',
+    'button-linkDestructive': 'linkDestructive',
+    'button-destructivePrimary': 'destructivePrimary',
+    'button-destructiveSecondary': 'destructiveSecondary',
+};
+
+const buttonVariantClass = (variant?: ButtonVariant) => variant ? buttonClass[variant] : '';
 
 export const Button = ({
     iconLeading,
@@ -52,20 +59,7 @@ export const Button = ({
         <button
             className={cn(
                 'button-base',
-                {
-                    'transition-firefoxSmoothEase focus-visible:outline focus-visible:outline-2':
-                        isFirefox,
-                    'transition-smoothEase': !isFirefox,
-                    'button-primary': variant === 'primary',
-                    'button-secondary': variant === 'secondary',
-                    'button-secondaryBlack': variant === 'secondaryBlack',
-                    'button-primaryText': variant === 'primaryText',
-                    'button-primaryLink': variant === 'primaryLink',
-                    'button-primaryLinkDestructive': variant === 'primaryLinkDestructive',
-                    'button-linkDestructive': variant === 'linkDestructive',
-                    'button-destructivePrimary': variant === 'destructivePrimary',
-                    'button-destructiveSecondary': variant === 'destructiveSecondary',
-                },
+                {[buttonVariantClass(variant)]: buttonVariantClass(variant)},
                 className,
             )}
             {...rest}
