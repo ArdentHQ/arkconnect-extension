@@ -1,21 +1,23 @@
-import styled from 'styled-components';
 import { Link, useLocation } from 'react-router-dom';
 import { useRef, useState } from 'react';
+import cn from 'classnames';
 import FocusTrap from 'focus-trap-react';
-import useThemeMode from '@/lib/hooks/useThemeMode';
-import { LogoIcon } from '@/components/Logo';
+import styled from 'styled-components';
 import { Container, FlexContainer, Icon, Paragraph } from '@/shared/components';
-import trimAddress from '@/lib/utils/trimAddress';
-import { ConnectionStatus } from '@/components/wallet/ConnectionStatus';
-import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
-import { selectLocked } from '@/lib/store/ui';
-import { useAppSelector } from '@/lib/store';
-import { AddressesDropdown } from '@/shared/components/header/AddressesDropdown';
-import { useProfileContext } from '@/lib/context/Profile';
 import { DropdownMenuContainerProps, SettingsMenu } from '@/components/settings/SettingsMenu';
+
+import { AddressesDropdown } from '@/shared/components/header/AddressesDropdown';
+import { ConnectionStatus } from '@/components/wallet/ConnectionStatus';
 import { handleSubmitKeyAction } from '@/lib/utils/handleKeyAction';
-import { StyledLogos } from '@/components/settings/others/AboutARK';
 import { isFirefox } from '@/lib/utils/isFirefox';
+import { LogoIcon } from '@/components/Logo';
+import { selectLocked } from '@/lib/store/ui';
+import { StyledLogos } from '@/components/settings/others/AboutARK';
+import trimAddress from '@/lib/utils/trimAddress';
+import { useAppSelector } from '@/lib/store';
+import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
+import { useProfileContext } from '@/lib/context/Profile';
+import useThemeMode from '@/lib/hooks/useThemeMode';
 
 export const StyledFlexContainer = styled(FlexContainer)<DropdownMenuContainerProps>`
     ${(props) => `
@@ -144,7 +146,12 @@ export const Header = () => {
                                     {trimAddress(primaryWallet.address(), 7)}
                                 </Paragraph>
                                 <FlexContainer alignSelf='self-end' color='base' as='span'>
-                                    <Icon icon='arrow-down' className='h-4 w-4' />
+                                    <Icon
+                                        icon='arrow-down'
+                                        className={cn('h-4 w-4 transition-transform ease-in-out', {
+                                            'transform rotate-180': showAddressesDropdown,
+                                        })}
+                                    />
                                 </FlexContainer>
                             </StyledFlexContainer>
                         </FlexContainer>

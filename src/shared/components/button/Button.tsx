@@ -91,9 +91,11 @@ const StyledButton = styled.button<BaseProps>`
                         color: `${theme.colors.secondary400}`,
                         backgroundColor: `${theme.colors.primaryDisabled}`,
                     },
-                    '&:focus-visible': {
-                        outline: 'none',
+                    '&:focus': {
                         boxShadow: `0px 0px 0px 4px ${theme.colors.primaryFocused}`,
+                    },
+                    '&:focus-visible': {
+                        outline: `2px solid transparent ${theme.colors.primary600}`,
                     },
                 },
                 secondary: {
@@ -157,6 +159,9 @@ const StyledButton = styled.button<BaseProps>`
                     color: `${theme.colors.error}`,
                     padding: 0,
                     fontWeight: 'medium',
+                    '&:focus-visible': {
+                        outline: `2px solid ${theme.colors.error700}`,
+                    },
                 },
                 linkDestructive: {
                     backgroundColor: `${theme.colors.transparent}`,
@@ -173,9 +178,12 @@ const StyledButton = styled.button<BaseProps>`
                     '&:disabled': {
                         backgroundColor: `${theme.colors.destructivePrimaryDisabled}`,
                     },
-                    '&:focus-visible': {
-                        outline: 'none',
+                    '&:focus': {
                         boxShadow: `0px 0px 0px 4px ${theme.colors.destructiveShadow}`,
+                    },
+                    '&:focus-visible': {
+                        outline: `2px solid ${theme.colors.error700}`,
+                        outlineOffset: '1px',
                     },
                 },
                 destructiveSecondary: {
@@ -193,8 +201,8 @@ const StyledButton = styled.button<BaseProps>`
                         color: `${theme.colors.error300}`,
                     },
                     '&:focus-visible': {
-                        outline: 'none',
-                        boxShadow: `0px 0px 0px 4px ${theme.colors.destructiveShadow}`,
+                        outline: `2px solid ${theme.colors.error700}`,
+                        outlineOffset: '1px',
                     },
                 },
             },
