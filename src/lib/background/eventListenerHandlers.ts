@@ -127,7 +127,8 @@ const handleOnConnect = async (
     profile: Contracts.IProfile | null,
 ) => {
     try {
-        if (!profile) {
+        if (profile?.wallets().count() === 0) {
+            initWindow(payload);
             throw new Error('No profile found. Please connect your wallet and try again.');
         } else {
             assertHasWallet(profile);
@@ -141,7 +142,7 @@ const handleOnConnect = async (
             data: {
                 status: 'failed',
                 domain: payload.data.domain,
-                message: 'Wallet is locked.',
+                message: error.message,
                 tabId: payload.data.tabId,
             },
         });

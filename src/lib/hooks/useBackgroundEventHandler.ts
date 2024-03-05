@@ -1,5 +1,5 @@
 import { runtime } from 'webextension-polyfill';
-import { useEffect, useState } from 'react';
+import {useCallback, useEffect, useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
     ConnectData,
@@ -59,14 +59,14 @@ const useBackgroundEventHandler = () => {
         });
     }, [locked]);
 
-    useEffect(() => {
-        if (events.length === 0 || locked) return;
+    const runEventHandlers = useCallback(() => {
+        if (events.length === 0) return;
 
         events.forEach((event) => {
             event.callback(event.request);
         });
         setEvents([]);
-    }, [events, locked]);
+    }, [events, locked])
 
     const onConnect = (request: EventPayload<ConnectData>) => {
         // If persist screen is set, redirection is going to be handled on
@@ -98,6 +98,8 @@ const useBackgroundEventHandler = () => {
     const onLockExtension = () => {
         dispatch(lockedChanged(true));
     };
+
+    return runEventHandlers;
 };
 
 export default useBackgroundEventHandler;

@@ -44,15 +44,17 @@ export const MainWrapper = ({ children }: { children?: React.ReactNode }) => {
 // Exported so can be reused in tests
 export const AppWrapper = ({
     children,
+    runEventHandlers,
     theme = { ...baseTheme, colors: themeModes[ThemeMode.LIGHT] },
 }: {
     children?: React.ReactNode;
+    runEventHandlers: () => void;
     theme?: React.ComponentProps<typeof ThemeProvider>['theme'];
 }) => {
     return (
         <ThemeProvider theme={theme}>
             <ProfileProvider>
-                <AutoUnlockWrapper>
+                <AutoUnlockWrapper runEventHandlers={runEventHandlers}>
                     <LedgerProvider>
                         <Container
                             id={
@@ -84,7 +86,7 @@ const App = () => {
 
     const theme = { ...baseTheme, colors: themeModes[themeMode] };
 
-    useBackgroundEventHandler();
+    const runEventHandlers = useBackgroundEventHandler();
 
     useLayoutEffect(() => {
         const boot = async () => {
@@ -98,13 +100,13 @@ const App = () => {
             }
         };
 
-        boot();
+        void boot();
     }, [env]);
 
     if (!isEnvironmentBooted) return <LoadingFullScreen />;
 
     return (
-        <AppWrapper theme={theme}>
+        <AppWrapper theme={theme} runEventHandlers={runEventHandlers}>
             <Routes>
                 {routes.map((route) => (
                     <Route key={route.path} path={route.path} element={<route.Component />} />
