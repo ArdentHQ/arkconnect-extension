@@ -35,14 +35,13 @@ const YourPassphrase = ({ passphrase }: Props) => {
                         <Container mb='16' position='relative'>
                             <PassphraseInput
                                 name='privateKey'
-                                className='read-only'
+                                className='read-only max-h-[145px]'
                                 rows={5}
                                 value={passphrase}
                                 hideValue={!showPassphrase}
                                 variant='primary'
                                 readOnly
                                 disabled
-                                maxHeight='145px'
                             />
                         </Container>
                         <ToggleSwitch
