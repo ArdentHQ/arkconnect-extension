@@ -52,7 +52,6 @@ export const uiSlice = createSlice({
             state.locked = action.payload;
         },
         hasOnboardedChanged: (state, action: PayloadAction<boolean>) => {
-            console.log('hasOnboardedChanged', action.payload);
             state.hasOnboarded = action.payload;
         },
     },
