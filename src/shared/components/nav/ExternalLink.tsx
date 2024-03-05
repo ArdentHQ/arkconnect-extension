@@ -1,7 +1,5 @@
 import styled from 'styled-components';
 import {
-    borderRadius,
-    BorderRadiusProps,
     color,
     ColorProps,
     flexbox,
@@ -11,21 +9,14 @@ import {
     layout,
     LayoutProps,
 } from 'styled-system';
-import { AnchorHTMLAttributes, HTMLAttributes } from 'react';
 import { Theme } from '@/shared/theme';
 
-// Using a button because links are not focusable in Firefox
-const ExternalLinkButton = styled.button<
-    FlexboxProps<Theme> &
-        LayoutProps<Theme> &
-        ColorProps<Theme> &
-        GridGapProps<Theme> &
-        BorderRadiusProps<Theme>
+export const ExternalLink = styled.a<
+    FlexboxProps<Theme> & LayoutProps<Theme> & ColorProps<Theme> & GridGapProps<Theme>
 >`
     text-decoration: none;
     cursor: pointer;
     color: inherit;
-    display: inline;
 
     &:hover {
         text-decoration: underline;
@@ -36,33 +27,6 @@ const ExternalLinkButton = styled.button<
     }
     ${flexbox}
     ${layout}
-    ${color}
-    ${gridGap}
-    ${borderRadius}
+  ${color}
+  ${gridGap}
 `;
-
-interface Properties
-    extends FlexboxProps<Theme>,
-        LayoutProps<Theme>,
-        GridGapProps<Theme>,
-        Omit<ColorProps<Theme>, 'color'>,
-        BorderRadiusProps<Theme>,
-        Pick<HTMLAttributes<HTMLButtonElement>, 'children'>,
-        Pick<AnchorHTMLAttributes<HTMLAnchorElement>, 'href' | 'target'> {
-    href?: string;
-    target?: string;
-    color?: string & ColorProps<Theme>['color'];
-    onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
-}
-
-export const ExternalLink = ({ href, target, color, onClick, ...properties }: Properties) => {
-    const clickHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
-        event.preventDefault();
-
-        window.open(href, target);
-
-        onClick?.(event);
-    };
-
-    return <ExternalLinkButton onClick={clickHandler} {...properties} color={color} />;
-};
