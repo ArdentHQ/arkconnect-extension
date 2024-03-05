@@ -18,6 +18,7 @@ import { useAppSelector } from '@/lib/store';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 import { useProfileContext } from '@/lib/context/Profile';
 import useThemeMode from '@/lib/hooks/useThemeMode';
+import { CopyAddress } from '@/components/wallet/CopyAddress';
 
 export const StyledFlexContainer = styled(FlexContainer)<DropdownMenuContainerProps>`
     ${(props) => `
@@ -157,6 +158,8 @@ export const Header = () => {
                         </FlexContainer>
                     </FlexContainer>
                     <FlexContainer alignItems='center'>
+                        <CopyAddress />
+
                         <ConnectionStatus />
 
                         {/*Menu trigger*/}
@@ -164,7 +167,6 @@ export const Header = () => {
                             padding='8'
                             style={{ gap: '4px' }}
                             alignItems='center'
-                            marginLeft='8'
                             borderRadius='50'
                             className='c-pointer'
                             onClick={handleSettingsClick}
