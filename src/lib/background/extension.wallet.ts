@@ -2,14 +2,14 @@ import { Contracts } from '@ardenthq/sdk-profiles';
 import { Contracts as SDKContracts, Services } from '@ardenthq/sdk';
 import { buildTransferData } from '../utils/transactionHelpers';
 
-export interface RecipientItem {
+interface RecipientItem {
     address: string;
     alias?: string;
     amount?: number;
     isDelegate?: boolean;
 }
 
-export interface BroadcastResponse {
+interface BroadcastResponse {
     transaction: SDKContracts.RawTransactionData;
     response: Services.BroadcastResponse;
 }
