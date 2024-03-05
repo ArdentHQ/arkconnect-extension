@@ -2,7 +2,6 @@
 @import "./css/transitions.css";
 @import "./css/general.css";
 @import "./css/inputs.css";
-@import "./css/buttons.css";
 
 @tailwind base;
 @tailwind components;
