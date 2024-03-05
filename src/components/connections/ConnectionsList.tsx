@@ -282,7 +282,7 @@ const StyledRow = styled.div`
   justify-content: space-between;
   width: 100%;
   min-height: 58px;
-  padding: 8px;
+  padding: 12px;
   grid-gap: 12px;
   position: relative;
 `}
