@@ -13,8 +13,9 @@ import {
     space,
     SpaceProps,
 } from 'styled-system';
+import cn from 'classnames';
 import { Theme } from '@/shared/theme';
-import { FlexContainer, Icon, IconDefinition, Paragraph } from '@/shared/components';
+import { Icon, IconDefinition } from '@/shared/components';
 import { flexVariant, FlexVariantProps } from '@/shared/theme/variants';
 import { isFirefox } from '@/lib/utils/isFirefox';
 
@@ -26,11 +27,12 @@ type BaseProps = ColorProps<Theme> &
     BorderProps<Theme> &
     FlexVariantProps;
 
-type BigButtonProps = React.ComponentPropsWithRef<typeof StyledButton> & {
+type BigButtonProps = React.ComponentPropsWithRef<'button'> & {
     iconLeading?: IconDefinition;
     iconTrailing?: IconDefinition;
     title: string;
     helperText?: string;
+    className?: string;
 };
 
 const StyledButton = styled.button<BaseProps>`
@@ -73,45 +75,38 @@ export const BigButton = ({
     iconTrailing,
     title,
     helperText,
+    className,
     ...rest
 }: BigButtonProps) => {
+
     return (
-        <StyledButton {...rest}>
-            <FlexContainer width='100%' gridGap='12px' alignItems='flex-start'>
+        <button
+            className={cn('border border-solid border-transparent rounded-[20px] bg-white dark:bg-subtle-black shadow-[0_1px_4px_0_rgba(0,0,0,0.05)] flex w-full p-4 max-h-24 box-border cursor-pointer gap-3 hover:border hover:border-solid hover:border-theme-primary-800 hover:dark:border-theme-primary-600 disabled:cursor-not-allowed disabled:pointer-events-none', {
+                'transition-firefoxSmoothEase focus-visible:outline focus-visible:outline-2': isFirefox,
+                'transition-smoothEase': !isFirefox,
+            }, className)}
+            {...rest}
+        >
+            <div className='flex w-full gap-3 items-start'>
                 {iconLeading && <Icon className='h-6 w-6' icon={iconLeading} />}
-                <FlexContainer alignItems='center' justifyContent='space-between' width='100%'>
-                    <FlexContainer
-                        flexDirection='column'
-                        alignItems='flex-start'
-                        width='100%'
-                        gridGap='8px'
-                    >
+                
+                <div className='flex items-center justify-between w-full'>
+                    <div className='flex flex-col items-start w-full gap-2'>
                         {title && (
-                            <Paragraph $typeset='headline' fontWeight='medium' color='base'>
-                                {title}
-                            </Paragraph>
+                            <p className='typeset-heading font-medium leading-5'>{title}</p>
                         )}
                         {helperText && (
-                            <Paragraph
-                                $typeset='body'
-                                fontWeight='regular'
-                                color='gray'
-                                textAlign='left'
-                            >
-                                {helperText}
-                            </Paragraph>
+                            <p className='typeset-body text-left leading-[17.5px]'>{helperText}</p>
                         )}
-                    </FlexContainer>
-                    <FlexContainer
-                        height='100%'
-                        $flexVariant='columnCenter'
-                        justifyContent='center'
-                        color='base'
-                    >
-                        {iconTrailing && <Icon className='h-5 w-5' icon={iconTrailing} />}
-                    </FlexContainer>
-                </FlexContainer>
-            </FlexContainer>
-        </StyledButton>
+                    </div>
+                   
+                    <div className='h-full flex flex-col items-center justify-center text-light-black dark:text-white'>
+                        {iconTrailing && (
+                            <Icon className='h-5 w-5' icon={iconTrailing} />
+                        )}
+                    </div>
+                </div>
+            </div>
+        </button>
     );
 };
