@@ -20,14 +20,12 @@ export type UIState = {
     themeMode: ThemeMode;
     toasts: Toast[];
     locked: boolean;
-    hasOnboarded: boolean;
 };
 
 const initialState: UIState = {
     themeMode: ThemeMode.LIGHT,
     toasts: [],
     locked: false,
-    hasOnboarded: false,
 };
 
 export const revertAll = createAction('REVERT_ALL');
@@ -51,25 +49,15 @@ export const uiSlice = createSlice({
         lockedChanged: (state, action: PayloadAction<boolean>) => {
             state.locked = action.payload;
         },
-        hasOnboardedChanged: (state, action: PayloadAction<boolean>) => {
-            state.hasOnboarded = action.payload;
-        },
     },
     extraReducers: (builder) => builder.addCase(revertAll, () => initialState),
 });
 
-export const {
-    themeModeUpdated,
-    toastAdded,
-    toastRemoved,
-    toastsReseted,
-    lockedChanged,
-    hasOnboardedChanged,
-} = uiSlice.actions;
+export const { themeModeUpdated, toastAdded, toastRemoved, toastsReseted, lockedChanged } =
+    uiSlice.actions;
 
 export const selectThemeMode = (state: RootState) => state.ui.themeMode;
 export const selectToasts = (state: RootState) => state.ui.toasts;
 export const selectLocked = (state: RootState) => state.ui.locked;
-export const selectHasOnboarded = (state: RootState) => state.ui.hasOnboarded;
 
 export const uiReducer = persist('ui', uiSlice.reducer);
