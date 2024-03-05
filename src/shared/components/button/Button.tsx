@@ -8,9 +8,17 @@ type ButtonProps = React.ComponentPropsWithRef<'button'> & {
     isLoading?: boolean;
     disabled?: boolean;
     className?: string;
-    variant?: 'primary' | 'secondary' | 'secondaryBlack' | 'primaryText' | 'primaryLink' | 'primaryLinkDestructive' | 'linkDestructive' | 'destructivePrimary' | 'destructiveSecondary';
+    variant?:
+        | 'primary'
+        | 'secondary'
+        | 'secondaryBlack'
+        | 'primaryText'
+        | 'primaryLink'
+        | 'primaryLinkDestructive'
+        | 'linkDestructive'
+        | 'destructivePrimary'
+        | 'destructiveSecondary';
 };
-
 
 export const Button = ({
     iconLeading,
@@ -21,31 +29,47 @@ export const Button = ({
     variant,
     ...rest
 }: ButtonProps) => {
-    if(isLoading) {
+    if (isLoading) {
         return (
-            <button className={cn('button-base button-primary', {
-                'transition-firefoxSmoothEase focus-visible:outline focus-visible:outline-2': isFirefox,
-                'transition-smoothEase': !isFirefox,
-            }, className)} {...rest}>
+            <button
+                className={cn(
+                    'button-base button-primary',
+                    {
+                        'transition-firefoxSmoothEase focus-visible:outline focus-visible:outline-2':
+                            isFirefox,
+                        'transition-smoothEase': !isFirefox,
+                    },
+                    className,
+                )}
+                {...rest}
+            >
                 <Loader variant='small' />
             </button>
         );
     }
 
     return (
-        <button className={cn('button-base', {
-            'transition-firefoxSmoothEase focus-visible:outline focus-visible:outline-2': isFirefox,
-            'transition-smoothEase': !isFirefox,
-            'button-primary': variant === 'primary',
-            'button-secondary': variant === 'secondary',
-            'button-secondaryBlack': variant === 'secondaryBlack',
-            'button-primaryText': variant === 'primaryText',
-            'button-primaryLink': variant === 'primaryLink',
-            'button-primaryLinkDestructive': variant === 'primaryLinkDestructive',
-            'button-linkDestructive': variant === 'linkDestructive',
-            'button-destructivePrimary': variant === 'destructivePrimary',
-            'button-destructiveSecondary': variant === 'destructiveSecondary',
-        }, className)} {...rest}>
+        <button
+            className={cn(
+                'button-base',
+                {
+                    'transition-firefoxSmoothEase focus-visible:outline focus-visible:outline-2':
+                        isFirefox,
+                    'transition-smoothEase': !isFirefox,
+                    'button-primary': variant === 'primary',
+                    'button-secondary': variant === 'secondary',
+                    'button-secondaryBlack': variant === 'secondaryBlack',
+                    'button-primaryText': variant === 'primaryText',
+                    'button-primaryLink': variant === 'primaryLink',
+                    'button-primaryLinkDestructive': variant === 'primaryLinkDestructive',
+                    'button-linkDestructive': variant === 'linkDestructive',
+                    'button-destructivePrimary': variant === 'destructivePrimary',
+                    'button-destructiveSecondary': variant === 'destructiveSecondary',
+                },
+                className,
+            )}
+            {...rest}
+        >
             {iconLeading && <Icon className='h-5 w-5' icon={iconLeading} />}
             {children}
             {iconTrailing && <Icon className='h-5 w-5' icon={iconTrailing} />}

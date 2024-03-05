@@ -98,7 +98,11 @@ const MultipleWalletLogout = () => {
                 >
                     Remove {selectedIdsToLogout.length > 0 && `(${selectedIdsToLogout.length})`}
                 </Button>
-                <Button variant='primaryLinkDestructive' className='mt-4' onClick={handleSelectAllWallets}>
+                <Button
+                    variant='primaryLinkDestructive'
+                    className='mt-4'
+                    onClick={handleSelectAllWallets}
+                >
                     Remove All Addresses
                 </Button>
             </FlexContainer>
