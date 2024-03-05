@@ -1,5 +1,5 @@
 import { runtime } from 'webextension-polyfill';
-import {useCallback, useEffect, useState} from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
     ConnectData,
@@ -66,7 +66,7 @@ const useBackgroundEventHandler = () => {
             event.callback(event.request);
         });
         setEvents([]);
-    }, [events, locked])
+    }, [events, locked]);
 
     const onConnect = (request: EventPayload<ConnectData>) => {
         // If persist screen is set, redirection is going to be handled on
