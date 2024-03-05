@@ -1,7 +1,7 @@
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useFormik } from 'formik';
-import { WalletFormScreen } from '../wallet/form-persist';
 import { persistScreenChanged } from '../wallet/form-persist/helpers';
+import { WalletFormScreen } from '../wallet/form-persist';
 import {
     Button,
     Checkbox,

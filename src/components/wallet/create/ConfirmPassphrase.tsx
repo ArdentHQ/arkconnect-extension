@@ -1,7 +1,6 @@
 import { FormikProps } from 'formik';
 import { useEffect, useState } from 'react';
-import { WalletFormScreen } from '../form-persist';
-import { persistScreenChanged } from '../form-persist/helpers';
+import { runtime } from 'webextension-polyfill';
 import { CreateWalletFormik, ValidationVariant } from '.';
 import {
     Button,
@@ -16,6 +15,9 @@ import getNumberSuffix from '@/lib/utils/getNumberSuffix';
 import { TestnetIcon } from '@/components/wallet/address/Address.blocks';
 import { getLocalValues } from '@/lib/utils/localStorage';
 import useActiveNetwork from '@/lib/hooks/useActiveNetwork';
+import { useAppSelector } from '@/lib/store';
+import { selectTestnetEnabled } from '@/lib/store/ui';
+import { ScreenName } from '@/lib/background/contracts';
 
 type Props = {
     goToNextStep: () => void;
@@ -27,24 +29,6 @@ const ConfirmPassphrase = ({ goToNextStep, formik }: Props) => {
     const [validationStatus, setValidationStatus] = useState<ValidationVariant[]>([]);
 
     const selectedNetwork = useActiveNetwork();
-
-    useEffect(() => {
-        (async () => {
-            const { hasOnboarded } = await getLocalValues();
-
-            if (hasOnboarded) {
-                persistScreenChanged({
-                    screen: WalletFormScreen.OVERVIEW,
-                    step: 0,
-                });
-            }
-        })();
-    }, []);
-
-    useEffect(() => {
-        const isValid = values.passphraseValidationStatus.every((item) => item === 'errorFree');
-        if (isValid) return;
-    }, []);
 
     useEffect(() => {
         checkConfirmation();
@@ -76,7 +60,24 @@ const ConfirmPassphrase = ({ goToNextStep, formik }: Props) => {
         evt: React.ChangeEvent<HTMLInputElement>,
         index: number,
     ) => {
-        formik.setFieldValue(`confirmPassphrase[${index}]`, evt.target.value);
+        const confirmPassphrase = values.confirmPassphrase;
+        confirmPassphrase[index] = evt.target.value;
+
+        formik.setFieldValue('confirmPassphrase', confirmPassphrase);
+
+        runtime.sendMessage({
+            type: 'SET_LAST_SCREEN',
+            screenName: ScreenName.CreateWallet,
+            data: {
+                step: 1,
+                mnemonic: values.passphrase.join(' '),
+                network: values.wallet?.networkId(),
+                coin: values.wallet?.network().coin(),
+                confirmationNumbers: values.confirmationNumbers,
+                confirmPassphrase,
+            },
+        });
+        checkConfirmation();
     };
 
     return (

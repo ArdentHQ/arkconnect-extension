@@ -1,13 +1,12 @@
-import { Services } from '@ardenthq/sdk';
 import { Contracts } from '@ardenthq/sdk-profiles';
+import { Services } from '@ardenthq/sdk';
 import { UUID } from '@ardenthq/sdk-cryptography';
 import { Extension } from '@/lib/background/extension';
-import { SendTransferInput } from '@/lib/background/extension.wallet';
+import { ExtensionEvents } from '@/lib/events';
 import { importWallets } from '@/background.helpers';
 import { ProfileData } from '@/lib/background/contracts';
+import { SendTransferInput } from '@/lib/background/extension.wallet';
 import { SessionEntries } from '@/lib/store/session';
-import { setLocalValue } from '@/lib/utils/localStorage';
-import { ExtensionEvents } from '@/lib/events';
 
 export enum OneTimeEvents {
     SEND_VOTE = 'SEND_VOTE',
@@ -15,7 +14,7 @@ export enum OneTimeEvents {
     SIGN_MESSAGE = 'SIGN_MESSAGE',
     GET_DATA = 'GET_DATA',
     IMPORT_WALLETS = 'IMPORT_WALLETS',
-    SET_DATA = 'SET_DATA',
+    PERSIST = 'PERSIST',
     SET_PRIMARY_WALLET = 'SET_PRIMARY_WALLET',
     SET_SESSIONS = 'SET_SESSIONS',
     REFRESH_AUTOLOCK_TIMER = 'REFRESH_AUTOLOCK_TIMER',
@@ -29,6 +28,8 @@ export enum OneTimeEvents {
     UNLOCK = 'UNLOCK',
     DISCONNECT_RESOLVE = 'DISCONNECT_RESOLVE',
     CONNECT_RESOLVE = 'CONNECT_RESOLVE',
+    SET_LAST_SCREEN = 'SET_LAST_SCREEN',
+    CLEAR_LAST_SCREEN = 'CLEAR_LAST_SCREEN',
 }
 
 export function OneTimeEventHandlers(extension: ReturnType<typeof Extension>) {
@@ -79,6 +80,17 @@ export function OneTimeEventHandlers(extension: ReturnType<typeof Extension>) {
         },
 
         [OneTimeEvents.GET_DATA]: async (_request: any) => {
+            // Prevent from sending actual profile data on locked state.
+            if (extension.isLocked()) {
+                const emptyProfile = await extension.createEmptyProfile();
+                const data = await extension.env().profiles().export(emptyProfile);
+
+                return {
+                    data,
+                    profileData: undefined,
+                };
+            }
+
             try {
                 return extension.exportAsReadOnly();
             } catch (error) {
@@ -110,7 +122,7 @@ export function OneTimeEventHandlers(extension: ReturnType<typeof Extension>) {
             }
         },
 
-        [OneTimeEvents.SET_DATA]: async (request: any) => {
+        [OneTimeEvents.PERSIST]: async (request: any) => {
             return await handleSetData(request, extension);
         },
 
@@ -139,11 +151,18 @@ export function OneTimeEventHandlers(extension: ReturnType<typeof Extension>) {
         },
 
         [OneTimeEvents.UNLOCK]: async (request: any) => {
-            const isLocked = await extension
-                .lockHandler()
-                .unlock(extension.profile(), request.data.password);
+            try {
+                await extension.unlock(request.data.password);
 
-            return Promise.resolve({ isLocked });
+                return {
+                    isLocked: extension.isLocked(),
+                };
+            } catch (error) {
+                return {
+                    isLocked: true,
+                    errorStack: error,
+                };
+            }
         },
 
         [OneTimeEvents.CHECK_LOCK]: async (_request: any) => {
@@ -155,9 +174,7 @@ export function OneTimeEventHandlers(extension: ReturnType<typeof Extension>) {
         },
 
         [OneTimeEvents.RESET]: async (_request: any) => {
-            setLocalValue('hasOnboarded', false);
-
-            extension.reset(UUID.random());
+            await extension.reset(UUID.random());
         },
 
         [OneTimeEvents.REMOVE_WALLETS]: async (request: any) => {
@@ -176,6 +193,22 @@ export function OneTimeEventHandlers(extension: ReturnType<typeof Extension>) {
 
         [OneTimeEvents.CONNECT_RESOLVE]: async (request: any) => {
             void ExtensionEvents({ profile: extension.profile() }).connect(request.data.domain);
+        },
+
+        [OneTimeEvents.SET_LAST_SCREEN]: async (request: any) => {
+            extension.profile().data().set(ProfileData.LastScreen, {
+                screenName: request.screenName,
+                data: request.data,
+            });
+
+            await extension.persist();
+            return;
+        },
+
+        [OneTimeEvents.CLEAR_LAST_SCREEN]: async (_request: any) => {
+            extension.profile().data().set(ProfileData.LastScreen, undefined);
+            await extension.persist();
+            return;
         },
     };
 }
@@ -325,10 +358,8 @@ const handleRemoveWallets = async (request: any, extension: ReturnType<typeof Ex
     await extension.persist();
 
     if (extension.profile().wallets().count() === 0) {
-        setLocalValue('hasOnboarded', false);
-
         return {
-            error: undefined,
+            noWallets: true,
         };
     }
 

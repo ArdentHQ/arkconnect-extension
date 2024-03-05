@@ -15,10 +15,11 @@ import {
 } from '@/shared/components';
 import useToast from '@/lib/hooks/useToast';
 import { ToastPosition } from '@/components/toast/ToastContainer';
-import randomWordPositions from '@/lib/utils/randomWordPositions';
 import { TestnetIcon } from '@/components/wallet/address/Address.blocks';
 import { getLocalValues } from '@/lib/utils/localStorage';
 import useActiveNetwork from '@/lib/hooks/useActiveNetwork';
+import { useAppSelector } from '@/lib/store';
+import { selectTestnetEnabled } from '@/lib/store/ui';
 
 type Props = {
     goToNextStep: () => void;
@@ -32,19 +33,6 @@ const GeneratePassphrase = ({ goToNextStep, formik }: Props) => {
 
     const selectedNetwork = useActiveNetwork();
 
-    useEffect(() => {
-        (async () => {
-            const { hasOnboarded } = await getLocalValues();
-
-            if (hasOnboarded) {
-                persistScreenChanged({
-                    screen: WalletFormScreen.OVERVIEW,
-                    step: 0,
-                });
-            }
-        })();
-    }, []);
-
     const copyPassphraseToClipboard = async () => {
         try {
             await navigator.clipboard.writeText(formik.values.passphrase.join(' '));
@@ -52,14 +40,6 @@ const GeneratePassphrase = ({ goToNextStep, formik }: Props) => {
         } catch {
             toast('danger', 'Failed to Copy to Clipboard', ToastPosition.HIGH);
         }
-    };
-
-    const handleNextStep = () => {
-        const confirmationNumbers = randomWordPositions(24);
-
-        formik.setFieldValue('confirmationNumbers', confirmationNumbers);
-
-        goToNextStep();
     };
 
     const generatePassphraseUI = (word: string, index: number, sliceIndex: number) => {
@@ -175,7 +155,7 @@ const GeneratePassphrase = ({ goToNextStep, formik }: Props) => {
                 </FlexContainer>
             </FlexContainer>
 
-            <Button variant='primary' onClick={handleNextStep} mt='auto'>
+            <Button variant='primary' onClick={goToNextStep} mt='auto'>
                 Continue
             </Button>
         </FlexContainer>
