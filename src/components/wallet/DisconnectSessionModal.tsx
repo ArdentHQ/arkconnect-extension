@@ -7,27 +7,25 @@ import * as SessionStore from '@/lib/store/session';
 interface Properties {
     onCancel?: () => void;
     onConfirm: () => void;
-    session?: SessionStore.Session;
+    sessions: SessionStore.Session[];
     isOpen?: boolean;
 }
-export const DisconnectSessionModal = ({ isOpen, onCancel, onConfirm, session }: Properties) => {
+export const DisconnectSessionModal = ({ isOpen, onCancel, onConfirm, sessions }: Properties) => {
     const dispatch = useAppDispatch();
 
     const handleDisconnect = async () => {
-        if (!session) {
-            return;
+        await dispatch(SessionStore.sessionRemoved(sessions.map((session) => session.id)));
+
+        for (const session of sessions) {
+            await runtime.sendMessage({
+                type: 'DISCONNECT_RESOLVE',
+                data: {
+                    domain: session?.domain,
+                    status: 'success',
+                    disconnected: false,
+                },
+            });
         }
-
-        await dispatch(SessionStore.sessionRemoved([session.id]));
-
-        await runtime.sendMessage({
-            type: 'DISCONNECT_RESOLVE',
-            data: {
-                domain: session.domain,
-                status: 'success',
-                disconnected: false,
-            },
-        });
 
         onConfirm?.();
     };
@@ -38,17 +36,20 @@ export const DisconnectSessionModal = ({ isOpen, onCancel, onConfirm, session }:
 
     return (
         <Modal
-            hideCloseButton
             onClose={() => onCancel?.()}
-            onCancel={() => onCancel?.()}
+            onCancel={onCancel}
             icon='alert-octagon'
             variant='danger'
             onResolve={handleDisconnect}
+            hideCloseButton
             focusTrapOptions={{
                 initialFocus: false,
             }}
         >
-            <RemoveConnections sessionDomain={session?.domain} />
+            <RemoveConnections
+                sessionDomain={sessions.at(0)?.domain}
+                numberOfSessions={sessions.length}
+            />
         </Modal>
     );
 };

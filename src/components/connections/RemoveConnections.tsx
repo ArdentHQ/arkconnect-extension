@@ -29,7 +29,7 @@ const RemoveConnections = ({ numberOfSessions, sessionDomain }: Props) => {
                     display='inline'
                     as='span'
                 >
-                    {sessionDomain ? (
+                    {sessionDomain && numberOfSessions === 1 ? (
                         <Paragraph $typeset='headline' color='base' display='inline'>
                             <StyledDomain>{sessionDomain}</StyledDomain>
                         </Paragraph>

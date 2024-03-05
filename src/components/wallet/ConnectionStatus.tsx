@@ -96,7 +96,7 @@ export const ConnectionStatus = () => {
 
             <DisconnectSessionModal
                 isOpen={isDisconnectModalOpen}
-                session={tabSession}
+                sessions={tabSession ? [tabSession] : []}
                 onConfirm={() => setIsDisconnectModalOpen(false)}
                 onCancel={() => setIsDisconnectModalOpen(false)}
             />
