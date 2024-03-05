@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useLayoutEffect, useState } from 'react';
+import {ReactNode, useEffect, useLayoutEffect, useRef, useState} from 'react';
 import { runtime } from 'webextension-polyfill';
 import { useIdleTimer } from 'react-idle-timer';
 import { useNavigate } from 'react-router-dom';
@@ -15,7 +15,7 @@ import useThemeMode from '@/lib/hooks/useThemeMode';
 
 type Props = {
     children: ReactNode | ReactNode[];
-    runEventHandlers: () => void;
+    runEventHandlers: () => number;
 };
 
 const AutoUnlockWrapper = ({ children, runEventHandlers }: Props) => {
@@ -38,10 +38,10 @@ const AutoUnlockWrapper = ({ children, runEventHandlers }: Props) => {
     }, [locked]);
 
     useEffect(() => {
+        console.log('run useffect')
         handleAutoLockNavigation();
         setIsLoadingLocalData(false);
 
-        handlePersistScreenRedirect();
         handleLedgerNavigation();
     }, [runEventHandlers, locked, profile.id()]);
 
@@ -65,35 +65,45 @@ const AutoUnlockWrapper = ({ children, runEventHandlers }: Props) => {
         }
     };
 
-    const handlePersistScreenRedirect = () => {
+    const processingEvents = useRef(false);
+
+    const handleAutoLockNavigation = () => {
+        if (locked) {
+            console.log('locked')
+            navigate('/enter-password');
+            return;
+        }
+
+        if (isProfileReady && profile.wallets().count() === 0) {
+            console.log('wallets are empty')
+            navigate('/splash-screen');
+            return;
+        }
+
+        if (processingEvents.current || runEventHandlers()) {
+            console.log('has event listeners')
+            processingEvents.current = true;
+
+            setTimeout(() => {
+                processingEvents.current = false;
+            }, 2000);
+
+            return;
+        }
+
         if (persistScreen) {
+            console.log('has persist screen')
             navigate(persistScreen.screen);
             return;
         }
 
         const lastScreen = profile.data().get(ProfileData.LastScreen) as LastScreen | undefined;
 
-        if (!lastScreen) {
-            return;
-        }
-
-        if (lastScreen.screenName === ScreenName.CreateWallet) {
+        if (lastScreen?.screenName === ScreenName.CreateWallet) {
+            console.log('has last screen')
             navigate('/wallet/create');
-        }
-    };
-
-    const handleAutoLockNavigation = () => {
-        if (locked) {
-            navigate('/enter-password');
             return;
         }
-
-        if (isProfileReady && profile.wallets().count() === 0) {
-            navigate('/splash-screen');
-            return;
-        }
-
-        runEventHandlers();
     };
 
     return (

@@ -10,7 +10,6 @@ import {
 } from '../background/eventListenerHandlers';
 import { useAppDispatch, useAppSelector } from '../store';
 import { lockedChanged, selectLocked } from '@/lib/store/ui';
-import { getPersistedValues } from '@/components/wallet/form-persist';
 
 type Event = {
     callback: any;
@@ -25,7 +24,6 @@ const useBackgroundEventHandler = () => {
     const [events, setEvents] = useState<Event[]>([]);
     const locked = useAppSelector(selectLocked);
     const navigate = useNavigate();
-    const { persistScreen } = getPersistedValues();
 
     useEffect(() => {
         // Listen for messages from background script
@@ -60,22 +58,20 @@ const useBackgroundEventHandler = () => {
     }, [locked]);
 
     const runEventHandlers = useCallback(() => {
-        if (events.length === 0) return;
+        const eventsLength = events.length;
 
-        events.forEach((event) => {
-            event.callback(event.request);
-        });
-        setEvents([]);
+        if (eventsLength > 0) {
+            events.forEach((event) => {
+                event.callback(event.request);
+            });
+
+            setEvents([]);
+        }
+
+        return eventsLength
     }, [events, locked]);
 
     const onConnect = (request: EventPayload<ConnectData>) => {
-        // If persist screen is set, redirection is going to be handled on
-        // `src/components/AutoUnlockWrapper.tsx@handlePersistScreenRedirect`
-        // and navigates to the last used screen instead
-        if (persistScreen) {
-            return;
-        }
-
         navigate('/connect', {
             state: request.data,
         });
