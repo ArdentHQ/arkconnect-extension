@@ -13,8 +13,7 @@ import {
 } from '@/shared/components';
 import getNumberSuffix from '@/lib/utils/getNumberSuffix';
 import { TestnetIcon } from '@/components/wallet/address/Address.blocks';
-import { useAppSelector } from '@/lib/store';
-import { selectTestnetEnabled } from '@/lib/store/ui';
+import useActiveNetwork from '@/lib/hooks/useActiveNetwork';
 import { ScreenName } from '@/lib/background/contracts';
 
 type Props = {
@@ -26,7 +25,7 @@ const ConfirmPassphrase = ({ goToNextStep, formik }: Props) => {
     const { values } = formik;
     const [validationStatus, setValidationStatus] = useState<ValidationVariant[]>([]);
 
-    const isTestnet = useAppSelector(selectTestnetEnabled);
+    const selectedNetwork = useActiveNetwork();
 
     useEffect(() => {
         checkConfirmation();
@@ -84,7 +83,7 @@ const ConfirmPassphrase = ({ goToNextStep, formik }: Props) => {
                 <Heading $typeset='h4' fontWeight='medium' color='base'>
                     Confirm Your Passphrase
                 </Heading>
-                {isTestnet && <TestnetIcon />}
+                {selectedNetwork.isTest() && <TestnetIcon />}
             </FlexContainer>
 
             <Paragraph $typeset='headline' color='gray' mb='16'>

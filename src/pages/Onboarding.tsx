@@ -1,6 +1,6 @@
 import { ReactNode, useEffect, useState } from 'react';
 import styled, { keyframes } from 'styled-components';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import {
     Button,
     Container,
@@ -12,8 +12,6 @@ import {
     ProgressBar,
     TransactionsPassphraseIcon,
 } from '@/shared/components';
-import { useProfileContext } from '@/lib/context/Profile';
-import useLogoutAll from '@/lib/hooks/useLogoutAll';
 
 type OnboardingScreen = {
     id: number;
@@ -22,21 +20,11 @@ type OnboardingScreen = {
 };
 
 const Onboarding = () => {
-    const { initProfile } = useProfileContext();
-    const logoutAll = useLogoutAll();
     const navigate = useNavigate();
-    const { state } = useLocation();
 
     const [activeOnboardingScreen, setActiveOnboardingScreen] = useState<number>(0);
 
     useEffect(() => {
-        (async () => {
-            if (state?.initProfile) {
-                await logoutAll();
-
-                await initProfile();
-            }
-        })();
         const interval = setInterval(() => {
             setActiveOnboardingScreen((prevIndex) => (prevIndex + 1) % 3);
         }, 5000);

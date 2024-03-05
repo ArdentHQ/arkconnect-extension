@@ -14,7 +14,7 @@ import {
 } from '@/shared/components';
 import trimAddress from '@/lib/utils/trimAddress';
 import { useLedgerContext, useLedgerScanner } from '@/lib/Ledger';
-import useNetwork from '@/lib/hooks/useNetwork';
+import useActiveNetwork from '@/lib/hooks/useActiveNetwork';
 import { useProfileContext } from '@/lib/context/Profile';
 import { ImportWithLedger } from '@/pages/ImportWithLedger';
 import { HandleLoadingState } from '@/shared/components/handleStates/HandleLoadingState';
@@ -28,7 +28,7 @@ type Props = {
 };
 
 const ImportWallets = ({ goToNextStep, formik }: Props) => {
-    const { activeNetwork: network } = useNetwork();
+    const network = useActiveNetwork();
     const onError = useOnError();
     const retryFunctionReference = useRef<() => void>();
     const { profile } = useProfileContext();

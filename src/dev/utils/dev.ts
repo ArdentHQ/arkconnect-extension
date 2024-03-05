@@ -13,12 +13,12 @@ export const isDev = (): boolean => {
     return import.meta.env.VITE_SEED_ADDRESSES === 'true';
 };
 
-export const getTestingPassphrases = (): string[] => {
+const getTestingPassphrases = (): string[] => {
     const passphrases = import.meta.env.VITE_DEV_PASSPHRASES;
     return passphrases ? passphrases.split(',') : [];
 };
 
-export const getTestingAddresses = (): TestingAddress[] => {
+const getTestingAddresses = (): TestingAddress[] => {
     const passphrases = getTestingPassphrases();
     const addresses: TestingAddress[] = [];
 

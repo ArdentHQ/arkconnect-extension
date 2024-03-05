@@ -7,15 +7,7 @@ type Props = React.ComponentProps<typeof Input> & {
     labelText?: string;
 };
 
-const EyeButton = ({
-    showPassword,
-    onClick,
-    labelText,
-}: {
-    showPassword: boolean;
-    onClick: () => void;
-    labelText?: string;
-}) => {
+const EyeButton = ({ showPassword, onClick }: { showPassword: boolean; onClick: () => void }) => {
     return (
         <button
             className={cn(
@@ -49,13 +41,7 @@ export const PasswordInput = ({ labelText, ...props }: Props) => {
                 labelText={labelText}
                 {...props}
                 className='pr-10'
-                trailing={
-                    <EyeButton
-                        showPassword={showPassword}
-                        onClick={toggleShowPassword}
-                        labelText={labelText}
-                    />
-                }
+                trailing={<EyeButton showPassword={showPassword} onClick={toggleShowPassword} />}
             />
         </div>
     );

@@ -4,7 +4,7 @@ export enum ProfileData {
     LastScreen = 'LAST_SCREEN',
 }
 
-export type Session = {
+type Session = {
     id: string;
     domain: string;
     logo: string;
