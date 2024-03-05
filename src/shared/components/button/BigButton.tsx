@@ -87,26 +87,26 @@ export const BigButton = ({
             }, className)}
             {...rest}
         >
-            <div className='flex w-full gap-3 items-start'>
+            <span className='flex w-full gap-3 items-start'>
                 {iconLeading && <Icon className='h-6 w-6' icon={iconLeading} />}
                 
-                <div className='flex items-center justify-between w-full'>
-                    <div className='flex flex-col items-start w-full gap-2'>
+                <span className='flex items-center justify-between w-full'>
+                    <span className='flex flex-col items-start w-full gap-2'>
                         {title && (
-                            <p className='typeset-heading font-medium leading-5'>{title}</p>
+                            <span className='typeset-heading font-medium'>{title}</span>
                         )}
                         {helperText && (
-                            <p className='typeset-body text-left leading-[17.5px]'>{helperText}</p>
+                            <span className='typeset-body text-left font-normal'>{helperText}</span>
                         )}
-                    </div>
+                    </span>
                    
-                    <div className='h-full flex flex-col items-center justify-center text-light-black dark:text-white'>
+                    <span className='h-full flex flex-col items-center justify-center text-light-black dark:text-white'>
                         {iconTrailing && (
                             <Icon className='h-5 w-5' icon={iconTrailing} />
                         )}
-                    </div>
-                </div>
-            </div>
+                    </span>
+                </span>
+            </span>
         </button>
     );
 };
