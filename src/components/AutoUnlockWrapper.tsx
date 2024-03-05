@@ -1,4 +1,4 @@
-import {ReactNode, useEffect, useLayoutEffect, useRef, useState} from 'react';
+import { ReactNode, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { runtime } from 'webextension-polyfill';
 import { useIdleTimer } from 'react-idle-timer';
 import { useNavigate } from 'react-router-dom';
@@ -38,7 +38,7 @@ const AutoUnlockWrapper = ({ children, runEventHandlers }: Props) => {
     }, [locked]);
 
     useEffect(() => {
-        console.log('run useffect')
+        console.log('run useffect');
         handleAutoLockNavigation();
         setIsLoadingLocalData(false);
 
@@ -69,19 +69,19 @@ const AutoUnlockWrapper = ({ children, runEventHandlers }: Props) => {
 
     const handleAutoLockNavigation = () => {
         if (locked) {
-            console.log('locked')
+            console.log('locked');
             navigate('/enter-password');
             return;
         }
 
         if (isProfileReady && profile.wallets().count() === 0) {
-            console.log('wallets are empty')
+            console.log('wallets are empty');
             navigate('/splash-screen');
             return;
         }
 
         if (processingEvents.current || runEventHandlers()) {
-            console.log('has event listeners')
+            console.log('has event listeners');
             processingEvents.current = true;
 
             setTimeout(() => {
@@ -92,7 +92,7 @@ const AutoUnlockWrapper = ({ children, runEventHandlers }: Props) => {
         }
 
         if (persistScreen) {
-            console.log('has persist screen')
+            console.log('has persist screen');
             navigate(persistScreen.screen);
             return;
         }
@@ -100,7 +100,7 @@ const AutoUnlockWrapper = ({ children, runEventHandlers }: Props) => {
         const lastScreen = profile.data().get(ProfileData.LastScreen) as LastScreen | undefined;
 
         if (lastScreen?.screenName === ScreenName.CreateWallet) {
-            console.log('has last screen')
+            console.log('has last screen');
             navigate('/wallet/create');
             return;
         }
