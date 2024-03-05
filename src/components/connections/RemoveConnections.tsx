@@ -11,16 +11,17 @@ const StyledDomain = styled.span`
 `;
 
 const RemoveConnections = ({ numberOfSessions, sessionDomain }: Props) => {
+    const hasMultipleSessions = numberOfSessions && numberOfSessions > 1;
     return (
         <Container>
             <Heading $typeset='h4' fontWeight='medium' color='base'>
-                {numberOfSessions ? 'Disconnect All Connections' : 'Disconnect Connection'}
+                {hasMultipleSessions ? 'Disconnect All Connections' : 'Disconnect Connection'}
             </Heading>
 
             <Container mt='8'>
                 <Paragraph $typeset='headline' fontWeight='regular' color='gray' display='inline'>
                     Are you certain you want to disconnect
-                    {numberOfSessions && numberOfSessions > 1 ? ' all ' : ' your connection with '}
+                    {hasMultipleSessions ? ' all ' : ' your connection with '}
                 </Paragraph>
                 <Paragraph
                     $typeset='headline'
