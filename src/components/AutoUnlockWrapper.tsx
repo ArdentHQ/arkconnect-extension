@@ -12,6 +12,7 @@ import { FlexContainer } from '@/shared/components';
 import { HandleLoadingState } from '@/shared/components/handleStates/HandleLoadingState';
 import { useProfileContext } from '@/lib/context/Profile';
 import useThemeMode from '@/lib/hooks/useThemeMode';
+import { selectWalletsLength } from '@/lib/store/wallet';
 
 type Props = {
     children: ReactNode | ReactNode[];
@@ -26,9 +27,8 @@ const AutoUnlockWrapper = ({ children, runEventHandlers }: Props) => {
     const navigate = useNavigate();
     const [isLoadingLocalData, setIsLoadingLocalData] = useState<boolean>(true);
     const locked = useAppSelector(UIStore.selectLocked);
-    const hasOnboarded = useAppSelector(UIStore.selectHasOnboarded);
-
-    const autoLockTimerDisabled = locked || !hasOnboarded;
+    const hasWallets = useAppSelector(selectWalletsLength) > 0;
+    const autoLockTimerDisabled = locked || !hasWallets;
 
     useLayoutEffect(() => {
         const checkLocked = async () => {
