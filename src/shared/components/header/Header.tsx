@@ -1,17 +1,17 @@
-import { Container, FlexContainer, Icon, Paragraph } from '@/shared/components';
-import { DropdownMenuContainerProps, SettingsMenu } from '@/components/settings/SettingsMenu';
 import { Link, useLocation } from 'react-router-dom';
 import { useRef, useState } from 'react';
+import cn from 'classnames';
+import FocusTrap from 'focus-trap-react';
+import styled from 'styled-components';
+import { Container, FlexContainer, Icon, Paragraph } from '@/shared/components';
+import { DropdownMenuContainerProps, SettingsMenu } from '@/components/settings/SettingsMenu';
 
 import { AddressesDropdown } from '@/shared/components/header/AddressesDropdown';
-import cn from 'classnames';
 import { ConnectionStatus } from '@/components/wallet/ConnectionStatus';
-import FocusTrap from 'focus-trap-react';
 import { handleSubmitKeyAction } from '@/lib/utils/handleKeyAction';
 import { isFirefox } from '@/lib/utils/isFirefox';
 import { LogoIcon } from '@/components/Logo';
 import { selectLocked } from '@/lib/store/ui';
-import styled from 'styled-components';
 import { StyledLogos } from '@/components/settings/others/AboutARK';
 import trimAddress from '@/lib/utils/trimAddress';
 import { useAppSelector } from '@/lib/store';
