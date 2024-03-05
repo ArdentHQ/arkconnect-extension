@@ -2,7 +2,16 @@ import cn from 'classnames';
 import { Icon, IconDefinition, Loader } from '@/shared/components';
 import { isFirefox } from '@/lib/utils/isFirefox';
 
-type ButtonVariant = 'primary' | 'secondary' | 'secondaryBlack' | 'primaryText' | 'primaryLink' | 'primaryLinkDestructive' | 'linkDestructive' | 'destructivePrimary' | 'destructiveSecondary';
+type ButtonVariant =
+    | 'primary'
+    | 'secondary'
+    | 'secondaryBlack'
+    | 'primaryText'
+    | 'primaryLink'
+    | 'primaryLinkDestructive'
+    | 'linkDestructive'
+    | 'destructivePrimary'
+    | 'destructiveSecondary';
 
 type ButtonProps = React.ComponentPropsWithRef<'button'> & {
     iconLeading?: IconDefinition;
@@ -10,7 +19,7 @@ type ButtonProps = React.ComponentPropsWithRef<'button'> & {
     isLoading?: boolean;
     disabled?: boolean;
     className?: string;
-    variant?: ButtonVariant
+    variant?: ButtonVariant;
 };
 
 const buttonClass: Record<ButtonVariant, string>  = {
