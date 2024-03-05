@@ -7,15 +7,7 @@ type Props = React.ComponentProps<typeof Input> & {
     labelText?: string;
 };
 
-const EyeButton = ({
-    showPassword,
-    onClick,
-    labelText,
-}: {
-    showPassword: boolean;
-    onClick: () => void;
-    labelText?: string;
-}) => {
+const EyeButton = ({ showPassword, onClick }: { showPassword: boolean; onClick: () => void }) => {
     return (
         <StyledEyeWrapper
             as='button'
@@ -26,7 +18,6 @@ const EyeButton = ({
             borderRadius='50%'
             justifyContent='center'
             alignItems='center'
-            top={labelText ? '36px' : '12px'}
         >
             <Icon
                 className='h-5 w-5 text-light-black dark:text-white'
@@ -49,13 +40,7 @@ export const PasswordInput = ({ labelText, ...props }: Props) => {
                 labelText={labelText}
                 {...props}
                 className='pr-10'
-                trailing={
-                    <EyeButton
-                        showPassword={showPassword}
-                        onClick={toggleShowPassword}
-                        labelText={labelText}
-                    />
-                }
+                trailing={<EyeButton showPassword={showPassword} onClick={toggleShowPassword} />}
             />
         </Container>
     );

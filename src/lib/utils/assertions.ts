@@ -1,14 +1,6 @@
 import { AssertionError } from 'assert';
 import { Networks } from '@ardenthq/sdk';
-import { Contracts, Profile, Wallet } from '@ardenthq/sdk-profiles';
-
-export function assertProfile(profile?: Contracts.IProfile): asserts profile is Profile {
-    if (!(profile instanceof Profile)) {
-        throw new AssertionError({
-            message: `Expected 'profile' to be Contracts.IProfile, but received ${profile}`,
-        });
-    }
-}
+import { Contracts, Wallet } from '@ardenthq/sdk-profiles';
 
 export function assertWallet(wallet?: Contracts.IReadWriteWallet): asserts wallet is Wallet {
     if (!(wallet instanceof Wallet)) {
@@ -25,12 +17,4 @@ export function assertNetwork(network?: Networks.Network): asserts network is Ne
         });
     }
     return undefined;
-}
-
-export function assertString(value: unknown): asserts value is NonNullable<string> {
-    if (typeof value !== 'string' || value.trim() === '') {
-        throw new AssertionError({
-            message: `Expected 'value' to be string, but received ${value}`,
-        });
-    }
 }

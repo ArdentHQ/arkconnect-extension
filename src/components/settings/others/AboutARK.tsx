@@ -124,7 +124,7 @@ export const StyledLogos = styled(FlexContainer)`
   `}
 `;
 
-export const CopyButton = styled(Container)`
+const CopyButton = styled(Container)`
     ${({ theme }) => `${isFirefox ? theme.browserCompatibility.firefox.focus : ''}`}
 `;
 
