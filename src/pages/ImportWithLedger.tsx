@@ -16,7 +16,7 @@ import { getLocalValues } from '@/lib/utils/localStorage';
 import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
 import useLoadingModal from '@/lib/hooks/useLoadingModal';
 import useLocaleCurrency from '@/lib/hooks/useLocalCurrency';
-import useNetwork from '@/lib/hooks/useNetwork';
+import useActiveNetwork from '@/lib/hooks/useActiveNetwork';
 import { useProfileContext } from '@/lib/context/Profile';
 import useThemeMode from '@/lib/hooks/useThemeMode';
 
@@ -30,7 +30,7 @@ export type ImportWithLedger = {
 
 const ImportWithLedger = () => {
     const { currentThemeMode } = useThemeMode();
-    const { activeNetwork: network } = useNetwork();
+    const network = useActiveNetwork();
     const { profile, initProfile } = useProfileContext();
     const { defaultCurrency } = useLocaleCurrency();
     const { error, removeErrors } = useLedgerContext();

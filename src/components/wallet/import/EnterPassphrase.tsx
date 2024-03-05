@@ -19,7 +19,7 @@ import { useProfileContext } from '@/lib/context/Profile';
 import useWalletSync from '@/lib/hooks/useWalletSync';
 import { useEnvironmentContext } from '@/lib/context/Environment';
 import { getDefaultAlias } from '@/lib/utils/getDefaultAlias';
-import useNetwork from '@/lib/hooks/useNetwork';
+import useActiveNetwork from '@/lib/hooks/useActiveNetwork';
 import { assertWallet } from '@/lib/utils/assertions';
 import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
 import { useAppSelector } from '@/lib/store';
@@ -36,7 +36,7 @@ const EnterPassphrase = ({ goToNextStep, formik }: Props) => {
     const [isImporting, setIsImporting] = useState<boolean>(false);
     const [isValidating, setIsValidating] = useState<boolean>(false);
     const walletsIds = useAppSelector(selectWalletsIds);
-    const { activeNetwork } = useNetwork();
+    const activeNetwork = useActiveNetwork();
     const { profile, initProfile } = useProfileContext();
     const { onError } = useErrorHandlerContext();
     const { env } = useEnvironmentContext();
