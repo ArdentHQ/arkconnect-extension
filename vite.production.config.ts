@@ -69,7 +69,6 @@ export default defineConfig({
                         'react',
                         'react-dom',
                         'react-router-dom',
-                        'react-refresh',
                         'locale-currency',
                         'react-redux',
                         'redux-persist',

@@ -8,7 +8,7 @@ import { createTestProfile, isDev } from '@/dev/utils/dev';
 
 const exists = (profile?: Contracts.IProfile | null): profile is Contracts.IProfile => !!profile;
 
-export const env = initializeEnvironment();
+const env = initializeEnvironment();
 
 export function Extension() {
     const lockHandler = new LockHandler();
