@@ -20,7 +20,7 @@ export const DisconnectSessionModal = ({ isOpen, onCancel, onConfirm, sessions }
             await runtime.sendMessage({
                 type: 'DISCONNECT_RESOLVE',
                 data: {
-                    domain: session?.domain,
+                    domain: session.domain,
                     status: 'success',
                     disconnected: false,
                 },
