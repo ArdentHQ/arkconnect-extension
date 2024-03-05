@@ -128,7 +128,7 @@ const ConnectionsList = () => {
                                 >
                                     <Icon
                                         icon='slash'
-                                        className='text-light-black dark:text-white w-4.5 h-4.5'
+                                        className='text-theme-error-600 dark:text-theme-error-500 w-4.5 h-4.5'
                                     />
                                 </StyledFlexContainer>
                             </Tooltip>
