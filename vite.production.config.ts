@@ -56,15 +56,7 @@ export default defineConfig({
         rollupOptions: {
             output: {
                 manualChunks: {
-                    utils: [
-                        'semver',
-                        'yup',
-                        'uuid',
-                        'assert',
-                        'p-retry',
-                        'string-hash',
-                    ],
-                    crypto: ['crypto-js'],
+                    utils: ['semver', 'yup', 'uuid', 'assert', 'p-retry', 'string-hash'],
                     sdk: ['@ardenthq/sdk'],
                     'sdk-ark': ['@ardenthq/sdk-ark'],
                     'sdk-cryptography': ['@ardenthq/sdk-cryptography'],
@@ -77,7 +69,6 @@ export default defineConfig({
                         'react',
                         'react-dom',
                         'react-router-dom',
-                        'react-refresh',
                         'locale-currency',
                         'react-redux',
                         'redux-persist',

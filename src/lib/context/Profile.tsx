@@ -4,7 +4,6 @@ import { runtime } from 'webextension-polyfill';
 import { useAppDispatch, useAppSelector } from '../store';
 import { useWalletBalance } from '../hooks/useWalletBalance';
 import { ProfileData } from '../background/contracts';
-import { testnetEnabledChanged } from '../store/ui';
 import { useEnvironmentContext } from './Environment';
 import { useErrorHandlerContext } from './ErrorHandler';
 import * as WalletStore from '@/lib/store/wallet';
@@ -79,10 +78,6 @@ export const ProfileProvider = ({ children }: Properties) => {
 
             const profile = await importProfile(data);
             profile.data().fill(profileData);
-
-            if (profile.wallets().count() === 0) {
-                dispatch(testnetEnabledChanged(false));
-            }
 
             await updateStore({ profile });
         } catch (error) {

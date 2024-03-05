@@ -44,9 +44,6 @@ dependencies:
   classnames:
     specifier: ^2.5.1
     version: 2.5.1
-  crypto-js:
-    specifier: ^4.1.1
-    version: 4.1.1
   focus-trap-react:
     specifier: ^10.2.3
     version: 10.2.3(prop-types@15.8.1)(react-dom@18.2.0)(react@18.2.0)
@@ -71,9 +68,6 @@ dependencies:
   react-redux:
     specifier: ^8.1.2
     version: 8.1.2(@types/react-dom@18.2.7)(@types/react@18.2.15)(react-dom@18.2.0)(react@18.2.0)(redux@5.0.1)
-  react-refresh:
-    specifier: ^0.14.0
-    version: 0.14.0
   react-router-dom:
     specifier: ^6.15.0
     version: 6.15.0(react-dom@18.2.0)(react@18.2.0)
@@ -115,9 +109,6 @@ devDependencies:
   '@testing-library/react':
     specifier: ^14.1.2
     version: 14.1.2(react-dom@18.2.0)(react@18.2.0)
-  '@types/crypto-js':
-    specifier: ^4.1.1
-    version: 4.1.1
   '@types/react':
     specifier: ^18.2.15
     version: 18.2.15
@@ -172,9 +163,6 @@ devDependencies:
   eslint-plugin-react-hooks:
     specifier: ^4.6.0
     version: 4.6.0(eslint@8.57.0)
-  eslint-plugin-react-refresh:
-    specifier: ^0.4.3
-    version: 0.4.3(eslint@8.57.0)
   eslint-plugin-unused-imports:
     specifier: ^3.1.0
     version: 3.1.0(@typescript-eslint/eslint-plugin@7.1.0)(eslint@8.57.0)
@@ -2602,10 +2590,6 @@ packages:
       '@types/har-format': 1.2.15
     dev: true
 
-  /@types/crypto-js@4.1.1:
-    resolution: {integrity: sha512-BG7fQKZ689HIoc5h+6D2Dgq1fABRa0RbBWKBd9SP/MVRVXROflpm5fhwyATX5duFmbStzyzyycPB8qUYKDH3NA==}
-    dev: true
-
   /@types/estree@1.0.5:
     resolution: {integrity: sha512-/kYRxGDLWzHOB7q+wtSUQlFrtcdUccpfy+X+9iMBpHK8QLLhx2wIPYuS5DYtR9Wa/YlZAbIovy7qVdB1Aq6Lyw==}
     dev: true
@@ -4392,14 +4376,6 @@ packages:
     engines: {node: '>=10'}
     peerDependencies:
       eslint: ^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0-0
-    dependencies:
-      eslint: 8.57.0
-    dev: true
-
-  /eslint-plugin-react-refresh@0.4.3(eslint@8.57.0):
-    resolution: {integrity: sha512-Hh0wv8bUNY877+sI0BlCUlsS0TYYQqvzEwJsJJPM2WF4RnTStSnSR3zdJYa2nPOJgg3UghXi54lVyMSmpCalzA==}
-    peerDependencies:
-      eslint: '>=7'
     dependencies:
       eslint: 8.57.0
     dev: true
@@ -6689,6 +6665,7 @@ packages:
   /react-refresh@0.14.0:
     resolution: {integrity: sha512-wViHqhAd8OHeLS/IRMJjTSDHF3U9eWi62F/MledQGPdJGDhodXJ9PBLNGr6WWL7qlH12Mt3TyTpbS+hGXMjCzQ==}
     engines: {node: '>=0.10.0'}
+    dev: true
 
   /react-router-dom@6.15.0(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-aR42t0fs7brintwBGAv2+mGlCtgtFQeOzK0BM1/OiqEzRejOZtpMZepvgkscpMUnKb8YO84G7s3LsHnnDNonbQ==}
