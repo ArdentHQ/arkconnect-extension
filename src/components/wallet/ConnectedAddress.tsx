@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { Contracts } from '@ardenthq/sdk-profiles';
-import { Container, FlexContainer, Heading, Paragraph } from '@/shared/components';
+import { Button, Container, FlexContainer, Heading, Paragraph } from '@/shared/components';
 import useThemeMode from '@/lib/hooks/useThemeMode';
 import formatDomain from '@/lib/utils/formatDomain';
 import {
@@ -13,11 +13,12 @@ import {
 import ConnectionLogoImage from '@/components/connections/ConnectionLogoImage';
 import { getNetworkCurrency } from '@/lib/utils/getActiveCoin';
 
-type Props = {
+type Properties = {
     connectedTo?: string;
     address: string;
     logo: string;
     wallet: Contracts.IReadWriteWallet;
+    onDisconnect?: () => void;
 };
 
 const ConnectionStatusTitle = styled.div`
@@ -29,7 +30,7 @@ const ConnectedSite = styled.span`
     font-weight: bold;
 `;
 
-const ConnectedAddress = ({ connectedTo, wallet, logo }: Props) => {
+const ConnectedAddress = ({ connectedTo, wallet, logo, onDisconnect }: Properties) => {
     return (
         <>
             <Container>
@@ -44,8 +45,13 @@ const ConnectedAddress = ({ connectedTo, wallet, logo }: Props) => {
                     <ConnectedSite>{formatDomain(connectedTo, false)}</ConnectedSite>
                 </Paragraph>
             </Container>
+
             <Container>
                 <AddressRow address={wallet} logo={logo} />
+
+                <Button variant='linkDestructive' onClick={onDisconnect} mt='20' mb='4'>
+                    Disconnect
+                </Button>
             </Container>
         </>
     );
