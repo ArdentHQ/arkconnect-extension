@@ -10,16 +10,4 @@
     .typeset-body {
         @apply text-sm text-theme-secondary-600 dark:text-theme-secondary-300 leading-[17.5px]
     }
-
-    .loader-small {
-        @apply w-6 h-6 border-2 border-solid border-transparent border-t-white
-    }
-
-    .loader-big {
-        @apply h-16 w-16 border-[6px] border-solid border-theme-secondary-100 dark:border-subtle-black border-t-theme-primary-700 dark:border-t-theme-primary-650
-    }
-
-    .loader-warning {
-        @apply w-4.5 h-4.5 border-2 border-solid border-theme-warning-200 border-t-theme-warning-500
-    }
 }
