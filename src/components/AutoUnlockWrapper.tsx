@@ -27,6 +27,8 @@ const AutoUnlockWrapper = ({ children }: Props) => {
     const locked = useAppSelector(UIStore.selectLocked);
     const hasOnboarded = useAppSelector(UIStore.selectHasOnboarded);
 
+    const autoLockTimerDisabled = locked || !hasOnboarded;
+
     useLayoutEffect(() => {
         const checkLocked = async () => {
             const status = await runtime.sendMessage({ type: 'CHECK_LOCK' });
@@ -50,15 +52,15 @@ const AutoUnlockWrapper = ({ children }: Props) => {
         onAction: () => {
             runtime.sendMessage({ type: 'REGISTER_ACTIVITY' });
         },
-        disabled: locked || !hasOnboarded,
+        disabled: autoLockTimerDisabled,
     });
 
     useEffect(() => {
-        if (locked || !hasOnboarded) {
+        if (autoLockTimerDisabled) {
             runtime.sendMessage({ type: 'DISABLE_AUTOLOCK_TIMER' });
             return;
         }
-    }, [locked, hasOnboarded]);
+    }, [autoLockTimerDisabled]);
 
     const handleLedgerNavigation = () => {
         const locationHref = window.location.href;
