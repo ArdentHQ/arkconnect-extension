@@ -22,19 +22,19 @@ type ButtonProps = React.ComponentPropsWithRef<'button'> & {
     variant?: ButtonVariant;
 };
 
-const buttonClass: Record<ButtonVariant, string>  = {
-    'primary': 'button-primary',
-    'secondary': 'button-secondary',
-    'secondaryBlack': 'button-secondaryBlack',
-    'primaryText': 'button-primaryText',
-    'primaryLink': 'button-primaryLink',
-    'primaryLinkDestructive': 'button-primaryLinkDestructive',
-    'linkDestructive': 'button-linkDestructive',
-    'destructivePrimary': 'button-destructivePrimary',
-    'destructiveSecondary': 'button-destructiveSecondary',
+const buttonClass: Record<ButtonVariant, string> = {
+    primary: 'button-primary',
+    secondary: 'button-secondary',
+    secondaryBlack: 'button-secondaryBlack',
+    primaryText: 'button-primaryText',
+    primaryLink: 'button-primaryLink',
+    primaryLinkDestructive: 'button-primaryLinkDestructive',
+    linkDestructive: 'button-linkDestructive',
+    destructivePrimary: 'button-destructivePrimary',
+    destructiveSecondary: 'button-destructiveSecondary',
 };
 
-const getButtonClass = (variant?: ButtonVariant) => variant ? buttonClass[variant] : '';
+const getButtonClass = (variant?: ButtonVariant) => (variant ? buttonClass[variant] : '');
 
 export const Button = ({
     iconLeading,
