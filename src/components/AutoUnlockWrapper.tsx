@@ -38,8 +38,7 @@ const AutoUnlockWrapper = ({ children, runEventHandlers }: Props) => {
     }, [locked]);
 
     useEffect(() => {
-        console.log('run useffect');
-        handleAutoLockNavigation();
+        handleNavigation();
         setIsLoadingLocalData(false);
 
         handleLedgerNavigation();
@@ -48,7 +47,7 @@ const AutoUnlockWrapper = ({ children, runEventHandlers }: Props) => {
     useIdleTimer({
         throttle: 1000,
         onAction: () => {
-            runtime.sendMessage({ type: 'REGISTER_ACTIVITY' });
+            void runtime.sendMessage({ type: 'REGISTER_ACTIVITY' });
         },
         disabled: locked,
     });
@@ -65,34 +64,37 @@ const AutoUnlockWrapper = ({ children, runEventHandlers }: Props) => {
         }
     };
 
-    const processingEvents = useRef(false);
+    const runningHandlers = useRef(false);
 
-    const handleAutoLockNavigation = () => {
+    const handleNavigation = () => {
         if (locked) {
-            console.log('locked');
             navigate('/enter-password');
             return;
         }
 
         if (isProfileReady && profile.wallets().count() === 0) {
-            console.log('wallets are empty');
             navigate('/splash-screen');
             return;
         }
 
-        if (processingEvents.current || runEventHandlers()) {
-            console.log('has event listeners');
-            processingEvents.current = true;
+        // If an action is triggered while a screen is persisted, we should
+        // display the action screen in the opened window. However, once the
+        // registered event handlers run, the 'events' state will be reset,
+        // causing this function to re-trigger due to the nature of 'useEffect'.
+        // This would navigate the user away from the action screen, which is
+        // not ideal.To ensure good UX, we manually skip the next checks using
+        // the 'runningHandlers' flag.
+        if (runningHandlers.current || runEventHandlers()) {
+            runningHandlers.current = true;
 
             setTimeout(() => {
-                processingEvents.current = false;
+                runningHandlers.current = false;
             }, 2000);
 
             return;
         }
 
         if (persistScreen) {
-            console.log('has persist screen');
             navigate(persistScreen.screen);
             return;
         }
@@ -100,7 +102,6 @@ const AutoUnlockWrapper = ({ children, runEventHandlers }: Props) => {
         const lastScreen = profile.data().get(ProfileData.LastScreen) as LastScreen | undefined;
 
         if (lastScreen?.screenName === ScreenName.CreateWallet) {
-            console.log('has last screen');
             navigate('/wallet/create');
             return;
         }
