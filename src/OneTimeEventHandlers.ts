@@ -144,12 +144,10 @@ export function OneTimeEventHandlers(extension: ReturnType<typeof Extension>) {
         },
 
         [OneTimeEvents.REGISTER_ACTIVITY]: async (_request: any) => {
-            console.log('register activuty');
             await extension.lockHandler().setLastActiveTime();
         },
 
         [OneTimeEvents.DISABLE_AUTOLOCK_TIMER]: async (_request: any) => {
-            console.log('Disabling auto lock timer');
             await extension.lockHandler().disableTimer();
         },
 
