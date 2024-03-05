@@ -1,31 +1,6 @@
-import styled from 'styled-components';
-import {
-    border,
-    BorderProps,
-    color,
-    ColorProps,
-    layout,
-    LayoutProps,
-    position,
-    PositionProps,
-    shadow,
-    ShadowProps,
-    space,
-    SpaceProps,
-} from 'styled-system';
 import cn from 'classnames';
-import { Theme } from '@/shared/theme';
 import { Icon, IconDefinition } from '@/shared/components';
-import { flexVariant, FlexVariantProps } from '@/shared/theme/variants';
 import { isFirefox } from '@/lib/utils/isFirefox';
-
-type BaseProps = ColorProps<Theme> &
-    SpaceProps<Theme> &
-    LayoutProps<Theme> &
-    PositionProps<Theme> &
-    ShadowProps<Theme> &
-    BorderProps<Theme> &
-    FlexVariantProps;
 
 type BigButtonProps = React.ComponentPropsWithRef<'button'> & {
     iconLeading?: IconDefinition;
@@ -34,41 +9,6 @@ type BigButtonProps = React.ComponentPropsWithRef<'button'> & {
     helperText?: string;
     className?: string;
 };
-
-const StyledButton = styled.button<BaseProps>`
-    ${({ theme }) => `
-  border: 1px solid transparent;
-  border-radius: ${theme.radii['20']}px;
-  background-color: ${theme.colors.inputBackground};
-  box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.05);
-  display: flex;
-  width: 100%;
-  padding: 16px;
-  max-height: 96px;
-  box-sizing: border-box;
-  transition: ${isFirefox ? theme.transitions.firefoxSmoothEase : theme.transitions.smoothEase};
-  cursor: pointer;
-  grid-gap: 12px;
-
-  &:hover {
-    border: 1px solid ${theme.colors.activeNav};
-  }
-
-  ${isFirefox ? theme.browserCompatibility.firefox.focus : ''}
-
-  &:disabled {
-    cursor: not-allowed;
-    pointer-events: none;
-  }
-`}
-    ${space}
-  ${color}
-  ${layout}
-  ${position}
-  ${shadow}
-  ${border}
-  ${flexVariant}
-`;
 
 export const BigButton = ({
     iconLeading,
