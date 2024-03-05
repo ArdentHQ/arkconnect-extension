@@ -27,6 +27,7 @@ type VariantProps = {
         | 'primaryText'
         | 'primaryLink'
         | 'primaryLinkDestructive'
+        | 'linkDestructive'
         | 'destructivePrimary'
         | 'destructiveSecondary';
 };
@@ -161,6 +162,12 @@ const StyledButton = styled.button<BaseProps>`
                     '&:focus-visible': {
                         outline: `2px solid ${theme.colors.error700}`,
                     },
+                },
+                linkDestructive: {
+                    backgroundColor: `${theme.colors.transparent}`,
+                    color: `${theme.colors.error}`,
+                    padding: 0,
+                    fontWeight: 'medium',
                 },
                 destructivePrimary: {
                     backgroundColor: `${theme.colors.error}`,
