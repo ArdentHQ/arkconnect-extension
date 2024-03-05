@@ -15,9 +15,10 @@ import useThemeMode from '@/lib/hooks/useThemeMode';
 
 type Props = {
     children: ReactNode | ReactNode[];
+    runEventHandlers: () => void;
 };
 
-const AutoUnlockWrapper = ({ children }: Props) => {
+const AutoUnlockWrapper = ({ children, runEventHandlers }: Props) => {
     const dispatch = useAppDispatch();
     const { currentThemeMode } = useThemeMode();
     const { persistScreen } = getPersistedValues();
@@ -45,7 +46,7 @@ const AutoUnlockWrapper = ({ children }: Props) => {
 
         handlePersistScreenRedirect();
         handleLedgerNavigation();
-    }, [locked, profile.id()]);
+    }, [runEventHandlers, locked, profile.id()]);
 
     useIdleTimer({
         throttle: 1000,
@@ -101,6 +102,8 @@ const AutoUnlockWrapper = ({ children }: Props) => {
             navigate('/splash-screen');
             return;
         }
+
+        runEventHandlers();
     };
 
     return (
