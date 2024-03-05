@@ -149,7 +149,11 @@ const ConnectionsList = () => {
             <DisconnectSessionModal
                 sessions={sessionsToRemove}
                 isOpen={sessionsToRemove.length > 0}
-                onCancel={() => {
+                onCancel={async () => {
+                    if (getSessionByUrl(sessionsToRemove)) {
+                        await removeWindowInstance(location.state?.windowId, 100);
+                    }
+
                     setSessionsToRemove([]);
                 }}
                 onConfirm={async () => {
