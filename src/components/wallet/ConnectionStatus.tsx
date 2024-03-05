@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import ConnectionIndicator from './ConnectionIndicator';
+import { DisconnectSessionModal } from './DisconnectSessionModal';
 import { useActiveTabConnection } from '@/lib/hooks/useActiveTabConnection';
 import { Icon, Paragraph, Tooltip } from '@/shared/components';
 import Modal from '@/shared/components/modal/Modal';
@@ -11,6 +12,7 @@ import DisconnectedAddress from '@/components/wallet/DisconnectedAddress';
 
 export const ConnectionStatus = () => {
     const { currentThemeMode, getThemeColor } = useThemeMode();
+    const [isDisconnectModalOpen, setIsDisconnectModalOpen] = useState(false);
 
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
@@ -32,9 +34,7 @@ export const ConnectionStatus = () => {
                 >
                     <Icon
                         icon='globe-with-dot'
-                        className={currentThemeMode + ' globeIcon'}
-                        width='16px'
-                        height='16px'
+                        className={currentThemeMode + ' globeIcon h-4 w-4'}
                     />
                 </StyledFlexContainer>
             ) : (
@@ -54,7 +54,7 @@ export const ConnectionStatus = () => {
                         onClick={() => setIsModalOpen(true)}
                         as='button'
                     >
-                        <Icon icon='globe' width='16px' height='16px' />
+                        <Icon icon='globe' className='h-4 w-4' />
                     </StyledFlexContainer>
                 </Tooltip>
             )}
@@ -74,6 +74,10 @@ export const ConnectionStatus = () => {
                                 wallet={primaryWallet}
                                 logo={logo}
                                 address={primaryWallet.address()}
+                                onDisconnect={() => {
+                                    setIsModalOpen(false);
+                                    setIsDisconnectModalOpen(true);
+                                }}
                             />
                         </Modal>
                     ) : (
@@ -89,6 +93,13 @@ export const ConnectionStatus = () => {
                     )}
                 </>
             )}
+
+            <DisconnectSessionModal
+                isOpen={isDisconnectModalOpen}
+                sessions={tabSession ? [tabSession] : []}
+                onConfirm={() => setIsDisconnectModalOpen(false)}
+                onCancel={() => setIsDisconnectModalOpen(false)}
+            />
         </>
     );
 };

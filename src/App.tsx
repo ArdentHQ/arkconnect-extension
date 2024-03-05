@@ -41,8 +41,7 @@ export const MainWrapper = ({ children }: { children?: React.ReactNode }) => {
     );
 };
 
-// Exported so can be reused in tests
-export const AppWrapper = ({
+const AppWrapper = ({
     children,
     theme = { ...baseTheme, colors: themeModes[ThemeMode.LIGHT] },
 }: {

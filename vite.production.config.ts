@@ -15,75 +15,73 @@ const manifest = process.env.BROWSER === 'firefox' ? firefoxManifest : chromeMan
 let hasProcessedInPage = false;
 
 export default defineConfig({
-  resolve: {
-    alias: {
-      '@': srcDir,
-    },
-  },
-  plugins: [
-    react(),
-    webExtension({
-      manifest: {
-        name: pkg.name,
-        description: pkg.description,
-        version: pkg.version,
-        ...manifest,
-      },
-      additionalInputs: {
-        scripts: ['src/inpage.ts'],
-      },
-    }),
-    {
-      name: 'make-inpage-script-in-iife',
-      generateBundle(outputOptions, bundle) {
-        Object.keys(bundle).forEach((fileName) => {
-          const file = bundle[fileName]
-          if (!hasProcessedInPage && fileName.includes('inpage') && 'code' in file) {
-            file.code = `(() => {\n${file.code}})()`
-            hasProcessedInPage = true;
-          }
-        })
-      }
-    }
-  ],
-  publicDir,
-  build: {
-    outDir,
-    minify: true,
-    modulePreload: false,
-    reportCompressedSize: true,
-    emptyOutDir: true,
-    rollupOptions: {
-      output: {
-        manualChunks: {
-          utils: ['semver', 'yup', 'uuid', 'assert', 'p-retry', 'string-hash', 'socks-proxy-agent'],
-          crypto: ['crypto-js'],
-          sdk: ['@ardenthq/sdk'],
-          'sdk-ark': ['@ardenthq/sdk-ark'],
-          'sdk-cryptography': ['@ardenthq/sdk-cryptography'],
-          'sdk-helpers': ['@ardenthq/sdk-helpers'],
-          'sdk-intl': ['@ardenthq/sdk-intl'],
-          'sdk-ledger': ['@ardenthq/sdk-ledger'],
-          'sdk-profiles': ['@ardenthq/sdk-profiles'],
-          sentry: ['@sentry/react'],
-          react: [
-            'react',
-            'react-dom',
-            'react-router-dom',
-            'react-refresh',
-            'locale-currency',
-            'react-redux',
-            'redux-persist',
-            '@reduxjs/toolkit',
-            'formik',
-          ],
-          'styled-system': [
-            'styled-components',
-            'styled-system',
-            '@styled-system/should-forward-prop',
-          ],
+    resolve: {
+        alias: {
+            '@': srcDir,
         },
-      },
     },
-  },
+    plugins: [
+        react(),
+        webExtension({
+            manifest: {
+                name: pkg.name,
+                description: pkg.description,
+                version: pkg.version,
+                ...manifest,
+            },
+            additionalInputs: {
+                scripts: ['src/inpage.ts'],
+            },
+        }),
+        {
+            name: 'make-inpage-script-in-iife',
+            generateBundle(outputOptions, bundle) {
+                Object.keys(bundle).forEach((fileName) => {
+                    const file = bundle[fileName];
+                    if (!hasProcessedInPage && fileName.includes('inpage') && 'code' in file) {
+                        file.code = `(() => {\n${file.code}})()`;
+                        hasProcessedInPage = true;
+                    }
+                });
+            },
+        },
+    ],
+    publicDir,
+    build: {
+        outDir,
+        minify: true,
+        modulePreload: false,
+        reportCompressedSize: true,
+        emptyOutDir: true,
+        rollupOptions: {
+            output: {
+                manualChunks: {
+                    utils: ['semver', 'yup', 'uuid', 'assert', 'p-retry', 'string-hash'],
+                    sdk: ['@ardenthq/sdk'],
+                    'sdk-ark': ['@ardenthq/sdk-ark'],
+                    'sdk-cryptography': ['@ardenthq/sdk-cryptography'],
+                    'sdk-helpers': ['@ardenthq/sdk-helpers'],
+                    'sdk-intl': ['@ardenthq/sdk-intl'],
+                    'sdk-ledger': ['@ardenthq/sdk-ledger'],
+                    'sdk-profiles': ['@ardenthq/sdk-profiles'],
+                    sentry: ['@sentry/react'],
+                    react: [
+                        'react',
+                        'react-dom',
+                        'react-router-dom',
+                        'locale-currency',
+                        'react-redux',
+                        'redux-persist',
+                        '@reduxjs/toolkit',
+                        'formik',
+                    ],
+                    'styled-system': [
+                        'styled-components',
+                        'styled-system',
+                        '@styled-system/should-forward-prop',
+                    ],
+                },
+            },
+        },
+    },
 });

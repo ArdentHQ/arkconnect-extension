@@ -12,6 +12,7 @@ import { isValidPassword } from '@/lib/utils/validations';
 import { ExtensionEvents } from '@/lib/events';
 import useThemeMode from '@/lib/hooks/useThemeMode';
 import SubPageLayout from '@/components/settings/SubPageLayout';
+import useResetExtension from '@/lib/hooks/useResetExtension';
 
 const Logout = () => {
     const dispatch = useAppDispatch();
@@ -24,6 +25,7 @@ const Logout = () => {
     const sessions = useAppSelector(SessionStore.selectSessions);
     const { onError } = useErrorHandlerContext();
     const walletsIds = useAppSelector(WalletStore.selectWalletsIds);
+    const resetExtension = useResetExtension();
 
     const walletsToLogout = location.state;
 
@@ -52,13 +54,18 @@ const Logout = () => {
                 });
             });
 
-            const { error } = await runtime.sendMessage({
+            const { error, noWallets } = await runtime.sendMessage({
                 type: 'REMOVE_WALLETS',
                 data: {
                     password,
                     walletIds: walletsToDelete,
                 },
             });
+
+            if (noWallets) {
+                await resetExtension();
+                return;
+            }
 
             if (error) {
                 onError(error);
@@ -146,7 +153,7 @@ const Logout = () => {
                 </Paragraph>
 
                 <FlexContainer justifyContent='center' alignContent='center' mt='16'>
-                    <WarningIcon width='146px' height='135px' />
+                    <WarningIcon iconClassName='w-[146px] h-[135px]' />
                 </FlexContainer>
 
                 <FlexContainer mt='24' flexDirection='column' gridGap='6'>

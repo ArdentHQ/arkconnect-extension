@@ -1,21 +1,23 @@
-import styled from 'styled-components';
 import { Link, useLocation } from 'react-router-dom';
 import { useRef, useState } from 'react';
+import cn from 'classnames';
 import FocusTrap from 'focus-trap-react';
-import useThemeMode from '@/lib/hooks/useThemeMode';
-import { LogoIcon } from '@/components/Logo';
+import styled from 'styled-components';
 import { Container, FlexContainer, Icon, Paragraph } from '@/shared/components';
-import trimAddress from '@/lib/utils/trimAddress';
-import { ConnectionStatus } from '@/components/wallet/ConnectionStatus';
-import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
-import { selectLocked } from '@/lib/store/ui';
-import { useAppSelector } from '@/lib/store';
-import { AddressesDropdown } from '@/shared/components/header/AddressesDropdown';
-import { useProfileContext } from '@/lib/context/Profile';
 import { DropdownMenuContainerProps, SettingsMenu } from '@/components/settings/SettingsMenu';
+
+import { AddressesDropdown } from '@/shared/components/header/AddressesDropdown';
+import { ConnectionStatus } from '@/components/wallet/ConnectionStatus';
 import { handleSubmitKeyAction } from '@/lib/utils/handleKeyAction';
-import { StyledLogos } from '@/components/settings/others/AboutARK';
 import { isFirefox } from '@/lib/utils/isFirefox';
+import { LogoIcon } from '@/components/Logo';
+import { selectLocked } from '@/lib/store/ui';
+import { StyledLogos } from '@/components/settings/others/AboutARK';
+import trimAddress from '@/lib/utils/trimAddress';
+import { useAppSelector } from '@/lib/store';
+import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
+import { useProfileContext } from '@/lib/context/Profile';
+import useThemeMode from '@/lib/hooks/useThemeMode';
 
 export const StyledFlexContainer = styled(FlexContainer)<DropdownMenuContainerProps>`
     ${(props) => `
@@ -83,8 +85,14 @@ export const Header = () => {
         return (
             <StyledHeader isDark={isDark()} padding='17px 16px' withShadow={!isOnboardingPage}>
                 <StyledLogos alignItems='center' gridGap='8px'>
-                    <Icon icon='logo-inverted' width='24px' height='24px' color='primary' />
-                    <Icon icon='logo-text' width='122px' height='12px' color='primary' />
+                    <Icon
+                        icon='logo-inverted'
+                        className='h-6 w-6 text-theme-primary-700 dark:text-theme-primary-650'
+                    />
+                    <Icon
+                        icon='logo-text'
+                        className='w-[122px] h-3 text-theme-primary-700 dark:text-theme-primary-650'
+                    />
                 </StyledLogos>
             </StyledHeader>
         );
@@ -110,7 +118,7 @@ export const Header = () => {
                     <FlexContainer alignItems='center'>
                         {/*Logo*/}
                         <StyledLink to='/'>
-                            <LogoIcon color='primary' />
+                            <LogoIcon className='text-theme-primary-700 dark:text-theme-primary-650' />
                         </StyledLink>
 
                         {/*Wallets dropdown*/}
@@ -138,7 +146,12 @@ export const Header = () => {
                                     {trimAddress(primaryWallet.address(), 7)}
                                 </Paragraph>
                                 <FlexContainer alignSelf='self-end' color='base' as='span'>
-                                    <Icon icon='arrow-down' width='16px' height='16px' />
+                                    <Icon
+                                        icon='arrow-down'
+                                        className={cn('h-4 w-4 transition-transform ease-in-out', {
+                                            'transform rotate-180': showAddressesDropdown,
+                                        })}
+                                    />
                                 </FlexContainer>
                             </StyledFlexContainer>
                         </FlexContainer>
@@ -162,7 +175,7 @@ export const Header = () => {
                             onKeyDown={(e) => handleSubmitKeyAction(e, handleSettingsClick)}
                             tabIndex={0}
                         >
-                            <Icon icon='more-vertical' width='16px' height='16px' />
+                            <Icon icon='more-vertical' className='h-4 w-4' />
                         </StyledFlexContainer>
                     </FlexContainer>
                 </FlexContainer>

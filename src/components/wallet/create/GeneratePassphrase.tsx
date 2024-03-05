@@ -1,7 +1,5 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { FormikProps } from 'formik';
-import { WalletFormScreen } from '../form-persist';
-import { persistScreenChanged } from '../form-persist/helpers';
 import { CreateWalletFormik } from '.';
 import {
     Button,
@@ -15,11 +13,8 @@ import {
 } from '@/shared/components';
 import useToast from '@/lib/hooks/useToast';
 import { ToastPosition } from '@/components/toast/ToastContainer';
-import randomWordPositions from '@/lib/utils/randomWordPositions';
 import { TestnetIcon } from '@/components/wallet/address/Address.blocks';
-import { useAppSelector } from '@/lib/store';
-import { selectTestnetEnabled } from '@/lib/store/ui';
-import { getLocalValues } from '@/lib/utils/localStorage';
+import useActiveNetwork from '@/lib/hooks/useActiveNetwork';
 
 type Props = {
     goToNextStep: () => void;
@@ -31,20 +26,7 @@ const GeneratePassphrase = ({ goToNextStep, formik }: Props) => {
 
     const toast = useToast();
 
-    const isTestnet = useAppSelector(selectTestnetEnabled);
-
-    useEffect(() => {
-        (async () => {
-            const { hasOnboarded } = await getLocalValues();
-
-            if (hasOnboarded) {
-                persistScreenChanged({
-                    screen: WalletFormScreen.OVERVIEW,
-                    step: 0,
-                });
-            }
-        })();
-    }, []);
+    const selectedNetwork = useActiveNetwork();
 
     const copyPassphraseToClipboard = async () => {
         try {
@@ -53,14 +35,6 @@ const GeneratePassphrase = ({ goToNextStep, formik }: Props) => {
         } catch {
             toast('danger', 'Failed to Copy to Clipboard', ToastPosition.HIGH);
         }
-    };
-
-    const handleNextStep = () => {
-        const confirmationNumbers = randomWordPositions(24);
-
-        formik.setFieldValue('confirmationNumbers', confirmationNumbers);
-
-        goToNextStep();
     };
 
     const generatePassphraseUI = (word: string, index: number, sliceIndex: number) => {
@@ -90,7 +64,7 @@ const GeneratePassphrase = ({ goToNextStep, formik }: Props) => {
                 <Heading $typeset='h3' fontWeight='bold' color='base'>
                     Save Your Secret Passphrase
                 </Heading>
-                {isTestnet && <TestnetIcon />}
+                {selectedNetwork.isTest() && <TestnetIcon />}
             </FlexContainer>
             <Paragraph $typeset='headline' color='gray' mb='16'>
                 Write down or copy your passphrase. Make sure to store it safely.
@@ -161,7 +135,7 @@ const GeneratePassphrase = ({ goToNextStep, formik }: Props) => {
                     overflow='hidden'
                 >
                     <Container as='span' display='inline-block'>
-                        <Icon icon='copy' width='18px' height='18px' />
+                        <Icon icon='copy' className='h-4.5 w-4.5' />
                     </Container>
 
                     <Paragraph
@@ -176,7 +150,7 @@ const GeneratePassphrase = ({ goToNextStep, formik }: Props) => {
                 </FlexContainer>
             </FlexContainer>
 
-            <Button variant='primary' onClick={handleNextStep} mt='auto'>
+            <Button variant='primary' onClick={goToNextStep} mt='auto'>
                 Continue
             </Button>
         </FlexContainer>

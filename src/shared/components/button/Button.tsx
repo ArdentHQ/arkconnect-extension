@@ -27,6 +27,7 @@ type VariantProps = {
         | 'primaryText'
         | 'primaryLink'
         | 'primaryLinkDestructive'
+        | 'linkDestructive'
         | 'destructivePrimary'
         | 'destructiveSecondary';
 };
@@ -90,9 +91,11 @@ const StyledButton = styled.button<BaseProps>`
                         color: `${theme.colors.secondary400}`,
                         backgroundColor: `${theme.colors.primaryDisabled}`,
                     },
-                    '&:focus-visible': {
-                        outline: 'none',
+                    '&:focus': {
                         boxShadow: `0px 0px 0px 4px ${theme.colors.primaryFocused}`,
+                    },
+                    '&:focus-visible': {
+                        outline: `2px solid transparent ${theme.colors.primary600}`,
                     },
                 },
                 secondary: {
@@ -156,6 +159,15 @@ const StyledButton = styled.button<BaseProps>`
                     color: `${theme.colors.error}`,
                     padding: 0,
                     fontWeight: 'medium',
+                    '&:focus-visible': {
+                        outline: `2px solid ${theme.colors.error700}`,
+                    },
+                },
+                linkDestructive: {
+                    backgroundColor: `${theme.colors.transparent}`,
+                    color: `${theme.colors.error}`,
+                    padding: 0,
+                    fontWeight: 'medium',
                 },
                 destructivePrimary: {
                     backgroundColor: `${theme.colors.error}`,
@@ -166,9 +178,12 @@ const StyledButton = styled.button<BaseProps>`
                     '&:disabled': {
                         backgroundColor: `${theme.colors.destructivePrimaryDisabled}`,
                     },
-                    '&:focus-visible': {
-                        outline: 'none',
+                    '&:focus': {
                         boxShadow: `0px 0px 0px 4px ${theme.colors.destructiveShadow}`,
+                    },
+                    '&:focus-visible': {
+                        outline: `2px solid ${theme.colors.error700}`,
+                        outlineOffset: '1px',
                     },
                 },
                 destructiveSecondary: {
@@ -186,8 +201,8 @@ const StyledButton = styled.button<BaseProps>`
                         color: `${theme.colors.error300}`,
                     },
                     '&:focus-visible': {
-                        outline: 'none',
-                        boxShadow: `0px 0px 0px 4px ${theme.colors.destructiveShadow}`,
+                        outline: `2px solid ${theme.colors.error700}`,
+                        outlineOffset: '1px',
                     },
                 },
             },
@@ -211,9 +226,9 @@ export const Button = ({
 
     return (
         <StyledButton $flexVariant='rowCenter' {...rest}>
-            {iconLeading && <Icon width='20px' height='20px' icon={iconLeading} />}
+            {iconLeading && <Icon className='h-5 w-5' icon={iconLeading} />}
             {children}
-            {iconTrailing && <Icon width='20px' height='20px' icon={iconTrailing} />}
+            {iconTrailing && <Icon className='h-5 w-5' icon={iconTrailing} />}
         </StyledButton>
     );
 };

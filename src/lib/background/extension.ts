@@ -1,11 +1,14 @@
 import { Contracts, Environment } from '@ardenthq/sdk-profiles';
+
+import { getLocalValues } from '../utils/localStorage';
 import { initializeEnvironment } from '../utils/env.background';
 import { LockHandler } from './handleAutoLock';
 import { PrimaryWallet } from './extension.wallet.primary';
+import { createTestProfile, isDev } from '@/dev/utils/dev';
 
 const exists = (profile?: Contracts.IProfile | null): profile is Contracts.IProfile => !!profile;
 
-export const env = initializeEnvironment();
+const env = initializeEnvironment();
 
 export function Extension() {
     const lockHandler = new LockHandler();
@@ -95,6 +98,8 @@ export function Extension() {
 
             env.profiles().flush();
 
+            await env.persist();
+
             const profile = await env.profiles().create('arkconnect');
             profile.auth().setPassword(password);
             env.profiles().push(profile);
@@ -173,6 +178,59 @@ export function Extension() {
          */
         lockHandler() {
             return lockHandler;
+        },
+        /**
+         * Create or restore existing stored profile.
+         *
+         * @returns {Promise<void>}
+         */
+        async boot(password?: string): Promise<void> {
+            if (isDev()) {
+                await createTestProfile({ env });
+                return;
+            }
+
+            await env.verify();
+            await env.boot();
+
+            const { hasOnboarded } = await getLocalValues();
+
+            if (this.exists() && hasOnboarded) {
+                // If profile exists, it means that the extension was restarted.
+                // Go to locked state and require password to unlock.
+                return lockHandler.lock();
+            }
+
+            // First time extension loads. Create a fresh profile.
+            await this.reset(password);
+        },
+        /**
+         * Returns an empty profile.
+         * The profile is not stored in env.profiles() repository.
+         *
+         * @returns {Promise<Contracts.IProfile>}
+         */
+        async createEmptyProfile(): Promise<Contracts.IProfile> {
+            const emptyProfile = await env.profiles().create('empty');
+            env.profiles().forget(emptyProfile.id());
+
+            return emptyProfile;
+        },
+        /**
+         * Unlocks extension.
+         *
+         * @param {string} password
+         * @returns {Promise<void>}
+         */
+        async unlock(password?: string): Promise<void> {
+            await env.profiles().restore(this.profile(), password);
+
+            if (!this.primaryWallet().exists()) {
+                this.primaryWallet().reset();
+                await this.persist();
+            }
+
+            lockHandler.unlock(this.profile(), password);
         },
     };
 }

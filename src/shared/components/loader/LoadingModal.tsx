@@ -1,3 +1,4 @@
+import useThemeMode from '@/lib/hooks/useThemeMode';
 import { useAppSelector } from '@/lib/store';
 import { CTA_CONTENT, selectLoadingModal } from '@/lib/store/modal';
 import { FlexContainer, Heading, Icon, Loader, Paragraph } from '@/shared/components';
@@ -5,6 +6,8 @@ import { FlexContainer, Heading, Icon, Loader, Paragraph } from '@/shared/compon
 const LoadingModal = () => {
     const { isLoading, isOpen, completedMessage, loadingMessage, completedDescription, CTA } =
         useAppSelector(selectLoadingModal);
+
+    const { getThemeColor } = useThemeMode();
 
     const CTAContent = CTA ? CTA_CONTENT[CTA] : undefined;
 
@@ -17,13 +20,16 @@ const LoadingModal = () => {
             top='0'
             left='0'
             zIndex='10'
-            backgroundColor='background'
+            bg={getThemeColor('subtleWhite', 'lightBlack')}
             $flexVariant='columnCenter'
         >
             <FlexContainer flexDirection='column' alignItems='center' gridGap='24px' px='16'>
                 {!isLoading ? (
                     <>
-                        <Icon icon='completed' width='64px' height='64px' color='primary' />
+                        <Icon
+                            icon='completed'
+                            className='w-16 h-16 text-theme-primary-700 dark:text-theme-primary-650'
+                        />
                         <FlexContainer
                             flexDirection='column'
                             justifyContent='center'

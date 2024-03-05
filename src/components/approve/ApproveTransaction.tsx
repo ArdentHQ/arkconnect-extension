@@ -93,6 +93,7 @@ const ApproveTransaction = ({
 
             if (wallet.isLedger()) {
                 await approveWithLedger(profile, wallet);
+                loadingModal.setLoading();
             }
 
             const response = await submitForm(abortReference);

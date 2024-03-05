@@ -1,7 +1,6 @@
 import { FormikProps } from 'formik';
 import { useEffect, useState } from 'react';
-import { WalletFormScreen } from '../form-persist';
-import { persistScreenChanged } from '../form-persist/helpers';
+import { runtime } from 'webextension-polyfill';
 import { CreateWalletFormik, ValidationVariant } from '.';
 import {
     Button,
@@ -14,9 +13,8 @@ import {
 } from '@/shared/components';
 import getNumberSuffix from '@/lib/utils/getNumberSuffix';
 import { TestnetIcon } from '@/components/wallet/address/Address.blocks';
-import { useAppSelector } from '@/lib/store';
-import { selectTestnetEnabled } from '@/lib/store/ui';
-import { getLocalValues } from '@/lib/utils/localStorage';
+import useActiveNetwork from '@/lib/hooks/useActiveNetwork';
+import { ScreenName } from '@/lib/background/contracts';
 
 type Props = {
     goToNextStep: () => void;
@@ -27,25 +25,7 @@ const ConfirmPassphrase = ({ goToNextStep, formik }: Props) => {
     const { values } = formik;
     const [validationStatus, setValidationStatus] = useState<ValidationVariant[]>([]);
 
-    const isTestnet = useAppSelector(selectTestnetEnabled);
-
-    useEffect(() => {
-        (async () => {
-            const { hasOnboarded } = await getLocalValues();
-
-            if (hasOnboarded) {
-                persistScreenChanged({
-                    screen: WalletFormScreen.OVERVIEW,
-                    step: 0,
-                });
-            }
-        })();
-    }, []);
-
-    useEffect(() => {
-        const isValid = values.passphraseValidationStatus.every((item) => item === 'errorFree');
-        if (isValid) return;
-    }, []);
+    const selectedNetwork = useActiveNetwork();
 
     useEffect(() => {
         checkConfirmation();
@@ -77,7 +57,24 @@ const ConfirmPassphrase = ({ goToNextStep, formik }: Props) => {
         evt: React.ChangeEvent<HTMLInputElement>,
         index: number,
     ) => {
-        formik.setFieldValue(`confirmPassphrase[${index}]`, evt.target.value);
+        const confirmPassphrase = values.confirmPassphrase;
+        confirmPassphrase[index] = evt.target.value;
+
+        formik.setFieldValue('confirmPassphrase', confirmPassphrase);
+
+        runtime.sendMessage({
+            type: 'SET_LAST_SCREEN',
+            screenName: ScreenName.CreateWallet,
+            data: {
+                step: 1,
+                mnemonic: values.passphrase.join(' '),
+                network: values.wallet?.networkId(),
+                coin: values.wallet?.network().coin(),
+                confirmationNumbers: values.confirmationNumbers,
+                confirmPassphrase,
+            },
+        });
+        checkConfirmation();
     };
 
     return (
@@ -86,7 +83,7 @@ const ConfirmPassphrase = ({ goToNextStep, formik }: Props) => {
                 <Heading $typeset='h4' fontWeight='medium' color='base'>
                     Confirm Your Passphrase
                 </Heading>
-                {isTestnet && <TestnetIcon />}
+                {selectedNetwork.isTest() && <TestnetIcon />}
             </FlexContainer>
 
             <Paragraph $typeset='headline' color='gray' mb='16'>

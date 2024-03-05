@@ -12,21 +12,18 @@ import {
     RowLayout,
     Tooltip,
 } from '@/shared/components';
-import { useAppDispatch } from '@/lib/store';
-import { testnetEnabledChanged } from '@/lib/store/ui';
 import { handleSubmitKeyAction } from '@/lib/utils/handleKeyAction';
 import { isFirefox } from '@/lib/utils/isFirefox';
 import { clearPersistScreenData } from '@/components/wallet/form-persist/helpers';
 
 type NetworkModalState = {
-    nextAction?: () => void;
+    nextAction?: (isTestnet: boolean) => void;
     isOpen: boolean;
     action?: 'import' | 'create';
 };
 
 const CreateOrImportAddress = () => {
     const navigate = useNavigate();
-    const dispatch = useAppDispatch();
 
     // Clear any old data
     clearPersistScreenData();
@@ -41,7 +38,12 @@ const CreateOrImportAddress = () => {
 
     const handleCreateNewAddress = () => {
         setNetworkModalState({
-            nextAction: () => navigate('/wallet/create'),
+            nextAction: (isTestnet: boolean) =>
+                navigate('/wallet/create', {
+                    state: {
+                        isTestnet,
+                    },
+                }),
             isOpen: true,
             action: 'create',
         });
@@ -49,7 +51,12 @@ const CreateOrImportAddress = () => {
 
     const handleImportAddress = () => {
         setNetworkModalState({
-            nextAction: () => navigate('/wallet/import'),
+            nextAction: (isTestnet: boolean) =>
+                navigate('/wallet/import', {
+                    state: {
+                        isTestnet,
+                    },
+                }),
             isOpen: true,
             action: 'import',
         });
@@ -59,9 +66,11 @@ const CreateOrImportAddress = () => {
         if (isFirefox) return;
 
         setNetworkModalState({
-            nextAction: () => {
+            nextAction: (isTestnet: boolean) => {
+                const testnetParam = isTestnet ? 'isTestnet' : '';
+
                 void tabs.create({
-                    url: runtime.getURL('/src/main.html?import_with_ledger'),
+                    url: runtime.getURL(`/src/main.html?import_with_ledger&${testnetParam}`),
                 });
                 window.close(); // Close extension popup as we navigate away
             },
@@ -122,8 +131,7 @@ const CreateOrImportAddress = () => {
                     onClose={onCloseModalHandler}
                     action={networkModalState.action}
                     onNetworkSelect={(isTestnet: boolean) => {
-                        dispatch(testnetEnabledChanged(isTestnet));
-                        networkModalState.nextAction?.();
+                        networkModalState.nextAction?.(isTestnet);
                     }}
                 />
             )}
@@ -140,7 +148,7 @@ const LeadingIcon = ({ icon }: { icon: IconDefinition }) => {
             color='gray'
             as='span'
         >
-            <Icon width='20px' height='20px' icon={icon} />
+            <Icon className='h-5 w-5' icon={icon} />
         </FlexContainer>
     );
 };
