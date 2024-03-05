@@ -12,8 +12,9 @@ import {
     PasswordInput,
 } from '@/shared/components';
 import { getLocalValues, setLocalValue } from '@/lib/utils/localStorage';
-
+import { hasOnboardedChanged } from '@/lib/store/ui';
 import constants from '@/constants';
+import { useAppDispatch } from '@/lib/store';
 
 type Props = {
     formik: ReturnType<typeof useFormik>;
@@ -28,6 +29,8 @@ type PasswordValidation = {
 
 const SetupPassword = ({ formik }: Props) => {
     const { values } = formik;
+
+    const dispatch = useAppDispatch();
 
     const [validation, setValidation] = useState<PasswordValidation>({
         password: 'primary',
@@ -89,6 +92,8 @@ const SetupPassword = ({ formik }: Props) => {
 
     const submitForm = async () => {
         await setLocalValue('hasOnboarded', true);
+
+        dispatch(hasOnboardedChanged(true));
 
         formik.submitForm();
     };

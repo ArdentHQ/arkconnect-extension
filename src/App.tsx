@@ -14,11 +14,12 @@ import LoadingModal from './shared/components/loader/LoadingModal';
 import ToastContainer from './components/toast/ToastContainer';
 import { initializeEnvironment } from './lib/utils/env';
 import { LoadingFullScreen } from './shared/components/handleStates/LoadingFullScreen';
-import store, { persistor, useAppSelector } from '@/lib/store';
+import { getLocalValues } from './lib/utils/localStorage';
+import store, { persistor, useAppDispatch, useAppSelector } from '@/lib/store';
 import { theme as baseTheme, theme } from '@/shared/theme';
 import { Container } from '@/shared/components';
 import { themeModes } from '@/shared/theme/categories/color';
-import { selectThemeMode, ThemeMode } from '@/lib/store/ui';
+import { hasOnboardedChanged, selectThemeMode, ThemeMode } from '@/lib/store/ui';
 import routes from '@/routing';
 
 const env = initializeEnvironment();
@@ -80,7 +81,7 @@ const App = () => {
     const { onError } = useErrorHandlerContext();
     const { env, isEnvironmentBooted, setIsEnvironmentBooted } = useEnvironmentContext();
     const themeMode = useAppSelector(selectThemeMode);
-
+    const dispatch = useAppDispatch();
     const theme = { ...baseTheme, colors: themeModes[themeMode] };
 
     useBackgroundEventHandler();
@@ -90,6 +91,8 @@ const App = () => {
             try {
                 await env.verify();
                 await env.boot();
+                const { hasOnboarded } = await getLocalValues();
+                dispatch(hasOnboardedChanged(hasOnboarded));
 
                 setIsEnvironmentBooted(true);
             } catch (error) {

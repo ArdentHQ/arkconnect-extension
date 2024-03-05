@@ -18,6 +18,7 @@ export enum OneTimeEvents {
     SET_PRIMARY_WALLET = 'SET_PRIMARY_WALLET',
     SET_SESSIONS = 'SET_SESSIONS',
     REFRESH_AUTOLOCK_TIMER = 'REFRESH_AUTOLOCK_TIMER',
+    DISABLE_AUTOLOCK_TIMER = 'DISABLE_AUTOLOCK_TIMER',
     REGISTER_ACTIVITY = 'REGISTER_ACTIVITY',
     LOCK = 'LOCK',
     CHECK_LOCK = 'CHECK_LOCK',
@@ -143,7 +144,13 @@ export function OneTimeEventHandlers(extension: ReturnType<typeof Extension>) {
         },
 
         [OneTimeEvents.REGISTER_ACTIVITY]: async (_request: any) => {
+            console.log('register activuty');
             await extension.lockHandler().setLastActiveTime();
+        },
+
+        [OneTimeEvents.DISABLE_AUTOLOCK_TIMER]: async (_request: any) => {
+            console.log('Disabling auto lock timer');
+            await extension.lockHandler().disableTimer();
         },
 
         [OneTimeEvents.LOCK]: async (_request: any) => {

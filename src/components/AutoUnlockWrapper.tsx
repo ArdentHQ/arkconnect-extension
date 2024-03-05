@@ -25,6 +25,7 @@ const AutoUnlockWrapper = ({ children }: Props) => {
     const navigate = useNavigate();
     const [isLoadingLocalData, setIsLoadingLocalData] = useState<boolean>(true);
     const locked = useAppSelector(UIStore.selectLocked);
+    const hasOnboarded = useAppSelector(UIStore.selectHasOnboarded);
 
     useLayoutEffect(() => {
         const checkLocked = async () => {
@@ -49,8 +50,15 @@ const AutoUnlockWrapper = ({ children }: Props) => {
         onAction: () => {
             runtime.sendMessage({ type: 'REGISTER_ACTIVITY' });
         },
-        disabled: locked,
+        disabled: locked || !hasOnboarded,
     });
+
+    useEffect(() => {
+        if (locked || !hasOnboarded) {
+            runtime.sendMessage({ type: 'DISABLE_AUTOLOCK_TIMER' });
+            return;
+        }
+    }, [locked, hasOnboarded]);
 
     const handleLedgerNavigation = () => {
         const locationHref = window.location.href;
