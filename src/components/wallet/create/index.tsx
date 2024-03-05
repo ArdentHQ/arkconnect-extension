@@ -15,10 +15,11 @@ import { HandleLoadingState } from '@/shared/components/handleStates/HandleLoadi
 import { assertNetwork } from '@/lib/utils/assertions';
 import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
 import useLocaleCurrency from '@/lib/hooks/useLocalCurrency';
-import { getLocalValues } from '@/lib/utils/localStorage';
 import { LastScreen, ProfileData, ScreenName } from '@/lib/background/contracts';
 import randomWordPositions from '@/lib/utils/randomWordPositions';
 import useLoadingModal from '@/lib/hooks/useLoadingModal';
+import { useAppSelector } from '@/lib/store';
+import { selectHasOnboarded } from '@/lib/store/ui';
 
 export type CreateWalletFormik = {
     wallet?: Contracts.IReadWriteWallet;
@@ -62,9 +63,10 @@ const CreateNewWallet = () => {
         loadingMessage: 'Setting up the wallet, please wait!',
     });
 
+    const hasOnboarded = useAppSelector(selectHasOnboarded);
+
     useEffect(() => {
         (async () => {
-            const { hasOnboarded } = await getLocalValues();
             const lastScreen = profile.data().get(ProfileData.LastScreen) as LastScreen | undefined;
 
             if (lastScreen && lastScreen.screenName === ScreenName.CreateWallet) {
@@ -185,7 +187,6 @@ const CreateNewWallet = () => {
     // Persist the exact step if user goes back 'n forth.
     const handleStepChange = async (step: number) => {
         if (step === -1) {
-            const { hasOnboarded } = await getLocalValues();
             runtime.sendMessage({ type: 'CLEAR_LAST_SCREEN' });
             profile.data().set(ProfileData.LastScreen, undefined);
 

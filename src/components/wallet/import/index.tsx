@@ -16,8 +16,9 @@ import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
 import useActiveNetwork from '@/lib/hooks/useActiveNetwork';
 import useWalletImport from '@/lib/hooks/useWalletImport';
 import useLocaleCurrency from '@/lib/hooks/useLocalCurrency';
-import { getLocalValues } from '@/lib/utils/localStorage';
 import useLoadingModal from '@/lib/hooks/useLoadingModal';
+import { useAppSelector } from '@/lib/store';
+import { selectHasOnboarded } from '@/lib/store/ui';
 export type ImportedWalletFormik = {
     enteredPassphrase: string;
     wallet?: Contracts.IReadWriteWallet;
@@ -56,10 +57,10 @@ const ImportNewWallet = () => {
     const [defaultStep, setDefaultStep] = useState<number>(0);
     const [isGeneratingWallet, setIsGeneratingWallet] = useState(true);
     const { defaultCurrency } = useLocaleCurrency();
+    const hasOnboarded = useAppSelector(selectHasOnboarded);
 
     useEffect(() => {
         (async () => {
-            const { hasOnboarded } = await getLocalValues();
             if (!hasOnboarded) {
                 setSteps([...steps, { component: SetupPassword }]);
             }

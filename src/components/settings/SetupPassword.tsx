@@ -11,10 +11,10 @@ import {
     Paragraph,
     PasswordInput,
 } from '@/shared/components';
-import { getLocalValues, setLocalValue } from '@/lib/utils/localStorage';
-import { hasOnboardedChanged } from '@/lib/store/ui';
+import { setLocalValue } from '@/lib/utils/localStorage';
+import { hasOnboardedChanged, selectHasOnboarded } from '@/lib/store/ui';
 import constants from '@/constants';
-import { useAppDispatch } from '@/lib/store';
+import { useAppDispatch, useAppSelector } from '@/lib/store';
 
 type Props = {
     formik: ReturnType<typeof useFormik>;
@@ -39,6 +39,8 @@ const SetupPassword = ({ formik }: Props) => {
 
     const isValid = Object.values(validation).every((status) => status === 'errorFree');
 
+    const hasOnboarded = useAppSelector(selectHasOnboarded);
+
     useEffect(() => {
         validatePassword();
     }, [values.password, values.passwordConfirm]);
@@ -48,16 +50,12 @@ const SetupPassword = ({ formik }: Props) => {
 
         if (locationHref.includes('import_with_ledger')) return;
 
-        (async () => {
-            const { hasOnboarded } = await getLocalValues();
-
-            if (hasOnboarded) {
-                persistScreenChanged({
-                    screen: WalletFormScreen.OVERVIEW,
-                    step: 0,
-                });
-            }
-        })();
+        if (hasOnboarded) {
+            persistScreenChanged({
+                screen: WalletFormScreen.OVERVIEW,
+                step: 0,
+            });
+        }
     }, []);
 
     const handleTermsAndConditionsChange = (evt: ChangeEvent<HTMLInputElement>) => {
