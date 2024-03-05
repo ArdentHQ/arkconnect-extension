@@ -115,15 +115,19 @@ export const Header = () => {
                 paddingRight='16'
                 position='relative'
             >
-                <FlexContainer justifyContent='space-between'>
-                    <FlexContainer alignItems='center'>
+                <FlexContainer justifyContent='space-between' className='space-x-5'>
+                    <FlexContainer alignItems='center' className='flex-1 overflow-auto'>
                         {/*Logo*/}
                         <StyledLink to='/'>
                             <LogoIcon className='text-theme-primary-700 dark:text-theme-primary-650' />
                         </StyledLink>
 
                         {/*Wallets dropdown*/}
-                        <FlexContainer position='relative' ref={addressesTriggerRef}>
+                        <FlexContainer
+                            position='relative'
+                            ref={addressesTriggerRef}
+                            overflow='auto'
+                        >
                             <StyledFlexContainer
                                 padding='8'
                                 style={{ gap: '4px' }}
@@ -131,6 +135,7 @@ export const Header = () => {
                                 marginLeft='8'
                                 borderRadius='8'
                                 className='c-pointer'
+                                overflow='auto'
                                 onClick={handleAddressDropdownClick}
                                 onKeyDown={(e) =>
                                     handleSubmitKeyAction(e, handleAddressDropdownClick)
@@ -139,11 +144,16 @@ export const Header = () => {
                                 selected={showAddressesDropdown}
                                 aria-label='Addresses Dropdown'
                             >
-                                <Alias color='base' maxWidth='124px' fontWeight='medium' as='span'>
-                                    {' '}
-                                    {primaryWallet.alias()}{' '}
+                                <Alias
+                                    color='base'
+                                    maxWidth='124px'
+                                    fontWeight='medium'
+                                    as='span'
+                                    className='truncate'
+                                >
+                                    {primaryWallet.alias()}
                                 </Alias>
-                                <Paragraph color='label' as='span'>
+                                <Paragraph color='label' as='span' className='whitespace-nowrap'>
                                     {trimAddress(primaryWallet.address(), 7)}
                                 </Paragraph>
                                 <FlexContainer alignSelf='self-end' color='base' as='span'>
