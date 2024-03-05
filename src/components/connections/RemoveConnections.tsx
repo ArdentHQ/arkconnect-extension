@@ -20,7 +20,7 @@ const RemoveConnections = ({ numberOfSessions, sessionDomain }: Props) => {
             <Container mt='8'>
                 <Paragraph $typeset='headline' fontWeight='regular' color='gray' display='inline'>
                     Are you certain you want to disconnect
-                    {numberOfSessions ? ' all ' : ' your connection with '}
+                    {numberOfSessions && numberOfSessions > 1 ? ' all ' : ' your connection with '}
                 </Paragraph>
                 <Paragraph
                     $typeset='headline'
