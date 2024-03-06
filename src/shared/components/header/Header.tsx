@@ -5,7 +5,7 @@ import FocusTrap from 'focus-trap-react';
 import styled from 'styled-components';
 import { HeaderButton } from './HeaderButton';
 import { HeaderWrapper } from './HeaderWrapper';
-import { Container, FlexContainer, Icon, Paragraph } from '@/shared/components';
+import { FlexContainer, Icon, Paragraph } from '@/shared/components';
 import { SettingsMenu } from '@/components/settings/SettingsMenu';
 
 import { AddressesDropdown } from '@/shared/components/header/AddressesDropdown';
@@ -74,14 +74,9 @@ export const Header = () => {
 
     return (
         <HeaderWrapper withShadow={!isOnboardingPage}>
-            <Container
-                className='main-container'
-                paddingLeft='16'
-                paddingRight='16'
-                position='relative'
-            >
-                <FlexContainer justifyContent='space-between' className='space-x-5'>
-                    <FlexContainer alignItems='center' className='flex-1 overflow-auto p-1 -m-1'>
+            <div className=' px-4 relative main-container'>
+                <div className='flex justify-between space-x-5'>
+                    <div className='flex items-center flex-1 overflow-auto p-1 -m-1'>
                         {/*Logo*/}
                         <StyledLink to='/'>
                             <LogoIcon className='text-theme-primary-700 dark:text-theme-primary-650' />
@@ -115,9 +110,9 @@ export const Header = () => {
                                 />
                             </HeaderButton>
                         </div>
-                    </FlexContainer>
+                    </div>
 
-                    <FlexContainer alignItems='center'>
+                    <div className='flex items-center'>
                         <CopyAddress />
 
                         <ConnectionStatus />
@@ -131,8 +126,8 @@ export const Header = () => {
                         >
                             <Icon icon='more-vertical' className='h-4 w-4' />
                         </HeaderButton>
-                    </FlexContainer>
-                </FlexContainer>
+                    </div>
+                </div>
 
                 <FocusTrap
                     active={showAddressesDropdown}
@@ -183,7 +178,7 @@ export const Header = () => {
                         />
                     </FlexContainer>
                 </FocusTrap>
-            </Container>
+            </div>
         </HeaderWrapper>
     );
 };
