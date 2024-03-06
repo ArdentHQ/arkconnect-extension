@@ -1,9 +1,9 @@
 import { Icon, Tooltip } from '@/shared/components';
-import { HeaderButton } from '@/shared/components/header/Header';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 import useClipboard from '@/lib/hooks/useClipboard';
 import trimAddress from '@/lib/utils/trimAddress';
 import { ToastPosition } from '@/components/toast/ToastContainer';
+import { HeaderButton } from '@/shared/components/header/HeaderButton';
 
 export const CopyAddress = () => {
     const primaryWallet = usePrimaryWallet();

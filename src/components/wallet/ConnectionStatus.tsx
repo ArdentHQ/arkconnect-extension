@@ -5,13 +5,13 @@ import { useActiveTabConnection } from '@/lib/hooks/useActiveTabConnection';
 import { Icon, Paragraph, Tooltip } from '@/shared/components';
 import Modal from '@/shared/components/modal/Modal';
 import ConnectedAddress from '@/components/wallet/ConnectedAddress';
-import { HeaderButton } from '@/shared/components/header/Header';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 import useThemeMode from '@/lib/hooks/useThemeMode';
 import DisconnectedAddress from '@/components/wallet/DisconnectedAddress';
+import { HeaderButton } from '@/shared/components/header/HeaderButton';
 
 export const ConnectionStatus = () => {
-    const { currentThemeMode, getThemeColor } = useThemeMode();
+    const { currentThemeMode } = useThemeMode();
     const [isDisconnectModalOpen, setIsDisconnectModalOpen] = useState(false);
 
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);

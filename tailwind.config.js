@@ -16,6 +16,11 @@ export default {
                 30: '7.5rem',
                 50: '12.5rem',
             },
+
+            boxShadow: {
+                header: '0 1px 4px 0 rgba(0, 0, 0, 0.05)',
+                'header-dark': '0 1px 4px 0 rgba(165, 165, 165, 0.08)',
+            },
         },
         colors: {
             transparent: 'transparent',

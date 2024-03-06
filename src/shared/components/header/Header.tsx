@@ -1,9 +1,10 @@
 import { Link, useLocation } from 'react-router-dom';
-import { forwardRef, HTMLAttributes, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import cn from 'classnames';
 import FocusTrap from 'focus-trap-react';
 import styled from 'styled-components';
-import { twMerge } from 'tailwind-merge';
+import { HeaderButton } from './HeaderButton';
+import { HeaderWrapper } from './HeaderWrapper';
 import { Container, FlexContainer, Icon, Paragraph } from '@/shared/components';
 import { SettingsMenu } from '@/components/settings/SettingsMenu';
 
@@ -17,30 +18,7 @@ import trimAddress from '@/lib/utils/trimAddress';
 import { useAppSelector } from '@/lib/store';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 import { useProfileContext } from '@/lib/context/Profile';
-import useThemeMode from '@/lib/hooks/useThemeMode';
 import { CopyAddress } from '@/components/wallet/CopyAddress';
-
-export const StyledHeader = styled.header<{
-    isDark: boolean;
-    padding?: string;
-    withShadow?: boolean;
-}>`
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 20;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    box-shadow: ${({ withShadow, isDark }) =>
-        withShadow
-            ? `0 1px 4px 0 ${isDark ? 'rgba(165, 165, 165, 0.08)' : 'rgba(0, 0, 0, 0.05)'}`
-            : 'none'};
-    padding: ${({ theme, padding }) => padding ?? theme.space['16'] + 'px'};
-    background-color: ${(props) =>
-        props.isDark ? props.theme.colors.subtleBlack : props.theme.colors.white};
-`;
 
 export const Alias = styled(Paragraph)`
     overflow: hidden;
@@ -52,36 +30,7 @@ export const StyledLink = styled(Link)`
     ${({ theme }) => (isFirefox ? theme.browserCompatibility.firefox.focus : '')}
 `;
 
-interface HeaderButtonProps extends HTMLAttributes<HTMLButtonElement> {
-    selected?: boolean;
-}
-export const HeaderButton = forwardRef<HTMLButtonElement, HeaderButtonProps>(
-    ({ selected = false, className, ...properties }, ref) => {
-        return (
-            <button
-                ref={ref}
-                type='button'
-                className={twMerge(
-                    cn(
-                        'p-2 gap-1 items-center flex rounded-lg overflow-auto cursor-pointer transition duration-200 ease-in-out text-light-black dark:text-white',
-                        {
-                            'bg-theme-secondary-50 dark:bg-theme-secondary-700': selected,
-                            'hover:bg-theme-secondary-50 dark:hover:bg-theme-secondary-700':
-                                !selected,
-                        },
-                    ),
-                    className,
-                )}
-                {...properties}
-            />
-        );
-    },
-);
-
-HeaderButton.displayName = 'HeaderButton';
-
 export const Header = () => {
-    const { isDark } = useThemeMode();
     const [openSettings, setOpenSettings] = useState(false);
 
     const isLocked = useAppSelector(selectLocked);
@@ -100,7 +49,7 @@ export const Header = () => {
 
     if (!primaryWallet || isLocked) {
         return (
-            <StyledHeader isDark={isDark()} padding='17px 16px' withShadow={!isOnboardingPage}>
+            <HeaderWrapper className='py-[17px] px-4' withShadow={!isOnboardingPage}>
                 <StyledLogos alignItems='center' gridGap='8px'>
                     <Icon
                         icon='logo-inverted'
@@ -111,7 +60,7 @@ export const Header = () => {
                         className='w-[122px] h-3 text-theme-primary-700 dark:text-theme-primary-650'
                     />
                 </StyledLogos>
-            </StyledHeader>
+            </HeaderWrapper>
         );
     }
 
@@ -124,7 +73,7 @@ export const Header = () => {
     };
 
     return (
-        <StyledHeader isDark={isDark()} padding='12px 0' withShadow={!isOnboardingPage}>
+        <HeaderWrapper withShadow={!isOnboardingPage}>
             <Container
                 className='main-container'
                 paddingLeft='16'
@@ -235,6 +184,6 @@ export const Header = () => {
                     </FlexContainer>
                 </FocusTrap>
             </Container>
-        </StyledHeader>
+        </HeaderWrapper>
     );
 };
