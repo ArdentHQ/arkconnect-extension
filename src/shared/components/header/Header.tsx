@@ -5,7 +5,7 @@ import FocusTrap from 'focus-trap-react';
 import styled from 'styled-components';
 import { twMerge } from 'tailwind-merge';
 import { Container, FlexContainer, Icon, Paragraph } from '@/shared/components';
-import { DropdownMenuContainerProps, SettingsMenu } from '@/components/settings/SettingsMenu';
+import { SettingsMenu } from '@/components/settings/SettingsMenu';
 
 import { AddressesDropdown } from '@/shared/components/header/AddressesDropdown';
 import { ConnectionStatus } from '@/components/wallet/ConnectionStatus';
@@ -19,18 +19,6 @@ import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 import { useProfileContext } from '@/lib/context/Profile';
 import useThemeMode from '@/lib/hooks/useThemeMode';
 import { CopyAddress } from '@/components/wallet/CopyAddress';
-
-export const StyledFlexContainer = styled(FlexContainer)<DropdownMenuContainerProps>`
-    ${(props) => `
-  transition: ${isFirefox ? 'background 0.2s ease-in-out' : 'all 0.2s ease-in-out'};
-  &:hover {
-    background-color: ${props.theme.colors.lightGrayHover}
-  }
-  background-color: ${props.selected && props.theme.colors.lightGrayHover};
-
-  ${isFirefox ? props.theme.browserCompatibility.firefox.focus : ''}
-`}
-`;
 
 export const StyledHeader = styled.header<{
     isDark: boolean;
@@ -151,7 +139,6 @@ export const Header = () => {
                         </StyledLink>
 
                         {/*Wallets dropdown*/}
-
                         <div className='flex relative overflow-auto p-1 -m-1'>
                             <HeaderButton
                                 selected={showAddressesDropdown}
