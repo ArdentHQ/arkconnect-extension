@@ -7,10 +7,8 @@ import { HeaderButton } from './HeaderButton';
 import { HeaderWrapper } from './HeaderWrapper';
 import { Icon, Paragraph } from '@/shared/components';
 import { SettingsMenu } from '@/components/settings/SettingsMenu';
-
 import { AddressesDropdown } from '@/shared/components/header/AddressesDropdown';
 import { ConnectionStatus } from '@/components/wallet/ConnectionStatus';
-import { isFirefox } from '@/lib/utils/isFirefox';
 import { LogoIcon } from '@/components/Logo';
 import { selectLocked } from '@/lib/store/ui';
 import { StyledLogos } from '@/components/settings/others/AboutARK';
@@ -24,10 +22,6 @@ export const Alias = styled(Paragraph)`
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-`;
-
-export const StyledLink = styled(Link)`
-    ${({ theme }) => (isFirefox ? theme.browserCompatibility.firefox.focus : '')}
 `;
 
 export const Header = () => {
@@ -78,9 +72,9 @@ export const Header = () => {
                 <div className='flex justify-between space-x-5'>
                     <div className='flex items-center flex-1 overflow-auto p-1 -m-1'>
                         {/*Logo*/}
-                        <StyledLink to='/'>
+                        <Link to='/'>
                             <LogoIcon className='text-theme-primary-700 dark:text-theme-primary-650' />
-                        </StyledLink>
+                        </Link>
 
                         {/*Wallets dropdown*/}
                         <div className='flex relative overflow-auto p-1 -m-1'>
