@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
-import { useRef, useState } from 'react';
+import { HTMLAttributes, useRef, useState } from 'react';
 import cn from 'classnames';
 import FocusTrap from 'focus-trap-react';
 import styled from 'styled-components';
@@ -63,6 +63,25 @@ export const Alias = styled(Paragraph)`
 export const StyledLink = styled(Link)`
     ${({ theme }) => (isFirefox ? theme.browserCompatibility.firefox.focus : '')}
 `;
+
+interface HeaderButtonProps extends HTMLAttributes<HTMLButtonElement> {
+    active: boolean;
+}
+const HeaderButton = ({ active, ...properties }: HeaderButtonProps) => {
+    return (
+        <button
+            type='button'
+            className={cn(
+                'p-2 gap-1 items-center flex ml-2 rounded-lg overflow-auto cursor-pointer transition duration-200 ease-in-out',
+                {
+                    'bg-theme-secondary-50 dark:bg-theme-secondary-700': active,
+                    'hover:bg-theme-secondary-50 dark:hover:bg-theme-secondary-700': !active,
+                },
+            )}
+            {...properties}
+        />
+    );
+};
 
 export const Header = () => {
     const { isDark } = useThemeMode();
@@ -128,16 +147,8 @@ export const Header = () => {
                             className='flex relative overflow-auto p-1 -m-1'
                             ref={addressesTriggerRef}
                         >
-                            <button
-                                className={cn(
-                                    'p-2 gap-1 items-center flex ml-2 rounded-lg overflow-auto cursor-pointer transition duration-200 ease-in-out',
-                                    {
-                                        'bg-theme-secondary-50 dark:bg-theme-secondary-700':
-                                            showAddressesDropdown,
-                                        'hover:bg-theme-secondary-50 dark:hover:bg-theme-secondary-700':
-                                            !showAddressesDropdown,
-                                    },
-                                )}
+                            <HeaderButton
+                                active={showAddressesDropdown}
                                 aria-label='Addresses Dropdown'
                                 onClick={handleAddressDropdownClick}
                             >
@@ -158,7 +169,7 @@ export const Header = () => {
                                         },
                                     )}
                                 />
-                            </button>
+                            </HeaderButton>
                         </div>
                     </FlexContainer>
                     <FlexContainer alignItems='center'>
@@ -167,6 +178,22 @@ export const Header = () => {
                         <ConnectionStatus />
 
                         {/*Menu trigger*/}
+                        {/* StyledFlexContainer
+                                padding='8'
+                                style={{ gap: '4px' }}
+                                alignItems='center'
+                                marginLeft='8'
+                                borderRadius='8'
+                                className='c-pointer'
+                                overflow='auto'
+                                onClick={handleAddressDropdownClick}
+                                onKeyDown={(e) =>
+                                    handleSubmitKeyAction(e, handleAddressDropdownClick)
+                                }
+                                tabIndex={0}
+                                selected={showAddressesDropdown}
+                                
+                            >  */}
                         <StyledFlexContainer
                             padding='8'
                             style={{ gap: '4px' }}
