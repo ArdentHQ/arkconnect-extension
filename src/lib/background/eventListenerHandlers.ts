@@ -127,15 +127,12 @@ const handleOnConnect = async (
     profile: Contracts.IProfile | null,
 ) => {
     try {
-        if (profile?.wallets().count() === 0) {
-            initWindow(payload);
-            throw new Error('No profile found. Please connect your wallet and try again.');
-        } else {
+        if (profile?.wallets().count()  !== 0) {
             assertHasWallet(profile);
             assertIsConnected({ payload, profile });
-
-            initWindow(payload);
         }
+
+        void initWindow(payload);
     } catch (error: any) {
         tabs.sendMessage(payload.data.tabId, {
             type: `${payload.type}_REJECT`,
