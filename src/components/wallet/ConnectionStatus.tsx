@@ -5,7 +5,7 @@ import { useActiveTabConnection } from '@/lib/hooks/useActiveTabConnection';
 import { Icon, Paragraph, Tooltip } from '@/shared/components';
 import Modal from '@/shared/components/modal/Modal';
 import ConnectedAddress from '@/components/wallet/ConnectedAddress';
-import { StyledFlexContainer } from '@/shared/components/header/Header';
+import { HeaderButton } from '@/shared/components/header/Header';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 import useThemeMode from '@/lib/hooks/useThemeMode';
 import DisconnectedAddress from '@/components/wallet/DisconnectedAddress';
@@ -24,19 +24,15 @@ export const ConnectionStatus = () => {
     return (
         <>
             {tabSession ? (
-                <StyledFlexContainer
-                    borderRadius='50'
-                    padding='8'
-                    color={getThemeColor('primary700', 'primary600')}
-                    className='c-pointer'
+                <HeaderButton
+                    className='rounded-full text-theme-primary-700 dark:thext-theme-primary-600'
                     onClick={() => setIsModalOpen(true)}
-                    as='button'
                 >
                     <Icon
                         icon='globe-with-dot'
                         className={currentThemeMode + ' globeIcon h-4 w-4'}
                     />
-                </StyledFlexContainer>
+                </HeaderButton>
             ) : (
                 <Tooltip
                     content={
@@ -46,16 +42,9 @@ export const ConnectionStatus = () => {
                     }
                     placement='bottom-end'
                 >
-                    <StyledFlexContainer
-                        borderRadius='50'
-                        padding='8'
-                        color='base'
-                        className='c-pointer'
-                        onClick={() => setIsModalOpen(true)}
-                        as='button'
-                    >
+                    <HeaderButton className='rounded-full' onClick={() => setIsModalOpen(true)}>
                         <Icon icon='globe' className='h-4 w-4' />
-                    </StyledFlexContainer>
+                    </HeaderButton>
                 </Tooltip>
             )}
 
