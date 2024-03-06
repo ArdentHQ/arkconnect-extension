@@ -127,7 +127,7 @@ const handleOnConnect = async (
     profile: Contracts.IProfile | null,
 ) => {
     try {
-        if (profile?.wallets().count()  !== 0) {
+        if (profile?.wallets().count() !== 0) {
             assertHasWallet(profile);
             assertIsConnected({ payload, profile });
         }
