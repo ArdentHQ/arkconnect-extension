@@ -80,7 +80,12 @@ const ImportedWallet = ({ goToNextStep, formik }: Props) => {
                     />
                 </Container>
             </Container>
-            <Button variant='primary' disabled={!isAddressValid} onClick={handleNextStep} mt='auto'>
+            <Button
+                variant='primary'
+                disabled={!isAddressValid}
+                onClick={handleNextStep}
+                className='mt-auto'
+            >
                 Continue
             </Button>
         </>

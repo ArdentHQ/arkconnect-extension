@@ -94,7 +94,7 @@ const EnterPassword = () => {
                         variant='primary'
                         onClick={unlockExtension}
                         disabled={!password.length || validationVariant === 'destructive'}
-                        mb='24'
+                        className='mb-6'
                     >
                         Unlock Extension
                         <StyledIconWrapper

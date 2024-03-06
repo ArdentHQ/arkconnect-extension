@@ -49,7 +49,7 @@ const ConnectedAddress = ({ connectedTo, wallet, logo, onDisconnect }: Propertie
             <Container>
                 <AddressRow address={wallet} logo={logo} />
 
-                <Button variant='linkDestructive' onClick={onDisconnect} mt='20' mb='4'>
+                <Button variant='linkDestructive' onClick={onDisconnect} className='mt-5 mb-1'>
                     Disconnect
                 </Button>
             </Container>

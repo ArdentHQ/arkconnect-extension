@@ -38,7 +38,7 @@ const ForgotPassword = () => {
                     <Button
                         variant='primary'
                         disabled={!lostPasswordAwareness}
-                        mt='24'
+                        className='mt-6'
                         onClick={resetExtension}
                     >
                         Reset Extension

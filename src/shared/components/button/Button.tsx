@@ -1,234 +1,86 @@
-import styled from 'styled-components';
-import {
-    border,
-    BorderProps,
-    color,
-    ColorProps,
-    layout,
-    LayoutProps,
-    position,
-    PositionProps,
-    shadow,
-    ShadowProps,
-    space,
-    SpaceProps,
-    variant,
-} from 'styled-system';
-import { Theme } from '@/shared/theme';
+import cn from 'classnames';
 import { Icon, IconDefinition, Loader } from '@/shared/components';
-import { flexVariant, FlexVariantProps } from '@/shared/theme/variants';
 import { isFirefox } from '@/lib/utils/isFirefox';
 
-type VariantProps = {
-    variant?:
-        | 'primary'
-        | 'secondary'
-        | 'secondaryBlack'
-        | 'primaryText'
-        | 'primaryLink'
-        | 'primaryLinkDestructive'
-        | 'linkDestructive'
-        | 'destructivePrimary'
-        | 'destructiveSecondary';
-};
+type ButtonVariant =
+    | 'primary'
+    | 'secondary'
+    | 'secondaryBlack'
+    | 'primaryText'
+    | 'primaryLink'
+    | 'primaryLinkDestructive'
+    | 'linkDestructive'
+    | 'destructivePrimary'
+    | 'destructiveSecondary';
 
-type BaseProps = ColorProps<Theme> &
-    SpaceProps<Theme> &
-    LayoutProps<Theme> &
-    PositionProps<Theme> &
-    ShadowProps<Theme> &
-    BorderProps<Theme> &
-    FlexVariantProps &
-    VariantProps;
-
-type ButtonProps = React.ComponentPropsWithRef<typeof StyledButton> & {
+type ButtonProps = React.ComponentPropsWithRef<'button'> & {
     iconLeading?: IconDefinition;
     iconTrailing?: IconDefinition;
     isLoading?: boolean;
     disabled?: boolean;
+    className?: string;
+    variant?: ButtonVariant;
 };
 
-const StyledButton = styled.button<BaseProps>`
-    position: relative;
-    border: none;
-    font-family: ${({ theme }) => theme.fonts.regular};
-    font-size: ${({ theme }) => theme.fontSizes.headline}px;
-    font-weight: ${({ theme }) => theme.fontWeights.bold};
-    border-radius: ${({ theme }) => theme.radii['16']}px;
-    width: 100%;
-    padding: 16px 28px;
-    max-height: 52px;
-    transition: ${({ theme }) =>
-        isFirefox ? theme.transitions.firefoxSmoothEase : theme.transitions.smoothEase};
-    cursor: pointer;
-    grid-gap: 12px;
+const buttonClass: Record<ButtonVariant, string> = {
+    primary: 'button-primary',
+    secondary: 'button-secondary',
+    secondaryBlack: 'button-secondaryBlack',
+    primaryText: 'button-primaryText',
+    primaryLink: 'button-primaryLink',
+    primaryLinkDestructive: 'button-primaryLinkDestructive',
+    linkDestructive: 'button-linkDestructive',
+    destructivePrimary: 'button-destructivePrimary',
+    destructiveSecondary: 'button-destructiveSecondary',
+};
 
-    &:disabled {
-        cursor: not-allowed;
-        pointer-events: none;
-    }
-
-    ${({ theme }) => (isFirefox ? theme.browserCompatibility.firefox.focus : '')}
-
-    ${space}
-  ${color}
-  ${layout}
-  ${position}
-  ${shadow}
-  ${border}
-  ${flexVariant}
-
-  ${({ theme }) =>
-        variant({
-            variants: {
-                primary: {
-                    backgroundColor: `${theme.colors.primary}`,
-                    color: `${theme.colors.white}`,
-                    '&:hover': {
-                        backgroundColor: `${theme.colors.primary600}`,
-                    },
-                    '&:disabled': {
-                        color: `${theme.colors.secondary400}`,
-                        backgroundColor: `${theme.colors.primaryDisabled}`,
-                    },
-                    '&:focus': {
-                        boxShadow: `0px 0px 0px 4px ${theme.colors.primaryFocused}`,
-                    },
-                    '&:focus-visible': {
-                        outline: `2px solid transparent ${theme.colors.primary600}`,
-                    },
-                },
-                secondary: {
-                    color: `${theme.colors.primary}`,
-                    backgroundColor: `${theme.colors.background}`,
-                    border: `1px solid ${theme.colors.primary}`,
-                    '&:hover': {
-                        backgroundColor: `${theme.colors.secondaryButtonHover}`,
-                    },
-                    '&:focus-visible': {
-                        outline: 'none',
-                        boxShadow: `0px 0px 0px 4px ${theme.colors.secondaryFocused}`,
-                    },
-                    '&:disabled': {
-                        border: `1px solid ${theme.colors.lightGray}`,
-                        color: `${theme.colors.gray}`,
-                        backgroundColor: `${theme.colors.background}`,
-                    },
-                },
-                secondaryBlack: {
-                    border: `1px solid ${theme.colors.secondaryBlackButton}`,
-                    backgroundColor: `${theme.colors.background}`,
-                    color: `${theme.colors.secondaryBlackButton}`,
-                    fontWeight: `${theme.fontWeights.medium}`,
-                    boxShadow: '0px 1px 2px 0px rgba(16, 24, 40, 0.05)',
-                    '&:hover': {
-                        backgroundColor: `${theme.colors.secondaryBlackHover}`,
-                    },
-                    '&:focus': {
-                        boxShadow: `0px 0px 0px 4px ${theme.colors.secondaryBlackShadow}`,
-                    },
-                    '&:disabled': {
-                        border: `1px solid ${theme.colors.disabledGray}`,
-                        color: `${theme.colors.disabledGray}`,
-                        backgroundColor: `${theme.colors.base}`,
-                    },
-                },
-                primaryText: {
-                    backgroundColor: `${theme.colors.primaryBackground}`,
-                    color: `${theme.colors.primary}`,
-                    '&:hover': {
-                        backgroundColor: `${theme.colors.primary50}`,
-                    },
-                    '&:disabled': {
-                        color: `${theme.colors.gray}`,
-                    },
-                },
-                primaryLink: {
-                    backgroundColor: `${theme.colors.transparent}`,
-                    color: `${theme.colors.primary}`,
-                    '&:hover': {
-                        color: `${theme.colors.primary600}`,
-                    },
-                    '&:disabled': {
-                        color: `${theme.colors.gray}`,
-                    },
-                    padding: 0,
-                },
-                primaryLinkDestructive: {
-                    backgroundColor: `${theme.colors.primaryBackground}`,
-                    color: `${theme.colors.error}`,
-                    padding: 0,
-                    fontWeight: 'medium',
-                    '&:focus-visible': {
-                        outline: `2px solid ${theme.colors.error700}`,
-                    },
-                },
-                linkDestructive: {
-                    backgroundColor: `${theme.colors.transparent}`,
-                    color: `${theme.colors.error}`,
-                    padding: 0,
-                    fontWeight: 'medium',
-                },
-                destructivePrimary: {
-                    backgroundColor: `${theme.colors.error}`,
-                    color: `${theme.colors.white}`,
-                    '&:hover': {
-                        backgroundColor: `${theme.colors.error700}`,
-                    },
-                    '&:disabled': {
-                        backgroundColor: `${theme.colors.destructivePrimaryDisabled}`,
-                    },
-                    '&:focus': {
-                        boxShadow: `0px 0px 0px 4px ${theme.colors.destructiveShadow}`,
-                    },
-                    '&:focus-visible': {
-                        outline: `2px solid ${theme.colors.error700}`,
-                        outlineOffset: '1px',
-                    },
-                },
-                destructiveSecondary: {
-                    backgroundColor: `${theme.colors.background}`,
-                    color: `${theme.colors.error}`,
-                    border: `1px solid ${theme.colors.error}`,
-                    '&:hover': {
-                        backgroundColor: `${theme.colors.destructiveSecondary}`,
-                    },
-                    '&:focus': {
-                        boxShadow: `0px 0px 0px 4px ${theme.colors.destructiveSecondaryShadow}`,
-                    },
-                    '&:disabled': {
-                        border: `1px solid ${theme.colors.error200}`,
-                        color: `${theme.colors.error300}`,
-                    },
-                    '&:focus-visible': {
-                        outline: `2px solid ${theme.colors.error700}`,
-                        outlineOffset: '1px',
-                    },
-                },
-            },
-        })};
-`;
+const getButtonClass = (variant?: ButtonVariant) => (variant ? buttonClass[variant] : '');
 
 export const Button = ({
     iconLeading,
     iconTrailing,
     children,
     isLoading,
+    className,
+    variant,
     ...rest
 }: ButtonProps) => {
     if (isLoading) {
         return (
-            <StyledButton $flexVariant='rowCenter' variant='primary' {...rest}>
+            <button
+                className={cn(
+                    'button-base button-primary',
+                    {
+                        'transition-firefoxSmoothEase focus-visible:outline focus-visible:outline-2':
+                            isFirefox,
+                        'transition-smoothEase': !isFirefox,
+                    },
+                    className,
+                )}
+                {...rest}
+            >
                 <Loader variant='small' />
-            </StyledButton>
+            </button>
         );
     }
 
     return (
-        <StyledButton $flexVariant='rowCenter' {...rest}>
+        <button
+            className={cn(
+                'button-base',
+                {
+                    'transition-firefoxSmoothEase focus-visible:outline focus-visible:outline-2':
+                        isFirefox,
+                    'transition-smoothEase': !isFirefox,
+                    [getButtonClass(variant)]: variant,
+                },
+                className,
+            )}
+            {...rest}
+        >
             {iconLeading && <Icon className='h-5 w-5' icon={iconLeading} />}
             {children}
             {iconTrailing && <Icon className='h-5 w-5' icon={iconTrailing} />}
-        </StyledButton>
+        </button>
     );
 };

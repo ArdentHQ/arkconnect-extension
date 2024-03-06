@@ -57,7 +57,7 @@ const YourPrivateKey = ({ privateKey }: Props) => {
                         variant='secondary'
                         iconLeading='copy'
                         onClick={handleCopyToClipboard}
-                        mb='12'
+                        className='mb-3'
                     >
                         Copy to Clipboard
                     </Button>

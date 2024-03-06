@@ -175,18 +175,13 @@ const Logout = () => {
                         variant='destructivePrimary'
                         onClick={logoutWallet}
                         disabled={!password.length}
-                        mb='24'
+                        className='mb-6'
                     >
                         {`Remove Address${walletsToLogout.length > 1 ? 'es' : ''}`}
                     </Button>
                     <Button
                         onClick={() => navigate(-1)}
-                        width='100%'
-                        display='flex'
-                        color='base'
-                        backgroundColor='transparent'
-                        py='0'
-                        mb='0'
+                        className='flex w-full text-light-black dark:text-white bg-transparent py-0 mb-0'
                     >
                         <Paragraph $typeset='headline' fontWeight='medium' color='base' as='span'>
                             Cancel and Go Back

@@ -150,7 +150,7 @@ const GeneratePassphrase = ({ goToNextStep, formik }: Props) => {
                 </FlexContainer>
             </FlexContainer>
 
-            <Button variant='primary' onClick={goToNextStep} mt='auto'>
+            <Button variant='primary' onClick={goToNextStep} className='mt-auto'>
                 Continue
             </Button>
         </FlexContainer>
