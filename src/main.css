@@ -200,12 +200,11 @@ body {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    outline-color: #01b86c;
+    @apply outline-theme-primary-600;
 }
 
 *:focus-visible {
-    outline-style: solid;
-    outline-width: 2px;
+    @apply outline outline-2 outline-theme-primary-600;
     transition: outline-width 0s !important;
 }
 

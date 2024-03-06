@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 import {
+    borderRadius,
+    BorderRadiusProps,
     color,
     ColorProps,
     flexbox,
@@ -12,7 +14,11 @@ import {
 import { Theme } from '@/shared/theme';
 
 export const ExternalLink = styled.a<
-    FlexboxProps<Theme> & LayoutProps<Theme> & ColorProps<Theme> & GridGapProps<Theme>
+    FlexboxProps<Theme> &
+        LayoutProps<Theme> &
+        ColorProps<Theme> &
+        GridGapProps<Theme> &
+        BorderRadiusProps<Theme>
 >`
     text-decoration: none;
     cursor: pointer;
@@ -27,6 +33,7 @@ export const ExternalLink = styled.a<
     }
     ${flexbox}
     ${layout}
-  ${color}
-  ${gridGap}
+    ${color}
+    ${gridGap}
+    ${borderRadius}
 `;
