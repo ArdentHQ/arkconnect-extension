@@ -119,8 +119,7 @@ const CreateNewWallet = () => {
     useEffect(() => {
         return () => {
             runtime.sendMessage({ type: 'CLEAR_LAST_SCREEN' });
-            profile.data().set(ProfileData.LastScreen, undefined);
-            profile.settings().set(ProfileData.LastScreen, undefined);
+            profile.settings().forget(ProfileData.LastVisitedPage);
         };
     }, []);
 
@@ -190,7 +189,7 @@ const CreateNewWallet = () => {
         if (step === -1) {
             const { hasOnboarded } = await getLocalValues();
             runtime.sendMessage({ type: 'CLEAR_LAST_SCREEN' });
-            profile.data().set(ProfileData.LastScreen, undefined);
+            profile.settings().forget(ProfileData.LastVisitedPage);
 
             if (hasOnboarded) {
                 return navigate('/create-import-address');

@@ -206,7 +206,7 @@ export function OneTimeEventHandlers(extension: ReturnType<typeof Extension>) {
         },
 
         [OneTimeEvents.CLEAR_LAST_SCREEN]: async (_request: any) => {
-            extension.profile().settings().forget(ProfileData.LastScreen);
+            extension.profile().settings().forget(ProfileData.LastVisitedPage);
             await extension.persist();
             return;
         },
