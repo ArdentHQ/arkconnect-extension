@@ -128,21 +128,21 @@
     }
 
     /** Passphrase Input **/
-    .passphrase-primary, 
+    .passphrase-primary,
     .passphrase-destructive,
     .passphrase-errorFree {
-        @apply text-light-black dark:text-white border border-solid bg-white dark:bg-subtle-black focus:border focus:border-solid
+        @apply text-light-black dark:text-white border border-solid bg-white dark:bg-subtle-black focus:border focus:border-solid;
     }
-    
+
     .passphrase-primary {
-        @apply border-theme-secondary-400 focus:border-light-black dark:focus:border-theme-secondary-300 disabled:bg-theme-secondary-100 read-only:bg-white dark:read-only:bg-subtle-black
+        @apply border-theme-secondary-400 focus:border-light-black dark:focus:border-theme-secondary-300 disabled:bg-theme-secondary-100 read-only:bg-white dark:read-only:bg-subtle-black;
     }
 
     .passphrase-destructive {
-        @apply border-theme-error-300 focus:border-theme-error-600 dark:focus:border-theme-error-500
+        @apply border-theme-error-300 focus:border-theme-error-600 dark:focus:border-theme-error-500;
     }
 
     .passphrase-errorFree {
-        @apply border-theme-primary-700 dark:border-theme-primary-650 focus:border-theme-primary-700 dark:focus:border-theme-primary-650 disabled:bg-theme-secondary-100
+        @apply border-theme-primary-700 dark:border-theme-primary-650 focus:border-theme-primary-700 dark:focus:border-theme-primary-650 disabled:bg-theme-secondary-100;
     }
 }
