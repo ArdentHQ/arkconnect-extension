@@ -3,9 +3,10 @@ import { useRef, useState } from 'react';
 import cn from 'classnames';
 import FocusTrap from 'focus-trap-react';
 import styled from 'styled-components';
+import classNames from 'classnames';
 import { HeaderButton } from './HeaderButton';
 import { HeaderWrapper } from './HeaderWrapper';
-import { FlexContainer, Icon, Paragraph } from '@/shared/components';
+import { Icon, Paragraph } from '@/shared/components';
 import { SettingsMenu } from '@/components/settings/SettingsMenu';
 
 import { AddressesDropdown } from '@/shared/components/header/AddressesDropdown';
@@ -138,14 +139,10 @@ export const Header = () => {
                         },
                     }}
                 >
-                    <FlexContainer
-                        position='absolute'
-                        left='0'
-                        marginTop='20'
-                        width='100%'
-                        className={`dropdown-body ${
-                            showAddressesDropdown ? 'dropdown-transition' : ''
-                        }`}
+                    <div
+                        className={classNames('flex absolute w-full mt-5 left-0 dropdown-body', {
+                            'dropdown-transition': showAddressesDropdown,
+                        })}
                     >
                         <AddressesDropdown
                             addresses={Object.values(profile.wallets().all())}
@@ -153,7 +150,7 @@ export const Header = () => {
                             triggerRef={addressesTriggerRef}
                             onClose={() => setShowAddressesDropdown(false)}
                         />
-                    </FlexContainer>
+                    </div>
                 </FocusTrap>
 
                 <FocusTrap
@@ -165,18 +162,16 @@ export const Header = () => {
                         },
                     }}
                 >
-                    <FlexContainer
-                        position='absolute'
-                        left='0'
-                        marginTop='20'
-                        width='100%'
-                        className={`dropdown-body ${openSettings ? 'dropdown-transition' : ''}`}
+                    <div
+                        className={classNames('flex absolute w-full mt-5 left-0 dropdown-body', {
+                            'dropdown-transition': openSettings,
+                        })}
                     >
                         <SettingsMenu
                             triggerRef={menuTriggerRef}
                             onClose={() => setOpenSettings(false)}
                         />
-                    </FlexContainer>
+                    </div>
                 </FocusTrap>
             </div>
         </HeaderWrapper>
