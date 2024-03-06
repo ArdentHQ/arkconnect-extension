@@ -1,5 +1,5 @@
 import { Icon, Tooltip } from '@/shared/components';
-import { StyledFlexContainer } from '@/shared/components/header/Header';
+import { HeaderButton } from '@/shared/components/header/Header';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 import useClipboard from '@/lib/hooks/useClipboard';
 import trimAddress from '@/lib/utils/trimAddress';
@@ -18,18 +18,14 @@ export const CopyAddress = () => {
 
     return (
         <Tooltip content='Copy address' placement='bottom-end'>
-            <StyledFlexContainer
-                borderRadius='50'
-                padding='8'
-                className='c-pointer'
+            <HeaderButton
+                className='rounded-full'
                 onClick={() => {
                     copy(primaryWallet.address(), trimmedAddress, ToastPosition.LOWER);
                 }}
-                as='button'
-                color='base'
             >
                 <Icon icon='copy' className={'h-4 w-4'} />
-            </StyledFlexContainer>
+            </HeaderButton>
         </Tooltip>
     );
 };

@@ -65,10 +65,10 @@ export const StyledLink = styled(Link)`
 `;
 
 interface HeaderButtonProps extends HTMLAttributes<HTMLButtonElement> {
-    selected: boolean;
+    selected?: boolean;
 }
-const HeaderButton = forwardRef<HTMLButtonElement, HeaderButtonProps>(
-    ({ selected, className, ...properties }, ref) => {
+export const HeaderButton = forwardRef<HTMLButtonElement, HeaderButtonProps>(
+    ({ selected = false, className, ...properties }, ref) => {
         return (
             <button
                 ref={ref}
