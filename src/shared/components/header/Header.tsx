@@ -152,14 +152,12 @@ export const Header = () => {
                                     {trimAddress(primaryWallet.address(), 7)}
                                 </span>
 
-                                <FlexContainer alignSelf='self-end' color='base' as='span'>
-                                    <Icon
-                                        icon='arrow-down'
-                                        className={cn('h-4 w-4 transition-transform ease-in-out', {
-                                            'transform rotate-180': showAddressesDropdown,
-                                        })}
-                                    />
-                                </FlexContainer>
+                                <Icon
+                                    icon='arrow-down'
+                                    className={cn('h-4 w-4 transition-transform ease-in-out', {
+                                        'transform rotate-180': showAddressesDropdown,
+                                    })}
+                                />
                             </StyledFlexContainer>
                         </div>
                     </FlexContainer>
