@@ -73,7 +73,8 @@ const AutoUnlockWrapper = ({ children, runEventHandlers }: Props) => {
         }
 
         if (isProfileReady && profile.wallets().count() === 0) {
-            persistScreen ? navigate(persistScreen.screen) : navigate('/splash-screen');
+           navigate('/splash-screen');
+           persistScreen && navigate(persistScreen.screen);
             return;
         }
 
