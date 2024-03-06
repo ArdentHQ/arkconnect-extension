@@ -67,7 +67,7 @@ const useBackgroundEventHandler = () => {
             setEvents([]);
         }
 
-        return eventsLength
+        return eventsLength;
     }, [events]);
 
     const onConnect = (request: EventPayload<ConnectData>) => {
