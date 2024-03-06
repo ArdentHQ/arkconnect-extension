@@ -116,17 +116,17 @@ export const Header = () => {
                 position='relative'
             >
                 <FlexContainer justifyContent='space-between' className='space-x-5'>
-                    <FlexContainer alignItems='center' className='flex-1 overflow-auto'>
+                    <FlexContainer alignItems='center' className='flex-1 overflow-auto p-1 -m-1'>
                         {/*Logo*/}
                         <StyledLink to='/'>
                             <LogoIcon className='text-theme-primary-700 dark:text-theme-primary-650' />
                         </StyledLink>
 
                         {/*Wallets dropdown*/}
-                        <FlexContainer
-                            position='relative'
+
+                        <div
+                            className='flex relative overflow-auto p-1 -m-1'
                             ref={addressesTriggerRef}
-                            overflow='auto'
                         >
                             <StyledFlexContainer
                                 padding='8'
@@ -144,15 +144,9 @@ export const Header = () => {
                                 selected={showAddressesDropdown}
                                 aria-label='Addresses Dropdown'
                             >
-                                <Alias
-                                    color='base'
-                                    maxWidth='124px'
-                                    fontWeight='medium'
-                                    as='span'
-                                    className='truncate'
-                                >
+                                <span className='truncate font-medium leading-tight max-w-[124px] text-light-black dark:text-white'>
                                     {primaryWallet.alias()}
-                                </Alias>
+                                </span>
                                 <Paragraph color='label' as='span' className='whitespace-nowrap'>
                                     {trimAddress(primaryWallet.address(), 7)}
                                 </Paragraph>
@@ -165,7 +159,7 @@ export const Header = () => {
                                     />
                                 </FlexContainer>
                             </StyledFlexContainer>
-                        </FlexContainer>
+                        </div>
                     </FlexContainer>
                     <FlexContainer alignItems='center'>
                         <CopyAddress />
