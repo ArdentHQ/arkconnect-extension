@@ -128,8 +128,7 @@ export const Header = () => {
                             className='flex relative overflow-auto p-1 -m-1'
                             ref={addressesTriggerRef}
                         >
-                            <div
-                                tabIndex={0}
+                            <button
                                 className={cn(
                                     'p-2 gap-1 items-center flex ml-2 rounded-lg overflow-auto cursor-pointer transition duration-200 ease-in-out',
                                     {
@@ -141,9 +140,6 @@ export const Header = () => {
                                 )}
                                 aria-label='Addresses Dropdown'
                                 onClick={handleAddressDropdownClick}
-                                onKeyDown={(e) =>
-                                    handleSubmitKeyAction(e, handleAddressDropdownClick)
-                                }
                             >
                                 <span className='truncate font-medium leading-tight max-w-[124px] text-light-black dark:text-white'>
                                     {primaryWallet.alias()}
@@ -162,25 +158,7 @@ export const Header = () => {
                                         },
                                     )}
                                 />
-                            </div>
-                            {/*<StyledFlexContainer
-                                padding='8'
-                                style={{ gap: '4px' }}
-                                alignItems='center'
-                                marginLeft='8'
-                                borderRadius='8'
-                                className='c-pointer'
-                                overflow='auto'
-                                onClick={handleAddressDropdownClick}
-                                onKeyDown={(e) =>
-                                    handleSubmitKeyAction(e, handleAddressDropdownClick)
-                                }
-                                tabIndex={0}
-                                selected={showAddressesDropdown}
-                                
-                            > */}
-
-                            {/* </StyledFlexContainer> */}
+                            </button>
                         </div>
                     </FlexContainer>
                     <FlexContainer alignItems='center'>
