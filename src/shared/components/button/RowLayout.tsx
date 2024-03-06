@@ -1,6 +1,5 @@
 import { WebTarget } from 'styled-components';
 
-
 import { forwardRef, LegacyRef, MouseEventHandler } from 'react';
 import cn from 'classnames';
 import { Icon, IconDefinition } from '@/shared/components';
@@ -55,19 +54,26 @@ export const RowLayout = forwardRef(function RowLayout(
 ) {
     const hasPointer = onClick !== undefined;
 
-    const containerStyles = cn('relative flex w-full max-h-[74px] p-4 gap-3 disabled:cursor-not-allowed disabled:pointer-events-none', {
-        'cursor-pointer': hasPointer,
-        'cursor-auto': !hasPointer,
-        'border-none bg-transparent': as === 'button',
-        'rounded-2xl bg-white dark:bg-subtle-black shadow-[0_1px_4px_0_rgba(0,0,0,0.05)] hover:shadow-[0_0_0_1px] hover:shadow-theme-secondary-200 hover:dark:shadow-theme-secondary-600': variant === 'primary',
-        'rounded-[20px] bg-white dark:bg-subtle-black shadow-[0_1px_4px_0_rgba(0,0,0,0.05)] border border-solid border-theme-primary-700 dark:border-theme-primary-650': variant === 'errorFree',
-        'focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2': isFirefox
-    }, className);
+    const containerStyles = cn(
+        'relative flex w-full max-h-[74px] p-4 gap-3 disabled:cursor-not-allowed disabled:pointer-events-none',
+        {
+            'cursor-pointer': hasPointer,
+            'cursor-auto': !hasPointer,
+            'border-none bg-transparent': as === 'button',
+            'rounded-2xl bg-white dark:bg-subtle-black shadow-[0_1px_4px_0_rgba(0,0,0,0.05)] hover:shadow-[0_0_0_1px] hover:shadow-theme-secondary-200 hover:dark:shadow-theme-secondary-600':
+                variant === 'primary',
+            'rounded-[20px] bg-white dark:bg-subtle-black shadow-[0_1px_4px_0_rgba(0,0,0,0.05)] border border-solid border-theme-primary-700 dark:border-theme-primary-650':
+                variant === 'errorFree',
+            'focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2':
+                isFirefox,
+        },
+        className,
+    );
 
-    if(as === 'button') {
+    if (as === 'button') {
         return (
-            <button 
-                className={containerStyles} 
+            <button
+                className={containerStyles}
                 tabIndex={tabIndex}
                 ref={forwardRef as any as LegacyRef<HTMLButtonElement>}
                 onClick={onClick as any as MouseEventHandler<HTMLButtonElement>}
@@ -80,12 +86,15 @@ export const RowLayout = forwardRef(function RowLayout(
                         <span className='flex flex-col items-start gap-1 '>
                             <span className='flex flex-row items-center gap-1.5'>
                                 {title && (
-                                    <span className={cn('typeset-headline', {
-                                        'font-medium': helperText,
-                                        'font-normal': !helperText,
-                                        'text-theme-secondary-500 dark:text-theme-secondary-300': disabled,
-                                        'text-light-black dark:text-white': !disabled
-                                    })}>
+                                    <span
+                                        className={cn('typeset-headline', {
+                                            'font-medium': helperText,
+                                            'font-normal': !helperText,
+                                            'text-theme-secondary-500 dark:text-theme-secondary-300':
+                                                disabled,
+                                            'text-light-black dark:text-white': !disabled,
+                                        })}
+                                    >
                                         {title}
                                     </span>
                                 )}
@@ -105,55 +114,53 @@ export const RowLayout = forwardRef(function RowLayout(
                                             <span> • </span>
                                         </>
                                     )}
-                                    {Array.isArray(helperText) ?
-                                        helperText.map((item, index) => {
-                                            if(index === 0) {
-                                                return (
-                                                    <Amount
-                                                        value={Number(item)}
-                                                        maxDigits={
-                                                            constants.MAX_CURRENCY_DIGITS_ALLOWED
-                                                        }
-                                                        ticker={currency ?? ''}
-                                                        withTicker={!!currency}
-                                                        key={index}
-                                                        tooltipPlacement='bottom-start'
-                                                    />
-                                                );
-                                            } else {
-                                                return (
-                                                    <span key={index}>
-                                                        {index > 0 && helperText.length > 1 && (
-                                                            <span className='flex gap-[5px]'>
-                                                                <span>{' '}•{' '}</span>
-                                                                <span>{item}</span>
-                                                            </span>
-                                                        )}
-                                                    </span>
-                                                );
-                                            }
-                                        })
-                                        :
-                                        helperText
-                                    }
+                                    {Array.isArray(helperText)
+                                        ? helperText.map((item, index) => {
+                                              if (index === 0) {
+                                                  return (
+                                                      <Amount
+                                                          value={Number(item)}
+                                                          maxDigits={
+                                                              constants.MAX_CURRENCY_DIGITS_ALLOWED
+                                                          }
+                                                          ticker={currency ?? ''}
+                                                          withTicker={!!currency}
+                                                          key={index}
+                                                          tooltipPlacement='bottom-start'
+                                                      />
+                                                  );
+                                              } else {
+                                                  return (
+                                                      <span key={index}>
+                                                          {index > 0 && helperText.length > 1 && (
+                                                              <span className='flex gap-[5px]'>
+                                                                  <span> • </span>
+                                                                  <span>{item}</span>
+                                                              </span>
+                                                          )}
+                                                      </span>
+                                                  );
+                                              }
+                                          })
+                                        : helperText}
                                 </span>
                             )}
                         </span>
 
                         <span className='flex items-center'>
                             {rightHelperText && (
-                                <span
-                                    className='typeset-headline font-normal text-theme-secondary-500 dark:text-theme-secondary-300 mr-2'
-                                >
+                                <span className='typeset-headline font-normal text-theme-secondary-500 dark:text-theme-secondary-300 mr-2'>
                                     {rightHelperText}
                                 </span>
                             )}
 
                             {children && (
-                                <span className={cn({
-                                    'mr-4': iconTrailing,
-                                    'mr-0': !iconTrailing
-                                })}>
+                                <span
+                                    className={cn({
+                                        'mr-4': iconTrailing,
+                                        'mr-0': !iconTrailing,
+                                    })}
+                                >
                                     {children}
                                 </span>
                             )}
@@ -184,7 +191,7 @@ export const RowLayout = forwardRef(function RowLayout(
     }
 
     return (
-        <div 
+        <div
             className={containerStyles}
             tabIndex={tabIndex}
             ref={forwardedRef}
@@ -198,12 +205,15 @@ export const RowLayout = forwardRef(function RowLayout(
                     <div className='flex flex-col items-start gap-1'>
                         <div className='flex flex-row items-center gap-1.5'>
                             {title && (
-                                <p className={cn('typeset-headline', {
-                                    'font-medium': helperText,
-                                    'font-normal': !helperText,
-                                    'text-theme-secondary-500 dark:text-theme-secondary-300': disabled,
-                                    'text-light-black dark:text-white': !disabled
-                                })}>
+                                <p
+                                    className={cn('typeset-headline', {
+                                        'font-medium': helperText,
+                                        'font-normal': !helperText,
+                                        'text-theme-secondary-500 dark:text-theme-secondary-300':
+                                            disabled,
+                                        'text-light-black dark:text-white': !disabled,
+                                    })}
+                                >
                                     {title}
                                 </p>
                             )}
@@ -223,78 +233,76 @@ export const RowLayout = forwardRef(function RowLayout(
                                         <span> • </span>
                                     </>
                                 )}
-                                {Array.isArray(helperText) ?
-                                    helperText.map((item, index) => {
-                                        if(index === 0) {
-                                            return (
-                                                <Amount
-                                                    value={Number(item)}
-                                                    maxDigits={
-                                                        constants.MAX_CURRENCY_DIGITS_ALLOWED
-                                                    }
-                                                    ticker={currency ?? ''}
-                                                    withTicker={!!currency}
-                                                    key={index}
-                                                    tooltipPlacement='bottom-start'
-                                                />
-                                            );
-                                        } else {
-                                            return (
-                                                <div key={index}>
-                                                    {index > 0 && helperText.length > 1 && (
-                                                        <div className='flex gap-[5px]'>
-                                                            <div>{' '}•{' '}</div>
-                                                            <div>{item}</div>
-                                                        </div>
-                                                    )}
-                                                </div>
-                                            );
-                                        }
-                                    })
-                                    :
-                                    helperText
-                                }
+                                {Array.isArray(helperText)
+                                    ? helperText.map((item, index) => {
+                                          if (index === 0) {
+                                              return (
+                                                  <Amount
+                                                      value={Number(item)}
+                                                      maxDigits={
+                                                          constants.MAX_CURRENCY_DIGITS_ALLOWED
+                                                      }
+                                                      ticker={currency ?? ''}
+                                                      withTicker={!!currency}
+                                                      key={index}
+                                                      tooltipPlacement='bottom-start'
+                                                  />
+                                              );
+                                          } else {
+                                              return (
+                                                  <div key={index}>
+                                                      {index > 0 && helperText.length > 1 && (
+                                                          <div className='flex gap-[5px]'>
+                                                              <div> • </div>
+                                                              <div>{item}</div>
+                                                          </div>
+                                                      )}
+                                                  </div>
+                                              );
+                                          }
+                                      })
+                                    : helperText}
                             </div>
                         )}
                     </div>
-                    
+
                     <div className='flex items-center'>
-                            {rightHelperText && (
-                                <p
-                                    className='typeset-headline font-normal text-theme-secondary-500 dark:text-theme-secondary-300 mr-2'
-                                >
-                                    {rightHelperText}
-                                </p>
-                            )}
+                        {rightHelperText && (
+                            <p className='typeset-headline font-normal text-theme-secondary-500 dark:text-theme-secondary-300 mr-2'>
+                                {rightHelperText}
+                            </p>
+                        )}
 
-                            {children && (
-                                <div className={cn({
+                        {children && (
+                            <div
+                                className={cn({
                                     'mr-4': iconTrailing,
-                                    'mr-0': !iconTrailing
-                                })}>
-                                    {children}
-                                </div>
-                            )}
+                                    'mr-0': !iconTrailing,
+                                })}
+                            >
+                                {children}
+                            </div>
+                        )}
 
-                            {iconTrailing && (
-                                <div className='flex items-center gap-2'>
-                                    {iconTrailing && (
-                                        <Icon
-                                            className={cn(
-                                                'h-5 w-5',
-                                                {
-                                                    'text-theme-secondary-500 dark:text-theme-secondary-300':
-                                                        disabled,
-                                                    'text-light-black dark:text-white': !disabled,
-                                                },
-                                                iconClassName,
-                                            )}
-                                            icon={iconTrailing}
-                                        />
-                                    )}
-                                </div>
-                            )}
-                        </div>
+                        {iconTrailing && (
+                            <div className='flex items-center gap-2'>
+                                {iconTrailing && (
+                                    <Icon
+                                        className={cn(
+                                            'h-5 w-5',
+                                            {
+                                                'text-theme-secondary-500 dark:text-theme-secondary-300':
+                                                    disabled,
+                                                'text-light-black dark:text-white': !disabled,
+                                            },
+                                            iconClassName,
+                                        )}
+                                        icon={iconTrailing}
+                                    />
+                                )}
+                            </div>
+                        )}
+                    </div>
                 </div>
             </div>
         </div>
