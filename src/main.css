@@ -204,7 +204,7 @@ body {
     @apply outline-theme-primary-600;
 }
 
-*:focus-visible {
+*:focus-visible:not(input, textarea) {
     @apply outline outline-2 outline-theme-primary-600;
     transition: outline-width 0s !important;
 }
