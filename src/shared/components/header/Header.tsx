@@ -116,7 +116,7 @@ export const Header = () => {
                 position='relative'
             >
                 <FlexContainer justifyContent='space-between' className='space-x-5'>
-                    <FlexContainer alignItems='center' className='flex-1 overflow-auto'>
+                    <FlexContainer alignItems='center' className='flex-1 overflow-auto p-1 -m-1'>
                         {/*Logo*/}
                         <StyledLink to='/'>
                             <LogoIcon className='text-theme-primary-700 dark:text-theme-primary-650' />
@@ -127,6 +127,7 @@ export const Header = () => {
                             position='relative'
                             ref={addressesTriggerRef}
                             overflow='auto'
+                            className='p-1 -m-1'
                         >
                             <StyledFlexContainer
                                 padding='8'
