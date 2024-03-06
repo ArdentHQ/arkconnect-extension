@@ -55,7 +55,7 @@ export const AddressesDropdown = ({
 }: {
     addresses: Contracts.IReadWriteWallet[];
     primaryAddress: Contracts.IReadWriteWallet;
-    triggerRef: React.RefObject<HTMLDivElement | null>;
+    triggerRef: React.RefObject<HTMLButtonElement | null>;
     onClose: () => void;
 }) => {
     const navigate = useNavigate();
@@ -67,7 +67,7 @@ export const AddressesDropdown = ({
 
     const dropdownRef = useRef<HTMLDivElement | null>(null);
 
-    useOnClickOutside(dropdownRef, onClose, triggerRef as React.RefObject<HTMLDivElement>);
+    useOnClickOutside(dropdownRef, onClose, triggerRef as React.RefObject<HTMLButtonElement>);
 
     const primaryAddressId = primaryAddress.id();
 

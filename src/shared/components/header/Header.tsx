@@ -1,14 +1,14 @@
 import { Link, useLocation } from 'react-router-dom';
-import { HTMLAttributes, useRef, useState } from 'react';
+import { forwardRef, HTMLAttributes, useRef, useState } from 'react';
 import cn from 'classnames';
 import FocusTrap from 'focus-trap-react';
 import styled from 'styled-components';
+import { twMerge } from 'tailwind-merge';
 import { Container, FlexContainer, Icon, Paragraph } from '@/shared/components';
 import { DropdownMenuContainerProps, SettingsMenu } from '@/components/settings/SettingsMenu';
 
 import { AddressesDropdown } from '@/shared/components/header/AddressesDropdown';
 import { ConnectionStatus } from '@/components/wallet/ConnectionStatus';
-import { handleSubmitKeyAction } from '@/lib/utils/handleKeyAction';
 import { isFirefox } from '@/lib/utils/isFirefox';
 import { LogoIcon } from '@/components/Logo';
 import { selectLocked } from '@/lib/store/ui';
@@ -65,23 +65,32 @@ export const StyledLink = styled(Link)`
 `;
 
 interface HeaderButtonProps extends HTMLAttributes<HTMLButtonElement> {
-    active: boolean;
+    selected: boolean;
 }
-const HeaderButton = ({ active, ...properties }: HeaderButtonProps) => {
-    return (
-        <button
-            type='button'
-            className={cn(
-                'p-2 gap-1 items-center flex ml-2 rounded-lg overflow-auto cursor-pointer transition duration-200 ease-in-out',
-                {
-                    'bg-theme-secondary-50 dark:bg-theme-secondary-700': active,
-                    'hover:bg-theme-secondary-50 dark:hover:bg-theme-secondary-700': !active,
-                },
-            )}
-            {...properties}
-        />
-    );
-};
+const HeaderButton = forwardRef<HTMLButtonElement, HeaderButtonProps>(
+    ({ selected, className, ...properties }, ref) => {
+        return (
+            <button
+                ref={ref}
+                type='button'
+                className={twMerge(
+                    cn(
+                        'p-2 gap-1 items-center flex rounded-lg overflow-auto cursor-pointer transition duration-200 ease-in-out',
+                        {
+                            'bg-theme-secondary-50 dark:bg-theme-secondary-700': selected,
+                            'hover:bg-theme-secondary-50 dark:hover:bg-theme-secondary-700':
+                                !selected,
+                        },
+                    ),
+                    className,
+                )}
+                {...properties}
+            />
+        );
+    },
+);
+
+HeaderButton.displayName = 'HeaderButton';
 
 export const Header = () => {
     const { isDark } = useThemeMode();
@@ -96,8 +105,8 @@ export const Header = () => {
     const { pathname } = useLocation();
     const isOnboardingPage = pathname.startsWith('/onboarding');
 
-    const addressesTriggerRef = useRef<HTMLDivElement | null>(null);
-    const menuTriggerRef = useRef<HTMLDivElement | null>(null);
+    const addressesTriggerRef = useRef<HTMLButtonElement | null>(null);
+    const menuTriggerRef = useRef<HTMLButtonElement | null>(null);
 
     const [showAddressesDropdown, setShowAddressesDropdown] = useState<boolean>(false);
 
@@ -143,14 +152,13 @@ export const Header = () => {
 
                         {/*Wallets dropdown*/}
 
-                        <div
-                            className='flex relative overflow-auto p-1 -m-1'
-                            ref={addressesTriggerRef}
-                        >
+                        <div className='flex relative overflow-auto p-1 -m-1'>
                             <HeaderButton
-                                active={showAddressesDropdown}
+                                selected={showAddressesDropdown}
                                 aria-label='Addresses Dropdown'
                                 onClick={handleAddressDropdownClick}
+                                ref={addressesTriggerRef}
+                                className='ml-2'
                             >
                                 <span className='truncate font-medium leading-tight max-w-[124px] text-light-black dark:text-white'>
                                     {primaryWallet.alias()}
@@ -172,44 +180,21 @@ export const Header = () => {
                             </HeaderButton>
                         </div>
                     </FlexContainer>
+
                     <FlexContainer alignItems='center'>
                         <CopyAddress />
 
                         <ConnectionStatus />
 
-                        {/*Menu trigger*/}
-                        {/* StyledFlexContainer
-                                padding='8'
-                                style={{ gap: '4px' }}
-                                alignItems='center'
-                                marginLeft='8'
-                                borderRadius='8'
-                                className='c-pointer'
-                                overflow='auto'
-                                onClick={handleAddressDropdownClick}
-                                onKeyDown={(e) =>
-                                    handleSubmitKeyAction(e, handleAddressDropdownClick)
-                                }
-                                tabIndex={0}
-                                selected={showAddressesDropdown}
-                                
-                            >  */}
-                        <StyledFlexContainer
-                            padding='8'
-                            style={{ gap: '4px' }}
-                            alignItems='center'
-                            borderRadius='50'
-                            className='c-pointer'
+                        <HeaderButton
+                            className='rounded-full'
                             onClick={handleSettingsClick}
                             ref={menuTriggerRef}
-                            color='base'
                             selected={openSettings}
                             aria-label='Settings menu'
-                            onKeyDown={(e) => handleSubmitKeyAction(e, handleSettingsClick)}
-                            tabIndex={0}
                         >
                             <Icon icon='more-vertical' className='h-4 w-4' />
-                        </StyledFlexContainer>
+                        </HeaderButton>
                     </FlexContainer>
                 </FlexContainer>
 
