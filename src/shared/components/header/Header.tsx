@@ -3,7 +3,6 @@ import { useRef, useState } from 'react';
 import cn from 'classnames';
 import FocusTrap from 'focus-trap-react';
 import styled from 'styled-components';
-import classNames from 'classnames';
 import { HeaderButton } from './HeaderButton';
 import { HeaderWrapper } from './HeaderWrapper';
 import { Icon, Paragraph } from '@/shared/components';
@@ -140,7 +139,7 @@ export const Header = () => {
                     }}
                 >
                     <div
-                        className={classNames('flex absolute w-full mt-5 left-0 dropdown-body', {
+                        className={cn('flex absolute w-full mt-5 left-0 dropdown-body', {
                             'dropdown-transition': showAddressesDropdown,
                         })}
                     >
@@ -163,7 +162,7 @@ export const Header = () => {
                     }}
                 >
                     <div
-                        className={classNames('flex absolute w-full mt-5 left-0 dropdown-body', {
+                        className={cn('flex absolute w-full mt-5 left-0 dropdown-body', {
                             'dropdown-transition': openSettings,
                         })}
                     >
