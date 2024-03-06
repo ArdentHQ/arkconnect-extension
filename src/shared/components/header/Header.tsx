@@ -147,9 +147,11 @@ export const Header = () => {
                                 <span className='truncate font-medium leading-tight max-w-[124px] text-light-black dark:text-white'>
                                     {primaryWallet.alias()}
                                 </span>
-                                <Paragraph color='label' as='span' className='whitespace-nowrap'>
+
+                                <span className='whitespace-nowrap text-theme-secondary-500 dark:text-theme-secondary-200 text-sm'>
                                     {trimAddress(primaryWallet.address(), 7)}
-                                </Paragraph>
+                                </span>
+
                                 <FlexContainer alignSelf='self-end' color='base' as='span'>
                                     <Icon
                                         icon='arrow-down'
