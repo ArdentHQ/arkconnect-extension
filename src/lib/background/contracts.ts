@@ -2,6 +2,7 @@ export enum ProfileData {
     PrimaryWalletId = 'PRIMARY_WALLET_ID',
     Sessions = 'SESSIONS',
     LastScreen = 'LAST_SCREEN',
+    LastVisitedPage = 'LAST_VISITED_PAGE',
 }
 
 type Session = {
@@ -25,9 +26,8 @@ export enum ScreenName {
     CreateWallet = 'CREATE_WALLET',
 }
 
-export interface LastScreen {
-    screenName: ScreenName;
-    step?: number;
+export interface LastVisitedPage {
+    name: ScreenName;
     data: WalletCreateScreenData;
 }
 

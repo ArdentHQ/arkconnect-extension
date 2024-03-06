@@ -71,13 +71,15 @@ const AutoUnlockWrapper = ({ children, runEventHandlers }: Props) => {
             return;
         }
 
-        const lastScreen = profile.data().get(ProfileData.LastScreen) as LastScreen | undefined;
+        const lastVisitedPage = profile.settings().get(ProfileData.LastVisitedPage) as
+            | LastScreen
+            | undefined;
 
-        if (!lastScreen) {
+        if (!lastVisitedPage) {
             return;
         }
 
-        if (lastScreen.screenName === ScreenName.CreateWallet) {
+        if (lastVisitedPage.name === ScreenName.CreateWallet) {
             navigate('/wallet/create');
         }
     };
