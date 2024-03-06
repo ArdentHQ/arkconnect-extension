@@ -88,7 +88,7 @@ const CreateOrImportAddress = () => {
                     iconLeading={<LeadingIcon icon='plus-circle' />}
                     iconTrailing='arrow-right'
                     onClick={handleCreateNewAddress}
-                    mb='8'
+                    className='mb-2'
                     onKeyDown={(e) => handleSubmitKeyAction(e, handleCreateNewAddress)}
                 />
 
@@ -99,7 +99,7 @@ const CreateOrImportAddress = () => {
                     iconTrailing='arrow-right'
                     onClick={handleImportAddress}
                     onKeyDown={(e) => handleSubmitKeyAction(e, handleImportAddress)}
-                    mb='8'
+                    className='mb-2'
                     as='button'
                 />
 

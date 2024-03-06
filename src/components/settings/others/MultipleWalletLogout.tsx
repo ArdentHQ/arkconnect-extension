@@ -66,7 +66,7 @@ const MultipleWalletLogout = () => {
                             }
                             address={wallet.address()}
                             helperText={generateWalletHelperText(wallet, false)}
-                            mb='8'
+                            className='mb-2'
                             testnetIndicator={wallet.network().isTest()}
                             ledgerIndicator={wallet.isLedger()}
                             onClick={(evt) => handleSelectWallet(evt, wallet.id())}
