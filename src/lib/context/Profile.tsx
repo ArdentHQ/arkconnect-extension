@@ -88,7 +88,7 @@ export const ProfileProvider = ({ children }: Properties) => {
     const updateStore = async ({ profile }: { profile: Contracts.IProfile }) => {
         await updateStoreWallets({ profile });
 
-        const sessions = profile.data().get(ProfileData.Sessions) as
+        const sessions = profile.settings().get(ProfileData.Sessions) as
             | SessionStore.SessionEntries
             | undefined;
 

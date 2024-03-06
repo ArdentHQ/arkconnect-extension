@@ -27,7 +27,7 @@ export const getActiveSession = <T>({
         return false;
     }
 
-    const sessions = profile.data().get(ProfileData.Sessions) as SessionEntries;
+    const sessions = profile.settings().get(ProfileData.Sessions) as SessionEntries;
 
     if (!sessions) {
         return false;

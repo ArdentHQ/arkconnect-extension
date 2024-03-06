@@ -132,7 +132,7 @@ export function OneTimeEventHandlers(extension: ReturnType<typeof Extension>) {
         },
 
         [OneTimeEvents.SET_SESSIONS]: async (request: any) => {
-            extension.profile().data().set(ProfileData.Sessions, request.data.sessions);
+            extension.profile().settings().set(ProfileData.Sessions, request.data.sessions);
             await extension.env().persist();
         },
 
@@ -310,7 +310,10 @@ const handleChangePassword = async (request: any, extension: ReturnType<typeof E
                 extension.profile().data().set(ProfileData.PrimaryWalletId, newWallet.id());
             }
 
-            const sessions = extension.profile().data().get<SessionEntries>(ProfileData.Sessions);
+            const sessions = extension
+                .profile()
+                .settings()
+                .get<SessionEntries>(ProfileData.Sessions);
 
             if (sessions) {
                 // Adjust sessions' walletId to match new ones
@@ -320,10 +323,10 @@ const handleChangePassword = async (request: any, extension: ReturnType<typeof E
                         sessions[sessionId] = session;
                     }
                 }
-            }
 
-            // Store updated sessions
-            extension.profile().data().set(ProfileData.Sessions, sessions);
+                // Store updated sessions
+                extension.profile().settings().set(ProfileData.Sessions, sessions);
+            }
 
             extension.profile().wallets().forget(oldWalletId);
             extension.profile().wallets().push(newWallet);
