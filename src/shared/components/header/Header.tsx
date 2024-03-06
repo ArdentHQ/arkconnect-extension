@@ -128,7 +128,42 @@ export const Header = () => {
                             className='flex relative overflow-auto p-1 -m-1'
                             ref={addressesTriggerRef}
                         >
-                            <StyledFlexContainer
+                            <div
+                                tabIndex={0}
+                                className={cn(
+                                    'p-2 gap-1 items-center flex ml-2 rounded-lg overflow-auto cursor-pointer transition duration-200 ease-in-out',
+                                    {
+                                        'bg-theme-secondary-50 dark:bg-theme-secondary-700':
+                                            showAddressesDropdown,
+                                        'hover:bg-theme-secondary-50 dark:hover:bg-theme-secondary-700':
+                                            !showAddressesDropdown,
+                                    },
+                                )}
+                                aria-label='Addresses Dropdown'
+                                onClick={handleAddressDropdownClick}
+                                onKeyDown={(e) =>
+                                    handleSubmitKeyAction(e, handleAddressDropdownClick)
+                                }
+                            >
+                                <span className='truncate font-medium leading-tight max-w-[124px] text-light-black dark:text-white'>
+                                    {primaryWallet.alias()}
+                                </span>
+
+                                <span className='whitespace-nowrap text-theme-secondary-500 dark:text-theme-secondary-200 text-sm'>
+                                    {trimAddress(primaryWallet.address(), 7)}
+                                </span>
+
+                                <Icon
+                                    icon='arrow-down'
+                                    className={cn(
+                                        'h-4 w-4 transition-transform ease-in-out text-light-black dark:text-white',
+                                        {
+                                            'transform rotate-180': showAddressesDropdown,
+                                        },
+                                    )}
+                                />
+                            </div>
+                            {/*<StyledFlexContainer
                                 padding='8'
                                 style={{ gap: '4px' }}
                                 alignItems='center'
@@ -142,23 +177,10 @@ export const Header = () => {
                                 }
                                 tabIndex={0}
                                 selected={showAddressesDropdown}
-                                aria-label='Addresses Dropdown'
-                            >
-                                <span className='truncate font-medium leading-tight max-w-[124px] text-light-black dark:text-white'>
-                                    {primaryWallet.alias()}
-                                </span>
+                                
+                            > */}
 
-                                <span className='whitespace-nowrap text-theme-secondary-500 dark:text-theme-secondary-200 text-sm'>
-                                    {trimAddress(primaryWallet.address(), 7)}
-                                </span>
-
-                                <Icon
-                                    icon='arrow-down'
-                                    className={cn('h-4 w-4 transition-transform ease-in-out', {
-                                        'transform rotate-180': showAddressesDropdown,
-                                    })}
-                                />
-                            </StyledFlexContainer>
+                            {/* </StyledFlexContainer> */}
                         </div>
                     </FlexContainer>
                     <FlexContainer alignItems='center'>
