@@ -19,6 +19,7 @@ import { getLocalValues } from '@/lib/utils/localStorage';
 import { LastScreen, ProfileData, ScreenName } from '@/lib/background/contracts';
 import randomWordPositions from '@/lib/utils/randomWordPositions';
 import useLoadingModal from '@/lib/hooks/useLoadingModal';
+import {useHaveWalletsCallback} from "@/lib/hooks/useHaveWalletsCallback";
 
 export type CreateWalletFormik = {
     wallet?: Contracts.IReadWriteWallet;
@@ -61,6 +62,10 @@ const CreateNewWallet = () => {
         completedMessage: 'Your Wallet is Ready!',
         loadingMessage: 'Setting up the wallet, please wait!',
     });
+
+    const onSubmitCallback = useHaveWalletsCallback(() => {
+        navigate('/');
+    })
 
     useEffect(() => {
         (async () => {
@@ -163,7 +168,7 @@ const CreateNewWallet = () => {
 
             formikHelpers.resetForm();
 
-            navigate('/');
+            onSubmitCallback();
         },
     });
 
