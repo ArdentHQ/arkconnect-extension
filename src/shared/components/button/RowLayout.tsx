@@ -1,6 +1,6 @@
-import { WebTarget } from 'styled-components';
 
-import { forwardRef, LegacyRef, MouseEventHandler } from 'react';
+
+import { forwardRef } from 'react';
 import cn from 'classnames';
 import { Icon, IconDefinition } from '@/shared/components';
 import constants from '@/constants';
@@ -8,7 +8,7 @@ import { Address, LedgerIcon, TestnetIcon } from '@/components/wallet/address/Ad
 import { isFirefox } from '@/lib/utils/isFirefox';
 import Amount from '@/components/wallet/Amount';
 
-type RowLayoutProps = React.ComponentPropsWithRef<'div'> & {
+type RowLayoutProps = React.ComponentPropsWithRef<'button'> & {
     iconLeading?: React.ReactNode;
     iconTrailing?: IconDefinition;
     title?: string;
@@ -21,18 +21,16 @@ type RowLayoutProps = React.ComponentPropsWithRef<'div'> & {
     currency?: string;
     address?: string;
     tabIndex?: number;
-    as?: void | WebTarget | undefined;
     iconClassName?: string;
     className?: string;
     variant?: 'primary' | 'errorFree';
     onKeyDown?: (event: React.KeyboardEvent<HTMLDivElement>) => void;
-    onClick?: (event: React.MouseEvent<HTMLDivElement>) => void;
+    onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
 };
 
 export const RowLayout = forwardRef(function RowLayout(
     {
         address,
-        as,
         children,
         className,
         currency,
@@ -50,7 +48,7 @@ export const RowLayout = forwardRef(function RowLayout(
         title,
         variant = 'primary',
     }: RowLayoutProps,
-    forwardedRef: React.Ref<HTMLDivElement>,
+    forwardedRef: React.Ref<HTMLButtonElement>,
 ) {
     const hasPointer = onClick !== undefined;
 
@@ -59,7 +57,6 @@ export const RowLayout = forwardRef(function RowLayout(
         {
             'cursor-pointer': hasPointer,
             'cursor-auto': !hasPointer,
-            'border-none bg-transparent': as === 'button',
             'rounded-2xl bg-white dark:bg-subtle-black shadow-[0_1px_4px_0_rgba(0,0,0,0.05)] hover:shadow-[0_0_0_1px] hover:shadow-theme-secondary-200 hover:dark:shadow-theme-secondary-600':
                 variant === 'primary',
             'rounded-[20px] bg-white dark:bg-subtle-black shadow-[0_1px_4px_0_rgba(0,0,0,0.05)] border border-solid border-theme-primary-700 dark:border-theme-primary-650':
@@ -70,14 +67,13 @@ export const RowLayout = forwardRef(function RowLayout(
         className,
     );
 
-    if (as === 'button') {
         return (
             <button
                 className={containerStyles}
                 tabIndex={tabIndex}
-                ref={forwardRef as any as LegacyRef<HTMLButtonElement>}
-                onClick={onClick as any as MouseEventHandler<HTMLButtonElement>}
-                onKeyDown={onKeyDown as any as React.KeyboardEventHandler<HTMLButtonElement>}
+                ref={forwardedRef}
+                onClick={onClick}
+                onKeyDown={onKeyDown}
             >
                 <span className='w-full gap-3 flex items-star'>
                     {iconLeading && iconLeading}
@@ -188,123 +184,5 @@ export const RowLayout = forwardRef(function RowLayout(
                 </span>
             </button>
         );
-    }
 
-    return (
-        <div
-            className={containerStyles}
-            tabIndex={tabIndex}
-            ref={forwardedRef}
-            onKeyDown={onKeyDown}
-            onClick={onClick}
-        >
-            <div className='w-full gap-3 flex items-star'>
-                {iconLeading && iconLeading}
-
-                <div className='flex items-center justify-between w-full'>
-                    <div className='flex flex-col items-start gap-1'>
-                        <div className='flex flex-row items-center gap-1.5'>
-                            {title && (
-                                <p
-                                    className={cn('typeset-headline', {
-                                        'font-medium': helperText,
-                                        'font-normal': !helperText,
-                                        'text-theme-secondary-500 dark:text-theme-secondary-300':
-                                            disabled,
-                                        'text-light-black dark:text-white': !disabled,
-                                    })}
-                                >
-                                    {title}
-                                </p>
-                            )}
-
-                            {ledgerIndicator && <LedgerIcon />}
-                            {testnetIndicator && <TestnetIcon />}
-                        </div>
-
-                        {helperText && (
-                            <div className='flex text-sm leading-[18px] text-left items-center gap-[5px] text-theme-secondary-500 dark:text-theme-secondary-300'>
-                                {address && (
-                                    <>
-                                        <Address
-                                            address={address}
-                                            tooltipPlacement='bottom-start'
-                                        />
-                                        <span> • </span>
-                                    </>
-                                )}
-                                {Array.isArray(helperText)
-                                    ? helperText.map((item, index) => {
-                                          if (index === 0) {
-                                              return (
-                                                  <Amount
-                                                      value={Number(item)}
-                                                      maxDigits={
-                                                          constants.MAX_CURRENCY_DIGITS_ALLOWED
-                                                      }
-                                                      ticker={currency ?? ''}
-                                                      withTicker={!!currency}
-                                                      key={index}
-                                                      tooltipPlacement='bottom-start'
-                                                  />
-                                              );
-                                          } else {
-                                              return (
-                                                  <div key={index}>
-                                                      {index > 0 && helperText.length > 1 && (
-                                                          <div className='flex gap-[5px]'>
-                                                              <div> • </div>
-                                                              <div>{item}</div>
-                                                          </div>
-                                                      )}
-                                                  </div>
-                                              );
-                                          }
-                                      })
-                                    : helperText}
-                            </div>
-                        )}
-                    </div>
-
-                    <div className='flex items-center'>
-                        {rightHelperText && (
-                            <p className='typeset-headline font-normal text-theme-secondary-500 dark:text-theme-secondary-300 mr-2'>
-                                {rightHelperText}
-                            </p>
-                        )}
-
-                        {children && (
-                            <div
-                                className={cn({
-                                    'mr-4': iconTrailing,
-                                    'mr-0': !iconTrailing,
-                                })}
-                            >
-                                {children}
-                            </div>
-                        )}
-
-                        {iconTrailing && (
-                            <div className='flex items-center gap-2'>
-                                {iconTrailing && (
-                                    <Icon
-                                        className={cn(
-                                            'h-5 w-5',
-                                            {
-                                                'text-theme-secondary-500 dark:text-theme-secondary-300':
-                                                    disabled,
-                                                'text-light-black dark:text-white': !disabled,
-                                            },
-                                            iconClassName,
-                                        )}
-                                        icon={iconTrailing}
-                                    />
-                                )}
-                            </div>
-                        )}
-                    </div>
-                </div>
-            </div>
-        </div>
-    );
 });

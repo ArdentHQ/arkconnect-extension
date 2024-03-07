@@ -12,7 +12,6 @@ import {
     RowLayout,
     Tooltip,
 } from '@/shared/components';
-import { handleSubmitKeyAction } from '@/lib/utils/handleKeyAction';
 import { isFirefox } from '@/lib/utils/isFirefox';
 import { clearPersistScreenData } from '@/components/wallet/form-persist/helpers';
 
@@ -89,7 +88,6 @@ const CreateOrImportAddress = () => {
                     iconTrailing='arrow-right'
                     onClick={handleCreateNewAddress}
                     className='mb-2'
-                    onKeyDown={(e) => handleSubmitKeyAction(e, handleCreateNewAddress)}
                 />
 
                 <RowLayout
@@ -98,9 +96,7 @@ const CreateOrImportAddress = () => {
                     iconLeading={<LeadingIcon icon='download' />}
                     iconTrailing='arrow-right'
                     onClick={handleImportAddress}
-                    onKeyDown={(e) => handleSubmitKeyAction(e, handleImportAddress)}
                     className='mb-2'
-                    as='button'
                 />
 
                 <Tooltip
@@ -120,8 +116,6 @@ const CreateOrImportAddress = () => {
                         iconTrailing='arrow-right'
                         onClick={handleConnectLedger}
                         disabled={isFirefox}
-                        as='button'
-                        onKeyDown={(e) => handleSubmitKeyAction(e, handleConnectLedger)}
                     />
                 </Tooltip>
             </Container>
