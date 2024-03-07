@@ -61,7 +61,7 @@ const AppWrapper = ({
                                     ? 'scrollable-container'
                                     : ''
                             }
-                            className='custom-scroll font-sans'
+                            className='custom-scroll'
                             backgroundColor='primaryBackground'
                         >
                             <Container minHeight='100%' position='relative'>
