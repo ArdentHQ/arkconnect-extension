@@ -32,14 +32,14 @@ export const SettingsOption = forwardRef(function RowLayout(
     return (
         <div
             className={cn(
-                'relative flex w-full max-h-13 p-4 cursor-pointer gap-3 items-center border-none bg-none focus-visible:-outline-offset-2',
+                'relative flex max-h-13 w-full cursor-pointer items-center gap-3 border-none bg-none p-4 focus-visible:-outline-offset-2',
                 {
                     'transition-smoothEase': !isFirefox,
                     'transition-firefoxSmoothEase focus-visible:outline-2 focus-visible:-outline-offset-2':
                         isFirefox,
                     'hover:bg-theme-secondary-50 dark:hover:bg-theme-secondary-700':
                         variant === 'primary',
-                    'hover:bg-theme-error-50 dark:hover:bg-theme-error-800/20 text-theme-error-600 dark:text-theme-error-500 group':
+                    'group text-theme-error-600 hover:bg-theme-error-50 dark:text-theme-error-500 dark:hover:bg-theme-error-800/20':
                         variant === 'error',
                 },
                 className,
@@ -54,22 +54,22 @@ export const SettingsOption = forwardRef(function RowLayout(
             aria-label={title}
             {...rest}
         >
-            <span className='flex w-full gap-3 items-start'>
-                <span className='flex justify-center items-center overflow-hidden'>
+            <span className='flex w-full items-start gap-3'>
+                <span className='flex items-center justify-center overflow-hidden'>
                     <span
                         className={cn(
-                            'w-5 h-5 text-theme-secondary-500 dark:text-theme-secondary-300',
+                            'h-5 w-5 text-theme-secondary-500 dark:text-theme-secondary-300',
                             {
                                 'transition-smoothEase group-hover:text-theme-error-500':
                                     variant === 'error',
                             },
                         )}
                     >
-                        <Icon className='w-5 h-5' icon={iconLeading} />
+                        <Icon className='h-5 w-5' icon={iconLeading} />
                     </span>
                 </span>
 
-                <span className='flex items-center justify-between w-full'>
+                <span className='flex w-full items-center justify-between'>
                     <span className='flex flex-col items-start gap-1'>
                         <p
                             className={cn('typeset-headline font-normal', {
@@ -92,7 +92,7 @@ export const SettingsOption = forwardRef(function RowLayout(
                                     <Icon
                                         icon={iconTrailing}
                                         className={cn(
-                                            'w-5 h-5',
+                                            'h-5 w-5',
                                             {
                                                 'text-theme-secondary-500 dark:text-theme-secondary-300':
                                                     disabled,

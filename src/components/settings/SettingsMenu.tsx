@@ -69,11 +69,11 @@ export const SettingsMenu = ({
 
     return (
         <div
-            className='mx-4 w-full rounded-xl shadow-dropdown bg-white dark:bg-subtle-black'
+            className='mx-4 w-full rounded-xl bg-white shadow-dropdown dark:bg-subtle-black'
             ref={dropdownRef}
         >
             <SafeOutlineOverflowContainer className='ml-0 w-full px-0'>
-                <div className='py-2 w-full flex flex-col'>
+                <div className='flex w-full flex-col py-2'>
                     <SettingsOption
                         title='Create & Import Address'
                         iconLeading='plus-circle'
@@ -138,7 +138,7 @@ export const SettingsMenu = ({
                         title='Change Local Currency'
                         iconLeading='currency-dollar-circle'
                         rightContent={
-                            <p className='typeset-headline font-normal text-theme-secondary-500 dark:text-theme-secondary-300 mr-2 text-base'>
+                            <p className='typeset-headline mr-2 text-base font-normal text-theme-secondary-500 dark:text-theme-secondary-300'>
                                 {`${profile
                                     .settings()
                                     .get(Contracts.ProfileSetting.ExchangeCurrency)}`}
@@ -154,7 +154,7 @@ export const SettingsMenu = ({
                         title='Auto Lock Timer'
                         iconLeading='clock'
                         rightContent={
-                            <p className='typeset-headline font-normal text-theme-secondary-500 dark:text-theme-secondary-300 mr-2 text-base'>
+                            <p className='typeset-headline mr-2 text-base font-normal text-theme-secondary-500 dark:text-theme-secondary-300'>
                                 {autoLockTimer ? showAutoLockTimerValue(autoLockTimer) : ''}
                             </p>
                         }
