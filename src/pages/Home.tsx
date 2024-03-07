@@ -28,14 +28,7 @@ const Home = () => {
     return (
         <Layout data-testid='Home'>
             <Container margin='16'>
-                <Container
-                    bg='secondaryBackground'
-                    boxShadow='light'
-                    borderTopLeftRadius='20'
-                    borderTopRightRadius='20'
-                    borderBottomLeftRadius='16'
-                    borderBottomRightRadius='16'
-                >
+                <div className='shadow-light rounded-b-2xl rounded-t-[20px] bg-white dark:bg-subtle-black'>
                     <Container borderRadius='20' bg='primary' color='white'>
                         <Container padding='16'>
                             <Balance
@@ -111,7 +104,7 @@ const Home = () => {
                             <Icon icon='link-external' className='h-4 w-4' />
                         </FlexContainer>
                     </ExternalLink>
-                </Container>
+                </div>
             </Container>
         </Layout>
     );
