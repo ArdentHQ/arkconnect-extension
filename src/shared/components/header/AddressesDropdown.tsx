@@ -110,12 +110,8 @@ export const AddressesDropdown = ({
                     </button>
                 </div>
             </div>
-            <FlexContainer
-                flexDirection='column'
-                paddingBottom='8'
-                maxHeight='calc(100vh - 150px)'
-                overflowY='auto'
-            >
+
+            <div className='flex flex-col max-h-[calc(100vh-150px)] pb-2 overflow-y-auto'>
                 {addresses.map((address) => (
                     <AddressRow
                         address={address}
@@ -125,7 +121,7 @@ export const AddressesDropdown = ({
                         onClose={onClose}
                     />
                 ))}
-            </FlexContainer>
+            </div>
         </div>
     );
 };
