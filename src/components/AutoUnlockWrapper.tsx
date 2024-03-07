@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useLayoutEffect, useState } from 'react';
+import { ReactNode, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { runtime } from 'webextension-polyfill';
 import { useIdleTimer } from 'react-idle-timer';
 import { useNavigate } from 'react-router-dom';
@@ -15,7 +15,7 @@ import useThemeMode from '@/lib/hooks/useThemeMode';
 
 type Props = {
     children: ReactNode | ReactNode[];
-    runEventHandlers: () => void;
+    runEventHandlers: () => number;
 };
 
 const AutoUnlockWrapper = ({ children, runEventHandlers }: Props) => {
@@ -38,17 +38,16 @@ const AutoUnlockWrapper = ({ children, runEventHandlers }: Props) => {
     }, [locked]);
 
     useEffect(() => {
-        handleAutoLockNavigation();
+        handleNavigation();
         setIsLoadingLocalData(false);
 
-        handlePersistScreenRedirect();
         handleLedgerNavigation();
     }, [runEventHandlers, locked, profile.id()]);
 
     useIdleTimer({
         throttle: 1000,
         onAction: () => {
-            runtime.sendMessage({ type: 'REGISTER_ACTIVITY' });
+            void runtime.sendMessage({ type: 'REGISTER_ACTIVITY' });
         },
         disabled: locked,
     });
@@ -65,24 +64,9 @@ const AutoUnlockWrapper = ({ children, runEventHandlers }: Props) => {
         }
     };
 
-    const handlePersistScreenRedirect = () => {
-        if (persistScreen) {
-            navigate(persistScreen.screen);
-            return;
-        }
+    const runningHandlers = useRef(false);
 
-        const lastScreen = profile.data().get(ProfileData.LastScreen) as LastScreen | undefined;
-
-        if (!lastScreen) {
-            return;
-        }
-
-        if (lastScreen.screenName === ScreenName.CreateWallet) {
-            navigate('/wallet/create');
-        }
-    };
-
-    const handleAutoLockNavigation = () => {
+    const handleNavigation = () => {
         if (locked) {
             navigate('/enter-password');
             return;
@@ -90,10 +74,38 @@ const AutoUnlockWrapper = ({ children, runEventHandlers }: Props) => {
 
         if (isProfileReady && profile.wallets().count() === 0) {
             navigate('/splash-screen');
+            persistScreen && navigate(persistScreen.screen);
             return;
         }
 
-        runEventHandlers();
+        // If an action is triggered while a screen is persisted, we should
+        // display the action screen in the opened window. However, once the
+        // registered event handlers run, the 'events' state will be reset,
+        // causing this function to re-trigger due to the nature of 'useEffect'.
+        // This would navigate the user away from the action screen, which is
+        // not ideal.To ensure good UX, we manually skip the next checks using
+        // the 'runningHandlers' flag.
+        if (runningHandlers.current || runEventHandlers()) {
+            runningHandlers.current = true;
+
+            setTimeout(() => {
+                runningHandlers.current = false;
+            }, 2000);
+
+            return;
+        }
+
+        if (persistScreen) {
+            navigate(persistScreen.screen);
+            return;
+        }
+
+        const lastScreen = profile.data().get(ProfileData.LastScreen) as LastScreen | undefined;
+
+        if (lastScreen?.screenName === ScreenName.CreateWallet) {
+            navigate('/wallet/create');
+            return;
+        }
     };
 
     return (

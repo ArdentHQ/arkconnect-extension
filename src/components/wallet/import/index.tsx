@@ -18,6 +18,7 @@ import useWalletImport from '@/lib/hooks/useWalletImport';
 import useLocaleCurrency from '@/lib/hooks/useLocalCurrency';
 import { getLocalValues } from '@/lib/utils/localStorage';
 import useLoadingModal from '@/lib/hooks/useLoadingModal';
+import { useHaveWalletsCallback } from '@/lib/hooks/useHaveWalletsCallback';
 export type ImportedWalletFormik = {
     enteredPassphrase: string;
     wallet?: Contracts.IReadWriteWallet;
@@ -56,6 +57,10 @@ const ImportNewWallet = () => {
     const [defaultStep, setDefaultStep] = useState<number>(0);
     const [isGeneratingWallet, setIsGeneratingWallet] = useState(true);
     const { defaultCurrency } = useLocaleCurrency();
+
+    const onSubmitCallback = useHaveWalletsCallback(() => {
+        navigate('/');
+    });
 
     useEffect(() => {
         (async () => {
@@ -122,7 +127,7 @@ const ImportNewWallet = () => {
             await loadingModal.setCompletedAndClose();
 
             formikHelpers.resetForm();
-            navigate('/');
+            onSubmitCallback();
         },
     });
 
