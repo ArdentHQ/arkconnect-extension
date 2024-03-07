@@ -140,7 +140,7 @@ const AddressRow = ({
                         {address.network().isTest() && <TestnetIcon />}
                     </div>
 
-                    <div className='flex gap-1.5 items-center'>
+                    <div className='flex gap-1.5 items-center text-theme-secondary-500 dark:text-theme-secondary-400'>
                         <AddressWithCopy address={address.address()} />
                         <div>•</div>
                         <AddressBalance
