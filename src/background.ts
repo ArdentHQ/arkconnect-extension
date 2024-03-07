@@ -1,13 +1,11 @@
 import { Runtime, runtime, tabs } from 'webextension-polyfill';
 import { UUID } from '@ardenthq/sdk-cryptography';
 import { AutoLockTimer, setLocalValue } from './lib/utils/localStorage';
-import { createTestProfile, isDev } from './dev/utils/dev';
 
 import { Extension } from './lib/background/extension';
 import initAutoLock from './lib/background/initAutoLock';
 import keepServiceWorkerAlive from './lib/background/keepServiceWorkerAlive';
 import { longLivedConnectionHandlers } from './lib/background/eventListenerHandlers';
-import { ProfileData } from './lib/background/contracts';
 import { OneTimeEventHandlers, OneTimeEvents } from '@/OneTimeEventHandlers';
 
 const initialPassword = UUID.random();
@@ -52,18 +50,6 @@ const handleLongLivedConnection = async (message: any, port: Runtime.Port) => {
     }
 };
 
-const setupProfileWithFixtures = async () => {
-    if (isDev()) {
-        await createTestProfile({ env: extension.env() });
-        extension
-            .profile()
-            .data()
-            .set(ProfileData.PrimaryWalletId, extension.profile().wallets().first().id());
-
-        await extension.persist();
-    }
-};
-
 runtime.onInstalled.addListener(async () => {
     await setLocalValue('autoLockTimer', AutoLockTimer.TWENTY_FOUR_HOURS);
 });
@@ -71,7 +57,6 @@ runtime.onInstalled.addListener(async () => {
 initAutoLock(extension.lockHandler());
 initOneTimeEventListeners();
 keepServiceWorkerAlive();
-setupProfileWithFixtures();
 
 runtime.onConnect.addListener((port) => {
     if (port.name === 'ark-content-script') {

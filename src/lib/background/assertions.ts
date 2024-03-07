@@ -33,11 +33,13 @@ export const getActiveSession = <T>({
         return false;
     }
 
+    const primaryWallet = profile
+        .wallets()
+        .values()
+        .find((wallet) => wallet.isPrimary());
+
     const session = Object.values(sessions).find((session) => {
-        return (
-            session.domain === payload.data.domain &&
-            session.walletId === profile?.data().get('PRIMARY_WALLET_ID')
-        );
+        return session.domain === payload.data.domain && session.walletId === primaryWallet.id();
     });
 
     return session === undefined ? false : session;

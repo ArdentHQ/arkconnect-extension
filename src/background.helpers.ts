@@ -1,5 +1,5 @@
 import { Contracts } from '@ardenthq/sdk-profiles';
-import { ProfileData } from './lib/background/contracts';
+import { WalletData } from './lib/background/contracts';
 
 interface WalletEntry {
     address: string;
@@ -45,7 +45,7 @@ export const importWallets = async ({
             .wallets()
             .findByAddressWithNetwork(wallet.address, wallet.network);
 
-        const existingWalletId = existingWallet?.id();
+        const isExistingPrimary = existingWallet?.isPrimary();
 
         // If the wallet exists, remove it so that it will be re-imported with fresh data.
         if (existingWallet) {
@@ -53,11 +53,7 @@ export const importWallets = async ({
         }
 
         const importedWallet = await importWallet({ profile, wallet });
-
-        // Check if the removed wallet was a primary wallet, and update profile with the new one.
-        if (profile.data().get(ProfileData.PrimaryWalletId) === existingWalletId) {
-            profile.data().set(ProfileData.PrimaryWalletId, importedWallet.id());
-        }
+        importedWallet.data().set(WalletData.IsPrimary, isExistingPrimary);
 
         if (wallet.alias) {
             importedWallet.settings().set(Contracts.WalletSetting.Alias, wallet.alias);
@@ -70,8 +66,13 @@ export const importWallets = async ({
         profile.wallets().push(importedWallet);
     }
 
-    if (!profile.data().has(ProfileData.PrimaryWalletId)) {
-        profile.data().set(ProfileData.PrimaryWalletId, profile.wallets().first().id());
+    const primaryWallet = profile
+        .wallets()
+        .values()
+        .find((wallet: Contracts.IReadWriteWallet) => wallet.isPrimary());
+
+    if (!primaryWallet) {
+        profile.wallets().first().data().set(WalletData.IsPrimary, true);
     }
 
     return {

@@ -3,7 +3,7 @@ import { Contracts } from '@ardenthq/sdk-profiles';
 import { runtime } from 'webextension-polyfill';
 import { useAppDispatch, useAppSelector } from '../store';
 import { useWalletBalance } from '../hooks/useWalletBalance';
-import { ProfileData } from '../background/contracts';
+import { ProfileData, WalletData } from '../background/contracts';
 import { useEnvironmentContext } from './Environment';
 import { useErrorHandlerContext } from './ErrorHandler';
 import * as WalletStore from '@/lib/store/wallet';
@@ -105,8 +105,14 @@ export const ProfileProvider = ({ children }: Properties) => {
 
         await dispatch(WalletStore.walletsLoaded(wallets));
 
-        const primaryWalletId = profile.data().get('PRIMARY_WALLET_ID') as string;
-        await dispatch(WalletStore.primaryWalletIdChanged(primaryWalletId));
+        const primaryWallet = profile
+            .wallets()
+            .values()
+            .find((wallet) => wallet.isPrimary());
+
+        if (primaryWallet) {
+            await dispatch(WalletStore.primaryWalletIdChanged(primaryWallet.id()));
+        }
     };
 
     const importProfile = async (profileDump: string): Promise<Contracts.IProfile> => {

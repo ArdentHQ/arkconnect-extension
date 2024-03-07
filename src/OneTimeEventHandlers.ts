@@ -4,7 +4,7 @@ import { UUID } from '@ardenthq/sdk-cryptography';
 import { Extension } from '@/lib/background/extension';
 import { ExtensionEvents } from '@/lib/events';
 import { importWallets } from '@/background.helpers';
-import { ProfileData } from '@/lib/background/contracts';
+import { ProfileData, WalletData } from '@/lib/background/contracts';
 import { SendTransferInput } from '@/lib/background/extension.wallet';
 import { SessionEntries } from '@/lib/store/session';
 
@@ -111,6 +111,7 @@ export function OneTimeEventHandlers(extension: ReturnType<typeof Extension>) {
                     profile: extension.profile(),
                     wallets: request.data.wallets,
                 });
+
                 await extension.persist();
 
                 return { error: undefined };
@@ -278,6 +279,7 @@ const handleChangePassword = async (request: any, extension: ReturnType<typeof E
         for (const wallet of extension.profile().wallets().values()) {
             let newWallet;
             const oldWalletId = wallet.id();
+            const isOldWalletPrimary = wallet.isPrimary();
 
             // Only non-ledgers have mnemonics
             if (!wallet.isLedger()) {
@@ -305,11 +307,6 @@ const handleChangePassword = async (request: any, extension: ReturnType<typeof E
                 newWallet.mutator().alias(wallet.alias() as string);
             }
 
-            // Update primary wallet ID to match the new id of the same wallet
-            if (extension.profile().data().get(ProfileData.PrimaryWalletId) === oldWalletId) {
-                extension.profile().data().set(ProfileData.PrimaryWalletId, newWallet.id());
-            }
-
             const sessions = extension
                 .profile()
                 .settings()
@@ -330,6 +327,7 @@ const handleChangePassword = async (request: any, extension: ReturnType<typeof E
 
             extension.profile().wallets().forget(oldWalletId);
             extension.profile().wallets().push(newWallet);
+            newWallet.data().set(WalletData.IsPrimary, isOldWalletPrimary);
         }
 
         await extension.persist();

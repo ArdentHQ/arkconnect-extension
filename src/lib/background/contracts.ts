@@ -1,7 +1,10 @@
 export enum ProfileData {
-    PrimaryWalletId = 'PRIMARY_WALLET_ID',
     Sessions = 'SESSIONS',
     LastScreen = 'LAST_SCREEN',
+}
+
+export enum WalletData {
+    IsPrimary = 'IS_PRIMARY',
 }
 
 type Session = {
