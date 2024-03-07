@@ -1,7 +1,7 @@
 import { Contracts } from '@ardenthq/sdk-profiles';
 import Amount from '../wallet/Amount';
 import ActionDetails, { ActionDetailsRow } from './ActionDetails';
-import { FlexContainer, Tooltip } from '@/shared/components';
+import { Tooltip } from '@/shared/components';
 import trimAddress from '@/lib/utils/trimAddress';
 import { getNetworkCurrency } from '@/lib/utils/getActiveCoin';
 
@@ -17,7 +17,7 @@ const RequestedVoteBody = ({ vote, unvote, fee, convertedFee, wallet }: Props) =
     return (
         <ActionDetails maxHeight='165px'>
             <ActionDetailsRow label='Transaction Fee'>
-                <FlexContainer gridGap='4px' alignItems='baseline'>
+                <div className='flex items-baseline gap-1'>
                     <div className='font-medium text-light-black dark:text-white'>
                         {fee} {getNetworkCurrency(wallet.network())}
                     </div>
@@ -29,7 +29,7 @@ const RequestedVoteBody = ({ vote, unvote, fee, convertedFee, wallet }: Props) =
                             />
                         </div>
                     )}
-                </FlexContainer>
+                </div>
             </ActionDetailsRow>
 
             {unvote && (
