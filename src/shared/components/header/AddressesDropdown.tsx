@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useRef } from 'react';
 import { runtime } from 'webextension-polyfill';
 import styled from 'styled-components';
-import { Container, FlexContainer, Icon, Paragraph, RadioButton } from '@/shared/components';
+import { Container, FlexContainer, Icon, RadioButton } from '@/shared/components';
 import useThemeMode from '@/lib/hooks/useThemeMode';
 import {
     AddressAlias,
@@ -97,9 +97,7 @@ export const AddressesDropdown = ({
         <div className=' mx-4 w-full rounded-xl shadow-dropdown bg-white dark:bg-subtle-black'>
             <div className='border-b border-b-theme-secondary-200 dark:border-b-theme-secondary-600 border-solid'>
                 <div className=' flex justify-between items-center p-3'>
-                    <Paragraph $typeset='headline' fontWeight='medium' color='base'>
-                        Addresses
-                    </Paragraph>
+                    <span className='font-medium text-light-black dark:text-white'>Addresses</span>
 
                     <button
                         className='p-[7px] items-center flex rounded-full cursor-pointer transition duration-200 ease-in-out text-light-black dark:text-white hover:bg-theme-secondary-50 dark:hover:bg-theme-secondary-700'
