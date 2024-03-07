@@ -126,7 +126,7 @@ const ViewSensitiveInfo = () => {
                         <Button
                             variant='primary'
                             onClick={formik.submitForm}
-                            mt='24'
+                            className='mt-6'
                             disabled={
                                 !formik.isValid ||
                                 !formik.values.password.length ||

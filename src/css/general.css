@@ -10,4 +10,8 @@
     .typeset-body {
         @apply text-sm text-theme-secondary-600 dark:text-theme-secondary-300 leading-[17.5px];
     }
+
+    .text-security-disc {
+        -webkit-text-security: disc;
+    }
 }
