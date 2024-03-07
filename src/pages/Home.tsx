@@ -27,85 +27,81 @@ const Home = () => {
 
     return (
         <Layout data-testid='Home'>
-            <Container margin='16'>
-                <div className='shadow-light rounded-b-2xl rounded-t-[20px] bg-white dark:bg-subtle-black'>
-                    <Container borderRadius='20' bg='primary' color='white'>
-                        <Container padding='16'>
-                            <Balance
-                                balance={primaryWallet?.balance() ?? 0}
-                                currency={primaryWallet?.currency() ?? 'ARK'}
-                                exchangeCurrency={primaryWallet?.exchangeCurrency() ?? 'USD'}
-                                convertedBalance={convertedBalance}
-                            />
-                        </Container>
-                        <FlexContainer
-                            padding='16'
-                            borderTop='1px solid'
-                            borderColor='dividerGreen'
-                            justifyContent='space-between'
-                        >
-                            <ExternalLink
-                                gridGap='8px'
-                                alignItems='center'
-                                display='flex'
-                                href={
-                                    primaryWallet?.network().isLive()
-                                        ? `${
-                                              constants.ARKSCAN_ADDRESSES
-                                          }/${primaryWallet?.address()}`
-                                        : `${
-                                              constants.ARKSCAN_TEST_ADDRESSES
-                                          }/${primaryWallet?.address()}`
-                                }
-                            >
-                                <Paragraph $typeset='body' fontWeight='medium'>
-                                    Explorer
-                                </Paragraph>
-                                <Icon icon='link-external' className='h-4 w-4' />
-                            </ExternalLink>
-                            <Icon
-                                icon='divider'
-                                className='h-4.5 w-0.5 text-theme-primary-650 dark:text-theme-primary-600'
-                            />
-
-                            <ExternalLink
-                                gridGap='8px'
-                                alignItems='center'
-                                display='flex'
-                                href={
-                                    primaryWallet?.network().isTest()
-                                        ? constants.ARKSCAN_FAUCET
-                                        : constants.ARKSCAN_EXCHANGES
-                                }
-                            >
-                                <Paragraph $typeset='body' fontWeight='medium'>
-                                    {primaryWallet?.network().isTest() ? 'Faucet' : 'Exchanges'}
-                                </Paragraph>
-                                <Icon icon='link-external' className='h-4 w-4' />
-                            </ExternalLink>
-                        </FlexContainer>
+            <div className='shadow-light m-4 rounded-b-2xl rounded-t-[20px] bg-white dark:bg-subtle-black'>
+                <Container borderRadius='20' bg='primary' color='white'>
+                    <Container padding='16'>
+                        <Balance
+                            balance={primaryWallet?.balance() ?? 0}
+                            currency={primaryWallet?.currency() ?? 'ARK'}
+                            exchangeCurrency={primaryWallet?.exchangeCurrency() ?? 'USD'}
+                            convertedBalance={convertedBalance}
+                        />
                     </Container>
-                    <ExternalLink
-                        href={constants.ARK_CONNECT_DEMO}
-                        color={getThemeColor('primary', 'primary600')}
-                        display='block'
-                        borderRadius='16'
+                    <FlexContainer
+                        padding='16'
+                        borderTop='1px solid'
+                        borderColor='dividerGreen'
+                        justifyContent='space-between'
                     >
-                        <FlexContainer
-                            padding='16'
-                            flexDirection='row'
-                            justifyContent='space-between'
+                        <ExternalLink
+                            gridGap='8px'
                             alignItems='center'
+                            display='flex'
+                            href={
+                                primaryWallet?.network().isLive()
+                                    ? `${constants.ARKSCAN_ADDRESSES}/${primaryWallet?.address()}`
+                                    : `${
+                                          constants.ARKSCAN_TEST_ADDRESSES
+                                      }/${primaryWallet?.address()}`
+                            }
                         >
-                            <Icon icon='speakerphone' className='h-4.5 w-4.5' />
                             <Paragraph $typeset='body' fontWeight='medium'>
-                                Try Our Demo App Now!
+                                Explorer
                             </Paragraph>
                             <Icon icon='link-external' className='h-4 w-4' />
-                        </FlexContainer>
-                    </ExternalLink>
-                </div>
-            </Container>
+                        </ExternalLink>
+                        <Icon
+                            icon='divider'
+                            className='h-4.5 w-0.5 text-theme-primary-650 dark:text-theme-primary-600'
+                        />
+
+                        <ExternalLink
+                            gridGap='8px'
+                            alignItems='center'
+                            display='flex'
+                            href={
+                                primaryWallet?.network().isTest()
+                                    ? constants.ARKSCAN_FAUCET
+                                    : constants.ARKSCAN_EXCHANGES
+                            }
+                        >
+                            <Paragraph $typeset='body' fontWeight='medium'>
+                                {primaryWallet?.network().isTest() ? 'Faucet' : 'Exchanges'}
+                            </Paragraph>
+                            <Icon icon='link-external' className='h-4 w-4' />
+                        </ExternalLink>
+                    </FlexContainer>
+                </Container>
+                <ExternalLink
+                    href={constants.ARK_CONNECT_DEMO}
+                    color={getThemeColor('primary', 'primary600')}
+                    display='block'
+                    borderRadius='16'
+                >
+                    <FlexContainer
+                        padding='16'
+                        flexDirection='row'
+                        justifyContent='space-between'
+                        alignItems='center'
+                    >
+                        <Icon icon='speakerphone' className='h-4.5 w-4.5' />
+                        <Paragraph $typeset='body' fontWeight='medium'>
+                            Try Our Demo App Now!
+                        </Paragraph>
+                        <Icon icon='link-external' className='h-4 w-4' />
+                    </FlexContainer>
+                </ExternalLink>
+            </div>
         </Layout>
     );
 };
