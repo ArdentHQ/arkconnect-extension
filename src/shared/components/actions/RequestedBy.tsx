@@ -1,8 +1,5 @@
-import styled from 'styled-components';
 import ConnectionLogoImage from '../../../components/connections/ConnectionLogoImage';
-import { FlexContainer, Paragraph } from '@/shared/components';
 import formatDomain from '@/lib/utils/formatDomain';
-import useThemeMode from '@/lib/hooks/useThemeMode';
 
 type Props = {
     appName?: string;
@@ -10,40 +7,20 @@ type Props = {
     appDomain: string;
 };
 
-const DomainName = styled(Paragraph)`
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    display: inline-block;
-`;
-
-const StyledParagraph = styled(Paragraph)`
-    white-space: nowrap;
-`;
-
 const RequestedBy = ({ appDomain, appLogo }: Props) => {
-    const { getThemeColor } = useThemeMode();
-
     return (
-        <FlexContainer
-            backgroundColor={getThemeColor('white', 'subtleBlack')}
-            flexDirection='row'
-            alignItems='center'
-            width='100%'
-            justifyContent='center'
-            p='16'
-        >
+        <div className='flex w-full flex-row items-center justify-center bg-white p-4 dark:bg-subtle-black'>
             <ConnectionLogoImage appLogo={appLogo} appName={appDomain} roundCorners />
 
-            <StyledParagraph $typeset='body' fontWeight='regular' color='gray' ml='8'>
+            <span className='ml-2 whitespace-nowrap text-sm text-theme-secondary-500 dark:text-theme-secondary-300'>
                 Requested by
-            </StyledParagraph>
+            </span>
 
-            <DomainName color='base' display='inline'>
+            <span className='inline truncate text-sm text-light-black dark:text-white'>
                 &nbsp;
                 {formatDomain(appDomain, false)}
-            </DomainName>
-        </FlexContainer>
+            </span>
+        </div>
     );
 };
 
