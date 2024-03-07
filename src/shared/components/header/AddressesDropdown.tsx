@@ -2,9 +2,8 @@ import { Contracts } from '@ardenthq/sdk-profiles';
 import { useNavigate } from 'react-router-dom';
 import { useRef } from 'react';
 import { runtime } from 'webextension-polyfill';
-import styled from 'styled-components';
 import classNames from 'classnames';
-import { FlexContainer, Icon, RadioButton } from '@/shared/components';
+import { Icon, RadioButton } from '@/shared/components';
 import {
     AddressAlias,
     AddressBalance,
@@ -19,22 +18,6 @@ import { useAppDispatch } from '@/lib/store';
 import useToast from '@/lib/hooks/useToast';
 import useOnClickOutside from '@/lib/hooks/useOnClickOutside';
 import { useProfileContext } from '@/lib/context/Profile';
-import { DropdownMenuContainerProps } from '@/components/settings/SettingsMenu';
-import { isFirefox } from '@/lib/utils/isFirefox';
-
-const StyledFlexContainerSettings = styled(FlexContainer)<DropdownMenuContainerProps>`
-    ${(props) => `
-  transition: ${isFirefox ? 'background 0.2s ease-in-out' : 'all 0.2s ease-in-out'};
-  &:hover {
-    background-color: ${
-        props.selected ? props.theme.colors.lightGreenHover : props.theme.colors.lightGrayHover2
-    }
-  }
-  background-color: 'transparent';
-
-  ${isFirefox ? props.theme.browserCompatibility.firefox.focus : ''}
-`}
-`;
 
 export const AddressesDropdown = ({
     addresses,
@@ -89,6 +72,7 @@ export const AddressesDropdown = ({
                     <span className='font-medium text-light-black dark:text-white'>Addresses</span>
 
                     <button
+                        type='button'
                         className='p-[7px] items-center flex rounded-full cursor-pointer transition duration-200 ease-in-out text-light-black dark:text-white hover:bg-theme-secondary-50 dark:hover:bg-theme-secondary-700'
                         onClick={() => {
                             onClose();
@@ -167,21 +151,24 @@ const AddressRow = ({
                 </div>
             </div>
 
-            <StyledFlexContainerSettings
-                padding='7'
-                alignItems='center'
-                borderRadius='50'
-                color='base'
-                as='button'
-                className='c-pointer'
+            <button
+                type='button'
                 onClick={() => {
                     onClose();
                     navigate('/address/settings', { state: { address } });
                 }}
-                selected={isSelected}
+                className={classNames(
+                    'p-[7px] items-center flex rounded-full cursor-pointer transition duration-200 ease-in-out text-light-black dark:text-white hover:bg-theme-secondary-50 dark:hover:bg-theme-secondary-700',
+                    {
+                        'hover:bg-theme-primary-200/60 dark:hover:bg-theme-primary-800/50':
+                            isSelected,
+                        'hover:bg-theme-secondary-200 dark:hover:bg-theme-secondary-600':
+                            !isSelected,
+                    },
+                )}
             >
                 <Icon icon='transparent-settings' className='h-4.5 w-4.5' />
-            </StyledFlexContainerSettings>
+            </button>
         </div>
     );
 };
