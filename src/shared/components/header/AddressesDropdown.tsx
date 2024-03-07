@@ -4,7 +4,7 @@ import { useRef } from 'react';
 import { runtime } from 'webextension-polyfill';
 import styled from 'styled-components';
 import classNames from 'classnames';
-import { Container, FlexContainer, Icon, RadioButton } from '@/shared/components';
+import { FlexContainer, Icon, RadioButton } from '@/shared/components';
 import {
     AddressAlias,
     AddressBalance,
@@ -138,34 +138,35 @@ const AddressRow = ({
                 },
             )}
         >
-            <FlexContainer gridGap='12' alignItems='center'>
-                <Container>
+            <div className='flex gap-3 items-center'>
+                <div>
                     <RadioButton
                         name='change-primary-address'
                         id={address.id()}
                         checked={isSelected}
                         onChange={() => onPrimaryAddressChange(address)}
                     />
-                </Container>
-                <FlexContainer flexDirection='column' gridGap='4'>
-                    <FlexContainer gridGap='6' alignItems='center'>
+                </div>
+                <div className='flex flex-col gap-1'>
+                    <div className='flex gap-1.5 items-center'>
                         <AddressAlias alias={address.alias() ?? ''} withTooltip={true} />
 
                         {address.isLedger() && <LedgerIcon />}
 
                         {address.network().isTest() && <TestnetIcon />}
-                    </FlexContainer>
+                    </div>
 
-                    <FlexContainer gridGap='6' color='gray' alignItems='center'>
+                    <div className='flex gap-1.5 items-center'>
                         <AddressWithCopy address={address.address()} />
                         <div>•</div>
                         <AddressBalance
                             balance={address.balance()}
                             currency={getNetworkCurrency(address.network())}
                         />
-                    </FlexContainer>
-                </FlexContainer>
-            </FlexContainer>
+                    </div>
+                </div>
+            </div>
+
             <StyledFlexContainerSettings
                 padding='7'
                 alignItems='center'
