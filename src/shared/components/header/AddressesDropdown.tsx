@@ -3,8 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { useRef } from 'react';
 import { runtime } from 'webextension-polyfill';
 import styled from 'styled-components';
+import classNames from 'classnames';
 import { Container, FlexContainer, Icon, RadioButton } from '@/shared/components';
-import useThemeMode from '@/lib/hooks/useThemeMode';
 import {
     AddressAlias,
     AddressBalance,
@@ -22,17 +22,6 @@ import { useProfileContext } from '@/lib/context/Profile';
 import { DropdownMenuContainerProps } from '@/components/settings/SettingsMenu';
 import { isFirefox } from '@/lib/utils/isFirefox';
 
-const StyledFlexContainer = styled(FlexContainer)<DropdownMenuContainerProps>`
-    ${(props) => `
-  transition: ${isFirefox ? 'background 0.2s ease-in-out' : 'all 0.2s ease-in-out'};
-  &:hover {
-    background-color: ${props.theme.colors.lightGrayHover};
-  }
-  background-color: 'transparent';
-
-  ${isFirefox ? props.theme.browserCompatibility.firefox.focus : ''}
-`}
-`;
 const StyledFlexContainerSettings = styled(FlexContainer)<DropdownMenuContainerProps>`
     ${(props) => `
   transition: ${isFirefox ? 'background 0.2s ease-in-out' : 'all 0.2s ease-in-out'};
@@ -126,21 +115,6 @@ export const AddressesDropdown = ({
     );
 };
 
-const StyledWrapper = styled(FlexContainer)<{ isDark: boolean; selected: boolean }>`
-    ${(props) => `
-  transition: all 0.2s ease-in-out;
-  ${
-      !props.selected
-          ? `
-    &:hover {
-      background-color: ${props.isDark ? '#484646' : props.theme.colors.secondary50}
-    }
-  `
-          : ''
-  }
-`}
-`;
-
 const AddressRow = ({
     address,
     isSelected,
@@ -154,17 +128,15 @@ const AddressRow = ({
 }) => {
     const navigate = useNavigate();
 
-    const { getThemeColor, isDark } = useThemeMode();
-
     return (
-        <StyledWrapper
-            paddingX='12'
-            paddingY='16'
-            justifyContent='space-between'
-            alignItems='center'
-            selected={isSelected}
-            isDark={isDark()}
-            backgroundColor={isSelected ? getThemeColor('primary50', '#02a86326') : undefined}
+        <div
+            className={classNames(
+                'flex px-3 py-4 justify-between items-center transition duration-200 ease-in-out ',
+                {
+                    'bg-theme-primary-50 dark:bg-theme-primary-650/15': isSelected,
+                    'hover:bg-theme-secondary-50 dark:hover:bg-theme-secondary-700': !isSelected,
+                },
+            )}
         >
             <FlexContainer gridGap='12' alignItems='center'>
                 <Container>
@@ -209,6 +181,6 @@ const AddressRow = ({
             >
                 <Icon icon='transparent-settings' className='h-4.5 w-4.5' />
             </StyledFlexContainerSettings>
-        </StyledWrapper>
+        </div>
     );
 };
