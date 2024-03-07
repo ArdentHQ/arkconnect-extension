@@ -1,116 +1,19 @@
-import styled from 'styled-components';
-import {
-    BorderProps,
-    ColorProps,
-    LayoutProps,
-    PositionProps,
-    ShadowProps,
-    SpaceProps,
-    variant,
-} from 'styled-system';
 import { forwardRef, MouseEvent } from 'react';
 import cn from 'classnames';
-import { Theme } from '@/shared/theme';
-import { Container, FlexContainer, Icon, IconDefinition, Paragraph } from '@/shared/components';
-import { FlexVariantProps } from '@/shared/theme/variants';
-import useThemeMode from '@/lib/hooks/useThemeMode';
+import { Icon, IconDefinition } from '@/shared/components';
 import { isFirefox } from '@/lib/utils/isFirefox';
 
-type VariantProps = {
-    variant?: 'primary' | 'error';
-    isDark?: boolean;
-};
 
-type BaseProps = ColorProps<Theme> &
-    SpaceProps<Theme> &
-    LayoutProps<Theme> &
-    PositionProps<Theme> &
-    ShadowProps<Theme> &
-    BorderProps<Theme> &
-    FlexVariantProps &
-    VariantProps;
-
-type SettingsOptionProps = React.ComponentPropsWithRef<typeof StyledRow> & {
+type SettingsOptionProps = React.ComponentPropsWithRef<'div'> & {
     iconLeading: IconDefinition;
     iconTrailing?: IconDefinition;
     title: string;
     rightContent?: React.ReactNode;
     disabled?: boolean;
     iconClassName?: string;
+    variant?: 'primary' | 'error';
+    className?: string;
 };
-
-const StyledRow = styled(Container)<BaseProps>`
-    position: relative;
-    display: flex;
-    width: 100%;
-    max-height: 52px;
-    padding: 16px;
-    cursor: pointer;
-    grid-gap: 12px;
-    align-items: center;
-    border: none;
-    background: none;
-
-    &:focus-visible {
-        outline-offset: -2px;
-    }
-
-    ${({ theme, isDark }) =>
-        variant({
-            variants: {
-                primary: {
-                    backgroundColor: `${theme.transitions.white}`,
-                    transition: isFirefox
-                        ? `${theme.transitions.firefoxSmoothEase}`
-                        : `${theme.transitions.smoothEase}`,
-
-                    '&:focus-visible': isFirefox
-                        ? {
-                              'outline-style': 'solid',
-                              'outline-width': '2px',
-                              'outline-offset': '-2px',
-                          }
-                        : {},
-
-                    '&:hover': {
-                        backgroundColor: `${theme.colors.secondaryBlackHover}`,
-                    },
-                },
-                error: {
-                    transition: isFirefox
-                        ? `${theme.transitions.firefoxSmoothEase}`
-                        : `${theme.transitions.smoothEase}`,
-
-                    '&:focus-visible': isFirefox
-                        ? {
-                              'outline-style': 'solid',
-                              'outline-width': '2px',
-                              'outline-offset': '-2px',
-                          }
-                        : {},
-
-                    '&:hover': {
-                        backgroundColor: isDark
-                            ? 'rgba(204, 28, 0, 0.10)'
-                            : `${theme.colors.error50}`,
-                        color: `${theme.colors.error}`,
-                        '.icon-leading': {
-                            transition: `${theme.transitions.smoothEase}`,
-                            color: `${theme.colors.error500}`,
-                        },
-                        '.icon-trailing': {
-                            transition: `${theme.transitions.smoothEase}`,
-                            color: `${theme.colors.error500}`,
-                        },
-                        '.title-text': {
-                            transition: `${theme.transitions.smoothEase}`,
-                            color: `${theme.colors.error500}`,
-                        },
-                    },
-                },
-            },
-        })};
-`;
 
 export const SettingsOption = forwardRef(function RowLayout(
     {
@@ -122,18 +25,21 @@ export const SettingsOption = forwardRef(function RowLayout(
         disabled,
         onClick,
         iconClassName,
+        className,
         ...rest
     }: SettingsOptionProps,
     forwardedRef: React.Ref<HTMLDivElement>,
 ) {
-    const { isDark, getThemeColor } = useThemeMode();
 
     return (
-        <StyledRow
-            variant={variant}
-            isDark={isDark()}
+        <div
+            className={cn('relative flex w-full max-h-13 p-4 cursor-pointer gap-3 items-center border-none bg-none focus-visible:-outline-offset-2', {
+                'transition-smoothEase': !isFirefox,
+                'transition-firefoxSmoothEase focus-visible:outline-2 focus-visible:-outline-offset-2': isFirefox,
+                'hover:bg-theme-secondary-50 dark:hover:bg-theme-secondary-700': variant === 'primary',
+                'hover:bg-theme-error-50 dark:hover:bg-[rgba(204,28,0,0.10)] text-theme-error-600 dark:text-theme-error-500 group': variant === 'error',
+            }, className)}
             ref={forwardedRef}
-            {...rest}
             onClick={(e: MouseEvent<HTMLDivElement>) => {
                 if (!disabled && onClick) {
                     onClick(e);
@@ -143,68 +49,52 @@ export const SettingsOption = forwardRef(function RowLayout(
             aria-label={title}
             {...rest}
         >
-            <FlexContainer width='100%' gridGap='12px' alignItems='flex-start' as='span'>
-                <FlexContainer
-                    justifyContent='center'
-                    alignItems='center'
-                    overflow='hidden'
-                    as='span'
-                >
-                    <FlexContainer
-                        width='20px'
-                        height='20px'
-                        color={getThemeColor('secondary500', 'secondary300')}
-                        className='icon-leading'
-                        as='span'
-                    >
+            <span className='flex w-full gap-3 items-start'>
+                <span className='flex justify-center items-center overflow-hidden'>
+                    <span className={cn('w-5 h-5 text-theme-secondary-500 dark:text-theme-secondary-300', {
+                        'transition-smoothEase group-hover:text-theme-error-500': variant === 'error'
+                    })}>
                         <Icon className='w-5 h-5' icon={iconLeading} />
-                    </FlexContainer>
-                </FlexContainer>
-                <FlexContainer
-                    alignItems='center'
-                    justifyContent='space-between'
-                    width='100%'
-                    as='span'
-                >
-                    <FlexContainer
-                        flexDirection='column'
-                        alignItems='flex-start'
-                        gridGap='4px'
-                        as='span'
-                    >
-                        <Paragraph
-                            $typeset='headline'
-                            fontWeight='regular'
-                            color={disabled ? 'gray' : 'base'}
-                            className='title-text'
-                            as='span'
-                        >
+                    </span>
+                </span>
+
+                <span className='flex items-center justify-between w-full'>
+                    <span className='flex flex-col items-start gap-1'>
+                        <p className={cn('typeset-headline font-normal', {
+                            'text-theme-secondary-500 dark:text-theme-secondary-300': disabled,
+                            'text-light-black dark:text-white': !disabled,
+                            'transition-smoothEase group-hover:text-theme-error-500': variant === 'error'
+                        })}>
                             {title}
-                        </Paragraph>
-                    </FlexContainer>
-                    <FlexContainer alignItems='center' as='span'>
+                        </p>
+                    </span>
+
+                    <span className='flex items-center'>
                         {rightContent}
+                        
                         {iconTrailing && (
-                            <FlexContainer alignItems='center' gridGap='8px' as='span'>
+                            <span className='flex items-center gap-2'>
                                 {iconTrailing && (
                                     <Icon
                                         icon={iconTrailing}
                                         className={cn(
-                                            'icon-trailing w-5 h-5',
+                                            'w-5 h-5',
                                             {
                                                 'text-theme-secondary-500 dark:text-theme-secondary-300':
                                                     disabled,
                                                 'text-light-black dark:text-white': !disabled,
+                                                'transition-smoothEase group-hover:text-theme-error-500': variant === 'error'
                                             },
                                             iconClassName,
                                         )}
                                     />
                                 )}
-                            </FlexContainer>
+                            </span>
                         )}
-                    </FlexContainer>
-                </FlexContainer>
-            </FlexContainer>
-        </StyledRow>
+                    </span>
+                </span>
+            </span>
+        </div>
     );
+
 });
