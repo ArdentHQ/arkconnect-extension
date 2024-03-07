@@ -172,17 +172,10 @@ strong {
     -moz-osx-font-smoothing: grayscale;
     text-decoration: none;
 }
-img {
-    max-width: 100%;
-    height: auto;
-}
-i,
-em {
-    font-style: italic;
-}
+
 b,
 strong {
-    font-weight: bold;
+    @apply font-bold;
 }
 
 body {
