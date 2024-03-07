@@ -12,13 +12,13 @@ import { FlexContainer } from '@/shared/components';
 import { HandleLoadingState } from '@/shared/components/handleStates/HandleLoadingState';
 import { useProfileContext } from '@/lib/context/Profile';
 import useThemeMode from '@/lib/hooks/useThemeMode';
+import { useBackgroundEvents } from '@/lib/context/BackgroundEventHandler';
 
 type Props = {
     children: ReactNode | ReactNode[];
-    runEventHandlers: () => number;
 };
 
-const AutoUnlockWrapper = ({ children, runEventHandlers }: Props) => {
+const NextPageMiddleware = ({ children }: Props) => {
     const dispatch = useAppDispatch();
     const { currentThemeMode } = useThemeMode();
     const { persistScreen } = getPersistedValues();
@@ -36,6 +36,8 @@ const AutoUnlockWrapper = ({ children, runEventHandlers }: Props) => {
 
         void checkLocked();
     }, [locked]);
+
+    const { runEventHandlers } = useBackgroundEvents();
 
     useEffect(() => {
         handleNavigation();
@@ -122,4 +124,4 @@ const AutoUnlockWrapper = ({ children, runEventHandlers }: Props) => {
     );
 };
 
-export default AutoUnlockWrapper;
+export default NextPageMiddleware;
