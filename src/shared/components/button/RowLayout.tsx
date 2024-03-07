@@ -73,10 +73,10 @@ export const RowLayout = forwardRef(function RowLayout(
             onClick={onClick}
             onKeyDown={onKeyDown}
         >
-            <span className='w-full gap-3 flex items-star'>
+            <span className='items-star flex w-full gap-3'>
                 {iconLeading && iconLeading}
 
-                <span className='flex items-center justify-between w-full'>
+                <span className='flex w-full items-center justify-between'>
                     <span className='flex flex-col items-start gap-1 '>
                         <span className='flex flex-row items-center gap-1.5'>
                             {title && (
@@ -98,7 +98,7 @@ export const RowLayout = forwardRef(function RowLayout(
                         </span>
 
                         {helperText && (
-                            <span className='flex text-sm leading-[18px] text-left items-center gap-[5px] text-theme-secondary-500 dark:text-theme-secondary-300'>
+                            <span className='flex items-center gap-[5px] text-left text-sm leading-[18px] text-theme-secondary-500 dark:text-theme-secondary-300'>
                                 {address && (
                                     <>
                                         <Address
@@ -143,7 +143,7 @@ export const RowLayout = forwardRef(function RowLayout(
 
                     <span className='flex items-center'>
                         {rightHelperText && (
-                            <span className='typeset-headline font-normal text-theme-secondary-500 dark:text-theme-secondary-300 mr-2'>
+                            <span className='typeset-headline mr-2 font-normal text-theme-secondary-500 dark:text-theme-secondary-300'>
                                 {rightHelperText}
                             </span>
                         )}
