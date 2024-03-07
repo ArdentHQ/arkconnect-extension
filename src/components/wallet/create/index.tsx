@@ -19,7 +19,7 @@ import { getLocalValues } from '@/lib/utils/localStorage';
 import { LastScreen, ProfileData, ScreenName } from '@/lib/background/contracts';
 import randomWordPositions from '@/lib/utils/randomWordPositions';
 import useLoadingModal from '@/lib/hooks/useLoadingModal';
-import {useBackgroundEvents} from "@/lib/context/BackgroundEventHandler";
+import { useBackgroundEvents } from '@/lib/context/BackgroundEventHandler';
 
 export type CreateWalletFormik = {
     wallet?: Contracts.IReadWriteWallet;

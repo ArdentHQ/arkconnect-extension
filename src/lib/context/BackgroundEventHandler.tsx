@@ -1,5 +1,5 @@
 import { createContext, ReactNode, useContext } from 'react';
-import { Event } from "@/lib/hooks/useBackgroundEventHandler";
+import { Event } from '@/lib/hooks/useBackgroundEventHandler';
 
 interface Context {
     events: Event[];
@@ -15,7 +15,6 @@ interface Properties {
 const BackgroundEventsContext = createContext<Context | undefined>(undefined);
 
 export const BackgroundEvents = ({ children, events, runEventHandlers }: Properties) => {
-
     return (
         <BackgroundEventsContext.Provider
             value={{

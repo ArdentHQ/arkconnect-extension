@@ -18,7 +18,7 @@ import useWalletImport from '@/lib/hooks/useWalletImport';
 import useLocaleCurrency from '@/lib/hooks/useLocalCurrency';
 import { getLocalValues } from '@/lib/utils/localStorage';
 import useLoadingModal from '@/lib/hooks/useLoadingModal';
-import {useBackgroundEvents} from "@/lib/context/BackgroundEventHandler";
+import { useBackgroundEvents } from '@/lib/context/BackgroundEventHandler';
 export type ImportedWalletFormik = {
     enteredPassphrase: string;
     wallet?: Contracts.IReadWriteWallet;

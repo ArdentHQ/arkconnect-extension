@@ -20,7 +20,7 @@ import { themeModes } from '@/shared/theme/categories/color';
 import { selectThemeMode, ThemeMode } from '@/lib/store/ui';
 import routes from '@/routing';
 import { BackgroundEvents } from '@/lib/context/BackgroundEventHandler';
-import useBackgroundEventHandler from "@/lib/hooks/useBackgroundEventHandler";
+import useBackgroundEventHandler from '@/lib/hooks/useBackgroundEventHandler';
 
 const env = initializeEnvironment();
 
@@ -84,7 +84,7 @@ const App = () => {
 
     const theme = { ...baseTheme, colors: themeModes[themeMode] };
 
-    const {runEventHandlers, events} = useBackgroundEventHandler();
+    const { runEventHandlers, events } = useBackgroundEventHandler();
 
     useLayoutEffect(() => {
         const boot = async () => {
