@@ -60,7 +60,7 @@ const VoteApproved = () => {
                     <FlexContainer flexDirection='column' gridGap='16px' alignItems='center'>
                         <Icon
                             icon='completed'
-                            className='text-theme-primary-700 dark:text-theme-primary-650 h-16 w-16'
+                            className='h-16 w-16 text-theme-primary-700 dark:text-theme-primary-650'
                         />
                         <Heading $typeset='h3' color='base' fontWeight='bold'>
                             {getTitle()}

@@ -73,7 +73,7 @@ const ConnectionsList = () => {
                                 />
                             </FlexContainer>
 
-                            <div className='flex-1 flex flex-col justify-between'>
+                            <div className='flex flex-1 flex-col justify-between'>
                                 <div>
                                     <Tooltip
                                         content={
@@ -128,7 +128,7 @@ const ConnectionsList = () => {
                                 >
                                     <Icon
                                         icon='slash'
-                                        className='text-theme-error-600 dark:text-theme-error-500 w-4.5 h-4.5'
+                                        className='h-4.5 w-4.5 text-theme-error-600 dark:text-theme-error-500'
                                     />
                                 </StyledFlexContainer>
                             </Tooltip>

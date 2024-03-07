@@ -22,7 +22,7 @@ const SplashScreen = () => {
         <SplashScreenWrapper>
             <AnimatedContent>
                 <Icon
-                    className='splash-screen-icon text-white h-[38px] w-[38px]'
+                    className='splash-screen-icon h-[38px] w-[38px] text-white'
                     icon='logo-icon'
                 />
                 <Icon className='splash-screen-icon h-4 w-[170px]' icon='logo-text' />

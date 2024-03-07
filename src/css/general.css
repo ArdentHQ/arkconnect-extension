@@ -4,11 +4,11 @@
     }
 
     .typeset-heading {
-        @apply text-base text-subtle-black dark:text-white leading-5;
+        @apply text-base leading-5 text-subtle-black dark:text-white;
     }
 
     .typeset-body {
-        @apply text-sm text-theme-secondary-600 dark:text-theme-secondary-300 leading-[17.5px];
+        @apply text-sm leading-[17.5px] text-theme-secondary-600 dark:text-theme-secondary-300;
     }
 
     .text-security-disc {
