@@ -69,7 +69,7 @@ export const Header = () => {
     return (
         <HeaderWrapper withShadow={!isOnboardingPage}>
             <div className=' px-4 relative main-container'>
-                <div className='flex justify-between space-x-5'>
+                <div className='flex justify-between space-x-5 py-px'>
                     <div className='flex items-center flex-1 overflow-auto p-1 -m-1'>
                         {/*Logo*/}
                         <Link to='/'>
@@ -83,9 +83,9 @@ export const Header = () => {
                                 aria-label='Addresses Dropdown'
                                 onClick={handleAddressDropdownClick}
                                 ref={addressesTriggerRef}
-                                className='ml-2'
+                                className='ml-2 px-2 py-1.5'
                             >
-                                <span className='truncate font-medium leading-tight max-w-[124px] text-light-black dark:text-white'>
+                                <span className='truncate font-medium max-w-[124px] text-light-black dark:text-white'>
                                     {primaryWallet.alias()}
                                 </span>
 
