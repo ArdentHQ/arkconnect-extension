@@ -1,45 +1,12 @@
-import styled, { WebTarget } from 'styled-components';
-import {
-    border,
-    BorderProps,
-    color,
-    ColorProps,
-    layout,
-    LayoutProps,
-    position,
-    PositionProps,
-    shadow,
-    ShadowProps,
-    space,
-    SpaceProps,
-    variant,
-} from 'styled-system';
 import { forwardRef } from 'react';
 import cn from 'classnames';
-import { Theme } from '@/shared/theme';
-import { Container, FlexContainer, Icon, IconDefinition, Paragraph } from '@/shared/components';
-import { flexVariant, FlexVariantProps } from '@/shared/theme/variants';
+import { Icon, IconDefinition } from '@/shared/components';
 import constants from '@/constants';
 import { Address, LedgerIcon, TestnetIcon } from '@/components/wallet/address/Address.blocks';
 import { isFirefox } from '@/lib/utils/isFirefox';
 import Amount from '@/components/wallet/Amount';
 
-type VariantProps = {
-    variant?: 'primary' | 'errorFree';
-};
-
-type BaseProps = ColorProps<Theme> &
-    SpaceProps<Theme> &
-    LayoutProps<Theme> &
-    PositionProps<Theme> &
-    ShadowProps<Theme> &
-    BorderProps<Theme> &
-    FlexVariantProps &
-    VariantProps & {
-        hasPointer?: boolean;
-    };
-
-type RowLayoutProps = React.ComponentPropsWithRef<typeof StyledRow> & {
+type RowLayoutProps = React.ComponentPropsWithRef<'button'> & {
     iconLeading?: React.ReactNode;
     iconTrailing?: IconDefinition;
     title?: string;
@@ -52,155 +19,93 @@ type RowLayoutProps = React.ComponentPropsWithRef<typeof StyledRow> & {
     currency?: string;
     address?: string;
     tabIndex?: number;
-    as?: void | WebTarget | undefined;
     iconClassName?: string;
+    className?: string;
+    variant?: 'primary' | 'errorFree';
+    onKeyDown?: (event: React.KeyboardEvent<HTMLDivElement>) => void;
+    onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
 };
-
-const StyledRow = styled.div<BaseProps>`
-    position: relative;
-    display: flex;
-    width: 100%;
-    max-height: 74px;
-    padding: 16px;
-    grid-gap: 12px;
-
-    &:disabled {
-        cursor: not-allowed;
-        pointer-events: none;
-    }
-
-    cursor: ${({ hasPointer }) => (hasPointer ? 'pointer' : 'inherit')};
-
-    ${({ as }) =>
-        as === 'button' &&
-        `
-    border: none;
-    background-color: transparent;
-  `}
-
-    ${space}
-  ${color}
-  ${layout}
-  ${position}
-  ${shadow}
-  ${border}
-  ${flexVariant}
-
-  ${({ theme }) =>
-        variant({
-            variants: {
-                primary: {
-                    borderRadius: '16px',
-                    backgroundColor: `${theme.colors.inputBackground}`,
-                    boxShadow: '0px 1px 4px 0px rgba(0, 0, 0, 0.05)',
-                    transition: isFirefox
-                        ? `${theme.transitions.firefoxSmoothEase}`
-                        : `${theme.transitions.smoothEase}`,
-
-                    '&:focus-visible': isFirefox
-                        ? {
-                              'outline-style': 'solid',
-                              'outline-width': '2px',
-                              'outline-offset': '-2px',
-                          }
-                        : {},
-
-                    '&:hover': {
-                        boxShadow: `0px 0px 0px 1px ${theme.colors.toggleInactive}`,
-                    },
-                },
-                errorFree: {
-                    borderRadius: '20px',
-                    backgroundColor: `${theme.colors.inputBackground}`,
-                    boxShadow: '0px 1px 4px 0px rgba(0, 0, 0, 0.05)',
-                    border: `1px solid ${theme.colors.primary}`,
-
-                    '&:focus-visible': isFirefox
-                        ? {
-                              'outline-style': 'solid',
-                              'outline-width': '2px',
-                              'outline-offset': '-2px',
-                          }
-                        : {},
-                },
-            },
-        })};
-`;
 
 export const RowLayout = forwardRef(function RowLayout(
     {
+        address,
+        children,
+        className,
+        currency,
+        disabled,
+        helperText,
+        iconClassName,
         iconLeading,
         iconTrailing,
-        title,
-        helperText,
-        rightHelperText,
-        children,
-        testnetIndicator,
         ledgerIndicator,
-        variant = 'primary',
-        disabled,
-        currency,
-        address,
+        onClick,
+        onKeyDown,
+        rightHelperText,
         tabIndex = 0,
-        as,
-        iconClassName,
-        ...rest
+        testnetIndicator,
+        title,
+        variant = 'primary',
     }: RowLayoutProps,
-    forwardedRef: React.Ref<HTMLDivElement>,
+    forwardedRef: React.Ref<HTMLButtonElement>,
 ) {
-    const containerAs = as === 'button' ? 'span' : undefined;
+    const hasPointer = onClick !== undefined;
+
+    const containerStyles = cn(
+        'relative flex w-full max-h-[74px] p-4 gap-3 disabled:cursor-not-allowed disabled:pointer-events-none',
+        {
+            'cursor-pointer': hasPointer,
+            'cursor-auto': !hasPointer,
+            'rounded-2xl bg-white dark:bg-subtle-black shadow-[0_1px_4px_0_rgba(0,0,0,0.05)] hover:shadow-[0_0_0_1px] hover:shadow-theme-secondary-200 hover:dark:shadow-theme-secondary-600':
+                variant === 'primary',
+            'rounded-[20px] bg-white dark:bg-subtle-black shadow-[0_1px_4px_0_rgba(0,0,0,0.05)] border border-solid border-theme-primary-700 dark:border-theme-primary-650':
+                variant === 'errorFree',
+            'focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2':
+                isFirefox,
+        },
+        className,
+    );
 
     return (
-        <StyledRow
-            variant={variant}
+        <button
+            className={containerStyles}
             tabIndex={tabIndex}
-            as={as}
-            {...rest}
-            hasPointer={rest.onClick !== undefined}
             ref={forwardedRef}
+            onClick={onClick}
+            onKeyDown={onKeyDown}
         >
-            <FlexContainer width='100%' gridGap='12px' alignItems='flex-start' as={containerAs}>
+            <span className='items-star flex w-full gap-3'>
                 {iconLeading && iconLeading}
-                <FlexContainer
-                    alignItems='center'
-                    justifyContent='space-between'
-                    width='100%'
-                    as={containerAs}
-                >
-                    <FlexContainer
-                        flexDirection='column'
-                        alignItems='flex-start'
-                        gridGap='4px'
-                        as={containerAs}
-                    >
-                        <FlexContainer
-                            flexDirection='row'
-                            alignItems='center'
-                            gridGap='6px'
-                            as={containerAs}
-                        >
+
+                <span className='flex w-full items-center justify-between'>
+                    <span className='flex flex-col items-start gap-1 '>
+                        <span className='flex flex-row items-center gap-1.5'>
                             {title && (
-                                <Paragraph
-                                    $typeset='headline'
-                                    fontWeight={helperText ? 'medium' : 'regular'}
-                                    color={disabled ? 'gray' : 'base'}
-                                    as={containerAs}
+                                <span
+                                    className={cn('typeset-headline', {
+                                        'font-medium': helperText,
+                                        'font-normal': !helperText,
+                                        'text-theme-secondary-500 dark:text-theme-secondary-300':
+                                            disabled,
+                                        'text-light-black dark:text-white': !disabled,
+                                    })}
                                 >
                                     {title}
-                                </Paragraph>
+                                </span>
                             )}
-                            {ledgerIndicator && <LedgerIcon as={containerAs} />}
-                            {testnetIndicator && <TestnetIcon as={containerAs} />}
-                        </FlexContainer>
+
+                            {ledgerIndicator && <LedgerIcon />}
+                            {testnetIndicator && <TestnetIcon />}
+                        </span>
+
                         {helperText && (
-                            <StyledFlexContainer color={'gray'} as={containerAs}>
+                            <span className='flex items-center gap-[5px] text-left text-sm leading-[18px] text-theme-secondary-500 dark:text-theme-secondary-300'>
                                 {address && (
                                     <>
                                         <Address
                                             address={address}
                                             tooltipPlacement='bottom-start'
                                         />
-                                        <Container as={containerAs}> • </Container>
+                                        <span> • </span>
                                     </>
                                 )}
                                 {Array.isArray(helperText)
@@ -220,48 +125,42 @@ export const RowLayout = forwardRef(function RowLayout(
                                               );
                                           } else {
                                               return (
-                                                  <Container as={containerAs} key={index}>
+                                                  <span key={index}>
                                                       {index > 0 && helperText.length > 1 && (
-                                                          <FlexContainer
-                                                              as={containerAs}
-                                                              gridGap='5px'
-                                                          >
-                                                              <Container as={containerAs}>
-                                                                  {' '}
-                                                                  •{' '}
-                                                              </Container>
-                                                              <Container as={containerAs}>
-                                                                  {item}
-                                                              </Container>
-                                                          </FlexContainer>
+                                                          <span className='flex gap-[5px]'>
+                                                              <span> • </span>
+                                                              <span>{item}</span>
+                                                          </span>
                                                       )}
-                                                  </Container>
+                                                  </span>
                                               );
                                           }
                                       })
                                     : helperText}
-                            </StyledFlexContainer>
+                            </span>
                         )}
-                    </FlexContainer>
-                    <FlexContainer alignItems='center' as={containerAs}>
+                    </span>
+
+                    <span className='flex items-center'>
                         {rightHelperText && (
-                            <Paragraph
-                                $typeset='headline'
-                                fontWeight='regular'
-                                color='gray'
-                                mr='8'
-                                as={containerAs}
-                            >
+                            <span className='typeset-headline mr-2 font-normal text-theme-secondary-500 dark:text-theme-secondary-300'>
                                 {rightHelperText}
-                            </Paragraph>
+                            </span>
                         )}
+
                         {children && (
-                            <Container mr={iconTrailing ? '16' : '0'} as={containerAs}>
+                            <span
+                                className={cn({
+                                    'mr-4': iconTrailing,
+                                    'mr-0': !iconTrailing,
+                                })}
+                            >
                                 {children}
-                            </Container>
+                            </span>
                         )}
+
                         {iconTrailing && (
-                            <FlexContainer alignItems='center' gridGap='8px' as={containerAs}>
+                            <span className='flex items-center gap-2'>
                                 {iconTrailing && (
                                     <Icon
                                         className={cn(
@@ -276,19 +175,11 @@ export const RowLayout = forwardRef(function RowLayout(
                                         icon={iconTrailing}
                                     />
                                 )}
-                            </FlexContainer>
+                            </span>
                         )}
-                    </FlexContainer>
-                </FlexContainer>
-            </FlexContainer>
-        </StyledRow>
+                    </span>
+                </span>
+            </span>
+        </button>
     );
 });
-
-const StyledFlexContainer = styled(FlexContainer)`
-    font-size: 14px;
-    line-height: 18px;
-    text-align: left;
-    align-items: center;
-    grid-gap: 5px;
-`;
