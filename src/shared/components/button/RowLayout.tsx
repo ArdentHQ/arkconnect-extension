@@ -1,5 +1,3 @@
-
-
 import { forwardRef } from 'react';
 import cn from 'classnames';
 import { Icon, IconDefinition } from '@/shared/components';
@@ -67,122 +65,121 @@ export const RowLayout = forwardRef(function RowLayout(
         className,
     );
 
-        return (
-            <button
-                className={containerStyles}
-                tabIndex={tabIndex}
-                ref={forwardedRef}
-                onClick={onClick}
-                onKeyDown={onKeyDown}
-            >
-                <span className='w-full gap-3 flex items-star'>
-                    {iconLeading && iconLeading}
+    return (
+        <button
+            className={containerStyles}
+            tabIndex={tabIndex}
+            ref={forwardedRef}
+            onClick={onClick}
+            onKeyDown={onKeyDown}
+        >
+            <span className='w-full gap-3 flex items-star'>
+                {iconLeading && iconLeading}
 
-                    <span className='flex items-center justify-between w-full'>
-                        <span className='flex flex-col items-start gap-1 '>
-                            <span className='flex flex-row items-center gap-1.5'>
-                                {title && (
-                                    <span
-                                        className={cn('typeset-headline', {
-                                            'font-medium': helperText,
-                                            'font-normal': !helperText,
-                                            'text-theme-secondary-500 dark:text-theme-secondary-300':
-                                                disabled,
-                                            'text-light-black dark:text-white': !disabled,
-                                        })}
-                                    >
-                                        {title}
-                                    </span>
-                                )}
-
-                                {ledgerIndicator && <LedgerIcon />}
-                                {testnetIndicator && <TestnetIcon />}
-                            </span>
-
-                            {helperText && (
-                                <span className='flex text-sm leading-[18px] text-left items-center gap-[5px] text-theme-secondary-500 dark:text-theme-secondary-300'>
-                                    {address && (
-                                        <>
-                                            <Address
-                                                address={address}
-                                                tooltipPlacement='bottom-start'
-                                            />
-                                            <span> • </span>
-                                        </>
-                                    )}
-                                    {Array.isArray(helperText)
-                                        ? helperText.map((item, index) => {
-                                              if (index === 0) {
-                                                  return (
-                                                      <Amount
-                                                          value={Number(item)}
-                                                          maxDigits={
-                                                              constants.MAX_CURRENCY_DIGITS_ALLOWED
-                                                          }
-                                                          ticker={currency ?? ''}
-                                                          withTicker={!!currency}
-                                                          key={index}
-                                                          tooltipPlacement='bottom-start'
-                                                      />
-                                                  );
-                                              } else {
-                                                  return (
-                                                      <span key={index}>
-                                                          {index > 0 && helperText.length > 1 && (
-                                                              <span className='flex gap-[5px]'>
-                                                                  <span> • </span>
-                                                                  <span>{item}</span>
-                                                              </span>
-                                                          )}
-                                                      </span>
-                                                  );
-                                              }
-                                          })
-                                        : helperText}
-                                </span>
-                            )}
-                        </span>
-
-                        <span className='flex items-center'>
-                            {rightHelperText && (
-                                <span className='typeset-headline font-normal text-theme-secondary-500 dark:text-theme-secondary-300 mr-2'>
-                                    {rightHelperText}
-                                </span>
-                            )}
-
-                            {children && (
+                <span className='flex items-center justify-between w-full'>
+                    <span className='flex flex-col items-start gap-1 '>
+                        <span className='flex flex-row items-center gap-1.5'>
+                            {title && (
                                 <span
-                                    className={cn({
-                                        'mr-4': iconTrailing,
-                                        'mr-0': !iconTrailing,
+                                    className={cn('typeset-headline', {
+                                        'font-medium': helperText,
+                                        'font-normal': !helperText,
+                                        'text-theme-secondary-500 dark:text-theme-secondary-300':
+                                            disabled,
+                                        'text-light-black dark:text-white': !disabled,
                                     })}
                                 >
-                                    {children}
+                                    {title}
                                 </span>
                             )}
 
-                            {iconTrailing && (
-                                <span className='flex items-center gap-2'>
-                                    {iconTrailing && (
-                                        <Icon
-                                            className={cn(
-                                                'h-5 w-5',
-                                                {
-                                                    'text-theme-secondary-500 dark:text-theme-secondary-300':
-                                                        disabled,
-                                                    'text-light-black dark:text-white': !disabled,
-                                                },
-                                                iconClassName,
-                                            )}
-                                            icon={iconTrailing}
-                                        />
-                                    )}
-                                </span>
-                            )}
+                            {ledgerIndicator && <LedgerIcon />}
+                            {testnetIndicator && <TestnetIcon />}
                         </span>
+
+                        {helperText && (
+                            <span className='flex text-sm leading-[18px] text-left items-center gap-[5px] text-theme-secondary-500 dark:text-theme-secondary-300'>
+                                {address && (
+                                    <>
+                                        <Address
+                                            address={address}
+                                            tooltipPlacement='bottom-start'
+                                        />
+                                        <span> • </span>
+                                    </>
+                                )}
+                                {Array.isArray(helperText)
+                                    ? helperText.map((item, index) => {
+                                          if (index === 0) {
+                                              return (
+                                                  <Amount
+                                                      value={Number(item)}
+                                                      maxDigits={
+                                                          constants.MAX_CURRENCY_DIGITS_ALLOWED
+                                                      }
+                                                      ticker={currency ?? ''}
+                                                      withTicker={!!currency}
+                                                      key={index}
+                                                      tooltipPlacement='bottom-start'
+                                                  />
+                                              );
+                                          } else {
+                                              return (
+                                                  <span key={index}>
+                                                      {index > 0 && helperText.length > 1 && (
+                                                          <span className='flex gap-[5px]'>
+                                                              <span> • </span>
+                                                              <span>{item}</span>
+                                                          </span>
+                                                      )}
+                                                  </span>
+                                              );
+                                          }
+                                      })
+                                    : helperText}
+                            </span>
+                        )}
+                    </span>
+
+                    <span className='flex items-center'>
+                        {rightHelperText && (
+                            <span className='typeset-headline font-normal text-theme-secondary-500 dark:text-theme-secondary-300 mr-2'>
+                                {rightHelperText}
+                            </span>
+                        )}
+
+                        {children && (
+                            <span
+                                className={cn({
+                                    'mr-4': iconTrailing,
+                                    'mr-0': !iconTrailing,
+                                })}
+                            >
+                                {children}
+                            </span>
+                        )}
+
+                        {iconTrailing && (
+                            <span className='flex items-center gap-2'>
+                                {iconTrailing && (
+                                    <Icon
+                                        className={cn(
+                                            'h-5 w-5',
+                                            {
+                                                'text-theme-secondary-500 dark:text-theme-secondary-300':
+                                                    disabled,
+                                                'text-light-black dark:text-white': !disabled,
+                                            },
+                                            iconClassName,
+                                        )}
+                                        icon={iconTrailing}
+                                    />
+                                )}
+                            </span>
+                        )}
                     </span>
                 </span>
-            </button>
-        );
-
+            </span>
+        </button>
+    );
 });
