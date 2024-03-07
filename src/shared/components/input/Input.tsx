@@ -26,16 +26,16 @@ export const Input = ({
             {labelText && (
                 <label
                     htmlFor={id}
-                    className='text-theme-secondary-500 dark:text-theme-secondary-200 font-medium text-sm leading-tight'
+                    className='text-sm font-medium leading-tight text-theme-secondary-500 dark:text-theme-secondary-200'
                 >
                     {labelText}
                 </label>
             )}
 
-            <div className='relative w-full flex items-center'>
+            <div className='relative flex w-full items-center'>
                 <input
                     className={cn(
-                        'text-base font-normal w-full px-3 py-4 max-h-13 rounded-lg transition-smoothEase border-none outline-none disabled:cursor-not-allowed disabled:pointer-events-none placeholder:text-theme-secondary-400 text-input',
+                        'transition-smoothEase text-input max-h-13 w-full rounded-lg border-none px-3 py-4 text-base font-normal outline-none placeholder:text-theme-secondary-400 disabled:pointer-events-none disabled:cursor-not-allowed',
                         {
                             'text-input-primary': variant === 'primary',
                             'text-input-destructive': variant === 'destructive',
@@ -53,7 +53,7 @@ export const Input = ({
 
             {helperText && (
                 <p
-                    className={cn('text-sm leading-tight font-normal', {
+                    className={cn('text-sm font-normal leading-tight', {
                         'text-theme-error-500': variant === 'destructive',
                         'text-theme-secondary-500 dark:text-theme-secondary-300':
                             variant !== 'destructive',
