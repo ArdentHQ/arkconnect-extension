@@ -195,9 +195,6 @@ body {
 }
 
 * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
     @apply outline-theme-primary-600;
 }
 
@@ -207,7 +204,7 @@ body {
 }
 
 #extension-root {
-    height: 100%;
+    @apply h-full;
 }
 
 .input-correct {
@@ -232,16 +229,11 @@ body {
 }
 
 .dropdown-body {
-    transform: translateY(-10px);
-    transition: transform 0.2s ease-in-out;
-    visibility: hidden;
-    opacity: 0;
+    @apply invisible translate-y-[-10px] opacity-0 transition-transform duration-200 ease-in-out;
 }
 
 .dropdown-transition {
-    visibility: visible;
-    transform: translateY(0);
-    opacity: 1;
+    @apply invisible translate-y-0 opacity-100;
 }
 
 #scrollable-container {
