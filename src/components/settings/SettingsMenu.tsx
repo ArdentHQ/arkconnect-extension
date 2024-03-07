@@ -2,7 +2,7 @@ import { NavigateOptions, useLocation, useNavigate } from 'react-router-dom';
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { runtime } from 'webextension-polyfill';
 import { Contracts } from '@ardenthq/sdk-profiles';
-import { Container, FlexContainer, Paragraph, ToggleSwitch } from '@/shared/components';
+import { Container, ToggleSwitch } from '@/shared/components';
 import { SettingsOption } from '@/components/settings/SettingsOption';
 import { lockedChanged } from '@/lib/store/ui';
 import { selectWalletsIds } from '@/lib/store/wallet';
@@ -68,17 +68,13 @@ export const SettingsMenu = ({
     };
 
     return (
-        <Container
-            marginX='16'
-            width='100%'
+        <div 
+            className='mx-4 w-full rounded-xl shadow-[0_4px_6px_-2px_rgba(16,24,40,0_03)_0_12px_16px_-4px_rgba(16,24,40,0_08)] bg-white dark:bg-subtle-black'
             ref={dropdownRef}
-            borderRadius='12'
-            boxShadow='0px 4px 6px -2px rgba(16, 24, 40, 0.03), 0px 12px 16px -4px rgba(16, 24, 40, 0.08)'
-            backgroundColor='secondaryBackground'
         >
             <SafeOutlineOverflowContainer width='100%' marginLeft='0' paddingX='0'>
-                <FlexContainer paddingY='8' width='100%' display='flex' flexDirection='column'>
-                    <SettingsOption
+                <div className='py-2 w-full flex flex-col'>
+                <SettingsOption
                         title='Create & Import Address'
                         iconLeading='plus-circle'
                         onClick={() => {
@@ -110,7 +106,6 @@ export const SettingsMenu = ({
                         title='Dark Mode'
                         iconLeading='moon'
                         iconClassName='text-light-black'
-                        color='lightBlack'
                         onClick={(evt) => toggleThemeMode(evt)}
                         rightContent={
                             <Container>
@@ -134,7 +129,6 @@ export const SettingsMenu = ({
                         iconLeading='shield-border'
                         iconTrailing='arrow-right'
                         iconClassName='text-light-black'
-                        color='lightBlack'
                         onClick={() => handleNavigation('/local-password')}
                         onKeyDown={(e) =>
                             handleSubmitKeyAction(e, () => handleNavigation('/local-password'))
@@ -144,17 +138,11 @@ export const SettingsMenu = ({
                         title='Change Local Currency'
                         iconLeading='currency-dollar-circle'
                         rightContent={
-                            <Paragraph
-                                $typeset='headline'
-                                fontWeight='regular'
-                                color='gray'
-                                mr='8'
-                                size='16'
-                            >
-                                {`${profile
-                                    .settings()
-                                    .get(Contracts.ProfileSetting.ExchangeCurrency)}`}
-                            </Paragraph>
+                            <p className='typeset-headline font-normal text-theme-secondary-500 dark:text-theme-secondary-300 mr-2 text-base'>
+                            {`${profile
+                                .settings()
+                                .get(Contracts.ProfileSetting.ExchangeCurrency)}`}
+                            </p>
                         }
                         iconTrailing='arrow-right'
                         onClick={() => handleNavigation('/local-currency')}
@@ -166,15 +154,9 @@ export const SettingsMenu = ({
                         title='Auto Lock Timer'
                         iconLeading='clock'
                         rightContent={
-                            <Paragraph
-                                $typeset='headline'
-                                fontWeight='regular'
-                                color='gray'
-                                mr='8'
-                                size='16'
-                            >
+                            <p className='typeset-headline font-normal text-theme-secondary-500 dark:text-theme-secondary-300 mr-2 text-base'>
                                 {autoLockTimer ? showAutoLockTimerValue(autoLockTimer) : ''}
-                            </Paragraph>
+                            </p>
                         }
                         iconTrailing='arrow-right'
                         onClick={() => {
@@ -207,8 +189,8 @@ export const SettingsMenu = ({
                         variant='error'
                         onKeyDown={(e) => handleSubmitKeyAction(e, handleRemoveAddressClick)}
                     />
-                </FlexContainer>
+                </div>
             </SafeOutlineOverflowContainer>
-        </Container>
+        </div>
     );
 };
