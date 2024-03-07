@@ -8,9 +8,8 @@ import {
     SignTransactionData,
     SignVoteData,
 } from '../background/eventListenerHandlers';
-import { useAppDispatch, useAppSelector } from '../store';
-import { lockedChanged, selectLocked } from '@/lib/store/ui';
-import { getPersistedValues } from '@/components/wallet/form-persist';
+import { useAppDispatch } from '../store';
+import { lockedChanged } from '@/lib/store/ui';
 
 type Event = {
     callback: any;
@@ -23,9 +22,7 @@ type Event = {
 const useBackgroundEventHandler = () => {
     const dispatch = useAppDispatch();
     const [events, setEvents] = useState<Event[]>([]);
-    const locked = useAppSelector(selectLocked);
     const navigate = useNavigate();
-    const { persistScreen } = getPersistedValues();
 
     useEffect(() => {
         // Listen for messages from background script
@@ -57,25 +54,23 @@ const useBackgroundEventHandler = () => {
                 }
             }
         });
-    }, [locked]);
+    }, []);
 
     const runEventHandlers = useCallback(() => {
-        if (events.length === 0) return;
+        const eventsLength = events.length;
 
-        events.forEach((event) => {
-            event.callback(event.request);
-        });
-        setEvents([]);
-    }, [events, locked]);
+        if (eventsLength > 0) {
+            events.forEach((event) => {
+                event.callback(event.request);
+            });
 
-    const onConnect = (request: EventPayload<ConnectData>) => {
-        // If persist screen is set, redirection is going to be handled on
-        // `src/components/AutoUnlockWrapper.tsx@handlePersistScreenRedirect`
-        // and navigates to the last used screen instead
-        if (persistScreen) {
-            return;
+            setEvents([]);
         }
 
+        return eventsLength;
+    }, [events]);
+
+    const onConnect = (request: EventPayload<ConnectData>) => {
         navigate('/connect', {
             state: request.data,
         });
