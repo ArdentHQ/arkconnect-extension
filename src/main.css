@@ -98,40 +98,8 @@ video {
     vertical-align: baseline;
 }
 
-* {
-    box-sizing: border-box;
-}
-*:after,
-*:before {
-    box-sizing: border-box;
-}
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-p,
-li,
-a,
-div,
-ul,
-input,
-blockquote,
-span,
-button,
-i,
-b,
-em,
-strong {
-    text-rendering: auto;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-decoration: none;
-}
-
 body {
-    @apply relative overflow-x-hidden leading-none;
+    @apply relative overflow-x-hidden leading-none antialiased;
 }
 
 html,
