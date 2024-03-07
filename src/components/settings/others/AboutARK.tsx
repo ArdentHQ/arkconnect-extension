@@ -50,7 +50,7 @@ const AboutARK = () => {
                 >
                     <RowLayout title='Support Email' iconTrailing='link-external' tabIndex={-1}>
                         <CopyButton
-                            className='c-pointer'
+                            className='cursor-pointer'
                             onClick={copyEmailToClipboard}
                             as='button'
                         >

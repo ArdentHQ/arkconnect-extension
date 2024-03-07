@@ -39,7 +39,7 @@ type ModalProps = {
 
 const ModalCloseIcon = ({ onClose }: { onClose: () => void }) => {
     return (
-        <Container onClick={onClose} className='c-pointer' as='button'>
+        <Container onClick={onClose} className='cursor-pointer' as='button'>
             <Icon icon='x' className='h-4.5 w-4.5 text-light-black dark:text-white' />
         </Container>
     );

@@ -102,7 +102,7 @@ export const AddressWithCopy = ({ address, length = 10 }: { address: string; len
 
     return (
         <Container
-            className='c-pointer'
+            className='cursor-pointer'
             onClick={() => {
                 copy(address, trimmedAddress, ToastPosition.LOWER);
             }}
