@@ -1,14 +1,18 @@
 import styled from 'styled-components';
 import { useEffect } from 'react';
+import cn from 'classnames';
 import Toast from './Toast';
 import { FlexContainer } from '@/shared/components';
 import { useAppDispatch, useAppSelector } from '@/lib/store';
 import { selectToasts, toastsReseted } from '@/lib/store/ui';
 
 export enum ToastPosition {
-    LOWER = '32px',
+    /* LOWER = '32px',
     HIGH = '92px',
-    EXTRA_HIGH = '160px',
+    EXTRA_HIGH = '160px', */
+    LOWER = 'bottom-8',
+    HIGH = 'bottom-23',
+    EXTRA_HIGH = 'bottom-40',
 }
 
 const ToastContainer = () => {
@@ -20,6 +24,15 @@ const ToastContainer = () => {
 
         dispatch(toastsReseted());
     }, []);
+
+    return (
+        <div className={cn('flex fixed -translate-x-1/2 flex-col items-center left-1/2 z-100 w-full px-4', toasts[0]?.toastPosition || ToastPosition.LOWER)}>
+            {toasts.map((toast, index) => (
+                <Toast key={index} type={toast.type} message={toast.message} />
+            ))}
+        </div>
+    );
+ 
 
     return (
         <StyledContainer
