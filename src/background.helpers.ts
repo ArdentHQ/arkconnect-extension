@@ -1,5 +1,4 @@
 import { Contracts } from '@ardenthq/sdk-profiles';
-import { WalletData } from './lib/background/contracts';
 
 interface WalletEntry {
     address: string;
@@ -53,7 +52,7 @@ export const importWallets = async ({
         }
 
         const importedWallet = await importWallet({ profile, wallet });
-        importedWallet.data().set(WalletData.IsPrimary, isExistingPrimary);
+        importedWallet.data().set(Contracts.WalletData.IsPrimary, isExistingPrimary);
 
         if (wallet.alias) {
             importedWallet.settings().set(Contracts.WalletSetting.Alias, wallet.alias);
@@ -72,7 +71,7 @@ export const importWallets = async ({
         .find((wallet: Contracts.IReadWriteWallet) => wallet.isPrimary());
 
     if (!primaryWallet) {
-        profile.wallets().first().data().set(WalletData.IsPrimary, true);
+        profile.wallets().first().data().set(Contracts.WalletData.IsPrimary, true);
     }
 
     return {

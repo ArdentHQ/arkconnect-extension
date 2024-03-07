@@ -1,6 +1,5 @@
 import { Contracts } from '@ardenthq/sdk-profiles';
 import { Wallet } from './extension.wallet';
-import { WalletData } from './contracts';
 
 export function PrimaryWallet({ profile }: { profile: Contracts.IProfile }) {
     return {
@@ -54,11 +53,11 @@ export function PrimaryWallet({ profile }: { profile: Contracts.IProfile }) {
 
             for (const wallet of profile.wallets().values()) {
                 if (wallet.id() === id) {
-                    wallet.data().set(WalletData.IsPrimary, true);
+                    wallet.data().set(Contracts.WalletData.IsPrimary, true);
                     continue;
                 }
 
-                wallet.data().set(WalletData.IsPrimary, false);
+                wallet.data().set(Contracts.WalletData.IsPrimary, false);
             }
         },
         /**

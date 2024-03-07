@@ -3,10 +3,6 @@ export enum ProfileData {
     LastScreen = 'LAST_SCREEN',
 }
 
-export enum WalletData {
-    IsPrimary = 'IS_PRIMARY',
-}
-
 type Session = {
     id: string;
     domain: string;
