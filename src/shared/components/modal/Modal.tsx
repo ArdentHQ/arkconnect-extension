@@ -1,62 +1,15 @@
 import { ReactNode, useRef } from 'react';
-import styled from 'styled-components';
 import FocusTrap from 'focus-trap-react';
 import cn from 'classnames';
-import { ColorProps, Theme } from 'styled-system';
 import Portal from '../utils/Portal';
 import useOnClickOutside from '@/lib/hooks/useOnClickOutside';
 import {
     Button,
     Container,
-    FlexContainer,
     Icon,
     Icon as IconComponent,
     IconDefinition,
 } from '@/shared/components';
-
-const Backdrop = styled.div`
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    opacity: 0.5;
-    background: rgba(3, 3, 3, 1);
-    width: 100%;
-    height: 100%;
-    z-index: 40;
-`;
-
-const ModalWrapper = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden auto;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 50;
-    outline: none;
-`;
-
-const ModalContent = styled.div`
-    position: relative;
-    width: auto;
-    max-width: max-content;
-    margin: auto 16px;
-`;
-
-const ModalBody = styled.div`
-    border: none;
-    border-radius: 12px;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    outline: none;
-`;
 
 type ModalProps = {
     children: ReactNode | ReactNode[];
@@ -78,6 +31,7 @@ type ModalProps = {
               onResolve?: () => void;
           }) => ReactNode | ReactNode[]);
     containerPadding?: '0' | '16';
+    containerClassName?: string;
     contentStyles?: React.CSSProperties;
     activateFocusTrap?: boolean;
     focusTrapOptions?: FocusTrap.Props['focusTrapOptions'];
@@ -95,27 +49,20 @@ export const ModalIcon = ({
     icon,
     iconClassName,
     variant,
-    color,
+    className,
 }: {
     icon: IconDefinition;
     iconClassName?: string;
     variant?: 'danger';
-} & ColorProps<Theme>) => {
+    className?: string;
+}) => {
     return (
-        <FlexContainer
-            width='52px'
-            height='52px'
-            border='1px solid'
-            borderColor='toggleInactive'
-            borderRadius='8'
-            position='relative'
-            color={color ?? (variant === 'danger' ? 'error' : 'tooltipBackground')}
-            justifyContent='center'
-            alignItems='center'
-            boxShadow='0px 0.91667px 3.66667px 0px rgba(0, 0, 0, 0.05)'
-        >
+        <div className={cn('flex w-13 h-13 border border-solid border-theme-secondary-200 dark:border-theme-secondary-600 rounded-lg relative justify-center items-center shadow-[0_1px_4px_0_rgba(0,0,0,0.05)]', {
+            'text-theme-error-600 dark:text-theme-error-500': variant === 'danger',
+            'text-subtle-black dark:text-subtle-white': variant !== 'danger',
+        }, className)}>
             <IconComponent icon={icon} className={cn('h-6 w-6', iconClassName)} />
-        </FlexContainer>
+        </div>
     );
 };
 
@@ -129,8 +76,7 @@ const Modal = ({
     variant,
     hideCloseButton = false,
     footer,
-    containerPadding = '16',
-    contentStyles,
+    containerClassName,
     activateFocusTrap = true,
     focusTrapOptions,
 }: ModalProps) => {
@@ -141,21 +87,14 @@ const Modal = ({
     return (
         <Portal>
             <FocusTrap active={activateFocusTrap} focusTrapOptions={focusTrapOptions}>
-                <ModalWrapper>
-                    <ModalContent className={className} style={contentStyles}>
-                        <ModalBody ref={ref}>
-                            <FlexContainer
-                                flexDirection='column'
-                                gridGap='24px'
-                                borderRadius='12'
-                                padding={containerPadding}
-                                bg='background'
-                            >
+                <div className='flex justify-center items-center overflow-y-hidden overflow-x-auto fixed bottom-0 top-0 left-0 right-0 z-50 outline-none'>
+                    <div className={cn('relative w-auto max-w-max my-auto mx-4', className)}>
+                        <div className='border-none rounded-xl relative flex flex-col w-full outline-none' ref={ref}>
+                            <div className={cn('flex flex-col gap-6 rounded-xl bg-white dark:bg-light-black', {
+                                'p-4': !containerClassName
+                            }, containerClassName)}>
                                 {(icon || !hideCloseButton) && (
-                                    <FlexContainer
-                                        justifyContent='space-between'
-                                        alignItems='flex-start'
-                                    >
+                                    <div className='flex justify-between items-start'>
                                         {icon && (
                                             <>
                                                 {typeof icon === 'string' ? (
@@ -169,7 +108,7 @@ const Modal = ({
                                             </>
                                         )}
                                         {!hideCloseButton && <ModalCloseIcon onClose={onClose} />}
-                                    </FlexContainer>
+                                    </div>
                                 )}
 
                                 {children}
@@ -177,11 +116,7 @@ const Modal = ({
                                 {footer === undefined ? (
                                     <>
                                         {(onCancel || onResolve) && (
-                                            <FlexContainer
-                                                justifyContent='space-between'
-                                                alignItems='center'
-                                                gridGap='8px'
-                                            >
+                                            <div className='flex justify-between items-center gap-2'>
                                                 {onCancel && (
                                                     <Button
                                                         variant='secondaryBlack'
@@ -199,7 +134,7 @@ const Modal = ({
                                                         Yes
                                                     </Button>
                                                 )}
-                                            </FlexContainer>
+                                            </div>
                                         )}
                                     </>
                                 ) : typeof footer === 'function' ? (
@@ -207,13 +142,13 @@ const Modal = ({
                                 ) : (
                                     footer
                                 )}
-                            </FlexContainer>
-                        </ModalBody>
-                    </ModalContent>
-                </ModalWrapper>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </FocusTrap>
 
-            <Backdrop />
+            <div className='fixed top-0 bottom-0 left-0 opacity-50 w-full bg-[#030303]' />
         </Portal>
     );
 };
