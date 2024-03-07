@@ -6,26 +6,26 @@ settings:
 
 dependencies:
   '@ardenthq/sdk':
-    specifier: 1.3.0-beta.1
-    version: 1.3.0-beta.1
+    specifier: 1.3.0-beta.2
+    version: 1.3.0-beta.2
   '@ardenthq/sdk-ark':
-    specifier: 1.3.0-beta.1
-    version: 1.3.0-beta.1
+    specifier: 1.3.0-beta.2
+    version: 1.3.0-beta.2
   '@ardenthq/sdk-cryptography':
-    specifier: 1.3.0-beta.1
-    version: 1.3.0-beta.1
+    specifier: 1.3.0-beta.2
+    version: 1.3.0-beta.2
   '@ardenthq/sdk-helpers':
-    specifier: 1.3.0-beta.1
-    version: 1.3.0-beta.1
+    specifier: 1.3.0-beta.2
+    version: 1.3.0-beta.2
   '@ardenthq/sdk-intl':
-    specifier: 1.3.0-beta.1
-    version: 1.3.0-beta.1
+    specifier: 1.3.0-beta.2
+    version: 1.3.0-beta.2
   '@ardenthq/sdk-ledger':
-    specifier: 1.3.0-beta.1
-    version: 1.3.0-beta.1
+    specifier: 1.3.0-beta.2
+    version: 1.3.0-beta.2
   '@ardenthq/sdk-profiles':
-    specifier: 1.3.0-beta.1
-    version: 1.3.0-beta.1
+    specifier: 1.3.0-beta.2
+    version: 1.3.0-beta.2
   '@reduxjs/toolkit':
     specifier: ^1.9.5
     version: 1.9.5(react-redux@8.1.2)(react@18.2.0)
@@ -216,14 +216,14 @@ packages:
       '@jridgewell/gen-mapping': 0.3.3
       '@jridgewell/trace-mapping': 0.3.20
 
-  /@ardenthq/sdk-ark@1.3.0-beta.1:
-    resolution: {integrity: sha512-Cef+fO++KBkfLa5TIkQey2OPhObJ0cUYVvUHUl002N1tcgpH5/EQY/GRbv6CYtMNQDVk2M6JFb73dpPdINlNFw==}
+  /@ardenthq/sdk-ark@1.3.0-beta.2:
+    resolution: {integrity: sha512-VC7YNBD8lhmGY87zgsnjHEeCfPKC1JX0LJxMLLi8NcE+uJayIKwu4LsoN8Zjgm0KJxnr/V9YZYHugtiNsGFnyg==}
     engines: {node: '>=16.0.0'}
     dependencies:
-      '@ardenthq/sdk': 1.3.0-beta.1
-      '@ardenthq/sdk-cryptography': 1.3.0-beta.1
-      '@ardenthq/sdk-helpers': 1.3.0-beta.1
-      '@ardenthq/sdk-intl': 1.3.0-beta.1
+      '@ardenthq/sdk': 1.3.0-beta.2
+      '@ardenthq/sdk-cryptography': 1.3.0-beta.2
+      '@ardenthq/sdk-helpers': 1.3.0-beta.2
+      '@ardenthq/sdk-intl': 1.3.0-beta.2
       '@arkecosystem/ledger-transport': 2.0.0
       ajv: 8.12.0
       ajv-formats: 2.1.1(ajv@8.12.0)
@@ -238,8 +238,8 @@ packages:
       node-dotify: 1.1.0
     dev: false
 
-  /@ardenthq/sdk-cryptography@1.3.0-beta.1:
-    resolution: {integrity: sha512-udmeL4SMfshWElhdKg2vQd2K33orXEgtP16tyDYPvMWfdObZVon6stEHZGf7DsfPWzaW7i2T52MrHWX3CL6VAg==}
+  /@ardenthq/sdk-cryptography@1.3.0-beta.2:
+    resolution: {integrity: sha512-Jys+J3WSEYJQPMRWeaWG89ysWqM9rH5SJWETseAW+48PLZq0lZf8MeEbuJCGPUwkXqEwViW0OoNFLSDRcB+ymw==}
     engines: {node: '>=16.0.0'}
     dependencies:
       '@noble/hashes': 0.5.9
@@ -259,8 +259,8 @@ packages:
       uuid: 8.3.2
     dev: false
 
-  /@ardenthq/sdk-helpers@1.3.0-beta.1:
-    resolution: {integrity: sha512-8z1+ZdS+vZGoKIhOVdZJ1cKI8lgTw2MkT3inygT5lIutmxCRCh5/Fjp0b9DZfVtjwv1pU7nwA1z2c9/d1AU1qA==}
+  /@ardenthq/sdk-helpers@1.3.0-beta.2:
+    resolution: {integrity: sha512-N9Vhn+ESNdMtK4/IyOH8q2/HKSG/Kt6q6+nf8vTueyYlBo9qS8i6UXU5tBenbc43xES52AdjeC+ebbPLjqJPcg==}
     engines: {node: '>=16.0.0'}
     dependencies:
       '@hapi/bourne': 2.1.0
@@ -276,42 +276,42 @@ packages:
       query-string: 7.1.3
     dev: false
 
-  /@ardenthq/sdk-intl@1.3.0-beta.1:
-    resolution: {integrity: sha512-bCLF53Kmbmuqq1PQckbkbwAtR8eeG5IGAdWmshghflVLu1aUAaQ5p6oBOhd/h+AcsIW2UAEY8fLzVown0ksvFA==}
+  /@ardenthq/sdk-intl@1.3.0-beta.2:
+    resolution: {integrity: sha512-6LSYq8YJigZTcSUgvVVPA9UcEx3Kvm52XWPDBa89+cNgRB4CrTXNY2CX0cOLJNZ8VRZkRkjTpGSgDqz5BCir7Q==}
     engines: {node: '>=16.0.0'}
     dependencies:
       dayjs: 1.11.10
       dinero.js: 1.9.1
     dev: false
 
-  /@ardenthq/sdk-ledger@1.3.0-beta.1:
-    resolution: {integrity: sha512-0R28WmnKcSn71qy+gE52htNvvsSCxeazqeJudhAL+eHtESLzXjANBm+WodVPQcQufWdzC/INGJrFpDSrixNY7A==}
+  /@ardenthq/sdk-ledger@1.3.0-beta.2:
+    resolution: {integrity: sha512-oygwiwn8Owh0GbGdk6+ZccoVbIJRfiAJ0EiYwyE5cP6T2pbTw/PqA89Rsexzp3/OgJ6xuCaiqyuCoqoVM6PcvA==}
     engines: {node: '>=16.0.0'}
     dependencies:
-      '@ardenthq/sdk': 1.3.0-beta.1
+      '@ardenthq/sdk': 1.3.0-beta.2
       '@ledgerhq/hw-transport-u2f': 5.36.0-deprecated
       '@ledgerhq/hw-transport-webhid': 6.28.1
       '@ledgerhq/hw-transport-webusb': 6.28.1
       platform: 1.3.6
     dev: false
 
-  /@ardenthq/sdk-markets@1.3.0-beta.1:
-    resolution: {integrity: sha512-f+rbbmPecy6Nes3MFfE4hPz4hePmtkg5jM0XqZ3c4LtRESfJVwlfWCy2U+4f6Dn6cyf+Z3KqDt2IWWaHKXODMw==}
+  /@ardenthq/sdk-markets@1.3.0-beta.2:
+    resolution: {integrity: sha512-2iWdsxfciSRjLdP2nL23pnNBXmLSXk5Ar2aYjrErUThajKAaOshXT0Pu3C6/AFPs5wH6Ovax7w0L4LzxDiB2+A==}
     engines: {node: '>=16.0.0'}
     dependencies:
-      '@ardenthq/sdk': 1.3.0-beta.1
-      '@ardenthq/sdk-intl': 1.3.0-beta.1
+      '@ardenthq/sdk': 1.3.0-beta.2
+      '@ardenthq/sdk-intl': 1.3.0-beta.2
     dev: false
 
-  /@ardenthq/sdk-profiles@1.3.0-beta.1:
-    resolution: {integrity: sha512-D3OhhRbj25Ps+QrkP6HZoACL+YShvGdm9lKaGn5h0bVKkW9G30lnBuCMyrbUjaeDtdtufU3AchASnUmtcZRGAw==}
+  /@ardenthq/sdk-profiles@1.3.0-beta.2:
+    resolution: {integrity: sha512-a+jkjK5GnlcukNStG1hE5Duwe6wS1K9h3/41GA2CUIpf4SuunsJpNqKxPhdRP9lWv+oqmyC2gfZj1TXMPsYTuA==}
     engines: {node: '>=16.0.0'}
     dependencies:
-      '@ardenthq/sdk': 1.3.0-beta.1
-      '@ardenthq/sdk-cryptography': 1.3.0-beta.1
-      '@ardenthq/sdk-helpers': 1.3.0-beta.1
-      '@ardenthq/sdk-intl': 1.3.0-beta.1
-      '@ardenthq/sdk-markets': 1.3.0-beta.1
+      '@ardenthq/sdk': 1.3.0-beta.2
+      '@ardenthq/sdk-cryptography': 1.3.0-beta.2
+      '@ardenthq/sdk-helpers': 1.3.0-beta.2
+      '@ardenthq/sdk-intl': 1.3.0-beta.2
+      '@ardenthq/sdk-markets': 1.3.0-beta.2
       '@vechain/picasso': 2.1.1
       joi: 17.11.0
       localforage: 1.10.0
@@ -322,12 +322,12 @@ packages:
       type-fest: 2.19.0
     dev: false
 
-  /@ardenthq/sdk@1.3.0-beta.1:
-    resolution: {integrity: sha512-/9vXxlN1KIQq8H+PUPke5e4M/ww01mcnyKVJyeF5ac3A+Z+9rH4MEMRbgdpmYhI5N4B9u0pgUa0JBzC1qIE8cw==}
+  /@ardenthq/sdk@1.3.0-beta.2:
+    resolution: {integrity: sha512-sprMvgd98WF21chuWv0DpdAVKV5fq2Xd/uehupegm7Xj04VPb1x6JWdRV05h6Py6NprpFcBwSSLLNdk5pGBJ+w==}
     engines: {node: '>=16.0.0'}
     dependencies:
-      '@ardenthq/sdk-helpers': 1.3.0-beta.1
-      '@ardenthq/sdk-intl': 1.3.0-beta.1
+      '@ardenthq/sdk-helpers': 1.3.0-beta.2
+      '@ardenthq/sdk-intl': 1.3.0-beta.2
       bad-words: 3.0.4
       bent: 7.3.12
       bip39: 3.1.0
