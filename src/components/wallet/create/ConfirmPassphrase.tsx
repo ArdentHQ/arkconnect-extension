@@ -128,7 +128,7 @@ const ConfirmPassphrase = ({ goToNextStep, formik }: Props) => {
                         !validationStatus.every((status) => status === 'errorFree')
                     }
                     onClick={handleNextStep}
-                    mt='24'
+                    className='mt-6'
                 >
                     Confirm
                 </Button>

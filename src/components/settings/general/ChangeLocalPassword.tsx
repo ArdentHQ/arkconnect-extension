@@ -149,7 +149,7 @@ const ChangeLocalPassword = () => {
                     variant='primary'
                     disabled={!formik.isValid || !formik.values.oldPassword.length}
                     onClick={formik.submitForm}
-                    mt='auto'
+                    className='mt-auto'
                 >
                     Save New Password
                 </Button>

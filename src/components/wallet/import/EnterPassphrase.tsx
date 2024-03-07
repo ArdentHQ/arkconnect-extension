@@ -216,8 +216,7 @@ const EnterPassphrase = ({ goToNextStep, formik }: Props) => {
                             : ''
                     }
                     placeholder='Paste your 12 or 24-word passphrase here'
-                    height='104px'
-                    className='custom-scroll'
+                    className='custom-scroll h-[104px]'
                 />
             </Container>
 
@@ -232,7 +231,7 @@ const EnterPassphrase = ({ goToNextStep, formik }: Props) => {
 
             <Button
                 variant='primary'
-                mt='auto'
+                className='mt-auto'
                 isLoading={isImporting || isValidating}
                 disabled={values.passphraseValidation !== 'errorFree'}
                 onClick={handleWalletImport}
