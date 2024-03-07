@@ -39,7 +39,7 @@ export const getActiveSession = <T>({
         .find((wallet) => wallet.isPrimary());
 
     const session = Object.values(sessions).find((session) => {
-        return session.domain === payload.data.domain && session.walletId === primaryWallet.id();
+        return session.domain === payload.data.domain && session.walletId === primaryWallet?.id();
     });
 
     return session === undefined ? false : session;

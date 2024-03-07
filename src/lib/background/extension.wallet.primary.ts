@@ -14,7 +14,7 @@ export function PrimaryWallet({ profile }: { profile: Contracts.IProfile }) {
                 .wallets()
                 .values()
                 .find((wallet: Contracts.IReadWriteWallet) => wallet.isPrimary())
-                .id();
+                ?.id();
         },
         /**
          * Determines whether a primary wallet exists in profile.
