@@ -1,10 +1,12 @@
 import { ComponentProps } from 'react';
-import { Container } from './Container';
+import cn from 'classnames';
 
-interface Props extends ComponentProps<typeof Container> {}
+interface Props extends ComponentProps<'div'> {
+    className?: string;
+}
 
-const SafeOutlineOverflowContainer = (props: Props): JSX.Element => {
-    return <Container paddingX='2' marginX='-2' overflow='hidden' {...props} />;
+const SafeOutlineOverflowContainer = ({ className, ...rest }: Props): JSX.Element => {
+    return <div className={cn('px-0.5 -mx-0.5 overflow-hidden', className)} {...rest} />;
 };
 
 export default SafeOutlineOverflowContainer;
