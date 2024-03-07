@@ -1,7 +1,7 @@
 import { Contracts, Environment } from '@ardenthq/sdk-profiles';
 import { getDefaultAlias } from '@/lib/utils/getDefaultAlias';
 import { setLocalValue } from '@/lib/utils/localStorage';
-import { ProfileData, WalletData } from '@/lib/background/contracts';
+import { WalletData } from '@/lib/background/contracts';
 
 type TestingAddress = {
     coin: string;
