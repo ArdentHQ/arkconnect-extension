@@ -122,7 +122,7 @@ const ApproveWithLedger = ({
                     <ContainerWithHover borderRadius='50' padding='7' onClick={closeLedgerScreen}>
                         <Icon
                             icon='arrow-left'
-                            className='text-theme-primary-700 dark:text-theme-primary-650 w-4.5 h-4.5'
+                            className='h-4.5 w-4.5 text-theme-primary-700 dark:text-theme-primary-650'
                         />
                     </ContainerWithHover>
                 </FlexContainer>

@@ -11,7 +11,7 @@ const EyeButton = ({ showPassword, onClick }: { showPassword: boolean; onClick: 
     return (
         <button
             className={cn(
-                'flex cursor-pointer text-light-black dark:text-white w-7 h-7 rounded-full justify-center items-center',
+                'flex h-7 w-7 cursor-pointer items-center justify-center rounded-full text-light-black dark:text-white',
                 {
                     'focus-visible:outline focus-visible:outline-2': isFirefox,
                 },

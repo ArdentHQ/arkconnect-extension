@@ -29,17 +29,17 @@ export const Checkbox: FC<CheckboxProps> = ({
     return (
         <label
             htmlFor={id}
-            className={cn('relative flex group', {
-                'cursor-not-allowed pointer-events-none': disabled,
-                'cursor-pointer pointer-events-auto': !disabled,
+            className={cn('group relative flex', {
+                'pointer-events-none cursor-not-allowed': disabled,
+                'pointer-events-auto cursor-pointer': !disabled,
             })}
         >
-            <span className='flex flex-col items-start gap-[5px] ml-7'>
+            <span className='ml-7 flex flex-col items-start gap-[5px]'>
                 {title && (
-                    <span className='leading-tight font-normal typeset-heading'>{title}</span>
+                    <span className='typeset-heading font-normal leading-tight'>{title}</span>
                 )}
                 {helperText && (
-                    <span className='leading-tight font-normal typeset-body'>{helperText}</span>
+                    <span className='typeset-body font-normal leading-tight'>{helperText}</span>
                 )}
             </span>
 
@@ -57,7 +57,7 @@ export const Checkbox: FC<CheckboxProps> = ({
                 onBlur={() => {
                     setIsFocusWithin(false);
                 }}
-                className='h-0 w-0 opacity-0 z-[-1]'
+                className='z-[-1] h-0 w-0 opacity-0'
             />
             <span
                 role='checkbox'

@@ -157,7 +157,7 @@ export const SettingsOption = forwardRef(function RowLayout(
                         className='icon-leading'
                         as='span'
                     >
-                        <Icon className='w-5 h-5' icon={iconLeading} />
+                        <Icon className='h-5 w-5' icon={iconLeading} />
                     </FlexContainer>
                 </FlexContainer>
                 <FlexContainer
@@ -190,7 +190,7 @@ export const SettingsOption = forwardRef(function RowLayout(
                                     <Icon
                                         icon={iconTrailing}
                                         className={cn(
-                                            'icon-trailing w-5 h-5',
+                                            'icon-trailing h-5 w-5',
                                             {
                                                 'text-theme-secondary-500 dark:text-theme-secondary-300':
                                                     disabled,

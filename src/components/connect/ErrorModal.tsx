@@ -90,7 +90,7 @@ const ErrorModal = ({ error, onClose }: Props) => {
                         <Paragraph $typeset='headline' fontWeight='medium' as='span'>
                             Reach out to support team
                         </Paragraph>
-                        <Icon icon='link-external' className='w-5 h-5' />
+                        <Icon icon='link-external' className='h-5 w-5' />
                     </ExternalLink>
                 </FlexContainer>
             </FlexContainer>
