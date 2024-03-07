@@ -69,7 +69,7 @@ export const SettingsMenu = ({
 
     return (
         <div 
-            className='mx-4 w-full rounded-xl shadow-[0_4px_6px_-2px_rgba(16,24,40,0_03)_0_12px_16px_-4px_rgba(16,24,40,0_08)] bg-white dark:bg-subtle-black'
+            className='mx-4 w-full rounded-xl shadow-dropdown bg-white dark:bg-subtle-black'
             ref={dropdownRef}
         >
             <SafeOutlineOverflowContainer width='100%' marginLeft='0' paddingX='0'>
