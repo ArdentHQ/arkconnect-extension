@@ -28,7 +28,7 @@ const ToastContainer = () => {
     return (
         <div
             className={cn(
-                'flex fixed -translate-x-1/2 flex-col items-center left-1/2 z-100 w-full px-4',
+                'fixed left-1/2 z-100 flex w-full -translate-x-1/2 flex-col items-center px-4',
                 toasts[0]?.toastPosition || ToastPosition.LOWER,
             )}
         >
