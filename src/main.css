@@ -184,17 +184,14 @@ b,
 strong {
     font-weight: bold;
 }
+
 body {
-    overflow-x: hidden;
-    position: relative;
+    @apply relative overflow-x-hidden;
 }
 
 html,
 body {
-    width: 370px;
-    min-height: 600px;
-    padding: 0;
-    margin: 0;
+    @apply m-0 min-h-[600px] w-screen p-0;
 }
 
 * {
@@ -257,45 +254,39 @@ button {
 }
 
 #scrollable-container {
-    height: 100vh;
-    overflow-y: auto;
-    overflow-x: hidden;
-    width: 370px;
-    max-width: 370px;
+    @apply max-w-screen h-screen w-screen overflow-y-auto overflow-x-hidden;
 }
 
 .main-container {
-    width: 370px;
+    @apply w-screen;
 }
 
 .dialog-wrapper {
-    max-width: 370px;
+    @apply max-w-screen;
 }
 
 .tippy-box[data-theme*='ark'] {
-    border-radius: 8px;
+    @apply rounded-lg;
 }
 
 .tippy-box[data-theme*='ark'] .tippy-content {
-    padding: 8px 12px;
+    @apply px-2 py-3;
 }
 
 .tippy-box[data-theme~='ark-light'] {
-    background-color: #383838;
-    color: #fff;
+    @apply bg-subtle-black text-white;
 }
 
 .tippy-box[data-theme~='ark-dark'] {
-    background-color: #fff;
-    color: #383838;
+    @apply bg-white text-subtle-black;
 }
 
 .tippy-box[data-theme~='ark-light'] .tippy-svg-arrow {
-    fill: #383838;
+    @apply fill-subtle-black;
 }
 
 .tippy-box[data-theme~='ark-dark'] .tippy-svg-arrow {
-    fill: #fff;
+    @apply fill-white;
 }
 
 .globeIcon.dark circle {
@@ -313,19 +304,18 @@ button {
     }
 
     .custom-scroll::-webkit-scrollbar-thumb {
-        background-color: #058751;
+        @apply bg-theme-primary-700;
     }
 
     .custom-scroll::-webkit-scrollbar-track {
-        background-color: transparent;
+        @apply bg-transparent;
     }
 }
 
 .custom-scroll::-webkit-scrollbar {
-    width: 4px;
+    @apply w-1;
 }
 
 .custom-scroll::-webkit-scrollbar-thumb {
-    border-radius: 50px;
-    background: #058751;
+    @apply rounded-[50px] bg-theme-primary-700;
 }
