@@ -22,8 +22,8 @@ export default {
                     '0 4px 6px -2px rgba(16, 24, 40, 0.03), 0 12px 16px -4px rgba(16, 24, 40, 0.08)',
             },
             zIndex: {
-                '100': '100',
-            }
+                100: '100',
+            },
         },
         colors: {
             transparent: 'transparent',

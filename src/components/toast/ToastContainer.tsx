@@ -26,13 +26,17 @@ const ToastContainer = () => {
     }, []);
 
     return (
-        <div className={cn('flex fixed -translate-x-1/2 flex-col items-center left-1/2 z-100 w-full px-4', toasts[0]?.toastPosition || ToastPosition.LOWER)}>
+        <div
+            className={cn(
+                'flex fixed -translate-x-1/2 flex-col items-center left-1/2 z-100 w-full px-4',
+                toasts[0]?.toastPosition || ToastPosition.LOWER,
+            )}
+        >
             {toasts.map((toast, index) => (
                 <Toast key={index} type={toast.type} message={toast.message} />
             ))}
         </div>
     );
- 
 
     return (
         <StyledContainer
