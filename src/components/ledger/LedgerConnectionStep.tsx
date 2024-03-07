@@ -100,7 +100,7 @@ export const LedgerConnectionStep = ({
                 Connect Your Ledger Device
             </Heading>
             <FlexContainer my='24' justifyContent='center'>
-                <Icon icon='ledger-device' className='w-[13.75rem] h-[7.5rem]' />
+                <Icon icon='ledger-device' className='h-[7.5rem] w-[13.75rem]' />
             </FlexContainer>
             <Container mb='24'>
                 {connectSteps.map((step, index) => (
@@ -134,7 +134,7 @@ export const LedgerConnectionStep = ({
                 <Paragraph $typeset='headline' fontWeight='medium'>
                     Support Email
                 </Paragraph>
-                <Icon icon='link-external' className='w-5 h-5' />
+                <Icon icon='link-external' className='h-5 w-5' />
             </ExternalLink>
         </Container>
     );

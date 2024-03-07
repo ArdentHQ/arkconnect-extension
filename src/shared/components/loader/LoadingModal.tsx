@@ -28,7 +28,7 @@ const LoadingModal = () => {
                     <>
                         <Icon
                             icon='completed'
-                            className='w-16 h-16 text-theme-primary-700 dark:text-theme-primary-650'
+                            className='h-16 w-16 text-theme-primary-700 dark:text-theme-primary-650'
                         />
                         <FlexContainer
                             flexDirection='column'
