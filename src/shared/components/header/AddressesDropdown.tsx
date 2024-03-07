@@ -95,28 +95,23 @@ export const AddressesDropdown = ({
 
     return (
         <div className=' mx-4 w-full rounded-xl shadow-dropdown bg-white dark:bg-subtle-black'>
-            <Container borderBottom='1px solid' borderBottomColor='toggleInactive'>
-                <FlexContainer padding='12' justifyContent='space-between' alignItems='center'>
+            <div className='border-b border-b-theme-secondary-200 dark:border-b-theme-secondary-600 border-solid'>
+                <div className=' flex justify-between items-center p-3'>
                     <Paragraph $typeset='headline' fontWeight='medium' color='base'>
                         Addresses
                     </Paragraph>
 
-                    <StyledFlexContainer
-                        padding='7'
-                        alignItems='center'
-                        borderRadius='50'
-                        color='base'
-                        className='c-pointer'
-                        as='button'
+                    <button
+                        className='p-[7px] items-center flex rounded-full cursor-pointer transition duration-200 ease-in-out text-light-black dark:text-white hover:bg-theme-secondary-50 dark:hover:bg-theme-secondary-700'
                         onClick={() => {
                             onClose();
                             navigate('/create-import-address');
                         }}
                     >
                         <Icon icon='plus' className='h-4.5 w-4.5' />
-                    </StyledFlexContainer>
-                </FlexContainer>
-            </Container>
+                    </button>
+                </div>
+            </div>
             <FlexContainer
                 flexDirection='column'
                 paddingBottom='8'
