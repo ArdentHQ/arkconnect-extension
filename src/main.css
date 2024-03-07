@@ -155,7 +155,7 @@ header {
 }
 
 #scrollable-container {
-    @apply max-w-screen h-screen w-screen overflow-y-auto overflow-x-hidden;
+    @apply h-screen w-screen max-w-screen overflow-y-auto overflow-x-hidden;
 }
 
 .main-container {
