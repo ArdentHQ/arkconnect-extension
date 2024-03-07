@@ -28,7 +28,7 @@ const ActionDetails = ({
             </div>
 
             <div
-                className='custom-scroll shadow-action-details dark:shadow-action-details-dark w-full overflow-auto rounded-lg bg-white dark:bg-subtle-black'
+                className='custom-scroll w-full overflow-auto rounded-lg bg-white shadow-action-details dark:bg-subtle-black dark:shadow-action-details-dark'
                 style={{
                     maxHeight: maxHeight,
                 }}

@@ -59,7 +59,7 @@ export const ModalIcon = ({
     return (
         <div
             className={cn(
-                'flex w-13 h-13 border border-solid border-theme-secondary-200 dark:border-theme-secondary-600 rounded-lg relative justify-center items-center shadow-[0_1px_4px_0_rgba(0,0,0,0.05)]',
+                'relative flex h-13 w-13 items-center justify-center rounded-lg border border-solid border-theme-secondary-200 shadow-[0_1px_4px_0_rgba(0,0,0,0.05)] dark:border-theme-secondary-600',
                 {
                     'text-theme-error-600 dark:text-theme-error-500': variant === 'danger',
                     'text-subtle-black dark:text-subtle-white': variant !== 'danger',
@@ -93,10 +93,10 @@ const Modal = ({
     return (
         <Portal>
             <FocusTrap active={activateFocusTrap} focusTrapOptions={focusTrapOptions}>
-                <div className='flex justify-center items-center overflow-y-hidden overflow-x-auto fixed bottom-0 top-0 left-0 right-0 z-50 outline-none'>
-                    <div className={cn('relative w-auto max-w-max my-auto mx-4', className)}>
+                <div className='fixed bottom-0 left-0 right-0 top-0 z-50 flex items-center justify-center overflow-x-auto overflow-y-hidden outline-none'>
+                    <div className={cn('relative mx-4 my-auto w-auto max-w-max', className)}>
                         <div
-                            className='border-none rounded-xl relative flex flex-col w-full outline-none'
+                            className='relative flex w-full flex-col rounded-xl border-none outline-none'
                             ref={ref}
                         >
                             <div
@@ -109,7 +109,7 @@ const Modal = ({
                                 )}
                             >
                                 {(icon || !hideCloseButton) && (
-                                    <div className='flex justify-between items-start'>
+                                    <div className='flex items-start justify-between'>
                                         {icon && (
                                             <>
                                                 {typeof icon === 'string' ? (
@@ -131,7 +131,7 @@ const Modal = ({
                                 {footer === undefined ? (
                                     <>
                                         {(onCancel || onResolve) && (
-                                            <div className='flex justify-between items-center gap-2'>
+                                            <div className='flex items-center justify-between gap-2'>
                                                 {onCancel && (
                                                     <Button
                                                         variant='secondaryBlack'
@@ -163,7 +163,7 @@ const Modal = ({
                 </div>
             </FocusTrap>
 
-            <div className='fixed top-0 bottom-0 left-0 opacity-50 w-full bg-[#030303]' />
+            <div className='fixed bottom-0 left-0 top-0 w-full bg-[#030303] opacity-50' />
         </Portal>
     );
 };
