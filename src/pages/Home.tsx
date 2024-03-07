@@ -72,7 +72,7 @@ const Home = () => {
                             </ExternalLink>
                             <Icon
                                 icon='divider'
-                                className='w-0.5 h-4.5 text-theme-primary-650 dark:text-theme-primary-600'
+                                className='h-4.5 w-0.5 text-theme-primary-650 dark:text-theme-primary-600'
                             />
 
                             <ExternalLink
@@ -88,7 +88,7 @@ const Home = () => {
                                 <Paragraph $typeset='body' fontWeight='medium'>
                                     {primaryWallet?.network().isTest() ? 'Faucet' : 'Exchanges'}
                                 </Paragraph>
-                                <Icon icon='link-external' className='w-4 h-4' />
+                                <Icon icon='link-external' className='h-4 w-4' />
                             </ExternalLink>
                         </FlexContainer>
                     </Container>

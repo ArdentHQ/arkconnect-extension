@@ -9,5 +9,5 @@ type LogoProps = {
     LayoutProps<Theme>;
 
 export const LogoIcon = ({ className, ...rest }: LogoProps) => {
-    return <Icon className={cn(className, 'w-6 h-6')} icon='logo-inverted' {...rest} />;
+    return <Icon className={cn(className, 'h-6 w-6')} icon='logo-inverted' {...rest} />;
 };

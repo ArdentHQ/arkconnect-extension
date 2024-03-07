@@ -21,7 +21,7 @@ export const BigButton = ({
     return (
         <button
             className={cn(
-                'border border-solid border-transparent rounded-[20px] bg-white dark:bg-subtle-black shadow-[0_1px_4px_0_rgba(0,0,0,0.05)] flex w-full p-4 max-h-24 box-border cursor-pointer gap-3 hover:border hover:border-solid hover:border-theme-primary-800 hover:dark:border-theme-primary-600 disabled:cursor-not-allowed disabled:pointer-events-none',
+                'box-border flex max-h-24 w-full cursor-pointer gap-3 rounded-[20px] border border-solid border-transparent bg-white p-4 shadow-[0_1px_4px_0_rgba(0,0,0,0.05)] hover:border hover:border-solid hover:border-theme-primary-800 disabled:pointer-events-none disabled:cursor-not-allowed dark:bg-subtle-black hover:dark:border-theme-primary-600',
                 {
                     'transition-firefoxSmoothEase focus-visible:outline focus-visible:outline-2':
                         isFirefox,
@@ -31,18 +31,18 @@ export const BigButton = ({
             )}
             {...rest}
         >
-            <span className='flex w-full gap-3 items-start'>
+            <span className='flex w-full items-start gap-3'>
                 {iconLeading && <Icon className='h-6 w-6' icon={iconLeading} />}
 
-                <span className='flex items-center justify-between w-full'>
-                    <span className='flex flex-col items-start w-full gap-2'>
+                <span className='flex w-full items-center justify-between'>
+                    <span className='flex w-full flex-col items-start gap-2'>
                         {title && <span className='typeset-heading font-medium'>{title}</span>}
                         {helperText && (
                             <span className='typeset-body text-left font-normal'>{helperText}</span>
                         )}
                     </span>
 
-                    <span className='h-full flex flex-col items-center justify-center text-light-black dark:text-white'>
+                    <span className='flex h-full flex-col items-center justify-center text-light-black dark:text-white'>
                         {iconTrailing && <Icon className='h-5 w-5' icon={iconTrailing} />}
                     </span>
                 </span>

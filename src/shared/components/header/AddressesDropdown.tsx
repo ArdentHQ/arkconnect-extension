@@ -66,14 +66,14 @@ export const AddressesDropdown = ({
     };
 
     return (
-        <div className=' mx-4 w-full rounded-xl shadow-dropdown bg-white dark:bg-subtle-black'>
-            <div className='border-b border-b-theme-secondary-200 dark:border-b-theme-secondary-600 border-solid'>
-                <div className=' flex justify-between items-center p-3'>
+        <div className=' mx-4 w-full rounded-xl bg-white shadow-dropdown dark:bg-subtle-black'>
+            <div className='border-b border-solid border-b-theme-secondary-200 dark:border-b-theme-secondary-600'>
+                <div className=' flex items-center justify-between p-3'>
                     <span className='font-medium text-light-black dark:text-white'>Addresses</span>
 
                     <button
                         type='button'
-                        className='p-[7px] items-center flex rounded-full cursor-pointer transition duration-200 ease-in-out text-light-black dark:text-white hover:bg-theme-secondary-50 dark:hover:bg-theme-secondary-700'
+                        className='flex cursor-pointer items-center rounded-full p-[7px] text-light-black transition duration-200 ease-in-out hover:bg-theme-secondary-50 dark:text-white dark:hover:bg-theme-secondary-700'
                         onClick={() => {
                             onClose();
                             navigate('/create-import-address');
@@ -84,7 +84,7 @@ export const AddressesDropdown = ({
                 </div>
             </div>
 
-            <div className='flex flex-col max-h-[calc(100vh-150px)] pb-2 overflow-y-auto'>
+            <div className='flex max-h-[calc(100vh-150px)] flex-col overflow-y-auto pb-2'>
                 {addresses.map((address) => (
                     <AddressRow
                         address={address}
@@ -115,14 +115,14 @@ const AddressRow = ({
     return (
         <div
             className={classNames(
-                'flex px-3 py-4 justify-between items-center transition duration-200 ease-in-out ',
+                'flex items-center justify-between px-3 py-4 transition duration-200 ease-in-out ',
                 {
                     'bg-theme-primary-50 dark:bg-theme-primary-650/15': isSelected,
                     'hover:bg-theme-secondary-50 dark:hover:bg-theme-secondary-700': !isSelected,
                 },
             )}
         >
-            <div className='flex gap-3 items-center'>
+            <div className='flex items-center gap-3'>
                 <div>
                     <RadioButton
                         name='change-primary-address'
@@ -132,7 +132,7 @@ const AddressRow = ({
                     />
                 </div>
                 <div className='flex flex-col gap-1'>
-                    <div className='flex gap-1.5 items-center'>
+                    <div className='flex items-center gap-1.5'>
                         <AddressAlias alias={address.alias() ?? ''} withTooltip={true} />
 
                         {address.isLedger() && <LedgerIcon />}
@@ -140,7 +140,7 @@ const AddressRow = ({
                         {address.network().isTest() && <TestnetIcon />}
                     </div>
 
-                    <div className='flex gap-1.5 items-center text-theme-secondary-500 dark:text-theme-secondary-400'>
+                    <div className='flex items-center gap-1.5 text-theme-secondary-500 dark:text-theme-secondary-400'>
                         <AddressWithCopy address={address.address()} />
                         <div>•</div>
                         <AddressBalance
@@ -158,7 +158,7 @@ const AddressRow = ({
                     navigate('/address/settings', { state: { address } });
                 }}
                 className={classNames(
-                    'p-[7px] items-center flex rounded-full cursor-pointer transition duration-200 ease-in-out text-light-black dark:text-white hover:bg-theme-secondary-50 dark:hover:bg-theme-secondary-700',
+                    'flex cursor-pointer items-center rounded-full p-[7px] text-light-black transition duration-200 ease-in-out hover:bg-theme-secondary-50 dark:text-white dark:hover:bg-theme-secondary-700',
                     {
                         'hover:bg-theme-primary-200/60 dark:hover:bg-theme-primary-800/50':
                             isSelected,

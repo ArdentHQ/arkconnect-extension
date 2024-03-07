@@ -28,8 +28,8 @@ export const RadioButton: FC<RadioButtonProps> = ({
     return (
         <label
             className={cn('relative flex min-h-5 w-5', {
-                'cursor-not-allowed pointer-events-none': disabled,
-                'cursor-pointer pointer-events-auto group': !disabled,
+                'pointer-events-none cursor-not-allowed': disabled,
+                'group pointer-events-auto cursor-pointer': !disabled,
             })}
             htmlFor={id}
         >
@@ -61,7 +61,7 @@ export const RadioButton: FC<RadioButtonProps> = ({
             />
             <div
                 className={cn('radio-indicator', {
-                    'outline outline-theme-primary-600 outline-2 outline-offset-2': isFocusWithin,
+                    'outline outline-2 outline-offset-2 outline-theme-primary-600': isFocusWithin,
                 })}
             />
         </label>
