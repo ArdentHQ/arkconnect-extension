@@ -95,7 +95,7 @@ const Approve = () => {
                 <Modal
                     onClose={() => {}}
                     containerClassName='p-0'
-                    className='min-h-screen m-0 bg-theme-warning-600 dark:bg-theme-warning-400'
+                    className='m-0 min-h-screen bg-theme-warning-600 dark:bg-theme-warning-400'
                     activateFocusTrap={false}
                     hideCloseButton
                 >
