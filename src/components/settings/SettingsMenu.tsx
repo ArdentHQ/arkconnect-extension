@@ -68,13 +68,13 @@ export const SettingsMenu = ({
     };
 
     return (
-        <div 
+        <div
             className='mx-4 w-full rounded-xl shadow-dropdown bg-white dark:bg-subtle-black'
             ref={dropdownRef}
         >
             <SafeOutlineOverflowContainer width='100%' marginLeft='0' paddingX='0'>
                 <div className='py-2 w-full flex flex-col'>
-                <SettingsOption
+                    <SettingsOption
                         title='Create & Import Address'
                         iconLeading='plus-circle'
                         onClick={() => {
@@ -139,9 +139,9 @@ export const SettingsMenu = ({
                         iconLeading='currency-dollar-circle'
                         rightContent={
                             <p className='typeset-headline font-normal text-theme-secondary-500 dark:text-theme-secondary-300 mr-2 text-base'>
-                            {`${profile
-                                .settings()
-                                .get(Contracts.ProfileSetting.ExchangeCurrency)}`}
+                                {`${profile
+                                    .settings()
+                                    .get(Contracts.ProfileSetting.ExchangeCurrency)}`}
                             </p>
                         }
                         iconTrailing='arrow-right'
