@@ -89,10 +89,6 @@ time,
 mark,
 audio,
 video {
-    margin: 0;
-    padding: 0;
-    border: 0;
-    font-size: 100%;
     font: inherit;
     font-family: 'DM Sans', sans-serif;
     vertical-align: baseline;
@@ -151,11 +147,11 @@ header {
 }
 
 .dropdown-body {
-    @apply invisible translate-y-[-10px] opacity-0 transition-transform duration-200 ease-in-out;
+    @apply translate-y-[-10px] opacity-0 transition-transform duration-200 ease-in-out;
 }
 
 .dropdown-transition {
-    @apply invisible translate-y-0 opacity-100;
+    @apply translate-y-0 opacity-100;
 }
 
 #scrollable-container {
