@@ -57,10 +57,16 @@ export const ModalIcon = ({
     className?: string;
 }) => {
     return (
-        <div className={cn('flex w-13 h-13 border border-solid border-theme-secondary-200 dark:border-theme-secondary-600 rounded-lg relative justify-center items-center shadow-[0_1px_4px_0_rgba(0,0,0,0.05)]', {
-            'text-theme-error-600 dark:text-theme-error-500': variant === 'danger',
-            'text-subtle-black dark:text-subtle-white': variant !== 'danger',
-        }, className)}>
+        <div
+            className={cn(
+                'flex w-13 h-13 border border-solid border-theme-secondary-200 dark:border-theme-secondary-600 rounded-lg relative justify-center items-center shadow-[0_1px_4px_0_rgba(0,0,0,0.05)]',
+                {
+                    'text-theme-error-600 dark:text-theme-error-500': variant === 'danger',
+                    'text-subtle-black dark:text-subtle-white': variant !== 'danger',
+                },
+                className,
+            )}
+        >
             <IconComponent icon={icon} className={cn('h-6 w-6', iconClassName)} />
         </div>
     );
@@ -89,10 +95,19 @@ const Modal = ({
             <FocusTrap active={activateFocusTrap} focusTrapOptions={focusTrapOptions}>
                 <div className='flex justify-center items-center overflow-y-hidden overflow-x-auto fixed bottom-0 top-0 left-0 right-0 z-50 outline-none'>
                     <div className={cn('relative w-auto max-w-max my-auto mx-4', className)}>
-                        <div className='border-none rounded-xl relative flex flex-col w-full outline-none' ref={ref}>
-                            <div className={cn('flex flex-col gap-6 rounded-xl bg-white dark:bg-light-black', {
-                                'p-4': !containerClassName
-                            }, containerClassName)}>
+                        <div
+                            className='border-none rounded-xl relative flex flex-col w-full outline-none'
+                            ref={ref}
+                        >
+                            <div
+                                className={cn(
+                                    'flex flex-col gap-6 rounded-xl bg-white dark:bg-light-black',
+                                    {
+                                        'p-4': !containerClassName,
+                                    },
+                                    containerClassName,
+                                )}
+                            >
                                 {(icon || !hideCloseButton) && (
                                     <div className='flex justify-between items-start'>
                                         {icon && (
