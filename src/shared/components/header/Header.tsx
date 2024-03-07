@@ -92,7 +92,7 @@ export const Header = () => {
                     />
                     <Icon
                         icon='logo-text'
-                        className='w-[122px] h-3 text-theme-primary-700 dark:text-theme-primary-650'
+                        className='h-3 w-[122px] text-theme-primary-700 dark:text-theme-primary-650'
                     />
                 </StyledLogos>
             </StyledHeader>
@@ -116,7 +116,7 @@ export const Header = () => {
                 position='relative'
             >
                 <FlexContainer justifyContent='space-between' className='space-x-5'>
-                    <FlexContainer alignItems='center' className='flex-1 overflow-auto p-1 -m-1'>
+                    <FlexContainer alignItems='center' className='-m-1 flex-1 overflow-auto p-1'>
                         {/*Logo*/}
                         <StyledLink to='/'>
                             <LogoIcon className='text-theme-primary-700 dark:text-theme-primary-650' />
@@ -127,7 +127,7 @@ export const Header = () => {
                             position='relative'
                             ref={addressesTriggerRef}
                             overflow='auto'
-                            className='p-1 -m-1'
+                            className='-m-1 p-1'
                         >
                             <StyledFlexContainer
                                 padding='8'
@@ -161,7 +161,7 @@ export const Header = () => {
                                     <Icon
                                         icon='arrow-down'
                                         className={cn('h-4 w-4 transition-transform ease-in-out', {
-                                            'transform rotate-180': showAddressesDropdown,
+                                            'rotate-180 transform': showAddressesDropdown,
                                         })}
                                     />
                                 </FlexContainer>

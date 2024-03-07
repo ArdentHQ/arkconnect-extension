@@ -57,7 +57,7 @@ const ConnectionLogoImage = ({
     return (
         <Icon
             icon={defaultFavicon}
-            className='text-theme-primary-700 dark:text-theme-primary-650 w-[15px] h-[15px]'
+            className='h-[15px] w-[15px] text-theme-primary-700 dark:text-theme-primary-650'
         />
     );
 };

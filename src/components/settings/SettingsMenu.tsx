@@ -76,7 +76,7 @@ export const SettingsMenu = ({
             boxShadow='0px 4px 6px -2px rgba(16, 24, 40, 0.03), 0px 12px 16px -4px rgba(16, 24, 40, 0.08)'
             backgroundColor='secondaryBackground'
         >
-            <SafeOutlineOverflowContainer className='w-full ml-0 px-0'>
+            <SafeOutlineOverflowContainer className='ml-0 w-full px-0'>
                 <FlexContainer paddingY='8' width='100%' display='flex' flexDirection='column'>
                     <SettingsOption
                         title='Create & Import Address'
