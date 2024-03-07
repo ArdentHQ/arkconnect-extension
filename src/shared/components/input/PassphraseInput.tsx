@@ -47,7 +47,7 @@ export const PassphraseInput = forwardRef(function TextArea(
             <div className='relative w-full'>
                 <textarea
                     className={cn(
-                        'text-base font-normal w-full p-3 rounded-lg shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] transition-smoothEase border-none outline-none resize-none disabled:cursor-not-allowed disabled:pointer-events-none placeholder:text-theme-secondary-400',
+                        'transition-smoothEase w-full resize-none rounded-lg border-none p-3 text-base font-normal shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] outline-none placeholder:text-theme-secondary-400 disabled:pointer-events-none disabled:cursor-not-allowed',
                         {
                             'passphrase-primary': variant === 'primary',
                             'passphrase-destructive': variant === 'destructive',

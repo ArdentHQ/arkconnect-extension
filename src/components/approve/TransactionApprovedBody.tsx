@@ -97,7 +97,7 @@ const TransactionApprovedBody = () => {
                         >
                             <Icon
                                 icon='copy'
-                                className='text-theme-primary-700 dark:text-theme-primary-650 w-5 h-5'
+                                className='h-5 w-5 text-theme-primary-700 dark:text-theme-primary-650'
                             />
                         </Container>
                     </FlexContainer>

@@ -14,7 +14,6 @@ import { useAppSelector } from '@/lib/store';
 import { useProfileContext } from '@/lib/context/Profile';
 import * as UIStore from '@/lib/store/ui';
 import { assertIsUnlocked } from '@/lib/background/assertions';
-import useThemeMode from '@/lib/hooks/useThemeMode';
 
 export enum ApproveActionType {
     SIGNATURE = 'signature',
@@ -28,7 +27,6 @@ const Approve = () => {
     const location = useLocation();
     const { profile } = useProfileContext();
     const { connect } = useLedgerContext();
-    const { getThemeColor } = useThemeMode();
     const abortReference = useRef(new AbortController());
     const [isModalOpen, setIsModalOpen] = useState(false);
     const wallets = useAppSelector(WalletStore.selectWallets);
@@ -96,12 +94,8 @@ const Approve = () => {
             {isModalOpen && (
                 <Modal
                     onClose={() => {}}
-                    containerPadding='0'
-                    contentStyles={{
-                        minHeight: '100vh',
-                        margin: '0',
-                        backgroundColor: getThemeColor('warning600', 'warning400'),
-                    }}
+                    containerClassName='p-0'
+                    className='min-h-screen m-0 bg-theme-warning-600 dark:bg-theme-warning-400'
                     activateFocusTrap={false}
                     hideCloseButton
                 >

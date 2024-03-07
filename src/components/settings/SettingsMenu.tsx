@@ -72,7 +72,7 @@ export const SettingsMenu = ({
             className='mx-4 w-full rounded-xl shadow-dropdown bg-white dark:bg-subtle-black'
             ref={dropdownRef}
         >
-            <SafeOutlineOverflowContainer className='w-full ml-0 px-0'>
+            <SafeOutlineOverflowContainer className='ml-0 w-full px-0'>
                 <div className='py-2 w-full flex flex-col'>
                     <SettingsOption
                         title='Create & Import Address'
