@@ -57,7 +57,7 @@ const AutoUnlockWrapper = ({ children, runEventHandlers }: Props) => {
 
     useEffect(() => {
         if (autoLockTimerDisabled) {
-            runtime.sendMessage({ type: 'DISABLE_AUTOLOCK_TIMER' });
+            runtime.sendMessage({ type: 'CLEAR_AUTOLOCK_TIMER' });
             return;
         }
     }, [autoLockTimerDisabled]);
