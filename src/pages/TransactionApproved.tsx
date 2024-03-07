@@ -53,7 +53,7 @@ const TransactionApproved = () => {
                     <FlexContainer flexDirection='column' gridGap='16px' alignItems='center'>
                         <Icon
                             icon='completed'
-                            className='w-16 h-16 text-theme-primary-700 dark:text-theme-primary-650'
+                            className='h-16 w-16 text-theme-primary-700 dark:text-theme-primary-650'
                         />
                         <Heading $typeset='h3' color='base' fontWeight='bold'>
                             Transaction Approved
