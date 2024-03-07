@@ -3,7 +3,7 @@ import { Contracts } from '@ardenthq/sdk-profiles';
 import { runtime } from 'webextension-polyfill';
 import { useAppDispatch, useAppSelector } from '../store';
 import { useWalletBalance } from '../hooks/useWalletBalance';
-import { ProfileData, WalletData } from '../background/contracts';
+import { ProfileData } from '../background/contracts';
 import { useEnvironmentContext } from './Environment';
 import { useErrorHandlerContext } from './ErrorHandler';
 import * as WalletStore from '@/lib/store/wallet';
