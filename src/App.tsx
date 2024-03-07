@@ -47,7 +47,7 @@ const AppWrapper = ({
     theme = { ...baseTheme, colors: themeModes[ThemeMode.LIGHT] },
 }: {
     children?: React.ReactNode;
-    runEventHandlers: () => void;
+    runEventHandlers: () => number;
     theme?: React.ComponentProps<typeof ThemeProvider>['theme'];
 }) => {
     return (

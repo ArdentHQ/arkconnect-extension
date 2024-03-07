@@ -2,9 +2,8 @@ import { Contracts } from '@ardenthq/sdk-profiles';
 import { useNavigate } from 'react-router-dom';
 import { useRef } from 'react';
 import { runtime } from 'webextension-polyfill';
-import styled from 'styled-components';
-import { Container, FlexContainer, Icon, Paragraph, RadioButton } from '@/shared/components';
-import useThemeMode from '@/lib/hooks/useThemeMode';
+import classNames from 'classnames';
+import { Icon, RadioButton } from '@/shared/components';
 import {
     AddressAlias,
     AddressBalance,
@@ -19,33 +18,6 @@ import { useAppDispatch } from '@/lib/store';
 import useToast from '@/lib/hooks/useToast';
 import useOnClickOutside from '@/lib/hooks/useOnClickOutside';
 import { useProfileContext } from '@/lib/context/Profile';
-import { DropdownMenuContainerProps } from '@/components/settings/SettingsMenu';
-import { isFirefox } from '@/lib/utils/isFirefox';
-
-const StyledFlexContainer = styled(FlexContainer)<DropdownMenuContainerProps>`
-    ${(props) => `
-  transition: ${isFirefox ? 'background 0.2s ease-in-out' : 'all 0.2s ease-in-out'};
-  &:hover {
-    background-color: ${props.theme.colors.lightGrayHover};
-  }
-  background-color: 'transparent';
-
-  ${isFirefox ? props.theme.browserCompatibility.firefox.focus : ''}
-`}
-`;
-const StyledFlexContainerSettings = styled(FlexContainer)<DropdownMenuContainerProps>`
-    ${(props) => `
-  transition: ${isFirefox ? 'background 0.2s ease-in-out' : 'all 0.2s ease-in-out'};
-  &:hover {
-    background-color: ${
-        props.selected ? props.theme.colors.lightGreenHover : props.theme.colors.lightGrayHover2
-    }
-  }
-  background-color: 'transparent';
-
-  ${isFirefox ? props.theme.browserCompatibility.firefox.focus : ''}
-`}
-`;
 
 export const AddressesDropdown = ({
     addresses,
@@ -94,42 +66,25 @@ export const AddressesDropdown = ({
     };
 
     return (
-        <Container
-            borderRadius='12'
-            boxShadow='0 4px 6px -2px rgba(16, 24, 40, 0.03), 0 12px 16px -4px rgba(16, 24, 40, 0.08)'
-            marginX='16'
-            backgroundColor='secondaryBackground'
-            width='100%'
-            ref={dropdownRef}
-        >
-            <Container borderBottom='1px solid' borderBottomColor='toggleInactive'>
-                <FlexContainer padding='12' justifyContent='space-between' alignItems='center'>
-                    <Paragraph $typeset='headline' fontWeight='medium' color='base'>
-                        Addresses
-                    </Paragraph>
+        <div className=' mx-4 w-full rounded-xl shadow-dropdown bg-white dark:bg-subtle-black'>
+            <div className='border-b border-b-theme-secondary-200 dark:border-b-theme-secondary-600 border-solid'>
+                <div className=' flex justify-between items-center p-3'>
+                    <span className='font-medium text-light-black dark:text-white'>Addresses</span>
 
-                    <StyledFlexContainer
-                        padding='7'
-                        alignItems='center'
-                        borderRadius='50'
-                        color='base'
-                        className='c-pointer'
-                        as='button'
+                    <button
+                        type='button'
+                        className='p-[7px] items-center flex rounded-full cursor-pointer transition duration-200 ease-in-out text-light-black dark:text-white hover:bg-theme-secondary-50 dark:hover:bg-theme-secondary-700'
                         onClick={() => {
                             onClose();
                             navigate('/create-import-address');
                         }}
                     >
                         <Icon icon='plus' className='h-4.5 w-4.5' />
-                    </StyledFlexContainer>
-                </FlexContainer>
-            </Container>
-            <FlexContainer
-                flexDirection='column'
-                paddingBottom='8'
-                maxHeight='calc(100vh - 150px)'
-                overflowY='auto'
-            >
+                    </button>
+                </div>
+            </div>
+
+            <div className='flex flex-col max-h-[calc(100vh-150px)] pb-2 overflow-y-auto'>
                 {addresses.map((address) => (
                     <AddressRow
                         address={address}
@@ -139,25 +94,10 @@ export const AddressesDropdown = ({
                         onClose={onClose}
                     />
                 ))}
-            </FlexContainer>
-        </Container>
+            </div>
+        </div>
     );
 };
-
-const StyledWrapper = styled(FlexContainer)<{ isDark: boolean; selected: boolean }>`
-    ${(props) => `
-  transition: all 0.2s ease-in-out;
-  ${
-      !props.selected
-          ? `
-    &:hover {
-      background-color: ${props.isDark ? '#484646' : props.theme.colors.secondary50}
-    }
-  `
-          : ''
-  }
-`}
-`;
 
 const AddressRow = ({
     address,
@@ -172,61 +112,63 @@ const AddressRow = ({
 }) => {
     const navigate = useNavigate();
 
-    const { getThemeColor, isDark } = useThemeMode();
-
     return (
-        <StyledWrapper
-            paddingX='12'
-            paddingY='16'
-            justifyContent='space-between'
-            alignItems='center'
-            selected={isSelected}
-            isDark={isDark()}
-            backgroundColor={isSelected ? getThemeColor('primary50', '#02a86326') : undefined}
+        <div
+            className={classNames(
+                'flex px-3 py-4 justify-between items-center transition duration-200 ease-in-out ',
+                {
+                    'bg-theme-primary-50 dark:bg-theme-primary-650/15': isSelected,
+                    'hover:bg-theme-secondary-50 dark:hover:bg-theme-secondary-700': !isSelected,
+                },
+            )}
         >
-            <FlexContainer gridGap='12' alignItems='center'>
-                <Container>
+            <div className='flex gap-3 items-center'>
+                <div>
                     <RadioButton
                         name='change-primary-address'
                         id={address.id()}
                         checked={isSelected}
                         onChange={() => onPrimaryAddressChange(address)}
                     />
-                </Container>
-                <FlexContainer flexDirection='column' gridGap='4'>
-                    <FlexContainer gridGap='6' alignItems='center'>
+                </div>
+                <div className='flex flex-col gap-1'>
+                    <div className='flex gap-1.5 items-center'>
                         <AddressAlias alias={address.alias() ?? ''} withTooltip={true} />
 
                         {address.isLedger() && <LedgerIcon />}
 
                         {address.network().isTest() && <TestnetIcon />}
-                    </FlexContainer>
+                    </div>
 
-                    <FlexContainer gridGap='6' color='gray' alignItems='center'>
+                    <div className='flex gap-1.5 items-center text-theme-secondary-500 dark:text-theme-secondary-400'>
                         <AddressWithCopy address={address.address()} />
                         <div>•</div>
                         <AddressBalance
                             balance={address.balance()}
                             currency={getNetworkCurrency(address.network())}
                         />
-                    </FlexContainer>
-                </FlexContainer>
-            </FlexContainer>
-            <StyledFlexContainerSettings
-                padding='7'
-                alignItems='center'
-                borderRadius='50'
-                color='base'
-                as='button'
-                className='c-pointer'
+                    </div>
+                </div>
+            </div>
+
+            <button
+                type='button'
                 onClick={() => {
                     onClose();
                     navigate('/address/settings', { state: { address } });
                 }}
-                selected={isSelected}
+                className={classNames(
+                    'p-[7px] items-center flex rounded-full cursor-pointer transition duration-200 ease-in-out text-light-black dark:text-white hover:bg-theme-secondary-50 dark:hover:bg-theme-secondary-700',
+                    {
+                        'hover:bg-theme-primary-200/60 dark:hover:bg-theme-primary-800/50':
+                            isSelected,
+                        'hover:bg-theme-secondary-200 dark:hover:bg-theme-secondary-600':
+                            !isSelected,
+                    },
+                )}
             >
                 <Icon icon='transparent-settings' className='h-4.5 w-4.5' />
-            </StyledFlexContainerSettings>
-        </StyledWrapper>
+            </button>
+        </div>
     );
 };
