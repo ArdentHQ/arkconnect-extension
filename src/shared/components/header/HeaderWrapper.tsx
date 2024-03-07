@@ -11,7 +11,7 @@ export const HeaderWrapper = ({ withShadow, className, ...properties }: HeaderWr
         <header
             className={twMerge(
                 cn(
-                    'fixed top-0 left-0 w-full z-20 flex justify-center items-center py-3 px-0 bg-white dark:bg-subtle-black',
+                    'fixed left-0 top-0 z-20 flex w-full items-center justify-center bg-white px-0 py-3 dark:bg-subtle-black',
                     {
                         'shadow-header dark:shadow-header-dark': withShadow,
                     },

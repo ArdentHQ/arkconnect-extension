@@ -13,7 +13,7 @@ export const HeaderButton = forwardRef<HTMLButtonElement, HeaderButtonProps>(
                 type='button'
                 className={twMerge(
                     cn(
-                        'p-2 gap-1 items-center flex rounded-lg overflow-auto cursor-pointer transition duration-200 ease-in-out text-light-black dark:text-white',
+                        'flex cursor-pointer items-center gap-1 overflow-auto rounded-lg p-2 text-light-black transition duration-200 ease-in-out dark:text-white',
                         {
                             'bg-theme-secondary-50 dark:bg-theme-secondary-700': selected,
                             'hover:bg-theme-secondary-50 dark:hover:bg-theme-secondary-700':

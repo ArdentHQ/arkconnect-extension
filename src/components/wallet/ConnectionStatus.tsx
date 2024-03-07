@@ -25,7 +25,7 @@ export const ConnectionStatus = () => {
         <>
             {tabSession ? (
                 <HeaderButton
-                    className='rounded-full text-theme-primary-700 dark:thext-theme-primary-600'
+                    className='dark:thext-theme-primary-600 rounded-full text-theme-primary-700'
                     onClick={() => setIsModalOpen(true)}
                 >
                     <Icon
