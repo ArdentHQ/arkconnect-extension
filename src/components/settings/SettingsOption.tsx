@@ -39,7 +39,7 @@ export const SettingsOption = forwardRef(function RowLayout(
                         isFirefox,
                     'hover:bg-theme-secondary-50 dark:hover:bg-theme-secondary-700':
                         variant === 'primary',
-                    'hover:bg-theme-error-50 dark:hover:bg-[rgba(204,28,0,0.10)] text-theme-error-600 dark:text-theme-error-500 group':
+                    'hover:bg-theme-error-50 dark:hover:bg-theme-error-800/20 text-theme-error-600 dark:text-theme-error-500 group':
                         variant === 'error',
                 },
                 className,
