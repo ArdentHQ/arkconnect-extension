@@ -1,13 +1,6 @@
 import { useEffect } from 'react';
 import Balance from '@/components/wallet/Balance';
-import {
-    Container,
-    ExternalLink,
-    FlexContainer,
-    Icon,
-    Layout,
-    Paragraph,
-} from '@/shared/components';
+import { ExternalLink, FlexContainer, Icon, Layout, Paragraph } from '@/shared/components';
 import constants from '@/constants';
 import { clearPersistScreenData } from '@/components/wallet/form-persist/helpers';
 import { useProfileContext } from '@/lib/context/Profile';
@@ -28,21 +21,16 @@ const Home = () => {
     return (
         <Layout data-testid='Home'>
             <div className='shadow-light m-4 rounded-b-2xl rounded-t-[20px] bg-white dark:bg-subtle-black'>
-                <Container borderRadius='20' bg='primary' color='white'>
-                    <Container padding='16'>
+                <div className=' rounded-[20px] bg-theme-primary-700 text-white dark:bg-theme-primary-650'>
+                    <div className='p-4'>
                         <Balance
                             balance={primaryWallet?.balance() ?? 0}
                             currency={primaryWallet?.currency() ?? 'ARK'}
                             exchangeCurrency={primaryWallet?.exchangeCurrency() ?? 'USD'}
                             convertedBalance={convertedBalance}
                         />
-                    </Container>
-                    <FlexContainer
-                        padding='16'
-                        borderTop='1px solid'
-                        borderColor='dividerGreen'
-                        justifyContent='space-between'
-                    >
+                    </div>
+                    <div className='flex justify-between border-t border-solid border-t-theme-primary-650 p-4 dark:border-t-theme-primary-600'>
                         <ExternalLink
                             gridGap='8px'
                             alignItems='center'
@@ -80,8 +68,8 @@ const Home = () => {
                             </Paragraph>
                             <Icon icon='link-external' className='h-4 w-4' />
                         </ExternalLink>
-                    </FlexContainer>
-                </Container>
+                    </div>
+                </div>
                 <ExternalLink
                     href={constants.ARK_CONNECT_DEMO}
                     color={getThemeColor('primary', 'primary600')}
