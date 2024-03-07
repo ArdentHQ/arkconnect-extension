@@ -2,7 +2,7 @@ import { Contracts } from '@ardenthq/sdk-profiles';
 import { Wallet } from './extension.wallet';
 import { WalletData } from './contracts';
 
-export function PrimaryWallet({ profile }: { profile: Contracts.IProfile | null }) {
+export function PrimaryWallet({ profile }: { profile: Contracts.IProfile }) {
     return {
         /**
          * Returns the primary wallet id that exists in profile data.
@@ -11,7 +11,7 @@ export function PrimaryWallet({ profile }: { profile: Contracts.IProfile | null 
          */
         id(): string | undefined {
             return profile
-                ?.wallets()
+                .wallets()
                 .values()
                 .find((wallet: Contracts.IReadWriteWallet) => wallet.isPrimary())
                 .id();
@@ -31,7 +31,7 @@ export function PrimaryWallet({ profile }: { profile: Contracts.IProfile | null 
          */
         wallet(): ReturnType<typeof Wallet> {
             const wallet = profile
-                ?.wallets()
+                .wallets()
                 .values()
                 .find((wallet: Contracts.IReadWriteWallet) => wallet.isPrimary());
 
@@ -48,11 +48,11 @@ export function PrimaryWallet({ profile }: { profile: Contracts.IProfile | null 
          * @returns {void}
          */
         set(id: string): void {
-            if (!profile?.wallets().has(id)) {
+            if (!profile.wallets().has(id)) {
                 throw new Error('WALLET_NOT_FOUND');
             }
 
-            for (const wallet of profile?.wallets().values()) {
+            for (const wallet of profile.wallets().values()) {
                 if (wallet.id() === id) {
                     wallet.data().set(WalletData.IsPrimary, true);
                     continue;
@@ -67,11 +67,7 @@ export function PrimaryWallet({ profile }: { profile: Contracts.IProfile | null 
          * @returns {void}
          */
         reset(): void {
-            if (!profile) {
-                return;
-            }
-
-            if (profile?.wallets().count() > 0) {
+            if (profile.wallets().count() > 0) {
                 this.set(profile.wallets().first().id());
             }
         },
