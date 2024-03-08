@@ -13,6 +13,7 @@ import { HandleLoadingState } from '@/shared/components/handleStates/HandleLoadi
 import { useProfileContext } from '@/lib/context/Profile';
 import useThemeMode from '@/lib/hooks/useThemeMode';
 import { useBackgroundEvents } from '@/lib/context/BackgroundEventHandler';
+import { selectWalletsLength } from '@/lib/store/wallet';
 
 type Props = {
     children: ReactNode | ReactNode[];
@@ -26,6 +27,8 @@ const NextPageMiddleware = ({ children }: Props) => {
     const navigate = useNavigate();
     const [isLoadingLocalData, setIsLoadingLocalData] = useState<boolean>(true);
     const locked = useAppSelector(UIStore.selectLocked);
+    const hasWallets = useAppSelector(selectWalletsLength) > 0;
+    const autoLockTimerDisabled = locked || !hasWallets;
 
     useLayoutEffect(() => {
         const checkLocked = async () => {
@@ -51,8 +54,15 @@ const NextPageMiddleware = ({ children }: Props) => {
         onAction: () => {
             void runtime.sendMessage({ type: 'REGISTER_ACTIVITY' });
         },
-        disabled: locked,
+        disabled: autoLockTimerDisabled,
     });
+
+    useEffect(() => {
+        if (autoLockTimerDisabled) {
+            runtime.sendMessage({ type: 'CLEAR_AUTOLOCK_TIMER' });
+            return;
+        }
+    }, [autoLockTimerDisabled]);
 
     const handleLedgerNavigation = () => {
         const locationHref = window.location.href;

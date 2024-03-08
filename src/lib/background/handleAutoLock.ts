@@ -41,6 +41,14 @@ export class LockHandler {
         this.#lockTimer = setTimeout(this._onTimeout, this.autoLockMinutes * 60 * 1000);
     };
 
+    clearTimer = async () => {
+        if (this.#lockTimer) {
+            clearTimeout(this.#lockTimer);
+        }
+
+        this.#lockTimer = null;
+    };
+
     _onTimeout = () => {
         this.lock();
         runtime
