@@ -202,8 +202,8 @@ export function OneTimeEventHandlers(extension: ReturnType<typeof Extension>) {
         },
 
         [OneTimeEvents.SET_LAST_SCREEN]: async (request: any) => {
-            extension.profile().data().set(ProfileData.LastScreen, {
-                screenName: request.screenName,
+            extension.profile().settings().set(ProfileData.LastVisitedPage, {
+                name: request.name,
                 data: request.data,
             });
 
@@ -212,7 +212,7 @@ export function OneTimeEventHandlers(extension: ReturnType<typeof Extension>) {
         },
 
         [OneTimeEvents.CLEAR_LAST_SCREEN]: async (_request: any) => {
-            extension.profile().data().set(ProfileData.LastScreen, undefined);
+            extension.profile().settings().forget(ProfileData.LastVisitedPage);
             await extension.persist();
             return;
         },

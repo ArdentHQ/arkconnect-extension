@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { getPersistedValues } from './wallet/form-persist';
 import * as UIStore from '@/lib/store/ui';
 
-import { LastScreen, ProfileData, ScreenName } from '@/lib/background/contracts';
+import { LastVisitedPage, ProfileData, ScreenName } from '@/lib/background/contracts';
 import { useAppDispatch, useAppSelector } from '@/lib/store';
 
 import { FlexContainer } from '@/shared/components';
@@ -112,9 +112,11 @@ const NextPageMiddleware = ({ children }: Props) => {
             return;
         }
 
-        const lastScreen = profile.data().get(ProfileData.LastScreen) as LastScreen | undefined;
+        const lastVisitedPage = profile.settings().get(ProfileData.LastVisitedPage) as
+            | LastVisitedPage
+            | undefined;
 
-        if (lastScreen?.screenName === ScreenName.CreateWallet) {
+        if (lastVisitedPage?.name === ScreenName.CreateWallet) {
             navigate('/wallet/create');
             return;
         }
