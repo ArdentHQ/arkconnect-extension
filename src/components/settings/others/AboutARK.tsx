@@ -25,7 +25,7 @@ const AboutARK = () => {
 
     return (
         <SubPageLayout title='About ARK Connect'>
-            <FlexContainer alignItems='center' flexDirection='column' gridGap='16px' mb='24' mt='8'>
+            <div className='mb-6 mt-2 flex flex-col items-center gap-4'>
                 <StyledLogos alignItems='center' flexDirection='column' gridGap='16px'>
                     <Icon
                         icon='logo-inverted'
@@ -39,8 +39,9 @@ const AboutARK = () => {
                 <Paragraph $typeset='body' fontWeight='regular' color='gray'>
                     Version {runtime.getManifest().version}
                 </Paragraph>
-            </FlexContainer>
-            <FlexContainer flexDirection='column' gridGap='8px' color='base'>
+            </div>
+
+            <div className='flex flex-col gap-2 text-light-black dark:text-white'>
                 <StyledExternalLink
                     alignItems='center'
                     display='flex'
@@ -103,7 +104,7 @@ const AboutARK = () => {
                 >
                     <RowLayout title='Privacy Policy' iconTrailing='link-external' tabIndex={-1} />
                 </StyledExternalLink>
-            </FlexContainer>
+            </div>
         </SubPageLayout>
     );
 };

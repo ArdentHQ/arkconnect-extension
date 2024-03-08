@@ -2,8 +2,7 @@ import { Contracts } from '@ardenthq/sdk-profiles';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Amount from './Amount';
 import SubPageLayout from '@/components/settings/SubPageLayout';
-import useThemeMode from '@/lib/hooks/useThemeMode';
-import { FlexContainer, Paragraph, Tooltip } from '@/shared/components';
+import { Paragraph, Tooltip } from '@/shared/components';
 import { AddressAlias, LedgerIcon, TestnetIcon } from '@/components/wallet/address/Address.blocks';
 import { getNetworkCurrency } from '@/lib/utils/getActiveCoin';
 import useClipboard from '@/lib/hooks/useClipboard';
@@ -27,14 +26,7 @@ export const AddressSettings = () => {
         <SubPageLayout title='Address Settings'>
             <AddressRow address={address} />
             <SafeOutlineOverflowContainer>
-                <FlexContainer
-                    marginY='8'
-                    borderRadius='16'
-                    paddingY='8'
-                    backgroundColor='secondaryBackground'
-                    display='flex'
-                    flexDirection='column'
-                >
+                <div className='my-2 flex flex-col rounded-2xl bg-white py-2 dark:bg-subtle-black'>
                     <SettingsOption
                         iconLeading='pencil'
                         title='Edit Name'
@@ -152,33 +144,23 @@ export const AddressSettings = () => {
                             )
                         }
                     />
-                </FlexContainer>
+                </div>
             </SafeOutlineOverflowContainer>
         </SubPageLayout>
     );
 };
 
 const AddressRow = ({ address }: { address: Contracts.IReadWriteWallet }) => {
-    const { getThemeColor } = useThemeMode();
-
     return (
-        <FlexContainer
-            gridGap='12'
-            border='1px solid'
-            borderRadius='16'
-            borderColor={getThemeColor('primary600', 'primary650')}
-            backgroundColor={getThemeColor('lightGreen', '#02a86326')}
-            boxShadow='0 1px 4px 0 rgba(0, 0, 0, 0.05)'
-            padding='16'
-        >
-            <FlexContainer flexDirection='column' gridGap='8'>
-                <FlexContainer gridGap='8' alignItems='center'>
+        <div className='flex gap-3 rounded-2xl border border-solid border-theme-primary-600 bg-theme-primary-50 p-4 shadow-light dark:border-theme-primary-650  dark:bg-theme-primary-650/15'>
+            <div className='flex flex-col gap-2'>
+                <div className='flex items-center gap-2'>
                     <AddressAlias alias={address.alias() ?? ''} isBold />
 
                     {address.isLedger() && <LedgerIcon />}
 
                     {address.network().isTest() && <TestnetIcon />}
-                </FlexContainer>
+                </div>
 
                 <Paragraph $typeset='body' color='base'>
                     {address.address()}
@@ -192,7 +174,7 @@ const AddressRow = ({ address }: { address: Contracts.IReadWriteWallet }) => {
                         withTicker
                     />
                 </Paragraph>
-            </FlexContainer>
-        </FlexContainer>
+            </div>
+        </div>
     );
 };

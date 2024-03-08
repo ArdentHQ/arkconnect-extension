@@ -4,6 +4,7 @@ import { ComponentType, useState } from 'react';
 import { FormikProps } from 'formik';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import classNames from 'classnames';
 import { ArrowButton, Container, FlexContainer, Paragraph } from '@/shared/components';
 
 export type Step = {
@@ -57,37 +58,33 @@ const StepsNavigation = <T extends Record<string, any>>({
         <>
             <StyledFlexContainer color='base' {...stepsProps}>
                 <ArrowButton disabled={isPrevDisabled} onClick={handleStepBack} />
-                <FlexContainer
-                    height='8px'
-                    borderRadius='8'
-                    overflow='hidden'
-                    bg='toggleInactive'
-                    width='242px'
-                >
+                <div className='flex h-2 w-[242px] overflow-hidden rounded-lg bg-theme-secondary-200 dark:bg-theme-secondary-600'>
                     <Container
                         style={{ width: `${((currentStep + 1) / totalSteps) * 100}%` }}
                         bg='primary'
                         borderRadius='8'
                         width={((currentStep + 1) / totalSteps) * 100}
                     />
-                </FlexContainer>
+                </div>
                 <Container padding='6'>
                     <Paragraph $typeset='body' fontWeight='medium'>
                         {currentStep + 1}/{totalSteps}
                     </Paragraph>
                 </Container>
             </StyledFlexContainer>
-            <FlexContainer
-                flexDirection='column'
-                height='100%'
-                px={steps[currentStep].containerPaddingX}
+
+            <div
+                className={classNames('flex h-full flex-col', {
+                    'px-6': steps[currentStep].containerPaddingX === '24',
+                    'px-0': steps[currentStep].containerPaddingX === '0',
+                })}
             >
                 <CurrentStepComponent
                     goToNextStep={handleStepForward}
                     goToPrevStep={handleStepBack}
                     formik={formik}
                 />
-            </FlexContainer>
+            </div>
         </>
     );
 };

@@ -1,4 +1,4 @@
-import { Button, Container, FlexContainer, Heading, Paragraph } from '@/shared/components';
+import { Button, Container, Heading, Paragraph } from '@/shared/components';
 import Modal from '@/shared/components/modal/Modal';
 
 type Props = {
@@ -13,14 +13,14 @@ const SelectNetworkTypeModal = ({ onNetworkSelect, onClose, action = 'create' }:
             onClose={onClose}
             icon='code'
             footer={
-                <FlexContainer alignItems='center' gridGap='8px'>
+                <div className='flex items-center gap-2'>
                     <Button variant='secondary' onClick={() => onNetworkSelect(true)}>
                         Testnet
                     </Button>
                     <Button variant='primary' onClick={() => onNetworkSelect(false)}>
                         Mainnet
                     </Button>
-                </FlexContainer>
+                </div>
             }
             focusTrapOptions={{
                 initialFocus: false,
