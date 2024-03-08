@@ -33,7 +33,7 @@ const AboutARK = () => {
                     />
                     <Icon
                         icon='logo-text'
-                        className='w-[228px] h-[21px] text-theme-primary-700 dark:text-theme-primary-650'
+                        className='h-[21px] w-[228px] text-theme-primary-700 dark:text-theme-primary-650'
                     />
                 </StyledLogos>
                 <Paragraph $typeset='body' fontWeight='regular' color='gray'>
@@ -50,7 +50,7 @@ const AboutARK = () => {
                 >
                     <RowLayout title='Support Email' iconTrailing='link-external' tabIndex={-1}>
                         <CopyButton
-                            className='c-pointer'
+                            className='cursor-pointer'
                             onClick={copyEmailToClipboard}
                             as='button'
                         >

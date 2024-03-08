@@ -3,13 +3,12 @@ import { useRef, useState } from 'react';
 import cn from 'classnames';
 import FocusTrap from 'focus-trap-react';
 import styled from 'styled-components';
-import { Container, FlexContainer, Icon, Paragraph } from '@/shared/components';
-import { DropdownMenuContainerProps, SettingsMenu } from '@/components/settings/SettingsMenu';
-
+import { HeaderButton } from './HeaderButton';
+import { HeaderWrapper } from './HeaderWrapper';
+import { Icon, Paragraph } from '@/shared/components';
+import { SettingsMenu } from '@/components/settings/SettingsMenu';
 import { AddressesDropdown } from '@/shared/components/header/AddressesDropdown';
 import { ConnectionStatus } from '@/components/wallet/ConnectionStatus';
-import { handleSubmitKeyAction } from '@/lib/utils/handleKeyAction';
-import { isFirefox } from '@/lib/utils/isFirefox';
 import { LogoIcon } from '@/components/Logo';
 import { selectLocked } from '@/lib/store/ui';
 import { StyledLogos } from '@/components/settings/others/AboutARK';
@@ -17,42 +16,7 @@ import trimAddress from '@/lib/utils/trimAddress';
 import { useAppSelector } from '@/lib/store';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 import { useProfileContext } from '@/lib/context/Profile';
-import useThemeMode from '@/lib/hooks/useThemeMode';
 import { CopyAddress } from '@/components/wallet/CopyAddress';
-
-export const StyledFlexContainer = styled(FlexContainer)<DropdownMenuContainerProps>`
-    ${(props) => `
-  transition: ${isFirefox ? 'background 0.2s ease-in-out' : 'all 0.2s ease-in-out'};
-  &:hover {
-    background-color: ${props.theme.colors.lightGrayHover}
-  }
-  background-color: ${props.selected && props.theme.colors.lightGrayHover};
-
-  ${isFirefox ? props.theme.browserCompatibility.firefox.focus : ''}
-`}
-`;
-
-export const StyledHeader = styled.header<{
-    isDark: boolean;
-    padding?: string;
-    withShadow?: boolean;
-}>`
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 20;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    box-shadow: ${({ withShadow, isDark }) =>
-        withShadow
-            ? `0 1px 4px 0 ${isDark ? 'rgba(165, 165, 165, 0.08)' : 'rgba(0, 0, 0, 0.05)'}`
-            : 'none'};
-    padding: ${({ theme, padding }) => padding ?? theme.space['16'] + 'px'};
-    background-color: ${(props) =>
-        props.isDark ? props.theme.colors.subtleBlack : props.theme.colors.white};
-`;
 
 export const Alias = styled(Paragraph)`
     overflow: hidden;
@@ -60,12 +24,7 @@ export const Alias = styled(Paragraph)`
     white-space: nowrap;
 `;
 
-export const StyledLink = styled(Link)`
-    ${({ theme }) => (isFirefox ? theme.browserCompatibility.firefox.focus : '')}
-`;
-
 export const Header = () => {
-    const { isDark } = useThemeMode();
     const [openSettings, setOpenSettings] = useState(false);
 
     const isLocked = useAppSelector(selectLocked);
@@ -77,14 +36,14 @@ export const Header = () => {
     const { pathname } = useLocation();
     const isOnboardingPage = pathname.startsWith('/onboarding');
 
-    const addressesTriggerRef = useRef<HTMLDivElement | null>(null);
-    const menuTriggerRef = useRef<HTMLDivElement | null>(null);
+    const addressesTriggerRef = useRef<HTMLButtonElement | null>(null);
+    const menuTriggerRef = useRef<HTMLButtonElement | null>(null);
 
     const [showAddressesDropdown, setShowAddressesDropdown] = useState<boolean>(false);
 
     if (!primaryWallet || isLocked) {
         return (
-            <StyledHeader isDark={isDark()} padding='17px 16px' withShadow={!isOnboardingPage}>
+            <HeaderWrapper className='px-4 py-[17px]' withShadow={!isOnboardingPage}>
                 <StyledLogos alignItems='center' gridGap='8px'>
                     <Icon
                         icon='logo-inverted'
@@ -92,10 +51,10 @@ export const Header = () => {
                     />
                     <Icon
                         icon='logo-text'
-                        className='w-[122px] h-3 text-theme-primary-700 dark:text-theme-primary-650'
+                        className='h-3 w-[122px] text-theme-primary-700 dark:text-theme-primary-650'
                     />
                 </StyledLogos>
-            </StyledHeader>
+            </HeaderWrapper>
         );
     }
 
@@ -108,90 +67,61 @@ export const Header = () => {
     };
 
     return (
-        <StyledHeader isDark={isDark()} padding='12px 0' withShadow={!isOnboardingPage}>
-            <Container
-                className='main-container'
-                paddingLeft='16'
-                paddingRight='16'
-                position='relative'
-            >
-                <FlexContainer justifyContent='space-between' className='space-x-5'>
-                    <FlexContainer alignItems='center' className='flex-1 overflow-auto p-1 -m-1'>
+        <HeaderWrapper withShadow={!isOnboardingPage}>
+            <div className=' main-container relative px-4'>
+                <div className='flex justify-between space-x-5 py-px'>
+                    <div className='-m-1 flex flex-1 items-center overflow-auto p-1'>
                         {/*Logo*/}
-                        <StyledLink to='/'>
+                        <Link to='/'>
                             <LogoIcon className='text-theme-primary-700 dark:text-theme-primary-650' />
-                        </StyledLink>
+                        </Link>
 
                         {/*Wallets dropdown*/}
-                        <FlexContainer
-                            position='relative'
-                            ref={addressesTriggerRef}
-                            overflow='auto'
-                            className='p-1 -m-1'
-                        >
-                            <StyledFlexContainer
-                                padding='8'
-                                style={{ gap: '4px' }}
-                                alignItems='center'
-                                marginLeft='8'
-                                borderRadius='8'
-                                className='c-pointer'
-                                overflow='auto'
-                                onClick={handleAddressDropdownClick}
-                                onKeyDown={(e) =>
-                                    handleSubmitKeyAction(e, handleAddressDropdownClick)
-                                }
-                                tabIndex={0}
+                        <div className='relative -m-1 flex overflow-auto p-1'>
+                            <HeaderButton
                                 selected={showAddressesDropdown}
                                 aria-label='Addresses Dropdown'
+                                onClick={handleAddressDropdownClick}
+                                ref={addressesTriggerRef}
+                                className='ml-2 px-2 py-1.5'
                             >
-                                <Alias
-                                    color='base'
-                                    maxWidth='124px'
-                                    fontWeight='medium'
-                                    as='span'
-                                    className='truncate'
-                                >
+                                <span className='max-w-[124px] truncate font-medium text-light-black dark:text-white'>
                                     {primaryWallet.alias()}
-                                </Alias>
-                                <Paragraph color='label' as='span' className='whitespace-nowrap'>
+                                </span>
+
+                                <span className='whitespace-nowrap text-sm text-theme-secondary-500 dark:text-theme-secondary-200'>
                                     {trimAddress(primaryWallet.address(), 7)}
-                                </Paragraph>
-                                <FlexContainer alignSelf='self-end' color='base' as='span'>
-                                    <Icon
-                                        icon='arrow-down'
-                                        className={cn('h-4 w-4 transition-transform ease-in-out', {
-                                            'transform rotate-180': showAddressesDropdown,
-                                        })}
-                                    />
-                                </FlexContainer>
-                            </StyledFlexContainer>
-                        </FlexContainer>
-                    </FlexContainer>
-                    <FlexContainer alignItems='center'>
+                                </span>
+
+                                <Icon
+                                    icon='arrow-down'
+                                    className={cn(
+                                        'h-4 w-4 flex-shrink-0 text-light-black transition-transform ease-in-out dark:text-white',
+                                        {
+                                            'rotate-180 transform': showAddressesDropdown,
+                                        },
+                                    )}
+                                />
+                            </HeaderButton>
+                        </div>
+                    </div>
+
+                    <div className='flex items-center'>
                         <CopyAddress />
 
                         <ConnectionStatus />
 
-                        {/*Menu trigger*/}
-                        <StyledFlexContainer
-                            padding='8'
-                            style={{ gap: '4px' }}
-                            alignItems='center'
-                            borderRadius='50'
-                            className='c-pointer'
+                        <HeaderButton
+                            className='rounded-full'
                             onClick={handleSettingsClick}
                             ref={menuTriggerRef}
-                            color='base'
                             selected={openSettings}
                             aria-label='Settings menu'
-                            onKeyDown={(e) => handleSubmitKeyAction(e, handleSettingsClick)}
-                            tabIndex={0}
                         >
                             <Icon icon='more-vertical' className='h-4 w-4' />
-                        </StyledFlexContainer>
-                    </FlexContainer>
-                </FlexContainer>
+                        </HeaderButton>
+                    </div>
+                </div>
 
                 <FocusTrap
                     active={showAddressesDropdown}
@@ -202,14 +132,10 @@ export const Header = () => {
                         },
                     }}
                 >
-                    <FlexContainer
-                        position='absolute'
-                        left='0'
-                        marginTop='20'
-                        width='100%'
-                        className={`dropdown-body ${
-                            showAddressesDropdown ? 'dropdown-transition' : ''
-                        }`}
+                    <div
+                        className={cn('dropdown-body absolute left-0 mt-5 flex w-full', {
+                            'dropdown-transition': showAddressesDropdown,
+                        })}
                     >
                         <AddressesDropdown
                             addresses={Object.values(profile.wallets().all())}
@@ -217,7 +143,7 @@ export const Header = () => {
                             triggerRef={addressesTriggerRef}
                             onClose={() => setShowAddressesDropdown(false)}
                         />
-                    </FlexContainer>
+                    </div>
                 </FocusTrap>
 
                 <FocusTrap
@@ -229,20 +155,18 @@ export const Header = () => {
                         },
                     }}
                 >
-                    <FlexContainer
-                        position='absolute'
-                        left='0'
-                        marginTop='20'
-                        width='100%'
-                        className={`dropdown-body ${openSettings ? 'dropdown-transition' : ''}`}
+                    <div
+                        className={cn('dropdown-body absolute left-0 mt-5 flex w-full', {
+                            'dropdown-transition': openSettings,
+                        })}
                     >
                         <SettingsMenu
                             triggerRef={menuTriggerRef}
                             onClose={() => setOpenSettings(false)}
                         />
-                    </FlexContainer>
+                    </div>
                 </FocusTrap>
-            </Container>
-        </StyledHeader>
+            </div>
+        </HeaderWrapper>
     );
 };

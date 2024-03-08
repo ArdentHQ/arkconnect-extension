@@ -4,7 +4,6 @@ import { AutoLockTimer, setLocalValue } from './lib/utils/localStorage';
 import { createTestProfile, isDev } from './dev/utils/dev';
 
 import { Extension } from './lib/background/extension';
-import initAutoLock from './lib/background/initAutoLock';
 import keepServiceWorkerAlive from './lib/background/keepServiceWorkerAlive';
 import { longLivedConnectionHandlers } from './lib/background/eventListenerHandlers';
 import { ProfileData } from './lib/background/contracts';
@@ -68,7 +67,6 @@ runtime.onInstalled.addListener(async () => {
     await setLocalValue('autoLockTimer', AutoLockTimer.TWENTY_FOUR_HOURS);
 });
 
-initAutoLock(extension.lockHandler());
 initOneTimeEventListeners();
 keepServiceWorkerAlive();
 setupProfileWithFixtures();

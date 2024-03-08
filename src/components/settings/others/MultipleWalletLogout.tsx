@@ -14,7 +14,6 @@ import { useAppSelector } from '@/lib/store';
 import trimAddress from '@/lib/utils/trimAddress';
 import { generateWalletHelperText } from '@/lib/utils/generateWalletHelperText';
 import { useProfileContext } from '@/lib/context/Profile';
-import { handleSubmitKeyAction } from '@/lib/utils/handleKeyAction';
 
 const MultipleWalletLogout = () => {
     const { profile } = useProfileContext();
@@ -66,14 +65,11 @@ const MultipleWalletLogout = () => {
                             }
                             address={wallet.address()}
                             helperText={generateWalletHelperText(wallet, false)}
-                            mb='8'
+                            className='mb-2'
                             testnetIndicator={wallet.network().isTest()}
                             ledgerIndicator={wallet.isLedger()}
                             onClick={(evt) => handleSelectWallet(evt, wallet.id())}
                             currency={wallet.currency()}
-                            onKeyDown={(e) =>
-                                handleSubmitKeyAction(e, () => handleSelectWallet(e, wallet.id()))
-                            }
                         >
                             <Container width='20px' height='20px' as='span' display='block'>
                                 <Checkbox
