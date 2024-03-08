@@ -54,19 +54,23 @@
     }
 
     [type='checkbox']:disabled + .checkbox-indicator {
-        @apply border border-solid border-theme-secondary-300 bg-theme-secondary-100 dark:bg-transparent;
+        @apply  border-theme-secondary-300 bg-theme-secondary-100 dark:bg-transparent;
     }
 
     [type='checkbox']:disabled + .checkbox-indicator::after {
-        @apply border border-solid border-theme-secondary-300 dark:border-theme-secondary-100;
+        @apply border-theme-secondary-300 dark:border-theme-secondary-100 ;
     }
 
-    [type='checkbox']:checked + .checkbox-indicator {
+    [type='checkbox']:not(:disabled):checked + .checkbox-indicator {
         @apply bg-theme-primary-700 hover:bg-theme-primary-50 dark:bg-theme-primary-650 dark:hover:bg-theme-primary-950;
     }
 
     [type='checkbox']:not(:disabled):checked + .checkbox-indicator::after {
         @apply hover:border-b-[2px] hover:border-l-0 hover:border-r-[2px] hover:border-t-0 hover:border-solid hover:border-theme-primary-700 group-hover:border-b-[2px] group-hover:border-l-0 group-hover:border-r-[2px] group-hover:border-t-0 group-hover:border-solid group-hover:border-theme-primary-700 dark:hover:border-theme-primary-650 dark:group-hover:border-theme-primary-650;
+    }
+
+    [type='checkbox']:not(:disabled):not(:checked) + .checkbox-indicator {
+        @apply group-hover:bg-[#CCEEE0]
     }
 
     [type='checkbox']:not(:disabled):checked + .checkbox-indicator {
