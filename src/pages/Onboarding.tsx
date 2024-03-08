@@ -1,12 +1,12 @@
 import { ReactNode, useEffect, useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import classNames from 'classnames';
 import {
     Button,
     Container,
     ControlConnectionsIcon,
     FingerPrintIcon,
-    FlexContainer,
     Header,
     Heading,
     ProgressBar,
@@ -39,24 +39,22 @@ const Onboarding = () => {
             <ProgressBar />
             <Container position='relative' height='410px'>
                 {onboardingScreens.map((screen, index) => (
-                    <SlidingItem
+                    <div
+                        className={classNames(
+                            'absolute left-0 top-[70px] flex w-full items-center justify-center gap-6 px-9 transition-all duration-1000 ease-in-out',
+                            {
+                                'translate-x-0 opacity-100': activeOnboardingScreen === index,
+                                '-translate-x-full opacity-0': activeOnboardingScreen > index,
+                                'translate-x-full opacity-0': activeOnboardingScreen < index,
+                            },
+                        )}
                         key={screen.id}
-                        className={`${
-                            activeOnboardingScreen === index
-                                ? 'isActive'
-                                : activeOnboardingScreen > index
-                                ? 'isPrev'
-                                : 'isNext'
-                        }`}
-                        $flexVariant='columnCenter'
-                        gridGap='24px'
-                        paddingX='36'
                     >
                         <div className='flex flex-col items-center gap-6 text-center'>
                             {screen.illustration}
                             {screen.heading}
                         </div>
-                    </SlidingItem>
+                    </div>
                 ))}
             </Container>
             <div className='flex flex-col gap-3 px-4'>
@@ -83,32 +81,6 @@ const fadeIn = keyframes`
 
 const FadeInLayout = styled(Container)`
     animation: ${fadeIn} 1s ease-in-out;
-`;
-
-const SlidingItem = styled(FlexContainer)`
-    width: 100%;
-    position: absolute;
-    top: 70px;
-    left: 0;
-    opacity: 1;
-    transition:
-        transform 1s ease-in-out,
-        opacity 1s ease-in-out;
-
-    &.isActive {
-        transform: translateX(0);
-        opacity: 1;
-    }
-
-    &.isNext {
-        transform: translateX(100%);
-        opacity: 0;
-    }
-
-    &.isPrev {
-        transform: translateX(-100%);
-        opacity: 0;
-    }
 `;
 
 const onboardingScreens: OnboardingScreen[] = [
