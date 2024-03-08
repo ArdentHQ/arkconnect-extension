@@ -2,7 +2,6 @@ import { Contracts } from '@ardenthq/sdk-profiles';
 import Amount from '../wallet/Amount';
 import ActionDetails, { ActionDetailsRow } from './ActionDetails';
 import trimAddress from '@/lib/utils/trimAddress';
-import { FlexContainer, Paragraph } from '@/shared/components';
 import { getNetworkCurrency } from '@/lib/utils/getActiveCoin';
 import { useExchangeRate } from '@/lib/hooks/useExchangeRate';
 
@@ -27,48 +26,49 @@ const RequestedTransactionBody = ({ wallet, amount, fee, total, receiverAddress 
     return (
         <ActionDetails>
             <ActionDetailsRow label='Amount'>
-                <FlexContainer gridGap='4px' alignItems='end'>
-                    <Paragraph $typeset='headline' fontWeight='medium' color='base'>
+                <div className='flex items-center gap-4'>
+                    <div className='font-medium text-light-black dark:text-white'>
                         <Amount value={amount} ticker={coin} withTicker />
-                    </Paragraph>
+                    </div>
+
                     {wallet.network().isLive() && (
-                        <Paragraph $typeset='body' fontWeight='medium' color='gray'>
+                        <div className='text-sm font-medium text-theme-secondary-500 dark:text-theme-secondary-300'>
                             <Amount value={convert(amount)} ticker={exchangeCurrency} />
-                        </Paragraph>
+                        </div>
                     )}
-                </FlexContainer>
+                </div>
             </ActionDetailsRow>
 
             <ActionDetailsRow label='Receiver'>
-                <Paragraph $typeset='headline' fontWeight='medium' color='base'>
+                <div className='font-medium text-light-black dark:text-white'>
                     {trimAddress(receiverAddress as string, 10)}
-                </Paragraph>
+                </div>
             </ActionDetailsRow>
 
             <ActionDetailsRow label='Transaction Fee'>
-                <FlexContainer gridGap='4px' alignItems='end'>
-                    <Paragraph $typeset='headline' fontWeight='medium' color='base'>
+                <div className='flex items-center gap-4'>
+                    <div className='font-medium text-light-black dark:text-white'>
                         <Amount value={fee} ticker={coin} withTicker />
-                    </Paragraph>
+                    </div>
                     {wallet.network().isLive() && (
-                        <Paragraph $typeset='body' fontWeight='medium' color='gray'>
+                        <div className='text-sm font-medium text-theme-secondary-500 dark:text-theme-secondary-300'>
                             <Amount value={convert(fee)} ticker={exchangeCurrency} />
-                        </Paragraph>
+                        </div>
                     )}
-                </FlexContainer>
+                </div>
             </ActionDetailsRow>
 
             <ActionDetailsRow label='Total Amount'>
-                <FlexContainer gridGap='4px' alignItems='end'>
-                    <Paragraph $typeset='headline' fontWeight='medium' color='base'>
+                <div className='flex items-center gap-4'>
+                    <div className='font-medium text-light-black dark:text-white'>
                         <Amount value={total} ticker={coin} withTicker />
-                    </Paragraph>
+                    </div>
                     {wallet.network().isLive() && (
-                        <Paragraph $typeset='body' fontWeight='medium' color='gray'>
+                        <div className='text-sm font-medium text-theme-secondary-500 dark:text-theme-secondary-300'>
                             <Amount value={convert(total)} ticker={exchangeCurrency} />
-                        </Paragraph>
+                        </div>
                     )}
-                </FlexContainer>
+                </div>
             </ActionDetailsRow>
         </ActionDetails>
     );

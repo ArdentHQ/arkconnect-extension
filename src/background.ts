@@ -3,7 +3,6 @@ import { UUID } from '@ardenthq/sdk-cryptography';
 import { AutoLockTimer, setLocalValue } from './lib/utils/localStorage';
 
 import { Extension } from './lib/background/extension';
-import initAutoLock from './lib/background/initAutoLock';
 import keepServiceWorkerAlive from './lib/background/keepServiceWorkerAlive';
 import { longLivedConnectionHandlers } from './lib/background/eventListenerHandlers';
 import { OneTimeEventHandlers, OneTimeEvents } from '@/OneTimeEventHandlers';
@@ -54,7 +53,6 @@ runtime.onInstalled.addListener(async () => {
     await setLocalValue('autoLockTimer', AutoLockTimer.TWENTY_FOUR_HOURS);
 });
 
-initAutoLock(extension.lockHandler());
 initOneTimeEventListeners();
 keepServiceWorkerAlive();
 

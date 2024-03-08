@@ -1,10 +1,10 @@
 @layer utilities {
     /** Textarea **/
     .textarea {
-        @apply text-light-black dark:text-white border border-solid bg-white dark:bg-subtle-black  focus:border focus:border-solid;
+        @apply border border-solid bg-white text-light-black focus:border focus:border-solid  dark:bg-subtle-black dark:text-white;
     }
     .textarea-primary {
-        @apply border-theme-secondary-400 dark:border-theme-secondary-500 focus:border-light-black focus:dark:border-theme-secondary-300 disabled:bg-theme-secondary-100 read-only:bg-white read-only:dark:bg-subtle-black;
+        @apply border-theme-secondary-400 read-only:bg-white focus:border-light-black disabled:bg-theme-secondary-100 dark:border-theme-secondary-500 read-only:dark:bg-subtle-black focus:dark:border-theme-secondary-300;
     }
 
     .textarea-destructive {
@@ -12,20 +12,20 @@
     }
 
     .textarea-errorFree {
-        @apply border-theme-primary-700 dark:border-theme-primary-650 focus:border-theme-primary-700 focus:dark:border-theme-primary-650 disabled:bg-theme-secondary-100;
+        @apply border-theme-primary-700 focus:border-theme-primary-700 disabled:bg-theme-secondary-100 dark:border-theme-primary-650 focus:dark:border-theme-primary-650;
     }
 
     /** Radio Input **/
     .radio-indicator {
-        @apply border border-solid border-theme-primary-700 dark:border-theme-primary-600 h-5 w-5 absolute top-0 rounded-[10px] transition-smoothEase hover:bg-[#CCEEE0] hover:dark:bg-theme-primary-900 focus:shadow-[0_0_0_2px_#E5FFF4] focus:shadow-[#E5FFF4] active:shadow-[0_0_0_2px_#E5FFF4] after:content-[""] after:absolute after:hidden;
+        @apply transition-smoothEase absolute top-0 h-5 w-5 rounded-[10px] border border-solid border-theme-primary-700 after:absolute after:hidden after:content-[""] hover:bg-[#CCEEE0] focus:shadow-[0_0_0_2px_#E5FFF4] focus:shadow-[#E5FFF4] active:shadow-[0_0_0_2px_#E5FFF4] dark:border-theme-primary-600 hover:dark:bg-theme-primary-900;
     }
 
     [type='radio']:checked + .radio-indicator::after {
-        @apply block border border-solid border-theme-primary-700 bg-theme-primary-700 rounded-full dark:border-theme-primary-600 dark:bg-theme-primary-600 w-2 h-2 top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2;
+        @apply left-1/2 top-1/2 block h-2 w-2 -translate-x-1/2 -translate-y-1/2 transform rounded-full border border-solid border-theme-primary-700 bg-theme-primary-700 dark:border-theme-primary-600 dark:bg-theme-primary-600;
     }
 
     [type='radio']:disabled:checked + .radio-indicator::after {
-        @apply bg-theme-secondary-300 border-theme-secondary-300 dark:bg-theme-secondary-100 dark:border-theme-secondary-100;
+        @apply border-theme-secondary-300 bg-theme-secondary-300 dark:border-theme-secondary-100 dark:bg-theme-secondary-100;
     }
 
     [type='radio']:disabled + .radio-indicator {
@@ -34,11 +34,11 @@
 
     /** Checkbox Input **/
     .checkbox-indicator {
-        @apply w-5 h-5 bg-transparent absolute top-0 border border-solid border-theme-primary-700 dark:border-theme-primary-600 rounded-md hover:bg-[#CCEEE0] dark:hover:bg-theme-primary-900;
+        @apply absolute top-0 h-5 w-5 rounded-md border border-solid border-theme-primary-700 bg-transparent hover:bg-[#CCEEE0] dark:border-theme-primary-600 dark:hover:bg-theme-primary-900;
     }
 
     .checkbox-indicator::after {
-        @apply content-[""] absolute hidden;
+        @apply absolute hidden content-[""];
     }
 
     .checkbox-indicator:disabled {
@@ -46,11 +46,11 @@
     }
 
     [type='checkbox'] + .checkbox-indicator::after {
-        @apply border-t-0 border-r-[2px] border-b-[2px] border-l-0;
+        @apply border-b-[2px] border-l-0 border-r-[2px] border-t-0;
     }
 
     [type='checkbox']:checked + .checkbox-indicator::after {
-        @apply block rotate-45 top-px left-[6px] w-[35%] h-[70%] border-solid border-white dark:border-light-black;
+        @apply left-[6px] top-px block h-[70%] w-[35%] rotate-45 border-solid border-white dark:border-light-black;
     }
 
     [type='checkbox']:disabled + .checkbox-indicator {
@@ -62,11 +62,11 @@
     }
 
     [type='checkbox']:checked + .checkbox-indicator {
-        @apply bg-theme-primary-700 dark:bg-theme-primary-650 hover:bg-theme-primary-50 dark:hover:bg-theme-primary-950;
+        @apply bg-theme-primary-700 hover:bg-theme-primary-50 dark:bg-theme-primary-650 dark:hover:bg-theme-primary-950;
     }
 
     [type='checkbox']:not(:disabled):checked + .checkbox-indicator::after {
-        @apply hover:border-solid hover:border-theme-primary-700 dark:hover:border-theme-primary-650 hover:border-t-0 hover:border-r-[2px] hover:border-b-[2px] hover:border-l-0 group-hover:border-solid group-hover:border-theme-primary-700 dark:group-hover:border-theme-primary-650 group-hover:border-t-0 group-hover:border-r-[2px] group-hover:border-b-[2px] group-hover:border-l-0;
+        @apply hover:border-b-[2px] hover:border-l-0 hover:border-r-[2px] hover:border-t-0 hover:border-solid hover:border-theme-primary-700 group-hover:border-b-[2px] group-hover:border-l-0 group-hover:border-r-[2px] group-hover:border-t-0 group-hover:border-solid group-hover:border-theme-primary-700 dark:hover:border-theme-primary-650 dark:group-hover:border-theme-primary-650;
     }
 
     [type='checkbox']:not(:disabled):checked + .checkbox-indicator {
@@ -75,19 +75,19 @@
 
     /** Toggle switch **/
     .toggle-switch-slider {
-        @apply absolute cursor-pointer top-0 left-0 right-0 bottom-0 bg-theme-secondary-200 dark:bg-theme-secondary-600 duration-[0.4s] rounded-xl z-[1] hover:bg-theme-primary-700 dark:hover:bg-theme-primary-650 group-hover:bg-[#CCEEE0] dark:group-hover:bg-theme-primary-900;
+        @apply absolute bottom-0 left-0 right-0 top-0 z-[1] cursor-pointer rounded-xl bg-theme-secondary-200 duration-[0.4s] hover:bg-theme-primary-700 group-hover:bg-[#CCEEE0] dark:bg-theme-secondary-600 dark:hover:bg-theme-primary-650 dark:group-hover:bg-theme-primary-900;
     }
 
     .toggle-switch-slider::before {
-        @apply absolute content-[""] h-4 w-4 left-[3px] bottom-0.5 bg-white duration-[0.4s] rounded-full fill-white drop-shadow-[0_1px_3px_rgba(16,24,40,0.10)];
+        @apply absolute bottom-0.5 left-[3px] h-4 w-4 rounded-full bg-white fill-white drop-shadow-[0_1px_3px_rgba(16,24,40,0.10)] duration-[0.4s] content-[""];
     }
 
     [type='checkbox']:checked + .toggle-switch-slider {
-        @apply bg-theme-primary-700 dark:bg-theme-primary-650 hover:bg-theme-primary-700 dark:hover:bg-theme-primary-600;
+        @apply bg-theme-primary-700 hover:bg-theme-primary-700 dark:bg-theme-primary-650 dark:hover:bg-theme-primary-600;
     }
 
     [type='checkbox']:checked + .toggle-switch-slider::before {
-        @apply transform translate-x-[14px];
+        @apply translate-x-[14px] transform;
     }
 
     [type='checkbox']:disabled + .toggle-switch-slider {
@@ -112,11 +112,11 @@
 
     /** Text Input **/
     .text-input {
-        @apply text-light-black dark:text-white border border-solid bg-white dark:bg-subtle-black focus:border focus:border-solid;
+        @apply border border-solid bg-white text-light-black focus:border focus:border-solid dark:bg-subtle-black dark:text-white;
     }
 
     .text-input-primary {
-        @apply border-theme-secondary-400 dark:border-theme-secondary-500 focus:border-light-black focus:dark:border-theme-secondary-300 disabled:bg-theme-secondary-100;
+        @apply border-theme-secondary-400 focus:border-light-black disabled:bg-theme-secondary-100 dark:border-theme-secondary-500 focus:dark:border-theme-secondary-300;
     }
 
     .text-input-destructive {
@@ -124,18 +124,18 @@
     }
 
     .text-input-errorFree {
-        @apply border-theme-primary-700 dark:border-theme-primary-650  focus:border-theme-primary-700 focus:dark:border-theme-primary-650 disabled:bg-theme-secondary-100;
+        @apply border-theme-primary-700 focus:border-theme-primary-700  disabled:bg-theme-secondary-100 dark:border-theme-primary-650 focus:dark:border-theme-primary-650;
     }
 
     /** Passphrase Input **/
     .passphrase-primary,
     .passphrase-destructive,
     .passphrase-errorFree {
-        @apply text-light-black dark:text-white border border-solid bg-white dark:bg-subtle-black focus:border focus:border-solid;
+        @apply border border-solid bg-white text-light-black focus:border focus:border-solid dark:bg-subtle-black dark:text-white;
     }
 
     .passphrase-primary {
-        @apply border-theme-secondary-400 focus:border-light-black dark:focus:border-theme-secondary-300 disabled:bg-theme-secondary-100 read-only:bg-white dark:read-only:bg-subtle-black;
+        @apply border-theme-secondary-400 read-only:bg-white focus:border-light-black disabled:bg-theme-secondary-100 dark:read-only:bg-subtle-black dark:focus:border-theme-secondary-300;
     }
 
     .passphrase-destructive {
@@ -143,6 +143,6 @@
     }
 
     .passphrase-errorFree {
-        @apply border-theme-primary-700 dark:border-theme-primary-650 focus:border-theme-primary-700 dark:focus:border-theme-primary-650 disabled:bg-theme-secondary-100;
+        @apply border-theme-primary-700 focus:border-theme-primary-700 disabled:bg-theme-secondary-100 dark:border-theme-primary-650 dark:focus:border-theme-primary-650;
     }
 }

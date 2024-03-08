@@ -181,7 +181,7 @@ const Logout = () => {
                     </Button>
                     <Button
                         onClick={() => navigate(-1)}
-                        className='flex w-full text-light-black dark:text-white bg-transparent py-0 mb-0'
+                        className='mb-0 flex w-full bg-transparent py-0 text-light-black dark:text-white'
                     >
                         <Paragraph $typeset='headline' fontWeight='medium' color='base' as='span'>
                             Cancel and Go Back

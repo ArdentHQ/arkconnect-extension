@@ -1,13 +1,6 @@
 import { useEffect } from 'react';
 import Balance from '@/components/wallet/Balance';
-import {
-    Container,
-    ExternalLink,
-    FlexContainer,
-    Icon,
-    Layout,
-    Paragraph,
-} from '@/shared/components';
+import { ExternalLink, Icon, Layout } from '@/shared/components';
 import constants from '@/constants';
 import { clearPersistScreenData } from '@/components/wallet/form-persist/helpers';
 import { useProfileContext } from '@/lib/context/Profile';
@@ -27,92 +20,71 @@ const Home = () => {
 
     return (
         <Layout data-testid='Home'>
-            <Container margin='16'>
-                <Container
-                    bg='secondaryBackground'
-                    boxShadow='light'
-                    borderTopLeftRadius='20'
-                    borderTopRightRadius='20'
-                    borderBottomLeftRadius='16'
-                    borderBottomRightRadius='16'
-                >
-                    <Container borderRadius='20' bg='primary' color='white'>
-                        <Container padding='16'>
-                            <Balance
-                                balance={primaryWallet?.balance() ?? 0}
-                                currency={primaryWallet?.currency() ?? 'ARK'}
-                                exchangeCurrency={primaryWallet?.exchangeCurrency() ?? 'USD'}
-                                convertedBalance={convertedBalance}
-                            />
-                        </Container>
-                        <FlexContainer
-                            padding='16'
-                            borderTop='1px solid'
-                            borderColor='dividerGreen'
-                            justifyContent='space-between'
-                        >
-                            <ExternalLink
-                                gridGap='8px'
-                                alignItems='center'
-                                display='flex'
-                                href={
-                                    primaryWallet?.network().isLive()
-                                        ? `${
-                                              constants.ARKSCAN_ADDRESSES
-                                          }/${primaryWallet?.address()}`
-                                        : `${
-                                              constants.ARKSCAN_TEST_ADDRESSES
-                                          }/${primaryWallet?.address()}`
-                                }
-                            >
-                                <Paragraph $typeset='body' fontWeight='medium'>
-                                    Explorer
-                                </Paragraph>
-                                <Icon icon='link-external' className='h-4 w-4' />
-                            </ExternalLink>
-                            <Icon
-                                icon='divider'
-                                className='w-0.5 h-4.5 text-theme-primary-650 dark:text-theme-primary-600'
-                            />
+            <div className='m-4 rounded-b-2xl rounded-t-[20px] bg-white shadow-light dark:bg-subtle-black'>
+                <div className=' rounded-[20px] bg-theme-primary-700 text-white dark:bg-theme-primary-650'>
+                    <div className='p-4'>
+                        <Balance
+                            balance={primaryWallet?.balance() ?? 0}
+                            currency={primaryWallet?.currency() ?? 'ARK'}
+                            exchangeCurrency={primaryWallet?.exchangeCurrency() ?? 'USD'}
+                            convertedBalance={convertedBalance}
+                        />
+                    </div>
 
-                            <ExternalLink
-                                gridGap='8px'
-                                alignItems='center'
-                                display='flex'
-                                href={
-                                    primaryWallet?.network().isTest()
-                                        ? constants.ARKSCAN_FAUCET
-                                        : constants.ARKSCAN_EXCHANGES
-                                }
-                            >
-                                <Paragraph $typeset='body' fontWeight='medium'>
-                                    {primaryWallet?.network().isTest() ? 'Faucet' : 'Exchanges'}
-                                </Paragraph>
-                                <Icon icon='link-external' className='w-4 h-4' />
-                            </ExternalLink>
-                        </FlexContainer>
-                    </Container>
-                    <ExternalLink
-                        href={constants.ARK_CONNECT_DEMO}
-                        color={getThemeColor('primary', 'primary600')}
-                        display='block'
-                        borderRadius='16'
-                    >
-                        <FlexContainer
-                            padding='16'
-                            flexDirection='row'
-                            justifyContent='space-between'
+                    <div className='flex justify-between border-t border-solid border-t-theme-primary-650 p-4 dark:border-t-theme-primary-600'>
+                        <ExternalLink
+                            gridGap='8px'
                             alignItems='center'
+                            display='flex'
+                            href={
+                                primaryWallet?.network().isLive()
+                                    ? `${constants.ARKSCAN_ADDRESSES}/${primaryWallet?.address()}`
+                                    : `${
+                                          constants.ARKSCAN_TEST_ADDRESSES
+                                      }/${primaryWallet?.address()}`
+                            }
                         >
-                            <Icon icon='speakerphone' className='h-4.5 w-4.5' />
-                            <Paragraph $typeset='body' fontWeight='medium'>
-                                Try Our Demo App Now!
-                            </Paragraph>
+                            <span className='text-sm font-medium'>Explorer</span>
+
                             <Icon icon='link-external' className='h-4 w-4' />
-                        </FlexContainer>
-                    </ExternalLink>
-                </Container>
-            </Container>
+                        </ExternalLink>
+
+                        <Icon
+                            icon='divider'
+                            className='h-4.5 w-0.5 text-theme-primary-650 dark:text-theme-primary-600'
+                        />
+
+                        <ExternalLink
+                            gridGap='8px'
+                            alignItems='center'
+                            display='flex'
+                            href={
+                                primaryWallet?.network().isTest()
+                                    ? constants.ARKSCAN_FAUCET
+                                    : constants.ARKSCAN_EXCHANGES
+                            }
+                        >
+                            <span className='text-sm font-medium'>
+                                {primaryWallet?.network().isTest() ? 'Faucet' : 'Exchanges'}
+                            </span>
+                            <Icon icon='link-external' className='h-4 w-4' />
+                        </ExternalLink>
+                    </div>
+                </div>
+
+                <ExternalLink
+                    href={constants.ARK_CONNECT_DEMO}
+                    color={getThemeColor('primary', 'primary600')}
+                    display='block'
+                    borderRadius='16'
+                >
+                    <div className='flex flex-row items-center justify-between p-4'>
+                        <Icon icon='speakerphone' className='h-4.5 w-4.5' />
+                        <span className=' text-sm font-medium'>Try Our Demo App Now!</span>
+                        <Icon icon='link-external' className='h-4 w-4' />
+                    </div>
+                </ExternalLink>
+            </div>
         </Layout>
     );
 };

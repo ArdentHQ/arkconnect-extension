@@ -23,17 +23,17 @@ export const ToggleSwitch: FC<ToggleSwitchProps> = ({
     return (
         <label
             htmlFor={id}
-            className={cn('relative flex w-9 h-5 group', {
-                'cursor-not-allowed pointer-events-none': disabled,
-                'cursor-pointer pointer-events-auto': !disabled,
+            className={cn('group relative flex h-5 w-9', {
+                'pointer-events-none cursor-not-allowed': disabled,
+                'pointer-events-auto cursor-pointer': !disabled,
             })}
         >
-            <div className='flex flex-col items-start gap-[5px] ml-11'>
-                <p className='w-max text-base-black dark:text-white font-normal leading-tight text-base'>
+            <div className='ml-11 flex flex-col items-start gap-[5px]'>
+                <p className='text-base-black w-max text-base font-normal leading-tight dark:text-white'>
                     {title}
                 </p>
                 {helperText && (
-                    <p className='text-theme-secondary-600 dark:text-theme-secondary-300 font-normal text-sm leading-tight'>
+                    <p className='text-sm font-normal leading-tight text-theme-secondary-600 dark:text-theme-secondary-300'>
                         {helperText}
                     </p>
                 )}
@@ -45,7 +45,7 @@ export const ToggleSwitch: FC<ToggleSwitchProps> = ({
                 checked={checked}
                 onChange={onChange}
                 tabIndex={-1}
-                className='h-0 w-0 opacity-0 hidden'
+                className='hidden h-0 w-0 opacity-0'
             />
             <div
                 role='checkbox'

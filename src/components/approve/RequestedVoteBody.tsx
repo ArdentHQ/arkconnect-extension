@@ -1,8 +1,7 @@
 import { Contracts } from '@ardenthq/sdk-profiles';
-import styled from 'styled-components';
 import Amount from '../wallet/Amount';
 import ActionDetails, { ActionDetailsRow } from './ActionDetails';
-import { FlexContainer, Paragraph, Tooltip } from '@/shared/components';
+import { Tooltip } from '@/shared/components';
 import trimAddress from '@/lib/utils/trimAddress';
 import { getNetworkCurrency } from '@/lib/utils/getActiveCoin';
 
@@ -18,87 +17,88 @@ const RequestedVoteBody = ({ vote, unvote, fee, convertedFee, wallet }: Props) =
     return (
         <ActionDetails maxHeight='165px'>
             <ActionDetailsRow label='Transaction Fee'>
-                <FlexContainer gridGap='4px' alignItems='baseline'>
-                    <Paragraph $typeset='headline' fontWeight='medium' color='base'>
+                <div className='flex items-baseline gap-1'>
+                    <div className='font-medium text-light-black dark:text-white'>
                         {fee} {getNetworkCurrency(wallet.network())}
-                    </Paragraph>
+                    </div>
                     {wallet.network().isLive() && (
-                        <Paragraph $typeset='body' fontWeight='medium' color='gray'>
+                        <div className='text-sm font-medium text-theme-secondary-500 dark:text-theme-secondary-300'>
                             <Amount
                                 value={convertedFee}
                                 ticker={wallet.exchangeCurrency() ?? 'USD'}
                             />
-                        </Paragraph>
+                        </div>
                     )}
-                </FlexContainer>
+                </div>
             </ActionDetailsRow>
 
             {unvote && (
                 <ActionDetailsRow label='Unvote Delegate Name'>
-                    <Paragraph $typeset='headline' fontWeight='medium' color='base'>
+                    <div className='font-medium text-light-black dark:text-white'>
                         {unvote.wallet?.username() ?? ''}
-                    </Paragraph>
+                    </div>
                 </ActionDetailsRow>
             )}
 
             {unvote && !wallet.isLedger() && (
                 <ActionDetailsRow label='Unvote Delegate Address'>
-                    <Paragraph $typeset='headline' fontWeight='medium' color='base'>
+                    <div className='font-medium text-light-black dark:text-white'>
                         {trimAddress(unvote.wallet?.address() ?? '', 10)}
-                    </Paragraph>
+                    </div>
                 </ActionDetailsRow>
             )}
 
             {unvote && wallet.isLedger() && (
                 <ActionDetailsRow label='Unvote Delegate Pubkey'>
                     <Tooltip
-                        content={<StyledSpan>{unvote.wallet?.publicKey() ?? ''}</StyledSpan>}
+                        content={
+                            <span className='block w-[260px] break-words text-left'>
+                                {unvote.wallet?.publicKey() ?? ''}
+                            </span>
+                        }
                         placement='bottom-end'
                     >
-                        <Paragraph $typeset='headline' fontWeight='medium' color='base'>
+                        <div className='font-medium text-light-black dark:text-white'>
                             {trimAddress(unvote.wallet?.publicKey() ?? '', 10)}
-                        </Paragraph>
+                        </div>
                     </Tooltip>
                 </ActionDetailsRow>
             )}
 
             {vote && (
                 <ActionDetailsRow label='Vote Delegate Name'>
-                    <Paragraph $typeset='headline' fontWeight='medium' color='base'>
+                    <div className='font-medium text-light-black dark:text-white'>
                         {vote.wallet?.username() ?? ''}
-                    </Paragraph>
+                    </div>
                 </ActionDetailsRow>
             )}
 
             {vote && !wallet.isLedger() && (
                 <ActionDetailsRow label='Vote Delegate Address'>
-                    <Paragraph $typeset='headline' fontWeight='medium' color='base'>
+                    <div className='font-medium text-light-black dark:text-white'>
                         {trimAddress(vote.wallet?.address() ?? '', 10)}
-                    </Paragraph>
+                    </div>
                 </ActionDetailsRow>
             )}
 
             {vote && wallet.isLedger() && (
                 <ActionDetailsRow label='Vote Delegate Pubkey'>
                     <Tooltip
-                        content={<StyledSpan>{vote.wallet?.publicKey() ?? ''}</StyledSpan>}
+                        content={
+                            <span className='block w-[260px] break-words text-left'>
+                                {vote.wallet?.publicKey() ?? ''}
+                            </span>
+                        }
                         placement='bottom-end'
                     >
-                        <Paragraph $typeset='headline' fontWeight='medium' color='base'>
+                        <div className='font-medium text-light-black dark:text-white'>
                             {trimAddress(vote.wallet?.publicKey() ?? '', 10)}
-                        </Paragraph>
+                        </div>
                     </Tooltip>
                 </ActionDetailsRow>
             )}
         </ActionDetails>
     );
 };
-
-const StyledSpan = styled.span`
-    width: 260px;
-    display: block;
-    overflow-wrap: break-word;
-    text-align: left;
-`;
 
 export default RequestedVoteBody;
