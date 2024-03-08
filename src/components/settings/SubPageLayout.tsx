@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { ThemeValue } from 'styled-system';
+import classNames from 'classnames';
 import {
     ArrowButton,
     CloseButton,
@@ -33,25 +34,25 @@ const SubPageLayout = ({
     }
     return (
         <Layout>
-            <FlexContainer
-                padding='16'
-                justifyContent='space-between'
-                alignItems='center'
-                position={withStickyHeader ? 'sticky' : 'inherit'}
-                top={withStickyHeader ? '50px' : 'unset'}
-                backgroundColor='primaryBackground'
+            <div
+                className={classNames(
+                    'flex items-center justify-between bg-subtle-white p-4 dark:bg-light-black',
+                    {
+                        'sticky top-[50px]': withStickyHeader,
+                    },
+                )}
             >
-                <FlexContainer alignItems='center' justifyContent='space-between' width='100%'>
-                    <FlexContainer gridGap='12px' alignItems='center'>
+                <div className='flex w-full items-center justify-between'>
+                    <div className='flex items-center gap-3'>
                         <ArrowButton action={onBack} />
                         <Heading $typeset='h4' fontWeight='medium' color='base'>
                             {title}
                         </Heading>
-                    </FlexContainer>
+                    </div>
 
                     {!hideCloseButton && <CloseButton />}
-                </FlexContainer>
-            </FlexContainer>
+                </div>
+            </div>
             <Container paddingX='16' paddingBottom={paddingBottom} height='100%'>
                 {children}
             </Container>
