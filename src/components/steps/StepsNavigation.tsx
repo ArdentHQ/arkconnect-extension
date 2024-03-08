@@ -2,25 +2,25 @@
 import { ComponentType, useState } from 'react';
 
 import { FormikProps } from 'formik';
-import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import classNames from 'classnames';
-import { ArrowButton, Container, FlexContainer, Paragraph } from '@/shared/components';
+import { ArrowButton, Container, Paragraph } from '@/shared/components';
 
 export type Step = {
     component: ComponentType<any>;
     containerPaddingX?: '0' | '24';
 };
 
-type StepNavigationProps<T> = React.ComponentProps<typeof StyledFlexContainer> & {
+interface StepNavigationProps<T> extends React.HTMLAttributes<HTMLDivElement> {
     steps: Step[];
     formik?: FormikProps<T>;
     disabledSteps?: number[];
     defaultStep?: number;
     onStepChange?: (step: number) => void;
-};
+}
 
 const StepsNavigation = <T extends Record<string, any>>({
+    className,
     steps,
     formik,
     disabledSteps,
@@ -56,7 +56,13 @@ const StepsNavigation = <T extends Record<string, any>>({
 
     return (
         <>
-            <StyledFlexContainer color='base' {...stepsProps}>
+            <div
+                className={classNames(
+                    'flex items-center justify-between gap-4 pb-6 text-light-black dark:text-white',
+                    className,
+                )}
+                {...stepsProps}
+            >
                 <ArrowButton disabled={isPrevDisabled} onClick={handleStepBack} />
                 <div className='flex h-2 w-[242px] overflow-hidden rounded-lg bg-theme-secondary-200 dark:bg-theme-secondary-600'>
                     <Container
@@ -71,7 +77,7 @@ const StepsNavigation = <T extends Record<string, any>>({
                         {currentStep + 1}/{totalSteps}
                     </Paragraph>
                 </Container>
-            </StyledFlexContainer>
+            </div>
 
             <div
                 className={classNames('flex h-full flex-col', {
@@ -88,12 +94,5 @@ const StepsNavigation = <T extends Record<string, any>>({
         </>
     );
 };
-
-const StyledFlexContainer = styled(FlexContainer)`
-    grid-gap: 16px;
-    justify-content: space-between;
-    align-items: center;
-    padding-bottom: 24px;
-`;
 
 export default StepsNavigation;

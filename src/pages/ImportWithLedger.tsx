@@ -117,7 +117,7 @@ const ImportWithLedger = () => {
                             steps={steps}
                             formik={formik}
                             disabledSteps={[0, 2]}
-                            px='24'
+                            className='px-6'
                         />
                     </Container>
                 </div>
