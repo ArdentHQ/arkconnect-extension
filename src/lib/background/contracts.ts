@@ -1,5 +1,4 @@
 export enum ProfileData {
-    PrimaryWalletId = 'PRIMARY_WALLET_ID',
     Sessions = 'SESSIONS',
     LastScreen = 'LAST_SCREEN',
 }

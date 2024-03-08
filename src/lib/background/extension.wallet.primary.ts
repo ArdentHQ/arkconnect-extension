@@ -1,8 +1,7 @@
 import { Contracts } from '@ardenthq/sdk-profiles';
-import { ProfileData } from './contracts';
 import { Wallet } from './extension.wallet';
 
-export function PrimaryWallet({ profile }: { profile: Contracts.IProfile | null }) {
+export function PrimaryWallet({ profile }: { profile: Contracts.IProfile }) {
     return {
         /**
          * Returns the primary wallet id that exists in profile data.
@@ -10,7 +9,11 @@ export function PrimaryWallet({ profile }: { profile: Contracts.IProfile | null 
          * @returns {string | undefined}
          */
         id(): string | undefined {
-            return profile?.data().get(ProfileData.PrimaryWalletId);
+            return profile
+                .wallets()
+                .values()
+                .find((wallet: Contracts.IReadWriteWallet) => wallet.isPrimary())
+                ?.id();
         },
         /**
          * Determines whether a primary wallet exists in profile.
@@ -18,13 +21,7 @@ export function PrimaryWallet({ profile }: { profile: Contracts.IProfile | null 
          * @returns {boolean}
          */
         exists(): boolean {
-            const id = this.id();
-
-            if (!id) {
-                return false;
-            }
-
-            return profile?.wallets().has(id) ?? false;
+            return !!this.id();
         },
         /**
          * Returns the Wallet instance of the primary wallet.
@@ -32,13 +29,10 @@ export function PrimaryWallet({ profile }: { profile: Contracts.IProfile | null 
          * @returns {Contracts.IReadWriteWallet | undefined}
          */
         wallet(): ReturnType<typeof Wallet> {
-            const id = this.id();
-
-            if (!id) {
-                throw new Error('MISSING_PRIMARY_WALLET');
-            }
-
-            const wallet = profile?.wallets().findById(id);
+            const wallet = profile
+                .wallets()
+                .values()
+                .find((wallet: Contracts.IReadWriteWallet) => wallet.isPrimary());
 
             if (!wallet) {
                 throw new Error('MISSING_PRIMARY_WALLET');
@@ -53,11 +47,18 @@ export function PrimaryWallet({ profile }: { profile: Contracts.IProfile | null 
          * @returns {void}
          */
         set(id: string): void {
-            if (!profile?.wallets().has(id)) {
+            if (!profile.wallets().has(id)) {
                 throw new Error('WALLET_NOT_FOUND');
             }
 
-            profile?.data().set(ProfileData.PrimaryWalletId, id);
+            for (const wallet of profile.wallets().values()) {
+                if (wallet.id() === id) {
+                    wallet.data().set(Contracts.WalletData.IsPrimary, true);
+                    continue;
+                }
+
+                wallet.data().set(Contracts.WalletData.IsPrimary, false);
+            }
         },
         /**
          *  Sets the first wallet as primary, if it exists.
@@ -65,11 +66,7 @@ export function PrimaryWallet({ profile }: { profile: Contracts.IProfile | null 
          * @returns {void}
          */
         reset(): void {
-            if (!profile) {
-                return;
-            }
-
-            if (profile?.wallets().count() > 0) {
+            if (profile.wallets().count() > 0) {
                 this.set(profile.wallets().first().id());
             }
         },
