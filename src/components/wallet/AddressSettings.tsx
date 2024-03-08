@@ -152,7 +152,7 @@ export const AddressSettings = () => {
 
 const AddressRow = ({ address }: { address: Contracts.IReadWriteWallet }) => {
     return (
-        <div className='flex gap-3 rounded-2xl border border-solid border-theme-primary-600 bg-theme-primary-50 p-4 shadow-light dark:border-theme-primary-650  dark:bg-theme-primary-650/15'>
+        <div className='flex gap-3 rounded-2xl border border-solid border-theme-primary-600 bg-theme-primary-50 p-4 shadow-light dark:border-theme-primary-650 dark:bg-theme-primary-650/15'>
             <div className='flex flex-col gap-2'>
                 <div className='flex items-center gap-2'>
                     <AddressAlias alias={address.alias() ?? ''} isBold />
