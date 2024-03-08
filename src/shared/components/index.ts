@@ -1,7 +1,6 @@
 export * from './text/Paragraph';
 export * from './text/Heading';
 export * from './layout/Container';
-export * from './layout/FlexContainer';
 export * from './layout/Grid';
 export * from './nav/ArrowButton';
 export * from './nav/CloseButton';
