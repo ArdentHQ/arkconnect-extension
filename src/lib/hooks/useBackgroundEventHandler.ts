@@ -11,7 +11,7 @@ import {
 import { useAppDispatch } from '../store';
 import { lockedChanged } from '@/lib/store/ui';
 
-type Event = {
+export type Event = {
     callback: any;
     request: {
         type: string;
@@ -94,7 +94,7 @@ const useBackgroundEventHandler = () => {
         dispatch(lockedChanged(true));
     };
 
-    return runEventHandlers;
+    return { runEventHandlers, events };
 };
 
 export default useBackgroundEventHandler;
