@@ -70,6 +70,11 @@ export function Extension() {
                 await env.profiles().restore(profile, password);
             }
 
+            // Ensure primary wallet exists.
+            if (!this.primaryWallet().exists()) {
+                this.primaryWallet().set(profile.wallets().first().id());
+            }
+
             await env.wallets().syncByProfile(profile);
 
             profile.auth().forgetPassword(password);
