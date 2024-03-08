@@ -5,8 +5,7 @@ import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/es/integration/react';
 import shouldForwardProp from '@styled-system/should-forward-prop';
 import { LedgerProvider } from './lib/Ledger';
-import AutoUnlockWrapper from './components/AutoUnlockWrapper';
-import useBackgroundEventHandler from './lib/hooks/useBackgroundEventHandler';
+import NextPageMiddleware from './components/NextPageMiddleware';
 import { ErrorHandlerProvider, useErrorHandlerContext } from './lib/context/ErrorHandler';
 import { ProfileProvider } from './lib/context/Profile';
 import { EnvironmentProvider, useEnvironmentContext } from './lib/context/Environment';
@@ -20,6 +19,8 @@ import { Container } from '@/shared/components';
 import { themeModes } from '@/shared/theme/categories/color';
 import { selectThemeMode, ThemeMode } from '@/lib/store/ui';
 import routes from '@/routing';
+import { BackgroundEvents } from '@/lib/context/BackgroundEventHandler';
+import useBackgroundEventHandler from '@/lib/hooks/useBackgroundEventHandler';
 
 const env = initializeEnvironment();
 
@@ -43,17 +44,15 @@ export const MainWrapper = ({ children }: { children?: React.ReactNode }) => {
 
 const AppWrapper = ({
     children,
-    runEventHandlers,
     theme = { ...baseTheme, colors: themeModes[ThemeMode.LIGHT] },
 }: {
     children?: React.ReactNode;
-    runEventHandlers: () => number;
     theme?: React.ComponentProps<typeof ThemeProvider>['theme'];
 }) => {
     return (
         <ThemeProvider theme={theme}>
             <ProfileProvider>
-                <AutoUnlockWrapper runEventHandlers={runEventHandlers}>
+                <NextPageMiddleware>
                     <LedgerProvider>
                         <Container
                             id={
@@ -72,7 +71,7 @@ const AppWrapper = ({
                             </Container>
                         </Container>
                     </LedgerProvider>
-                </AutoUnlockWrapper>
+                </NextPageMiddleware>
             </ProfileProvider>
         </ThemeProvider>
     );
@@ -85,7 +84,7 @@ const App = () => {
 
     const theme = { ...baseTheme, colors: themeModes[themeMode] };
 
-    const runEventHandlers = useBackgroundEventHandler();
+    const { runEventHandlers, events } = useBackgroundEventHandler();
 
     useLayoutEffect(() => {
         const boot = async () => {
@@ -105,13 +104,15 @@ const App = () => {
     if (!isEnvironmentBooted) return <LoadingFullScreen />;
 
     return (
-        <AppWrapper theme={theme} runEventHandlers={runEventHandlers}>
-            <Routes>
-                {routes.map((route) => (
-                    <Route key={route.path} path={route.path} element={<route.Component />} />
-                ))}
-            </Routes>
-        </AppWrapper>
+        <BackgroundEvents events={events} runEventHandlers={runEventHandlers}>
+            <AppWrapper theme={theme}>
+                <Routes>
+                    {routes.map((route) => (
+                        <Route key={route.path} path={route.path} element={<route.Component />} />
+                    ))}
+                </Routes>
+            </AppWrapper>
+        </BackgroundEvents>
     );
 };
 
