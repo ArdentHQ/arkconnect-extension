@@ -2,15 +2,7 @@ import { FormikProps } from 'formik';
 import { useEffect, useState } from 'react';
 import { runtime } from 'webextension-polyfill';
 import { CreateWalletFormik, ValidationVariant } from '.';
-import {
-    Button,
-    Checkbox,
-    Container,
-    FlexContainer,
-    Heading,
-    Input,
-    Paragraph,
-} from '@/shared/components';
+import { Button, Checkbox, Container, Heading, Input, Paragraph } from '@/shared/components';
 import getNumberSuffix from '@/lib/utils/getNumberSuffix';
 import { TestnetIcon } from '@/components/wallet/address/Address.blocks';
 import useActiveNetwork from '@/lib/hooks/useActiveNetwork';
@@ -79,26 +71,21 @@ const ConfirmPassphrase = ({ goToNextStep, formik }: Props) => {
 
     return (
         <>
-            <FlexContainer mb='8' alignItems='center' gridGap='8'>
+            <div className='mb-2 flex items-center gap-2'>
                 <Heading $typeset='h4' fontWeight='medium' color='base'>
                     Confirm Your Passphrase
                 </Heading>
                 {selectedNetwork.isTest() && <TestnetIcon />}
-            </FlexContainer>
+            </div>
 
             <Paragraph $typeset='headline' color='gray' mb='16'>
                 Confirm that you’ve saved your secret passphrase by correctly entering the word in
                 the designated input field below.
             </Paragraph>
 
-            <FlexContainer gridGap='10px' alignItems='top' flex={1}>
+            <div className='flex flex-1 items-start gap-2.5'>
                 {values.confirmationNumbers?.map((number: number, index: number) => (
-                    <FlexContainer
-                        key={index}
-                        gridGap='6px'
-                        alignItems='flex-start'
-                        flexDirection='column'
-                    >
+                    <div className='flex flex-col items-start gap-1.5' key={index}>
                         <Paragraph $typeset='headline' fontWeight='medium' color='base'>
                             {getNumberSuffix(number)} word
                         </Paragraph>
@@ -109,9 +96,9 @@ const ConfirmPassphrase = ({ goToNextStep, formik }: Props) => {
                             value={values.confirmPassphrase[index]}
                             onChange={(evt) => handleConfirmPassphraseInputChange(evt, index)}
                         />
-                    </FlexContainer>
+                    </div>
                 ))}
-            </FlexContainer>
+            </div>
 
             <Container mt='auto'>
                 <Checkbox

@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { FormikProps } from 'formik';
+import classNames from 'classnames';
 import { CreateWalletFormik } from '.';
 import {
     Button,
     Container,
-    FlexContainer,
     Grid,
     Heading,
     Icon,
@@ -42,11 +42,11 @@ const GeneratePassphrase = ({ goToNextStep, formik }: Props) => {
         const wordLength = word.length;
 
         return (
-            <FlexContainer
+            <div
+                className={classNames('flex items-center gap-1.5', {
+                    'pb-1.5': index + 1 < sliceIndex,
+                })}
                 key={index}
-                gridGap='6px'
-                alignItems='center'
-                paddingBottom={index + 1 < sliceIndex ? '6' : '0'}
             >
                 <Paragraph $typeset='body' color='gray' width='auto'>
                     {index + 1}
@@ -54,18 +54,18 @@ const GeneratePassphrase = ({ goToNextStep, formik }: Props) => {
                 <Paragraph $typeset='headline' fontWeight='medium' color='base'>
                     {isHidden ? '•'.repeat(wordLength) : word}
                 </Paragraph>
-            </FlexContainer>
+            </div>
         );
     };
 
     return (
-        <FlexContainer flex='1' flexDirection='column'>
-            <FlexContainer mb='8' alignItems='center' gridGap='8'>
+        <div className='flex flex-1 flex-col'>
+            <div className='mb-2 flex items-center gap-2'>
                 <Heading $typeset='h3' fontWeight='bold' color='base'>
                     Save Your Secret Passphrase
                 </Heading>
                 {selectedNetwork.isTest() && <TestnetIcon />}
-            </FlexContainer>
+            </div>
             <Paragraph $typeset='headline' color='gray' mb='16'>
                 Write down or copy your passphrase. Make sure to store it safely.
             </Paragraph>
@@ -80,43 +80,33 @@ const GeneratePassphrase = ({ goToNextStep, formik }: Props) => {
                     maxHeight='226px'
                 >
                     <Grid gridGap='10px' gridTemplateColumns='repeat(3, 1fr)'>
-                        <FlexContainer
-                            flex='1'
-                            flexDirection='column'
-                            borderRight='1px solid'
-                            borderColor='toggleInactive'
-                            pr='10'
-                        >
+                        <div className='flex flex-1 flex-col border-r border-solid border-r-theme-secondary-200 pr-2.5 dark:border-r-theme-secondary-600'>
                             {formik.values.passphrase
                                 .slice(0, 8)
                                 .map((word: string, index: number) =>
                                     generatePassphraseUI(word, index, 8),
                                 )}
-                        </FlexContainer>
-                        <FlexContainer
-                            flex='1'
-                            flexDirection='column'
-                            borderRight='1px solid'
-                            borderColor='toggleInactive'
-                            pr='10'
-                        >
+                        </div>
+
+                        <div className='flex flex-1 flex-col border-r border-solid border-r-theme-secondary-200 pr-2.5 dark:border-r-theme-secondary-600'>
                             {formik.values.passphrase
                                 .slice(8, 16)
                                 .map((word: string, index: number) =>
                                     generatePassphraseUI(word, index + 8, 16),
                                 )}
-                        </FlexContainer>
-                        <FlexContainer flex='1' flexDirection='column'>
+                        </div>
+
+                        <div className='flex flex-1 flex-col'>
                             {formik.values.passphrase
                                 .slice(16, 24)
                                 .map((word: string, index: number) =>
                                     generatePassphraseUI(word, index + 16, 24),
                                 )}
-                        </FlexContainer>
+                        </div>
                     </Grid>
                 </Container>
             )}
-            <FlexContainer justifyContent='space-between' alignItems='center'>
+            <div className='flex items-center justify-center'>
                 <ToggleSwitch
                     checked={showPassphrase}
                     onChange={() => setShowPassphrase(!showPassphrase)}
@@ -124,15 +114,10 @@ const GeneratePassphrase = ({ goToNextStep, formik }: Props) => {
                     title='Show Passphrase'
                 />
 
-                <FlexContainer
-                    gridGap='8px'
-                    color='primary'
-                    className='cursor-pointer'
+                <button
+                    type='button'
+                    className='flex h-5 items-center gap-2 overflow-hidden text-theme-primary-700 dark:text-theme-primary-650'
                     onClick={copyPassphraseToClipboard}
-                    as='button'
-                    alignItems='center'
-                    height='20px'
-                    overflow='hidden'
                 >
                     <Container as='span' display='inline-block'>
                         <Icon icon='copy' className='h-4.5 w-4.5' />
@@ -147,13 +132,13 @@ const GeneratePassphrase = ({ goToNextStep, formik }: Props) => {
                     >
                         Copy
                     </Paragraph>
-                </FlexContainer>
-            </FlexContainer>
+                </button>
+            </div>
 
             <Button variant='primary' onClick={goToNextStep} className='mt-auto'>
                 Continue
             </Button>
-        </FlexContainer>
+        </div>
     );
 };
 
