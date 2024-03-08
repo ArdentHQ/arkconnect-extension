@@ -16,7 +16,7 @@ import { assertNetwork } from '@/lib/utils/assertions';
 import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
 import useLocaleCurrency from '@/lib/hooks/useLocalCurrency';
 import { getLocalValues } from '@/lib/utils/localStorage';
-import { LastScreen, ProfileData, ScreenName } from '@/lib/background/contracts';
+import { LastVisitedPage, ProfileData, ScreenName } from '@/lib/background/contracts';
 import randomWordPositions from '@/lib/utils/randomWordPositions';
 import useLoadingModal from '@/lib/hooks/useLoadingModal';
 import { useBackgroundEvents } from '@/lib/context/BackgroundEventHandler';
@@ -68,17 +68,19 @@ const CreateNewWallet = () => {
     useEffect(() => {
         (async () => {
             const { hasOnboarded } = await getLocalValues();
-            const lastScreen = profile.data().get(ProfileData.LastScreen) as LastScreen | undefined;
+            const lastVisitedPage = profile.settings().get(ProfileData.LastVisitedPage) as
+                | LastVisitedPage
+                | undefined;
 
-            if (lastScreen && lastScreen.screenName === ScreenName.CreateWallet) {
+            if (lastVisitedPage && lastVisitedPage.name === ScreenName.CreateWallet) {
                 setIsGeneratingWallet(true);
 
-                const mnemonic = lastScreen.data.mnemonic;
-                const network = lastScreen.data.network;
-                const coin = lastScreen.data.coin;
-                const confirmationNumbers = lastScreen.data.confirmationNumbers;
-                const confirmPassphrase = lastScreen.data.confirmPassphrase;
-                const step = lastScreen.data.step;
+                const mnemonic = lastVisitedPage.data.mnemonic;
+                const network = lastVisitedPage.data.network;
+                const coin = lastVisitedPage.data.coin;
+                const confirmationNumbers = lastVisitedPage.data.confirmationNumbers;
+                const confirmPassphrase = lastVisitedPage.data.confirmPassphrase;
+                const step = lastVisitedPage.data.step;
 
                 if (mnemonic && network && coin) {
                     const wallet = await profile.walletFactory().fromMnemonicWithBIP39({
@@ -120,7 +122,7 @@ const CreateNewWallet = () => {
     useEffect(() => {
         return () => {
             runtime.sendMessage({ type: 'CLEAR_LAST_SCREEN' });
-            profile.data().set(ProfileData.LastScreen, undefined);
+            profile.settings().forget(ProfileData.LastVisitedPage);
         };
     }, []);
 
@@ -192,7 +194,7 @@ const CreateNewWallet = () => {
         if (step === -1) {
             const { hasOnboarded } = await getLocalValues();
             runtime.sendMessage({ type: 'CLEAR_LAST_SCREEN' });
-            profile.data().set(ProfileData.LastScreen, undefined);
+            profile.settings().forget(ProfileData.LastVisitedPage);
 
             if (hasOnboarded) {
                 return navigate('/create-import-address');
@@ -208,7 +210,7 @@ const CreateNewWallet = () => {
 
             runtime.sendMessage({
                 type: 'SET_LAST_SCREEN',
-                screenName: ScreenName.CreateWallet,
+                name: ScreenName.CreateWallet,
                 data: {
                     step,
                     mnemonic: formik.values.passphrase.join(' '),
@@ -222,7 +224,7 @@ const CreateNewWallet = () => {
 
         runtime.sendMessage({
             type: 'SET_LAST_SCREEN',
-            screenName: ScreenName.CreateWallet,
+            name: ScreenName.CreateWallet,
             data: {
                 step,
                 mnemonic: formik.values.passphrase.join(' '),
@@ -245,7 +247,7 @@ const CreateNewWallet = () => {
 
             await runtime.sendMessage({
                 type: 'SET_LAST_SCREEN',
-                screenName: ScreenName.CreateWallet,
+                name: ScreenName.CreateWallet,
                 data: {
                     step: 0,
                     mnemonic: response?.mnemonic,
