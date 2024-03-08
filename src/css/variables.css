@@ -1,4 +1,6 @@
 :root {
+    --font-dm-sans: 'DM Sans', sans-serif;
+
     /* primary */
     --theme-color-primary-50: 238 255 247; /* #EEFFF7 */
     --theme-color-primary-100: 215 255 238; /* #D7FFEE */

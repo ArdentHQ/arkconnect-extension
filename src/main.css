@@ -8,199 +8,25 @@
 @tailwind components;
 @tailwind utilities;
 
-html,
-body,
-div,
-span,
-applet,
-object,
-iframe,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-p,
-blockquote,
-pre,
-a,
-abbr,
-acronym,
-address,
-big,
-cite,
-code,
-del,
-dfn,
-em,
-img,
-ins,
-kbd,
-q,
-s,
-samp,
-small,
-strike,
-strong,
-sub,
-sup,
-tt,
-var,
-b,
-u,
-i,
-center,
-dl,
-dt,
-dd,
-ol,
-ul,
-li,
-fieldset,
-form,
-label,
-legend,
-table,
-caption,
-tbody,
-tfoot,
-thead,
-tr,
-th,
-td,
-article,
-aside,
-canvas,
-details,
-embed,
-figure,
-figcaption,
-footer,
-header,
-hgroup,
-menu,
-nav,
-output,
-ruby,
-section,
-summary,
-time,
-mark,
-audio,
-video {
-    margin: 0;
-    padding: 0;
-    border: 0;
-    font-size: 100%;
-    font: inherit;
-    font-family: 'DM Sans', sans-serif;
-    vertical-align: baseline;
-}
-/* HTML5 display-role reset for older browsers */
-article,
-aside,
-details,
-figcaption,
-figure,
-footer,
-header,
-hgroup,
-menu,
-nav,
-section {
-    display: block;
-}
 body {
-    line-height: 1;
-}
-ol,
-ul {
-    list-style: none;
-}
-blockquote,
-q {
-    quotes: none;
-}
-blockquote:before,
-blockquote:after {
-    content: '';
-    content: none;
-}
-q:before,
-q:after {
-    content: '';
-    content: none;
-}
-header,
-main,
-footer {
-    width: 100%;
-}
-table {
-    border-collapse: collapse;
-    border-spacing: 0;
-}
-* {
-    box-sizing: border-box;
-}
-*:after,
-*:before {
-    box-sizing: border-box;
-}
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-p,
-li,
-a,
-div,
-ul,
-input,
-blockquote,
-span,
-button,
-i,
-b,
-em,
-strong {
-    text-rendering: auto;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-decoration: none;
-}
-img {
-    max-width: 100%;
-    height: auto;
-}
-i,
-em {
-    font-style: italic;
-}
-b,
-strong {
-    font-weight: bold;
-}
-body {
-    overflow-x: hidden;
-    position: relative;
+    @apply relative overflow-x-hidden font-sans leading-none antialiased;
 }
 
 html,
 body {
-    width: 370px;
-    min-height: 600px;
-    padding: 0;
-    margin: 0;
+    @apply m-0 min-h-[600px] w-screen p-0 text-base;
+}
+
+b,
+strong {
+    @apply font-bold;
+}
+
+header {
+    @apply block w-full;
 }
 
 * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
     @apply outline-theme-primary-600;
 }
 
@@ -209,17 +35,8 @@ body {
     transition: outline-width 0s !important;
 }
 
-button {
-    background-color: transparent;
-    border: none;
-}
-
 #extension-root {
-    height: 100%;
-}
-
-.c-pointer {
-    cursor: pointer;
+    @apply h-full;
 }
 
 .input-correct {
@@ -244,58 +61,47 @@ button {
 }
 
 .dropdown-body {
-    transform: translateY(-10px);
-    transition: transform 0.2s ease-in-out;
-    visibility: hidden;
-    opacity: 0;
+    @apply invisible translate-y-[-10px] opacity-0 transition-transform duration-200 ease-in-out;
 }
 
 .dropdown-transition {
-    visibility: visible;
-    transform: translateY(0);
-    opacity: 1;
+    @apply visible translate-y-0 opacity-100;
 }
 
 #scrollable-container {
-    height: 100vh;
-    overflow-y: auto;
-    overflow-x: hidden;
-    width: 370px;
-    max-width: 370px;
+    @apply h-screen w-screen max-w-screen overflow-y-auto overflow-x-hidden;
 }
 
 .main-container {
-    width: 370px;
+    @apply w-screen;
 }
 
 .dialog-wrapper {
-    max-width: 370px;
+    @apply max-w-screen;
 }
 
 .tippy-box[data-theme*='ark'] {
-    border-radius: 8px;
+    @apply rounded-lg;
 }
 
 .tippy-box[data-theme*='ark'] .tippy-content {
-    padding: 8px 12px;
+    @apply px-2 py-3;
 }
 
 .tippy-box[data-theme~='ark-light'] {
-    background-color: #383838;
-    color: #fff;
+    @apply bg-subtle-black text-white;
 }
 
 .tippy-box[data-theme~='ark-dark'] {
-    background-color: #fff;
-    color: #383838;
+    @apply bg-white text-subtle-black;
 }
 
 .tippy-box[data-theme~='ark-light'] .tippy-svg-arrow {
-    fill: #383838;
+    @apply fill-subtle-black;
 }
 
 .tippy-box[data-theme~='ark-dark'] .tippy-svg-arrow {
-    fill: #fff;
+    @apply fill-white;
 }
 
 .globeIcon.dark circle {
@@ -313,19 +119,18 @@ button {
     }
 
     .custom-scroll::-webkit-scrollbar-thumb {
-        background-color: #058751;
+        @apply bg-theme-primary-700;
     }
 
     .custom-scroll::-webkit-scrollbar-track {
-        background-color: transparent;
+        @apply bg-transparent;
     }
 }
 
 .custom-scroll::-webkit-scrollbar {
-    width: 4px;
+    @apply w-1;
 }
 
 .custom-scroll::-webkit-scrollbar-thumb {
-    border-radius: 50px;
-    background: #058751;
+    @apply rounded-[50px] bg-theme-primary-700;
 }

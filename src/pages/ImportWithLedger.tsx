@@ -146,7 +146,7 @@ const ImportWithLedger = () => {
                             <Container p='8' onClick={removeErrors}>
                                 <Icon
                                     icon='x'
-                                    className='c-pointer h-4 w-4 text-theme-error-600 dark:text-white'
+                                    className='h-4 w-4 cursor-pointer text-theme-error-600 dark:text-white'
                                 />
                             </Container>
                         </FlexContainer>
