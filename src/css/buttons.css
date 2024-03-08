@@ -106,7 +106,7 @@
 
     /** Button Destructive Secondary **/
     .button-destructiveSecondary {
-        @apply border border-solid border-theme-error-600 bg-white dark:border-theme-error-500 dark:bg-light-black;
+        @apply border border-solid border-theme-error-600 bg-white font-medium text-theme-error-600 dark:text-theme-error-500 dark:border-theme-error-500 dark:bg-light-black;
     }
     .button-destructiveSecondary:hover {
         @apply bg-theme-error-50 dark:bg-[rgba(91,16,5,0.08)];
