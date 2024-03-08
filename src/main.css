@@ -14,7 +14,7 @@ body {
 
 html,
 body {
-    @apply m-0 min-h-[600px] w-extension-screen p-0 text-base;
+    @apply w-extension-screen m-0 min-h-[600px] p-0 text-base;
 }
 
 b,
@@ -73,7 +73,7 @@ header {
 }
 
 #scrollable-container {
-    @apply h-screen w-extension-screen max-w-extension-screen overflow-y-auto overflow-x-hidden;
+    @apply w-extension-screen max-w-extension-screen h-screen overflow-y-auto overflow-x-hidden;
 }
 
 .main-container {
@@ -137,4 +137,22 @@ header {
 
 .custom-scroll::-webkit-scrollbar-thumb {
     @apply rounded-[50px] bg-theme-primary-700;
+}
+
+.logo path#ark {
+    @apply !fill-theme-primary-950 dark:fill-white;
+}
+
+.dark .logo path#ark {
+    @apply !fill-white;
+}
+
+.logo path#connect,
+.logo #ark-logo {
+    @apply !fill-theme-primary-700 dark:fill-theme-primary-650;
+}
+
+.dark .logo path#connect,
+.dark .logo #ark-logo {
+    @apply !fill-theme-primary-650;
 }
