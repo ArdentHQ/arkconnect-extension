@@ -7,18 +7,12 @@ import useThemeMode from '@/lib/hooks/useThemeMode';
 import formatDomain from '@/lib/utils/formatDomain';
 import trimAddress from '@/lib/utils/trimAddress';
 import { ApproveActionType } from '@/pages/Approve';
-import {
-    Container,
-    ContainerWithHover,
-    Heading,
-    Icon,
-    Loader,
-    Paragraph,
-} from '@/shared/components';
+import { Container, Heading, Icon, Loader, Paragraph } from '@/shared/components';
 import { useVoteForm } from '@/lib/hooks/useVoteForm';
 import { useExchangeRate } from '@/lib/hooks/useExchangeRate';
 import RequestedBy from '@/shared/components/actions/RequestedBy';
 import { useSendTransferForm } from '@/lib/hooks/useSendTransferForm';
+import { NavButton } from '@/shared/components/nav/NavButton';
 
 type Props = {
     actionType: ApproveActionType;
@@ -113,12 +107,12 @@ const ApproveWithLedger = ({
             <RequestedBy appDomain={formatDomain(appName) || ''} appLogo={appLogo} />
             <Container pt='16' px='16'>
                 <div className='flex items-center justify-between gap-3 bg-subtle-white dark:bg-light-black'>
-                    <ContainerWithHover borderRadius='50' padding='7' onClick={closeLedgerScreen}>
+                    <NavButton onClick={closeLedgerScreen}>
                         <Icon
                             icon='arrow-left'
                             className='h-4.5 w-4.5 text-theme-primary-700 dark:text-theme-primary-650'
                         />
-                    </ContainerWithHover>
+                    </NavButton>
                 </div>
                 <Heading $typeset='h3' fontWeight='bold' color='base' mb='8' mt='16'>
                     Connect Ledger and Sign The {getActionMessage()} Request

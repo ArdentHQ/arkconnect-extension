@@ -106,7 +106,7 @@ const GeneratePassphrase = ({ goToNextStep, formik }: Props) => {
                     </Grid>
                 </Container>
             )}
-            <div className='flex items-center justify-center'>
+            <div className='flex items-center justify-between'>
                 <ToggleSwitch
                     checked={showPassphrase}
                     onChange={() => setShowPassphrase(!showPassphrase)}
