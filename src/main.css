@@ -14,7 +14,7 @@ body {
 
 html,
 body {
-    @apply w-extension-screen m-0 min-h-[600px] p-0 text-base;
+    @apply m-0 min-h-[600px] w-extension-screen p-0 text-base;
 }
 
 b,
@@ -73,7 +73,7 @@ header {
 }
 
 #scrollable-container {
-    @apply w-extension-screen max-w-extension-screen h-screen overflow-y-auto overflow-x-hidden;
+    @apply h-screen w-extension-screen max-w-extension-screen overflow-y-auto overflow-x-hidden;
 }
 
 .main-container {
