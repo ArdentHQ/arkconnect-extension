@@ -3,6 +3,7 @@ import { BIP44 } from '@ardenthq/sdk-cryptography';
 import { Contracts as ProfilesContracts } from '@ardenthq/sdk-profiles';
 import { FormikProps } from 'formik';
 import styled from 'styled-components';
+import classNames from 'classnames';
 import {
     Button,
     Checkbox,
@@ -159,15 +160,17 @@ const ImportWallets = ({ goToNextStep, formik }: Props) => {
                                     content='Address already imported'
                                     placement='bottom'
                                 >
-                                    <FlexContainer
-                                        width='100%'
-                                        py='16'
-                                        px='24'
-                                        justifyContent='space-between'
-                                        alignItems='center'
-                                        color={isImported ? 'gray' : 'base'}
+                                    <div
+                                        className={classNames(
+                                            'flex w-full items-center justify-between px-6 py-4',
+                                            {
+                                                'text-theme-secondary-500 dark:text-theme-secondary-300':
+                                                    isImported,
+                                                'text-light-black dark:text-white': !isImported,
+                                            },
+                                        )}
                                     >
-                                        <FlexContainer gridGap='4px' flexDirection='column'>
+                                        <div className='flex flex-col gap-1'>
                                             <Paragraph $typeset='headline' fontWeight='medium'>
                                                 {trimAddress(wallet.address, 10)}
                                             </Paragraph>
@@ -178,8 +181,8 @@ const ImportWallets = ({ goToNextStep, formik }: Props) => {
                                                     maxDigits={2}
                                                 />
                                             </Paragraph>
-                                        </FlexContainer>
-                                        <FlexContainer gridGap='12px' alignItems='center'>
+                                        </div>
+                                        <div className='flex items-center gap-3'>
                                             <Container width='20px' height='20px'>
                                                 <Checkbox
                                                     id={`import-${wallet.address}`}
@@ -189,8 +192,8 @@ const ImportWallets = ({ goToNextStep, formik }: Props) => {
                                                     onChange={() => toggleSelect(wallet.path)}
                                                 />
                                             </Container>
-                                        </FlexContainer>
-                                    </FlexContainer>
+                                        </div>
+                                    </div>
                                 </Tooltip>
                             </StyledFlexContainer>
                         );
