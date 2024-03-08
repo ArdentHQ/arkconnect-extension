@@ -130,7 +130,7 @@ export const AddressBalance = ({
 }) => {
     return (
         <Container color='gray'>
-            <Paragraph $typeset='body' color='gray'>
+            <Paragraph $typeset='body' color='gray' as='span'>
                 <Amount value={balance} ticker={currency} maxDigits={maxDigits} withTicker />
             </Paragraph>
         </Container>
