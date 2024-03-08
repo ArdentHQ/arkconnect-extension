@@ -13,12 +13,17 @@ export default {
                 3.5: '0.875rem',
                 4.5: '1.125rem',
                 13: '3.25rem',
+                23: '5.75rem',
                 30: '7.5rem',
                 50: '12.5rem',
             },
             boxShadow: {
+                light: '0 1px 4px 0 rgba(0, 0, 0, 0.05)',
+                dark: '0 1px 4px 0 rgba(165, 165, 165, 0.08)',
                 dropdown:
                     '0 4px 6px -2px rgba(16, 24, 40, 0.03), 0 12px 16px -4px rgba(16, 24, 40, 0.08)',
+                'action-details': 'inset 0 0 0 1px  var(--theme-color-secondary-200)',
+                'action-details-dark': 'inset 0 0 0 1px  var(--theme-color-secondary-700)',
             },
         },
         colors: {
