@@ -43,11 +43,8 @@ const ChangeLocalCurrency = () => {
                 {general.currencies.map((currencyItem) => (
                     <SettingsRowItem
                         key={currencyItem.value}
-                        className={currencyItem.value == currency ? 'active' : ''}
+                        active={currencyItem.value === currency}
                         onClick={() => changeCurrency(currencyItem)}
-                        tabIndex={0}
-                        as='button'
-                        width='100%'
                     >
                         <Paragraph $typeset='headline' as='span'>
                             {currencyItem.label}

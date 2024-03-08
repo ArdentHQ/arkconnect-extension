@@ -1,16 +1,7 @@
-import styled from 'styled-components';
 import { ThemeValue } from 'styled-system';
 import classNames from 'classnames';
-import {
-    ArrowButton,
-    CloseButton,
-    Container,
-    FlexContainer,
-    Heading,
-    Layout,
-} from '@/shared/components';
+import { ArrowButton, CloseButton, Container, Heading, Layout } from '@/shared/components';
 import { Theme } from '@/shared/theme';
-import { isFirefox } from '@/lib/utils/isFirefox';
 
 type Props = {
     children: React.ReactNode | React.ReactNode[];
@@ -60,26 +51,29 @@ const SubPageLayout = ({
     );
 };
 
-export const SettingsRowItem = styled(FlexContainer)`
-    padding: 18px 16px;
-    align-items: center;
-    justify-content: space-between;
-    cursor: pointer;
+interface SettingsRowItemProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+    active?: boolean;
+}
 
-    ${({ theme }) => `
-    color: ${theme.colors.base};
-    &.active {
-      color: ${theme.colors.primary};
-      background-color: ${theme.colors.lightGreen};
-      font-weight: ${theme.fontWeights.medium} !important;
-    }
-
-    ${isFirefox ? theme.browserCompatibility.firefox.focus : ''}
-
-    &:hover {
-      background-color: ${theme.colors.lightestGray};
-    }
-  `}
-`;
+export const SettingsRowItem = ({
+    active = false,
+    className,
+    ...properties
+}: SettingsRowItemProps) => {
+    return (
+        <button
+            type='button'
+            className={classNames(
+                'flex w-full items-center justify-between px-4 py-4.5 text-light-black hover:bg-theme-secondary-50 dark:text-white dark:hover:bg-theme-secondary-700',
+                {
+                    'bg-theme-primary-50 font-medium text-theme-primary-700 dark:bg-theme-primary-650/15 dark:text-theme-primary-650':
+                        active,
+                },
+                className,
+            )}
+            {...properties}
+        />
+    );
+};
 
 export default SubPageLayout;
