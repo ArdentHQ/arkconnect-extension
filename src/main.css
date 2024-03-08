@@ -36,7 +36,11 @@ header {
 }
 
 #extension-root {
-    @apply h-full;
+    @apply relative z-0 h-full;
+}
+
+#portal {
+    @apply relative;
 }
 
 .input-correct {
