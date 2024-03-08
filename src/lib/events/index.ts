@@ -51,7 +51,7 @@ export function ExtensionEvents(properties?: ExtensionEventsProperties) {
                 throw new Error('Cannot resolve sessions. Profile is missing');
             }
 
-            const sessions = Object.values(profile.data().get(ProfileData.Sessions) ?? {});
+            const sessions = Object.values(profile.settings().get(ProfileData.Sessions) ?? {});
             const queriedTabs = await tabs.query({});
 
             const sessionTabs = queriedTabs.filter((tab) => {

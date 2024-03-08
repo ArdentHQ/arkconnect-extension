@@ -88,7 +88,7 @@ export const ProfileProvider = ({ children }: Properties) => {
     const updateStore = async ({ profile }: { profile: Contracts.IProfile }) => {
         await updateStoreWallets({ profile });
 
-        const sessions = profile.data().get(ProfileData.Sessions) as
+        const sessions = profile.settings().get(ProfileData.Sessions) as
             | SessionStore.SessionEntries
             | undefined;
 
@@ -105,8 +105,14 @@ export const ProfileProvider = ({ children }: Properties) => {
 
         await dispatch(WalletStore.walletsLoaded(wallets));
 
-        const primaryWalletId = profile.data().get('PRIMARY_WALLET_ID') as string;
-        await dispatch(WalletStore.primaryWalletIdChanged(primaryWalletId));
+        const primaryWallet = profile
+            .wallets()
+            .values()
+            .find((wallet) => wallet.isPrimary());
+
+        if (primaryWallet) {
+            await dispatch(WalletStore.primaryWalletIdChanged(primaryWallet.id()));
+        }
     };
 
     const importProfile = async (profileDump: string): Promise<Contracts.IProfile> => {
