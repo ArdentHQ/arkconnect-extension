@@ -4,10 +4,9 @@ import { useLocation } from 'react-router-dom';
 import classNames from 'classnames';
 import { DisconnectSessionModal } from '../wallet/DisconnectSessionModal';
 import ConnectionLogoImage from './ConnectionLogoImage';
-import useThemeMode from '@/lib/hooks/useThemeMode';
 import { useAppSelector } from '@/lib/store';
 import * as SessionStore from '@/lib/store/session';
-import { Button, FlexContainer, Icon, Paragraph, Tooltip } from '@/shared/components';
+import { Button, Icon, Paragraph, Tooltip } from '@/shared/components';
 import formatDomain from '@/lib/utils/formatDomain';
 import removeWindowInstance from '@/lib/utils/removeWindowInstance';
 import trimAddress from '@/lib/utils/trimAddress';
@@ -17,7 +16,6 @@ import { isFirefox } from '@/lib/utils/isFirefox';
 
 const ConnectionsList = () => {
     const location = useLocation();
-    const { currentThemeMode } = useThemeMode();
     const sessions = useAppSelector(SessionStore.selectSessions);
     const { profile } = useProfileContext();
     const primaryWalletId = useAppSelector(selectPrimaryWalletId);
@@ -171,23 +169,6 @@ const StyledRow = styled.div`
   grid-gap: 12px;
   position: relative;
 `}
-`;
-
-const StyledFlexContainer = styled(FlexContainer)<{ isDark?: boolean }>`
-    cursor: pointer;
-    color: ${({ theme, isDark }) => (isDark ? theme.colors.error500 : theme.colors.error600)};
-    transition: ${({ theme }) =>
-        isFirefox ? theme.transitions.firefoxSmoothEase : theme.transitions.smoothEase};
-    border: none;
-    background: ${({ theme }) => theme.colors.transparent};
-
-    &:hover {
-        ${({ theme, isDark }) => `
-      background-color: ${isDark ? theme.colors.secondary700 : theme.colors.secondary50};
-    `}
-    }
-
-    ${({ theme }) => (isFirefox ? theme.browserCompatibility.firefox.focus : '')}
 `;
 
 const StyledSpan = styled.span`
