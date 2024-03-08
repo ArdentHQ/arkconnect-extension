@@ -153,7 +153,9 @@ const ImportWallets = ({ goToNextStep, formik }: Props) => {
                                     if (isImported) return;
                                     toggleSelect(wallet.path);
                                 }}
-                                onKeyDown={(e) => handleSubmitKeyAction(e, () => toggleSelect(wallet.path))}
+                                onKeyDown={(e) =>
+                                    handleSubmitKeyAction(e, () => toggleSelect(wallet.path))
+                                }
                                 className='cursor-pointer'
                             >
                                 <Tooltip
@@ -173,7 +175,11 @@ const ImportWallets = ({ goToNextStep, formik }: Props) => {
                                             <Paragraph $typeset='headline' fontWeight='medium'>
                                                 {trimAddress(wallet.address, 10)}
                                             </Paragraph>
-                                            <Paragraph $typeset='body' fontWeight='regular' as='span'>
+                                            <Paragraph
+                                                $typeset='body'
+                                                fontWeight='regular'
+                                                as='span'
+                                            >
                                                 <AddressBalance
                                                     balance={wallet.balance ?? 0}
                                                     currency={getNetworkCurrency(network)}
