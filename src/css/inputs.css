@@ -34,7 +34,7 @@
 
     /** Checkbox Input **/
     .checkbox-indicator {
-        @apply absolute top-0 h-5 w-5 rounded-md border border-solid border-theme-primary-700 bg-transparent hover:bg-[#CCEEE0] dark:border-theme-primary-600 dark:hover:bg-theme-primary-900;
+        @apply absolute top-0 h-5 w-5 rounded-md border border-solid border-theme-primary-700 bg-transparent hover:bg-theme-primary-50  dark:border-theme-primary-600 dark:hover:bg-theme-primary-900;
     }
 
     .checkbox-indicator::after {
@@ -70,7 +70,7 @@
     }
 
     [type='checkbox']:not(:disabled):not(:checked) + .checkbox-indicator {
-        @apply group-hover:bg-[#CCEEE0] dark:group-hover:bg-theme-primary-900
+        @apply group-hover:bg-theme-primary-50 dark:group-hover:bg-theme-primary-900
     }
 
     [type='checkbox']:not(:disabled):checked + .checkbox-indicator {
