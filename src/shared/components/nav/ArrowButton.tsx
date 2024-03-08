@@ -37,7 +37,7 @@ export const ArrowButton = ({
             onClick={handleNavigate}
             tabIndex={0}
             as='button'
-            className={disabled ? '' : 'c-pointer'}
+            className={disabled ? '' : 'cursor-pointer'}
         >
             <Icon
                 icon='arrow-left'

@@ -25,6 +25,12 @@ export default {
                 'action-details': 'inset 0 0 0 1px  var(--theme-color-secondary-200)',
                 'action-details-dark': 'inset 0 0 0 1px  var(--theme-color-secondary-700)',
             },
+            maxWidth: {
+                screen: '370px',
+            },
+            width: {
+                screen: '370px',
+            },
         },
         colors: {
             transparent: 'transparent',

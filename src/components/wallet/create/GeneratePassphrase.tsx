@@ -127,7 +127,7 @@ const GeneratePassphrase = ({ goToNextStep, formik }: Props) => {
                 <FlexContainer
                     gridGap='8px'
                     color='primary'
-                    className='c-pointer'
+                    className='cursor-pointer'
                     onClick={copyPassphraseToClipboard}
                     as='button'
                     alignItems='center'

@@ -152,7 +152,7 @@ const ImportWallets = ({ goToNextStep, formik }: Props) => {
                                     if (isImported) return;
                                     toggleSelect(wallet.path);
                                 }}
-                                className='c-pointer'
+                                className='cursor-pointer'
                             >
                                 <Tooltip
                                     disabled={!isImported}
