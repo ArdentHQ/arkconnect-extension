@@ -1,7 +1,6 @@
 import cn from 'classnames';
 import RequestedBy from './RequestedBy';
-import { FlexContainer, Heading, Icon, IconDefinition } from '@/shared/components';
-import useThemeMode from '@/lib/hooks/useThemeMode';
+import { Heading, Icon, IconDefinition } from '@/shared/components';
 
 type Props = {
     appLogo?: string;
@@ -12,23 +11,12 @@ type Props = {
 };
 
 const ActionHeader = ({ appDomain, appLogo, icon, actionLabel, iconClassNames }: Props) => {
-    const { getThemeColor } = useThemeMode();
-
     return (
-        <FlexContainer flexDirection='column' alignItems='center' gridGap='24px' mb='24'>
+        <div className='mb-6 flex flex-col items-center gap-6'>
             <RequestedBy appDomain={appDomain} appLogo={appLogo} />
 
-            <FlexContainer flexDirection='column' alignItems='center' gridGap='12px' px='16'>
-                <FlexContainer
-                    justifyContent='center'
-                    alignItems='center'
-                    width='56px'
-                    height='56px'
-                    backgroundColor={getThemeColor('primary100', 'lightGreen')}
-                    border='1px solid'
-                    borderColor={getThemeColor('primary300', 'primary800')}
-                    borderRadius='16'
-                >
+            <div className='flex flex-col items-center gap-3 px-4'>
+                <div className='flex h-14 w-14 items-center justify-center rounded-2xl border border-solid border-theme-primary-300 bg-theme-primary-100 dark:border-theme-primary-800 dark:bg-theme-primary-650/15'>
                     <Icon
                         icon={icon}
                         className={cn(
@@ -36,13 +24,13 @@ const ActionHeader = ({ appDomain, appLogo, icon, actionLabel, iconClassNames }:
                             iconClassNames,
                         )}
                     />
-                </FlexContainer>
+                </div>
 
                 <Heading $typeset='h3' fontWeight='bold' color='base'>
                     {actionLabel}
                 </Heading>
-            </FlexContainer>
-        </FlexContainer>
+            </div>
+        </div>
     );
 };
 

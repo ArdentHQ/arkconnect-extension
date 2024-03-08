@@ -6,7 +6,7 @@ import { useEnvironmentContext } from '@/lib/context/Environment';
 import { useProfileContext } from '@/lib/context/Profile';
 import formatDomain from '@/lib/utils/formatDomain';
 import removeWindowInstance from '@/lib/utils/removeWindowInstance';
-import { Button, ExternalLink, FlexContainer, Heading, Icon, Paragraph } from '@/shared/components';
+import { Button, ExternalLink, Heading, Icon } from '@/shared/components';
 import RequestedBy from '@/shared/components/actions/RequestedBy';
 
 const TransactionApproved = () => {
@@ -25,46 +25,30 @@ const TransactionApproved = () => {
     }, []);
 
     return (
-        <FlexContainer
-            width='100%'
-            position='fixed'
-            top='0'
-            left='0'
-            zIndex='10'
-            backgroundColor='primaryBackground'
-            $flexVariant='columnCenter'
-        >
+        <div className=' fixed left-0 top-0 z-10 flex w-full flex-col items-center justify-center bg-subtle-white dark:bg-light-black'>
             <RequestedBy appDomain={formatDomain(session.domain) || ''} appLogo={session.logo} />
-            <FlexContainer
-                flexDirection='column'
-                alignItems='center'
-                justifyContent='space-between'
-                width='100%'
-                px='16'
-                pt='24'
-                gridGap='24px'
-            >
-                <FlexContainer
-                    flexDirection='column'
-                    gridGap='24px'
-                    alignItems='center'
-                    width='100%'
-                >
-                    <FlexContainer flexDirection='column' gridGap='16px' alignItems='center'>
+
+            <div className=' flex w-full flex-col items-center justify-between gap-6 px-4 pt-6'>
+                <div className='flex w-full flex-col items-center gap-6'>
+                    <div className='flex flex-col items-center gap-4'>
                         <Icon
                             icon='completed'
                             className='h-16 w-16 text-theme-primary-700 dark:text-theme-primary-650'
                         />
+
                         <Heading $typeset='h3' color='base' fontWeight='bold'>
                             Transaction Approved
                         </Heading>
-                    </FlexContainer>
+                    </div>
+
                     <TransactionApprovedBody />
-                </FlexContainer>
-                <FlexContainer flexDirection='column' gridGap='20px' width='100%'>
+                </div>
+
+                <div className='flex w-full flex-col gap-5'>
                     <Button variant='primary' onClick={onClose}>
                         Close
                     </Button>
+
                     <ExternalLink
                         alignItems='center'
                         justifyContent='center'
@@ -78,14 +62,13 @@ const TransactionApproved = () => {
                         }
                         color='base'
                     >
-                        <Paragraph $typeset='headline' fontWeight='medium' as='span'>
-                            View transaction on ARKScan
-                        </Paragraph>
+                        <span className='font-medium'>View transaction on ARKScan</span>
+
                         <Icon icon='link-external' className='h-5 w-5' />
                     </ExternalLink>
-                </FlexContainer>
-            </FlexContainer>
-        </FlexContainer>
+                </div>
+            </div>
+        </div>
     );
 };
 

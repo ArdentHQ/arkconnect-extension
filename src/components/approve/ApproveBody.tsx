@@ -1,5 +1,5 @@
 import { Contracts } from '@ardenthq/sdk-profiles';
-import { Container, FlexContainer, Paragraph, RowLayout } from '@/shared/components';
+import { RowLayout } from '@/shared/components';
 import trimAddress from '@/lib/utils/trimAddress';
 import { generateWalletHelperText } from '@/lib/utils/generateWalletHelperText';
 
@@ -14,14 +14,14 @@ const ApproveBody = ({ wallet, header, children, error }: Props) => {
     if (!wallet) return <></>;
 
     return (
-        <FlexContainer flexDirection='column' alignItems='center' px='16' flex='1' overflowY='auto'>
-            <Paragraph $typeset='body' fontWeight='medium' color='gray' mb='8'>
+        <div className='flex flex-1 flex-col items-center overflow-y-auto px-4'>
+            <div className=' mb-2 text-sm font-medium text-theme-secondary-500 dark:text-theme-secondary-300'>
                 {header}
-            </Paragraph>
+            </div>
 
             <RowLayout
                 variant='errorFree'
-                color='primary'
+                className='text-theme-primary-700 dark:text-theme-primary-650'
                 iconClassName='text-theme-primary-700 dark:text-theme-primary-650'
                 title={wallet.alias() ? wallet.alias() : trimAddress(wallet.address(), 'long')}
                 helperText={generateWalletHelperText(wallet, false)}
@@ -33,14 +33,13 @@ const ApproveBody = ({ wallet, header, children, error }: Props) => {
             />
 
             {!!error && (
-                <Paragraph $typeset='body' color='error' marginTop='8'>
+                <div className='mt-2 text-sm text-theme-error-600 dark:text-theme-error-500'>
                     {error}
-                </Paragraph>
+                </div>
             )}
-            <Container my='24' width='100%' overflow='auto' className='custom-scroll' height='100%'>
-                {children}
-            </Container>
-        </FlexContainer>
+
+            <div className=' custom-scroll my-6 h-full w-full overflow-auto'>{children}</div>
+        </div>
     );
 };
 

@@ -1,31 +1,18 @@
-import { FlexContainer, Paragraph } from '@/shared/components';
-
 type Props = {
     data: { [key: string]: number | string };
 };
 
 const RequestedSignatureMessage = ({ data }: Props) => {
     return (
-        <FlexContainer width='100%' flexDirection='column' alignItems='center' height='100%'>
-            <Paragraph $typeset='body' fontWeight='medium' color='gray' mb='8'>
+        <div className='flex h-full w-full flex-col items-center'>
+            <div className='mb-2 text-sm font-medium text-theme-secondary-500 dark:text-theme-secondary-300'>
                 Message
-            </Paragraph>
-            <FlexContainer
-                backgroundColor='secondaryBackground'
-                borderRadius='8'
-                border='1px solid'
-                borderColor='lightGrayBackground'
-                padding='12'
-                overflow='auto'
-                width='100%'
-                flex='1'
-                className='custom-scroll'
-            >
-                <Paragraph $typeset='headline' fontWeight='regular' color='base'>
-                    {data.message}
-                </Paragraph>
-            </FlexContainer>
-        </FlexContainer>
+            </div>
+
+            <div className='custom-scroll flex w-full flex-1 overflow-auto rounded-lg border border-solid border-theme-secondary-200 bg-white p-3 text-light-black dark:border-theme-secondary-700 dark:bg-subtle-black dark:text-white'>
+                {data.message}
+            </div>
+        </div>
     );
 };
 
