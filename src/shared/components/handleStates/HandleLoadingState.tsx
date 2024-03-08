@@ -1,4 +1,3 @@
-import { FlexContainer } from '../layout/FlexContainer';
 import { Loader } from '../loader/Loader';
 
 type Props = {
@@ -14,9 +13,9 @@ export const HandleLoadingState = ({ loading, loadingPlaceholder, children }: Pr
                 {loadingPlaceholder ? (
                     loadingPlaceholder
                 ) : (
-                    <FlexContainer justifyContent='center' height='100%' alignItems='center'>
+                    <div className='flex h-full items-center justify-center'>
                         <Loader variant='big' />
-                    </FlexContainer>
+                    </div>
                 )}
             </>
         );

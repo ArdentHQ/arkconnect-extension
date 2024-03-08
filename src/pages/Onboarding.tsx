@@ -52,26 +52,21 @@ const Onboarding = () => {
                         gridGap='24px'
                         paddingX='36'
                     >
-                        <FlexContainer
-                            flexDirection='column'
-                            alignItems='center'
-                            gridGap='24px'
-                            textAlign='center'
-                        >
+                        <div className='flex flex-col items-center gap-6 text-center'>
                             {screen.illustration}
                             {screen.heading}
-                        </FlexContainer>
+                        </div>
                     </SlidingItem>
                 ))}
             </Container>
-            <FlexContainer paddingX='16' flexDirection='column' gridGap='12px'>
+            <div className='flex flex-col gap-3 px-4'>
                 <Button variant='primary' onClick={() => navigate('/wallet/create')}>
                     Create New Address
                 </Button>
                 <Button variant='secondary' onClick={() => navigate('/wallet')}>
                     Import an Address
                 </Button>
-            </FlexContainer>
+            </div>
         </FadeInLayout>
     );
 };
