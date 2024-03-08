@@ -7,7 +7,7 @@ import useThemeMode from '@/lib/hooks/useThemeMode';
 import { useAppSelector } from '@/lib/store';
 import * as SessionStore from '@/lib/store/session';
 import { ThemeMode } from '@/lib/store/ui';
-import { Button, Container, FlexContainer, Icon, Paragraph, Tooltip } from '@/shared/components';
+import { Button, FlexContainer, Icon, Paragraph, Tooltip } from '@/shared/components';
 import formatDomain from '@/lib/utils/formatDomain';
 import removeWindowInstance from '@/lib/utils/removeWindowInstance';
 import trimAddress from '@/lib/utils/trimAddress';
@@ -49,29 +49,18 @@ const ConnectionsList = () => {
     }, [location.state, primaryWalletId, sessions]);
 
     return (
-        <Container>
-            <FlexContainer flexDirection='column' gridGap='8px' mb='8'>
+        <div>
+            <div className='mb-2 flex flex-col gap-2'>
                 {Object.values(sessions).map((session) => {
                     return (
                         <StyledRow key={session.id}>
-                            <FlexContainer
-                                width='40px'
-                                height='40px'
-                                alignItems='center'
-                                justifyContent='center'
-                                borderRadius='50%'
-                                overflow='hidden'
-                                backgroundColor={
-                                    currentThemeMode === ThemeMode.LIGHT ? 'secondary50' : 'black'
-                                }
-                                className='flex-shrink-0'
-                            >
+                            <div className='flex h-10 w-10 flex-shrink-0 items-center justify-center overflow-hidden rounded-full bg-theme-secondary-50 dark:bg-black'>
                                 <ConnectionLogoImage
                                     appLogo={session.logo}
                                     alt={session.domain}
                                     roundCorners
                                 />
-                            </FlexContainer>
+                            </div>
 
                             <div className='flex flex-1 flex-col justify-between'>
                                 <div>
@@ -135,7 +124,7 @@ const ConnectionsList = () => {
                         </StyledRow>
                     );
                 })}
-            </FlexContainer>
+            </div>
             <Button
                 variant='destructiveSecondary'
                 onClick={() => {
@@ -164,7 +153,7 @@ const ConnectionsList = () => {
                     setSessionsToRemove([]);
                 }}
             />
-        </Container>
+        </div>
     );
 };
 
