@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useLocation } from 'react-router-dom';
+import classNames from 'classnames';
 import { DisconnectSessionModal } from '../wallet/DisconnectSessionModal';
 import ConnectionLogoImage from './ConnectionLogoImage';
 import useThemeMode from '@/lib/hooks/useThemeMode';
 import { useAppSelector } from '@/lib/store';
 import * as SessionStore from '@/lib/store/session';
-import { ThemeMode } from '@/lib/store/ui';
 import { Button, FlexContainer, Icon, Paragraph, Tooltip } from '@/shared/components';
 import formatDomain from '@/lib/utils/formatDomain';
 import removeWindowInstance from '@/lib/utils/removeWindowInstance';
@@ -102,24 +102,24 @@ const ConnectionsList = () => {
                             </div>
 
                             <Tooltip content='Disconnect' placement='left'>
-                                <StyledFlexContainer
-                                    isDark={currentThemeMode === ThemeMode.DARK}
-                                    width='32px'
-                                    height='32px'
-                                    alignItems='center'
-                                    justifyContent='center'
-                                    borderRadius='50%'
+                                <button
+                                    type='button'
+                                    className={classNames(
+                                        'flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full text-theme-error-500 hover:bg-theme-secondary-50 dark:text-theme-error-600 dark:hover:bg-theme-secondary-700',
+                                        {
+                                            'transition-smoothEase': !isFirefox,
+                                            'transition-firefoxSmoothEase': isFirefox,
+                                        },
+                                    )}
                                     onClick={() => {
                                         setSessionsToRemove([session]);
                                     }}
-                                    as='button'
-                                    className='flex-shrink-0'
                                 >
                                     <Icon
                                         icon='slash'
                                         className='h-4.5 w-4.5 text-theme-error-600 dark:text-theme-error-500'
                                     />
-                                </StyledFlexContainer>
+                                </button>
                             </Tooltip>
                         </StyledRow>
                     );
