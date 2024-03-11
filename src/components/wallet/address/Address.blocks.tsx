@@ -25,7 +25,7 @@ export const AddressAlias = ({
                     $typeset='headline'
                     fontWeight={isBold ? 'bold' : 'medium'}
                     maxWidth='180px'
-                    color='base'
+                    className='text-light-black dark:text-white'
                     ref={reference}
                 >
                     {alias}

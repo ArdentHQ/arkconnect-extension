@@ -158,7 +158,11 @@ const ApproveWithLedger = ({
                 >
                     {!!address && (
                         <div className='flex justify-center bg-white p-[14px] dark:bg-light-black'>
-                            <Paragraph $typeset='headline' fontWeight='regular' color='base'>
+                            <Paragraph
+                                $typeset='headline'
+                                fontWeight='regular'
+                                className='text-light-black dark:text-white'
+                            >
                                 {trimAddress(address, 'long')}
                             </Paragraph>
                         </div>

@@ -59,7 +59,7 @@ const ImportedWallet = ({ goToNextStep, formik }: Props) => {
                     >
                         Address
                     </Paragraph>
-                    <Paragraph $typeset='headline' color='base'>
+                    <Paragraph $typeset='headline' className='text-light-black dark:text-white'>
                         {formik.values.wallet?.address()}
                     </Paragraph>
                 </div>
@@ -73,7 +73,7 @@ const ImportedWallet = ({ goToNextStep, formik }: Props) => {
                     >
                         Balance
                     </Paragraph>
-                    <Paragraph $typeset='headline' color='base'>
+                    <Paragraph $typeset='headline' className='text-light-black dark:text-white'>
                         {formik.values.wallet?.balance()?.toLocaleString()}{' '}
                         {formik.values.wallet?.currency()}
                     </Paragraph>

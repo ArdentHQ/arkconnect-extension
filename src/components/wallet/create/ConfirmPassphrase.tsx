@@ -90,7 +90,11 @@ const ConfirmPassphrase = ({ goToNextStep, formik }: Props) => {
             <div className='flex flex-1 items-start gap-2.5'>
                 {values.confirmationNumbers?.map((number: number, index: number) => (
                     <div className='flex flex-col items-start gap-1.5' key={index}>
-                        <Paragraph $typeset='headline' fontWeight='medium' color='base'>
+                        <Paragraph
+                            $typeset='headline'
+                            fontWeight='medium'
+                            className='text-light-black dark:text-white'
+                        >
                             {getNumberSuffix(number)} word
                         </Paragraph>
                         <Input

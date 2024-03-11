@@ -73,7 +73,7 @@ const ConnectionsList = () => {
                                         <Paragraph
                                             $typeset='headline'
                                             fontWeight='medium'
-                                            color='base'
+                                            className='text-light-black dark:text-white'
                                         >
                                             {formatDomain(session.domain, false)}
                                         </Paragraph>

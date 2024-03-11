@@ -136,7 +136,7 @@ const Logout = () => {
                             Are you sure you want to remove{' '}
                             <Paragraph
                                 as='span'
-                                color='base'
+                                className='text-light-black dark:text-white'
                                 fontWeight='regular'
                                 $typeset='headline'
                                 display='inline-block'
@@ -183,7 +183,12 @@ const Logout = () => {
                         onClick={() => navigate(-1)}
                         className='mb-0 flex w-full bg-transparent py-0 text-light-black dark:text-white'
                     >
-                        <Paragraph $typeset='headline' fontWeight='medium' color='base' as='span'>
+                        <Paragraph
+                            $typeset='headline'
+                            fontWeight='medium'
+                            className='text-light-black dark:text-white'
+                            as='span'
+                        >
                             Cancel and Go Back
                         </Paragraph>
                     </Button>

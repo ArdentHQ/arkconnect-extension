@@ -2,10 +2,9 @@ import { Link, useLocation } from 'react-router-dom';
 import { useRef, useState } from 'react';
 import cn from 'classnames';
 import FocusTrap from 'focus-trap-react';
-import styled from 'styled-components';
 import { HeaderButton } from './HeaderButton';
 import { HeaderWrapper } from './HeaderWrapper';
-import { Icon, Paragraph } from '@/shared/components';
+import { Icon } from '@/shared/components';
 import { SettingsMenu } from '@/components/settings/SettingsMenu';
 import { AddressesDropdown } from '@/shared/components/header/AddressesDropdown';
 import { ConnectionStatus } from '@/components/wallet/ConnectionStatus';
@@ -16,12 +15,6 @@ import { useAppSelector } from '@/lib/store';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 import { useProfileContext } from '@/lib/context/Profile';
 import { CopyAddress } from '@/components/wallet/CopyAddress';
-
-export const Alias = styled(Paragraph)`
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-`;
 
 export const Header = () => {
     const [openSettings, setOpenSettings] = useState(false);

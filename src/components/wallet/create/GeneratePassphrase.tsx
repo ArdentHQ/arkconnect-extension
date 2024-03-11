@@ -47,7 +47,11 @@ const GeneratePassphrase = ({ goToNextStep, formik }: Props) => {
                 >
                     {index + 1}
                 </Paragraph>
-                <Paragraph $typeset='headline' fontWeight='medium' color='base'>
+                <Paragraph
+                    $typeset='headline'
+                    fontWeight='medium'
+                    className='text-light-black dark:text-white'
+                >
                     {isHidden ? '•'.repeat(wordLength) : word}
                 </Paragraph>
             </div>

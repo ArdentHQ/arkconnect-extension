@@ -117,7 +117,11 @@ const EnterPassword = () => {
                         alignItems='center'
                         color='base'
                     >
-                        <Paragraph $typeset='headline' fontWeight='medium' color='base'>
+                        <Paragraph
+                            $typeset='headline'
+                            fontWeight='medium'
+                            className='text-light-black dark:text-white'
+                        >
                             Forgot Password?
                         </Paragraph>
                     </InternalLink>

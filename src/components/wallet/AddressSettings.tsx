@@ -162,11 +162,11 @@ const AddressRow = ({ address }: { address: Contracts.IReadWriteWallet }) => {
                     {address.network().isTest() && <TestnetIcon />}
                 </div>
 
-                <Paragraph $typeset='body' color='base'>
+                <Paragraph $typeset='body' className='text-light-black dark:text-white'>
                     {address.address()}
                 </Paragraph>
 
-                <Paragraph $typeset='body' color='base'>
+                <Paragraph $typeset='body' className='text-light-black dark:text-white'>
                     <Amount
                         ticker={getNetworkCurrency(address.network())}
                         maxDigits={5}
