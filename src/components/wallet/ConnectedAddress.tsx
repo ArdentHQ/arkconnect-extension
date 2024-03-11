@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { Contracts } from '@ardenthq/sdk-profiles';
-import { Button, Container, FlexContainer, Heading, Paragraph } from '@/shared/components';
+import { Button, Container, Heading, Paragraph } from '@/shared/components';
 import useThemeMode from '@/lib/hooks/useThemeMode';
 import formatDomain from '@/lib/utils/formatDomain';
 import {
@@ -61,16 +61,8 @@ const AddressRow = ({ address, logo }: { address: Contracts.IReadWriteWallet; lo
     const { getThemeColor } = useThemeMode();
 
     return (
-        <FlexContainer
-            gridGap='12'
-            border='1px solid'
-            borderRadius='16'
-            borderColor={getThemeColor('primary600', 'primary650')}
-            backgroundColor={getThemeColor('lightGreen', '#02a86326')}
-            boxShadow='0 1px 4px 0 rgba(0, 0, 0, 0.05)'
-            padding='16'
-        >
-            <Container>
+        <div className='flex gap-3 rounded-2xl border border-solid border-theme-primary-600 bg-theme-primary-50 p-4 shadow-light dark:border-theme-primary-650 dark:bg-theme-primary-650/15'>
+            <div>
                 <ConnectionLogoImage
                     appLogo={logo}
                     appName='Connected'
@@ -80,26 +72,26 @@ const AddressRow = ({ address, logo }: { address: Contracts.IReadWriteWallet; lo
                     width='40px'
                     height='40px'
                 />
-            </Container>
-            <FlexContainer flexDirection='column' gridGap='4'>
-                <FlexContainer gridGap='6' alignItems='center'>
+            </div>
+            <div className='flex flex-col gap-1'>
+                <div className='flex items-center gap-1.5'>
                     <AddressAlias alias={address.alias() ?? ''} />
 
                     {address.isLedger() && <LedgerIcon />}
 
                     {address.network().isTest() && <TestnetIcon />}
-                </FlexContainer>
+                </div>
 
-                <FlexContainer gridGap='6' color='gray' alignItems='center'>
+                <div className='flex items-center gap-1.5 text-theme-secondary-500 dark:text-theme-secondary-300'>
                     <Address address={address.address()} />
                     <div>•</div>
                     <AddressBalance
                         balance={address.balance()}
                         currency={getNetworkCurrency(address.network())}
                     />
-                </FlexContainer>
-            </FlexContainer>
-        </FlexContainer>
+                </div>
+            </div>
+        </div>
     );
 };
 

@@ -1,26 +1,25 @@
-import { ComponentProps } from 'react';
-import { Container, FlexContainer, Header } from '@/shared/components';
+import classNames from 'classnames';
+import { Header } from '@/shared/components';
 
-interface Props extends ComponentProps<typeof Container> {
-    children: React.ReactNode | React.ReactNode[];
+interface Props extends React.HTMLAttributes<HTMLDivElement> {
     withHeader?: boolean;
     className?: string;
 }
 
-export const Layout = ({ children, withHeader = true, className, ...props }: Props) => {
+export const Layout = ({ withHeader = true, className, ...props }: Props) => {
     return (
         <>
             {withHeader && <Header />}
-            <FlexContainer
-                className={className}
-                paddingTop={`${withHeader ? '59' : '0'}`}
-                paddingBottom='16'
-                height='100vh'
-                flexDirection={'column'}
+            <div
+                className={classNames(
+                    'flex h-screen flex-col pb-4',
+                    {
+                        'pt-[59px]': withHeader,
+                    },
+                    className,
+                )}
                 {...props}
-            >
-                {children}
-            </FlexContainer>
+            />
         </>
     );
 };

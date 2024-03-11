@@ -1,7 +1,7 @@
 import { ChangeEvent, KeyboardEvent, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { runtime } from 'webextension-polyfill';
-import { Button, FlexContainer, Paragraph, PasswordInput, WarningIcon } from '@/shared/components';
+import { Button, Paragraph, PasswordInput, WarningIcon } from '@/shared/components';
 import { ValidationVariant } from '@/components/wallet/create';
 import { useAppDispatch, useAppSelector } from '@/lib/store';
 import * as WalletStore from '@/lib/store/wallet';
@@ -125,7 +125,7 @@ const Logout = () => {
             title={`Remove Address${walletsToLogout.length > 1 ? 'es' : ''}`}
             hideCloseButton={false}
         >
-            <FlexContainer height='100%' flexDirection='column'>
+            <div className='flex h-full flex-col'>
                 <Paragraph
                     $typeset='headline'
                     fontWeight='regular'
@@ -152,11 +152,11 @@ const Logout = () => {
                     )}
                 </Paragraph>
 
-                <FlexContainer justifyContent='center' alignContent='center' mt='16'>
+                <div className='mt-4 flex items-center justify-center'>
                     <WarningIcon iconClassName='w-[146px] h-[135px]' />
-                </FlexContainer>
+                </div>
 
-                <FlexContainer mt='24' flexDirection='column' gridGap='6'>
+                <div className='mt-6 flex flex-col gap-1.5'>
                     <Paragraph $typeset='headline' fontWeight='medium' color='labelText'>
                         Enter Password
                     </Paragraph>
@@ -168,9 +168,9 @@ const Logout = () => {
                         value={password}
                         helperText={validationVariant === 'destructive' ? 'Incorrect password' : ''}
                     />
-                </FlexContainer>
+                </div>
 
-                <FlexContainer mt='48' flexDirection='column'>
+                <div className='mt-12 flex flex-col'>
                     <Button
                         variant='destructivePrimary'
                         onClick={logoutWallet}
@@ -187,8 +187,8 @@ const Logout = () => {
                             Cancel and Go Back
                         </Paragraph>
                     </Button>
-                </FlexContainer>
-            </FlexContainer>
+                </div>
+            </div>
         </SubPageLayout>
     );
 };

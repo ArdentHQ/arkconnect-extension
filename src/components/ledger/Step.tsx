@@ -1,4 +1,4 @@
-import { FlexContainer, Paragraph } from '@/shared/components';
+import { Paragraph } from '@/shared/components';
 
 type Props = {
     step: number;
@@ -7,14 +7,7 @@ type Props = {
 
 const Step = ({ step, disabled = false }: Props) => {
     return (
-        <FlexContainer
-            minWidth='24px'
-            minHeight='24px'
-            justifyContent='center'
-            alignItems='center'
-            borderRadius='44'
-            backgroundColor='ledgerStep'
-        >
+        <div className='flex min-h-6 min-w-6 items-center justify-center rounded-[44px] bg-theme-primary-50 dark:bg-theme-secondary-600'>
             <Paragraph
                 $typeset='body'
                 fontWeight='medium'
@@ -22,7 +15,7 @@ const Step = ({ step, disabled = false }: Props) => {
             >
                 {step}
             </Paragraph>
-        </FlexContainer>
+        </div>
     );
 };
 

@@ -1,13 +1,12 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useLocation } from 'react-router-dom';
+import classNames from 'classnames';
 import { DisconnectSessionModal } from '../wallet/DisconnectSessionModal';
 import ConnectionLogoImage from './ConnectionLogoImage';
-import useThemeMode from '@/lib/hooks/useThemeMode';
 import { useAppSelector } from '@/lib/store';
 import * as SessionStore from '@/lib/store/session';
-import { ThemeMode } from '@/lib/store/ui';
-import { Button, Container, FlexContainer, Icon, Paragraph, Tooltip } from '@/shared/components';
+import { Button, Icon, Paragraph, Tooltip } from '@/shared/components';
 import formatDomain from '@/lib/utils/formatDomain';
 import removeWindowInstance from '@/lib/utils/removeWindowInstance';
 import trimAddress from '@/lib/utils/trimAddress';
@@ -17,7 +16,6 @@ import { isFirefox } from '@/lib/utils/isFirefox';
 
 const ConnectionsList = () => {
     const location = useLocation();
-    const { currentThemeMode } = useThemeMode();
     const sessions = useAppSelector(SessionStore.selectSessions);
     const { profile } = useProfileContext();
     const primaryWalletId = useAppSelector(selectPrimaryWalletId);
@@ -49,29 +47,18 @@ const ConnectionsList = () => {
     }, [location.state, primaryWalletId, sessions]);
 
     return (
-        <Container>
-            <FlexContainer flexDirection='column' gridGap='8px' mb='8'>
+        <div>
+            <div className='mb-2 flex flex-col gap-2'>
                 {Object.values(sessions).map((session) => {
                     return (
                         <StyledRow key={session.id}>
-                            <FlexContainer
-                                width='40px'
-                                height='40px'
-                                alignItems='center'
-                                justifyContent='center'
-                                borderRadius='50%'
-                                overflow='hidden'
-                                backgroundColor={
-                                    currentThemeMode === ThemeMode.LIGHT ? 'secondary50' : 'black'
-                                }
-                                className='flex-shrink-0'
-                            >
+                            <div className='flex h-10 w-10 flex-shrink-0 items-center justify-center overflow-hidden rounded-full bg-theme-secondary-50 dark:bg-black'>
                                 <ConnectionLogoImage
                                     appLogo={session.logo}
                                     alt={session.domain}
                                     roundCorners
                                 />
-                            </FlexContainer>
+                            </div>
 
                             <div className='flex flex-1 flex-col justify-between'>
                                 <div>
@@ -113,29 +100,29 @@ const ConnectionsList = () => {
                             </div>
 
                             <Tooltip content='Disconnect' placement='left'>
-                                <StyledFlexContainer
-                                    isDark={currentThemeMode === ThemeMode.DARK}
-                                    width='32px'
-                                    height='32px'
-                                    alignItems='center'
-                                    justifyContent='center'
-                                    borderRadius='50%'
+                                <button
+                                    type='button'
+                                    className={classNames(
+                                        'flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full text-theme-error-500 hover:bg-theme-secondary-50 dark:text-theme-error-600 dark:hover:bg-theme-secondary-700',
+                                        {
+                                            'transition-smoothEase': !isFirefox,
+                                            'transition-firefoxSmoothEase': isFirefox,
+                                        },
+                                    )}
                                     onClick={() => {
                                         setSessionsToRemove([session]);
                                     }}
-                                    as='button'
-                                    className='flex-shrink-0'
                                 >
                                     <Icon
                                         icon='slash'
                                         className='h-4.5 w-4.5 text-theme-error-600 dark:text-theme-error-500'
                                     />
-                                </StyledFlexContainer>
+                                </button>
                             </Tooltip>
                         </StyledRow>
                     );
                 })}
-            </FlexContainer>
+            </div>
             <Button
                 variant='destructiveSecondary'
                 onClick={() => {
@@ -164,7 +151,7 @@ const ConnectionsList = () => {
                     setSessionsToRemove([]);
                 }}
             />
-        </Container>
+        </div>
     );
 };
 
@@ -182,23 +169,6 @@ const StyledRow = styled.div`
   grid-gap: 12px;
   position: relative;
 `}
-`;
-
-const StyledFlexContainer = styled(FlexContainer)<{ isDark?: boolean }>`
-    cursor: pointer;
-    color: ${({ theme, isDark }) => (isDark ? theme.colors.error500 : theme.colors.error600)};
-    transition: ${({ theme }) =>
-        isFirefox ? theme.transitions.firefoxSmoothEase : theme.transitions.smoothEase};
-    border: none;
-    background: ${({ theme }) => theme.colors.transparent};
-
-    &:hover {
-        ${({ theme, isDark }) => `
-      background-color: ${isDark ? theme.colors.secondary700 : theme.colors.secondary50};
-    `}
-    }
-
-    ${({ theme }) => (isFirefox ? theme.browserCompatibility.firefox.focus : '')}
 `;
 
 const StyledSpan = styled.span`

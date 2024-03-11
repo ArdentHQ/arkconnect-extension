@@ -7,19 +7,12 @@ import useThemeMode from '@/lib/hooks/useThemeMode';
 import formatDomain from '@/lib/utils/formatDomain';
 import trimAddress from '@/lib/utils/trimAddress';
 import { ApproveActionType } from '@/pages/Approve';
-import {
-    Container,
-    ContainerWithHover,
-    FlexContainer,
-    Heading,
-    Icon,
-    Loader,
-    Paragraph,
-} from '@/shared/components';
+import { Container, Heading, Icon, Loader, Paragraph } from '@/shared/components';
 import { useVoteForm } from '@/lib/hooks/useVoteForm';
 import { useExchangeRate } from '@/lib/hooks/useExchangeRate';
 import RequestedBy from '@/shared/components/actions/RequestedBy';
 import { useSendTransferForm } from '@/lib/hooks/useSendTransferForm';
+import { NavButton } from '@/shared/components/nav/NavButton';
 
 type Props = {
     actionType: ApproveActionType;
@@ -113,19 +106,14 @@ const ApproveWithLedger = ({
         <Container backgroundColor={getThemeColor('subtleWhite', 'lightBlack')} minHeight='100vh'>
             <RequestedBy appDomain={formatDomain(appName) || ''} appLogo={appLogo} />
             <Container pt='16' px='16'>
-                <FlexContainer
-                    justifyContent='space-between'
-                    alignItems='center'
-                    backgroundColor='primaryBackground'
-                    gridGap='12px'
-                >
-                    <ContainerWithHover borderRadius='50' padding='7' onClick={closeLedgerScreen}>
+                <div className='flex items-center justify-between gap-3 bg-subtle-white dark:bg-light-black'>
+                    <NavButton onClick={closeLedgerScreen}>
                         <Icon
                             icon='arrow-left'
                             className='h-4.5 w-4.5 text-theme-primary-700 dark:text-theme-primary-650'
                         />
-                    </ContainerWithHover>
-                </FlexContainer>
+                    </NavButton>
+                </div>
                 <Heading $typeset='h3' fontWeight='bold' color='base' mb='8' mt='16'>
                     Connect Ledger and Sign The {getActionMessage()} Request
                 </Heading>
@@ -133,7 +121,7 @@ const ApproveWithLedger = ({
                     Connect your Ledger device, launch the ARK app, and carefully review the request
                     on your device before confirming your approval.
                 </Paragraph>
-                <Container mt='24'>
+                <div className='mt-6'>
                     {votingActionTypes.includes(actionType) && (
                         <RequestedVoteBody
                             unvote={unvote}
@@ -157,7 +145,7 @@ const ApproveWithLedger = ({
                             <RequestedSignatureMessage data={state} />
                         </Container>
                     )}
-                </Container>
+                </div>
 
                 <Container
                     border='1px solid'
@@ -168,31 +156,19 @@ const ApproveWithLedger = ({
                     overflow='hidden'
                 >
                     {!!address && (
-                        <FlexContainer
-                            padding='14'
-                            justifyContent='center'
-                            backgroundColor={getThemeColor('secondaryBackground', 'lightBlack')}
-                        >
+                        <div className='flex justify-center bg-white p-[14px] dark:bg-light-black'>
                             <Paragraph $typeset='headline' fontWeight='regular' color='base'>
                                 {trimAddress(address, 'long')}
                             </Paragraph>
-                        </FlexContainer>
+                        </div>
                     )}
-                    <FlexContainer
-                        justifyContent='center'
-                        alignItems='center'
-                        backgroundColor='testNetLabel'
-                        color='warning500'
-                        p='8'
-                        gridGap='8px'
-                        borderBottomRightRadius='16'
-                        borderBottomLeftRadius='16'
-                    >
+
+                    <div className='flex items-center justify-center rounded-b-2xl bg-theme-warning-50 p-2 dark:bg-theme-warning-500/10'>
                         <Loader variant='warning' />
                         <Paragraph $typeset='body' fontWeight='medium'>
                             Waiting for your signature
                         </Paragraph>
-                    </FlexContainer>
+                    </div>
                 </Container>
             </Container>
         </Container>
