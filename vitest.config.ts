@@ -1,5 +1,6 @@
-import { mergeConfig } from 'vite';
 import { configDefaults, defineConfig } from 'vitest/config';
+
+import { mergeConfig } from 'vite';
 import viteConfig from './vite.config';
 
 export default defineConfig((env) => {
@@ -15,11 +16,12 @@ export default defineConfig((env) => {
                 setupFiles: ['./vitest.setup.ts'],
                 coverage: {
                     thresholds: {
-                        lines: 29.99,
-                        functions: 14.75,
-                        branches: 44.58,
-                        statements: 29.99,
+                        lines: 37.97,
+                        functions: 40,
+                        branches: 79.51,
+                        statements: 37.97,
                     },
+                    include: ['src/lib/utils/**'],
                 },
             },
         }),
