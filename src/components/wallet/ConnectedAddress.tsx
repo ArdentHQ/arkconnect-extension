@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import { Contracts } from '@ardenthq/sdk-profiles';
 import { Button, Heading, Paragraph } from '@/shared/components';
-import useThemeMode from '@/lib/hooks/useThemeMode';
 import formatDomain from '@/lib/utils/formatDomain';
 import {
     Address,
@@ -58,19 +57,15 @@ const ConnectedAddress = ({ connectedTo, wallet, logo, onDisconnect }: Propertie
 };
 
 const AddressRow = ({ address, logo }: { address: Contracts.IReadWriteWallet; logo: string }) => {
-    const { getThemeColor } = useThemeMode();
-
     return (
         <div className='flex gap-3 rounded-2xl border border-solid border-theme-primary-600 bg-theme-primary-50 p-4 shadow-light dark:border-theme-primary-650 dark:bg-theme-primary-650/15'>
             <div>
                 <ConnectionLogoImage
                     appLogo={logo}
                     appName='Connected'
-                    borderColor={getThemeColor('primary200', '#296148')}
                     roundCorners
                     withBorder
-                    width='40px'
-                    height='40px'
+                    className='h-10 w-10 border-theme-primary-200 dark:border-[#296148]'
                 />
             </div>
             <div className='flex flex-col gap-1'>
