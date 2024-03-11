@@ -4,7 +4,6 @@ import classNames from 'classnames';
 import RequestedVoteBody from '../approve/RequestedVoteBody';
 import RequestedTransactionBody from '../approve/RequestedTransactionBody';
 import RequestedSignatureMessage from '../approve/RequestedSignatureMessage';
-import useThemeMode from '@/lib/hooks/useThemeMode';
 import formatDomain from '@/lib/utils/formatDomain';
 import trimAddress from '@/lib/utils/trimAddress';
 import { ApproveActionType } from '@/pages/Approve';
@@ -32,7 +31,6 @@ const ApproveWithLedger = ({
     closeLedgerScreen,
     wallet,
 }: Props) => {
-    const { getThemeColor } = useThemeMode();
     const location = useLocation();
     const { state } = location;
     const { session, amount, receiverAddress } = state;
