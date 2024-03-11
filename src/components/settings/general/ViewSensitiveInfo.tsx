@@ -90,7 +90,11 @@ const ViewSensitiveInfo = () => {
     return (
         <SubPageLayout title={texts[infoType].title} hideCloseButton={false} noPaddingBottom>
             <div className='flex h-full flex-col'>
-                <Paragraph $typeset='headline' color='gray' mb='24'>
+                <Paragraph
+                    $typeset='headline'
+                    className='text-theme-secondary-500 dark:text-theme-secondary-300'
+                    mb='24'
+                >
                     {texts[infoType].description}
                 </Paragraph>
                 <div className='flex flex-1 flex-col justify-between'>

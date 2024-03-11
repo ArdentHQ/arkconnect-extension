@@ -78,10 +78,14 @@ const ConfirmPassphrase = ({ goToNextStep, formik }: Props) => {
                 {selectedNetwork.isTest() && <TestnetIcon />}
             </div>
 
-            <p className='typeset-headline mb-4'>
+            <Paragraph
+                $typeset='headline'
+                className='text-theme-secondary-500 dark:text-theme-secondary-300'
+                mb='16'
+            >
                 Confirm that you’ve saved your secret passphrase by correctly entering the word in
                 the designated input field below.
-            </p>
+            </Paragraph>
 
             <div className='flex flex-1 items-start gap-2.5'>
                 {values.confirmationNumbers?.map((number: number, index: number) => (

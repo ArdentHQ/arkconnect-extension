@@ -40,7 +40,11 @@ const GeneratePassphrase = ({ goToNextStep, formik }: Props) => {
                 })}
                 key={index}
             >
-                <Paragraph $typeset='body' color='gray' width='auto'>
+                <Paragraph
+                    $typeset='body'
+                    className='text-theme-secondary-500 dark:text-theme-secondary-300'
+                    width='auto'
+                >
                     {index + 1}
                 </Paragraph>
                 <Paragraph $typeset='headline' fontWeight='medium' color='base'>
@@ -58,9 +62,13 @@ const GeneratePassphrase = ({ goToNextStep, formik }: Props) => {
                 </Heading>
                 {selectedNetwork.isTest() && <TestnetIcon />}
             </div>
-            <p className='typeset-headline mb-4'>
+            <Paragraph
+                $typeset='headline'
+                className='text-theme-secondary-500 dark:text-theme-secondary-300'
+                mb='16'
+            >
                 Write down or copy your passphrase. Make sure to store it safely.
-            </p>
+            </Paragraph>
             {formik.values.passphrase && (
                 <div className='mb-4 max-h-[226px] rounded-lg border border-solid border-theme-secondary-100 bg-white p-3 dark:border-theme-secondary-400 dark:bg-subtle-black'>
                     <Grid gridGap='10px' gridTemplateColumns='repeat(3, 1fr)'>

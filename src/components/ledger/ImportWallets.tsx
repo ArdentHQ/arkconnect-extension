@@ -122,7 +122,12 @@ const ImportWallets = ({ goToNextStep, formik }: Props) => {
             <Heading $typeset='h3' fontWeight='bold' color='base' mb='8' px='24'>
                 Select Addresses to Import
             </Heading>
-            <Paragraph $typeset='body' color='gray' mb='24' px='24'>
+            <Paragraph
+                $typeset='body'
+                className='text-theme-secondary-500 dark:text-theme-secondary-300'
+                mb='24'
+                px='24'
+            >
                 Multiple addresses can be imported too!
             </Paragraph>
             <div className='custom-scroll h-[260px] max-h-[260px] overflow-y-scroll border-b border-t border-solid border-b-theme-secondary-200 border-t-theme-secondary-200 dark:border-b-theme-secondary-700 dark:border-t-theme-secondary-700'>

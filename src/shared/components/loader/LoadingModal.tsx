@@ -29,7 +29,7 @@ const LoadingModal = () => {
                                     maxWidth='243px'
                                     mt='8'
                                     fontWeight='regular'
-                                    color='gray'
+                                    className='text-theme-secondary-500 dark:text-theme-secondary-300'
                                     textAlign='center'
                                 >
                                     {completedDescription}

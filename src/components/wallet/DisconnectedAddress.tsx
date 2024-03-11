@@ -9,7 +9,12 @@ const DisconnectedAddress = () => {
                 </Heading>
             </div>
 
-            <Paragraph $typeset='headline' fontWeight='regular' color='gray' marginTop='6'>
+            <Paragraph
+                $typeset='headline'
+                fontWeight='regular'
+                className='text-theme-secondary-500 dark:text-theme-secondary-300'
+                marginTop='6'
+            >
                 ARK Connect is currently not linked to this website. To establish a connection with
                 a Web3 site, locate and click on the connect button.
             </Paragraph>

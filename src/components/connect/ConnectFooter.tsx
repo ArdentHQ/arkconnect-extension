@@ -7,7 +7,12 @@ type ConnectFooterProps = {
 const ConnectFooter = ({ onSubmit, onCancel }: ConnectFooterProps) => {
     return (
         <div className='px-4'>
-            <Paragraph $typeset='headline' fontWeight='regular' color='gray' mb='32'>
+            <Paragraph
+                $typeset='headline'
+                fontWeight='regular'
+                mb='32'
+                className='text-theme-secondary-500 dark:text-theme-secondary-300'
+            >
                 It can see your address, balance, activity, and can send requests for transactions.
                 It cannot access your funds without your approval.
             </Paragraph>

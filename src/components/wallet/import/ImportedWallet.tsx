@@ -42,12 +42,21 @@ const ImportedWallet = ({ goToNextStep, formik }: Props) => {
             <Heading $typeset='h3' fontWeight='bold' color='base' mb='8'>
                 Address Imported Successfully!
             </Heading>
-            <Paragraph $typeset='headline' color='gray' mb='24'>
+            <Paragraph
+                $typeset='headline'
+                className='text-theme-secondary-500 dark:text-theme-secondary-300'
+                mb='24'
+            >
                 Your address details are shown below.
             </Paragraph>
             <div>
                 <div className=' mb-4 border-b border-solid border-b-theme-secondary-200 pb-4 dark:border-b-theme-secondary-600'>
-                    <Paragraph $typeset='body' fontWeight='medium' mb='8' color='gray'>
+                    <Paragraph
+                        $typeset='body'
+                        fontWeight='medium'
+                        mb='8'
+                        className='text-theme-secondary-500 dark:text-theme-secondary-300'
+                    >
                         Address
                     </Paragraph>
                     <Paragraph $typeset='headline' color='base'>
@@ -56,7 +65,12 @@ const ImportedWallet = ({ goToNextStep, formik }: Props) => {
                 </div>
 
                 <div className=' mb-4 border-b border-solid border-b-theme-secondary-200 pb-4 dark:border-b-theme-secondary-600'>
-                    <Paragraph $typeset='body' fontWeight='medium' mb='8' color='gray'>
+                    <Paragraph
+                        $typeset='body'
+                        fontWeight='medium'
+                        mb='8'
+                        className='text-theme-secondary-500 dark:text-theme-secondary-300'
+                    >
                         Balance
                     </Paragraph>
                     <Paragraph $typeset='headline' color='base'>

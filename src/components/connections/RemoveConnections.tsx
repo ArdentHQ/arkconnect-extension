@@ -19,14 +19,19 @@ const RemoveConnections = ({ numberOfSessions, sessionDomain }: Props) => {
             </Heading>
 
             <div className='mt-2'>
-                <Paragraph $typeset='headline' fontWeight='regular' color='gray' display='inline'>
+                <Paragraph
+                    $typeset='headline'
+                    fontWeight='regular'
+                    display='inline'
+                    className='text-theme-secondary-500 dark:text-theme-secondary-300'
+                >
                     Are you certain you want to disconnect
                     {hasMultipleSessions ? ' all ' : ' your connection with '}
                 </Paragraph>
                 <Paragraph
                     $typeset='headline'
                     fontWeight='regular'
-                    color='gray'
+                    className='text-theme-secondary-500 dark:text-theme-secondary-300'
                     display='inline'
                     as='span'
                 >

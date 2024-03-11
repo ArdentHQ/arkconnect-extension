@@ -34,7 +34,7 @@ const SelectNetworkTypeModal = ({ onNetworkSelect, onClose, action = 'create' }:
                     <Paragraph
                         $typeset='headline'
                         fontWeight='regular'
-                        color='gray'
+                        className='text-theme-secondary-500 dark:text-theme-secondary-300'
                         mt='8'
                         display='inline'
                     >

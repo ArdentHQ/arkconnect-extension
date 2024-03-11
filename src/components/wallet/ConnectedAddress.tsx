@@ -39,7 +39,12 @@ const ConnectedAddress = ({ connectedTo, wallet, logo, onDisconnect }: Propertie
                     </Heading>
                 </ConnectionStatusTitle>
 
-                <Paragraph $typeset='headline' fontWeight='regular' color='gray' marginTop='6'>
+                <Paragraph
+                    $typeset='headline'
+                    fontWeight='regular'
+                    className='text-theme-secondary-500 dark:text-theme-secondary-300'
+                    marginTop='6'
+                >
                     The following address is currently connected to{' '}
                     <ConnectedSite>{formatDomain(connectedTo, false)}</ConnectedSite>
                 </Paragraph>
