@@ -32,26 +32,15 @@ export const ProfileProvider = ({ children }: Properties) => {
     const [isProfileReady, setIsProfileReady] = useState<boolean>(false);
     const [profile, setProfile] = useState<Contracts.IProfile | undefined>(undefined);
 
-    const primaryWalletId = useAppSelector(WalletStore.selectPrimaryWalletId);
-
     useEffect(() => {
         void initProfile();
     }, []);
 
     const getPrimaryWallet = () => {
-        if (isLoading || !primaryWalletId) {
-            return undefined;
-        }
-
-        let primaryWallet;
-
-        try {
-            primaryWallet = profile?.wallets().findById(primaryWalletId);
-        } catch (_e) {
-            primaryWallet = undefined;
-        }
-
-        return primaryWallet;
+        return profile
+            ?.wallets()
+            .values()
+            .find((wallet) => wallet.isPrimary());
     };
 
     const convertedBalance = useWalletBalance(getPrimaryWallet());
@@ -67,7 +56,7 @@ export const ProfileProvider = ({ children }: Properties) => {
 
     const restoreProfile = async () => {
         try {
-            const { data, profileData } = await runtime.sendMessage({
+            const { data } = await runtime.sendMessage({
                 type: 'GET_DATA',
             });
 
@@ -77,7 +66,6 @@ export const ProfileProvider = ({ children }: Properties) => {
             }
 
             const profile = await importProfile(data);
-            profile.data().fill(profileData);
 
             await updateStore({ profile });
         } catch (error) {
