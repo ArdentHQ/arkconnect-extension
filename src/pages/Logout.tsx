@@ -127,18 +127,17 @@ const Logout = () => {
         >
             <div className='flex h-full flex-col'>
                 <Paragraph
-                    $typeset='headline'
                     fontWeight='regular'
                     color={getThemeColor('secondary500', 'secondary300')}
+                    className='typeset-headline'
                 >
                     {walletsToLogout && walletsToLogout.length > 1 ? (
-                        <Paragraph as='span' $typeset='headline'>
+                        <Paragraph as='span' className='typeset-headline'>
                             Are you sure you want to remove{' '}
                             <Paragraph
                                 as='span'
-                                className='text-light-black dark:text-white'
+                                className='typeset-headline text-light-black dark:text-white'
                                 fontWeight='regular'
-                                $typeset='headline'
                                 display='inline-block'
                             >
                                 {walletsToLogout.length} addresses?
@@ -157,7 +156,7 @@ const Logout = () => {
                 </div>
 
                 <div className='mt-6 flex flex-col gap-1.5'>
-                    <Paragraph $typeset='headline' fontWeight='medium' color='labelText'>
+                    <Paragraph fontWeight='medium' color='labelText' className='typeset-headline'>
                         Enter Password
                     </Paragraph>
                     <PasswordInput
@@ -184,9 +183,8 @@ const Logout = () => {
                         className='mb-0 flex w-full bg-transparent py-0 text-light-black dark:text-white'
                     >
                         <Paragraph
-                            $typeset='headline'
                             fontWeight='medium'
-                            className='text-light-black dark:text-white'
+                            className='typeset-headline text-light-black dark:text-white'
                             as='span'
                         >
                             Cancel and Go Back

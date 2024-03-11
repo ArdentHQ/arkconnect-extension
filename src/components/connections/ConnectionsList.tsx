@@ -71,9 +71,8 @@ const ConnectionsList = () => {
                                         placement='top'
                                     >
                                         <Paragraph
-                                            $typeset='headline'
                                             fontWeight='medium'
-                                            className='text-light-black dark:text-white'
+                                            className='typeset-headline text-light-black dark:text-white'
                                         >
                                             {formatDomain(session.domain, false)}
                                         </Paragraph>

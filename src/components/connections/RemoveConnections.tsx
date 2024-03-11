@@ -20,25 +20,22 @@ const RemoveConnections = ({ numberOfSessions, sessionDomain }: Props) => {
 
             <div className='mt-2'>
                 <Paragraph
-                    $typeset='headline'
                     fontWeight='regular'
                     display='inline'
-                    className='text-theme-secondary-500 dark:text-theme-secondary-300'
+                    className='typeset-headline text-theme-secondary-500 dark:text-theme-secondary-300'
                 >
                     Are you certain you want to disconnect
                     {hasMultipleSessions ? ' all ' : ' your connection with '}
                 </Paragraph>
                 <Paragraph
-                    $typeset='headline'
                     fontWeight='regular'
-                    className='text-theme-secondary-500 dark:text-theme-secondary-300'
+                    className='typeset-headline text-theme-secondary-500 dark:text-theme-secondary-300'
                     display='inline'
                     as='span'
                 >
                     {sessionDomain && numberOfSessions === 1 ? (
                         <Paragraph
-                            $typeset='headline'
-                            className='text-light-black dark:text-white'
+                            className='typeset-headline text-light-black dark:text-white'
                             display='inline'
                         >
                             <StyledDomain>{sessionDomain}</StyledDomain>
@@ -46,9 +43,8 @@ const RemoveConnections = ({ numberOfSessions, sessionDomain }: Props) => {
                     ) : (
                         <>
                             <Paragraph
-                                $typeset='headline'
                                 fontWeight='medium'
-                                className='text-light-black dark:text-white'
+                                className='typeset-headline text-light-black dark:text-white'
                                 display='inline'
                             >
                                 {numberOfSessions}

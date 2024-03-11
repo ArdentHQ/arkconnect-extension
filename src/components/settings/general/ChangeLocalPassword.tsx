@@ -84,9 +84,8 @@ const ChangeLocalPassword = () => {
         <SubPageLayout title='Change Local Password'>
             <div className='flex h-full flex-1 flex-col justify-between'>
                 <Paragraph
-                    $typeset='headline'
                     fontWeight='regular'
-                    className='text-theme-secondary-500 dark:text-theme-secondary-300'
+                    className='typeset-headline text-theme-secondary-500 dark:text-theme-secondary-300'
                     mb='24'
                 >
                     Change password for your wallet. Your password is only stored locally.

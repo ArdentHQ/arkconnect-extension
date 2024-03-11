@@ -14,9 +14,9 @@ const ForgotPassword = () => {
         <SubPageLayout title='Forgot Password?' onBack='goBack' noPaddingBottom>
             <div className='flex h-full flex-col justify-between'>
                 <Paragraph
-                    $typeset='headline'
                     fontWeight='regular'
                     color={getThemeColor('secondary500', 'secondary300')}
+                    className='typeset-headline'
                 >
                     Unfortunately there is no recovery method available other than resetting the
                     extension and re-importing your address(es). Ensure that you have your

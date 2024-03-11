@@ -75,7 +75,11 @@ const EnterPassword = () => {
                             'mb-11': validationVariant !== 'destructive',
                         })}
                     >
-                        <Paragraph $typeset='headline' fontWeight='medium' color='labelText'>
+                        <Paragraph
+                            fontWeight='medium'
+                            color='labelText'
+                            className='typeset-headline'
+                        >
                             Enter Password to Unlock
                         </Paragraph>
                         <PasswordInput
@@ -118,9 +122,8 @@ const EnterPassword = () => {
                         color='base'
                     >
                         <Paragraph
-                            $typeset='headline'
                             fontWeight='medium'
-                            className='text-light-black dark:text-white'
+                            className='typeset-headline text-light-black dark:text-white'
                         >
                             Forgot Password?
                         </Paragraph>

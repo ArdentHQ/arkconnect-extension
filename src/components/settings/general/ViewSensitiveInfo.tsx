@@ -91,8 +91,7 @@ const ViewSensitiveInfo = () => {
         <SubPageLayout title={texts[infoType].title} hideCloseButton={false} noPaddingBottom>
             <div className='flex h-full flex-col'>
                 <Paragraph
-                    $typeset='headline'
-                    className='text-theme-secondary-500 dark:text-theme-secondary-300'
+                    className='typeset-headline text-theme-secondary-500 dark:text-theme-secondary-300'
                     mb='24'
                 >
                     {texts[infoType].description}

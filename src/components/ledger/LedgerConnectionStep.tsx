@@ -101,8 +101,7 @@ export const LedgerConnectionStep = ({
                         <Step step={index + 1} />
                         <Paragraph
                             fontWeight='regular'
-                            $typeset='headline'
-                            color='base'
+                            className='typeset-headline text-light-black dark:text-white'
                             mb={index !== connectSteps.length - 1 ? '12' : '0'}
                         >
                             {step}
@@ -119,7 +118,7 @@ export const LedgerConnectionStep = ({
                 className='flex w-full items-center justify-center gap-3 text-theme-primary-700 dark:text-theme-primary-650'
                 href={`mailto:${constants.SUPPORT_EMAIL}?subject=ARK%20Connect%20Support%20Ledger`}
             >
-                <Paragraph $typeset='headline' fontWeight='medium'>
+                <Paragraph className='typeset-headline' fontWeight='medium'>
                     Support Email
                 </Paragraph>
                 <Icon icon='link-external' className='h-5 w-5' />

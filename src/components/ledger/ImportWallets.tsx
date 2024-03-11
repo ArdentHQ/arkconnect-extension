@@ -172,7 +172,10 @@ const ImportWallets = ({ goToNextStep, formik }: Props) => {
                                         )}
                                     >
                                         <div className='flex flex-col gap-1'>
-                                            <Paragraph $typeset='headline' fontWeight='medium'>
+                                            <Paragraph
+                                                fontWeight='medium'
+                                                className='typeset-headline'
+                                            >
                                                 {trimAddress(wallet.address, 10)}
                                             </Paragraph>
                                             <Paragraph

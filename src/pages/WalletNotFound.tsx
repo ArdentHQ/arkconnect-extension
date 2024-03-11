@@ -7,11 +7,11 @@ const WalletNotFound = () => {
                 <div className='flex max-w-[210px] flex-col items-center justify-center'>
                     <EmptyConnectionsIcon />
                     <Paragraph
-                        $typeset='headline'
                         fontWeight='regular'
                         color='base'
                         mt='24'
                         textAlign='center'
+                        className='typeset-headline text-light-black dark:text-white'
                     >
                         You don&apos;t have any wallet imported in ARK Connect! <br />
                         Please create or import a wallet first!

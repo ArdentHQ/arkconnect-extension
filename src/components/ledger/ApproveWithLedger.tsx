@@ -117,9 +117,8 @@ const ApproveWithLedger = ({
                     Connect Ledger and Sign The {getActionMessage()} Request
                 </Heading>
                 <Paragraph
-                    $typeset='headline'
                     fontWeight='regular'
-                    className='text-theme-secondary-500 dark:text-theme-secondary-300'
+                    className='typeset-headline text-theme-secondary-500 dark:text-theme-secondary-300'
                 >
                     Connect your Ledger device, launch the ARK app, and carefully review the request
                     on your device before confirming your approval.
@@ -159,9 +158,8 @@ const ApproveWithLedger = ({
                     {!!address && (
                         <div className='flex justify-center bg-white p-[14px] dark:bg-light-black'>
                             <Paragraph
-                                $typeset='headline'
                                 fontWeight='regular'
-                                className='text-light-black dark:text-white'
+                                className='typeset-headline text-light-black dark:text-white'
                             >
                                 {trimAddress(address, 'long')}
                             </Paragraph>

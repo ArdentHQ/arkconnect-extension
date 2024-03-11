@@ -61,7 +61,7 @@ const VoteApproved = () => {
                         }
                         color='base'
                     >
-                        <Paragraph $typeset='headline' fontWeight='medium' as='span'>
+                        <Paragraph fontWeight='medium' as='span' className='typeset-headline'>
                             View transaction on ARKScan
                         </Paragraph>
                         <Icon icon='link-external' className='h-5 w-5' />

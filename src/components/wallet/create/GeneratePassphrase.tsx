@@ -48,9 +48,8 @@ const GeneratePassphrase = ({ goToNextStep, formik }: Props) => {
                     {index + 1}
                 </Paragraph>
                 <Paragraph
-                    $typeset='headline'
                     fontWeight='medium'
-                    className='text-light-black dark:text-white'
+                    className='typeset-headline text-light-black dark:text-white'
                 >
                     {isHidden ? '•'.repeat(wordLength) : word}
                 </Paragraph>
@@ -67,8 +66,7 @@ const GeneratePassphrase = ({ goToNextStep, formik }: Props) => {
                 {selectedNetwork.isTest() && <TestnetIcon />}
             </div>
             <Paragraph
-                $typeset='headline'
-                className='text-theme-secondary-500 dark:text-theme-secondary-300'
+                className='typeset-headline text-theme-secondary-500 dark:text-theme-secondary-300'
                 mb='16'
             >
                 Write down or copy your passphrase. Make sure to store it safely.
@@ -120,11 +118,11 @@ const GeneratePassphrase = ({ goToNextStep, formik }: Props) => {
                     </span>
 
                     <Paragraph
-                        $typeset='headline'
                         fontWeight='medium'
                         as='span'
                         style={{ lineHeight: '18px' }}
                         display='inline-block'
+                        className='typeset-headline'
                     >
                         Copy
                     </Paragraph>

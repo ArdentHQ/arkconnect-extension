@@ -15,7 +15,7 @@ const Balance = ({ balance, currency, exchangeCurrency, convertedBalance }: Bala
                 <Amount value={balance} ticker={currency} />
             </Heading>
             {convertedBalance !== undefined && (
-                <Paragraph $typeset='headline' fontWeight='medium'>
+                <Paragraph className='typeset-headline' fontWeight='medium'>
                     <Amount value={convertedBalance} ticker={exchangeCurrency} withTicker />
                 </Paragraph>
             )}

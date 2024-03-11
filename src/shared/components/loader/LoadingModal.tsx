@@ -25,11 +25,10 @@ const LoadingModal = () => {
                             </Heading>
                             {completedDescription && (
                                 <Paragraph
-                                    $typeset='headline'
                                     maxWidth='243px'
                                     mt='8'
                                     fontWeight='regular'
-                                    className='text-theme-secondary-500 dark:text-theme-secondary-300'
+                                    className='typeset-headline text-theme-secondary-500 dark:text-theme-secondary-300'
                                     textAlign='center'
                                 >
                                     {completedDescription}

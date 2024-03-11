@@ -56,8 +56,7 @@ const EditAddressName = () => {
         <SubPageLayout title='Edit Address Name' hideCloseButton={false}>
             <div className='flex h-full flex-col'>
                 <Paragraph
-                    $typeset='headline'
-                    className='text-theme-secondary-500 dark:text-theme-secondary-300'
+                    className='typeset-headline text-theme-secondary-500 dark:text-theme-secondary-300'
                     mb='24'
                 >
                     Name your address so you can identify it later. This name is only stored

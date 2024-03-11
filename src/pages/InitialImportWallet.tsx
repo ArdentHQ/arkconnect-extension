@@ -19,10 +19,10 @@ const InitialImportWallet = () => {
     return (
         <SubPageLayout title='Import an Existing Address' onBack='goBack'>
             <Paragraph
-                $typeset='headline'
                 fontWeight='regular'
                 marginBottom='24'
                 color={getThemeColor('secondary500', 'secondary300')}
+                className='typeset-headline'
             >
                 Select an option below that you would like to proceed with...
             </Paragraph>

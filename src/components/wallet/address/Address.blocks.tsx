@@ -22,10 +22,9 @@ export const AddressAlias = ({
         <div>
             <Tooltip content={alias} placement='top' disabled={!withTooltip || !isTruncated}>
                 <Alias
-                    $typeset='headline'
                     fontWeight={isBold ? 'bold' : 'medium'}
                     maxWidth='180px'
-                    className='text-light-black dark:text-white'
+                    className='typeset-headline text-light-black dark:text-white'
                     ref={reference}
                 >
                     {alias}

@@ -79,8 +79,7 @@ const ConfirmPassphrase = ({ goToNextStep, formik }: Props) => {
             </div>
 
             <Paragraph
-                $typeset='headline'
-                className='text-theme-secondary-500 dark:text-theme-secondary-300'
+                className='typeset-headline text-theme-secondary-500 dark:text-theme-secondary-300'
                 mb='16'
             >
                 Confirm that you’ve saved your secret passphrase by correctly entering the word in
@@ -91,9 +90,8 @@ const ConfirmPassphrase = ({ goToNextStep, formik }: Props) => {
                 {values.confirmationNumbers?.map((number: number, index: number) => (
                     <div className='flex flex-col items-start gap-1.5' key={index}>
                         <Paragraph
-                            $typeset='headline'
                             fontWeight='medium'
-                            className='text-light-black dark:text-white'
+                            className='typeset-headline text-light-black dark:text-white'
                         >
                             {getNumberSuffix(number)} word
                         </Paragraph>

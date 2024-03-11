@@ -10,9 +10,8 @@ const DisconnectedAddress = () => {
             </div>
 
             <Paragraph
-                $typeset='headline'
                 fontWeight='regular'
-                className='text-theme-secondary-500 dark:text-theme-secondary-300'
+                className='typeset-headline text-theme-secondary-500 dark:text-theme-secondary-300'
                 marginTop='6'
             >
                 ARK Connect is currently not linked to this website. To establish a connection with

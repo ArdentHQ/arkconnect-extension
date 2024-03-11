@@ -193,8 +193,7 @@ const EnterPassphrase = ({ goToNextStep, formik }: Props) => {
                 {selectedNetwork.isTest() && <TestnetIcon />}
             </div>
             <Paragraph
-                $typeset='headline'
-                className='text-theme-secondary-500 dark:text-theme-secondary-300'
+                className='typeset-headline text-theme-secondary-500 dark:text-theme-secondary-300'
                 mb='24'
             >
                 Enter your 12 or 24-word passphrase that you were given when you created the

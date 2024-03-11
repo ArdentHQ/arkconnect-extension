@@ -40,9 +40,8 @@ const ConnectedAddress = ({ connectedTo, wallet, logo, onDisconnect }: Propertie
                 </ConnectionStatusTitle>
 
                 <Paragraph
-                    $typeset='headline'
                     fontWeight='regular'
-                    className='text-theme-secondary-500 dark:text-theme-secondary-300'
+                    className='typeset-headline text-theme-secondary-500 dark:text-theme-secondary-300'
                     marginTop='6'
                 >
                     The following address is currently connected to{' '}

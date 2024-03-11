@@ -43,8 +43,7 @@ const ImportedWallet = ({ goToNextStep, formik }: Props) => {
                 Address Imported Successfully!
             </Heading>
             <Paragraph
-                $typeset='headline'
-                className='text-theme-secondary-500 dark:text-theme-secondary-300'
+                className='typeset-headline text-theme-secondary-500 dark:text-theme-secondary-300'
                 mb='24'
             >
                 Your address details are shown below.
@@ -59,7 +58,7 @@ const ImportedWallet = ({ goToNextStep, formik }: Props) => {
                     >
                         Address
                     </Paragraph>
-                    <Paragraph $typeset='headline' className='text-light-black dark:text-white'>
+                    <Paragraph className='typeset-headline text-light-black dark:text-white'>
                         {formik.values.wallet?.address()}
                     </Paragraph>
                 </div>
@@ -73,7 +72,7 @@ const ImportedWallet = ({ goToNextStep, formik }: Props) => {
                     >
                         Balance
                     </Paragraph>
-                    <Paragraph $typeset='headline' className='text-light-black dark:text-white'>
+                    <Paragraph className='typeset-headline text-light-black dark:text-white'>
                         {formik.values.wallet?.balance()?.toLocaleString()}{' '}
                         {formik.values.wallet?.currency()}
                     </Paragraph>
