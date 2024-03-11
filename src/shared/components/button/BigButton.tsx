@@ -36,9 +36,15 @@ export const BigButton = ({
 
                 <span className='flex w-full items-center justify-between'>
                     <span className='flex w-full flex-col items-start gap-2'>
-                        {title && <span className='typeset-heading font-medium text-subtle-black dark:text-white'>{title}</span>}
+                        {title && (
+                            <span className='typeset-heading font-medium text-subtle-black dark:text-white'>
+                                {title}
+                            </span>
+                        )}
                         {helperText && (
-                            <span className='typeset-body text-left font-normal text-theme-secondary-600 dark:text-theme-secondary-300'>{helperText}</span>
+                            <span className='typeset-body text-left font-normal text-theme-secondary-600 dark:text-theme-secondary-300'>
+                                {helperText}
+                            </span>
                         )}
                     </span>
 
