@@ -35,11 +35,8 @@ const AboutARK = () => {
             </div>
 
             <div className='flex flex-col gap-2 text-light-black dark:text-white'>
-                <StyledExternalLink
-                    alignItems='center'
-                    display='flex'
-                    justifyContent='space-between'
-                    width='100%'
+                <ExternalLink
+                    className='flex items-center justify-between w-full rounded-2xl'
                     href={`mailto:${constants.SUPPORT_EMAIL}?subject=ARK%20Connect`}
                 >
                     <RowLayout title='Support Email' iconTrailing='link-external' tabIndex={-1}>
@@ -54,13 +51,10 @@ const AboutARK = () => {
                             />
                         </CopyButton>
                     </RowLayout>
-                </StyledExternalLink>
+                </ExternalLink>
 
-                <StyledExternalLink
-                    alignItems='center'
-                    display='flex'
-                    justifyContent='space-between'
-                    width='100%'
+                <ExternalLink
+                    className='flex items-center justify-between w-full rounded-2xl'
                     href={constants.ARK_CONNECT}
                     target='_blank'
                     rel='noopener noreferrer'
@@ -70,12 +64,9 @@ const AboutARK = () => {
                         iconTrailing='link-external'
                         tabIndex={-1}
                     />
-                </StyledExternalLink>
-                <StyledExternalLink
-                    alignItems='center'
-                    display='flex'
-                    justifyContent='space-between'
-                    width='100%'
+                </ExternalLink>
+                <ExternalLink
+                    className='flex items-center justify-between w-full rounded-2xl'
                     href={constants.TERMS_OF_SERVICE}
                     target='_blank'
                     rel='noopener noreferrer'
@@ -85,18 +76,15 @@ const AboutARK = () => {
                         iconTrailing='link-external'
                         tabIndex={-1}
                     />
-                </StyledExternalLink>
-                <StyledExternalLink
-                    alignItems='center'
-                    display='flex'
-                    justifyContent='space-between'
-                    width='100%'
+                </ExternalLink>
+                <ExternalLink
+                    className='flex items-center justify-between w-full rounded-2xl'
                     href={constants.PRIVACY_POLICY}
                     target='_blank'
                     rel='noopener noreferrer'
                 >
                     <RowLayout title='Privacy Policy' iconTrailing='link-external' tabIndex={-1} />
-                </StyledExternalLink>
+                </ExternalLink>
             </div>
         </SubPageLayout>
     );
@@ -104,10 +92,6 @@ const AboutARK = () => {
 
 const CopyButton = styled(Container)`
     ${({ theme }) => `${isFirefox ? theme.browserCompatibility.firefox.focus : ''}`}
-`;
-
-const StyledExternalLink = styled(ExternalLink)`
-    border-radius: 16px;
 `;
 
 export default AboutARK;
