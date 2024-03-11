@@ -117,7 +117,7 @@ const ApproveWithLedger = ({
                 <Heading $typeset='h3' fontWeight='bold' color='base' mb='8' mt='16'>
                     Connect Ledger and Sign The {getActionMessage()} Request
                 </Heading>
-                <p className='typeset-headline'>
+                <p className='typeset-headline text-theme-secondary-500 dark:text-theme-secondary-300'>
                     Connect your Ledger device, launch the ARK app, and carefully review the request
                     on your device before confirming your approval.
                 </p>

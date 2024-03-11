@@ -19,7 +19,7 @@ const RemoveConnections = ({ numberOfSessions, sessionDomain }: Props) => {
             </Heading>
 
             <Container mt='8'>
-                <p className='typeset-headline inline'>
+                <p className='typeset-headline inline text-theme-secondary-500 dark:text-theme-secondary-300'>
                     Are you certain you want to disconnect
                     {hasMultipleSessions ? ' all ' : ' your connection with '}
                 </p>
