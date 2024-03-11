@@ -2,10 +2,10 @@ import { useNavigate } from 'react-router-dom';
 import { ChangeEvent, KeyboardEvent, useState } from 'react';
 import styled from 'styled-components';
 import { runtime } from 'webextension-polyfill';
+import classNames from 'classnames';
 import {
     Button,
     Container,
-    FlexContainer,
     Icon,
     InternalLink,
     Layout,
@@ -66,14 +66,16 @@ const EnterPassword = () => {
     return (
         <Layout>
             <Container height='550px' px='16'>
-                <FlexContainer justifyContent='center' alignItems='center' py='59'>
+                <div className='flex items-center justify-center py-[59px]'>
                     <LockIcon />
-                </FlexContainer>
+                </div>
+
                 <Container>
-                    <FlexContainer
-                        flexDirection='column'
-                        gridGap='6px'
-                        mb={validationVariant === 'destructive' ? '20' : '44'}
+                    <div
+                        className={classNames('flex flex-col gap-1.5', {
+                            'mb-5': validationVariant === 'destructive',
+                            'mb-11': validationVariant !== 'destructive',
+                        })}
                     >
                         <Paragraph $typeset='headline' fontWeight='medium' color='labelText'>
                             Enter Password to Unlock
@@ -89,7 +91,7 @@ const EnterPassword = () => {
                                 validationVariant === 'destructive' ? 'Incorrect password' : ''
                             }
                         />
-                    </FlexContainer>
+                    </div>
                     <Button
                         variant='primary'
                         onClick={unlockExtension}

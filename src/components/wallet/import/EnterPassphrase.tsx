@@ -8,7 +8,6 @@ import { ImportedWalletFormik } from '.';
 import {
     Button,
     Container,
-    FlexContainer,
     Heading,
     Paragraph,
     PassphraseInput,
@@ -220,14 +219,14 @@ const EnterPassphrase = ({ goToNextStep, formik }: Props) => {
                 />
             </Container>
 
-            <FlexContainer justifyContent='space-between' alignItems='center'>
+            <div className='flex items-center justify-between'>
                 <ToggleSwitch
                     checked={showPassphrase}
                     onChange={() => setShowPassphrase(!showPassphrase)}
                     id='show-password'
                     title='Show Passphrase'
                 />
-            </FlexContainer>
+            </div>
 
             <Button
                 variant='primary'

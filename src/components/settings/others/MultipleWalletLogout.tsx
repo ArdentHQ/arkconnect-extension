@@ -1,14 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import SubPageLayout from '../SubPageLayout';
-import {
-    Button,
-    Checkbox,
-    Container,
-    FlexContainer,
-    Paragraph,
-    RowLayout,
-} from '@/shared/components';
+import { Button, Checkbox, Container, Paragraph, RowLayout } from '@/shared/components';
 import { selectWalletsIds } from '@/lib/store/wallet';
 import { useAppSelector } from '@/lib/store';
 import trimAddress from '@/lib/utils/trimAddress';
@@ -50,7 +43,7 @@ const MultipleWalletLogout = () => {
 
     return (
         <SubPageLayout title='Remove Addresses'>
-            <FlexContainer height='100%' flexDirection='column'>
+            <div className='flex h-full flex-col'>
                 <Paragraph $typeset='headline' color='gray' mb='24'>
                     Select Addresses to Remove.
                 </Paragraph>
@@ -101,7 +94,7 @@ const MultipleWalletLogout = () => {
                 >
                     Remove All Addresses
                 </Button>
-            </FlexContainer>
+            </div>
         </SubPageLayout>
     );
 };

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Container, FlexContainer } from '@/shared/components';
+import { Container } from '@/shared/components';
 
 export const ProgressBar = () => {
     const [activeBarIndex, setActiveBarIndex] = useState<number>(0);
@@ -55,5 +55,5 @@ export const ProgressBar = () => {
         </Container>
     ));
 
-    return <FlexContainer gridGap='8px'>{bars}</FlexContainer>;
+    return <div className='flex gap-2'>{bars}</div>;
 };
