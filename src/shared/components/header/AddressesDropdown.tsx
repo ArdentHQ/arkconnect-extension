@@ -161,7 +161,7 @@ const AddressRow = ({
                     navigate('/address/settings', { state: { address } });
                 }}
                 className={classNames(
-                    'flex cursor-pointer items-center rounded-full p-[7px] text-light-black transition duration-200 ease-in-out hover:bg-theme-secondary-50 dark:text-white dark:hover:bg-theme-secondary-700',
+                    'flex cursor-pointer items-center rounded-full p-[7px] text-light-black transition duration-200 ease-in-out dark:text-white',
                     {
                         'hover:bg-theme-primary-200/60 dark:hover:bg-theme-primary-800/50':
                             isSelected,

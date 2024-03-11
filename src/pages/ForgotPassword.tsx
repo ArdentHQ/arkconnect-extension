@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button, Checkbox, FlexContainer, Paragraph, WarningIcon } from '@/shared/components';
+import { Button, Checkbox, Paragraph, WarningIcon } from '@/shared/components';
 import SubPageLayout from '@/components/settings/SubPageLayout';
 import useThemeMode from '@/lib/hooks/useThemeMode';
 import useResetExtension from '@/lib/hooks/useResetExtension';
@@ -12,7 +12,7 @@ const ForgotPassword = () => {
 
     return (
         <SubPageLayout title='Forgot Password?' onBack='goBack' paddingBottom='0'>
-            <FlexContainer flexDirection='column' justifyContent='space-between' height='100%'>
+            <div className='flex h-full flex-col justify-between'>
                 <Paragraph
                     $typeset='headline'
                     fontWeight='regular'
@@ -23,11 +23,11 @@ const ForgotPassword = () => {
                     passphrase(s) saved.
                 </Paragraph>
 
-                <FlexContainer justifyContent='center' alignItems='center'>
+                <div className='flex items-center justify-center'>
                     <WarningIcon />
-                </FlexContainer>
+                </div>
 
-                <FlexContainer flexDirection='column'>
+                <div className='flex flex-col'>
                     <Checkbox
                         id='lostPassword'
                         name='lostPasswordAwareness'
@@ -43,8 +43,8 @@ const ForgotPassword = () => {
                     >
                         Reset Extension
                     </Button>
-                </FlexContainer>
-            </FlexContainer>
+                </div>
+            </div>
         </SubPageLayout>
     );
 };

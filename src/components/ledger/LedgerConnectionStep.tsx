@@ -3,15 +3,7 @@ import Step from './Step';
 import { connectSteps } from './utils/connectionSteps';
 import * as ModalStore from '@/lib/store/modal';
 
-import {
-    Button,
-    Container,
-    ExternalLink,
-    FlexContainer,
-    Heading,
-    Icon,
-    Paragraph,
-} from '@/shared/components';
+import { Button, Container, ExternalLink, Heading, Icon, Paragraph } from '@/shared/components';
 
 import constants from '@/constants';
 import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
@@ -99,12 +91,13 @@ export const LedgerConnectionStep = ({
             <Heading $typeset='h3' fontWeight='bold' color='base' mb='24'>
                 Connect Your Ledger Device
             </Heading>
-            <FlexContainer my='24' justifyContent='center'>
+            <div className='my-6 flex justify-center'>
                 <Icon icon='ledger-device' className='h-[7.5rem] w-[13.75rem]' />
-            </FlexContainer>
+            </div>
+
             <Container mb='24'>
                 {connectSteps.map((step, index) => (
-                    <FlexContainer key={index} alignItems='flex-start' gridGap='8px'>
+                    <div key={index} className='flex items-start gap-2'>
                         <Step step={index + 1} />
                         <Paragraph
                             fontWeight='regular'
@@ -114,7 +107,7 @@ export const LedgerConnectionStep = ({
                         >
                             {step}
                         </Paragraph>
-                    </FlexContainer>
+                    </div>
                 ))}
             </Container>
             <Container pb='16'>

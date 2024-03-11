@@ -1,40 +1,25 @@
-import useThemeMode from '@/lib/hooks/useThemeMode';
 import { useAppSelector } from '@/lib/store';
 import { CTA_CONTENT, selectLoadingModal } from '@/lib/store/modal';
-import { FlexContainer, Heading, Icon, Loader, Paragraph } from '@/shared/components';
+import { Heading, Icon, Loader, Paragraph } from '@/shared/components';
 
 const LoadingModal = () => {
     const { isLoading, isOpen, completedMessage, loadingMessage, completedDescription, CTA } =
         useAppSelector(selectLoadingModal);
 
-    const { getThemeColor } = useThemeMode();
-
     const CTAContent = CTA ? CTA_CONTENT[CTA] : undefined;
 
     if (!isOpen) return null;
+
     return (
-        <FlexContainer
-            width='100%'
-            height='100vh'
-            position='fixed'
-            top='0'
-            left='0'
-            zIndex='10'
-            bg={getThemeColor('subtleWhite', 'lightBlack')}
-            $flexVariant='columnCenter'
-        >
-            <FlexContainer flexDirection='column' alignItems='center' gridGap='24px' px='16'>
+        <div className='fixed left-0 top-0 z-10 flex h-screen w-full items-center justify-center bg-subtle-black dark:bg-light-black'>
+            <div className='flex flex-col items-center gap-6 px-4'>
                 {!isLoading ? (
                     <>
                         <Icon
                             icon='completed'
                             className='h-16 w-16 text-theme-primary-700 dark:text-theme-primary-650'
                         />
-                        <FlexContainer
-                            flexDirection='column'
-                            justifyContent='center'
-                            alignItems='center'
-                        >
+                        <div className='flex flex-col items-center justify-center'>
                             <Heading $typeset='h3' color='base' fontWeight='bold'>
                                 {completedMessage}
                             </Heading>
@@ -50,7 +35,7 @@ const LoadingModal = () => {
                                     {completedDescription}
                                 </Paragraph>
                             )}
-                        </FlexContainer>
+                        </div>
                     </>
                 ) : (
                     <>
@@ -61,8 +46,8 @@ const LoadingModal = () => {
                         {!!CTAContent && <CTAContent />}
                     </>
                 )}
-            </FlexContainer>
-        </FlexContainer>
+            </div>
+        </div>
     );
 };
 

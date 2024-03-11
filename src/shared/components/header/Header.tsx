@@ -11,7 +11,6 @@ import { AddressesDropdown } from '@/shared/components/header/AddressesDropdown'
 import { ConnectionStatus } from '@/components/wallet/ConnectionStatus';
 import { LogoIcon } from '@/components/Logo';
 import { selectLocked } from '@/lib/store/ui';
-import { StyledLogos } from '@/components/settings/others/AboutARK';
 import trimAddress from '@/lib/utils/trimAddress';
 import { useAppSelector } from '@/lib/store';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
@@ -44,7 +43,7 @@ export const Header = () => {
     if (!primaryWallet || isLocked) {
         return (
             <HeaderWrapper className='px-4 py-[17px]' withShadow={!isOnboardingPage}>
-                <StyledLogos alignItems='center' gridGap='8px'>
+                <div className='logo flex items-center gap-2'>
                     <Icon
                         icon='logo-inverted'
                         className='h-6 w-6 text-theme-primary-700 dark:text-theme-primary-650'
@@ -53,7 +52,7 @@ export const Header = () => {
                         icon='logo-text'
                         className='h-3 w-[122px] text-theme-primary-700 dark:text-theme-primary-650'
                     />
-                </StyledLogos>
+                </div>
             </HeaderWrapper>
         );
     }
