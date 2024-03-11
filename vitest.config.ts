@@ -11,7 +11,6 @@ export default defineConfig((env) => {
                 maxConcurrency: 4,
                 globals: true,
                 environment: 'jsdom',
-                // @TODO: Just use utils for now, until performance issue is fixed and more tests are added.
                 exclude: [...configDefaults.exclude],
                 setupFiles: ['./vitest.setup.ts'],
             },
