@@ -2,12 +2,7 @@ import { ChangeEvent, useEffect, useState } from 'react';
 import { useFormik } from 'formik';
 import { persistScreenChanged } from '../wallet/form-persist/helpers';
 import { WalletFormScreen } from '../wallet/form-persist';
-import {
-    Button,
-    Checkbox,
-    ExternalLink,
-    PasswordInput,
-} from '@/shared/components';
+import { Button, Checkbox, ExternalLink, PasswordInput } from '@/shared/components';
 import { getLocalValues, setLocalValue } from '@/lib/utils/localStorage';
 
 import constants from '@/constants';
@@ -92,13 +87,11 @@ const SetupPassword = ({ formik }: Props) => {
 
     return (
         <div className='flex min-h-[450px] flex-col'>
-            <h3 className='typeset-h3 mb-2'>
-                Setup a Password
-            </h3>
+            <h3 className='typeset-h3 mb-2'>Setup a Password</h3>
             <p className='typeset-headline mb-4'>
                 Create a password to access your wallet each time you use ARK Connect.
             </p>
-            <div className='flex flex-col justify-between h-full'>
+            <div className='flex h-full flex-col justify-between'>
                 <div className='flex flex-col gap-4'>
                     <PasswordInput
                         name='password'
@@ -108,10 +101,10 @@ const SetupPassword = ({ formik }: Props) => {
                         value={values.password ?? ''}
                         helperText={
                             validation.password !== 'errorFree'
-                            ? 'Requires at least 8 characters and one number'
-                            : ''
+                                ? 'Requires at least 8 characters and one number'
+                                : ''
                         }
-                        />
+                    />
                     <PasswordInput
                         name='passwordConfirm'
                         value={values.passwordConfirm ?? ''}
@@ -120,10 +113,10 @@ const SetupPassword = ({ formik }: Props) => {
                         onChange={handlePasswordConfirmChange}
                         helperText={
                             validation.passwordConfirm === 'destructive'
-                            ? 'Passwords do not match.'
-                            : ''
+                                ? 'Passwords do not match.'
+                                : ''
                         }
-                        />
+                    />
                 </div>
                 <div className='flex flex-col'>
                     <div className='flex'>
@@ -132,19 +125,19 @@ const SetupPassword = ({ formik }: Props) => {
                             name='termsAndConditionsConfirmed'
                             checked={values.termsAndConditionsConfirmed}
                             onChange={handleTermsAndConditionsChange}
-                            />
+                        />
                         <div className='flex'>
                             <label
                                 htmlFor='termsAndConditionsConfirmed'
-                                className='typeset-body text-light-black dark:text-white font-medium'
-                                >
+                                className='typeset-body font-medium text-light-black dark:text-white'
+                            >
                                 I accept the{' '}
                                 <ExternalLink
                                     href={constants.TERMS_OF_SERVICE}
                                     target='_blank'
                                     rel='noopener noreferrer'
                                     color='primary'
-                                    >
+                                >
                                     Terms of Service
                                 </ExternalLink>{' '}
                                 and{' '}
@@ -153,7 +146,7 @@ const SetupPassword = ({ formik }: Props) => {
                                     target='_blank'
                                     rel='noopener noreferrer'
                                     color='primary'
-                                    >
+                                >
                                     Privacy Policy
                                 </ExternalLink>
                                 .
@@ -166,10 +159,9 @@ const SetupPassword = ({ formik }: Props) => {
                         variant='primary'
                         disabled={!values.termsAndConditionsConfirmed || !isValid}
                         onClick={submitForm}
-                        >
+                    >
                         Confirm
                     </Button>
-                    
                 </div>
             </div>
         </div>
