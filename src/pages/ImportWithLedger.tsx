@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Contracts } from '@ardenthq/sdk-profiles';
 import { runtime } from 'webextension-polyfill';
 import { useFormik } from 'formik';
-import { Header, Icon, Paragraph } from '@/shared/components';
+import { Header, Icon } from '@/shared/components';
 import { LedgerData, useLedgerContext } from '@/lib/Ledger';
 import StepsNavigation, { Step } from '@/components/steps/StepsNavigation';
 
@@ -120,12 +120,9 @@ const ImportWithLedger = () => {
                                     icon='information-circle'
                                     className='h-5 w-5 text-theme-error-600 dark:text-white'
                                 />
-                                <Paragraph
-                                    color='ledgerConnectionError'
-                                    className='typeset-body text-theme-error-600 dark:text-white'
-                                >
+                                <p className='typeset-body text-theme-error-600 dark:text-white'>
                                     {error && error.message ? error.message : error}
-                                </Paragraph>
+                                </p>
                             </div>
                             <div className='p-2' onClick={removeErrors}>
                                 <Icon
