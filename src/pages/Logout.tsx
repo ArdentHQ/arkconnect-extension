@@ -10,7 +10,6 @@ import { useProfileContext } from '@/lib/context/Profile';
 import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
 import { isValidPassword } from '@/lib/utils/validations';
 import { ExtensionEvents } from '@/lib/events';
-import useThemeMode from '@/lib/hooks/useThemeMode';
 import SubPageLayout from '@/components/settings/SubPageLayout';
 import useResetExtension from '@/lib/hooks/useResetExtension';
 
@@ -21,7 +20,6 @@ const Logout = () => {
     const { initProfile, profile } = useProfileContext();
     const [password, setPassword] = useState<string>('');
     const [validationVariant, setValidationVariant] = useState<ValidationVariant>('primary');
-    const { getThemeColor } = useThemeMode();
     const sessions = useAppSelector(SessionStore.selectSessions);
     const { onError } = useErrorHandlerContext();
     const walletsIds = useAppSelector(WalletStore.selectWalletsIds);
