@@ -147,7 +147,7 @@ const SetupPassword = ({ formik }: Props) => {
                             target='_blank'
                             rel='noopener noreferrer'
                             className='text-theme-primary-700 dark:text-theme-primary-650'
-                            >
+                        >
                             Terms of Service
                         </ExternalLink>{' '}
                         and{' '}
@@ -156,7 +156,7 @@ const SetupPassword = ({ formik }: Props) => {
                             target='_blank'
                             rel='noopener noreferrer'
                             className='text-theme-primary-700 dark:text-theme-primary-650'
-                            >
+                        >
                             Privacy Policy
                         </ExternalLink>
                         .

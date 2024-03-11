@@ -116,7 +116,7 @@ export const LedgerConnectionStep = ({
                 </Button>
             </Container>
             <ExternalLink
-                className='flex items-center justify-center w-full gap-3 text-theme-primary-700 dark:text-theme-primary-650'
+                className='flex w-full items-center justify-center gap-3 text-theme-primary-700 dark:text-theme-primary-650'
                 href={`mailto:${constants.SUPPORT_EMAIL}?subject=ARK%20Connect%20Support%20Ledger`}
             >
                 <Paragraph $typeset='headline' fontWeight='medium'>

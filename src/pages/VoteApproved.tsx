@@ -53,7 +53,7 @@ const VoteApproved = () => {
                         Close
                     </Button>
                     <ExternalLink
-                        className='flex items-center justify-center gap-3 w-full text-light-black dark:text-white'
+                        className='flex w-full items-center justify-center gap-3 text-light-black dark:text-white'
                         href={
                             state?.isTestnet
                                 ? `${constants.ARKSCAN_TESTNET_TRANSACTIONS}/${state?.vote.id}`

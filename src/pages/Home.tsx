@@ -30,7 +30,7 @@ const Home = () => {
 
                     <div className='flex justify-between border-t border-solid border-t-theme-primary-650 p-4 dark:border-t-theme-primary-600'>
                         <ExternalLink
-                            className='gap-2 flex items-center'
+                            className='flex items-center gap-2'
                             href={
                                 primaryWallet?.network().isLive()
                                     ? `${constants.ARKSCAN_ADDRESSES}/${primaryWallet?.address()}`
@@ -50,7 +50,7 @@ const Home = () => {
                         />
 
                         <ExternalLink
-                            className='gap-2 flex items-center'
+                            className='flex items-center gap-2'
                             href={
                                 primaryWallet?.network().isTest()
                                     ? constants.ARKSCAN_FAUCET
@@ -67,7 +67,7 @@ const Home = () => {
 
                 <ExternalLink
                     href={constants.ARK_CONNECT_DEMO}
-                    className='block text-theme-primary-700 dark:text-theme-primary-600 rounded-2xl'
+                    className='block rounded-2xl text-theme-primary-700 dark:text-theme-primary-600'
                 >
                     <div className='flex flex-row items-center justify-between p-4'>
                         <Icon icon='speakerphone' className='h-4.5 w-4.5' />
