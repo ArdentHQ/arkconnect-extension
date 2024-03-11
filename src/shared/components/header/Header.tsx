@@ -84,7 +84,7 @@ export const Header = () => {
                                 ref={addressesTriggerRef}
                                 className='ml-2 px-2 py-1.5'
                             >
-                                <span className='max-w-[124px] truncate font-medium text-light-black dark:text-white'>
+                                <span className='max-w-[124px] truncate text-sm font-medium text-light-black dark:text-white'>
                                     {primaryWallet.alias()}
                                 </span>
 
