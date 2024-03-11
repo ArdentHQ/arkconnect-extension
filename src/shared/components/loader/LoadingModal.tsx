@@ -11,7 +11,7 @@ const LoadingModal = () => {
     if (!isOpen) return null;
 
     return (
-        <div className='fixed left-0 top-0 z-10 flex h-screen w-full items-center justify-center bg-subtle-black dark:bg-light-black'>
+        <div className='fixed left-0 top-0 z-10 flex h-screen w-full items-center justify-center bg-subtle-white dark:bg-light-black'>
             <div className='flex flex-col items-center gap-6 px-4'>
                 {!isLoading ? (
                     <>
