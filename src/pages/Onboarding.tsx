@@ -1,3 +1,8 @@
+import { ReactNode, useEffect, useState } from 'react';
+import styled, { keyframes } from 'styled-components';
+
+import classNames from 'classnames';
+import { useNavigate } from 'react-router-dom';
 import {
     Button,
     Container,
@@ -8,11 +13,6 @@ import {
     ProgressBar,
     TransactionsPassphraseIcon,
 } from '@/shared/components';
-import { ReactNode, useEffect, useState } from 'react';
-import styled, { keyframes } from 'styled-components';
-
-import classNames from 'classnames';
-import { useNavigate } from 'react-router-dom';
 
 type OnboardingScreen = {
     id: number;
