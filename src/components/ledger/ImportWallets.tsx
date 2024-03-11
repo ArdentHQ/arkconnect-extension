@@ -13,6 +13,7 @@ import { HandleLoadingState } from '@/shared/components/handleStates/HandleLoadi
 import useOnError from '@/lib/hooks';
 import { getNetworkCurrency } from '@/lib/utils/getActiveCoin';
 import { AddressBalance } from '@/components/wallet/address/Address.blocks';
+import { handleSubmitKeyAction } from '@/lib/utils/handleKeyAction';
 
 type Props = {
     goToNextStep: () => void;
@@ -146,6 +147,9 @@ const ImportWallets = ({ goToNextStep, formik }: Props) => {
                                     if (isImported) return;
                                     toggleSelect(wallet.path);
                                 }}
+                                onKeyDown={(e) =>
+                                    handleSubmitKeyAction(e, () => toggleSelect(wallet.path))
+                                }
                             >
                                 <Tooltip
                                     disabled={!isImported}
@@ -166,7 +170,11 @@ const ImportWallets = ({ goToNextStep, formik }: Props) => {
                                             <Paragraph $typeset='headline' fontWeight='medium'>
                                                 {trimAddress(wallet.address, 10)}
                                             </Paragraph>
-                                            <Paragraph $typeset='body' fontWeight='regular'>
+                                            <Paragraph
+                                                $typeset='body'
+                                                fontWeight='regular'
+                                                as='span'
+                                            >
                                                 <AddressBalance
                                                     balance={wallet.balance ?? 0}
                                                     currency={getNetworkCurrency(network)}
