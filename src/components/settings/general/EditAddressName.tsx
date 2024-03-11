@@ -1,8 +1,9 @@
 import { useFormik } from 'formik';
 import { useNavigate, useParams } from 'react-router-dom';
 import { object, string } from 'yup';
+import classNames from 'classnames';
 import SubPageLayout from '../SubPageLayout';
-import { Button, Container, Input, Paragraph } from '@/shared/components';
+import { Button, Input, Paragraph } from '@/shared/components';
 import useToast from '@/lib/hooks/useToast';
 import { useEnvironmentContext } from '@/lib/context/Environment';
 import { useProfileContext } from '@/lib/context/Profile';
@@ -59,8 +60,11 @@ const EditAddressName = () => {
                     locally.
                 </Paragraph>
 
-                <Container
-                    mb={formik.isValid || !formik.values.addressName?.length ? '270' : '246'}
+                <div
+                    className={classNames({
+                        'mb-[270px]': formik.isValid || !formik.values.addressName?.length,
+                        'mb-[246px]': !formik.isValid && formik.values.addressName?.length,
+                    })}
                 >
                     <Input
                         variant={formik.errors.addressName ? 'destructive' : 'primary'}
@@ -73,7 +77,7 @@ const EditAddressName = () => {
                         labelText='Address Name'
                         helperText={formik.errors.addressName}
                     />
-                </Container>
+                </div>
                 <Button
                     variant='primary'
                     onClick={formik.submitForm}
