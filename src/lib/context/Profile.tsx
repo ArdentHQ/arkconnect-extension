@@ -36,14 +36,14 @@ export const ProfileProvider = ({ children }: Properties) => {
         void initProfile();
     }, []);
 
-    const getPrimaryWallet = () => {
+    const getPrimaryWallet = (profile?: Contracts.IProfile) => {
         return profile
             ?.wallets()
             .values()
             .find((wallet) => wallet.isPrimary());
     };
 
-    const convertedBalance = useWalletBalance(getPrimaryWallet());
+    const convertedBalance = useWalletBalance(getPrimaryWallet(profile));
 
     const initProfile = async () => {
         setIsProfileReady(false);
@@ -93,13 +93,17 @@ export const ProfileProvider = ({ children }: Properties) => {
 
         await dispatch(WalletStore.walletsLoaded(wallets));
 
-        const primaryWallet = profile
-            .wallets()
-            .values()
-            .find((wallet) => wallet.isPrimary());
+        // Background primary wallet is not set. Reset to first & persist.
+        if (!getPrimaryWallet(profile) && profile.wallets().count() > 0) {
+            profile.wallets().first().data().set(Contracts.WalletData.IsPrimary, true);
+            await env.persist();
+        }
+
+        const primaryWallet = getPrimaryWallet(profile);
 
         if (primaryWallet) {
             await dispatch(WalletStore.primaryWalletIdChanged(primaryWallet.id()));
+            return;
         }
     };
 
