@@ -6,7 +6,7 @@ import { clearPersistScreenData, persistScreenChanged } from '../form-persist/he
 import { TestnetIcon } from '../address/Address.blocks';
 import { WalletFormScreen } from '../form-persist';
 import { ImportedWalletFormik } from '.';
-import { Button, HeadingTODO, Paragraph, PassphraseInput, ToggleSwitch } from '@/shared/components';
+import { Button, Heading, Paragraph, PassphraseInput, ToggleSwitch } from '@/shared/components';
 
 import { assertWallet } from '@/lib/utils/assertions';
 import { getDefaultAlias } from '@/lib/utils/getDefaultAlias';
@@ -187,7 +187,7 @@ const EnterPassphrase = ({ goToNextStep, formik }: Props) => {
     return (
         <>
             <div className='mb-2 flex items-center gap-2'>
-                <HeadingTODO level={3}>Enter Passphrase</HeadingTODO>
+                <Heading level={3}>Enter Passphrase</Heading>
                 {selectedNetwork.isTest() && <TestnetIcon />}
             </div>
             <Paragraph $typeset='headline' color='gray' mb='24'>

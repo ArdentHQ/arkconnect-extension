@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { Contracts } from '@ardenthq/sdk-profiles';
-import { Button, HeadingTODO, Paragraph } from '@/shared/components';
+import { Button, Heading, Paragraph } from '@/shared/components';
 import formatDomain from '@/lib/utils/formatDomain';
 import {
     Address,
@@ -34,7 +34,7 @@ const ConnectedAddress = ({ connectedTo, wallet, logo, onDisconnect }: Propertie
         <>
             <div>
                 <ConnectionStatusTitle>
-                    <HeadingTODO level={4}>Connected Address</HeadingTODO>
+                    <Heading level={4}>Connected Address</Heading>
                 </ConnectionStatusTitle>
 
                 <Paragraph $typeset='headline' fontWeight='regular' color='gray' marginTop='6'>

@@ -1,4 +1,4 @@
-import { Button, HeadingTODO, Paragraph } from '@/shared/components';
+import { Button, Heading, Paragraph } from '@/shared/components';
 import Modal from '@/shared/components/modal/Modal';
 
 type Props = {
@@ -27,9 +27,9 @@ const SelectNetworkTypeModal = ({ onNetworkSelect, onClose, action = 'create' }:
             }}
         >
             <div>
-                <HeadingTODO className=' mb-1.5' level={4}>
+                <Heading className=' mb-1.5' level={4}>
                     Select Network Type
-                </HeadingTODO>
+                </Heading>
                 <div>
                     <Paragraph
                         $typeset='headline'

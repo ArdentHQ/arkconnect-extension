@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { FormikProps } from 'formik';
 import classNames from 'classnames';
 import { CreateWalletFormik } from '.';
-import { Button, Grid, HeadingTODO, Icon, Paragraph, ToggleSwitch } from '@/shared/components';
+import { Button, Grid, Heading, Icon, Paragraph, ToggleSwitch } from '@/shared/components';
 import useToast from '@/lib/hooks/useToast';
 import { ToastPosition } from '@/components/toast/ToastContainer';
 import { TestnetIcon } from '@/components/wallet/address/Address.blocks';
@@ -53,7 +53,7 @@ const GeneratePassphrase = ({ goToNextStep, formik }: Props) => {
     return (
         <div className='flex flex-1 flex-col'>
             <div className='mb-2 flex items-center gap-2'>
-                <HeadingTODO level={3}>Save Your Secret Passphrase</HeadingTODO>
+                <Heading level={3}>Save Your Secret Passphrase</Heading>
                 {selectedNetwork.isTest() && <TestnetIcon />}
             </div>
             <Paragraph $typeset='headline' color='gray' mb='16'>

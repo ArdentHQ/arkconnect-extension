@@ -1,4 +1,4 @@
-import { Button, ExternalLink, HeadingTODO, Icon, SmallWarningIcon } from '@/shared/components';
+import { Button, ExternalLink, Heading, Icon, SmallWarningIcon } from '@/shared/components';
 import constants from '@/constants';
 import { errorParser, errorTitleParser } from '@/lib/utils/errorParser';
 
@@ -15,9 +15,9 @@ const ErrorModal = ({ error, onClose }: Props) => {
                     <SmallWarningIcon />
 
                     <div>
-                        <HeadingTODO level={3} className='mb-2'>
+                        <Heading level={3} className='mb-2'>
                             {errorTitleParser(error)}
-                        </HeadingTODO>
+                        </Heading>
 
                         <div className=' text-center text-theme-secondary-500 dark:text-theme-secondary-300'>
                             {error ? (

@@ -1,8 +1,8 @@
-interface Heading2Props extends React.HTMLAttributes<HTMLHeadingElement> {
+interface Props extends React.HTMLAttributes<HTMLHeadingElement> {
     level: 2 | 3 | 4;
 }
 
-export const HeadingTODO = ({ level, ...properties }: Heading2Props) => {
+export const Heading = ({ level, ...properties }: Props) => {
     if (level === 4) {
         return (
             <h4

@@ -3,7 +3,7 @@ import { BIP44 } from '@ardenthq/sdk-cryptography';
 import { Contracts as ProfilesContracts } from '@ardenthq/sdk-profiles';
 import { FormikProps } from 'formik';
 import classNames from 'classnames';
-import { Button, Checkbox, HeadingTODO, Paragraph, Tooltip } from '@/shared/components';
+import { Button, Checkbox, Heading, Paragraph, Tooltip } from '@/shared/components';
 import trimAddress from '@/lib/utils/trimAddress';
 import { useLedgerContext, useLedgerScanner } from '@/lib/Ledger';
 import useActiveNetwork from '@/lib/hooks/useActiveNetwork';
@@ -119,9 +119,9 @@ const ImportWallets = ({ goToNextStep, formik }: Props) => {
 
     return (
         <div>
-            <HeadingTODO level={3} className='mb-2 px-6'>
+            <Heading level={3} className='mb-2 px-6'>
                 Select Addresses to Import
-            </HeadingTODO>
+            </Heading>
             <Paragraph $typeset='body' color='gray' mb='24' px='24'>
                 Multiple addresses can be imported too!
             </Paragraph>

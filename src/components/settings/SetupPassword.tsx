@@ -2,7 +2,7 @@ import { ChangeEvent, useEffect, useState } from 'react';
 import { useFormik } from 'formik';
 import { persistScreenChanged } from '../wallet/form-persist/helpers';
 import { WalletFormScreen } from '../wallet/form-persist';
-import { Button, Checkbox, ExternalLink, HeadingTODO, PasswordInput } from '@/shared/components';
+import { Button, Checkbox, ExternalLink, Heading, PasswordInput } from '@/shared/components';
 import { getLocalValues, setLocalValue } from '@/lib/utils/localStorage';
 
 import constants from '@/constants';
@@ -87,9 +87,9 @@ const SetupPassword = ({ formik }: Props) => {
 
     return (
         <div className='flex min-h-[450px] flex-col'>
-            <HeadingTODO level={3} className=' mb-2'>
+            <Heading level={3} className=' mb-2'>
                 Setup a Password
-            </HeadingTODO>
+            </Heading>
             <p className='typeset-headline mb-4'>
                 Create a password to access your wallet each time you use ARK Connect.
             </p>

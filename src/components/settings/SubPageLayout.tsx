@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import { ArrowButton, CloseButton, HeadingTODO, Layout } from '@/shared/components';
+import { ArrowButton, CloseButton, Heading, Layout } from '@/shared/components';
 
 type Props = {
     children: React.ReactNode | React.ReactNode[];
@@ -34,7 +34,7 @@ const SubPageLayout = ({
                 <div className='flex w-full items-center justify-between'>
                     <div className='flex items-center gap-3'>
                         <ArrowButton action={onBack} />
-                        <HeadingTODO level={4}>{title}</HeadingTODO>
+                        <Heading level={4}>{title}</Heading>
                     </div>
 
                     {!hideCloseButton && <CloseButton />}

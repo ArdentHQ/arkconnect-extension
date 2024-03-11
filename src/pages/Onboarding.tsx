@@ -7,7 +7,7 @@ import {
     ControlConnectionsIcon,
     FingerPrintIcon,
     Header,
-    HeadingTODO,
+    Heading,
     ProgressBar,
     TransactionsPassphraseIcon,
 } from '@/shared/components';
@@ -33,7 +33,7 @@ const Onboarding = () => {
     }, []);
 
     return (
-        <div className=' fade pt-[58px] duration-1000 ease-in-out' paddingTop='58'>
+        <div className='fade pt-[58px] duration-1000 ease-in-out'>
             <Header />
             <ProgressBar />
             <div className='relative h-[410px]'>
@@ -73,28 +73,28 @@ const onboardingScreens: OnboardingScreen[] = [
         id: 1,
         illustration: <FingerPrintIcon />,
         heading: (
-            <HeadingTODO level={3} className='w-[256px] text-center'>
+            <Heading level={3} className='w-[256px] text-center'>
                 Easily & securely log in to <br /> your favorite web3 apps.
-            </HeadingTODO>
+            </Heading>
         ),
     },
     {
         id: 2,
         illustration: <ControlConnectionsIcon />,
         heading: (
-            <HeadingTODO level={3} className='w-[297px] text-center'>
+            <Heading level={3} className='w-[297px] text-center'>
                 Control your identity with our <br /> session management feature.
-            </HeadingTODO>
+            </Heading>
         ),
     },
     {
         id: 3,
         illustration: <TransactionsPassphraseIcon />,
         heading: (
-            <HeadingTODO level={3} className='w-[257px] text-center'>
+            <Heading level={3} className='w-[257px] text-center'>
                 Sign transactions and <br />
                 perform on-chain actions.
-            </HeadingTODO>
+            </Heading>
         ),
     },
 ];

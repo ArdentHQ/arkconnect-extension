@@ -1,6 +1,6 @@
 import cn from 'classnames';
 import RequestedBy from './RequestedBy';
-import { HeadingTODO, Icon, IconDefinition } from '@/shared/components';
+import { Heading, Icon, IconDefinition } from '@/shared/components';
 
 type Props = {
     appLogo?: string;
@@ -26,7 +26,7 @@ const ActionHeader = ({ appDomain, appLogo, icon, actionLabel, iconClassNames }:
                     />
                 </div>
 
-                <HeadingTODO level={3}>{actionLabel}</HeadingTODO>
+                <Heading level={3}>{actionLabel}</Heading>
             </div>
         </div>
     );

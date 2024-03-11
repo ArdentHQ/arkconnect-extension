@@ -6,7 +6,7 @@ import { useEnvironmentContext } from '@/lib/context/Environment';
 import { useProfileContext } from '@/lib/context/Profile';
 import formatDomain from '@/lib/utils/formatDomain';
 import removeWindowInstance from '@/lib/utils/removeWindowInstance';
-import { Button, ExternalLink, HeadingTODO, Icon } from '@/shared/components';
+import { Button, ExternalLink, Heading, Icon } from '@/shared/components';
 import RequestedBy from '@/shared/components/actions/RequestedBy';
 
 const TransactionApproved = () => {
@@ -36,7 +36,7 @@ const TransactionApproved = () => {
                             className='h-16 w-16 text-theme-primary-700 dark:text-theme-primary-650'
                         />
 
-                        <HeadingTODO level={3}>Transaction Approved</HeadingTODO>
+                        <Heading level={3}>Transaction Approved</Heading>
                     </div>
 
                     <TransactionApprovedBody />

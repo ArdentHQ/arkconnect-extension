@@ -3,7 +3,7 @@ import Step from './Step';
 import { connectSteps } from './utils/connectionSteps';
 import * as ModalStore from '@/lib/store/modal';
 
-import { Button, ExternalLink, HeadingTODO, Icon, Paragraph } from '@/shared/components';
+import { Button, ExternalLink, Heading, Icon, Paragraph } from '@/shared/components';
 
 import constants from '@/constants';
 import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
@@ -88,9 +88,9 @@ export const LedgerConnectionStep = ({
 
     return (
         <div>
-            <HeadingTODO level={3} className='mb-6'>
+            <Heading level={3} className='mb-6'>
                 Connect Your Ledger Device
-            </HeadingTODO>
+            </Heading>
             <div className='my-6 flex justify-center'>
                 <Icon icon='ledger-device' className='h-[7.5rem] w-[13.75rem]' />
             </div>
