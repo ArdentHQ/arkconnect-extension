@@ -11,6 +11,14 @@
         @apply text-sm leading-[17.5px] text-theme-secondary-600 dark:text-theme-secondary-300;
     }
 
+    .typeset-headline {
+        @apply text-base leading-5 text-theme-secondary-500 dark:text-theme-secondary-300
+    }
+
+    .typeset-h3 {
+        @apply text-xl font-bold leading-[25px] text-light-black dark:text-white
+    }
+
     .text-security-disc {
         -webkit-text-security: disc;
     }
