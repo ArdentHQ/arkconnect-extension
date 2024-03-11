@@ -93,85 +93,89 @@ const SetupPassword = ({ formik }: Props) => {
     };
 
     return (
-        <div className='flex h-full flex-col'>
+        <div className='flex min-h-[450px] flex-col'>
             <Heading $typeset='h3' fontWeight='bold' color='base' mb='8'>
                 Setup a Password
             </Heading>
             <Paragraph $typeset='headline' color='gray' mb='16'>
                 Create a password to access your wallet each time you use ARK Connect.
             </Paragraph>
-            <div className='flex flex-col gap-4'>
-                <PasswordInput
-                    name='password'
-                    variant={validation.password}
-                    labelText='Password'
-                    onChange={handlePasswordChange}
-                    value={values.password ?? ''}
-                    helperText={
-                        validation.password !== 'errorFree'
-                            ? 'Requires at least 8 characters and one number'
-                            : ''
-                    }
-                />
-                <PasswordInput
-                    name='passwordConfirm'
-                    value={values.passwordConfirm ?? ''}
-                    variant={validation.passwordConfirm}
-                    labelText='Confirm Password'
-                    onChange={handlePasswordConfirmChange}
-                    helperText={
-                        validation.passwordConfirm === 'destructive'
-                            ? 'Passwords do not match.'
-                            : ''
-                    }
-                />
-            </div>
-            <div className='mt-auto flex'>
-                <Checkbox
-                    id='termsAndConditionsConfirmed'
-                    name='termsAndConditionsConfirmed'
-                    checked={values.termsAndConditionsConfirmed}
-                    onChange={handleTermsAndConditionsChange}
-                />
-                <div className='flex'>
-                    <Paragraph
-                        as='label'
-                        htmlFor='termsAndConditionsConfirmed'
-                        $typeset='body'
-                        color='base'
-                        fontWeight='medium'
+            <div className='flex h-full flex-col justify-between'>
+                <div className='flex flex-col gap-4'>
+                    <PasswordInput
+                        name='password'
+                        variant={validation.password}
+                        labelText='Password'
+                        onChange={handlePasswordChange}
+                        value={values.password ?? ''}
+                        helperText={
+                            validation.password !== 'errorFree'
+                                ? 'Requires at least 8 characters and one number'
+                                : ''
+                        }
+                    />
+                    <PasswordInput
+                        name='passwordConfirm'
+                        value={values.passwordConfirm ?? ''}
+                        variant={validation.passwordConfirm}
+                        labelText='Confirm Password'
+                        onChange={handlePasswordConfirmChange}
+                        helperText={
+                            validation.passwordConfirm === 'destructive'
+                                ? 'Passwords do not match.'
+                                : ''
+                        }
+                    />
+                </div>
+                <div className='flex flex-col'>
+                    <div className='flex'>
+                        <Checkbox
+                            id='termsAndConditionsConfirmed'
+                            name='termsAndConditionsConfirmed'
+                            checked={values.termsAndConditionsConfirmed}
+                            onChange={handleTermsAndConditionsChange}
+                        />
+                        <div className='flex'>
+                            <Paragraph
+                                as='label'
+                                htmlFor='termsAndConditionsConfirmed'
+                                $typeset='body'
+                                color='base'
+                                fontWeight='medium'
+                            >
+                                I accept the{' '}
+                                <ExternalLink
+                                    href={constants.TERMS_OF_SERVICE}
+                                    target='_blank'
+                                    rel='noopener noreferrer'
+                                    color='primary'
+                                >
+                                    Terms of Service
+                                </ExternalLink>{' '}
+                                and{' '}
+                                <ExternalLink
+                                    href={constants.PRIVACY_POLICY}
+                                    target='_blank'
+                                    rel='noopener noreferrer'
+                                    color='primary'
+                                >
+                                    Privacy Policy
+                                </ExternalLink>
+                                .
+                            </Paragraph>
+                        </div>
+                    </div>
+
+                    <Button
+                        className='mt-6'
+                        variant='primary'
+                        disabled={!values.termsAndConditionsConfirmed || !isValid}
+                        onClick={submitForm}
                     >
-                        I accept the{' '}
-                        <ExternalLink
-                            href={constants.TERMS_OF_SERVICE}
-                            target='_blank'
-                            rel='noopener noreferrer'
-                            className='text-theme-primary-700 dark:text-theme-primary-650'
-                        >
-                            Terms of Service
-                        </ExternalLink>{' '}
-                        and{' '}
-                        <ExternalLink
-                            href={constants.PRIVACY_POLICY}
-                            target='_blank'
-                            rel='noopener noreferrer'
-                            className='text-theme-primary-700 dark:text-theme-primary-650'
-                        >
-                            Privacy Policy
-                        </ExternalLink>
-                        .
-                    </Paragraph>
+                        Confirm
+                    </Button>
                 </div>
             </div>
-
-            <Button
-                className='mt-6'
-                variant='primary'
-                disabled={!values.termsAndConditionsConfirmed || !isValid}
-                onClick={submitForm}
-            >
-                Confirm
-            </Button>
         </div>
     );
 };

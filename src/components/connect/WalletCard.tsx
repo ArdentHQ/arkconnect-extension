@@ -1,7 +1,6 @@
 import { Contracts } from '@ardenthq/sdk-profiles';
 import { Address, LedgerIcon, TestnetIcon } from '../wallet/address/Address.blocks';
 import Amount from '../wallet/Amount';
-import { Container } from '@/shared/components';
 import constants from '@/constants';
 import { generateWalletHelperText } from '@/lib/utils/generateWalletHelperText';
 import trimAddress from '@/lib/utils/trimAddress';
@@ -41,7 +40,7 @@ export const WalletCard = ({ wallet }: Props) => {
                                         length={10}
                                         tooltipPlacement='bottom-start'
                                     />
-                                    <Container> • </Container>
+                                    <div> • </div>
                                 </>
                             )}
 
@@ -59,14 +58,14 @@ export const WalletCard = ({ wallet }: Props) => {
                                     );
                                 } else {
                                     return (
-                                        <Container key={index}>
+                                        <div key={index}>
                                             {index > 0 && helperText.length > 1 && (
                                                 <div className='flex gap-[5px]'>
-                                                    <Container> • </Container>
-                                                    <Container>{item}</Container>
+                                                    <div> • </div>
+                                                    <div>{item}</div>
                                                 </div>
                                             )}
-                                        </Container>
+                                        </div>
                                     );
                                 }
                             })}

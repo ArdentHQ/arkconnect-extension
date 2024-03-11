@@ -4,7 +4,7 @@ import { runtime } from 'webextension-polyfill';
 import { useFormik } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import SubPageLayout from '../SubPageLayout';
-import { Button, Container, Paragraph, PasswordInput } from '@/shared/components';
+import { Button, Paragraph, PasswordInput } from '@/shared/components';
 
 import { ToastPosition } from '@/components/toast/ToastContainer';
 import { isValidPassword } from '@/lib/utils/validations';
@@ -86,13 +86,8 @@ const ChangeLocalPassword = () => {
                 <Paragraph $typeset='headline' fontWeight='regular' color='gray' mb='24'>
                     Change password for your wallet. Your password is only stored locally.
                 </Paragraph>
-                <Container height='100%'>
-                    <Container
-                        pb='16'
-                        mb='16'
-                        borderBottom='1px solid'
-                        borderColor='toggleInactive'
-                    >
+                <div className='h-full'>
+                    <div className='mb-4 border-b border-solid border-b-theme-secondary-200 pb-4 dark:border-b-theme-secondary-600'>
                         <PasswordInput
                             name='oldPassword'
                             variant={formik.errors.oldPassword ? 'destructive' : 'primary'}
@@ -103,7 +98,7 @@ const ChangeLocalPassword = () => {
                             onBlur={formik.handleBlur}
                             value={formik.values.oldPassword}
                         />
-                    </Container>
+                    </div>
 
                     <div className='flex flex-col gap-4'>
                         <PasswordInput
@@ -139,7 +134,7 @@ const ChangeLocalPassword = () => {
                             value={formik.values.confirmNewPassword}
                         />
                     </div>
-                </Container>
+                </div>
                 <Button
                     variant='primary'
                     disabled={!formik.isValid || !formik.values.oldPassword.length}

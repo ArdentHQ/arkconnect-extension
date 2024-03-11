@@ -3,7 +3,7 @@ import Step from './Step';
 import { connectSteps } from './utils/connectionSteps';
 import * as ModalStore from '@/lib/store/modal';
 
-import { Button, Container, ExternalLink, Heading, Icon, Paragraph } from '@/shared/components';
+import { Button, ExternalLink, Heading, Icon, Paragraph } from '@/shared/components';
 
 import constants from '@/constants';
 import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
@@ -87,7 +87,7 @@ export const LedgerConnectionStep = ({
     );
 
     return (
-        <Container>
+        <div>
             <Heading $typeset='h3' fontWeight='bold' color='base' mb='24'>
                 Connect Your Ledger Device
             </Heading>
@@ -95,7 +95,7 @@ export const LedgerConnectionStep = ({
                 <Icon icon='ledger-device' className='h-[7.5rem] w-[13.75rem]' />
             </div>
 
-            <Container mb='24'>
+            <div className='mb-6'>
                 {connectSteps.map((step, index) => (
                     <div key={index} className='flex items-start gap-2'>
                         <Step step={index + 1} />
@@ -109,12 +109,12 @@ export const LedgerConnectionStep = ({
                         </Paragraph>
                     </div>
                 ))}
-            </Container>
-            <Container pb='16'>
+            </div>
+            <div className='pb-4'>
                 <Button variant='primary' onClick={handleListenDevice}>
                     Continue
                 </Button>
-            </Container>
+            </div>
             <ExternalLink
                 className='flex w-full items-center justify-center gap-3 text-theme-primary-700 dark:text-theme-primary-650'
                 href={`mailto:${constants.SUPPORT_EMAIL}?subject=ARK%20Connect%20Support%20Ledger`}
@@ -124,6 +124,6 @@ export const LedgerConnectionStep = ({
                 </Paragraph>
                 <Icon icon='link-external' className='h-5 w-5' />
             </ExternalLink>
-        </Container>
+        </div>
     );
 };

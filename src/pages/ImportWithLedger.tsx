@@ -1,16 +1,14 @@
 import { useEffect, useState } from 'react';
 import { Contracts } from '@ardenthq/sdk-profiles';
 import { runtime } from 'webextension-polyfill';
-import styled from 'styled-components';
 import { useFormik } from 'formik';
-import { Container, Header, Icon, Paragraph } from '@/shared/components';
+import { Header, Icon, Paragraph } from '@/shared/components';
 import { LedgerData, useLedgerContext } from '@/lib/Ledger';
 import StepsNavigation, { Step } from '@/components/steps/StepsNavigation';
 
 import ImportWallets from '@/components/ledger/ImportWallets';
 import { LedgerConnectionStep } from '@/components/ledger/LedgerConnectionStep';
 import SetupPassword from '@/components/settings/SetupPassword';
-import { ThemeMode } from '@/lib/store/ui';
 import { getLedgerAlias } from '@/lib/utils/getDefaultAlias';
 import { getLocalValues } from '@/lib/utils/localStorage';
 import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
@@ -18,7 +16,6 @@ import useLoadingModal from '@/lib/hooks/useLoadingModal';
 import useLocaleCurrency from '@/lib/hooks/useLocalCurrency';
 import useActiveNetwork from '@/lib/hooks/useActiveNetwork';
 import { useProfileContext } from '@/lib/context/Profile';
-import useThemeMode from '@/lib/hooks/useThemeMode';
 
 export type ImportWithLedger = {
     wallets: LedgerData[];
@@ -29,7 +26,6 @@ export type ImportWithLedger = {
 };
 
 const ImportWithLedger = () => {
-    const { currentThemeMode } = useThemeMode();
     const network = useActiveNetwork();
     const { profile, initProfile } = useProfileContext();
     const { defaultCurrency } = useLocaleCurrency();
@@ -103,26 +99,21 @@ const ImportWithLedger = () => {
     }, []);
 
     return (
-        <Container width='100vw' minHeight='100vh' backgroundColor='primaryBackground'>
+        <div className='min-h-screen w-screen bg-subtle-white dark:bg-light-black'>
             <Header />
             <div className='flex min-h-screen w-full items-center justify-center pt-14'>
                 <div className='flex h-full items-center justify-center'>
-                    <Container
-                        py='24'
-                        width='355px'
-                        backgroundColor='secondaryBackground'
-                        borderRadius='8'
-                    >
+                    <div className='w-[355px] rounded-lg bg-white py-6 dark:bg-subtle-black'>
                         <StepsNavigation
                             steps={steps}
                             formik={formik}
                             disabledSteps={[0, 2]}
                             className='px-6'
                         />
-                    </Container>
+                    </div>
                 </div>
                 {error && (
-                    <LedgerError themeMode={currentThemeMode}>
+                    <div className=' fixed bottom-0 left-0 z-[15] flex w-full items-center justify-center border border-solid border-t-theme-error-300 bg-theme-error-500 px-2 dark:border-t-theme-error-500 dark:bg-[rgba(255,86,74,0.26)]'>
                         <div className='flex items-center gap-6'>
                             <div className='flex items-center gap-2'>
                                 <Icon
@@ -137,39 +128,18 @@ const ImportWithLedger = () => {
                                     {error && error.message ? error.message : error}
                                 </Paragraph>
                             </div>
-                            <Container p='8' onClick={removeErrors}>
+                            <div className='p-2' onClick={removeErrors}>
                                 <Icon
                                     icon='x'
                                     className='h-4 w-4 cursor-pointer text-theme-error-600 dark:text-white'
                                 />
-                            </Container>
+                            </div>
                         </div>
-                    </LedgerError>
+                    </div>
                 )}
             </div>
-        </Container>
+        </div>
     );
 };
-
-const LedgerError = styled(Container)<{ themeMode: ThemeMode }>`
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    z-index: 15;
-    padding: 8px 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: ${(props) =>
-        props.themeMode === ThemeMode.LIGHT
-            ? props.theme.colors.error50
-            : 'rgba(255, 86, 74, 0.26)'};
-    border-top: 1px solid
-        ${(props) =>
-            props.themeMode === ThemeMode.LIGHT
-                ? props.theme.colors.error300
-                : props.theme.colors.error500};
-`;
 
 export default ImportWithLedger;
