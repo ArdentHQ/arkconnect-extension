@@ -1,11 +1,9 @@
 import { useNavigate } from 'react-router-dom';
 import { ChangeEvent, KeyboardEvent, useState } from 'react';
-import styled from 'styled-components';
 import { runtime } from 'webextension-polyfill';
 import classNames from 'classnames';
 import {
     Button,
-    Container,
     Icon,
     InternalLink,
     Layout,
@@ -99,16 +97,17 @@ const EnterPassword = () => {
                         className='mb-6'
                     >
                         Unlock Extension
-                        <StyledIconWrapper
-                            className={
-                                !password.length || validationVariant === 'destructive'
-                                    ? 'disabled'
-                                    : ''
-                            }
-                            as='span'
+                        <span
+                            className={classNames(
+                                'unlock-button absolute right-4 top-1/2 h-5 w-5 -translate-y-1/2',
+                                {
+                                    disabled:
+                                        !password.length || validationVariant === 'destructive',
+                                },
+                            )}
                         >
                             <Icon icon='corner-down-left' className='h-5 w-5' />
-                        </StyledIconWrapper>
+                        </span>
                     </Button>
                     <InternalLink
                         to='/forgot-password'
@@ -127,24 +126,5 @@ const EnterPassword = () => {
         </Layout>
     );
 };
-
-const StyledIconWrapper = styled(Container)`
-    width: 20px;
-    height: 20px;
-    position: absolute;
-    top: 50%;
-    right: 16px;
-    transform: translateY(-50%);
-
-    ${({ theme }) => `
-    & #corner-down-left {
-      stroke: ${theme.colors.primary500};
-    }
-
-    &.disabled #corner-down-left {
-      stroke: ${theme.colors.secondary400};
-    }
-  `}
-`;
 
 export default EnterPassword;

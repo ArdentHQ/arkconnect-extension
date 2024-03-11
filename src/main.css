@@ -156,3 +156,11 @@ header {
 .dark .logo #ark-logo {
     @apply !fill-theme-primary-650;
 }
+
+.unlock-button #corner-down-left {
+    @apply stroke-theme-primary-500;
+}
+
+.unlock-button.disabled #corner-down-left {
+    @apply stroke-theme-secondary-400;
+}
