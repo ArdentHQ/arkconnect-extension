@@ -4,7 +4,7 @@ import { useFormik } from 'formik';
 import { useState } from 'react';
 import SubPageLayout from '../SubPageLayout';
 import YourPrivateKey from './YourPrivateKey';
-import { Button, Checkbox, Container, Paragraph, PasswordInput } from '@/shared/components';
+import { Button, Checkbox, Container, PasswordInput } from '@/shared/components';
 import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
 import { useProfileContext } from '@/lib/context/Profile';
 import YourPassphrase from '@/components/settings/general/YourPassphrase';
@@ -90,9 +90,8 @@ const ViewSensitiveInfo = () => {
     return (
         <SubPageLayout title={texts[infoType].title} hideCloseButton={false} paddingBottom='0'>
             <div className='flex h-full flex-col'>
-                <Paragraph $typeset='headline' color='gray' mb='24'>
-                    {texts[infoType].description}
-                </Paragraph>
+                <p className='typeset-headline mb-6'>{texts[infoType].description}</p>
+
                 <div className='flex flex-1 flex-col justify-between'>
                     <Container>
                         <PasswordInput

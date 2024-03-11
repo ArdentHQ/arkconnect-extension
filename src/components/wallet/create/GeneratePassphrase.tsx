@@ -66,9 +66,9 @@ const GeneratePassphrase = ({ goToNextStep, formik }: Props) => {
                 </Heading>
                 {selectedNetwork.isTest() && <TestnetIcon />}
             </div>
-            <Paragraph $typeset='headline' color='gray' mb='16'>
+            <p className='typeset-headline mb-4'>
                 Write down or copy your passphrase. Make sure to store it safely.
-            </Paragraph>
+            </p>
             {formik.values.passphrase && (
                 <Container
                     borderRadius='8'

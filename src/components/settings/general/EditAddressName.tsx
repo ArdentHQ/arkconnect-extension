@@ -2,7 +2,7 @@ import { useFormik } from 'formik';
 import { useNavigate, useParams } from 'react-router-dom';
 import { object, string } from 'yup';
 import SubPageLayout from '../SubPageLayout';
-import { Button, Container, Input, Paragraph } from '@/shared/components';
+import { Button, Container, Input } from '@/shared/components';
 import useToast from '@/lib/hooks/useToast';
 import { useEnvironmentContext } from '@/lib/context/Environment';
 import { useProfileContext } from '@/lib/context/Profile';
@@ -54,10 +54,10 @@ const EditAddressName = () => {
     return (
         <SubPageLayout title='Edit Address Name' hideCloseButton={false}>
             <div className='flex h-full flex-col'>
-                <Paragraph $typeset='headline' color='gray' mb='24'>
+                <p className='typeset-headline mb-6'>
                     Name your address so you can identify it later. This name is only stored
                     locally.
-                </Paragraph>
+                </p>
 
                 <Container
                     mb={formik.isValid || !formik.values.addressName?.length ? '270' : '246'}

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import SubPageLayout from '../SubPageLayout';
-import { Button, Container, Paragraph, PassphraseInput, ToggleSwitch } from '@/shared/components';
+import { Button, Container, PassphraseInput, ToggleSwitch } from '@/shared/components';
 import useClipboard from '@/lib/hooks/useClipboard';
 import { ToastPosition } from '@/components/toast/ToastContainer';
 
@@ -19,10 +19,11 @@ const YourPassphrase = ({ passphrase }: Props) => {
     return (
         <SubPageLayout title='Show Passphrase' hideCloseButton={false} paddingBottom='0'>
             <div className='flex h-full flex-col'>
-                <Paragraph $typeset='headline' color='gray' mb='16'>
+                <p className='typeset-headline mb-4'>
                     Remember, anyone with your passphrase can steal your assets. Do not share this
                     publicly.
-                </Paragraph>
+                </p>
+
                 <div className='flex flex-1 flex-col justify-between'>
                     <Container>
                         <Container mb='16' position='relative'>

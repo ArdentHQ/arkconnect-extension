@@ -1,7 +1,7 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { runtime } from 'webextension-polyfill';
 import SubPageLayout, { SettingsRowItem } from '../SubPageLayout';
-import { Container, Icon, Paragraph } from '@/shared/components';
+import { Container, Icon } from '@/shared/components';
 import useToast from '@/lib/hooks/useToast';
 import { AutoLockTimer as AutoLockTimerEnum, setLocalValue } from '@/lib/utils/localStorage';
 import showAutoLockTimerValue from '@/lib/utils/showAutoLockTimerValue';
@@ -37,9 +37,7 @@ const AutoLockTimer = () => {
                         active={location.state?.autoLockTimer === timerKey}
                         onClick={() => changeAutoLockTimer(timerKey)}
                     >
-                        <Paragraph $typeset='headline' as='span'>
-                            {showAutoLockTimerValue(timerKey)}
-                        </Paragraph>
+                        <span className='typeset-headline'>{showAutoLockTimerValue(timerKey)}</span>
                         {location.state?.autoLockTimer === timerKey && (
                             <Icon icon='check' className='h-5 w-5' />
                         )}

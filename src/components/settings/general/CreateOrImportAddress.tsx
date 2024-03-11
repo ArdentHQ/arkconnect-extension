@@ -3,14 +3,7 @@ import { useState } from 'react';
 import { runtime, tabs } from 'webextension-polyfill';
 import SubPageLayout from '../SubPageLayout';
 import SelectNetworkTypeModal from './SelectNetworkTypeModal';
-import {
-    Container,
-    Icon,
-    IconDefinition,
-    Paragraph,
-    RowLayout,
-    Tooltip,
-} from '@/shared/components';
+import { Container, Icon, IconDefinition, RowLayout, Tooltip } from '@/shared/components';
 import { isFirefox } from '@/lib/utils/isFirefox';
 import { clearPersistScreenData } from '@/components/wallet/form-persist/helpers';
 
@@ -101,10 +94,10 @@ const CreateOrImportAddress = () => {
                 <Tooltip
                     disabled={!isFirefox}
                     content={
-                        <Paragraph>
+                        <p>
                             ARK Connect requires the use of a chromium <br /> based browser when
                             using a Ledger.
-                        </Paragraph>
+                        </p>
                     }
                     placement='bottom'
                 >
