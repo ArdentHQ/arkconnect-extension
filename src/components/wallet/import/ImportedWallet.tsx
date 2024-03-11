@@ -2,7 +2,7 @@ import { FormikProps } from 'formik';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { Contracts } from '@ardenthq/sdk-profiles';
 import { ImportedWalletFormik } from '.';
-import { Button, Heading, Input, Paragraph } from '@/shared/components';
+import { Button, HeadingTODO, Input, Paragraph } from '@/shared/components';
 
 type Props = {
     goToNextStep: () => void;
@@ -39,9 +39,9 @@ const ImportedWallet = ({ goToNextStep, formik }: Props) => {
 
     return (
         <>
-            <Heading $typeset='h3' fontWeight='bold' color='base' mb='8'>
+            <HeadingTODO className='mb-2' level={3}>
                 Address Imported Successfully!
-            </Heading>
+            </HeadingTODO>
             <Paragraph $typeset='headline' color='gray' mb='24'>
                 Your address details are shown below.
             </Paragraph>

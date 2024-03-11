@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Heading, Paragraph } from '@/shared/components';
+import { HeadingTODO, Paragraph } from '@/shared/components';
 
 type Props = {
     sessionDomain?: string;
@@ -14,9 +14,9 @@ const RemoveConnections = ({ numberOfSessions, sessionDomain }: Props) => {
     const hasMultipleSessions = numberOfSessions && numberOfSessions > 1;
     return (
         <div>
-            <Heading $typeset='h4' fontWeight='medium' color='base'>
+            <HeadingTODO level={4}>
                 {hasMultipleSessions ? 'Disconnect All Connections' : 'Disconnect Connection'}
-            </Heading>
+            </HeadingTODO>
 
             <div className='mt-2'>
                 <Paragraph $typeset='headline' fontWeight='regular' color='gray' display='inline'>

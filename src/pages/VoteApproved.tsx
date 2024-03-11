@@ -3,7 +3,7 @@ import { ApproveActionType } from './Approve';
 import VoteApprovedBody from '@/components/approve/VoteApprovedBody';
 import constants from '@/constants';
 import removeWindowInstance from '@/lib/utils/removeWindowInstance';
-import { Button, ExternalLink, Heading, Icon, Paragraph } from '@/shared/components';
+import { Button, ExternalLink, HeadingTODO, Icon, Paragraph } from '@/shared/components';
 import formatDomain from '@/lib/utils/formatDomain';
 import RequestedBy from '@/shared/components/actions/RequestedBy';
 import { useProfileContext } from '@/lib/context/Profile';
@@ -41,9 +41,7 @@ const VoteApproved = () => {
                             icon='completed'
                             className='h-16 w-16 text-theme-primary-700 dark:text-theme-primary-650'
                         />
-                        <Heading $typeset='h3' color='base' fontWeight='bold'>
-                            {getTitle()}
-                        </Heading>
+                        <HeadingTODO level={3}>{getTitle()}</HeadingTODO>
                     </div>
                     <VoteApprovedBody wallet={wallet} />
                 </div>

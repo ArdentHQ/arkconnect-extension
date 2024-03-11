@@ -7,7 +7,7 @@ import RequestedSignatureMessage from '../approve/RequestedSignatureMessage';
 import formatDomain from '@/lib/utils/formatDomain';
 import trimAddress from '@/lib/utils/trimAddress';
 import { ApproveActionType } from '@/pages/Approve';
-import { Heading, Icon, Loader, Paragraph } from '@/shared/components';
+import { HeadingTODO, Icon, Loader, Paragraph } from '@/shared/components';
 import { useVoteForm } from '@/lib/hooks/useVoteForm';
 import { useExchangeRate } from '@/lib/hooks/useExchangeRate';
 import RequestedBy from '@/shared/components/actions/RequestedBy';
@@ -113,9 +113,9 @@ const ApproveWithLedger = ({
                         />
                     </NavButton>
                 </div>
-                <Heading $typeset='h3' fontWeight='bold' color='base' mb='8' mt='16'>
+                <HeadingTODO className='mb-2 mt-4' level={3}>
                     Connect Ledger and Sign The {getActionMessage()} Request
-                </Heading>
+                </HeadingTODO>
                 <Paragraph $typeset='headline' fontWeight='regular' color='gray'>
                     Connect your Ledger device, launch the ARK app, and carefully review the request
                     on your device before confirming your approval.

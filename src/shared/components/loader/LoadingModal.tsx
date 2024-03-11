@@ -1,6 +1,6 @@
 import { useAppSelector } from '@/lib/store';
 import { CTA_CONTENT, selectLoadingModal } from '@/lib/store/modal';
-import { Heading, Icon, Loader, Paragraph } from '@/shared/components';
+import { HeadingTODO, Icon, Loader, Paragraph } from '@/shared/components';
 
 const LoadingModal = () => {
     const { isLoading, isOpen, completedMessage, loadingMessage, completedDescription, CTA } =
@@ -20,9 +20,7 @@ const LoadingModal = () => {
                             className='h-16 w-16 text-theme-primary-700 dark:text-theme-primary-650'
                         />
                         <div className='flex flex-col items-center justify-center'>
-                            <Heading $typeset='h3' color='base' fontWeight='bold'>
-                                {completedMessage}
-                            </Heading>
+                            <HeadingTODO level={3}>{completedMessage}</HeadingTODO>
                             {completedDescription && (
                                 <Paragraph
                                     $typeset='headline'
@@ -40,9 +38,9 @@ const LoadingModal = () => {
                 ) : (
                     <>
                         <Loader variant='big' />
-                        <Heading $typeset='h3' color='base' fontWeight='bold' textAlign={'center'}>
+                        <HeadingTODO level={3} className='text-center'>
                             {loadingMessage}
-                        </Heading>
+                        </HeadingTODO>
                         {!!CTAContent && <CTAContent />}
                     </>
                 )}

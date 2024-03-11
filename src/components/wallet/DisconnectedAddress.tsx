@@ -1,12 +1,10 @@
-import { Heading, Paragraph } from '@/shared/components';
+import { HeadingTODO, Paragraph } from '@/shared/components';
 
 const DisconnectedAddress = () => {
     return (
         <div>
             <div className=' break-words'>
-                <Heading $typeset='h4' fontWeight='medium' color='base'>
-                    Disconnected Address
-                </Heading>
+                <HeadingTODO level={4}>Disconnected Address</HeadingTODO>
             </div>
 
             <Paragraph $typeset='headline' fontWeight='regular' color='gray' marginTop='6'>
