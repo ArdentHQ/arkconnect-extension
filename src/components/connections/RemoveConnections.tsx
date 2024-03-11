@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Container, Heading, Paragraph } from '@/shared/components';
+import { Heading, Paragraph } from '@/shared/components';
 
 type Props = {
     sessionDomain?: string;
@@ -13,12 +13,12 @@ const StyledDomain = styled.span`
 const RemoveConnections = ({ numberOfSessions, sessionDomain }: Props) => {
     const hasMultipleSessions = numberOfSessions && numberOfSessions > 1;
     return (
-        <Container>
+        <div>
             <Heading $typeset='h4' fontWeight='medium' color='base'>
                 {hasMultipleSessions ? 'Disconnect All Connections' : 'Disconnect Connection'}
             </Heading>
 
-            <Container mt='8'>
+            <div className='mt-2'>
                 <Paragraph $typeset='headline' fontWeight='regular' color='gray' display='inline'>
                     Are you certain you want to disconnect
                     {hasMultipleSessions ? ' all ' : ' your connection with '}
@@ -49,8 +49,8 @@ const RemoveConnections = ({ numberOfSessions, sessionDomain }: Props) => {
                     )}
                     ?
                 </Paragraph>
-            </Container>
-        </Container>
+            </div>
+        </div>
     );
 };
 

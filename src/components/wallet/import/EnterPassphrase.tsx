@@ -6,14 +6,7 @@ import { clearPersistScreenData, persistScreenChanged } from '../form-persist/he
 import { TestnetIcon } from '../address/Address.blocks';
 import { WalletFormScreen } from '../form-persist';
 import { ImportedWalletFormik } from '.';
-import {
-    Button,
-    Container,
-    Heading,
-    Paragraph,
-    PassphraseInput,
-    ToggleSwitch,
-} from '@/shared/components';
+import { Button, Heading, Paragraph, PassphraseInput, ToggleSwitch } from '@/shared/components';
 
 import { assertWallet } from '@/lib/utils/assertions';
 import { getDefaultAlias } from '@/lib/utils/getDefaultAlias';
@@ -203,7 +196,7 @@ const EnterPassphrase = ({ goToNextStep, formik }: Props) => {
                 Enter your 12 or 24-word passphrase that you were given when you created the
                 address.
             </Paragraph>
-            <Container mb='16' position='relative'>
+            <div className='relative mb-4'>
                 <PassphraseInput
                     name='enteredPassphrase'
                     value={values.enteredPassphrase}
@@ -223,7 +216,7 @@ const EnterPassphrase = ({ goToNextStep, formik }: Props) => {
                     placeholder='Paste your 12 or 24-word passphrase here'
                     className='custom-scroll h-[104px]'
                 />
-            </Container>
+            </div>
 
             <div className='flex items-center justify-between'>
                 <ToggleSwitch
