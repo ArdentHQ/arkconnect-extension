@@ -93,7 +93,7 @@ const SetupPassword = ({ formik }: Props) => {
     };
 
     return (
-        <div className='flex max-h-[450px] flex-col'>
+        <div className='flex h-full flex-col'>
             <Heading $typeset='h3' fontWeight='bold' color='base' mb='8'>
                 Setup a Password
             </Heading>
