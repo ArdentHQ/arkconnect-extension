@@ -54,6 +54,7 @@ const EnterPassphrase = ({ goToNextStep, formik }: Props) => {
         persistScreenChanged({
             screen: WalletFormScreen.IMPORT,
             step: 0,
+            networkName: activeNetwork.name(),
         });
     }, []);
 
