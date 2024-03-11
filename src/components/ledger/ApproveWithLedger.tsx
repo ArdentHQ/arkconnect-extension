@@ -1,5 +1,6 @@
 import { useLocation } from 'react-router-dom';
 import { Contracts } from '@ardenthq/sdk-profiles';
+import classNames from 'classnames';
 import RequestedVoteBody from '../approve/RequestedVoteBody';
 import RequestedTransactionBody from '../approve/RequestedTransactionBody';
 import RequestedSignatureMessage from '../approve/RequestedSignatureMessage';
@@ -7,7 +8,7 @@ import useThemeMode from '@/lib/hooks/useThemeMode';
 import formatDomain from '@/lib/utils/formatDomain';
 import trimAddress from '@/lib/utils/trimAddress';
 import { ApproveActionType } from '@/pages/Approve';
-import { Container, Heading, Icon, Loader, Paragraph } from '@/shared/components';
+import { Heading, Icon, Loader, Paragraph } from '@/shared/components';
 import { useVoteForm } from '@/lib/hooks/useVoteForm';
 import { useExchangeRate } from '@/lib/hooks/useExchangeRate';
 import RequestedBy from '@/shared/components/actions/RequestedBy';
@@ -90,22 +91,22 @@ const ApproveWithLedger = ({
         }
     };
 
-    const getBottomMargin = () => {
+    const getTopMarginClass = () => {
         switch (actionType) {
             case ApproveActionType.VOTE:
             case ApproveActionType.UNVOTE:
-                return '80';
+                return 'mt-20';
             case ApproveActionType.SWITCH_VOTE:
-                return '44';
+                return 'mt-11';
             default:
-                return '24';
+                return 'mt-6';
         }
     };
 
     return (
-        <Container backgroundColor={getThemeColor('subtleWhite', 'lightBlack')} minHeight='100vh'>
+        <div className=' min-h-screen bg-subtle-white dark:bg-light-black'>
             <RequestedBy appDomain={formatDomain(appName) || ''} appLogo={appLogo} />
-            <Container pt='16' px='16'>
+            <div className='px-4 pt-4'>
                 <div className='flex items-center justify-between gap-3 bg-subtle-white dark:bg-light-black'>
                     <NavButton onClick={closeLedgerScreen}>
                         <Icon
@@ -141,19 +142,17 @@ const ApproveWithLedger = ({
                         />
                     )}
                     {actionType === ApproveActionType.SIGNATURE && (
-                        <Container height='191px'>
+                        <div className='h-[191px]'>
                             <RequestedSignatureMessage data={state} />
-                        </Container>
+                        </div>
                     )}
                 </div>
 
-                <Container
-                    border='1px solid'
-                    borderColor='warning400'
-                    borderRadius='16'
-                    mt={getBottomMargin()}
-                    mb='24'
-                    overflow='hidden'
+                <div
+                    className={classNames(
+                        'mb-6 overflow-hidden rounded-2xl border border-solid border-theme-warning-400',
+                        getTopMarginClass(),
+                    )}
                 >
                     {!!address && (
                         <div className='flex justify-center bg-white p-[14px] dark:bg-light-black'>
@@ -169,9 +168,9 @@ const ApproveWithLedger = ({
                             Waiting for your signature
                         </Paragraph>
                     </div>
-                </Container>
-            </Container>
-        </Container>
+                </div>
+            </div>
+        </div>
     );
 };
 

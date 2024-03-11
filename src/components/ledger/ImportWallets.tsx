@@ -3,7 +3,7 @@ import { BIP44 } from '@ardenthq/sdk-cryptography';
 import { Contracts as ProfilesContracts } from '@ardenthq/sdk-profiles';
 import { FormikProps } from 'formik';
 import classNames from 'classnames';
-import { Button, Checkbox, Container, Heading, Paragraph, Tooltip } from '@/shared/components';
+import { Button, Checkbox, Heading, Paragraph, Tooltip } from '@/shared/components';
 import trimAddress from '@/lib/utils/trimAddress';
 import { useLedgerContext, useLedgerScanner } from '@/lib/Ledger';
 import useActiveNetwork from '@/lib/hooks/useActiveNetwork';
@@ -117,7 +117,7 @@ const ImportWallets = ({ goToNextStep, formik }: Props) => {
     };
 
     return (
-        <Container>
+        <div>
             <Heading $typeset='h3' fontWeight='bold' color='base' mb='8' px='24'>
                 Select Addresses to Import
             </Heading>
@@ -175,7 +175,7 @@ const ImportWallets = ({ goToNextStep, formik }: Props) => {
                                             </Paragraph>
                                         </div>
                                         <div className='flex items-center gap-3'>
-                                            <Container width='20px' height='20px'>
+                                            <div className='h-5 w-5'>
                                                 <Checkbox
                                                     id={`import-${wallet.address}`}
                                                     name={`import-${wallet.address}`}
@@ -183,7 +183,7 @@ const ImportWallets = ({ goToNextStep, formik }: Props) => {
                                                     checked={isSelected(wallet.path) || isImported}
                                                     onChange={() => toggleSelect(wallet.path)}
                                                 />
-                                            </Container>
+                                            </div>
                                         </div>
                                     </div>
                                 </Tooltip>
@@ -192,7 +192,7 @@ const ImportWallets = ({ goToNextStep, formik }: Props) => {
                     })}
                 </HandleLoadingState>
             </div>
-            <Container px='24' pt='24'>
+            <div className='px-4 pt-4'>
                 <Button
                     variant='primary'
                     disabled={!selectedWallets.length}
@@ -200,8 +200,8 @@ const ImportWallets = ({ goToNextStep, formik }: Props) => {
                 >
                     Import {showImportedWalletsLength()}
                 </Button>
-            </Container>
-        </Container>
+            </div>
+        </div>
     );
 };
 

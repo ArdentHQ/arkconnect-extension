@@ -1,14 +1,12 @@
-import { ThemeValue } from 'styled-system';
 import classNames from 'classnames';
-import { ArrowButton, CloseButton, Container, Heading, Layout } from '@/shared/components';
-import { Theme } from '@/shared/theme';
+import { ArrowButton, CloseButton, Heading, Layout } from '@/shared/components';
 
 type Props = {
     children: React.ReactNode | React.ReactNode[];
     title: string;
     withStickyHeader?: boolean;
     hideCloseButton?: boolean;
-    paddingBottom?: ThemeValue<'space', Theme>;
+    noPaddingBottom?: boolean;
     onBack?: 'goHome' | 'goBack';
 };
 
@@ -18,7 +16,7 @@ const SubPageLayout = ({
     withStickyHeader = false,
     hideCloseButton = true,
     onBack,
-    paddingBottom = '16',
+    noPaddingBottom = false,
 }: Props) => {
     if (!onBack) {
         onBack = hideCloseButton ? 'goHome' : 'goBack';
@@ -44,9 +42,13 @@ const SubPageLayout = ({
                     {!hideCloseButton && <CloseButton />}
                 </div>
             </div>
-            <Container paddingX='16' paddingBottom={paddingBottom} height='100%'>
+            <div
+                className={classNames('h-full px-4', {
+                    'pb-4': !noPaddingBottom,
+                })}
+            >
                 {children}
-            </Container>
+            </div>
         </Layout>
     );
 };

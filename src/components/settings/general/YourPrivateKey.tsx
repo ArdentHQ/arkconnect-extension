@@ -17,7 +17,7 @@ const YourPrivateKey = ({ privateKey }: Props) => {
     };
 
     return (
-        <SubPageLayout title='Show Private Key' hideCloseButton={false} paddingBottom='0'>
+        <SubPageLayout title='Show Private Key' hideCloseButton={false} noPaddingBottom>
             <div className='flex h-full flex-col'>
                 <Paragraph $typeset='headline' color='gray' mb='16'>
                     Remember, anyone with your private key can steal your assets. Do not share this

@@ -17,7 +17,7 @@ const YourPassphrase = ({ passphrase }: Props) => {
     };
 
     return (
-        <SubPageLayout title='Show Passphrase' hideCloseButton={false} paddingBottom='0'>
+        <SubPageLayout title='Show Passphrase' hideCloseButton={false} noPaddingBottom>
             <div className='flex h-full flex-col'>
                 <Paragraph $typeset='headline' color='gray' mb='16'>
                     Remember, anyone with your passphrase can steal your assets. Do not share this
