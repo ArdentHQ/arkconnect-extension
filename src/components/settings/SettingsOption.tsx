@@ -54,8 +54,8 @@ export const SettingsOption = forwardRef(function RowLayout(
             aria-label={title}
             {...rest}
         >
-            <span className='flex w-full items-start gap-3'>
-                <span className='flex items-center justify-center overflow-hidden'>
+            <span className='flex w-full items-center gap-3'>
+                <span className='flex items-start justify-center overflow-hidden'>
                     <span
                         className={cn(
                             'h-5 w-5 text-theme-secondary-500 dark:text-theme-secondary-300',
