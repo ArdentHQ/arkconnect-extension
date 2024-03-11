@@ -45,4 +45,4 @@ jobs:
               with:
                   timeout_minutes: 20
                   max_attempts: 1
-                  command: pnpm test
+                  command: pnpm test:coverage

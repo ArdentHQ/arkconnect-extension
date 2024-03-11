@@ -1,8 +1,7 @@
 import { getPasswordProtectedProfileId } from './src/tests/fixtures';
 import { bootEnvironmentWithProfileFixtures } from './src/tests/helpers';
-import { LocalStorageServiceState } from './src/lib/services/LocalStorageService.ts';
 import { env } from './src/tests/mocks';
-import { MockInstance, afterEach, beforeAll, beforeEach } from 'vitest';
+import { MockInstance, afterAll, afterEach, beforeAll, beforeEach } from 'vitest';
 import { vi } from 'vitest';
 import * as ProfileMock from './src/lib/context/Profile';
 
@@ -55,10 +54,8 @@ vi.mock('./src/routing', () => ({
 
 vi.mock('./src/lib/utils/localStorage', () => ({
     getLocalValues: () => ({
-        encryptionIV: 'encryptionIV',
-        passwordHash: 'passwordHash',
-        password: 'password',
         autoLockTimer: 60,
+        hasOnboarded: false,
     }),
     setLocalValue: vi.fn(),
     clearLocalStorage: vi.fn(),
@@ -69,40 +66,6 @@ vi.mock('./src/lib/utils/localStorage', () => ({
         TWENTY_FOUR_HOURS: 1440,
     },
 }));
-
-vi.mock('./src/lib/services/LocalStorageService', () => {
-    const data: LocalStorageServiceState = {
-        wallets: [
-            {
-                walletId: 'wallet-id',
-                passphrase: ['mnemonic'],
-            },
-        ],
-        sessions: {
-            'session-id': {
-                id: 'session-id',
-                domain: 'https://domain.com',
-                logo: 'https://domain.com/logo.png',
-                createdAt: '2024-01-01T00:00:00.000Z',
-                walletId: 'wallet-id',
-            },
-        },
-        primaryWalletId: getPasswordProtectedProfileId(),
-    };
-
-    return {
-        default: class LocalStorageService {
-            setEncryptionKey = vi.fn();
-            setEncryptionIV = vi.fn();
-            updateEncryption = vi.fn();
-            encrypt = vi.fn().mockReturnValue('encrypted');
-            decrypt = vi.fn().mockReturnValue(data);
-            getData = vi.fn().mockReturnValue(data);
-            setData = vi.fn();
-            removeData = vi.fn();
-        },
-    };
-});
 
 beforeAll(async () => {
     await bootEnvironmentWithProfileFixtures({ env, shouldRestoreDefaultProfile: true });
@@ -115,13 +78,20 @@ beforeEach(() => {
 
     useProfileContextMock = vi.spyOn(ProfileMock, 'useProfileContext').mockReturnValue({
         profile,
-        restoreWithPassword: vi.fn(),
-        loadLocalData: vi.fn(),
         initProfile: vi.fn(),
         convertedBalance: 0,
+        importProfile: vi.fn(),
+        isProfileReady: true,
     });
 });
 
 afterEach(() => {
     useProfileContextMock.mockRestore();
+});
+
+afterAll(() => {
+    // Run garbage collector after each test file is finished.
+    if (global.gc) {
+        global.gc();
+    }
 });
