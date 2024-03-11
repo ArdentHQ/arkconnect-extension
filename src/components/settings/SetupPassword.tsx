@@ -2,14 +2,7 @@ import { ChangeEvent, useEffect, useState } from 'react';
 import { useFormik } from 'formik';
 import { persistScreenChanged } from '../wallet/form-persist/helpers';
 import { WalletFormScreen } from '../wallet/form-persist';
-import {
-    Button,
-    Checkbox,
-    ExternalLink,
-    Heading,
-    Paragraph,
-    PasswordInput,
-} from '@/shared/components';
+import { Button, Checkbox, ExternalLink, PasswordInput } from '@/shared/components';
 import { getLocalValues, setLocalValue } from '@/lib/utils/localStorage';
 
 import constants from '@/constants';
@@ -94,12 +87,10 @@ const SetupPassword = ({ formik }: Props) => {
 
     return (
         <div className='flex min-h-[450px] flex-col'>
-            <Heading $typeset='h3' fontWeight='bold' color='base' mb='8'>
-                Setup a Password
-            </Heading>
-            <Paragraph $typeset='headline' color='gray' mb='16'>
+            <h3 className='typeset-h3 mb-2'>Setup a Password</h3>
+            <p className='typeset-headline mb-4'>
                 Create a password to access your wallet each time you use ARK Connect.
-            </Paragraph>
+            </p>
             <div className='flex h-full flex-col justify-between'>
                 <div className='flex flex-col gap-4'>
                     <PasswordInput
@@ -136,12 +127,9 @@ const SetupPassword = ({ formik }: Props) => {
                             onChange={handleTermsAndConditionsChange}
                         />
                         <div className='flex'>
-                            <Paragraph
-                                as='label'
+                            <label
                                 htmlFor='termsAndConditionsConfirmed'
-                                $typeset='body'
-                                color='base'
-                                fontWeight='medium'
+                                className='typeset-body font-medium text-light-black dark:text-white'
                             >
                                 I accept the{' '}
                                 <ExternalLink
@@ -162,7 +150,7 @@ const SetupPassword = ({ formik }: Props) => {
                                     Privacy Policy
                                 </ExternalLink>
                                 .
-                            </Paragraph>
+                            </label>
                         </div>
                     </div>
 
