@@ -84,11 +84,10 @@ const ConnectionsList = () => {
                                     placement='bottom-start'
                                 >
                                     <Paragraph
-                                        $typeset='body'
                                         fontWeight='regular'
                                         mt='4'
                                         display='inline'
-                                        className='text-theme-secondary-500 dark:text-theme-secondary-300'
+                                        className='typeset-body text-theme-secondary-500 dark:text-theme-secondary-300'
                                     >
                                         Connected with{' '}
                                         <strong>

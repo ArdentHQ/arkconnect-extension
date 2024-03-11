@@ -68,12 +68,9 @@ export const Address = ({
     return (
         <div>
             <Tooltip content={address} placement={tooltipPlacement}>
-                <Paragraph
-                    $typeset='body'
-                    className='text-theme-secondary-500 dark:text-theme-secondary-300'
-                >
+                <p className='typeset-body text-theme-secondary-500 dark:text-theme-secondary-300'>
                     {trimAddress(address, length)}
-                </Paragraph>
+                </p>
             </Tooltip>
         </div>
     );
@@ -92,12 +89,9 @@ export const AddressWithCopy = ({ address, length = 10 }: { address: string; len
         >
             <Tooltip content='Copy address' placement='top'>
                 <div className='flex items-center gap-1.5'>
-                    <Paragraph
-                        $typeset='body'
-                        className='text-theme-secondary-500 dark:text-theme-secondary-300'
-                    >
+                    <p className='typeset-body text-theme-secondary-500 dark:text-theme-secondary-300'>
                         {trimmedAddress}
-                    </Paragraph>
+                    </p>
                     <Icon icon='copy' className='h-[13px] w-[13px]' />
                 </div>
             </Tooltip>
@@ -116,12 +110,9 @@ export const AddressBalance = ({
 }) => {
     return (
         <div className='text-theme-secondary-500 dark:text-theme-primary-300'>
-            <Paragraph
-                $typeset='body'
-                className='text-theme-secondary-500 dark:text-theme-secondary-300'
-            >
+            <p className='typeset-body text-theme-secondary-500 dark:text-theme-secondary-300'>
                 <Amount value={balance} ticker={currency} maxDigits={maxDigits} withTicker />
-            </Paragraph>
+            </p>
         </div>
     );
 };

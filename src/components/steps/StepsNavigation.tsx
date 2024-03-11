@@ -71,7 +71,7 @@ const StepsNavigation = <T extends Record<string, any>>({
                     />
                 </div>
                 <div className='p-1.5'>
-                    <Paragraph $typeset='body' fontWeight='medium'>
+                    <Paragraph className='typeset-body' fontWeight='medium'>
                         {currentStep + 1}/{totalSteps}
                     </Paragraph>
                 </div>

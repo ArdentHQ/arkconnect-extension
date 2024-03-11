@@ -40,19 +40,12 @@ const GeneratePassphrase = ({ goToNextStep, formik }: Props) => {
                 })}
                 key={index}
             >
-                <Paragraph
-                    $typeset='body'
-                    className='text-theme-secondary-500 dark:text-theme-secondary-300'
-                    width='auto'
-                >
+                <p className='typeset-body w-auto text-theme-secondary-500 dark:text-theme-secondary-300'>
                     {index + 1}
-                </Paragraph>
-                <Paragraph
-                    fontWeight='medium'
-                    className='typeset-headline text-light-black dark:text-white'
-                >
+                </p>
+                <p className='typeset-headline font-medium text-light-black dark:text-white'>
                     {isHidden ? '•'.repeat(wordLength) : word}
-                </Paragraph>
+                </p>
             </div>
         );
     };

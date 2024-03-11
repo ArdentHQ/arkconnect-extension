@@ -51,10 +51,9 @@ const ImportedWallet = ({ goToNextStep, formik }: Props) => {
             <div>
                 <div className=' mb-4 border-b border-solid border-b-theme-secondary-200 pb-4 dark:border-b-theme-secondary-600'>
                     <Paragraph
-                        $typeset='body'
                         fontWeight='medium'
                         mb='8'
-                        className='text-theme-secondary-500 dark:text-theme-secondary-300'
+                        className='typeset-body text-theme-secondary-500 dark:text-theme-secondary-300'
                     >
                         Address
                     </Paragraph>
@@ -65,10 +64,9 @@ const ImportedWallet = ({ goToNextStep, formik }: Props) => {
 
                 <div className=' mb-4 border-b border-solid border-b-theme-secondary-200 pb-4 dark:border-b-theme-secondary-600'>
                     <Paragraph
-                        $typeset='body'
                         fontWeight='medium'
                         mb='8'
-                        className='text-theme-secondary-500 dark:text-theme-secondary-300'
+                        className='typeset-body text-theme-secondary-500 dark:text-theme-secondary-300'
                     >
                         Balance
                     </Paragraph>

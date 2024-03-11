@@ -123,8 +123,7 @@ const ImportWallets = ({ goToNextStep, formik }: Props) => {
                 Select Addresses to Import
             </Heading>
             <Paragraph
-                $typeset='body'
-                className='text-theme-secondary-500 dark:text-theme-secondary-300'
+                className='typeset-body text-theme-secondary-500 dark:text-theme-secondary-300'
                 mb='24'
                 px='24'
             >
@@ -179,8 +178,8 @@ const ImportWallets = ({ goToNextStep, formik }: Props) => {
                                                 {trimAddress(wallet.address, 10)}
                                             </Paragraph>
                                             <Paragraph
-                                                $typeset='body'
                                                 fontWeight='regular'
+                                                className='typeset-body'
                                                 as='span'
                                             >
                                                 <AddressBalance

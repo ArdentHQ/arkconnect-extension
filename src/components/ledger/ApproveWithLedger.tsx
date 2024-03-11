@@ -168,9 +168,7 @@ const ApproveWithLedger = ({
 
                     <div className='flex items-center justify-center rounded-b-2xl bg-theme-warning-50 p-2 dark:bg-theme-warning-500/10'>
                         <Loader variant='warning' />
-                        <Paragraph $typeset='body' fontWeight='medium'>
-                            Waiting for your signature
-                        </Paragraph>
+                        <p className='typeset-body font-medium'>Waiting for your signature</p>
                     </div>
                 </div>
             </div>
