@@ -103,23 +103,18 @@ const ImportWithLedger = () => {
     }, []);
 
     return (
-        <Container width='100vw' minHeight='100vh' backgroundColor='primaryBackground'>
+        <div className='min-h-screen w-screen bg-subtle-white dark:bg-light-black'>
             <Header />
             <div className='flex min-h-screen w-full items-center justify-center pt-14'>
                 <div className='flex h-full items-center justify-center'>
-                    <Container
-                        py='24'
-                        width='355px'
-                        backgroundColor='secondaryBackground'
-                        borderRadius='8'
-                    >
+                    <div className='w-[355px] rounded-lg bg-white py-6 dark:bg-subtle-black'>
                         <StepsNavigation
                             steps={steps}
                             formik={formik}
                             disabledSteps={[0, 2]}
                             className='px-6'
                         />
-                    </Container>
+                    </div>
                 </div>
                 {error && (
                     <LedgerError themeMode={currentThemeMode}>
@@ -137,17 +132,17 @@ const ImportWithLedger = () => {
                                     {error && error.message ? error.message : error}
                                 </Paragraph>
                             </div>
-                            <Container p='8' onClick={removeErrors}>
+                            <div className='p-2' onClick={removeErrors}>
                                 <Icon
                                     icon='x'
                                     className='h-4 w-4 cursor-pointer text-theme-error-600 dark:text-white'
                                 />
-                            </Container>
+                            </div>
                         </div>
                     </LedgerError>
                 )}
             </div>
-        </Container>
+        </div>
     );
 };
 

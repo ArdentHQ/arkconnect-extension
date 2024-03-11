@@ -2,7 +2,7 @@ import { FormikProps } from 'formik';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { Contracts } from '@ardenthq/sdk-profiles';
 import { ImportedWalletFormik } from '.';
-import { Button, Container, Heading, Input, Paragraph } from '@/shared/components';
+import { Button, Heading, Input, Paragraph } from '@/shared/components';
 
 type Props = {
     goToNextStep: () => void;
@@ -45,7 +45,7 @@ const ImportedWallet = ({ goToNextStep, formik }: Props) => {
             <Paragraph $typeset='headline' color='gray' mb='24'>
                 Your address details are shown below.
             </Paragraph>
-            <Container>
+            <div>
                 <div className=' mb-4 border-b border-solid border-b-theme-secondary-200 pb-4 dark:border-b-theme-secondary-600'>
                     <Paragraph $typeset='body' fontWeight='medium' mb='8' color='gray'>
                         Address
@@ -79,7 +79,7 @@ const ImportedWallet = ({ goToNextStep, formik }: Props) => {
                         onChange={handleAddressNameChange}
                     />
                 </div>
-            </Container>
+            </div>
             <Button
                 variant='primary'
                 disabled={!isAddressValid}

@@ -38,7 +38,7 @@ const Onboarding = () => {
         <FadeInLayout paddingTop='58'>
             <Header />
             <ProgressBar />
-            <Container position='relative' height='410px'>
+            <div className='relative h-[410px]'>
                 {onboardingScreens.map((screen, index) => (
                     <div
                         className={classNames(
@@ -57,7 +57,7 @@ const Onboarding = () => {
                         </div>
                     </div>
                 ))}
-            </Container>
+            </div>
             <div className='flex flex-col gap-3 px-4'>
                 <Button variant='primary' onClick={() => navigate('/wallet/create')}>
                     Create New Address

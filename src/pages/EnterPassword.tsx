@@ -65,12 +65,12 @@ const EnterPassword = () => {
 
     return (
         <Layout>
-            <Container height='550px' px='16'>
+            <div className='h-[550px] px-4'>
                 <div className='flex items-center justify-center py-[59px]'>
                     <LockIcon />
                 </div>
 
-                <Container>
+                <div>
                     <div
                         className={classNames('flex flex-col gap-1.5', {
                             'mb-5': validationVariant === 'destructive',
@@ -122,8 +122,8 @@ const EnterPassword = () => {
                             Forgot Password?
                         </Paragraph>
                     </InternalLink>
-                </Container>
-            </Container>
+                </div>
+            </div>
         </Layout>
     );
 };
