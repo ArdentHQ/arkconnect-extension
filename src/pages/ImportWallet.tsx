@@ -4,7 +4,7 @@ import { Layout } from '@/shared/components';
 const ImportWallet = () => {
     return (
         <Layout>
-            <div className='flex h-[550px] flex-col p-4'>
+            <div className='flex h-[550px] flex-col p-4 pb-0'>
                 <ImportNewWallet />
             </div>
         </Layout>
