@@ -1,4 +1,4 @@
-import { Button, Container, Grid, Paragraph } from '@/shared/components';
+import { Button, Container, Grid } from '@/shared/components';
 
 type ConnectFooterProps = {
     onSubmit: () => Promise<void>;
@@ -7,10 +7,10 @@ type ConnectFooterProps = {
 const ConnectFooter = ({ onSubmit, onCancel }: ConnectFooterProps) => {
     return (
         <Container px='16'>
-            <Paragraph $typeset='headline' fontWeight='regular' color='gray' mb='32'>
+            <p className='typeset-headline mb-8'>
                 It can see your address, balance, activity, and can send requests for transactions.
                 It cannot access your funds without your approval.
-            </Paragraph>
+            </p>
             <Grid gridGap='8px' gridTemplateColumns='repeat(2, 1fr)'>
                 <Button variant='secondaryBlack' onClick={onCancel}>
                     Refuse

@@ -1,9 +1,10 @@
 import { useEffect } from 'react';
+import classNames from 'classnames';
 import Step from './Step';
 import { connectSteps } from './utils/connectionSteps';
 import * as ModalStore from '@/lib/store/modal';
 
-import { Button, Container, ExternalLink, Heading, Icon, Paragraph } from '@/shared/components';
+import { Button, Container, ExternalLink, Heading, Icon } from '@/shared/components';
 
 import constants from '@/constants';
 import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
@@ -99,14 +100,17 @@ export const LedgerConnectionStep = ({
                 {connectSteps.map((step, index) => (
                     <div key={index} className='flex items-start gap-2'>
                         <Step step={index + 1} />
-                        <Paragraph
-                            fontWeight='regular'
-                            $typeset='headline'
-                            color='base'
-                            mb={index !== connectSteps.length - 1 ? '12' : '0'}
+
+                        <p
+                            className={classNames(
+                                'typeset-headline text-light-black dark:text-white',
+                                {
+                                    'mb-3': index !== connectSteps.length - 1,
+                                },
+                            )}
                         >
                             {step}
-                        </Paragraph>
+                        </p>
                     </div>
                 ))}
             </Container>
@@ -124,9 +128,7 @@ export const LedgerConnectionStep = ({
                 href={`mailto:${constants.SUPPORT_EMAIL}?subject=ARK%20Connect%20Support%20Ledger`}
                 color='primary'
             >
-                <Paragraph $typeset='headline' fontWeight='medium'>
-                    Support Email
-                </Paragraph>
+                <span className='typeset-headline font-medium'>Support Email</span>
                 <Icon icon='link-external' className='h-5 w-5' />
             </ExternalLink>
         </Container>

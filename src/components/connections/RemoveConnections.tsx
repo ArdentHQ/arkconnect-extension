@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Container, Heading, Paragraph } from '@/shared/components';
+import { Container, Heading } from '@/shared/components';
 
 type Props = {
     sessionDomain?: string;
@@ -19,36 +19,26 @@ const RemoveConnections = ({ numberOfSessions, sessionDomain }: Props) => {
             </Heading>
 
             <Container mt='8'>
-                <Paragraph $typeset='headline' fontWeight='regular' color='gray' display='inline'>
+                <p className='typeset-headline inline'>
                     Are you certain you want to disconnect
                     {hasMultipleSessions ? ' all ' : ' your connection with '}
-                </Paragraph>
-                <Paragraph
-                    $typeset='headline'
-                    fontWeight='regular'
-                    color='gray'
-                    display='inline'
-                    as='span'
-                >
+                </p>
+
+                <span className='typeset-headline inline'>
                     {sessionDomain && numberOfSessions === 1 ? (
-                        <Paragraph $typeset='headline' color='base' display='inline'>
+                        <span className='typeset-headline text-light-black dark:text-white'>
                             <StyledDomain>{sessionDomain}</StyledDomain>
-                        </Paragraph>
+                        </span>
                     ) : (
                         <>
-                            <Paragraph
-                                $typeset='headline'
-                                fontWeight='medium'
-                                color='base'
-                                display='inline'
-                            >
+                            <span className='typeset-headline font-medium text-light-black dark:text-white'>
                                 {numberOfSessions}
-                            </Paragraph>{' '}
+                            </span>{' '}
                             of your connections
                         </>
                     )}
                     ?
-                </Paragraph>
+                </span>
             </Container>
         </Container>
     );

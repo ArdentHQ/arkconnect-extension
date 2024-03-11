@@ -1,4 +1,4 @@
-import { Paragraph } from '@/shared/components';
+import classNames from 'classnames';
 
 type Props = {
     step: number;
@@ -8,13 +8,17 @@ type Props = {
 const Step = ({ step, disabled = false }: Props) => {
     return (
         <div className='flex min-h-6 min-w-6 items-center justify-center rounded-[44px] bg-theme-primary-50 dark:bg-theme-secondary-600'>
-            <Paragraph
-                $typeset='body'
-                fontWeight='medium'
-                color={disabled ? 'primary700' : 'primary'}
+            <p
+                className={classNames(
+                    'typeset-body dark:text-theme-secondary-650 font-medium text-theme-primary-700',
+                    {
+                        'dark:text-theme-secondary-650 text-theme-primary-700': !disabled,
+                        'text-theme-primary-700': disabled,
+                    },
+                )}
             >
                 {step}
-            </Paragraph>
+            </p>
         </div>
     );
 };
