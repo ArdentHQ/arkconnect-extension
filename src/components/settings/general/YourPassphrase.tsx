@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import SubPageLayout from '../SubPageLayout';
-import { Button, Container, PassphraseInput, ToggleSwitch } from '@/shared/components';
+import { Button, Paragraph, PassphraseInput, ToggleSwitch } from '@/shared/components';
 import useClipboard from '@/lib/hooks/useClipboard';
 import { ToastPosition } from '@/components/toast/ToastContainer';
 
@@ -17,16 +17,15 @@ const YourPassphrase = ({ passphrase }: Props) => {
     };
 
     return (
-        <SubPageLayout title='Show Passphrase' hideCloseButton={false} paddingBottom='0'>
+        <SubPageLayout title='Show Passphrase' hideCloseButton={false} noPaddingBottom>
             <div className='flex h-full flex-col'>
-                <p className='typeset-headline mb-4'>
+                <Paragraph $typeset='headline' color='gray' mb='16'>
                     Remember, anyone with your passphrase can steal your assets. Do not share this
                     publicly.
-                </p>
-
+                </Paragraph>
                 <div className='flex flex-1 flex-col justify-between'>
-                    <Container>
-                        <Container mb='16' position='relative'>
+                    <div>
+                        <div className='relative mb-4'>
                             <PassphraseInput
                                 name='privateKey'
                                 className='read-only max-h-[145px]'
@@ -37,14 +36,14 @@ const YourPassphrase = ({ passphrase }: Props) => {
                                 readOnly
                                 disabled
                             />
-                        </Container>
+                        </div>
                         <ToggleSwitch
                             checked={showPassphrase}
                             onChange={() => setShowPassphrase(!showPassphrase)}
                             id='show-passphrase'
                             title='Show Passphrase'
                         />
-                    </Container>
+                    </div>
 
                     <Button variant='secondary' iconLeading='copy' onClick={handleCopyToClipboard}>
                         Copy to Clipboard

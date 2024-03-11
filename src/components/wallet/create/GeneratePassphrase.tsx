@@ -2,15 +2,7 @@ import { useState } from 'react';
 import { FormikProps } from 'formik';
 import classNames from 'classnames';
 import { CreateWalletFormik } from '.';
-import {
-    Button,
-    Container,
-    Grid,
-    Heading,
-    Icon,
-    Paragraph,
-    ToggleSwitch,
-} from '@/shared/components';
+import { Button, Grid, Heading, Icon, Paragraph, ToggleSwitch } from '@/shared/components';
 import useToast from '@/lib/hooks/useToast';
 import { ToastPosition } from '@/components/toast/ToastContainer';
 import { TestnetIcon } from '@/components/wallet/address/Address.blocks';
@@ -70,15 +62,7 @@ const GeneratePassphrase = ({ goToNextStep, formik }: Props) => {
                 Write down or copy your passphrase. Make sure to store it safely.
             </p>
             {formik.values.passphrase && (
-                <Container
-                    borderRadius='8'
-                    bg='secondaryBackground'
-                    border='1px solid'
-                    borderColor='lightGray'
-                    padding='12'
-                    mb='16'
-                    maxHeight='226px'
-                >
+                <div className='mb-4 max-h-[226px] rounded-lg border border-solid border-theme-secondary-100 bg-white p-3 dark:border-theme-secondary-400 dark:bg-subtle-black'>
                     <Grid gridGap='10px' gridTemplateColumns='repeat(3, 1fr)'>
                         <div className='flex flex-1 flex-col border-r border-solid border-r-theme-secondary-200 pr-2.5 dark:border-r-theme-secondary-600'>
                             {formik.values.passphrase
@@ -104,7 +88,7 @@ const GeneratePassphrase = ({ goToNextStep, formik }: Props) => {
                                 )}
                         </div>
                     </Grid>
-                </Container>
+                </div>
             )}
             <div className='flex items-center justify-between'>
                 <ToggleSwitch
@@ -119,9 +103,9 @@ const GeneratePassphrase = ({ goToNextStep, formik }: Props) => {
                     className='flex h-5 items-center gap-2 overflow-hidden text-theme-primary-700 dark:text-theme-primary-650'
                     onClick={copyPassphraseToClipboard}
                 >
-                    <Container as='span' display='inline-block'>
+                    <span className='inline-block'>
                         <Icon icon='copy' className='h-4.5 w-4.5' />
-                    </Container>
+                    </span>
 
                     <Paragraph
                         $typeset='headline'

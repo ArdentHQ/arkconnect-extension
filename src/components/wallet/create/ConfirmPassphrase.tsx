@@ -2,7 +2,7 @@ import { FormikProps } from 'formik';
 import { useEffect, useState } from 'react';
 import { runtime } from 'webextension-polyfill';
 import { CreateWalletFormik, ValidationVariant } from '.';
-import { Button, Checkbox, Container, Heading, Input, Paragraph } from '@/shared/components';
+import { Button, Checkbox, Heading, Input, Paragraph } from '@/shared/components';
 import getNumberSuffix from '@/lib/utils/getNumberSuffix';
 import { TestnetIcon } from '@/components/wallet/address/Address.blocks';
 import useActiveNetwork from '@/lib/hooks/useActiveNetwork';
@@ -100,7 +100,7 @@ const ConfirmPassphrase = ({ goToNextStep, formik }: Props) => {
                 ))}
             </div>
 
-            <Container mt='auto'>
+            <div className='mt-auto'>
                 <Checkbox
                     id='test-1'
                     name='lostPasswordAwareness'
@@ -119,7 +119,7 @@ const ConfirmPassphrase = ({ goToNextStep, formik }: Props) => {
                 >
                     Confirm
                 </Button>
-            </Container>
+            </div>
         </>
     );
 };

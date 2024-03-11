@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Container, Heading } from '@/shared/components';
+import { Heading, Paragraph } from '@/shared/components';
 
 type Props = {
     sessionDomain?: string;
@@ -13,34 +13,44 @@ const StyledDomain = styled.span`
 const RemoveConnections = ({ numberOfSessions, sessionDomain }: Props) => {
     const hasMultipleSessions = numberOfSessions && numberOfSessions > 1;
     return (
-        <Container>
+        <div>
             <Heading $typeset='h4' fontWeight='medium' color='base'>
                 {hasMultipleSessions ? 'Disconnect All Connections' : 'Disconnect Connection'}
             </Heading>
 
-            <Container mt='8'>
-                <p className='typeset-headline inline text-theme-secondary-500 dark:text-theme-secondary-300'>
+            <div className='mt-2'>
+                <Paragraph $typeset='headline' fontWeight='regular' color='gray' display='inline'>
                     Are you certain you want to disconnect
                     {hasMultipleSessions ? ' all ' : ' your connection with '}
-                </p>
-
-                <span className='typeset-headline inline'>
+                </Paragraph>
+                <Paragraph
+                    $typeset='headline'
+                    fontWeight='regular'
+                    color='gray'
+                    display='inline'
+                    as='span'
+                >
                     {sessionDomain && numberOfSessions === 1 ? (
-                        <span className='typeset-headline text-light-black dark:text-white'>
+                        <Paragraph $typeset='headline' color='base' display='inline'>
                             <StyledDomain>{sessionDomain}</StyledDomain>
-                        </span>
+                        </Paragraph>
                     ) : (
                         <>
-                            <span className='typeset-headline font-medium text-light-black dark:text-white'>
+                            <Paragraph
+                                $typeset='headline'
+                                fontWeight='medium'
+                                color='base'
+                                display='inline'
+                            >
                                 {numberOfSessions}
-                            </span>{' '}
+                            </Paragraph>{' '}
                             of your connections
                         </>
                     )}
                     ?
-                </span>
-            </Container>
-        </Container>
+                </Paragraph>
+            </div>
+        </div>
     );
 };
 

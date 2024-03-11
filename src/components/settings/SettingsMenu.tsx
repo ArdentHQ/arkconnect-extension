@@ -2,7 +2,7 @@ import { NavigateOptions, useLocation, useNavigate } from 'react-router-dom';
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { runtime } from 'webextension-polyfill';
 import { Contracts } from '@ardenthq/sdk-profiles';
-import { Container, ToggleSwitch } from '@/shared/components';
+import { ToggleSwitch } from '@/shared/components';
 import { SettingsOption } from '@/components/settings/SettingsOption';
 import { lockedChanged } from '@/lib/store/ui';
 import { selectWalletsIds } from '@/lib/store/wallet';
@@ -108,13 +108,13 @@ export const SettingsMenu = ({
                         iconClassName='text-light-black'
                         onClick={(evt) => toggleThemeMode(evt)}
                         rightContent={
-                            <Container>
+                            <div>
                                 <ToggleSwitch
                                     checked={isDark()}
                                     onChange={(evt) => toggleThemeMode(evt)}
                                     id='toggle-theme'
                                 />
-                            </Container>
+                            </div>
                         }
                         onKeyDown={(e) =>
                             handleInputKeyAction(

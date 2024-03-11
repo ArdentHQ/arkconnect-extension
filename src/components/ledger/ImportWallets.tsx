@@ -3,7 +3,7 @@ import { BIP44 } from '@ardenthq/sdk-cryptography';
 import { Contracts as ProfilesContracts } from '@ardenthq/sdk-profiles';
 import { FormikProps } from 'formik';
 import classNames from 'classnames';
-import { Button, Checkbox, Container, Heading, Tooltip } from '@/shared/components';
+import { Button, Checkbox, Heading, Paragraph, Tooltip } from '@/shared/components';
 import trimAddress from '@/lib/utils/trimAddress';
 import { useLedgerContext, useLedgerScanner } from '@/lib/Ledger';
 import useActiveNetwork from '@/lib/hooks/useActiveNetwork';
@@ -118,13 +118,13 @@ const ImportWallets = ({ goToNextStep, formik }: Props) => {
     };
 
     return (
-        <Container>
+        <div>
             <Heading $typeset='h3' fontWeight='bold' color='base' mb='8' px='24'>
                 Select Addresses to Import
             </Heading>
-            <p className='typeset-body mb-6 px-6 text-theme-secondary-500 dark:text-theme-secondary-300'>
+            <Paragraph $typeset='body' color='gray' mb='24' px='24'>
                 Multiple addresses can be imported too!
-            </p>
+            </Paragraph>
             <div className='custom-scroll h-[260px] max-h-[260px] overflow-y-scroll border-b border-t border-solid border-b-theme-secondary-200 border-t-theme-secondary-200 dark:border-b-theme-secondary-700 dark:border-t-theme-secondary-700'>
                 <HandleLoadingState loading={showLoader}>
                     {wallets.map((wallet) => {
@@ -167,20 +167,23 @@ const ImportWallets = ({ goToNextStep, formik }: Props) => {
                                         )}
                                     >
                                         <div className='flex flex-col gap-1'>
-                                            <p className='typeset-headline font-medium'>
+                                            <Paragraph $typeset='headline' fontWeight='medium'>
                                                 {trimAddress(wallet.address, 10)}
-                                            </p>
-
-                                            <span className='typeset-body'>
+                                            </Paragraph>
+                                            <Paragraph
+                                                $typeset='body'
+                                                fontWeight='regular'
+                                                as='span'
+                                            >
                                                 <AddressBalance
                                                     balance={wallet.balance ?? 0}
                                                     currency={getNetworkCurrency(network)}
                                                     maxDigits={2}
                                                 />
-                                            </span>
+                                            </Paragraph>
                                         </div>
                                         <div className='flex items-center gap-3'>
-                                            <Container width='20px' height='20px'>
+                                            <div className='h-5 w-5'>
                                                 <Checkbox
                                                     id={`import-${wallet.address}`}
                                                     name={`import-${wallet.address}`}
@@ -188,7 +191,7 @@ const ImportWallets = ({ goToNextStep, formik }: Props) => {
                                                     checked={isSelected(wallet.path) || isImported}
                                                     onChange={() => toggleSelect(wallet.path)}
                                                 />
-                                            </Container>
+                                            </div>
                                         </div>
                                     </div>
                                 </Tooltip>
@@ -197,7 +200,7 @@ const ImportWallets = ({ goToNextStep, formik }: Props) => {
                     })}
                 </HandleLoadingState>
             </div>
-            <Container px='24' pt='24'>
+            <div className='px-4 pt-4'>
                 <Button
                     variant='primary'
                     disabled={!selectedWallets.length}
@@ -205,8 +208,8 @@ const ImportWallets = ({ goToNextStep, formik }: Props) => {
                 >
                     Import {showImportedWalletsLength()}
                 </Button>
-            </Container>
-        </Container>
+            </div>
+        </div>
     );
 };
 

@@ -2,7 +2,6 @@ import EmptyConnections from '@/components/connections/EmptyConnections';
 import ConnectionsList from '@/components/connections/ConnectionsList';
 import { useAppSelector } from '@/lib/store';
 import * as SessionStore from '@/lib/store/session';
-import { Container } from '@/shared/components';
 import SubPageLayout from '@/components/settings/SubPageLayout';
 
 const Connections = () => {
@@ -13,9 +12,9 @@ const Connections = () => {
             {Object.values(sessions).length === 0 ? (
                 <EmptyConnections />
             ) : (
-                <Container>
+                <div>
                     <ConnectionsList />
-                </Container>
+                </div>
             )}
         </SubPageLayout>
     );
