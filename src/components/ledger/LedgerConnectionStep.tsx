@@ -116,13 +116,8 @@ export const LedgerConnectionStep = ({
                 </Button>
             </Container>
             <ExternalLink
-                alignItems='center'
-                justifyContent='center'
-                display='flex'
-                width='100%'
-                gridGap='12px'
+                className='flex items-center justify-center w-full gap-3 text-theme-primary-700 dark:text-theme-primary-650'
                 href={`mailto:${constants.SUPPORT_EMAIL}?subject=ARK%20Connect%20Support%20Ledger`}
-                color='primary'
             >
                 <Paragraph $typeset='headline' fontWeight='medium'>
                     Support Email

@@ -53,11 +53,7 @@ const VoteApproved = () => {
                         Close
                     </Button>
                     <ExternalLink
-                        alignItems='center'
-                        justifyContent='center'
-                        display='flex'
-                        width='100%'
-                        gridGap='12px'
+                        className='flex items-center justify-center gap-3 w-full text-light-black dark:text-white'
                         href={
                             state?.isTestnet
                                 ? `${constants.ARKSCAN_TESTNET_TRANSACTIONS}/${state?.vote.id}`
