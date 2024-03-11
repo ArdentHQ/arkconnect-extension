@@ -6,12 +6,9 @@ export default defineConfig((env) => {
     return mergeConfig(
         viteConfig(env),
         defineConfig({
-            server: {
-                watch: false,
-            },
             test: {
                 logHeapUsage: true,
-                maxConcurrency: 8,
+                maxConcurrency: 4,
                 globals: true,
                 environment: 'jsdom',
                 // @TODO: Just use utils for now, until performance issue is fixed and more tests are added.
