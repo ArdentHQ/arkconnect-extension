@@ -33,9 +33,9 @@ export type VariantProps<T extends VariantConfig> =
               [K in T['prop']]?: keyof T['variants'];
           }
         : // If T contains the property "scale", use that to construct the props type
-        T extends { scale: string }
-        ? {
-              [K in T['scale']]?: keyof T['variants'];
-          }
-        : // This case can never occur
-          never;
+          T extends { scale: string }
+          ? {
+                [K in T['scale']]?: keyof T['variants'];
+            }
+          : // This case can never occur
+            never;
