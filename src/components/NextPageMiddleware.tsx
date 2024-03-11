@@ -82,7 +82,17 @@ const NextPageMiddleware = ({ children }: Props) => {
         }
 
         if (isProfileReady && profile.wallets().count() === 0) {
-            navigate('/splash-screen');
+            const lastVisitedPage = profile.settings().get(ProfileData.LastVisitedPage) as
+                | LastVisitedPage
+                | undefined;
+
+            lastVisitedPage || persistScreen ? navigate('/onboarding') : navigate('/splash-screen');
+
+            if (lastVisitedPage) {
+                navigate('/wallet/create');
+                return;
+            }
+
             persistScreen && navigate(persistScreen.screen);
             return;
         }
