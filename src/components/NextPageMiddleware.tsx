@@ -8,10 +8,8 @@ import * as UIStore from '@/lib/store/ui';
 import { LastVisitedPage, ProfileData, ScreenName } from '@/lib/background/contracts';
 import { useAppDispatch, useAppSelector } from '@/lib/store';
 
-import { FlexContainer } from '@/shared/components';
 import { HandleLoadingState } from '@/shared/components/handleStates/HandleLoadingState';
 import { useProfileContext } from '@/lib/context/Profile';
-import useThemeMode from '@/lib/hooks/useThemeMode';
 import { useBackgroundEvents } from '@/lib/context/BackgroundEventHandler';
 import { selectWalletsLength } from '@/lib/store/wallet';
 
@@ -21,7 +19,6 @@ type Props = {
 
 const NextPageMiddleware = ({ children }: Props) => {
     const dispatch = useAppDispatch();
-    const { currentThemeMode } = useThemeMode();
     const { persistScreen } = getPersistedValues();
     const { profile, isProfileReady } = useProfileContext();
     const navigate = useNavigate();
@@ -123,16 +120,9 @@ const NextPageMiddleware = ({ children }: Props) => {
     };
 
     return (
-        <FlexContainer
-            flexDirection='column'
-            height='100vh'
-            width='100vw'
-            justifyContent='center'
-            alignItems='center'
-            bg={currentThemeMode === UIStore.ThemeMode.DARK ? 'lightBlack' : 'subtleWhite'}
-        >
+        <div className='flex h-screen w-screen flex-col items-center justify-center bg-light-black dark:bg-subtle-white'>
             <HandleLoadingState loading={isLoadingLocalData}>{children}</HandleLoadingState>
-        </FlexContainer>
+        </div>
     );
 };
 

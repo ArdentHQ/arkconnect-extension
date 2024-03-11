@@ -1,5 +1,5 @@
 import Amount from './Amount';
-import { FlexContainer, Heading, Paragraph } from '@/shared/components';
+import { Heading, Paragraph } from '@/shared/components';
 
 type BalanceProps = {
     convertedBalance?: number;
@@ -10,7 +10,7 @@ type BalanceProps = {
 
 const Balance = ({ balance, currency, exchangeCurrency, convertedBalance }: BalanceProps) => {
     return (
-        <FlexContainer justifyContent='space-between' alignItems='center' color='white'>
+        <div className='flex items-center justify-between text-white'>
             <Heading $typeset='h2' fontWeight='bold'>
                 <Amount value={balance} ticker={currency} />
             </Heading>
@@ -19,7 +19,7 @@ const Balance = ({ balance, currency, exchangeCurrency, convertedBalance }: Bala
                     <Amount value={convertedBalance} ticker={exchangeCurrency} withTicker />
                 </Paragraph>
             )}
-        </FlexContainer>
+        </div>
     );
 };
 

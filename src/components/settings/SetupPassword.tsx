@@ -6,7 +6,6 @@ import {
     Button,
     Checkbox,
     ExternalLink,
-    FlexContainer,
     Heading,
     Paragraph,
     PasswordInput,
@@ -94,14 +93,14 @@ const SetupPassword = ({ formik }: Props) => {
     };
 
     return (
-        <FlexContainer flexDirection='column' minHeight='450px'>
+        <div className='flex max-h-[450px] flex-col'>
             <Heading $typeset='h3' fontWeight='bold' color='base' mb='8'>
                 Setup a Password
             </Heading>
             <Paragraph $typeset='headline' color='gray' mb='16'>
                 Create a password to access your wallet each time you use ARK Connect.
             </Paragraph>
-            <FlexContainer flexDirection='column' gridGap='16px'>
+            <div className='flex flex-col gap-4'>
                 <PasswordInput
                     name='password'
                     variant={validation.password}
@@ -126,15 +125,15 @@ const SetupPassword = ({ formik }: Props) => {
                             : ''
                     }
                 />
-            </FlexContainer>
-            <FlexContainer mt='auto'>
+            </div>
+            <div className='mt-auto flex'>
                 <Checkbox
                     id='termsAndConditionsConfirmed'
                     name='termsAndConditionsConfirmed'
                     checked={values.termsAndConditionsConfirmed}
                     onChange={handleTermsAndConditionsChange}
                 />
-                <FlexContainer>
+                <div className='flex'>
                     <Paragraph
                         as='label'
                         htmlFor='termsAndConditionsConfirmed'
@@ -162,8 +161,8 @@ const SetupPassword = ({ formik }: Props) => {
                         </ExternalLink>
                         .
                     </Paragraph>
-                </FlexContainer>
-            </FlexContainer>
+                </div>
+            </div>
 
             <Button
                 className='mt-6'
@@ -173,7 +172,7 @@ const SetupPassword = ({ formik }: Props) => {
             >
                 Confirm
             </Button>
-        </FlexContainer>
+        </div>
     );
 };
 

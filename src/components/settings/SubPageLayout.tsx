@@ -1,15 +1,7 @@
-import styled from 'styled-components';
 import { ThemeValue } from 'styled-system';
-import {
-    ArrowButton,
-    CloseButton,
-    Container,
-    FlexContainer,
-    Heading,
-    Layout,
-} from '@/shared/components';
+import classNames from 'classnames';
+import { ArrowButton, CloseButton, Container, Heading, Layout } from '@/shared/components';
 import { Theme } from '@/shared/theme';
-import { isFirefox } from '@/lib/utils/isFirefox';
 
 type Props = {
     children: React.ReactNode | React.ReactNode[];
@@ -33,25 +25,25 @@ const SubPageLayout = ({
     }
     return (
         <Layout>
-            <FlexContainer
-                padding='16'
-                justifyContent='space-between'
-                alignItems='center'
-                position={withStickyHeader ? 'sticky' : 'inherit'}
-                top={withStickyHeader ? '50px' : 'unset'}
-                backgroundColor='primaryBackground'
+            <div
+                className={classNames(
+                    'flex items-center justify-between bg-subtle-white p-4 dark:bg-light-black',
+                    {
+                        'sticky top-[50px]': withStickyHeader,
+                    },
+                )}
             >
-                <FlexContainer alignItems='center' justifyContent='space-between' width='100%'>
-                    <FlexContainer gridGap='12px' alignItems='center'>
+                <div className='flex w-full items-center justify-between'>
+                    <div className='flex items-center gap-3'>
                         <ArrowButton action={onBack} />
                         <Heading $typeset='h4' fontWeight='medium' color='base'>
                             {title}
                         </Heading>
-                    </FlexContainer>
+                    </div>
 
                     {!hideCloseButton && <CloseButton />}
-                </FlexContainer>
-            </FlexContainer>
+                </div>
+            </div>
             <Container paddingX='16' paddingBottom={paddingBottom} height='100%'>
                 {children}
             </Container>
@@ -59,26 +51,29 @@ const SubPageLayout = ({
     );
 };
 
-export const SettingsRowItem = styled(FlexContainer)`
-    padding: 18px 16px;
-    align-items: center;
-    justify-content: space-between;
-    cursor: pointer;
+interface SettingsRowItemProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+    active?: boolean;
+}
 
-    ${({ theme }) => `
-    color: ${theme.colors.base};
-    &.active {
-      color: ${theme.colors.primary};
-      background-color: ${theme.colors.lightGreen};
-      font-weight: ${theme.fontWeights.medium} !important;
-    }
-
-    ${isFirefox ? theme.browserCompatibility.firefox.focus : ''}
-
-    &:hover {
-      background-color: ${theme.colors.lightestGray};
-    }
-  `}
-`;
+export const SettingsRowItem = ({
+    active = false,
+    className,
+    ...properties
+}: SettingsRowItemProps) => {
+    return (
+        <button
+            type='button'
+            className={classNames(
+                'flex w-full items-center justify-between px-4 py-4.5 text-light-black hover:bg-theme-secondary-50 dark:text-white dark:hover:bg-theme-secondary-700',
+                {
+                    'bg-theme-primary-50 font-medium text-theme-primary-700 dark:bg-theme-primary-650/15 dark:text-theme-primary-650':
+                        active,
+                },
+                className,
+            )}
+            {...properties}
+        />
+    );
+};
 
 export default SubPageLayout;

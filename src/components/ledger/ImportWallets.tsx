@@ -2,16 +2,8 @@ import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { BIP44 } from '@ardenthq/sdk-cryptography';
 import { Contracts as ProfilesContracts } from '@ardenthq/sdk-profiles';
 import { FormikProps } from 'formik';
-import styled from 'styled-components';
-import {
-    Button,
-    Checkbox,
-    Container,
-    FlexContainer,
-    Heading,
-    Paragraph,
-    Tooltip,
-} from '@/shared/components';
+import classNames from 'classnames';
+import { Button, Checkbox, Container, Heading, Paragraph, Tooltip } from '@/shared/components';
 import trimAddress from '@/lib/utils/trimAddress';
 import { useLedgerContext, useLedgerScanner } from '@/lib/Ledger';
 import useActiveNetwork from '@/lib/hooks/useActiveNetwork';
@@ -132,42 +124,45 @@ const ImportWallets = ({ goToNextStep, formik }: Props) => {
             <Paragraph $typeset='body' color='gray' mb='24' px='24'>
                 Multiple addresses can be imported too!
             </Paragraph>
-            <StyledContainer
-                height='260px'
-                maxHeight='260px'
-                className='custom-scroll'
-                overflowY='scroll'
-            >
+            <div className='custom-scroll h-[260px] max-h-[260px] overflow-y-scroll border-b border-t border-solid border-b-theme-secondary-200 border-t-theme-secondary-200 dark:border-b-theme-secondary-700 dark:border-t-theme-secondary-700'>
                 <HandleLoadingState loading={showLoader}>
                     {wallets.map((wallet) => {
                         const isImported = isWalletImported(wallet.address);
+
                         return (
-                            <StyledFlexContainer
+                            <div
+                                className={classNames(
+                                    'flex cursor-pointer justify-between transition-all duration-500 ease-in-out hover:bg-theme-secondary-50 dark:bg-theme-secondary-700',
+                                    {
+                                        'bg-theme-secondary-100 text-theme-secondary-500 dark:bg-transparent dark:text-theme-secondary-300':
+                                            isImported,
+                                        'text-light-black dark:text-white': !isImported,
+                                        'bg-theme-primary-50 dark:bg-theme-primary-950':
+                                            !isImported && isSelected(wallet.path),
+                                    },
+                                )}
                                 key={wallet.address}
-                                isImported={isImported}
-                                isSelected={isSelected(wallet.path)}
-                                justifyContent='space-between'
-                                color={isImported ? 'gray' : 'base'}
                                 onClick={() => {
                                     if (isImported) return;
                                     toggleSelect(wallet.path);
                                 }}
-                                className='cursor-pointer'
                             >
                                 <Tooltip
                                     disabled={!isImported}
                                     content='Address already imported'
                                     placement='bottom'
                                 >
-                                    <FlexContainer
-                                        width='100%'
-                                        py='16'
-                                        px='24'
-                                        justifyContent='space-between'
-                                        alignItems='center'
-                                        color={isImported ? 'gray' : 'base'}
+                                    <div
+                                        className={classNames(
+                                            'flex w-full items-center justify-between px-6 py-4',
+                                            {
+                                                'text-theme-secondary-500 dark:text-theme-secondary-300':
+                                                    isImported,
+                                                'text-light-black dark:text-white': !isImported,
+                                            },
+                                        )}
                                     >
-                                        <FlexContainer gridGap='4px' flexDirection='column'>
+                                        <div className='flex flex-col gap-1'>
                                             <Paragraph $typeset='headline' fontWeight='medium'>
                                                 {trimAddress(wallet.address, 10)}
                                             </Paragraph>
@@ -178,8 +173,8 @@ const ImportWallets = ({ goToNextStep, formik }: Props) => {
                                                     maxDigits={2}
                                                 />
                                             </Paragraph>
-                                        </FlexContainer>
-                                        <FlexContainer gridGap='12px' alignItems='center'>
+                                        </div>
+                                        <div className='flex items-center gap-3'>
                                             <Container width='20px' height='20px'>
                                                 <Checkbox
                                                     id={`import-${wallet.address}`}
@@ -189,14 +184,14 @@ const ImportWallets = ({ goToNextStep, formik }: Props) => {
                                                     onChange={() => toggleSelect(wallet.path)}
                                                 />
                                             </Container>
-                                        </FlexContainer>
-                                    </FlexContainer>
+                                        </div>
+                                    </div>
                                 </Tooltip>
-                            </StyledFlexContainer>
+                            </div>
                         );
                     })}
                 </HandleLoadingState>
-            </StyledContainer>
+            </div>
             <Container px='24' pt='24'>
                 <Button
                     variant='primary'
@@ -209,31 +204,5 @@ const ImportWallets = ({ goToNextStep, formik }: Props) => {
         </Container>
     );
 };
-
-const StyledFlexContainer = styled(FlexContainer)<{ isImported: boolean; isSelected: boolean }>`
-    transition: all 0.5s ease;
-    ${({ theme, isImported, isSelected }) => `
-      ${
-          isImported
-              ? `
-        background-color: ${theme.colors.disabledCheckbox};
-      `
-              : `
-        ${isSelected ? `background-color: ${theme.colors.checkboxBackground};` : ''}
-
-        &:hover {
-          background-color: ${theme.colors.lightestGray};
-        }
-        `
-      }
-      `}
-`;
-
-const StyledContainer = styled(Container)`
-    ${({ theme }) => `
-    border-top: 1px solid ${theme.colors.dividerGray};
-    border-bottom: 1px solid ${theme.colors.dividerGray};
-  `}
-`;
 
 export default ImportWallets;

@@ -34,11 +34,8 @@ const AutoLockTimer = () => {
                 {timerKeys.map((timerKey) => (
                     <SettingsRowItem
                         key={timerKey}
-                        className={location.state?.autoLockTimer === timerKey ? 'active' : ''}
+                        active={location.state?.autoLockTimer === timerKey}
                         onClick={() => changeAutoLockTimer(timerKey)}
-                        tabIndex={0}
-                        as='button'
-                        width='100%'
                     >
                         <Paragraph $typeset='headline' as='span'>
                             {showAutoLockTimerValue(timerKey)}

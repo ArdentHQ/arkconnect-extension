@@ -5,7 +5,6 @@ import SubPageLayout from '../SubPageLayout';
 import SelectNetworkTypeModal from './SelectNetworkTypeModal';
 import {
     Container,
-    FlexContainer,
     Icon,
     IconDefinition,
     Paragraph,
@@ -135,15 +134,9 @@ const CreateOrImportAddress = () => {
 
 const LeadingIcon = ({ icon }: { icon: IconDefinition }) => {
     return (
-        <FlexContainer
-            justifyContent='center'
-            alignItems='center'
-            alignSelf='center'
-            color='gray'
-            as='span'
-        >
+        <span className='text-theme-seoncdary-500 flex items-center justify-center self-center dark:text-theme-secondary-300'>
             <Icon className='h-5 w-5' icon={icon} />
-        </FlexContainer>
+        </span>
     );
 };
 
