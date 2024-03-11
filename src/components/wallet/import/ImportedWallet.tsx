@@ -46,16 +46,16 @@ const ImportedWallet = ({ goToNextStep, formik }: Props) => {
                 Your address details are shown below.
             </Paragraph>
             <Container>
-                <Container pb='16' mb='16' borderBottom='1px solid' borderColor='toggleInactive'>
+                <div className=' mb-4 border-b border-solid border-b-theme-secondary-200 pb-4 dark:border-b-theme-secondary-600'>
                     <Paragraph $typeset='body' fontWeight='medium' mb='8' color='gray'>
                         Address
                     </Paragraph>
                     <Paragraph $typeset='headline' color='base'>
                         {formik.values.wallet?.address()}
                     </Paragraph>
-                </Container>
+                </div>
 
-                <Container pb='16' mb='16' borderBottom='1px solid' borderColor='toggleInactive'>
+                <div className=' mb-4 border-b border-solid border-b-theme-secondary-200 pb-4 dark:border-b-theme-secondary-600'>
                     <Paragraph $typeset='body' fontWeight='medium' mb='8' color='gray'>
                         Balance
                     </Paragraph>
@@ -63,9 +63,9 @@ const ImportedWallet = ({ goToNextStep, formik }: Props) => {
                         {formik.values.wallet?.balance()?.toLocaleString()}{' '}
                         {formik.values.wallet?.currency()}
                     </Paragraph>
-                </Container>
+                </div>
 
-                <Container>
+                <div>
                     <Input
                         variant={isAddressValid ? 'primary' : 'destructive'}
                         labelText='Address Name'
@@ -78,7 +78,7 @@ const ImportedWallet = ({ goToNextStep, formik }: Props) => {
                         value={formik.values.addressName}
                         onChange={handleAddressNameChange}
                     />
-                </Container>
+                </div>
             </Container>
             <Button
                 variant='primary'

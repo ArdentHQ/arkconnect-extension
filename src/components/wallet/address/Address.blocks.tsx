@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 import { TippyProps } from '@tippyjs/react';
 import Amount from '../Amount';
-import { Alias, Container, Icon, Paragraph, Tooltip } from '@/shared/components';
+import { Alias, Icon, Paragraph, Tooltip } from '@/shared/components';
 import trimAddress from '@/lib/utils/trimAddress';
 import { ToastPosition } from '@/components/toast/ToastContainer';
 import useClipboard from '@/lib/hooks/useClipboard';
@@ -67,13 +67,13 @@ export const Address = ({
     tooltipPlacement?: TippyProps['placement'];
 }) => {
     return (
-        <Container>
+        <div>
             <Tooltip content={address} placement={tooltipPlacement}>
                 <Paragraph $typeset='body' color='gray'>
                     {trimAddress(address, length)}
                 </Paragraph>
             </Tooltip>
-        </Container>
+        </div>
     );
 };
 
@@ -82,7 +82,7 @@ export const AddressWithCopy = ({ address, length = 10 }: { address: string; len
     const trimmedAddress = trimAddress(address, length);
 
     return (
-        <Container
+        <div
             className='cursor-pointer'
             onClick={() => {
                 copy(address, trimmedAddress, ToastPosition.LOWER);
@@ -96,7 +96,7 @@ export const AddressWithCopy = ({ address, length = 10 }: { address: string; len
                     <Icon icon='copy' className='h-[13px] w-[13px]' />
                 </div>
             </Tooltip>
-        </Container>
+        </div>
     );
 };
 
@@ -110,10 +110,10 @@ export const AddressBalance = ({
     maxDigits?: number;
 }) => {
     return (
-        <Container color='gray'>
+        <div className='text-theme-secondary-500 dark:text-theme-primary-300'>
             <Paragraph $typeset='body' color='gray'>
                 <Amount value={balance} ticker={currency} maxDigits={maxDigits} withTicker />
             </Paragraph>
-        </Container>
+        </div>
     );
 };

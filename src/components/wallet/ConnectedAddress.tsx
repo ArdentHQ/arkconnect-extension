@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { Contracts } from '@ardenthq/sdk-profiles';
-import { Button, Container, Heading, Paragraph } from '@/shared/components';
+import { Button, Heading, Paragraph } from '@/shared/components';
 import useThemeMode from '@/lib/hooks/useThemeMode';
 import formatDomain from '@/lib/utils/formatDomain';
 import {
@@ -33,7 +33,7 @@ const ConnectedSite = styled.span`
 const ConnectedAddress = ({ connectedTo, wallet, logo, onDisconnect }: Properties) => {
     return (
         <>
-            <Container>
+            <div>
                 <ConnectionStatusTitle>
                     <Heading $typeset='h4' fontWeight='medium' color='base'>
                         Connected Address
@@ -44,15 +44,15 @@ const ConnectedAddress = ({ connectedTo, wallet, logo, onDisconnect }: Propertie
                     The following address is currently connected to{' '}
                     <ConnectedSite>{formatDomain(connectedTo, false)}</ConnectedSite>
                 </Paragraph>
-            </Container>
+            </div>
 
-            <Container>
+            <div>
                 <AddressRow address={wallet} logo={logo} />
 
                 <Button variant='linkDestructive' onClick={onDisconnect} className='mb-1 mt-5'>
                     Disconnect
                 </Button>
-            </Container>
+            </div>
         </>
     );
 };

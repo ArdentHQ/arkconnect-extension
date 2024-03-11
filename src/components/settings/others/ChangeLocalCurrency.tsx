@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import { Contracts } from '@ardenthq/sdk-profiles';
 import SubPageLayout, { SettingsRowItem } from '../SubPageLayout';
-import { Container, Icon, Paragraph } from '@/shared/components';
+import { Icon, Paragraph } from '@/shared/components';
 import { Currency, general } from '@/lib/data/general';
 import useToast from '@/lib/hooks/useToast';
 import { useProfileContext } from '@/lib/context/Profile';
@@ -39,7 +39,7 @@ const ChangeLocalCurrency = () => {
 
     return (
         <SubPageLayout title='Change Local Currency' withStickyHeader>
-            <Container borderRadius='16' paddingY='8' bg='secondaryBackground'>
+            <div className='rounded-2xl bg-white py-2 dark:bg-subtle-black'>
                 {general.currencies.map((currencyItem) => (
                     <SettingsRowItem
                         key={currencyItem.value}
@@ -54,7 +54,7 @@ const ChangeLocalCurrency = () => {
                         )}
                     </SettingsRowItem>
                 ))}
-            </Container>
+            </div>
         </SubPageLayout>
     );
 };
