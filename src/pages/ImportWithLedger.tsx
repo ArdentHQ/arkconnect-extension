@@ -3,7 +3,7 @@ import { Contracts } from '@ardenthq/sdk-profiles';
 import { runtime } from 'webextension-polyfill';
 import styled from 'styled-components';
 import { useFormik } from 'formik';
-import { Container, FlexContainer, Header, Icon, Paragraph } from '@/shared/components';
+import { Container, Header, Icon, Paragraph } from '@/shared/components';
 import { LedgerData, useLedgerContext } from '@/lib/Ledger';
 import StepsNavigation, { Step } from '@/components/steps/StepsNavigation';
 
@@ -105,14 +105,8 @@ const ImportWithLedger = () => {
     return (
         <Container width='100vw' minHeight='100vh' backgroundColor='primaryBackground'>
             <Header />
-            <FlexContainer
-                alignItems='center'
-                justifyContent='center'
-                width='100%'
-                minHeight='100vh'
-                pt='56'
-            >
-                <FlexContainer justifyContent='center' alignItems='center' height='100%'>
+            <div className='flex min-h-screen w-full items-center justify-center pt-14'>
+                <div className='flex h-full items-center justify-center'>
                     <Container
                         py='24'
                         width='355px'
@@ -123,14 +117,14 @@ const ImportWithLedger = () => {
                             steps={steps}
                             formik={formik}
                             disabledSteps={[0, 2]}
-                            px='24'
+                            className='px-6'
                         />
                     </Container>
-                </FlexContainer>
+                </div>
                 {error && (
                     <LedgerError themeMode={currentThemeMode}>
-                        <FlexContainer alignItems='center' gridGap='24px'>
-                            <FlexContainer alignItems='center' gridGap='8px'>
+                        <div className='flex items-center gap-6'>
+                            <div className='flex items-center gap-2'>
                                 <Icon
                                     icon='information-circle'
                                     className='h-5 w-5 text-theme-error-600 dark:text-white'
@@ -142,17 +136,17 @@ const ImportWithLedger = () => {
                                 >
                                     {error && error.message ? error.message : error}
                                 </Paragraph>
-                            </FlexContainer>
+                            </div>
                             <Container p='8' onClick={removeErrors}>
                                 <Icon
                                     icon='x'
                                     className='h-4 w-4 cursor-pointer text-theme-error-600 dark:text-white'
                                 />
                             </Container>
-                        </FlexContainer>
+                        </div>
                     </LedgerError>
                 )}
-            </FlexContainer>
+            </div>
         </Container>
     );
 };

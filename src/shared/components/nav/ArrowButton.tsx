@@ -1,8 +1,7 @@
-import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import cn from 'classnames';
-import { FlexContainer, Icon } from '@/shared/components';
-import { isFirefox } from '@/lib/utils/isFirefox';
+import { NavButton } from './NavButton';
+import { Icon } from '@/shared/components';
 
 export const ArrowButton = ({
     action = 'goBack',
@@ -31,14 +30,7 @@ export const ArrowButton = ({
     };
 
     return (
-        <ContainerWithHover
-            borderRadius='50'
-            padding='7'
-            onClick={handleNavigate}
-            tabIndex={0}
-            as='button'
-            className={disabled ? '' : 'cursor-pointer'}
-        >
+        <NavButton onClick={handleNavigate} disabled={disabled}>
             <Icon
                 icon='arrow-left'
                 className={cn('h-4.5 w-4.5', {
@@ -46,18 +38,6 @@ export const ArrowButton = ({
                     'text-light-black dark:text-white': !disabled,
                 })}
             />
-        </ContainerWithHover>
+        </NavButton>
     );
 };
-
-export const ContainerWithHover = styled(FlexContainer)`
-    cursor: pointer;
-    ${(props) => `
-  transition: ${isFirefox ? 'background 0.2s ease-in-out' : 'all 0.2s ease-in-out'};
-  &:not(:disabled):hover {
-    background-color: ${props.theme.colors.lightGrayHover};
-  }
-
-  ${isFirefox ? props.theme.browserCompatibility.firefox.focus : ''}
-`}
-`;

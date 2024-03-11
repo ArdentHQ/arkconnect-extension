@@ -1,14 +1,7 @@
 import styled from 'styled-components';
 import { runtime } from 'webextension-polyfill';
 import SubPageLayout from '../SubPageLayout';
-import {
-    Container,
-    ExternalLink,
-    FlexContainer,
-    Icon,
-    Paragraph,
-    RowLayout,
-} from '@/shared/components';
+import { Container, ExternalLink, Icon, Paragraph, RowLayout } from '@/shared/components';
 import useClipboard from '@/lib/hooks/useClipboard';
 import constants from '@/constants';
 import { isFirefox } from '@/lib/utils/isFirefox';
@@ -25,8 +18,8 @@ const AboutARK = () => {
 
     return (
         <SubPageLayout title='About ARK Connect'>
-            <FlexContainer alignItems='center' flexDirection='column' gridGap='16px' mb='24' mt='8'>
-                <StyledLogos alignItems='center' flexDirection='column' gridGap='16px'>
+            <div className='mb-6 mt-2 flex flex-col items-center gap-4'>
+                <div className='logo flex flex-col items-center gap-4'>
                     <Icon
                         icon='logo-inverted'
                         className='h-[3.25rem] w-[3.25rem] text-theme-primary-700 dark:text-theme-primary-650'
@@ -35,12 +28,13 @@ const AboutARK = () => {
                         icon='logo-text'
                         className='h-[21px] w-[228px] text-theme-primary-700 dark:text-theme-primary-650'
                     />
-                </StyledLogos>
+                </div>
                 <Paragraph $typeset='body' fontWeight='regular' color='gray'>
                     Version {runtime.getManifest().version}
                 </Paragraph>
-            </FlexContainer>
-            <FlexContainer flexDirection='column' gridGap='8px' color='base'>
+            </div>
+
+            <div className='flex flex-col gap-2 text-light-black dark:text-white'>
                 <StyledExternalLink
                     alignItems='center'
                     display='flex'
@@ -103,26 +97,10 @@ const AboutARK = () => {
                 >
                     <RowLayout title='Privacy Policy' iconTrailing='link-external' tabIndex={-1} />
                 </StyledExternalLink>
-            </FlexContainer>
+            </div>
         </SubPageLayout>
     );
 };
-
-export const StyledLogos = styled(FlexContainer)`
-    ${({ theme }) => `
-    & path#ark {
-      fill: ${theme.colors.logoText} !important;
-    }
-
-    & path#connect {
-      fill: ${theme.colors.primary} !important;
-    }
-
-    & #ark-logo {
-      fill: ${theme.colors.primary} !important;
-    }
-  `}
-`;
 
 const CopyButton = styled(Container)`
     ${({ theme }) => `${isFirefox ? theme.browserCompatibility.firefox.focus : ''}`}

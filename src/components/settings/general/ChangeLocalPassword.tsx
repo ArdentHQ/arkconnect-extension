@@ -4,7 +4,7 @@ import { runtime } from 'webextension-polyfill';
 import { useFormik } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import SubPageLayout from '../SubPageLayout';
-import { Button, Container, FlexContainer, Paragraph, PasswordInput } from '@/shared/components';
+import { Button, Container, Paragraph, PasswordInput } from '@/shared/components';
 
 import { ToastPosition } from '@/components/toast/ToastContainer';
 import { isValidPassword } from '@/lib/utils/validations';
@@ -82,12 +82,7 @@ const ChangeLocalPassword = () => {
 
     return (
         <SubPageLayout title='Change Local Password'>
-            <FlexContainer
-                flexDirection='column'
-                flex={1}
-                justifyContent={'space-between'}
-                height={'100%'}
-            >
+            <div className='flex h-full flex-1 flex-col justify-between'>
                 <Paragraph $typeset='headline' fontWeight='regular' color='gray' mb='24'>
                     Change password for your wallet. Your password is only stored locally.
                 </Paragraph>
@@ -110,7 +105,7 @@ const ChangeLocalPassword = () => {
                         />
                     </Container>
 
-                    <FlexContainer flexDirection='column' gridGap='16px'>
+                    <div className='flex flex-col gap-4'>
                         <PasswordInput
                             name='newPassword'
                             variant={
@@ -143,7 +138,7 @@ const ChangeLocalPassword = () => {
                             onBlur={formik.handleBlur}
                             value={formik.values.confirmNewPassword}
                         />
-                    </FlexContainer>
+                    </div>
                 </Container>
                 <Button
                     variant='primary'
@@ -153,7 +148,7 @@ const ChangeLocalPassword = () => {
                 >
                     Save New Password
                 </Button>
-            </FlexContainer>
+            </div>
         </SubPageLayout>
     );
 };
