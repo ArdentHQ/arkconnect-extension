@@ -1,3 +1,11 @@
+import { useEffect, useState } from 'react';
+import { Contracts } from '@ardenthq/sdk-profiles';
+import { FormikProps } from 'formik';
+import { runtime } from 'webextension-polyfill';
+import { clearPersistScreenData, persistScreenChanged } from '../form-persist/helpers';
+import { TestnetIcon } from '../address/Address.blocks';
+import { WalletFormScreen } from '../form-persist';
+import { ImportedWalletFormik } from '.';
 import {
     Button,
     Container,
@@ -6,17 +14,10 @@ import {
     PassphraseInput,
     ToggleSwitch,
 } from '@/shared/components';
-import { clearPersistScreenData, persistScreenChanged } from '../form-persist/helpers';
-import { useEffect, useState } from 'react';
 
 import { assertWallet } from '@/lib/utils/assertions';
-import { Contracts } from '@ardenthq/sdk-profiles';
-import { FormikProps } from 'formik';
 import { getDefaultAlias } from '@/lib/utils/getDefaultAlias';
-import { ImportedWalletFormik } from '.';
-import { runtime } from 'webextension-polyfill';
 import { selectWalletsIds } from '@/lib/store/wallet';
-import { TestnetIcon } from '../address/Address.blocks';
 import useActiveNetwork from '@/lib/hooks/useActiveNetwork';
 import { useAppSelector } from '@/lib/store';
 import { useEnvironmentContext } from '@/lib/context/Environment';
@@ -24,7 +25,6 @@ import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
 import { useProfileContext } from '@/lib/context/Profile';
 import useWalletImport from '@/lib/hooks/useWalletImport';
 import useWalletSync from '@/lib/hooks/useWalletSync';
-import { WalletFormScreen } from '../form-persist';
 
 type Props = {
     goToNextStep: () => void;
