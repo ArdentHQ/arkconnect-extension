@@ -150,7 +150,6 @@ const ImportWallets = ({ goToNextStep, formik }: Props) => {
                                 onKeyDown={(e) =>
                                     handleSubmitKeyAction(e, () => toggleSelect(wallet.path))
                                 }
-                                className='cursor-pointer'
                             >
                                 <Tooltip
                                     disabled={!isImported}
