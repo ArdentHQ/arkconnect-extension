@@ -80,6 +80,8 @@ beforeEach(() => {
         profile,
         initProfile: vi.fn(),
         convertedBalance: 0,
+        importProfile: vi.fn(),
+        isProfileReady: true,
     });
 });
 
