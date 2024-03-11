@@ -133,7 +133,7 @@ const ImportWallets = ({ goToNextStep, formik }: Props) => {
                         return (
                             <div
                                 className={classNames(
-                                    'group flex cursor-pointer justify-between transition-all duration-500 ease-in-out hover:bg-theme-secondary-50 dark:bg-theme-secondary-700',
+                                    'flex cursor-pointer justify-between transition-all duration-500 ease-in-out hover:bg-theme-secondary-50 dark:bg-theme-secondary-700',
                                     {
                                         'bg-theme-secondary-100 text-theme-secondary-500 dark:bg-transparent dark:text-theme-secondary-300':
                                             isImported,
