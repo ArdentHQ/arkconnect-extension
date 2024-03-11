@@ -1,29 +1,30 @@
 import { useEffect, useState } from 'react';
-import { FormikProps } from 'formik';
 import { Contracts } from '@ardenthq/sdk-profiles';
+import { FormikProps } from 'formik';
 import { runtime } from 'webextension-polyfill';
 import { clearPersistScreenData, persistScreenChanged } from '../form-persist/helpers';
+import { TestnetIcon } from '../address/Address.blocks';
 import { WalletFormScreen } from '../form-persist';
 import { ImportedWalletFormik } from '.';
 import {
     Button,
     Container,
-    FlexContainer,
     Heading,
     Paragraph,
     PassphraseInput,
     ToggleSwitch,
 } from '@/shared/components';
-import useWalletImport from '@/lib/hooks/useWalletImport';
-import { useProfileContext } from '@/lib/context/Profile';
-import useWalletSync from '@/lib/hooks/useWalletSync';
-import { useEnvironmentContext } from '@/lib/context/Environment';
-import { getDefaultAlias } from '@/lib/utils/getDefaultAlias';
-import useActiveNetwork from '@/lib/hooks/useActiveNetwork';
+
 import { assertWallet } from '@/lib/utils/assertions';
-import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
-import { useAppSelector } from '@/lib/store';
+import { getDefaultAlias } from '@/lib/utils/getDefaultAlias';
 import { selectWalletsIds } from '@/lib/store/wallet';
+import useActiveNetwork from '@/lib/hooks/useActiveNetwork';
+import { useAppSelector } from '@/lib/store';
+import { useEnvironmentContext } from '@/lib/context/Environment';
+import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
+import { useProfileContext } from '@/lib/context/Profile';
+import useWalletImport from '@/lib/hooks/useWalletImport';
+import useWalletSync from '@/lib/hooks/useWalletSync';
 
 type Props = {
     goToNextStep: () => void;
@@ -43,6 +44,7 @@ const EnterPassphrase = ({ goToNextStep, formik }: Props) => {
     const { syncAll } = useWalletSync({ env, profile });
     const { importWallet } = useWalletImport({ profile });
     const [submitAfterValidation, setSubmitAfterValidation] = useState<boolean>(false);
+    const selectedNetwork = useActiveNetwork();
 
     useEffect(() => {
         setSubmitAfterValidation(false);
@@ -191,9 +193,12 @@ const EnterPassphrase = ({ goToNextStep, formik }: Props) => {
 
     return (
         <>
-            <Heading $typeset='h3' fontWeight='bold' color='base' mb='8'>
-                Enter Passphrase
-            </Heading>
+            <div className='mb-2 flex items-center gap-2'>
+                <Heading $typeset='h3' fontWeight='bold' color='base'>
+                    Enter Passphrase
+                </Heading>
+                {selectedNetwork.isTest() && <TestnetIcon />}
+            </div>
             <Paragraph $typeset='headline' color='gray' mb='24'>
                 Enter your 12 or 24-word passphrase that you were given when you created the
                 address.
@@ -220,14 +225,14 @@ const EnterPassphrase = ({ goToNextStep, formik }: Props) => {
                 />
             </Container>
 
-            <FlexContainer justifyContent='space-between' alignItems='center'>
+            <div className='flex items-center justify-between'>
                 <ToggleSwitch
                     checked={showPassphrase}
                     onChange={() => setShowPassphrase(!showPassphrase)}
                     id='show-password'
                     title='Show Passphrase'
                 />
-            </FlexContainer>
+            </div>
 
             <Button
                 variant='primary'

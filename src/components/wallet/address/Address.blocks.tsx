@@ -1,11 +1,8 @@
 import { useRef } from 'react';
-import styled from 'styled-components';
-import { KnownTarget } from 'styled-components/dist/types';
 import { TippyProps } from '@tippyjs/react';
 import Amount from '../Amount';
-import { Alias, Container, FlexContainer, Icon, Paragraph, Tooltip } from '@/shared/components';
+import { Alias, Container, Icon, Paragraph, Tooltip } from '@/shared/components';
 import trimAddress from '@/lib/utils/trimAddress';
-import useThemeMode from '@/lib/hooks/useThemeMode';
 import { ToastPosition } from '@/components/toast/ToastContainer';
 import useClipboard from '@/lib/hooks/useClipboard';
 import { useIsTruncated } from '@/lib/hooks/useIsTruncated';
@@ -22,7 +19,7 @@ export const AddressAlias = ({
     const reference = useRef<HTMLDivElement | null>(null);
     const isTruncated = useIsTruncated({ reference });
     return (
-        <Container>
+        <div>
             <Tooltip content={alias} placement='top' disabled={!withTooltip || !isTruncated}>
                 <Alias
                     $typeset='headline'
@@ -34,45 +31,29 @@ export const AddressAlias = ({
                     {alias}
                 </Alias>
             </Tooltip>
-        </Container>
+        </div>
     );
 };
 
-export const LedgerIcon = ({ as }: { as?: KnownTarget }) => {
+export const LedgerIcon = () => {
     return (
         <Tooltip content='Ledger Address' placement='top'>
-            <FlexContainer color='gray' as={as}>
+            <div className='flex text-theme-secondary-500 dark:text-theme-secondary-300'>
                 <Icon icon='ledger-address' className='h-3.5 w-3.5' />
-            </FlexContainer>
+            </div>
         </Tooltip>
     );
 };
 
-const StyledFlexContainer = styled(FlexContainer)`
-    cursor: default;
-`;
-
-export const TestnetIcon = ({ as }: { as?: KnownTarget }) => {
-    const { getThemeColor } = useThemeMode();
+export const TestnetIcon = () => {
     return (
-        <StyledFlexContainer as={as}>
+        <div className='flex'>
             <Tooltip content='Testnet' placement='top'>
-                <FlexContainer
-                    alignItems='center'
-                    justifyContent='center'
-                    width='16px'
-                    height='16px'
-                    color={getThemeColor('warning500', 'warning400')}
-                    backgroundColor={getThemeColor('warning50', 'testNetLabel')}
-                    borderRadius='4'
-                    border='1px solid'
-                    borderColor={getThemeColor('warning500', 'warning400')}
-                    as={as}
-                >
+                <div className='flex h-4 w-4 items-center justify-center rounded border border-solid border-theme-warning-500 bg-theme-warning-50 text-theme-warning-500 dark:border-theme-warning-400 dark:bg-theme-warning-500/10 dark:text-theme-warning-400'>
                     <Paragraph $typeset='small'> T </Paragraph>
-                </FlexContainer>
+                </div>
             </Tooltip>
-        </StyledFlexContainer>
+        </div>
     );
 };
 
@@ -108,12 +89,12 @@ export const AddressWithCopy = ({ address, length = 10 }: { address: string; len
             }}
         >
             <Tooltip content='Copy address' placement='top'>
-                <FlexContainer alignItems='center' gridGap='6px'>
+                <div className='flex items-center gap-1.5'>
                     <Paragraph $typeset='body' color='gray'>
                         {trimmedAddress}
                     </Paragraph>
                     <Icon icon='copy' className='h-[13px] w-[13px]' />
-                </FlexContainer>
+                </div>
             </Tooltip>
         </Container>
     );

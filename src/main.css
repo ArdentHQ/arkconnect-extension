@@ -14,7 +14,7 @@ body {
 
 html,
 body {
-    @apply m-0 min-h-[600px] w-screen p-0 text-base;
+    @apply m-0 min-h-[600px] w-extension-screen p-0 text-base;
 }
 
 b,
@@ -73,15 +73,15 @@ header {
 }
 
 #scrollable-container {
-    @apply h-screen w-screen max-w-screen overflow-y-auto overflow-x-hidden;
+    @apply h-screen w-extension-screen max-w-extension-screen overflow-y-auto overflow-x-hidden;
 }
 
 .main-container {
-    @apply w-screen;
+    @apply w-extension-screen;
 }
 
 .dialog-wrapper {
-    @apply max-w-screen;
+    @apply max-w-extension-screen;
 }
 
 .tippy-box[data-theme*='ark'] {
@@ -137,4 +137,22 @@ header {
 
 .custom-scroll::-webkit-scrollbar-thumb {
     @apply rounded-[50px] bg-theme-primary-700;
+}
+
+.logo path#ark {
+    @apply !fill-theme-primary-950 dark:fill-white;
+}
+
+.dark .logo path#ark {
+    @apply !fill-white;
+}
+
+.logo path#connect,
+.logo #ark-logo {
+    @apply !fill-theme-primary-700 dark:fill-theme-primary-650;
+}
+
+.dark .logo path#connect,
+.dark .logo #ark-logo {
+    @apply !fill-theme-primary-650;
 }
