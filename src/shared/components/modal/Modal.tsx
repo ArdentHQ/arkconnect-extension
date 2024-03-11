@@ -3,13 +3,7 @@ import FocusTrap from 'focus-trap-react';
 import cn from 'classnames';
 import Portal from '../utils/Portal';
 import useOnClickOutside from '@/lib/hooks/useOnClickOutside';
-import {
-    Button,
-    Container,
-    Icon,
-    Icon as IconComponent,
-    IconDefinition,
-} from '@/shared/components';
+import { Button, Icon, Icon as IconComponent, IconDefinition } from '@/shared/components';
 
 type ModalProps = {
     children: ReactNode | ReactNode[];
@@ -39,9 +33,9 @@ type ModalProps = {
 
 const ModalCloseIcon = ({ onClose }: { onClose: () => void }) => {
     return (
-        <Container onClick={onClose} className='cursor-pointer' as='button'>
+        <button onClick={onClose}>
             <Icon icon='x' className='h-4.5 w-4.5 text-light-black dark:text-white' />
-        </Container>
+        </button>
     );
 };
 
