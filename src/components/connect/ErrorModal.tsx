@@ -1,7 +1,5 @@
 import { Button, ExternalLink, Icon, SmallWarningIcon } from '@/shared/components';
 import constants from '@/constants';
-import useThemeMode from '@/lib/hooks/useThemeMode';
-import { ThemeMode } from '@/lib/store/ui';
 import { errorParser, errorTitleParser } from '@/lib/utils/errorParser';
 
 type Props = {
@@ -10,7 +8,6 @@ type Props = {
 };
 
 const ErrorModal = ({ error, onClose }: Props) => {
-    const { currentThemeMode } = useThemeMode();
     return (
         <div className='fixed left-0 top-0 z-50 flex h-screen w-full bg-subtle-white px-4 pb-6 dark:bg-light-black'>
             <div className='flex w-full flex-col items-center justify-between gap-4'>
@@ -43,13 +40,8 @@ const ErrorModal = ({ error, onClose }: Props) => {
                     </Button>
 
                     <ExternalLink
-                        alignItems='center'
-                        justifyContent='center'
-                        display='flex'
-                        width='100%'
-                        gridGap='8px'
+                        className='flex w-full items-center justify-center gap-2 text-light-black dark:text-white'
                         href={`mailto:${constants.SUPPORT_EMAIL}?subject=ARK%20Connect%20Support`}
-                        color={currentThemeMode === ThemeMode.DARK ? 'white' : 'lightBlack'}
                     >
                         <span className='font-medium'>Reach out to support team</span>
 
