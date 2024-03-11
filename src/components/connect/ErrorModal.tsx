@@ -40,7 +40,7 @@ const ErrorModal = ({ error, onClose }: Props) => {
                     </Button>
 
                     <ExternalLink
-                        className='flex items-center justify-center w-full gap-2 text-light-black dark:text-white'
+                        className='flex w-full items-center justify-center gap-2 text-light-black dark:text-white'
                         href={`mailto:${constants.SUPPORT_EMAIL}?subject=ARK%20Connect%20Support`}
                     >
                         <span className='font-medium'>Reach out to support team</span>
