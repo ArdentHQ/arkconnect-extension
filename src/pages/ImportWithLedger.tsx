@@ -122,8 +122,7 @@ const ImportWithLedger = () => {
                                 />
                                 <Paragraph
                                     color='ledgerConnectionError'
-                                    fontWeight='regular'
-                                    className='typeset-body'
+                                    className='typeset-body text-theme-error-600 dark:text-white'
                                 >
                                     {error && error.message ? error.message : error}
                                 </Paragraph>

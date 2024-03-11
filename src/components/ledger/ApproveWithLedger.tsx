@@ -7,7 +7,7 @@ import RequestedSignatureMessage from '../approve/RequestedSignatureMessage';
 import formatDomain from '@/lib/utils/formatDomain';
 import trimAddress from '@/lib/utils/trimAddress';
 import { ApproveActionType } from '@/pages/Approve';
-import { Heading, Icon, Loader, Paragraph } from '@/shared/components';
+import { Heading, Icon, Loader } from '@/shared/components';
 import { useVoteForm } from '@/lib/hooks/useVoteForm';
 import { useExchangeRate } from '@/lib/hooks/useExchangeRate';
 import RequestedBy from '@/shared/components/actions/RequestedBy';
@@ -116,13 +116,10 @@ const ApproveWithLedger = ({
                 <Heading $typeset='h3' fontWeight='bold' color='base' mb='8' mt='16'>
                     Connect Ledger and Sign The {getActionMessage()} Request
                 </Heading>
-                <Paragraph
-                    fontWeight='regular'
-                    className='typeset-headline text-theme-secondary-500 dark:text-theme-secondary-300'
-                >
+                <p className='typeset-headline text-theme-secondary-500 dark:text-theme-secondary-300'>
                     Connect your Ledger device, launch the ARK app, and carefully review the request
                     on your device before confirming your approval.
-                </Paragraph>
+                </p>
                 <div className='mt-6'>
                     {votingActionTypes.includes(actionType) && (
                         <RequestedVoteBody
@@ -157,12 +154,9 @@ const ApproveWithLedger = ({
                 >
                     {!!address && (
                         <div className='flex justify-center bg-white p-[14px] dark:bg-light-black'>
-                            <Paragraph
-                                fontWeight='regular'
-                                className='typeset-headline text-light-black dark:text-white'
-                            >
+                            <p className='typeset-headline text-light-black dark:text-white'>
                                 {trimAddress(address, 'long')}
-                            </Paragraph>
+                            </p>
                         </div>
                     )}
 

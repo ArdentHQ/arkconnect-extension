@@ -1,7 +1,8 @@
 import { useRef } from 'react';
 import { TippyProps } from '@tippyjs/react';
+import classNames from 'classnames';
 import Amount from '../Amount';
-import { Alias, Icon, Paragraph, Tooltip } from '@/shared/components';
+import { Icon, Tooltip } from '@/shared/components';
 import trimAddress from '@/lib/utils/trimAddress';
 import { ToastPosition } from '@/components/toast/ToastContainer';
 import useClipboard from '@/lib/hooks/useClipboard';
@@ -18,17 +19,22 @@ export const AddressAlias = ({
 }) => {
     const reference = useRef<HTMLDivElement | null>(null);
     const isTruncated = useIsTruncated({ reference });
+
     return (
         <div>
             <Tooltip content={alias} placement='top' disabled={!withTooltip || !isTruncated}>
-                <Alias
-                    fontWeight={isBold ? 'bold' : 'medium'}
-                    maxWidth='180px'
-                    className='typeset-headline text-light-black dark:text-white'
+                <div
+                    className={classNames(
+                        'typeset-headline max-w-[180px] truncate text-light-black dark:text-white',
+                        {
+                            'font-bold': isBold,
+                            'font-medium': !isBold,
+                        },
+                    )}
                     ref={reference}
                 >
                     {alias}
-                </Alias>
+                </div>
             </Tooltip>
         </div>
     );
@@ -49,7 +55,7 @@ export const TestnetIcon = () => {
         <div className='flex'>
             <Tooltip content='Testnet' placement='top'>
                 <div className='flex h-4 w-4 items-center justify-center rounded border border-solid border-theme-warning-500 bg-theme-warning-50 text-theme-warning-500 dark:border-theme-warning-400 dark:bg-theme-warning-500/10 dark:text-theme-warning-400'>
-                    <Paragraph $typeset='small'> T </Paragraph>
+                    <p className='typeset-small'> T </p>
                 </div>
             </Tooltip>
         </div>

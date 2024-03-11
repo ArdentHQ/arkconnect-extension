@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { object, string } from 'yup';
 import classNames from 'classnames';
 import SubPageLayout from '../SubPageLayout';
-import { Button, Input, Paragraph } from '@/shared/components';
+import { Button, Input } from '@/shared/components';
 import useToast from '@/lib/hooks/useToast';
 import { useEnvironmentContext } from '@/lib/context/Environment';
 import { useProfileContext } from '@/lib/context/Profile';
@@ -55,13 +55,10 @@ const EditAddressName = () => {
     return (
         <SubPageLayout title='Edit Address Name' hideCloseButton={false}>
             <div className='flex h-full flex-col'>
-                <Paragraph
-                    className='typeset-headline text-theme-secondary-500 dark:text-theme-secondary-300'
-                    mb='24'
-                >
+                <p className='typeset-headline mb-6 text-theme-secondary-500 dark:text-theme-secondary-300'>
                     Name your address so you can identify it later. This name is only stored
                     locally.
-                </Paragraph>
+                </p>
 
                 <div
                     className={classNames({

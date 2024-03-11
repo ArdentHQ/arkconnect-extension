@@ -3,7 +3,7 @@ import { ApproveActionType } from './Approve';
 import VoteApprovedBody from '@/components/approve/VoteApprovedBody';
 import constants from '@/constants';
 import removeWindowInstance from '@/lib/utils/removeWindowInstance';
-import { Button, ExternalLink, Heading, Icon, Paragraph } from '@/shared/components';
+import { Button, ExternalLink, Heading, Icon } from '@/shared/components';
 import formatDomain from '@/lib/utils/formatDomain';
 import RequestedBy from '@/shared/components/actions/RequestedBy';
 import { useProfileContext } from '@/lib/context/Profile';
@@ -61,9 +61,7 @@ const VoteApproved = () => {
                         }
                         color='base'
                     >
-                        <Paragraph fontWeight='medium' as='span' className='typeset-headline'>
-                            View transaction on ARKScan
-                        </Paragraph>
+                        <p className='typeset-headline font-medium'>View transaction on ARKScan</p>
                         <Icon icon='link-external' className='h-5 w-5' />
                     </ExternalLink>
                 </div>

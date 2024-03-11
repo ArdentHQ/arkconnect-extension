@@ -1,27 +1,20 @@
 import { useState } from 'react';
-import { Button, Checkbox, Paragraph, WarningIcon } from '@/shared/components';
+import { Button, Checkbox, WarningIcon } from '@/shared/components';
 import SubPageLayout from '@/components/settings/SubPageLayout';
-import useThemeMode from '@/lib/hooks/useThemeMode';
 import useResetExtension from '@/lib/hooks/useResetExtension';
 
 const ForgotPassword = () => {
     const resetExtension = useResetExtension();
     const [lostPasswordAwareness, setLostPasswordAwareness] = useState<boolean>(false);
 
-    const { getThemeColor } = useThemeMode();
-
     return (
         <SubPageLayout title='Forgot Password?' onBack='goBack' noPaddingBottom>
             <div className='flex h-full flex-col justify-between'>
-                <Paragraph
-                    fontWeight='regular'
-                    color={getThemeColor('secondary500', 'secondary300')}
-                    className='typeset-headline'
-                >
+                <p className='typeset-headline text-theme-secondary-500 dark:text-theme-secondary-300'>
                     Unfortunately there is no recovery method available other than resetting the
                     extension and re-importing your address(es). Ensure that you have your
                     passphrase(s) saved.
-                </Paragraph>
+                </p>
 
                 <div className='flex items-center justify-center'>
                     <WarningIcon />

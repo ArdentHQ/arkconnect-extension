@@ -2,7 +2,7 @@ import { Contracts } from '@ardenthq/sdk-profiles';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Amount from './Amount';
 import SubPageLayout from '@/components/settings/SubPageLayout';
-import { Paragraph, Tooltip } from '@/shared/components';
+import { Tooltip } from '@/shared/components';
 import { AddressAlias, LedgerIcon, TestnetIcon } from '@/components/wallet/address/Address.blocks';
 import { getNetworkCurrency } from '@/lib/utils/getActiveCoin';
 import useClipboard from '@/lib/hooks/useClipboard';
@@ -62,9 +62,9 @@ export const AddressSettings = () => {
 
                     <Tooltip
                         content={
-                            <Paragraph>
+                            <p>
                                 Ledger devices do not allow <br /> access to the passphrase.
-                            </Paragraph>
+                            </p>
                         }
                         placement='bottom'
                         disabled={!address.isLedger()}
@@ -87,9 +87,9 @@ export const AddressSettings = () => {
 
                     <Tooltip
                         content={
-                            <Paragraph>
+                            <p>
                                 Ledger devices do not allow <br /> access to the private key.
-                            </Paragraph>
+                            </p>
                         }
                         placement='bottom'
                         disabled={!address.isLedger()}
@@ -162,18 +162,16 @@ const AddressRow = ({ address }: { address: Contracts.IReadWriteWallet }) => {
                     {address.network().isTest() && <TestnetIcon />}
                 </div>
 
-                <Paragraph $typeset='body' className='text-light-black dark:text-white'>
-                    {address.address()}
-                </Paragraph>
+                <p className='typeset-body text-light-black dark:text-white'>{address.address()}</p>
 
-                <Paragraph $typeset='body' className='text-light-black dark:text-white'>
+                <p className='typeset-body text-light-black dark:text-white'>
                     <Amount
                         ticker={getNetworkCurrency(address.network())}
                         maxDigits={5}
                         value={address.balance()}
                         withTicker
                     />
-                </Paragraph>
+                </p>
             </div>
         </div>
     );

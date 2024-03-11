@@ -6,7 +6,7 @@ import { clearPersistScreenData, persistScreenChanged } from '../form-persist/he
 import { TestnetIcon } from '../address/Address.blocks';
 import { WalletFormScreen } from '../form-persist';
 import { ImportedWalletFormik } from '.';
-import { Button, Heading, Paragraph, PassphraseInput, ToggleSwitch } from '@/shared/components';
+import { Button, Heading, PassphraseInput, ToggleSwitch } from '@/shared/components';
 
 import { assertWallet } from '@/lib/utils/assertions';
 import { getDefaultAlias } from '@/lib/utils/getDefaultAlias';
@@ -192,13 +192,10 @@ const EnterPassphrase = ({ goToNextStep, formik }: Props) => {
                 </Heading>
                 {selectedNetwork.isTest() && <TestnetIcon />}
             </div>
-            <Paragraph
-                className='typeset-headline text-theme-secondary-500 dark:text-theme-secondary-300'
-                mb='24'
-            >
+            <p className='typeset-headline mb-8 text-theme-secondary-500 dark:text-theme-secondary-300'>
                 Enter your 12 or 24-word passphrase that you were given when you created the
                 address.
-            </Paragraph>
+            </p>
             <div className='relative mb-4'>
                 <PassphraseInput
                     name='enteredPassphrase'

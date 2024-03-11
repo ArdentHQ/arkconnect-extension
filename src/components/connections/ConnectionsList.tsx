@@ -6,7 +6,7 @@ import { DisconnectSessionModal } from '../wallet/DisconnectSessionModal';
 import ConnectionLogoImage from './ConnectionLogoImage';
 import { useAppSelector } from '@/lib/store';
 import * as SessionStore from '@/lib/store/session';
-import { Button, Icon, Paragraph, Tooltip } from '@/shared/components';
+import { Button, Icon, Tooltip } from '@/shared/components';
 import formatDomain from '@/lib/utils/formatDomain';
 import removeWindowInstance from '@/lib/utils/removeWindowInstance';
 import trimAddress from '@/lib/utils/trimAddress';
@@ -70,12 +70,9 @@ const ConnectionsList = () => {
                                         }
                                         placement='top'
                                     >
-                                        <Paragraph
-                                            fontWeight='medium'
-                                            className='typeset-headline text-light-black dark:text-white'
-                                        >
+                                        <p className='typeset-headline font-medium text-light-black dark:text-white'>
                                             {formatDomain(session.domain, false)}
-                                        </Paragraph>
+                                        </p>
                                     </Tooltip>
                                 </div>
 
@@ -83,17 +80,12 @@ const ConnectionsList = () => {
                                     content={profile.wallets().findById(session.walletId).address()}
                                     placement='bottom-start'
                                 >
-                                    <Paragraph
-                                        fontWeight='regular'
-                                        mt='4'
-                                        display='inline'
-                                        className='typeset-body text-theme-secondary-500 dark:text-theme-secondary-300'
-                                    >
+                                    <span className='typeset-body mt-1 text-theme-secondary-500 dark:text-theme-secondary-300'>
                                         Connected with{' '}
                                         <strong>
                                             {trimAddress(getWalletName(session.walletId), 14)}
                                         </strong>
-                                    </Paragraph>
+                                    </span>
                                 </Tooltip>
                             </div>
 

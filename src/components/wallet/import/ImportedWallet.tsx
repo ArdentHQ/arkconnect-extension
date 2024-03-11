@@ -2,7 +2,7 @@ import { FormikProps } from 'formik';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { Contracts } from '@ardenthq/sdk-profiles';
 import { ImportedWalletFormik } from '.';
-import { Button, Heading, Input, Paragraph } from '@/shared/components';
+import { Button, Heading, Input } from '@/shared/components';
 
 type Props = {
     goToNextStep: () => void;
@@ -42,38 +42,27 @@ const ImportedWallet = ({ goToNextStep, formik }: Props) => {
             <Heading $typeset='h3' fontWeight='bold' color='base' mb='8'>
                 Address Imported Successfully!
             </Heading>
-            <Paragraph
-                className='typeset-headline text-theme-secondary-500 dark:text-theme-secondary-300'
-                mb='24'
-            >
+            <p className='typeset-headline mb-6 text-theme-secondary-500 dark:text-theme-secondary-300'>
                 Your address details are shown below.
-            </Paragraph>
+            </p>
             <div>
                 <div className=' mb-4 border-b border-solid border-b-theme-secondary-200 pb-4 dark:border-b-theme-secondary-600'>
-                    <Paragraph
-                        fontWeight='medium'
-                        mb='8'
-                        className='typeset-body text-theme-secondary-500 dark:text-theme-secondary-300'
-                    >
+                    <p className='typeset-body mb-2 font-medium text-theme-secondary-500 dark:text-theme-secondary-300'>
                         Address
-                    </Paragraph>
-                    <Paragraph className='typeset-headline text-light-black dark:text-white'>
+                    </p>
+                    <p className='typeset-headline text-light-black dark:text-white'>
                         {formik.values.wallet?.address()}
-                    </Paragraph>
+                    </p>
                 </div>
 
                 <div className=' mb-4 border-b border-solid border-b-theme-secondary-200 pb-4 dark:border-b-theme-secondary-600'>
-                    <Paragraph
-                        fontWeight='medium'
-                        mb='8'
-                        className='typeset-body text-theme-secondary-500 dark:text-theme-secondary-300'
-                    >
+                    <p className='typeset-body mb-2 font-medium text-theme-secondary-500 dark:text-theme-secondary-300'>
                         Balance
-                    </Paragraph>
-                    <Paragraph className='typeset-headline text-light-black dark:text-white'>
+                    </p>
+                    <p className='typeset-headline text-light-black dark:text-white'>
                         {formik.values.wallet?.balance()?.toLocaleString()}{' '}
                         {formik.values.wallet?.currency()}
-                    </Paragraph>
+                    </p>
                 </div>
 
                 <div>

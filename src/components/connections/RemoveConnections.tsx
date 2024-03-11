@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Heading, Paragraph } from '@/shared/components';
+import { Heading } from '@/shared/components';
 
 type Props = {
     sessionDomain?: string;
@@ -19,41 +19,25 @@ const RemoveConnections = ({ numberOfSessions, sessionDomain }: Props) => {
             </Heading>
 
             <div className='mt-2'>
-                <Paragraph
-                    fontWeight='regular'
-                    display='inline'
-                    className='typeset-headline text-theme-secondary-500 dark:text-theme-secondary-300'
-                >
+                <span className='typeset-headline text-theme-secondary-500 dark:text-theme-secondary-300'>
                     Are you certain you want to disconnect
                     {hasMultipleSessions ? ' all ' : ' your connection with '}
-                </Paragraph>
-                <Paragraph
-                    fontWeight='regular'
-                    className='typeset-headline text-theme-secondary-500 dark:text-theme-secondary-300'
-                    display='inline'
-                    as='span'
-                >
+                </span>
+                <span className='typeset-headline text-theme-secondary-500 dark:text-theme-secondary-300'>
                     {sessionDomain && numberOfSessions === 1 ? (
-                        <Paragraph
-                            className='typeset-headline text-light-black dark:text-white'
-                            display='inline'
-                        >
+                        <span className='typeset-headline text-light-black dark:text-white'>
                             <StyledDomain>{sessionDomain}</StyledDomain>
-                        </Paragraph>
+                        </span>
                     ) : (
                         <>
-                            <Paragraph
-                                fontWeight='medium'
-                                className='typeset-headline text-light-black dark:text-white'
-                                display='inline'
-                            >
+                            <span className='typeset-headline font-medium text-light-black dark:text-white'>
                                 {numberOfSessions}
-                            </Paragraph>{' '}
+                            </span>{' '}
                             of your connections
                         </>
                     )}
                     ?
-                </Paragraph>
+                </span>
             </div>
         </div>
     );
