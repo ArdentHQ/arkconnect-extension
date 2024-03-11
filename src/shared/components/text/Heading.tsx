@@ -48,7 +48,7 @@ export const Heading = (props: Props) => {
 };
 
 interface Heading2Props extends React.HTMLAttributes<HTMLHeadingElement> {
-    level: 3 | 4;
+    level: 2 | 3 | 4;
 }
 
 export const HeadingTODO = ({ level, ...properties }: Heading2Props) => {
@@ -61,5 +61,14 @@ export const HeadingTODO = ({ level, ...properties }: Heading2Props) => {
         );
     }
 
-    return <h3 className='text-xl font-bold leading-[25px]' {...properties} />;
+    if (level === 3) {
+        return (
+            <h3
+                className='text-xl font-bold leading-[25px] text-light-black dark:text-white'
+                {...properties}
+            />
+        );
+    }
+
+    return <h2 className=' text-2xl font-bold leading-[30px]' {...properties} />;
 };

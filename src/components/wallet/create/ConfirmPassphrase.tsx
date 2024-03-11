@@ -2,7 +2,7 @@ import { FormikProps } from 'formik';
 import { useEffect, useState } from 'react';
 import { runtime } from 'webextension-polyfill';
 import { CreateWalletFormik, ValidationVariant } from '.';
-import { Button, Checkbox, Heading, Input, Paragraph } from '@/shared/components';
+import { Button, Checkbox, HeadingTODO, Input, Paragraph } from '@/shared/components';
 import getNumberSuffix from '@/lib/utils/getNumberSuffix';
 import { TestnetIcon } from '@/components/wallet/address/Address.blocks';
 import useActiveNetwork from '@/lib/hooks/useActiveNetwork';
@@ -72,9 +72,7 @@ const ConfirmPassphrase = ({ goToNextStep, formik }: Props) => {
     return (
         <>
             <div className='mb-2 flex items-center gap-2'>
-                <Heading $typeset='h4' fontWeight='medium' color='base'>
-                    Confirm Your Passphrase
-                </Heading>
+                <HeadingTODO level={4}>Confirm Your Passphrase</HeadingTODO>
                 {selectedNetwork.isTest() && <TestnetIcon />}
             </div>
 
