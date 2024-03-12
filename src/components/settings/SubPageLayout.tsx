@@ -34,9 +34,7 @@ const SubPageLayout = ({
                 <div className='flex w-full items-center justify-between'>
                     <div className='flex items-center gap-3'>
                         <ArrowButton action={onBack} />
-                        <Heading $typeset='h4' fontWeight='medium' color='base'>
-                            {title}
-                        </Heading>
+                        <Heading level={4}>{title}</Heading>
                     </div>
 
                     {!hideCloseButton && <CloseButton />}

@@ -2,15 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { ChangeEvent, KeyboardEvent, useState } from 'react';
 import { runtime } from 'webextension-polyfill';
 import classNames from 'classnames';
-import {
-    Button,
-    Icon,
-    InternalLink,
-    Layout,
-    LockIcon,
-    Paragraph,
-    PasswordInput,
-} from '@/shared/components';
+import { Button, Icon, InternalLink, Layout, LockIcon, PasswordInput } from '@/shared/components';
 import { ValidationVariant } from '@/components/wallet/create';
 import { useProfileContext } from '@/lib/context/Profile';
 import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
@@ -75,9 +67,9 @@ const EnterPassword = () => {
                             'mb-11': validationVariant !== 'destructive',
                         })}
                     >
-                        <Paragraph $typeset='headline' fontWeight='medium' color='labelText'>
+                        <p className='typeset-headline font-medium text-subtle-black dark:text-theme-secondary-200'>
                             Enter Password to Unlock
-                        </Paragraph>
+                        </p>
                         <PasswordInput
                             name='password'
                             variant={validationVariant}
@@ -111,15 +103,11 @@ const EnterPassword = () => {
                     </Button>
                     <InternalLink
                         to='/forgot-password'
-                        width='100%'
-                        display='flex'
-                        justifyContent='center'
-                        alignItems='center'
-                        color='base'
+                        className='flex w-full items-center justify-center text-light-black dark:text-white'
                     >
-                        <Paragraph $typeset='headline' fontWeight='medium' color='base'>
+                        <span className='typeset-headline font-medium text-light-black dark:text-white'>
                             Forgot Password?
-                        </Paragraph>
+                        </span>
                     </InternalLink>
                 </div>
             </div>

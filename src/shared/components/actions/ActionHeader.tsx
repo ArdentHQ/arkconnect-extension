@@ -26,9 +26,7 @@ const ActionHeader = ({ appDomain, appLogo, icon, actionLabel, iconClassNames }:
                     />
                 </div>
 
-                <Heading $typeset='h3' fontWeight='bold' color='base'>
-                    {actionLabel}
-                </Heading>
+                <Heading level={3}>{actionLabel}</Heading>
             </div>
         </div>
     );
