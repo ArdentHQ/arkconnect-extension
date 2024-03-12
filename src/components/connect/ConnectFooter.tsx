@@ -1,4 +1,4 @@
-import { Button, Grid } from '@/shared/components';
+import { Button } from '@/shared/components';
 
 type ConnectFooterProps = {
     onSubmit: () => Promise<void>;
@@ -11,14 +11,14 @@ const ConnectFooter = ({ onSubmit, onCancel }: ConnectFooterProps) => {
                 It can see your address, balance, activity, and can send requests for transactions.
                 It cannot access your funds without your approval.
             </p>
-            <Grid gridGap='8px' gridTemplateColumns='repeat(2, 1fr)'>
+            <div className='grid gap-2 grid-cols-2'>
                 <Button variant='secondaryBlack' onClick={onCancel}>
                     Refuse
                 </Button>
                 <Button variant='primary' onClick={onSubmit}>
                     Connect
                 </Button>
-            </Grid>
+            </div>
         </div>
     );
 };
