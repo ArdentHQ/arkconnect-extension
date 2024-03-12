@@ -151,7 +151,7 @@ export const RowLayout = forwardRef(function RowLayout(
                         {children && (
                             <span
                                 className={cn({
-                                    'mr-4': iconTrailing,
+                                    'mr-4 flex items-center': iconTrailing,
                                     'mr-0': !iconTrailing,
                                 })}
                             >
