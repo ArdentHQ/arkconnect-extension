@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import styled from 'styled-components';
 import { useLocation } from 'react-router-dom';
 import classNames from 'classnames';
 import { DisconnectSessionModal } from '../wallet/DisconnectSessionModal';
@@ -51,7 +50,10 @@ const ConnectionsList = () => {
             <div className='mb-2 flex flex-col gap-2'>
                 {Object.values(sessions).map((session) => {
                     return (
-                        <StyledRow key={session.id}>
+                        <div
+                            className='relative flex min-h-[58px] w-full items-center justify-between gap-3 rounded-2xl bg-white p-3 shadow-light dark:bg-subtle-black'
+                            key={session.id}
+                        >
                             <div className='flex h-10 w-10 flex-shrink-0 items-center justify-center overflow-hidden rounded-full bg-theme-secondary-50 dark:bg-black'>
                                 <ConnectionLogoImage
                                     appLogo={session.logo}
@@ -64,9 +66,9 @@ const ConnectionsList = () => {
                                 <div>
                                     <Tooltip
                                         content={
-                                            <StyledSpan>
+                                            <span className='truncate'>
                                                 {formatDomain(session.domain, false)}
-                                            </StyledSpan>
+                                            </span>
                                         }
                                         placement='top'
                                     >
@@ -112,7 +114,7 @@ const ConnectionsList = () => {
                                     />
                                 </button>
                             </Tooltip>
-                        </StyledRow>
+                        </div>
                     );
                 })}
             </div>
@@ -147,25 +149,5 @@ const ConnectionsList = () => {
         </div>
     );
 };
-
-const StyledRow = styled.div`
-    ${({ theme }) => `
-  border-radius: ${theme.radii['16']}px;
-  background-color: ${theme.colors.inputBackground};
-  box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.05);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  min-height: 58px;
-  padding: 12px;
-  grid-gap: 12px;
-  position: relative;
-`}
-`;
-
-const StyledSpan = styled.span`
-    word-wrap: break-word;
-`;
 
 export default ConnectionsList;

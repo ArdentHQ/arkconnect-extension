@@ -1,10 +1,10 @@
-import chromeManifest from './src/manifest.chrome.json';
+import { resolve } from 'path';
 import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import webExtension from '@samrum/vite-plugin-web-extension';
+import chromeManifest from './src/manifest.chrome.json';
 import firefoxManifest from './src/manifest.firefox.json';
 import pkg from './package.json';
-import react from '@vitejs/plugin-react';
-import { resolve } from 'path';
-import webExtension from '@samrum/vite-plugin-web-extension';
 
 const rootDir = resolve(__dirname);
 const outDir = resolve(rootDir, 'dist');
@@ -74,11 +74,6 @@ export default defineConfig({
                         'redux-persist',
                         '@reduxjs/toolkit',
                         'formik',
-                    ],
-                    'styled-system': [
-                        'styled-components',
-                        'styled-system',
-                        '@styled-system/should-forward-prop',
                     ],
                 },
             },
