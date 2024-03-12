@@ -3,7 +3,7 @@ import { BIP44 } from '@ardenthq/sdk-cryptography';
 import { Contracts as ProfilesContracts } from '@ardenthq/sdk-profiles';
 import { FormikProps } from 'formik';
 import classNames from 'classnames';
-import { Button, Checkbox, Heading, Paragraph, Tooltip } from '@/shared/components';
+import { Button, Checkbox, Heading, Tooltip } from '@/shared/components';
 import trimAddress from '@/lib/utils/trimAddress';
 import { useLedgerContext, useLedgerScanner } from '@/lib/Ledger';
 import useActiveNetwork from '@/lib/hooks/useActiveNetwork';
@@ -122,9 +122,9 @@ const ImportWallets = ({ goToNextStep, formik }: Props) => {
             <Heading level={3} className='mb-2 px-6'>
                 Select Addresses to Import
             </Heading>
-            <Paragraph $typeset='body' color='gray' mb='24' px='24'>
+            <p className='typeset-body mb-6 px-6 text-theme-secondary-500 dark:text-theme-secondary-300'>
                 Multiple addresses can be imported too!
-            </Paragraph>
+            </p>
             <div className='custom-scroll h-[260px] max-h-[260px] overflow-y-scroll border-b border-t border-solid border-b-theme-secondary-200 border-t-theme-secondary-200 dark:border-b-theme-secondary-700 dark:border-t-theme-secondary-700'>
                 <HandleLoadingState loading={showLoader}>
                     {wallets.map((wallet) => {
@@ -167,20 +167,16 @@ const ImportWallets = ({ goToNextStep, formik }: Props) => {
                                         )}
                                     >
                                         <div className='flex flex-col gap-1'>
-                                            <Paragraph $typeset='headline' fontWeight='medium'>
+                                            <p className='typeset-headline'>
                                                 {trimAddress(wallet.address, 10)}
-                                            </Paragraph>
-                                            <Paragraph
-                                                $typeset='body'
-                                                fontWeight='regular'
-                                                as='span'
-                                            >
+                                            </p>
+                                            <span className='typeset-body'>
                                                 <AddressBalance
                                                     balance={wallet.balance ?? 0}
                                                     currency={getNetworkCurrency(network)}
                                                     maxDigits={2}
                                                 />
-                                            </Paragraph>
+                                            </span>
                                         </div>
                                         <div className='flex items-center gap-3'>
                                             <div className='h-5 w-5'>

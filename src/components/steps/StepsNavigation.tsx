@@ -4,7 +4,7 @@ import { ComponentType, useState } from 'react';
 import { FormikProps } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import classNames from 'classnames';
-import { ArrowButton, Paragraph } from '@/shared/components';
+import { ArrowButton } from '@/shared/components';
 
 export type Step = {
     component: ComponentType<any>;
@@ -71,9 +71,9 @@ const StepsNavigation = <T extends Record<string, any>>({
                     />
                 </div>
                 <div className='p-1.5'>
-                    <Paragraph $typeset='body' fontWeight='medium'>
+                    <p className='typeset-body font-medium'>
                         {currentStep + 1}/{totalSteps}
-                    </Paragraph>
+                    </p>
                 </div>
             </div>
 

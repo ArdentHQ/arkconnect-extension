@@ -1,9 +1,10 @@
 import { useEffect } from 'react';
+import classNames from 'classnames';
 import Step from './Step';
 import { connectSteps } from './utils/connectionSteps';
 import * as ModalStore from '@/lib/store/modal';
 
-import { Button, ExternalLink, Heading, Icon, Paragraph } from '@/shared/components';
+import { Button, ExternalLink, Heading, Icon } from '@/shared/components';
 
 import constants from '@/constants';
 import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
@@ -99,14 +100,16 @@ export const LedgerConnectionStep = ({
                 {connectSteps.map((step, index) => (
                     <div key={index} className='flex items-start gap-2'>
                         <Step step={index + 1} />
-                        <Paragraph
-                            fontWeight='regular'
-                            $typeset='headline'
-                            color='base'
-                            mb={index !== connectSteps.length - 1 ? '12' : '0'}
+                        <p
+                            className={classNames(
+                                'typeset-headline text-light-black dark:text-white',
+                                {
+                                    'mb-3': index !== connectSteps.length - 1,
+                                },
+                            )}
                         >
                             {step}
-                        </Paragraph>
+                        </p>
                     </div>
                 ))}
             </div>
@@ -119,9 +122,7 @@ export const LedgerConnectionStep = ({
                 className='flex w-full items-center justify-center gap-3 text-theme-primary-700 dark:text-theme-primary-650'
                 href={`mailto:${constants.SUPPORT_EMAIL}?subject=ARK%20Connect%20Support%20Ledger`}
             >
-                <Paragraph $typeset='headline' fontWeight='medium'>
-                    Support Email
-                </Paragraph>
+                <p className='typeset-headline font-medium'>Support Email</p>
                 <Icon icon='link-external' className='h-5 w-5' />
             </ExternalLink>
         </div>

@@ -1,6 +1,6 @@
 import { useAppSelector } from '@/lib/store';
 import { CTA_CONTENT, selectLoadingModal } from '@/lib/store/modal';
-import { Heading, Icon, Loader, Paragraph } from '@/shared/components';
+import { Heading, Icon, Loader } from '@/shared/components';
 
 const LoadingModal = () => {
     const { isLoading, isOpen, completedMessage, loadingMessage, completedDescription, CTA } =
@@ -22,16 +22,9 @@ const LoadingModal = () => {
                         <div className='flex flex-col items-center justify-center'>
                             <Heading level={3}>{completedMessage}</Heading>
                             {completedDescription && (
-                                <Paragraph
-                                    $typeset='headline'
-                                    maxWidth='243px'
-                                    mt='8'
-                                    fontWeight='regular'
-                                    color='gray'
-                                    textAlign='center'
-                                >
+                                <p className='typeset-headline mt-2 max-w-[243px]  text-center text-theme-secondary-500 dark:text-theme-secondary-300'>
                                     {completedDescription}
-                                </Paragraph>
+                                </p>
                             )}
                         </div>
                     </>

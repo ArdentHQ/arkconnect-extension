@@ -1,5 +1,5 @@
 import Amount from './Amount';
-import { Heading, Paragraph } from '@/shared/components';
+import { Heading } from '@/shared/components';
 
 type BalanceProps = {
     convertedBalance?: number;
@@ -15,9 +15,9 @@ const Balance = ({ balance, currency, exchangeCurrency, convertedBalance }: Bala
                 <Amount value={balance} ticker={currency} />
             </Heading>
             {convertedBalance !== undefined && (
-                <Paragraph $typeset='headline' fontWeight='medium'>
+                <p className='typeset-headline font-medium'>
                     <Amount value={convertedBalance} ticker={exchangeCurrency} withTicker />
-                </Paragraph>
+                </p>
             )}
         </div>
     );

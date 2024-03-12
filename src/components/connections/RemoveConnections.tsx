@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Heading, Paragraph } from '@/shared/components';
+import { Heading } from '@/shared/components';
 
 type Props = {
     sessionDomain?: string;
@@ -19,36 +19,25 @@ const RemoveConnections = ({ numberOfSessions, sessionDomain }: Props) => {
             </Heading>
 
             <div className='mt-2'>
-                <Paragraph $typeset='headline' fontWeight='regular' color='gray' display='inline'>
+                <span className='typeset-headline text-theme-secondary-500 dark:text-theme-secondary-300'>
                     Are you certain you want to disconnect
                     {hasMultipleSessions ? ' all ' : ' your connection with '}
-                </Paragraph>
-                <Paragraph
-                    $typeset='headline'
-                    fontWeight='regular'
-                    color='gray'
-                    display='inline'
-                    as='span'
-                >
+                </span>
+                <span className='typeset-headline text-theme-secondary-500 dark:text-theme-secondary-300'>
                     {sessionDomain && numberOfSessions === 1 ? (
-                        <Paragraph $typeset='headline' color='base' display='inline'>
+                        <span className='typeset-headline text-light-black dark:text-white'>
                             <StyledDomain>{sessionDomain}</StyledDomain>
-                        </Paragraph>
+                        </span>
                     ) : (
                         <>
-                            <Paragraph
-                                $typeset='headline'
-                                fontWeight='medium'
-                                color='base'
-                                display='inline'
-                            >
+                            <span className='typeset-headline font-medium text-light-black dark:text-white'>
                                 {numberOfSessions}
-                            </Paragraph>{' '}
+                            </span>{' '}
                             of your connections
                         </>
                     )}
                     ?
-                </Paragraph>
+                </span>
             </div>
         </div>
     );

@@ -1,7 +1,7 @@
 import { ChangeEvent, KeyboardEvent, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { runtime } from 'webextension-polyfill';
-import { Button, Paragraph, PasswordInput, WarningIcon } from '@/shared/components';
+import { Button, PasswordInput, WarningIcon } from '@/shared/components';
 import { ValidationVariant } from '@/components/wallet/create';
 import { useAppDispatch, useAppSelector } from '@/lib/store';
 import * as WalletStore from '@/lib/store/wallet';
@@ -10,7 +10,6 @@ import { useProfileContext } from '@/lib/context/Profile';
 import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
 import { isValidPassword } from '@/lib/utils/validations';
 import { ExtensionEvents } from '@/lib/events';
-import useThemeMode from '@/lib/hooks/useThemeMode';
 import SubPageLayout from '@/components/settings/SubPageLayout';
 import useResetExtension from '@/lib/hooks/useResetExtension';
 
@@ -21,7 +20,6 @@ const Logout = () => {
     const { initProfile, profile } = useProfileContext();
     const [password, setPassword] = useState<string>('');
     const [validationVariant, setValidationVariant] = useState<ValidationVariant>('primary');
-    const { getThemeColor } = useThemeMode();
     const sessions = useAppSelector(SessionStore.selectSessions);
     const { onError } = useErrorHandlerContext();
     const walletsIds = useAppSelector(WalletStore.selectWalletsIds);
@@ -126,40 +124,30 @@ const Logout = () => {
             hideCloseButton={false}
         >
             <div className='flex h-full flex-col'>
-                <Paragraph
-                    $typeset='headline'
-                    fontWeight='regular'
-                    color={getThemeColor('secondary500', 'secondary300')}
-                >
+                <p className='typeset-headline text-theme-secondary-500 dark:text-theme-secondary-300'>
                     {walletsToLogout && walletsToLogout.length > 1 ? (
-                        <Paragraph as='span' $typeset='headline'>
+                        <span className='typeset-headline'>
                             Are you sure you want to remove{' '}
-                            <Paragraph
-                                as='span'
-                                color='base'
-                                fontWeight='regular'
-                                $typeset='headline'
-                                display='inline-block'
-                            >
+                            <span className='typeset-headline inline-block text-light-black dark:text-white'>
                                 {walletsToLogout.length} addresses?
-                            </Paragraph>{' '}
+                            </span>{' '}
                             {`You won’t be able to login again without ${getAddressesType()}.`}
-                        </Paragraph>
+                        </span>
                     ) : (
                         `Are you sure you want to remove this address? You will be unable to log in again using this address without ${
                             wallet?.isLedger() ? 'a Ledger device.' : 'a passphrase.'
                         }`
                     )}
-                </Paragraph>
+                </p>
 
                 <div className='mt-4 flex items-center justify-center'>
                     <WarningIcon iconClassName='w-[146px] h-[135px]' />
                 </div>
 
                 <div className='mt-6 flex flex-col gap-1.5'>
-                    <Paragraph $typeset='headline' fontWeight='medium' color='labelText'>
+                    <p className='typeset-headline font-medium text-subtle-black dark:text-theme-secondary-200'>
                         Enter Password
-                    </Paragraph>
+                    </p>
                     <PasswordInput
                         name='password'
                         variant={validationVariant}
@@ -183,9 +171,9 @@ const Logout = () => {
                         onClick={() => navigate(-1)}
                         className='mb-0 flex w-full bg-transparent py-0 text-light-black dark:text-white'
                     >
-                        <Paragraph $typeset='headline' fontWeight='medium' color='base' as='span'>
+                        <span className='typeset-headline font-medium text-light-black dark:text-white'>
                             Cancel and Go Back
-                        </Paragraph>
+                        </span>
                     </Button>
                 </div>
             </div>

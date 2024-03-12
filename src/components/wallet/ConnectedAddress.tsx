@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { Contracts } from '@ardenthq/sdk-profiles';
-import { Button, Heading, Paragraph } from '@/shared/components';
+import { Button, Heading } from '@/shared/components';
 import formatDomain from '@/lib/utils/formatDomain';
 import {
     Address,
@@ -37,10 +37,10 @@ const ConnectedAddress = ({ connectedTo, wallet, logo, onDisconnect }: Propertie
                     <Heading level={4}>Connected Address</Heading>
                 </ConnectionStatusTitle>
 
-                <Paragraph $typeset='headline' fontWeight='regular' color='gray' marginTop='6'>
+                <p className='typeset-headline mt-1.5 text-theme-secondary-500 dark:text-theme-secondary-300'>
                     The following address is currently connected to{' '}
                     <ConnectedSite>{formatDomain(connectedTo, false)}</ConnectedSite>
-                </Paragraph>
+                </p>
             </div>
 
             <div>

@@ -11,6 +11,10 @@
         @apply text-sm leading-[17.5px];
     }
 
+    .typeset-small {
+        @apply text-xs leading-[15px];
+    }
+
     .typeset-headline {
         @apply text-base leading-5;
     }

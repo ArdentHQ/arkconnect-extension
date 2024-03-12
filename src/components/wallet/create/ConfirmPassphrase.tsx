@@ -2,7 +2,7 @@ import { FormikProps } from 'formik';
 import { useEffect, useState } from 'react';
 import { runtime } from 'webextension-polyfill';
 import { CreateWalletFormik, ValidationVariant } from '.';
-import { Button, Checkbox, Heading, Input, Paragraph } from '@/shared/components';
+import { Button, Checkbox, Heading, Input } from '@/shared/components';
 import getNumberSuffix from '@/lib/utils/getNumberSuffix';
 import { TestnetIcon } from '@/components/wallet/address/Address.blocks';
 import useActiveNetwork from '@/lib/hooks/useActiveNetwork';
@@ -76,17 +76,17 @@ const ConfirmPassphrase = ({ goToNextStep, formik }: Props) => {
                 {selectedNetwork.isTest() && <TestnetIcon />}
             </div>
 
-            <Paragraph $typeset='headline' color='gray' mb='16'>
+            <p className='typeset-headline mb-4 text-theme-secondary-500 dark:text-theme-secondary-300'>
                 Confirm that you’ve saved your secret passphrase by correctly entering the word in
                 the designated input field below.
-            </Paragraph>
+            </p>
 
             <div className='flex flex-1 items-start gap-2.5'>
                 {values.confirmationNumbers?.map((number: number, index: number) => (
                     <div className='flex flex-col items-start gap-1.5' key={index}>
-                        <Paragraph $typeset='headline' fontWeight='medium' color='base'>
+                        <p className='typeset-headline font-medium text-light-black dark:text-white'>
                             {getNumberSuffix(number)} word
-                        </Paragraph>
+                        </p>
                         <Input
                             variant={validationStatus[index]}
                             type='text'
