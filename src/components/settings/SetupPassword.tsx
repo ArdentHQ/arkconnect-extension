@@ -6,6 +6,8 @@ import { Button, Checkbox, ExternalLink, PasswordInput } from '@/shared/componen
 import { getLocalValues, setLocalValue } from '@/lib/utils/localStorage';
 
 import constants from '@/constants';
+import { useEnvironmentContext } from '@/lib/context/Environment';
+import { EnvironmentData } from '@/lib/background/contracts';
 
 type Props = {
     formik: ReturnType<typeof useFormik>;
@@ -19,6 +21,7 @@ type PasswordValidation = {
 };
 
 const SetupPassword = ({ formik }: Props) => {
+    const { env } = useEnvironmentContext();
     const { values } = formik;
 
     const [validation, setValidation] = useState<PasswordValidation>({
@@ -38,9 +41,7 @@ const SetupPassword = ({ formik }: Props) => {
         if (locationHref.includes('import_with_ledger')) return;
 
         (async () => {
-            const { hasOnboarded } = await getLocalValues();
-
-            if (hasOnboarded) {
+            if (env.data().get(EnvironmentData.HasOnboarded)) {
                 persistScreenChanged({
                     screen: WalletFormScreen.OVERVIEW,
                     step: 0,
@@ -80,7 +81,8 @@ const SetupPassword = ({ formik }: Props) => {
     };
 
     const submitForm = async () => {
-        await setLocalValue('hasOnboarded', true);
+        env.data().set(EnvironmentData.HasOnboarded, true);
+        await env.persist();
 
         formik.submitForm();
     };

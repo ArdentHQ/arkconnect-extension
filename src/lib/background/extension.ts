@@ -1,10 +1,11 @@
 import { Contracts, Environment } from '@ardenthq/sdk-profiles';
 
-import { getLocalValues } from '../utils/localStorage';
+// import { getLocalValues } from '../utils/localStorage';
 import { initializeEnvironment } from '../utils/env.background';
 import { LockHandler } from './handleAutoLock';
 import { PrimaryWallet } from './extension.wallet.primary';
 import { createTestProfile, isDev } from '@/dev/utils/dev';
+import { EnvironmentData } from './contracts';
 
 const exists = (profile?: Contracts.IProfile | null): profile is Contracts.IProfile => !!profile;
 
@@ -80,7 +81,7 @@ export function Extension() {
 
             return {
                 data: readOnlyData,
-                profileData: profile.data().all(),
+                envData: env.data().all(),
             };
         },
         /**
@@ -193,7 +194,7 @@ export function Extension() {
             await env.verify();
             await env.boot();
 
-            const { hasOnboarded } = await getLocalValues();
+            const hasOnboarded = await env.data().get(EnvironmentData.HasOnboarded);
 
             if (this.exists() && hasOnboarded) {
                 // If profile exists, it means that the extension was restarted.

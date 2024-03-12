@@ -1,6 +1,7 @@
 import { Contracts, Environment } from '@ardenthq/sdk-profiles';
 import { getDefaultAlias } from '@/lib/utils/getDefaultAlias';
 import { setLocalValue } from '@/lib/utils/localStorage';
+import { EnvironmentData } from '@/lib/background/contracts';
 
 type TestingAddress = {
     coin: string;
@@ -57,8 +58,8 @@ export const createTestProfile = async ({ env }: { env: Environment }): Promise<
 
     profile.wallets().first().data().set(Contracts.WalletData.IsPrimary, true);
 
+    env.data().set(EnvironmentData.HasOnboarded, true);
+
     await env.verify();
     await env.persist();
-
-    setLocalValue('hasOnboarded', true);
 };

@@ -16,10 +16,16 @@ import { assertNetwork } from '@/lib/utils/assertions';
 import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
 import useLocaleCurrency from '@/lib/hooks/useLocalCurrency';
 import { getLocalValues } from '@/lib/utils/localStorage';
-import { LastVisitedPage, ProfileData, ScreenName } from '@/lib/background/contracts';
+import {
+    EnvironmentData,
+    LastVisitedPage,
+    ProfileData,
+    ScreenName,
+} from '@/lib/background/contracts';
 import randomWordPositions from '@/lib/utils/randomWordPositions';
 import useLoadingModal from '@/lib/hooks/useLoadingModal';
 import { useBackgroundEvents } from '@/lib/context/BackgroundEventHandler';
+import { useEnvironmentContext } from '@/lib/context/Environment';
 
 export type CreateWalletFormik = {
     wallet?: Contracts.IReadWriteWallet;
@@ -57,6 +63,7 @@ const CreateNewWallet = () => {
         { component: ConfirmPassphrase },
     ]);
     const [defaultStep, setDefaultStep] = useState(0);
+    const { env } = useEnvironmentContext();
 
     const loadingModal = useLoadingModal({
         completedMessage: 'Your Wallet is Ready!',
@@ -67,7 +74,8 @@ const CreateNewWallet = () => {
 
     useEffect(() => {
         (async () => {
-            const { hasOnboarded } = await getLocalValues();
+            const hasOnboarded = env.data().get(EnvironmentData.HasOnboarded);
+
             const lastVisitedPage = profile.settings().get(ProfileData.LastVisitedPage) as
                 | LastVisitedPage
                 | undefined;
@@ -192,11 +200,10 @@ const CreateNewWallet = () => {
     // Persist the exact step if user goes back 'n forth.
     const handleStepChange = async (step: number) => {
         if (step === -1) {
-            const { hasOnboarded } = await getLocalValues();
             runtime.sendMessage({ type: 'CLEAR_LAST_SCREEN' });
             profile.settings().forget(ProfileData.LastVisitedPage);
 
-            if (hasOnboarded) {
+            if (env.data().get(EnvironmentData.HasOnboarded)) {
                 return navigate('/create-import-address');
             }
 

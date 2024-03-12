@@ -15,6 +15,7 @@ export enum OneTimeEvents {
     GET_DATA = 'GET_DATA',
     IMPORT_WALLETS = 'IMPORT_WALLETS',
     PERSIST = 'PERSIST',
+    PERSIST_ENV_DATA = 'PERSIST_ENV_DATA',
     SET_SESSIONS = 'SET_SESSIONS',
     REFRESH_AUTOLOCK_TIMER = 'REFRESH_AUTOLOCK_TIMER',
     CLEAR_AUTOLOCK_TIMER = 'CLEAR_AUTOLOCK_TIMER',
@@ -87,7 +88,7 @@ export function OneTimeEventHandlers(extension: ReturnType<typeof Extension>) {
 
                 return {
                     data,
-                    profileData: undefined,
+                    envData: extension.env().data().all(),
                 };
             }
 
@@ -125,6 +126,10 @@ export function OneTimeEventHandlers(extension: ReturnType<typeof Extension>) {
 
         [OneTimeEvents.PERSIST]: async (request: any) => {
             return await handleSetData(request, extension);
+        },
+
+        [OneTimeEvents.PERSIST_ENV_DATA]: async (request: any) => {
+            extension.env().data().fill(request.data);
         },
 
         [OneTimeEvents.SET_SESSIONS]: async (request: any) => {
