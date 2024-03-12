@@ -68,11 +68,11 @@ export default {
                 decreaseHeight: 'decreaseHeight 0.5s ease-in-out 2s forwards',
             },
             zIndex: {
-                '1': '1',
+                1: '1',
             },
             borderRadius: {
                 '2.5xl': '1.25rem',
-            }
+            },
         },
         colors: {
             transparent: 'transparent',
