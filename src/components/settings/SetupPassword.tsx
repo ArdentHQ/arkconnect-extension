@@ -3,7 +3,6 @@ import { useFormik } from 'formik';
 import { persistScreenChanged } from '../wallet/form-persist/helpers';
 import { WalletFormScreen } from '../wallet/form-persist';
 import { Button, Checkbox, ExternalLink, PasswordInput } from '@/shared/components';
-import { getLocalValues, setLocalValue } from '@/lib/utils/localStorage';
 
 import constants from '@/constants';
 import { useEnvironmentContext } from '@/lib/context/Environment';

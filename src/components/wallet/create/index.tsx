@@ -15,7 +15,6 @@ import { HandleLoadingState } from '@/shared/components/handleStates/HandleLoadi
 import { assertNetwork } from '@/lib/utils/assertions';
 import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
 import useLocaleCurrency from '@/lib/hooks/useLocalCurrency';
-import { getLocalValues } from '@/lib/utils/localStorage';
 import {
     EnvironmentData,
     LastVisitedPage,
