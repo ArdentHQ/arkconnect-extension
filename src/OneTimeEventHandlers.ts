@@ -197,7 +197,7 @@ export function OneTimeEventHandlers(extension: ReturnType<typeof Extension>) {
 
         [OneTimeEvents.SET_LAST_SCREEN]: async (request: any) => {
             extension.profile().settings().set(ProfileData.LastVisitedPage, {
-                name: request.name,
+                path: request.path,
                 data: request.data,
             });
 
