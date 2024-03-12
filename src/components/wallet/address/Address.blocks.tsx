@@ -69,9 +69,9 @@ export const Address = ({
     return (
         <div>
             <Tooltip content={address} placement={tooltipPlacement}>
-                <Paragraph $typeset='body' color='gray'>
+                <p className="typeset-body max-w-44  font-normal text-theme-secondary-500 dark:text-theme-secondary-300 hover:underline underline-offset-2">
                     {trimAddress(address, length)}
-                </Paragraph>
+                </p>
             </Tooltip>
         </div>
     );
@@ -112,7 +112,7 @@ export const AddressBalance = ({
     return (
         <div className='text-theme-secondary-500 dark:text-theme-primary-300'>
             <Paragraph $typeset='body' color='gray'>
-                <Amount value={balance} ticker={currency} maxDigits={maxDigits} withTicker />
+                <Amount value={balance} ticker={currency} maxDigits={maxDigits} withTicker underlineOnHover={true} />
             </Paragraph>
         </div>
     );

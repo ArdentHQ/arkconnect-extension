@@ -1,23 +1,23 @@
-import { useEffect, useState } from 'react';
+import {useEffect, useState} from 'react';
 import styled from 'styled-components';
-import { useLocation } from 'react-router-dom';
+import {useLocation} from 'react-router-dom';
 import classNames from 'classnames';
-import { DisconnectSessionModal } from '../wallet/DisconnectSessionModal';
+import {DisconnectSessionModal} from '../wallet/DisconnectSessionModal';
 import ConnectionLogoImage from './ConnectionLogoImage';
-import { useAppSelector } from '@/lib/store';
+import {useAppSelector} from '@/lib/store';
 import * as SessionStore from '@/lib/store/session';
-import { Button, Icon, Paragraph, Tooltip } from '@/shared/components';
+import {Button, Icon, Paragraph, Tooltip} from '@/shared/components';
 import formatDomain from '@/lib/utils/formatDomain';
 import removeWindowInstance from '@/lib/utils/removeWindowInstance';
 import trimAddress from '@/lib/utils/trimAddress';
-import { useProfileContext } from '@/lib/context/Profile';
-import { selectPrimaryWalletId } from '@/lib/store/wallet';
-import { isFirefox } from '@/lib/utils/isFirefox';
+import {useProfileContext} from '@/lib/context/Profile';
+import {selectPrimaryWalletId} from '@/lib/store/wallet';
+import {isFirefox} from '@/lib/utils/isFirefox';
 
 const ConnectionsList = () => {
     const location = useLocation();
     const sessions = useAppSelector(SessionStore.selectSessions);
-    const { profile } = useProfileContext();
+    const {profile} = useProfileContext();
     const primaryWalletId = useAppSelector(selectPrimaryWalletId);
     const [sessionsToRemove, setSessionsToRemove] = useState<SessionStore.Session[]>([]);
 
@@ -52,7 +52,8 @@ const ConnectionsList = () => {
                 {Object.values(sessions).map((session) => {
                     return (
                         <StyledRow key={session.id}>
-                            <div className='flex h-10 w-10 flex-shrink-0 items-center justify-center overflow-hidden rounded-full bg-theme-secondary-50 dark:bg-black'>
+                            <div
+                                className='flex h-10 w-10 flex-shrink-0 items-center justify-center overflow-hidden rounded-full bg-theme-secondary-50 dark:bg-black'>
                                 <ConnectionLogoImage
                                     appLogo={session.logo}
                                     alt={session.domain}
@@ -80,23 +81,24 @@ const ConnectionsList = () => {
                                     </Tooltip>
                                 </div>
 
-                                <Tooltip
+
+                                <Paragraph
+                                    $typeset='body'
+                                    color='gray'
+                                    fontWeight='regular'
+                                    mt='4'
+                                    display='inline'
+                                >
+                                    Connected with{' '}
+                                    <Tooltip
                                     content={profile.wallets().findById(session.walletId).address()}
                                     placement='bottom-start'
                                 >
-                                    <Paragraph
-                                        $typeset='body'
-                                        color='gray'
-                                        fontWeight='regular'
-                                        mt='4'
-                                        display='inline'
-                                    >
-                                        Connected with{' '}
-                                        <strong>
-                                            {trimAddress(getWalletName(session.walletId), 14)}
-                                        </strong>
-                                    </Paragraph>
+                                    <strong className="hover:underline underline-offset-2 decoration-theme-secondary-500 dark:decoration-theme-secondary-300">
+                                        {trimAddress(getWalletName(session.walletId), 14)}
+                                    </strong>
                                 </Tooltip>
+                                </Paragraph>
                             </div>
 
                             <Tooltip content='Disconnect' placement='left'>
@@ -156,7 +158,7 @@ const ConnectionsList = () => {
 };
 
 const StyledRow = styled.div`
-    ${({ theme }) => `
+    ${({theme}) => `
   border-radius: ${theme.radii['16']}px;
   background-color: ${theme.colors.inputBackground};
   box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.05);

@@ -12,6 +12,7 @@ interface AmountProperties {
     isNegative?: boolean;
     maxDigits?: number;
     tooltipPlacement?: TippyProps['placement'];
+    underlineOnHover?: boolean;
 }
 
 const Amount = ({
@@ -22,6 +23,7 @@ const Amount = ({
     showSign,
     maxDigits = constants.MAX_CURRENCY_DIGITS_ALLOWED,
     tooltipPlacement = 'top',
+    underlineOnHover = false,
 }: AmountProperties) => {
     const actualFormattedAmount = Helpers.Currency.format(value, ticker, { withTicker });
 
@@ -39,13 +41,15 @@ const Amount = ({
         formattedAmount = `${isNegative ? '-' : '+'} ${formattedAmount}`;
     }
 
+    const tooltipDisabled = formattedAmount === actualFormattedAmount;
+
     return (
         <Tooltip
-            disabled={formattedAmount === actualFormattedAmount}
+            disabled={tooltipDisabled}
             content={actualFormattedAmount}
             placement={tooltipPlacement}
         >
-            <span>{formattedAmount}</span>
+            <span className={!tooltipDisabled && underlineOnHover ? "hover:underline underline-offset-2" : ""}>{formattedAmount}</span>
         </Tooltip>
     );
 };

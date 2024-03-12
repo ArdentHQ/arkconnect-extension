@@ -172,6 +172,7 @@ const AddressRow = ({ address }: { address: Contracts.IReadWriteWallet }) => {
                         maxDigits={5}
                         value={address.balance()}
                         withTicker
+                        underlineOnHover={true}
                     />
                 </Paragraph>
             </div>
