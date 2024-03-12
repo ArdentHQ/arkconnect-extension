@@ -8,8 +8,8 @@ export const LoadingFullScreen = () => {
     return (
         <div
             className={classNames('flex h-screen w-screen items-center justify-center', {
-                'bg-light-black': isDark,
-                'bg-subtle-white': !isDark,
+                'bg-light-black': isDark(),
+                'bg-subtle-white': !isDark(),
             })}
         >
             <Loader variant='big' />
