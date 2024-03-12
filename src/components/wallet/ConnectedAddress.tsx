@@ -23,13 +23,11 @@ const ConnectedAddress = ({ connectedTo, wallet, logo, onDisconnect }: Propertie
     return (
         <>
             <div>
-                <div className='break-words'>
-                    <Heading level={4}>Connected Address</Heading>
-                </div>
+                <Heading level={4}>Connected Address</Heading>
 
                 <p className='typeset-headline mt-1.5 text-theme-secondary-500 dark:text-theme-secondary-300'>
                     The following address is currently connected to{' '}
-                    <span className='font-bold text-light-black dark:text-white'>
+                    <span className=' font-bold text-light-black dark:text-white'>
                         {formatDomain(connectedTo, false)}
                     </span>
                 </p>

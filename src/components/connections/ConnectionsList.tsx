@@ -51,7 +51,7 @@ const ConnectionsList = () => {
                 {Object.values(sessions).map((session) => {
                     return (
                         <div
-                            className='relative flex min-h-[58px] w-full items-center justify-between gap-3 rounded-2xl bg-white p-3 shadow-[0_1px_4px_0_rgba(0,0,0,0.05)] dark:bg-subtle-black'
+                            className='relative flex min-h-[58px] w-full items-center justify-between gap-3 rounded-2xl bg-white p-3 shadow-light dark:bg-subtle-black'
                             key={session.id}
                         >
                             <div className='flex h-10 w-10 flex-shrink-0 items-center justify-center overflow-hidden rounded-full bg-theme-secondary-50 dark:bg-black'>
@@ -66,7 +66,7 @@ const ConnectionsList = () => {
                                 <div>
                                     <Tooltip
                                         content={
-                                            <span className='break-words'>
+                                            <span className='truncate'>
                                                 {formatDomain(session.domain, false)}
                                             </span>
                                         }
