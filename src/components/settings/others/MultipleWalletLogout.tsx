@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import SubPageLayout from '../SubPageLayout';
-import { Button, Checkbox, Container, Paragraph, RowLayout } from '@/shared/components';
+import { Button, Checkbox, Paragraph, RowLayout } from '@/shared/components';
 import { selectWalletsIds } from '@/lib/store/wallet';
 import { useAppSelector } from '@/lib/store';
 import trimAddress from '@/lib/utils/trimAddress';
@@ -64,7 +64,7 @@ const MultipleWalletLogout = () => {
                             onClick={(evt) => handleSelectWallet(evt, wallet.id())}
                             currency={wallet.currency()}
                         >
-                            <Container width='20px' height='20px' as='span' display='block'>
+                            <span className='block h-5 w-5'>
                                 <Checkbox
                                     name='select-wallet'
                                     id={wallet.id()}
@@ -72,7 +72,7 @@ const MultipleWalletLogout = () => {
                                     onChange={(evt) => handleSelectWallet(evt, wallet.id())}
                                     tabIndex={-1}
                                 />
-                            </Container>
+                            </span>
                         </RowLayout>
                     );
                 })}

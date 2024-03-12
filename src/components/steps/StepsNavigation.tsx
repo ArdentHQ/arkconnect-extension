@@ -4,7 +4,7 @@ import { ComponentType, useState } from 'react';
 import { FormikProps } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import classNames from 'classnames';
-import { ArrowButton, Container, Paragraph } from '@/shared/components';
+import { ArrowButton, Paragraph } from '@/shared/components';
 
 export type Step = {
     component: ComponentType<any>;
@@ -65,18 +65,16 @@ const StepsNavigation = <T extends Record<string, any>>({
             >
                 <ArrowButton disabled={isPrevDisabled} onClick={handleStepBack} />
                 <div className='flex h-2 w-[242px] overflow-hidden rounded-lg bg-theme-secondary-200 dark:bg-theme-secondary-600'>
-                    <Container
+                    <div
                         style={{ width: `${((currentStep + 1) / totalSteps) * 100}%` }}
-                        bg='primary'
-                        borderRadius='8'
-                        width={((currentStep + 1) / totalSteps) * 100}
+                        className='rounded-lg bg-theme-primary-700 dark:bg-theme-primary-650'
                     />
                 </div>
-                <Container padding='6'>
+                <div className='p-1.5'>
                     <Paragraph $typeset='body' fontWeight='medium'>
                         {currentStep + 1}/{totalSteps}
                     </Paragraph>
-                </Container>
+                </div>
             </div>
 
             <div

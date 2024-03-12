@@ -3,14 +3,7 @@ import { useState } from 'react';
 import { runtime, tabs } from 'webextension-polyfill';
 import SubPageLayout from '../SubPageLayout';
 import SelectNetworkTypeModal from './SelectNetworkTypeModal';
-import {
-    Container,
-    Icon,
-    IconDefinition,
-    Paragraph,
-    RowLayout,
-    Tooltip,
-} from '@/shared/components';
+import { Icon, IconDefinition, Paragraph, RowLayout, Tooltip } from '@/shared/components';
 import { isFirefox } from '@/lib/utils/isFirefox';
 import { clearPersistScreenData } from '@/components/wallet/form-persist/helpers';
 
@@ -79,7 +72,7 @@ const CreateOrImportAddress = () => {
 
     return (
         <SubPageLayout title='Create & Import Address'>
-            <Container>
+            <div>
                 <RowLayout
                     title='Create New Address'
                     helperText='By creating a new passphrase'
@@ -117,7 +110,7 @@ const CreateOrImportAddress = () => {
                         disabled={isFirefox}
                     />
                 </Tooltip>
-            </Container>
+            </div>
 
             {networkModalState.isOpen && (
                 <SelectNetworkTypeModal

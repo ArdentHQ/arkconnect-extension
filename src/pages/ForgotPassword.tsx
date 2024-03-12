@@ -11,7 +11,7 @@ const ForgotPassword = () => {
     const { getThemeColor } = useThemeMode();
 
     return (
-        <SubPageLayout title='Forgot Password?' onBack='goBack' paddingBottom='0'>
+        <SubPageLayout title='Forgot Password?' onBack='goBack' noPaddingBottom>
             <div className='flex h-full flex-col justify-between'>
                 <Paragraph
                     $typeset='headline'

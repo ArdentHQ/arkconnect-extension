@@ -1,11 +1,9 @@
 import { ReactNode, useEffect, useState } from 'react';
-import styled, { keyframes } from 'styled-components';
 
 import classNames from 'classnames';
 import { useNavigate } from 'react-router-dom';
 import {
     Button,
-    Container,
     ControlConnectionsIcon,
     FingerPrintIcon,
     Header,
@@ -35,10 +33,10 @@ const Onboarding = () => {
     }, []);
 
     return (
-        <FadeInLayout paddingTop='58'>
+        <div className='animation-fade-in pt-[58px]'>
             <Header />
             <ProgressBar />
-            <Container position='relative' height='410px'>
+            <div className='relative h-[410px]'>
                 {onboardingScreens.map((screen, index) => (
                     <div
                         className={classNames(
@@ -57,7 +55,7 @@ const Onboarding = () => {
                         </div>
                     </div>
                 ))}
-            </Container>
+            </div>
             <div className='flex flex-col gap-3 px-4'>
                 <Button variant='primary' onClick={() => navigate('/wallet/create')}>
                     Create New Address
@@ -66,23 +64,9 @@ const Onboarding = () => {
                     Import an Address
                 </Button>
             </div>
-        </FadeInLayout>
+        </div>
     );
 };
-
-const fadeIn = keyframes`
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
-  }
-`;
-
-const FadeInLayout = styled(Container)`
-    animation: ${fadeIn} 1s ease-in-out;
-`;
 
 const onboardingScreens: OnboardingScreen[] = [
     {
