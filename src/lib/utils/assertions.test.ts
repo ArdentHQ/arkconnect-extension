@@ -1,5 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
 import { assertNetwork, assertWallet } from './assertions';
+import { env } from '@/tests/mocks';
 
 describe('assertions', () => {
     it('should throw if wallet is undefined', () => {
@@ -15,8 +16,6 @@ describe('assertions', () => {
     });
 
     it('should not throw if network has isLive method', () => {
-        const network = { isLive: vi.fn() };
-        // @ts-expect-error
-        expect(() => assertNetwork(network)).not.toThrow();
+        expect(() => assertNetwork(env.availableNetworks()[0])).not.toThrow();
     });
 });
