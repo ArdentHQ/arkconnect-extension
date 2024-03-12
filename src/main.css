@@ -145,7 +145,7 @@ header {
 }
 
 .custom-scroll::-webkit-scrollbar-thumb {
-    @apply rounded-12.5 bg-theme-primary-700;
+    @apply rounded-[50px] bg-theme-primary-700;
 }
 
 .logo path#ark {
