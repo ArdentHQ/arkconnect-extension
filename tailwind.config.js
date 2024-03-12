@@ -24,6 +24,10 @@ export default {
                     '0 4px 6px -2px rgba(16, 24, 40, 0.03), 0 12px 16px -4px rgba(16, 24, 40, 0.08)',
                 'action-details': 'inset 0 0 0 1px  var(--theme-color-secondary-200)',
                 'action-details-dark': 'inset 0 0 0 1px  var(--theme-color-secondary-700)',
+                'secondary-dark': '0 1px 2px 0 rgba(16, 24, 40, 0.05)'
+            },
+            dropShadow: {
+                'dark': '0 1px 3px  rgba(16, 24, 40, 0.10)',
             },
             maxWidth: {
                 'extension-screen': '370px',
@@ -124,6 +128,9 @@ export default {
             'theme-warning-700': 'rgb(var(--theme-color-warning-700) / <alpha-value>)',
             'theme-warning-800': 'rgb(var(--theme-color-warning-800) / <alpha-value>)',
             'theme-warning-900': 'rgb(var(--theme-color-warning-900) / <alpha-value>)',
+
+            // shadow
+            'light-green':'rgb(var(--theme-color-light-green) / <alpha-value>)',
         },
     },
     plugins: [],
