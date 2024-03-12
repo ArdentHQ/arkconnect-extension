@@ -11,7 +11,7 @@ const ConnectFooter = ({ onSubmit, onCancel }: ConnectFooterProps) => {
                 It can see your address, balance, activity, and can send requests for transactions.
                 It cannot access your funds without your approval.
             </p>
-            <div className='grid gap-2 grid-cols-2'>
+            <div className='grid grid-cols-2 gap-2'>
                 <Button variant='secondaryBlack' onClick={onCancel}>
                     Refuse
                 </Button>

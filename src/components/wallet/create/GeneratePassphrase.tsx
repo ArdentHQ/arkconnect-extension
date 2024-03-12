@@ -61,7 +61,7 @@ const GeneratePassphrase = ({ goToNextStep, formik }: Props) => {
             </p>
             {formik.values.passphrase && (
                 <div className='mb-4 max-h-[226px] rounded-lg border border-solid border-theme-secondary-100 bg-white p-3 dark:border-theme-secondary-400 dark:bg-subtle-black'>
-                    <div className='grid gap-2.5 grid-cols-3'>
+                    <div className='grid grid-cols-3 gap-2.5'>
                         <div className='flex flex-1 flex-col border-r border-solid border-r-theme-secondary-200 pr-2.5 dark:border-r-theme-secondary-600'>
                             {formik.values.passphrase
                                 .slice(0, 8)
