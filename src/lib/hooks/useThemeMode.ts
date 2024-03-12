@@ -1,13 +1,6 @@
 import { useEffect } from 'react';
-import { ThemeValue } from 'styled-system';
 import { useAppDispatch, useAppSelector } from '@/lib/store';
 import { selectThemeMode, ThemeMode, themeModeUpdated } from '@/lib/store/ui';
-import { Theme } from '@/shared/theme';
-
-export type Color = ThemeValue<'colors', Theme>;
-type HexCode = `#${string}`;
-
-export type GetThemeColor = (lightClass: Color | HexCode, darkClass: Color | HexCode) => Color;
 
 const useThemeMode = () => {
     const dispatch = useAppDispatch();
@@ -34,16 +27,10 @@ const useThemeMode = () => {
     };
 
     const isDark = () => currentThemeMode === ThemeMode.DARK;
-    const isLight = () => !isDark();
-
-    const getThemeClass = (lightClass: Color | HexCode, darkClass: Color | HexCode): Color => {
-        return (isLight() ? lightClass : darkClass) as Color;
-    };
 
     return {
         toggleThemeMode,
         currentThemeMode,
-        getThemeColor: getThemeClass,
         isDark,
     };
 };
