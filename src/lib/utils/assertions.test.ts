@@ -1,4 +1,4 @@
-import { describe, expect, it, vi } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import { assertNetwork, assertWallet } from './assertions';
 import { env } from '@/tests/mocks';
 
