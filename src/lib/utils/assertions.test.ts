@@ -13,4 +13,9 @@ describe('assertions', () => {
             "Expected 'network' to be Networks.Network, but received undefined",
         );
     });
+
+    it('should not throw if network has isLive method', () => {
+        const network = { isLive: vi.fn() };
+        expect(() => assertNetwork(network)).not.toThrow();
+    });
 });
