@@ -61,7 +61,7 @@ export const Checkbox: FC<CheckboxProps> = ({
                 onBlur={() => {
                     setIsFocusWithin(false);
                 }}
-                className='z-[-1] h-0 w-0 opacity-0'
+                className='-z-1 h-0 w-0 opacity-0'
             />
             <span
                 role='checkbox'

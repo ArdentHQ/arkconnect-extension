@@ -79,7 +79,7 @@
 
     /** Toggle switch **/
     .toggle-switch-slider {
-        @apply absolute bottom-0 left-0 right-0 top-0 z-[1] cursor-pointer rounded-xl bg-theme-secondary-200 duration-[0.4s] hover:bg-theme-primary-700 group-hover:bg-[#CCEEE0] dark:bg-theme-secondary-600 dark:hover:bg-theme-primary-650 dark:group-hover:bg-theme-primary-900;
+        @apply absolute bottom-0 left-0 right-0 top-0 z-1 cursor-pointer rounded-xl bg-theme-secondary-200 duration-[0.4s] hover:bg-theme-primary-700 group-hover:bg-[#CCEEE0] dark:bg-theme-secondary-600 dark:hover:bg-theme-primary-650 dark:group-hover:bg-theme-primary-900;
     }
 
     .toggle-switch-slider::before {

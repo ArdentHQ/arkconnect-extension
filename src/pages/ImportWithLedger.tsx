@@ -113,7 +113,7 @@ const ImportWithLedger = () => {
                     </div>
                 </div>
                 {error && (
-                    <div className=' fixed bottom-0 left-0 z-[15] flex w-full items-center justify-center border border-solid border-t-theme-error-300 bg-theme-error-500 px-2 dark:border-t-theme-error-500 dark:bg-[rgba(255,86,74,0.26)]'>
+                    <div className=' fixed bottom-0 left-0 z-20 flex w-full items-center justify-center border border-solid border-t-theme-error-300 bg-theme-error-500 px-2 dark:border-t-theme-error-500 dark:bg-[rgba(255,86,74,0.26)]'>
                         <div className='flex items-center gap-6'>
                             <div className='flex items-center gap-2'>
                                 <Icon

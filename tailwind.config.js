@@ -62,6 +62,9 @@ export default {
                 translateUp: 'translateUp 0.5s ease-in-out 2s forwards',
                 decreaseHeight: 'decreaseHeight 0.5s ease-in-out 2s forwards',
             },
+            zIndex: {
+                '1': '1',
+            },
         },
         colors: {
             transparent: 'transparent',
