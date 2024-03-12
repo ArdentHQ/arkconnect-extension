@@ -29,7 +29,9 @@ const ConnectedAddress = ({ connectedTo, wallet, logo, onDisconnect }: Propertie
 
                 <p className='typeset-headline mt-1.5 text-theme-secondary-500 dark:text-theme-secondary-300'>
                     The following address is currently connected to{' '}
-                    <span className='text-light-black dark:text-white font-bold'>{formatDomain(connectedTo, false)}</span>
+                    <span className='font-bold text-light-black dark:text-white'>
+                        {formatDomain(connectedTo, false)}
+                    </span>
                 </p>
             </div>
 

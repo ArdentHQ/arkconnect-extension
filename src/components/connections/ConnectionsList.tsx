@@ -50,7 +50,10 @@ const ConnectionsList = () => {
             <div className='mb-2 flex flex-col gap-2'>
                 {Object.values(sessions).map((session) => {
                     return (
-                        <div className='rounded-2xl bg-white dark:bg-subtle-black shadow-[0_1px_4px_0_rgba(0,0,0,0.05)] flex items-center justify-between w-full min-h-[58px] p-3 gap-3 relative' key={session.id}>
+                        <div
+                            className='relative flex min-h-[58px] w-full items-center justify-between gap-3 rounded-2xl bg-white p-3 shadow-[0_1px_4px_0_rgba(0,0,0,0.05)] dark:bg-subtle-black'
+                            key={session.id}
+                        >
                             <div className='flex h-10 w-10 flex-shrink-0 items-center justify-center overflow-hidden rounded-full bg-theme-secondary-50 dark:bg-black'>
                                 <ConnectionLogoImage
                                     appLogo={session.logo}

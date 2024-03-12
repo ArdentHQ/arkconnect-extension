@@ -1,4 +1,3 @@
-import styled from 'styled-components';
 import { Heading } from '@/shared/components';
 
 type Props = {
@@ -22,9 +21,7 @@ const RemoveConnections = ({ numberOfSessions, sessionDomain }: Props) => {
                 <span className='typeset-headline text-theme-secondary-500 dark:text-theme-secondary-300'>
                     {sessionDomain && numberOfSessions === 1 ? (
                         <span className='typeset-headline text-light-black dark:text-white'>
-                            <span className='break-words'>
-                                {sessionDomain}
-                            </span>
+                            <span className='break-words'>{sessionDomain}</span>
                         </span>
                     ) : (
                         <>
