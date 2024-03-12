@@ -15,6 +15,7 @@ interface LocalStorageValues {
 export type PersistScreen = {
     screen: WalletFormScreen;
     step: number;
+    networkName?: string;
 };
 
 const parseLocalStorageValues = () => {
