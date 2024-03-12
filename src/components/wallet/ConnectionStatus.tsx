@@ -2,7 +2,7 @@ import { useState } from 'react';
 import ConnectionIndicator from './ConnectionIndicator';
 import { DisconnectSessionModal } from './DisconnectSessionModal';
 import { useActiveTabConnection } from '@/lib/hooks/useActiveTabConnection';
-import { Icon, Paragraph, Tooltip } from '@/shared/components';
+import { Icon, Tooltip } from '@/shared/components';
 import Modal from '@/shared/components/modal/Modal';
 import ConnectedAddress from '@/components/wallet/ConnectedAddress';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
@@ -36,9 +36,9 @@ export const ConnectionStatus = () => {
             ) : (
                 <Tooltip
                     content={
-                        <Paragraph>
+                        <p>
                             This ARK address isn’t <br /> connected to this site.
-                        </Paragraph>
+                        </p>
                     }
                     placement='bottom-end'
                 >

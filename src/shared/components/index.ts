@@ -1,4 +1,3 @@
-export * from './text/Paragraph';
 export * from './text/Heading';
 export * from './layout/Grid';
 export * from './nav/ArrowButton';

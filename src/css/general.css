@@ -11,12 +11,12 @@
         @apply text-sm leading-[17.5px];
     }
 
-    .typeset-headline {
-        @apply text-base leading-5;
+    .typeset-small {
+        @apply text-xs leading-[15px];
     }
 
-    .typeset-h3 {
-        @apply text-xl font-bold leading-[25px];
+    .typeset-headline {
+        @apply text-base leading-5;
     }
 
     .text-security-disc {

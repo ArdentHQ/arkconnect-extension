@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { FormikProps } from 'formik';
 import classNames from 'classnames';
 import { CreateWalletFormik } from '.';
-import { Button, Grid, Heading, Icon, Paragraph, ToggleSwitch } from '@/shared/components';
+import { Button, Grid, Heading, Icon, ToggleSwitch } from '@/shared/components';
 import useToast from '@/lib/hooks/useToast';
 import { ToastPosition } from '@/components/toast/ToastContainer';
 import { TestnetIcon } from '@/components/wallet/address/Address.blocks';
@@ -40,12 +40,12 @@ const GeneratePassphrase = ({ goToNextStep, formik }: Props) => {
                 })}
                 key={index}
             >
-                <Paragraph $typeset='body' color='gray' width='auto'>
+                <p className='typeset-body w-auto text-theme-secondary-500 dark:text-theme-secondary-300'>
                     {index + 1}
-                </Paragraph>
-                <Paragraph $typeset='headline' fontWeight='medium' color='base'>
+                </p>
+                <p className='typeset-headline font-medium text-light-black dark:text-white'>
                     {isHidden ? '•'.repeat(wordLength) : word}
-                </Paragraph>
+                </p>
             </div>
         );
     };
@@ -53,14 +53,12 @@ const GeneratePassphrase = ({ goToNextStep, formik }: Props) => {
     return (
         <div className='flex flex-1 flex-col'>
             <div className='mb-2 flex items-center gap-2'>
-                <Heading $typeset='h3' fontWeight='bold' color='base'>
-                    Save Your Secret Passphrase
-                </Heading>
+                <Heading level={3}>Save Your Secret Passphrase</Heading>
                 {selectedNetwork.isTest() && <TestnetIcon />}
             </div>
-            <Paragraph $typeset='headline' color='gray' mb='16'>
+            <p className='typeset-headline mb-4 text-theme-secondary-500 dark:text-theme-secondary-300'>
                 Write down or copy your passphrase. Make sure to store it safely.
-            </Paragraph>
+            </p>
             {formik.values.passphrase && (
                 <div className='mb-4 max-h-[226px] rounded-lg border border-solid border-theme-secondary-100 bg-white p-3 dark:border-theme-secondary-400 dark:bg-subtle-black'>
                     <Grid gridGap='10px' gridTemplateColumns='repeat(3, 1fr)'>
@@ -107,15 +105,9 @@ const GeneratePassphrase = ({ goToNextStep, formik }: Props) => {
                         <Icon icon='copy' className='h-4.5 w-4.5' />
                     </span>
 
-                    <Paragraph
-                        $typeset='headline'
-                        fontWeight='medium'
-                        as='span'
-                        style={{ lineHeight: '18px' }}
-                        display='inline-block'
-                    >
+                    <span className='typeset-headline inline-block font-medium leading-[18px]'>
                         Copy
-                    </Paragraph>
+                    </span>
                 </button>
             </div>
 
