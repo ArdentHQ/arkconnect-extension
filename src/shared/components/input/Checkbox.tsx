@@ -34,7 +34,7 @@ export const Checkbox: FC<CheckboxProps> = ({
                 'pointer-events-auto cursor-pointer': !disabled,
             })}
         >
-            <span className='ml-7 flex flex-col items-start gap-[5px]'>
+            <span className='ml-7 flex flex-col items-start gap-1.25'>
                 {title && (
                     <span className='typeset-heading font-normal leading-tight text-subtle-black dark:text-white'>
                         {title}

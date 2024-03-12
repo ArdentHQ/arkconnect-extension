@@ -32,7 +32,7 @@ export const WalletCard = ({ wallet }: Props) => {
                             {testnetIndicator && <TestnetIcon />}
                         </div>
 
-                        <div className='flex items-center gap-[5px] text-left text-sm leading-[18px] text-theme-secondary-500 dark:text-theme-secondary-300'>
+                        <div className='flex items-center gap-1.25 text-left text-sm leading-[18px] text-theme-secondary-500 dark:text-theme-secondary-300'>
                             {hasAlias && (
                                 <>
                                     <Address
@@ -61,7 +61,7 @@ export const WalletCard = ({ wallet }: Props) => {
                                     return (
                                         <div key={index}>
                                             {index > 0 && helperText.length > 1 && (
-                                                <div className='flex gap-[5px]'>
+                                                <div className='flex gap-1.25'>
                                                     <div> • </div>
                                                     <div>{item}</div>
                                                 </div>

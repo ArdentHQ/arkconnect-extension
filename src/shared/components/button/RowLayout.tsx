@@ -98,7 +98,7 @@ export const RowLayout = forwardRef(function RowLayout(
                         </span>
 
                         {helperText && (
-                            <span className='flex items-center gap-[5px] text-left text-sm leading-[18px] text-theme-secondary-500 dark:text-theme-secondary-300'>
+                            <span className='flex items-center gap-1.25 text-left text-sm leading-[18px] text-theme-secondary-500 dark:text-theme-secondary-300'>
                                 {address && (
                                     <>
                                         <Address
@@ -128,7 +128,7 @@ export const RowLayout = forwardRef(function RowLayout(
                                               return (
                                                   <span key={index}>
                                                       {index > 0 && helperText.length > 1 && (
-                                                          <span className='flex gap-[5px]'>
+                                                          <span className='flex gap-1.25'>
                                                               <span> • </span>
                                                               <span>{item}</span>
                                                           </span>

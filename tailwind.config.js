@@ -10,6 +10,7 @@ export default {
                 sans: ['var(--font-dm-sans)', ...defaultTheme.fontFamily.sans],
             },
             spacing: {
+                1.25: '0.3125rem',
                 3.5: '0.875rem',
                 4.5: '1.125rem',
                 13: '3.25rem',

@@ -35,7 +35,7 @@ export const ProgressBar = () => {
     const bars = filledSegments.map((isFilled, index) => (
         <div
             key={index}
-            className='relative h-[5px] w-full overflow-hidden rounded-[20px] bg-theme-secondary-200 dark:bg-theme-secondary-600'
+            className='relative h-1.25 w-full overflow-hidden rounded-[20px] bg-theme-secondary-200 dark:bg-theme-secondary-600'
         >
             <div
                 className={classNames(
