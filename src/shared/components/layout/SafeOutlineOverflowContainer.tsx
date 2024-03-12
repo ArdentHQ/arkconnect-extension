@@ -6,7 +6,7 @@ interface Props extends ComponentProps<'div'> {
 }
 
 const SafeOutlineOverflowContainer = ({ className, ...rest }: Props): JSX.Element => {
-    return <div className={cn('-mx-0.5 overflow-hidden px-0.5', className)} {...rest} />;
+    return <div className={cn('-mx-0.5 overflow-hidden', className)} {...rest} />;
 };
 
 export default SafeOutlineOverflowContainer;

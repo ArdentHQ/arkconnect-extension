@@ -87,7 +87,7 @@ const SetupPassword = ({ formik }: Props) => {
 
     return (
         <div className='flex min-h-[450px] flex-col'>
-            <h3 className='typeset-h3 mb-2'>Setup a Password</h3>
+            <h3 className='typeset-h3 mb-2 text-light-black dark:text-white'>Setup a Password</h3>
             <p className='typeset-headline mb-4'>
                 Create a password to access your wallet each time you use ARK Connect.
             </p>

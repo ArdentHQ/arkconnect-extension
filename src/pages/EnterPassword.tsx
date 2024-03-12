@@ -103,15 +103,11 @@ const EnterPassword = () => {
                     </Button>
                     <InternalLink
                         to='/forgot-password'
-                        width='100%'
-                        display='flex'
-                        justifyContent='center'
-                        alignItems='center'
-                        color='base'
+                        className='flex w-full items-center justify-center text-light-black dark:text-white'
                     >
-                        <p className='typeset-headline font-medium text-light-black dark:text-white'>
+                        <span className='typeset-headline font-medium text-light-black dark:text-white'>
                             Forgot Password?
-                        </p>
+                        </span>
                     </InternalLink>
                 </div>
             </div>

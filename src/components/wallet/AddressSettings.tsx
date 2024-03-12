@@ -2,7 +2,7 @@ import { Contracts } from '@ardenthq/sdk-profiles';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Amount from './Amount';
 import SubPageLayout from '@/components/settings/SubPageLayout';
-import { Tooltip } from '@/shared/components';
+import { Paragraph, Tooltip } from '@/shared/components';
 import { AddressAlias, LedgerIcon, TestnetIcon } from '@/components/wallet/address/Address.blocks';
 import { getNetworkCurrency } from '@/lib/utils/getActiveCoin';
 import useClipboard from '@/lib/hooks/useClipboard';
@@ -62,9 +62,9 @@ export const AddressSettings = () => {
 
                     <Tooltip
                         content={
-                            <p>
+                            <Paragraph>
                                 Ledger devices do not allow <br /> access to the passphrase.
-                            </p>
+                            </Paragraph>
                         }
                         placement='bottom'
                         disabled={!address.isLedger()}
@@ -87,9 +87,9 @@ export const AddressSettings = () => {
 
                     <Tooltip
                         content={
-                            <p>
+                            <Paragraph>
                                 Ledger devices do not allow <br /> access to the private key.
-                            </p>
+                            </Paragraph>
                         }
                         placement='bottom'
                         disabled={!address.isLedger()}
@@ -162,16 +162,19 @@ const AddressRow = ({ address }: { address: Contracts.IReadWriteWallet }) => {
                     {address.network().isTest() && <TestnetIcon />}
                 </div>
 
-                <p className='typeset-body text-light-black dark:text-white'>{address.address()}</p>
+                <Paragraph $typeset='body' color='base'>
+                    {address.address()}
+                </Paragraph>
 
-                <p className='typeset-body text-light-black dark:text-white'>
+                <Paragraph $typeset='body' color='base' className='cursor-pointer'>
                     <Amount
                         ticker={getNetworkCurrency(address.network())}
                         maxDigits={5}
                         value={address.balance()}
                         withTicker
+                        underlineOnHover={true}
                     />
-                </p>
+                </Paragraph>
             </div>
         </div>
     );

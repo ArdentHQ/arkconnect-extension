@@ -9,9 +9,9 @@ import { LastVisitedPage, ProfileData, ScreenName } from '@/lib/background/contr
 import { useAppDispatch, useAppSelector } from '@/lib/store';
 
 import { HandleLoadingState } from '@/shared/components/handleStates/HandleLoadingState';
-import { useProfileContext } from '@/lib/context/Profile';
-import { useBackgroundEvents } from '@/lib/context/BackgroundEventHandler';
 import { selectWalletsLength } from '@/lib/store/wallet';
+import { useBackgroundEvents } from '@/lib/context/BackgroundEventHandler';
+import { useProfileContext } from '@/lib/context/Profile';
 
 type Props = {
     children: ReactNode | ReactNode[];
@@ -82,7 +82,19 @@ const NextPageMiddleware = ({ children }: Props) => {
         }
 
         if (isProfileReady && profile.wallets().count() === 0) {
-            navigate('/splash-screen');
+            const lastVisitedPage = profile.settings().get(ProfileData.LastVisitedPage) as
+                | LastVisitedPage
+                | undefined;
+
+            lastVisitedPage || persistScreen ? navigate('/onboarding') : navigate('/splash-screen');
+
+            // This is needed to push an additional route to the history stack
+            // to handle the back button navigation during onboarding
+            if (lastVisitedPage) {
+                navigate('/wallet/create');
+                return;
+            }
+
             persistScreen && navigate(persistScreen.screen);
             return;
         }

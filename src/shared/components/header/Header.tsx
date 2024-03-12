@@ -130,7 +130,7 @@ export const Header = () => {
                         })}
                     >
                         <AddressesDropdown
-                            addresses={Object.values(profile.wallets().all())}
+                            addresses={profile.wallets().values()}
                             primaryAddress={primaryWallet}
                             triggerRef={addressesTriggerRef}
                             onClose={() => setShowAddressesDropdown(false)}

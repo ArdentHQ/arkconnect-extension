@@ -37,7 +37,12 @@ const AboutARK = () => {
                     className='flex w-full items-center justify-between rounded-2xl'
                     href={`mailto:${constants.SUPPORT_EMAIL}?subject=ARK%20Connect`}
                 >
-                    <RowLayout title='Support Email' iconTrailing='link-external' tabIndex={-1}>
+                    <RowLayout
+                        title='Support Email'
+                        iconTrailing='link-external'
+                        tabIndex={-1}
+                        className='cursor-pointer'
+                    >
                         <button onClick={copyEmailToClipboard} type='button'>
                             <Icon
                                 icon='copy'
@@ -57,6 +62,7 @@ const AboutARK = () => {
                         title='Official Website'
                         iconTrailing='link-external'
                         tabIndex={-1}
+                        className='cursor-pointer'
                     />
                 </ExternalLink>
                 <ExternalLink
@@ -69,6 +75,7 @@ const AboutARK = () => {
                         title='Terms of Service'
                         iconTrailing='link-external'
                         tabIndex={-1}
+                        className='cursor-pointer'
                     />
                 </ExternalLink>
                 <ExternalLink
@@ -77,7 +84,12 @@ const AboutARK = () => {
                     target='_blank'
                     rel='noopener noreferrer'
                 >
-                    <RowLayout title='Privacy Policy' iconTrailing='link-external' tabIndex={-1} />
+                    <RowLayout
+                        title='Privacy Policy'
+                        iconTrailing='link-external'
+                        tabIndex={-1}
+                        className='cursor-pointer'
+                    />
                 </ExternalLink>
             </div>
         </SubPageLayout>

@@ -1,7 +1,6 @@
 import { Contracts } from '@ardenthq/sdk-profiles';
 import { useNavigate } from 'react-router-dom';
 import { useRef } from 'react';
-import { runtime } from 'webextension-polyfill';
 import classNames from 'classnames';
 import { Icon, RadioButton } from '@/shared/components';
 import {
@@ -18,6 +17,7 @@ import { useAppDispatch } from '@/lib/store';
 import useToast from '@/lib/hooks/useToast';
 import useOnClickOutside from '@/lib/hooks/useOnClickOutside';
 import { useProfileContext } from '@/lib/context/Profile';
+import { useEnvironmentContext } from '@/lib/context/Environment';
 
 export const AddressesDropdown = ({
     addresses,
@@ -31,7 +31,8 @@ export const AddressesDropdown = ({
     onClose: () => void;
 }) => {
     const navigate = useNavigate();
-    const { profile } = useProfileContext();
+    const { profile, initProfile } = useProfileContext();
+    const { persist } = useEnvironmentContext();
 
     const dispatch = useAppDispatch();
 
@@ -48,10 +49,16 @@ export const AddressesDropdown = ({
 
         await dispatch(primaryWalletIdChanged(newPrimaryAddress.id()));
 
-        await runtime.sendMessage({
-            type: 'SET_PRIMARY_WALLET',
-            data: { primaryWalletId: newPrimaryAddress.id() },
-        });
+        for (const wallet of profile.wallets().values()) {
+            if (wallet.id() === newPrimaryAddress.id()) {
+                wallet.data().set(Contracts.WalletData.IsPrimary, true);
+                continue;
+            }
+            wallet.data().set(Contracts.WalletData.IsPrimary, false);
+        }
+
+        await persist();
+        await initProfile();
 
         void ExtensionEvents({ profile }).changeAddress({
             wallet: {

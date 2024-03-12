@@ -1,8 +1,7 @@
 import { useRef } from 'react';
 import { TippyProps } from '@tippyjs/react';
-import classNames from 'classnames';
 import Amount from '../Amount';
-import { Icon, Tooltip } from '@/shared/components';
+import { Alias, Icon, Paragraph, Tooltip } from '@/shared/components';
 import trimAddress from '@/lib/utils/trimAddress';
 import { ToastPosition } from '@/components/toast/ToastContainer';
 import useClipboard from '@/lib/hooks/useClipboard';
@@ -19,22 +18,18 @@ export const AddressAlias = ({
 }) => {
     const reference = useRef<HTMLDivElement | null>(null);
     const isTruncated = useIsTruncated({ reference });
-
     return (
         <div>
             <Tooltip content={alias} placement='top' disabled={!withTooltip || !isTruncated}>
-                <div
-                    className={classNames(
-                        'typeset-headline max-w-[180px] truncate text-light-black dark:text-white',
-                        {
-                            'font-bold': isBold,
-                            'font-medium': !isBold,
-                        },
-                    )}
+                <Alias
+                    $typeset='headline'
+                    fontWeight={isBold ? 'bold' : 'medium'}
+                    maxWidth='180px'
+                    color='base'
                     ref={reference}
                 >
                     {alias}
-                </div>
+                </Alias>
             </Tooltip>
         </div>
     );
@@ -55,7 +50,7 @@ export const TestnetIcon = () => {
         <div className='flex'>
             <Tooltip content='Testnet' placement='top'>
                 <div className='flex h-4 w-4 items-center justify-center rounded border border-solid border-theme-warning-500 bg-theme-warning-50 text-theme-warning-500 dark:border-theme-warning-400 dark:bg-theme-warning-500/10 dark:text-theme-warning-400'>
-                    <p className='typeset-small'> T </p>
+                    <Paragraph $typeset='small'> T </Paragraph>
                 </div>
             </Tooltip>
         </div>
@@ -74,7 +69,7 @@ export const Address = ({
     return (
         <div>
             <Tooltip content={address} placement={tooltipPlacement}>
-                <p className='typeset-body text-theme-secondary-500 dark:text-theme-secondary-300'>
+                <p className='typeset-body max-w-44  font-normal text-theme-secondary-500 underline-offset-2 hover:underline dark:text-theme-secondary-300'>
                     {trimAddress(address, length)}
                 </p>
             </Tooltip>
@@ -95,9 +90,9 @@ export const AddressWithCopy = ({ address, length = 10 }: { address: string; len
         >
             <Tooltip content='Copy address' placement='top'>
                 <div className='flex items-center gap-1.5'>
-                    <p className='typeset-body text-theme-secondary-500 dark:text-theme-secondary-300'>
+                    <Paragraph $typeset='body' color='gray'>
                         {trimmedAddress}
-                    </p>
+                    </Paragraph>
                     <Icon icon='copy' className='h-[13px] w-[13px]' />
                 </div>
             </Tooltip>
@@ -116,9 +111,15 @@ export const AddressBalance = ({
 }) => {
     return (
         <div className='text-theme-secondary-500 dark:text-theme-primary-300'>
-            <p className='typeset-body text-theme-secondary-500 dark:text-theme-secondary-300'>
-                <Amount value={balance} ticker={currency} maxDigits={maxDigits} withTicker />
-            </p>
+            <Paragraph $typeset='body' color='gray' className='cursor-pointer'>
+                <Amount
+                    value={balance}
+                    ticker={currency}
+                    maxDigits={maxDigits}
+                    withTicker
+                    underlineOnHover={true}
+                />
+            </Paragraph>
         </div>
     );
 };
