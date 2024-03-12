@@ -2,9 +2,7 @@ import { useEffect, useState } from 'react';
 import { Contracts } from '@ardenthq/sdk-profiles';
 import { FormikProps } from 'formik';
 import { runtime } from 'webextension-polyfill';
-import { clearPersistScreenData, persistScreenChanged } from '../form-persist/helpers';
 import { TestnetIcon } from '../address/Address.blocks';
-import { WalletFormScreen } from '../form-persist';
 import { ImportedWalletFormik } from '.';
 import { Button, Heading, Paragraph, PassphraseInput, ToggleSwitch } from '@/shared/components';
 
@@ -18,6 +16,7 @@ import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
 import { useProfileContext } from '@/lib/context/Profile';
 import useWalletImport from '@/lib/hooks/useWalletImport';
 import useWalletSync from '@/lib/hooks/useWalletSync';
+import {ScreenName} from "@/lib/background/contracts";
 
 type Props = {
     goToNextStep: () => void;
@@ -46,10 +45,13 @@ const EnterPassphrase = ({ goToNextStep, formik }: Props) => {
     }, [values.enteredPassphrase]);
 
     useEffect(() => {
-        persistScreenChanged({
-            screen: WalletFormScreen.IMPORT,
-            step: 0,
-            networkName: activeNetwork.name(),
+        void runtime.sendMessage({
+            type: 'SET_LAST_SCREEN',
+            path: ScreenName.ImportWallet,
+            data: {
+                step: 0,
+                network: activeNetwork.id(),
+            },
         });
     }, []);
 
@@ -157,7 +159,7 @@ const EnterPassphrase = ({ goToNextStep, formik }: Props) => {
                         },
                     });
 
-                    clearPersistScreenData();
+                    void runtime.sendMessage({ type: 'CLEAR_LAST_SCREEN' });
 
                     await initProfile();
                 }

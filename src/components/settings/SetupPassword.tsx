@@ -1,7 +1,5 @@
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useFormik } from 'formik';
-import { persistScreenChanged } from '../wallet/form-persist/helpers';
-import { WalletFormScreen } from '../wallet/form-persist';
 import { Button, Checkbox, ExternalLink, PasswordInput } from '@/shared/components';
 import { getLocalValues, setLocalValue } from '@/lib/utils/localStorage';
 
@@ -31,23 +29,6 @@ const SetupPassword = ({ formik }: Props) => {
     useEffect(() => {
         validatePassword();
     }, [values.password, values.passwordConfirm]);
-
-    useEffect(() => {
-        const locationHref = window.location.href;
-
-        if (locationHref.includes('import_with_ledger')) return;
-
-        (async () => {
-            const { hasOnboarded } = await getLocalValues();
-
-            if (hasOnboarded) {
-                persistScreenChanged({
-                    screen: WalletFormScreen.OVERVIEW,
-                    step: 0,
-                });
-            }
-        })();
-    }, []);
 
     const handleTermsAndConditionsChange = (evt: ChangeEvent<HTMLInputElement>) => {
         formik.setFieldValue('termsAndConditionsConfirmed', evt.target.checked);

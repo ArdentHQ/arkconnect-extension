@@ -2,9 +2,9 @@ import { useEffect } from 'react';
 import Balance from '@/components/wallet/Balance';
 import { ExternalLink, Icon, Layout } from '@/shared/components';
 import constants from '@/constants';
-import { clearPersistScreenData } from '@/components/wallet/form-persist/helpers';
 import { useProfileContext } from '@/lib/context/Profile';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
+import {runtime} from "webextension-polyfill";
 
 const Home = () => {
     const { convertedBalance } = useProfileContext();
@@ -12,7 +12,7 @@ const Home = () => {
     const primaryWallet = usePrimaryWallet();
 
     useEffect(() => {
-        clearPersistScreenData();
+        void runtime.sendMessage({ type: 'CLEAR_LAST_SCREEN' });
     }, []);
 
     return (

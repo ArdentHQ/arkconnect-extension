@@ -5,7 +5,6 @@ import { BigButton, Paragraph, Tooltip } from '@/shared/components';
 import SubPageLayout from '@/components/settings/SubPageLayout';
 import useThemeMode from '@/lib/hooks/useThemeMode';
 import { isFirefox } from '@/lib/utils/isFirefox';
-import { clearPersistScreenData } from '@/components/wallet/form-persist/helpers';
 
 const InitialImportWallet = () => {
     const navigate = useNavigate();
@@ -13,7 +12,7 @@ const InitialImportWallet = () => {
     const { getThemeColor } = useThemeMode();
 
     useEffect(() => {
-        clearPersistScreenData();
+        void runtime.sendMessage({ type: 'CLEAR_LAST_SCREEN' });
     }, []);
 
     return (

@@ -72,7 +72,7 @@ const CreateNewWallet = () => {
                 | LastVisitedPage
                 | undefined;
 
-            if (lastVisitedPage && lastVisitedPage.name === ScreenName.CreateWallet) {
+            if (lastVisitedPage && lastVisitedPage.path === ScreenName.CreateWallet) {
                 setIsGeneratingWallet(true);
 
                 const mnemonic = lastVisitedPage.data.mnemonic;

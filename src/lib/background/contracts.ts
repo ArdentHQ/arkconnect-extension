@@ -20,13 +20,26 @@ interface WalletCreateScreenData {
     step: number;
 }
 
-export enum ScreenName {
-    CreateWallet = 'CREATE_WALLET',
+interface WalletImportScreenData {
+    step: number;
+    network: string;
 }
 
-export interface LastVisitedPage {
-    name: ScreenName;
-    data: WalletCreateScreenData;
+export enum ScreenName {
+    CreateWallet = '/wallet/create',
+    ImportWallet = '/wallet/import',
 }
+
+interface WalletCreate {
+    path: ScreenName.CreateWallet;
+    data: WalletCreateScreenData
+}
+
+interface WalletImport {
+    path: ScreenName.ImportWallet;
+    data: WalletImportScreenData;
+}
+
+export type LastVisitedPage = WalletCreate | WalletImport;
 
 export type SessionEntries = { [id: string]: Session };
