@@ -2,14 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { ChangeEvent, KeyboardEvent, useState } from 'react';
 import { runtime } from 'webextension-polyfill';
 import classNames from 'classnames';
-import {
-    Button,
-    Icon,
-    InternalLink,
-    Layout,
-    LockIcon,
-    PasswordInput,
-} from '@/shared/components';
+import { Button, Icon, InternalLink, Layout, LockIcon, PasswordInput } from '@/shared/components';
 import { ValidationVariant } from '@/components/wallet/create';
 import { useProfileContext } from '@/lib/context/Profile';
 import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
@@ -110,7 +103,7 @@ const EnterPassword = () => {
                     </Button>
                     <InternalLink
                         to='/forgot-password'
-                        className='w-full flex justify-center items-center text-light-black dark:text-white'
+                        className='flex w-full items-center justify-center text-light-black dark:text-white'
                     >
                         <span className='typeset-headline font-medium text-light-black dark:text-white'>
                             Forgot Password?

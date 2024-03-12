@@ -6,13 +6,17 @@ type InternalLinkProps = React.ComponentPropsWithRef<typeof Link> & {
     className?: string;
 };
 
-export const InternalLink = ({
-    className,
-    ...rest
-}: InternalLinkProps) => {
+export const InternalLink = ({ className, ...rest }: InternalLinkProps) => {
     return (
-        <Link className={cn('no-underline cursor-pointer hover:underline', {
-            'outline outline-2': isFirefox,
-        }, className)} {...rest} />
+        <Link
+            className={cn(
+                'cursor-pointer no-underline hover:underline',
+                {
+                    'outline outline-2': isFirefox,
+                },
+                className,
+            )}
+            {...rest}
+        />
     );
 };
