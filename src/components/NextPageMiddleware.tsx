@@ -1,17 +1,17 @@
-import { ReactNode, useEffect, useLayoutEffect, useRef, useState } from 'react';
-import { runtime } from 'webextension-polyfill';
-import { useIdleTimer } from 'react-idle-timer';
-import { useNavigate } from 'react-router-dom';
-import { getPersistedValues } from './wallet/form-persist';
 import * as UIStore from '@/lib/store/ui';
 
 import { LastVisitedPage, ProfileData, ScreenName } from '@/lib/background/contracts';
+import { ReactNode, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@/lib/store';
 
 import { HandleLoadingState } from '@/shared/components/handleStates/HandleLoadingState';
-import { useProfileContext } from '@/lib/context/Profile';
-import { useBackgroundEvents } from '@/lib/context/BackgroundEventHandler';
+import { getPersistedValues } from './wallet/form-persist';
+import { runtime } from 'webextension-polyfill';
 import { selectWalletsLength } from '@/lib/store/wallet';
+import { useBackgroundEvents } from '@/lib/context/BackgroundEventHandler';
+import { useIdleTimer } from 'react-idle-timer';
+import { useNavigate } from 'react-router-dom';
+import { useProfileContext } from '@/lib/context/Profile';
 
 type Props = {
     children: ReactNode | ReactNode[];
@@ -88,6 +88,8 @@ const NextPageMiddleware = ({ children }: Props) => {
 
             lastVisitedPage || persistScreen ? navigate('/onboarding') : navigate('/splash-screen');
 
+            // This is needed to push an additional route to the history stack
+            // to handle the back button navigation during onboarding
             if (lastVisitedPage) {
                 navigate('/wallet/create');
                 return;
