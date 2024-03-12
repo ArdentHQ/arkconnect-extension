@@ -1,16 +1,16 @@
+import { ReactNode, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { runtime } from 'webextension-polyfill';
+import { useIdleTimer } from 'react-idle-timer';
+import { useNavigate } from 'react-router-dom';
+import { getPersistedValues } from './wallet/form-persist';
 import * as UIStore from '@/lib/store/ui';
 
 import { LastVisitedPage, ProfileData, ScreenName } from '@/lib/background/contracts';
-import { ReactNode, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@/lib/store';
 
 import { HandleLoadingState } from '@/shared/components/handleStates/HandleLoadingState';
-import { getPersistedValues } from './wallet/form-persist';
-import { runtime } from 'webextension-polyfill';
 import { selectWalletsLength } from '@/lib/store/wallet';
 import { useBackgroundEvents } from '@/lib/context/BackgroundEventHandler';
-import { useIdleTimer } from 'react-idle-timer';
-import { useNavigate } from 'react-router-dom';
 import { useProfileContext } from '@/lib/context/Profile';
 
 type Props = {
