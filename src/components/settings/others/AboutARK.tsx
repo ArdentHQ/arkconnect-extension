@@ -20,7 +20,7 @@ const AboutARK = () => {
                 <div className='logo flex flex-col items-center gap-4'>
                     <Icon
                         icon='logo-inverted'
-                        className='h-[3.25rem] w-[3.25rem] text-theme-primary-700 dark:text-theme-primary-650'
+                        className='h-13 w-13 text-theme-primary-700 dark:text-theme-primary-650'
                     />
                     <Icon
                         icon='logo-text'
