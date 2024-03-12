@@ -1,7 +1,7 @@
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useFormik } from 'formik';
 import { Button, Checkbox, ExternalLink, PasswordInput } from '@/shared/components';
-import { getLocalValues, setLocalValue } from '@/lib/utils/localStorage';
+import { setLocalValue } from '@/lib/utils/localStorage';
 
 import constants from '@/constants';
 

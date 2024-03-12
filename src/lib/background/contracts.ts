@@ -32,7 +32,7 @@ export enum ScreenName {
 
 interface WalletCreate {
     path: ScreenName.CreateWallet;
-    data: WalletCreateScreenData
+    data: WalletCreateScreenData;
 }
 
 interface WalletImport {

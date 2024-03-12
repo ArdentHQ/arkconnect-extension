@@ -4,7 +4,7 @@ import { useIdleTimer } from 'react-idle-timer';
 import { useNavigate } from 'react-router-dom';
 import * as UIStore from '@/lib/store/ui';
 
-import { LastVisitedPage, ProfileData, ScreenName } from '@/lib/background/contracts';
+import { LastVisitedPage, ProfileData } from '@/lib/background/contracts';
 import { useAppDispatch, useAppSelector } from '@/lib/store';
 
 import { HandleLoadingState } from '@/shared/components/handleStates/HandleLoadingState';

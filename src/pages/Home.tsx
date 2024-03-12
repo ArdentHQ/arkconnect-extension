@@ -1,10 +1,10 @@
 import { useEffect } from 'react';
+import { runtime } from 'webextension-polyfill';
 import Balance from '@/components/wallet/Balance';
 import { ExternalLink, Icon, Layout } from '@/shared/components';
 import constants from '@/constants';
 import { useProfileContext } from '@/lib/context/Profile';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
-import {runtime} from "webextension-polyfill";
 
 const Home = () => {
     const { convertedBalance } = useProfileContext();

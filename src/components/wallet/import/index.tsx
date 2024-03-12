@@ -1,23 +1,23 @@
-import {Contracts} from '@ardenthq/sdk-profiles';
-import {FormikValues, useFormik} from 'formik';
-import {useNavigate} from 'react-router-dom';
-import {useEffect, useState} from 'react';
-import {runtime} from 'webextension-polyfill';
+import { Contracts } from '@ardenthq/sdk-profiles';
+import { FormikValues, useFormik } from 'formik';
+import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { runtime } from 'webextension-polyfill';
 import SetupPassword from '../../settings/SetupPassword';
-import {ValidationVariant} from '../create';
+import { ValidationVariant } from '../create';
 import EnterPassphrase from './EnterPassphrase';
 import ImportedWallet from './ImportedWallet';
-import StepsNavigation, {Step} from '@/components/steps/StepsNavigation';
-import {useProfileContext} from '@/lib/context/Profile';
-import {HandleLoadingState} from '@/shared/components/handleStates/HandleLoadingState';
-import {useErrorHandlerContext} from '@/lib/context/ErrorHandler';
+import StepsNavigation, { Step } from '@/components/steps/StepsNavigation';
+import { useProfileContext } from '@/lib/context/Profile';
+import { HandleLoadingState } from '@/shared/components/handleStates/HandleLoadingState';
+import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
 import useActiveNetwork from '@/lib/hooks/useActiveNetwork';
 import useWalletImport from '@/lib/hooks/useWalletImport';
 import useLocaleCurrency from '@/lib/hooks/useLocalCurrency';
-import {getLocalValues} from '@/lib/utils/localStorage';
+import { getLocalValues } from '@/lib/utils/localStorage';
 import useLoadingModal from '@/lib/hooks/useLoadingModal';
-import {useBackgroundEvents} from '@/lib/context/BackgroundEventHandler';
-import {LastVisitedPage, ProfileData, ScreenName} from "@/lib/background/contracts";
+import { useBackgroundEvents } from '@/lib/context/BackgroundEventHandler';
+import { LastVisitedPage, ProfileData, ScreenName } from '@/lib/background/contracts';
 
 export type ImportedWalletFormik = {
     enteredPassphrase: string;

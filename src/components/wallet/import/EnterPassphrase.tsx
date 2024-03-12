@@ -16,7 +16,7 @@ import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
 import { useProfileContext } from '@/lib/context/Profile';
 import useWalletImport from '@/lib/hooks/useWalletImport';
 import useWalletSync from '@/lib/hooks/useWalletSync';
-import {ScreenName} from "@/lib/background/contracts";
+import { ScreenName } from '@/lib/background/contracts';
 
 type Props = {
     goToNextStep: () => void;

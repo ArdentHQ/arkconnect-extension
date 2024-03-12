@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import {useEffect, useState} from 'react';
+import { useEffect, useState } from 'react';
 import { runtime, tabs } from 'webextension-polyfill';
 import SubPageLayout from '../SubPageLayout';
 import SelectNetworkTypeModal from './SelectNetworkTypeModal';
@@ -18,7 +18,7 @@ const CreateOrImportAddress = () => {
     useEffect(() => {
         // Clear any old data
         void runtime.sendMessage({ type: 'CLEAR_LAST_SCREEN' });
-    },[])
+    }, []);
 
     const [networkModalState, setNetworkModalState] = useState<NetworkModalState>({
         nextAction: undefined,
