@@ -52,7 +52,7 @@ const RequestedVoteBody = ({ vote, unvote, fee, convertedFee, wallet }: Props) =
                 <ActionDetailsRow label='Unvote Delegate Pubkey'>
                     <Tooltip
                         content={
-                            <span className='block w-[260px] break-words text-left'>
+                            <span className='block w-65 break-words text-left'>
                                 {unvote.wallet?.publicKey() ?? ''}
                             </span>
                         }
@@ -85,7 +85,7 @@ const RequestedVoteBody = ({ vote, unvote, fee, convertedFee, wallet }: Props) =
                 <ActionDetailsRow label='Vote Delegate Pubkey'>
                     <Tooltip
                         content={
-                            <span className='block w-[260px] break-words text-left'>
+                            <span className='block w-65 break-words text-left'>
                                 {vote.wallet?.publicKey() ?? ''}
                             </span>
                         }

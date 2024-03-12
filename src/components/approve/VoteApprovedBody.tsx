@@ -49,7 +49,7 @@ const VoteApprovedBody = ({ wallet }: { wallet: Contracts.IReadWriteWallet }) =>
                     <ActionDetailsRow label='Unvote Delegate Pubkey'>
                         <Tooltip
                             content={
-                                <span className='block w-[260px] break-words text-left'>
+                                <span className='block w-65 break-words text-left'>
                                     {state?.vote.unvotePublicKey ?? ''}
                                 </span>
                             }
@@ -82,7 +82,7 @@ const VoteApprovedBody = ({ wallet }: { wallet: Contracts.IReadWriteWallet }) =>
                     <ActionDetailsRow label='Vote Delegate Pubkey'>
                         <Tooltip
                             content={
-                                <span className='block w-[260px] break-words text-left'>
+                                <span className='block w-65 break-words text-left'>
                                     {state?.vote.votePublicKey ?? ''}
                                 </span>
                             }
