@@ -49,7 +49,13 @@ const Amount = ({
             content={actualFormattedAmount}
             placement={tooltipPlacement}
         >
-            <span className={!tooltipDisabled && underlineOnHover ? "hover:underline underline-offset-2" : ""}>{formattedAmount}</span>
+            <span
+                className={
+                    !tooltipDisabled && underlineOnHover ? 'underline-offset-2 hover:underline' : ''
+                }
+            >
+                {formattedAmount}
+            </span>
         </Tooltip>
     );
 };
