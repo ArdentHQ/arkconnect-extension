@@ -30,7 +30,10 @@ export const ConnectionStatus = () => {
                 >
                     <Icon
                         icon='globe-with-dot'
-                        className={currentThemeMode + ' globeIcon h-4 w-4'}
+                        className={
+                            currentThemeMode +
+                            ' globeIcon dark:thext-theme-primary-600 h-4 w-4 text-theme-primary-700 '
+                        }
                     />
                 </HeaderButton>
             ) : (
