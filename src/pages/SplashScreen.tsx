@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
-import styled, { keyframes } from 'styled-components';
 import { Icon } from '@/shared/components';
 
 const SplashScreen = () => {
@@ -19,122 +18,20 @@ const SplashScreen = () => {
     if (animationFinished) return <Navigate to={'/onboarding'} />;
 
     return (
-        <SplashScreenWrapper>
-            <AnimatedContent>
-                <Icon
-                    className='splash-screen-icon h-[38px] w-[38px] text-white'
-                    icon='logo-icon'
-                />
-                <Icon className='splash-screen-icon h-4 w-[170px]' icon='logo-text' />
-            </AnimatedContent>
-            <ContainersWrapper>
-                <GreenContainer />
-                <WhiteContainer />
-            </ContainersWrapper>
-        </SplashScreenWrapper>
+        <div className='flex flex-col justify-center items-center fixed top-0 left-0 h-[600px] w-full bg-theme-primary-700 animate-slideUp'>
+          <div className='flex justify-center items-center flex-col gap-4 animate-fadeInTransformAndScale'>
+            <Icon
+                className='splash-screen-icon h-[38px] w-[38px] text-white'
+                icon='logo-icon'
+            />
+            <Icon className='splash-screen-icon h-4 w-[170px]' icon='logo-text' />
+          </div>
+          <div className='absolute bottom-0 w-full flex flex-col translate-y-full animate-translateUp'>
+            <div className='w-full h-[200px] bg-theme-primary-650 animate-decreaseHeight' />
+            <div className='w-full h-[60px] bg-light-black dark:bg-white' />
+          </div>
+        </div>
     );
 };
-
-const fadeInAndTransform = keyframes`
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-`;
-
-const scale = keyframes`
-  from {
-    transform: scale(1);
-  }
-
-  to {
-    transform: scale(0.9);
-  }
-`;
-
-const slideUp = keyframes`
-  from {
-    transform: translateY(0);
-  }
-  to {
-    transform: translateY(-100%);
-  }
-`;
-
-const decreaseHeight = keyframes`
-  0% {
-    height: 200px;
-  }
-  50% {
-    height: 100px;
-  }
-  75% {
-    height: 80px;
-  }
-  100% {
-    height: 60px;
-  }
-`;
-
-const translateUp = keyframes`
-  from {
-    transform: translateY(100%);
-  }
-  to {
-    transform: translateY(0);
-  }
-`;
-
-const SplashScreenWrapper = styled.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 600px;
-    width: 100%;
-    background-color: ${({ theme }) => theme.colors.primary700};
-    animation: ${slideUp} 1.2s ease-in-out 1.8s forwards;
-`;
-
-const AnimatedContent = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    grid-gap: 16px;
-    animation:
-        ${fadeInAndTransform} 0.8s ease-in-out forwards,
-        ${scale} 0.4s ease-in-out 1s forwards;
-`;
-
-const ContainersWrapper = styled.div`
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    transform: translateY(100%);
-    animation: ${translateUp} 0.7s ease-in-out 1.8s forwards;
-`;
-
-const GreenContainer = styled.div`
-    width: 100%;
-    height: 200px;
-    background-color: ${({ theme }) => theme.colors.primary650};
-    animation: ${decreaseHeight} 0.5s ease-in-out 2s forwards;
-`;
-
-const WhiteContainer = styled.div`
-    width: 100%;
-    height: 60px;
-    background-color: ${({ theme }) => theme.colors.base};
-`;
 
 export default SplashScreen;
