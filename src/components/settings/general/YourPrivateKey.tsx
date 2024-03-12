@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import SubPageLayout from '../SubPageLayout';
-import { Button, Container, Paragraph, PassphraseInput, ToggleSwitch } from '@/shared/components';
+import { Button, Paragraph, PassphraseInput, ToggleSwitch } from '@/shared/components';
 import useClipboard from '@/lib/hooks/useClipboard';
 import { ToastPosition } from '@/components/toast/ToastContainer';
 
@@ -17,15 +17,15 @@ const YourPrivateKey = ({ privateKey }: Props) => {
     };
 
     return (
-        <SubPageLayout title='Show Private Key' hideCloseButton={false} paddingBottom='0'>
+        <SubPageLayout title='Show Private Key' hideCloseButton={false} noPaddingBottom>
             <div className='flex h-full flex-col'>
                 <Paragraph $typeset='headline' color='gray' mb='16'>
                     Remember, anyone with your private key can steal your assets. Do not share this
                     publicly.
                 </Paragraph>
                 <div className='flex flex-1 flex-col justify-between'>
-                    <Container>
-                        <Container mb='16' position='relative'>
+                    <div>
+                        <div className='relative mb-4'>
                             <PassphraseInput
                                 name='privateKey'
                                 className='read-only max-h-[70px]'
@@ -36,14 +36,14 @@ const YourPrivateKey = ({ privateKey }: Props) => {
                                 readOnly
                                 disabled
                             />
-                        </Container>
+                        </div>
                         <ToggleSwitch
                             checked={showPrivateKey}
                             onChange={() => setShowPassphrase(!showPrivateKey)}
                             id='show-private-key'
                             title='Show Private Key'
                         />
-                    </Container>
+                    </div>
 
                     <Button
                         variant='secondary'

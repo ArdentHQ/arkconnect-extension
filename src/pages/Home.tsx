@@ -5,14 +5,11 @@ import constants from '@/constants';
 import { clearPersistScreenData } from '@/components/wallet/form-persist/helpers';
 import { useProfileContext } from '@/lib/context/Profile';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
-import useThemeMode from '@/lib/hooks/useThemeMode';
 
 const Home = () => {
     const { convertedBalance } = useProfileContext();
 
     const primaryWallet = usePrimaryWallet();
-
-    const { getThemeColor } = useThemeMode();
 
     useEffect(() => {
         clearPersistScreenData();
@@ -33,9 +30,7 @@ const Home = () => {
 
                     <div className='flex justify-between border-t border-solid border-t-theme-primary-650 p-4 dark:border-t-theme-primary-600'>
                         <ExternalLink
-                            gridGap='8px'
-                            alignItems='center'
-                            display='flex'
+                            className='flex items-center gap-2'
                             href={
                                 primaryWallet?.network().isLive()
                                     ? `${constants.ARKSCAN_ADDRESSES}/${primaryWallet?.address()}`
@@ -55,9 +50,7 @@ const Home = () => {
                         />
 
                         <ExternalLink
-                            gridGap='8px'
-                            alignItems='center'
-                            display='flex'
+                            className='flex items-center gap-2'
                             href={
                                 primaryWallet?.network().isTest()
                                     ? constants.ARKSCAN_FAUCET
@@ -74,9 +67,7 @@ const Home = () => {
 
                 <ExternalLink
                     href={constants.ARK_CONNECT_DEMO}
-                    color={getThemeColor('primary', 'primary600')}
-                    display='block'
-                    borderRadius='16'
+                    className='block rounded-2xl text-theme-primary-700 dark:text-theme-primary-600'
                 >
                     <div className='flex flex-row items-center justify-between p-4'>
                         <Icon icon='speakerphone' className='h-4.5 w-4.5' />

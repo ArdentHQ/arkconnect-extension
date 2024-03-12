@@ -50,17 +50,12 @@ const TransactionApproved = () => {
                     </Button>
 
                     <ExternalLink
-                        alignItems='center'
-                        justifyContent='center'
-                        display='flex'
-                        width='100%'
-                        gridGap='12px'
+                        className='flex w-full items-center justify-center gap-3 text-light-black dark:text-white'
                         href={
                             state?.isTestnet
                                 ? `${constants.ARKSCAN_TESTNET_TRANSACTIONS}/${state?.transaction.id}`
                                 : `${constants.ARKSCAN_MAINNET_TRANSACTIONS}/${state?.transaction.id}`
                         }
-                        color='base'
                     >
                         <span className='font-medium'>View transaction on ARKScan</span>
 

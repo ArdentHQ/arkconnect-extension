@@ -15,7 +15,6 @@ import { initializeEnvironment } from './lib/utils/env';
 import { LoadingFullScreen } from './shared/components/handleStates/LoadingFullScreen';
 import store, { persistor, useAppSelector } from '@/lib/store';
 import { theme as baseTheme, theme } from '@/shared/theme';
-import { Container } from '@/shared/components';
 import { themeModes } from '@/shared/theme/categories/color';
 import { selectThemeMode, ThemeMode } from '@/lib/store/ui';
 import routes from '@/routing';
@@ -54,22 +53,21 @@ const AppWrapper = ({
             <ProfileProvider>
                 <NextPageMiddleware>
                     <LedgerProvider>
-                        <Container
+                        <div
                             id={
                                 !window.location.href.includes('ledger')
                                     ? 'scrollable-container'
                                     : ''
                             }
-                            className='custom-scroll'
-                            backgroundColor='primaryBackground'
+                            className='custom-scroll bg-subtle-white dark:bg-light-black'
                         >
-                            <Container minHeight='100%' position='relative'>
+                            <div className='relative min-h-full'>
                                 {children}
 
                                 <ToastContainer />
                                 <LoadingModal />
-                            </Container>
-                        </Container>
+                            </div>
+                        </div>
                     </LedgerProvider>
                 </NextPageMiddleware>
             </ProfileProvider>
