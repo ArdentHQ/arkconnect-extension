@@ -151,7 +151,7 @@ const AddressRow = ({
                     </div>
 
                     <div className='flex items-center gap-1.5 text-theme-secondary-500 dark:text-theme-secondary-400'>
-                        <AddressWithCopy address={address.address()} />
+                        <AddressWithCopy address={address.address()} length={7}/>
                         <div>•</div>
                         <AddressBalance
                             balance={address.balance()}
