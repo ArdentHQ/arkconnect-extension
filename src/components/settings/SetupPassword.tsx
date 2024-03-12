@@ -2,7 +2,7 @@ import { ChangeEvent, useEffect, useState } from 'react';
 import { useFormik } from 'formik';
 import { persistScreenChanged } from '../wallet/form-persist/helpers';
 import { WalletFormScreen } from '../wallet/form-persist';
-import { Button, Checkbox, ExternalLink, PasswordInput, Heading } from '@/shared/components';
+import { Button, Checkbox, ExternalLink, Heading, PasswordInput } from '@/shared/components';
 
 import constants from '@/constants';
 import { useEnvironmentContext } from '@/lib/context/Environment';
