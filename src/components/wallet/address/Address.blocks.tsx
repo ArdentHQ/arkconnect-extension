@@ -111,7 +111,7 @@ export const AddressBalance = ({
 }) => {
     return (
         <div className='text-theme-secondary-500 dark:text-theme-primary-300'>
-            <Paragraph $typeset='body' color='gray' className="cursor-pointer">
+            <Paragraph $typeset='body' color='gray' className='cursor-pointer'>
                 <Amount
                     value={balance}
                     ticker={currency}
