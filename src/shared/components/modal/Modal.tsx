@@ -53,7 +53,7 @@ export const ModalIcon = ({
     return (
         <div
             className={cn(
-                'relative flex h-13 w-13 items-center justify-center rounded-lg border border-solid border-theme-secondary-200 shadow-[0_1px_4px_0_rgba(0,0,0,0.05)] dark:border-theme-secondary-600',
+                'relative flex h-13 w-13 items-center justify-center rounded-lg border border-solid border-theme-secondary-200 shadow-light dark:border-theme-secondary-600',
                 {
                     'text-theme-error-600 dark:text-theme-error-500': variant === 'danger',
                     'text-subtle-black dark:text-subtle-white': variant !== 'danger',
