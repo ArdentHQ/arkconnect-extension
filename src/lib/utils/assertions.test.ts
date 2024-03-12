@@ -16,7 +16,7 @@ describe('assertions', () => {
 
     it('should not throw if network has isLive method', () => {
         const network = { isLive: vi.fn() };
-        //@ts-ignore
+        // @ts-expect-error
         expect(() => assertNetwork(network)).not.toThrow();
     });
 });
