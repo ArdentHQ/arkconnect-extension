@@ -54,6 +54,7 @@ export const WalletCard = ({ wallet }: Props) => {
                                             key={index}
                                             maxDigits={constants.MAX_CURRENCY_DIGITS_ALLOWED}
                                             tooltipPlacement='bottom-start'
+                                            underlineOnHover={true}
                                         />
                                     );
                                 } else {
