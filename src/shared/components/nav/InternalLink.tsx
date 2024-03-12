@@ -1,23 +1,22 @@
-import styled from 'styled-components';
-import { color, ColorProps, flexbox, FlexboxProps, layout, LayoutProps } from 'styled-system';
 import { Link } from 'react-router-dom';
-import { Theme } from '@/shared/theme';
+import cn from 'classnames';
 import { isFirefox } from '@/lib/utils/isFirefox';
 
-export const InternalLink = styled(Link)<
-    FlexboxProps<Theme> & LayoutProps<Theme> & ColorProps<Theme>
->`
-    text-decoration: none;
-    cursor: pointer;
-    color: inherit;
+type InternalLinkProps = React.ComponentPropsWithRef<typeof Link> & {
+    className?: string;
+};
 
-    &:hover {
-        text-decoration: underline;
-    }
-
-    ${({ theme }) => (isFirefox ? theme.browserCompatibility.firefox.focus : '')}
-
-    ${flexbox}
-  ${layout}
-  ${color}
-`;
+export const InternalLink = ({ className, ...rest }: InternalLinkProps) => {
+    return (
+        <Link
+            className={cn(
+                'cursor-pointer no-underline hover:underline',
+                {
+                    'outline outline-2': isFirefox,
+                },
+                className,
+            )}
+            {...rest}
+        />
+    );
+};

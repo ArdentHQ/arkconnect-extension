@@ -87,7 +87,7 @@ const SetupPassword = ({ formik }: Props) => {
 
     return (
         <div className='flex min-h-[450px] flex-col'>
-            <Heading level={3} className=' mb-2'>
+            <Heading level={3} className='mb-2'>
                 Setup a Password
             </Heading>
             <p className='typeset-headline mb-4'>
