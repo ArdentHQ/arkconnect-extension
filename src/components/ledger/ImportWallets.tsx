@@ -119,7 +119,7 @@ const ImportWallets = ({ goToNextStep, formik }: Props) => {
 
     return (
         <div>
-            <Heading $typeset='h3' fontWeight='bold' color='base' mb='8' px='24'>
+            <Heading level={3} className='mb-2 px-6'>
                 Select Addresses to Import
             </Heading>
             <Paragraph $typeset='body' color='gray' mb='24' px='24'>

@@ -188,9 +188,7 @@ const EnterPassphrase = ({ goToNextStep, formik }: Props) => {
     return (
         <>
             <div className='mb-2 flex items-center gap-2'>
-                <Heading $typeset='h3' fontWeight='bold' color='base'>
-                    Enter Passphrase
-                </Heading>
+                <Heading level={3}>Enter Passphrase</Heading>
                 {selectedNetwork.isTest() && <TestnetIcon />}
             </div>
             <Paragraph $typeset='headline' color='gray' mb='24'>

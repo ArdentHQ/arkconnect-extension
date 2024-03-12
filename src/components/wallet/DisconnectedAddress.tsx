@@ -4,9 +4,7 @@ const DisconnectedAddress = () => {
     return (
         <div>
             <div className=' break-words'>
-                <Heading $typeset='h4' fontWeight='medium' color='base'>
-                    Disconnected Address
-                </Heading>
+                <Heading level={4}>Disconnected Address</Heading>
             </div>
 
             <Paragraph $typeset='headline' fontWeight='regular' color='gray' marginTop='6'>

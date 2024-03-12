@@ -27,7 +27,7 @@ const SelectNetworkTypeModal = ({ onNetworkSelect, onClose, action = 'create' }:
             }}
         >
             <div>
-                <Heading $typeset='h4' fontWeight='medium' color='base' mb='6'>
+                <Heading className=' mb-1.5' level={4}>
                     Select Network Type
                 </Heading>
                 <div>

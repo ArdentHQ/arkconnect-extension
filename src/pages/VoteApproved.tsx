@@ -41,9 +41,7 @@ const VoteApproved = () => {
                             icon='completed'
                             className='h-16 w-16 text-theme-primary-700 dark:text-theme-primary-650'
                         />
-                        <Heading $typeset='h3' color='base' fontWeight='bold'>
-                            {getTitle()}
-                        </Heading>
+                        <Heading level={3}>{getTitle()}</Heading>
                     </div>
                     <VoteApprovedBody wallet={wallet} />
                 </div>

@@ -11,7 +11,7 @@ type BalanceProps = {
 const Balance = ({ balance, currency, exchangeCurrency, convertedBalance }: BalanceProps) => {
     return (
         <div className='flex items-center justify-between text-white'>
-            <Heading $typeset='h2' fontWeight='bold'>
+            <Heading level={2}>
                 <Amount value={balance} ticker={currency} />
             </Heading>
             {convertedBalance !== undefined && (

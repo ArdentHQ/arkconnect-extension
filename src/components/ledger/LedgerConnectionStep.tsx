@@ -88,7 +88,7 @@ export const LedgerConnectionStep = ({
 
     return (
         <div>
-            <Heading $typeset='h3' fontWeight='bold' color='base' mb='24'>
+            <Heading level={3} className='mb-6'>
                 Connect Your Ledger Device
             </Heading>
             <div className='my-6 flex justify-center'>

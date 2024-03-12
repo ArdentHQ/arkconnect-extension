@@ -20,9 +20,7 @@ const LoadingModal = () => {
                             className='h-16 w-16 text-theme-primary-700 dark:text-theme-primary-650'
                         />
                         <div className='flex flex-col items-center justify-center'>
-                            <Heading $typeset='h3' color='base' fontWeight='bold'>
-                                {completedMessage}
-                            </Heading>
+                            <Heading level={3}>{completedMessage}</Heading>
                             {completedDescription && (
                                 <Paragraph
                                     $typeset='headline'
@@ -40,7 +38,7 @@ const LoadingModal = () => {
                 ) : (
                     <>
                         <Loader variant='big' />
-                        <Heading $typeset='h3' color='base' fontWeight='bold' textAlign={'center'}>
+                        <Heading level={3} className='text-center'>
                             {loadingMessage}
                         </Heading>
                         {!!CTAContent && <CTAContent />}

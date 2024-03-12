@@ -72,9 +72,7 @@ const ConfirmPassphrase = ({ goToNextStep, formik }: Props) => {
     return (
         <>
             <div className='mb-2 flex items-center gap-2'>
-                <Heading $typeset='h4' fontWeight='medium' color='base'>
-                    Confirm Your Passphrase
-                </Heading>
+                <Heading level={4}>Confirm Your Passphrase</Heading>
                 {selectedNetwork.isTest() && <TestnetIcon />}
             </div>
 

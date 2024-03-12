@@ -53,9 +53,7 @@ const GeneratePassphrase = ({ goToNextStep, formik }: Props) => {
     return (
         <div className='flex flex-1 flex-col'>
             <div className='mb-2 flex items-center gap-2'>
-                <Heading $typeset='h3' fontWeight='bold' color='base'>
-                    Save Your Secret Passphrase
-                </Heading>
+                <Heading level={3}>Save Your Secret Passphrase</Heading>
                 {selectedNetwork.isTest() && <TestnetIcon />}
             </div>
             <Paragraph $typeset='headline' color='gray' mb='16'>

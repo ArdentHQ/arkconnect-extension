@@ -34,9 +34,7 @@ const ConnectedAddress = ({ connectedTo, wallet, logo, onDisconnect }: Propertie
         <>
             <div>
                 <ConnectionStatusTitle>
-                    <Heading $typeset='h4' fontWeight='medium' color='base'>
-                        Connected Address
-                    </Heading>
+                    <Heading level={4}>Connected Address</Heading>
                 </ConnectionStatusTitle>
 
                 <Paragraph $typeset='headline' fontWeight='regular' color='gray' marginTop='6'>

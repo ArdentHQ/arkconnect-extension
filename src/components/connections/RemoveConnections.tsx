@@ -14,7 +14,7 @@ const RemoveConnections = ({ numberOfSessions, sessionDomain }: Props) => {
     const hasMultipleSessions = numberOfSessions && numberOfSessions > 1;
     return (
         <div>
-            <Heading $typeset='h4' fontWeight='medium' color='base'>
+            <Heading level={4}>
                 {hasMultipleSessions ? 'Disconnect All Connections' : 'Disconnect Connection'}
             </Heading>
 

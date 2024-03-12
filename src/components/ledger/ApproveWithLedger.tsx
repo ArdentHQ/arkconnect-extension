@@ -113,7 +113,7 @@ const ApproveWithLedger = ({
                         />
                     </NavButton>
                 </div>
-                <Heading $typeset='h3' fontWeight='bold' color='base' mb='8' mt='16'>
+                <Heading className='mb-2 mt-4' level={3}>
                     Connect Ledger and Sign The {getActionMessage()} Request
                 </Heading>
                 <Paragraph $typeset='headline' fontWeight='regular' color='gray'>
