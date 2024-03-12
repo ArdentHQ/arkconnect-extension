@@ -57,7 +57,7 @@ export const RowLayout = forwardRef(function RowLayout(
             'cursor-auto': !hasPointer,
             'rounded-2xl bg-white dark:bg-subtle-black shadow-[0_1px_4px_0_rgba(0,0,0,0.05)] hover:shadow-[0_0_0_1px] hover:shadow-theme-secondary-200 hover:dark:shadow-theme-secondary-600':
                 variant === 'primary',
-            'rounded-[20px] bg-white dark:bg-subtle-black shadow-[0_1px_4px_0_rgba(0,0,0,0.05)] border border-solid border-theme-primary-700 dark:border-theme-primary-650':
+            'rounded-2.5xl bg-white dark:bg-subtle-black shadow-[0_1px_4px_0_rgba(0,0,0,0.05)] border border-solid border-theme-primary-700 dark:border-theme-primary-650':
                 variant === 'errorFree',
             'focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2':
                 isFirefox,

@@ -70,6 +70,9 @@ export default {
             zIndex: {
                 '1': '1',
             },
+            borderRadius: {
+                '2.5xl': '1.25rem',
+            }
         },
         colors: {
             transparent: 'transparent',
