@@ -8,7 +8,6 @@ import {
     InternalLink,
     Layout,
     LockIcon,
-    Paragraph,
     PasswordInput,
 } from '@/shared/components';
 import { ValidationVariant } from '@/components/wallet/create';
@@ -75,9 +74,9 @@ const EnterPassword = () => {
                             'mb-11': validationVariant !== 'destructive',
                         })}
                     >
-                        <Paragraph $typeset='headline' fontWeight='medium' color='labelText'>
+                        <p className='typeset-headline font-medium text-subtle-black dark:text-theme-secondary-200'>
                             Enter Password to Unlock
-                        </Paragraph>
+                        </p>
                         <PasswordInput
                             name='password'
                             variant={validationVariant}
@@ -111,15 +110,11 @@ const EnterPassword = () => {
                     </Button>
                     <InternalLink
                         to='/forgot-password'
-                        width='100%'
-                        display='flex'
-                        justifyContent='center'
-                        alignItems='center'
-                        color='base'
+                        className='w-full flex justify-center items-center text-light-black dark:text-white'
                     >
-                        <Paragraph $typeset='headline' fontWeight='medium' color='base'>
+                        <span className='typeset-headline font-medium text-light-black dark:text-white'>
                             Forgot Password?
-                        </Paragraph>
+                        </span>
                     </InternalLink>
                 </div>
             </div>
