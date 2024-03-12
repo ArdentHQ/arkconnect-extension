@@ -80,23 +80,26 @@ const ConnectionsList = () => {
                                     </Tooltip>
                                 </div>
 
-                                <Tooltip
-                                    content={profile.wallets().findById(session.walletId).address()}
-                                    placement='bottom-start'
+                                <Paragraph
+                                    $typeset='body'
+                                    color='gray'
+                                    fontWeight='regular'
+                                    mt='4'
+                                    display='inline'
                                 >
-                                    <Paragraph
-                                        $typeset='body'
-                                        color='gray'
-                                        fontWeight='regular'
-                                        mt='4'
-                                        display='inline'
+                                    Connected with{' '}
+                                    <Tooltip
+                                        content={profile
+                                            .wallets()
+                                            .findById(session.walletId)
+                                            .address()}
+                                        placement='bottom-start'
                                     >
-                                        Connected with{' '}
-                                        <strong>
+                                        <strong className='decoration-theme-secondary-500 underline-offset-2 hover:underline dark:decoration-theme-secondary-300'>
                                             {trimAddress(getWalletName(session.walletId), 14)}
                                         </strong>
-                                    </Paragraph>
-                                </Tooltip>
+                                    </Tooltip>
+                                </Paragraph>
                             </div>
 
                             <Tooltip content='Disconnect' placement='left'>
