@@ -1,5 +1,5 @@
 import Amount from './Amount';
-import { Heading, Paragraph } from '@/shared/components';
+import { Heading } from '@/shared/components';
 
 type BalanceProps = {
     convertedBalance?: number;
@@ -11,13 +11,13 @@ type BalanceProps = {
 const Balance = ({ balance, currency, exchangeCurrency, convertedBalance }: BalanceProps) => {
     return (
         <div className='flex items-center justify-between text-white'>
-            <Heading $typeset='h2' fontWeight='bold'>
+            <Heading level={2}>
                 <Amount value={balance} ticker={currency} />
             </Heading>
             {convertedBalance !== undefined && (
-                <Paragraph $typeset='headline' fontWeight='medium'>
+                <p className='typeset-headline font-medium'>
                     <Amount value={convertedBalance} ticker={exchangeCurrency} withTicker />
-                </Paragraph>
+                </p>
             )}
         </div>
     );

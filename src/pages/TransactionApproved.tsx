@@ -36,9 +36,7 @@ const TransactionApproved = () => {
                             className='h-16 w-16 text-theme-primary-700 dark:text-theme-primary-650'
                         />
 
-                        <Heading $typeset='h3' color='base' fontWeight='bold'>
-                            Transaction Approved
-                        </Heading>
+                        <Heading level={3}>Transaction Approved</Heading>
                     </div>
 
                     <TransactionApprovedBody />

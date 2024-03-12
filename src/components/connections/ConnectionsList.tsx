@@ -5,7 +5,7 @@ import { DisconnectSessionModal } from '../wallet/DisconnectSessionModal';
 import ConnectionLogoImage from './ConnectionLogoImage';
 import { useAppSelector } from '@/lib/store';
 import * as SessionStore from '@/lib/store/session';
-import { Button, Icon, Paragraph, Tooltip } from '@/shared/components';
+import { Button, Icon, Tooltip } from '@/shared/components';
 import formatDomain from '@/lib/utils/formatDomain';
 import removeWindowInstance from '@/lib/utils/removeWindowInstance';
 import trimAddress from '@/lib/utils/trimAddress';
@@ -69,23 +69,13 @@ const ConnectionsList = () => {
                                         }
                                         placement='top'
                                     >
-                                        <Paragraph
-                                            $typeset='headline'
-                                            fontWeight='medium'
-                                            color='base'
-                                        >
+                                        <p className='typeset-headline font-medium text-light-black dark:text-white'>
                                             {formatDomain(session.domain, false)}
-                                        </Paragraph>
+                                        </p>
                                     </Tooltip>
                                 </div>
 
-                                <Paragraph
-                                    $typeset='body'
-                                    color='gray'
-                                    fontWeight='regular'
-                                    mt='4'
-                                    display='inline'
-                                >
+                                <span className='typeset-body mt-1 text-theme-secondary-500 dark:text-theme-secondary-300'>
                                     Connected with{' '}
                                     <Tooltip
                                         content={profile
@@ -94,11 +84,11 @@ const ConnectionsList = () => {
                                             .address()}
                                         placement='bottom-start'
                                     >
-                                        <strong className='decoration-theme-secondary-500 underline-offset-2 hover:underline dark:decoration-theme-secondary-300'>
+                                        <strong className='text-theme-secondary-700 underline-offset-2 hover:underline dark:text-theme-secondary-200'>
                                             {trimAddress(getWalletName(session.walletId), 14)}
                                         </strong>
                                     </Tooltip>
-                                </Paragraph>
+                                </span>
                             </div>
 
                             <Tooltip content='Disconnect' placement='left'>

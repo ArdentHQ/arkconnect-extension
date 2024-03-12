@@ -1,6 +1,6 @@
 import { runtime } from 'webextension-polyfill';
 import SubPageLayout from '../SubPageLayout';
-import { ExternalLink, Icon, Paragraph, RowLayout } from '@/shared/components';
+import { ExternalLink, Icon, RowLayout } from '@/shared/components';
 import useClipboard from '@/lib/hooks/useClipboard';
 import constants from '@/constants';
 
@@ -27,9 +27,9 @@ const AboutARK = () => {
                         className='h-[21px] w-[228px] text-theme-primary-700 dark:text-theme-primary-650'
                     />
                 </div>
-                <Paragraph $typeset='body' fontWeight='regular' color='gray'>
+                <p className='typeset-body text-theme-secondary-500 dark:text-theme-secondary-300'>
                     Version {runtime.getManifest().version}
-                </Paragraph>
+                </p>
             </div>
 
             <div className='flex flex-col gap-2 text-light-black dark:text-white'>

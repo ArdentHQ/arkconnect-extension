@@ -1,5 +1,5 @@
 import { Contracts } from '@ardenthq/sdk-profiles';
-import { Button, Heading, Paragraph } from '@/shared/components';
+import { Button, Heading } from '@/shared/components';
 import formatDomain from '@/lib/utils/formatDomain';
 import {
     Address,
@@ -24,15 +24,13 @@ const ConnectedAddress = ({ connectedTo, wallet, logo, onDisconnect }: Propertie
         <>
             <div>
                 <div className='break-words'>
-                    <Heading $typeset='h4' fontWeight='medium' color='base'>
-                        Connected Address
-                    </Heading>
+                    <Heading level={4}>Connected Address</Heading>
                 </div>
 
-                <Paragraph $typeset='headline' fontWeight='regular' color='gray' marginTop='6'>
+                <p className='typeset-headline mt-1.5 text-theme-secondary-500 dark:text-theme-secondary-300'>
                     The following address is currently connected to{' '}
                     <span className='text-light-black dark:text-white font-bold'>{formatDomain(connectedTo, false)}</span>
-                </Paragraph>
+                </p>
             </div>
 
             <div>
