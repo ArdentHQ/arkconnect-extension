@@ -200,7 +200,7 @@ const CreateNewWallet = () => {
                 return navigate('/create-import-address');
             }
 
-            return navigate('/splash-screen');
+            return navigate('/onboarding');
         }
 
         if (step === 0) {
