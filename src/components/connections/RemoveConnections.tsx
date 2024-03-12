@@ -1,14 +1,9 @@
-import styled from 'styled-components';
 import { Heading } from '@/shared/components';
 
 type Props = {
     sessionDomain?: string;
     numberOfSessions?: number;
 };
-
-const StyledDomain = styled.span`
-    word-break: break-word;
-`;
 
 const RemoveConnections = ({ numberOfSessions, sessionDomain }: Props) => {
     const hasMultipleSessions = numberOfSessions && numberOfSessions > 1;
@@ -26,7 +21,7 @@ const RemoveConnections = ({ numberOfSessions, sessionDomain }: Props) => {
                 <span className='typeset-headline text-theme-secondary-500 dark:text-theme-secondary-300'>
                     {sessionDomain && numberOfSessions === 1 ? (
                         <span className='typeset-headline text-light-black dark:text-white'>
-                            <StyledDomain>{sessionDomain}</StyledDomain>
+                            <span className='break-words'>{sessionDomain}</span>
                         </span>
                     ) : (
                         <>

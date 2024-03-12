@@ -1,4 +1,3 @@
-import styled from 'styled-components';
 import { Contracts } from '@ardenthq/sdk-profiles';
 import { Button, Heading } from '@/shared/components';
 import formatDomain from '@/lib/utils/formatDomain';
@@ -20,26 +19,17 @@ type Properties = {
     onDisconnect?: () => void;
 };
 
-const ConnectionStatusTitle = styled.div`
-    word-break: break-word;
-`;
-
-const ConnectedSite = styled.span`
-    color: ${({ theme }) => theme.colors['base']};
-    font-weight: bold;
-`;
-
 const ConnectedAddress = ({ connectedTo, wallet, logo, onDisconnect }: Properties) => {
     return (
         <>
             <div>
-                <ConnectionStatusTitle>
-                    <Heading level={4}>Connected Address</Heading>
-                </ConnectionStatusTitle>
+                <Heading level={4}>Connected Address</Heading>
 
                 <p className='typeset-headline mt-1.5 text-theme-secondary-500 dark:text-theme-secondary-300'>
                     The following address is currently connected to{' '}
-                    <ConnectedSite>{formatDomain(connectedTo, false)}</ConnectedSite>
+                    <span className=' font-bold text-light-black dark:text-white'>
+                        {formatDomain(connectedTo, false)}
+                    </span>
                 </p>
             </div>
 
