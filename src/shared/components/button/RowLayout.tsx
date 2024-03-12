@@ -121,6 +121,7 @@ export const RowLayout = forwardRef(function RowLayout(
                                                       withTicker={!!currency}
                                                       key={index}
                                                       tooltipPlacement='bottom-start'
+                                                      underlineOnHover={true}
                                                   />
                                               );
                                           } else {
