@@ -33,8 +33,8 @@ export default {
             },
             keyframes: {
                 fadeInAndTransform: {
-                  '0%': { opacity: '0', transform: 'translateY(10px)' },
-                  '100%': { opacity: '1', transform: 'translateY(0)' },
+                    '0%': { opacity: '0', transform: 'translateY(10px)' },
+                    '100%': { opacity: '1', transform: 'translateY(0)' },
                 },
                 scale: {
                     '0%': { transform: 'scale(1)' },
@@ -57,10 +57,11 @@ export default {
             },
             animation: {
                 slideUp: 'slideUp 1.2s ease-in-out 1.8s forwards',
-                fadeInTransformAndScale: 'fadeInAndTransform 0.8s ease-in-out forwards, scale 0.4s ease-in-out 1s forwards',
+                fadeInTransformAndScale:
+                    'fadeInAndTransform 0.8s ease-in-out forwards, scale 0.4s ease-in-out 1s forwards',
                 translateUp: 'translateUp 0.5s ease-in-out 2s forwards',
                 decreaseHeight: 'decreaseHeight 0.5s ease-in-out 2s forwards',
-            }
+            },
         },
         colors: {
             transparent: 'transparent',

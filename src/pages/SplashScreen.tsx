@@ -18,18 +18,18 @@ const SplashScreen = () => {
     if (animationFinished) return <Navigate to={'/onboarding'} />;
 
     return (
-        <div className='flex flex-col justify-center items-center fixed top-0 left-0 h-[600px] w-full bg-theme-primary-700 animate-slideUp'>
-          <div className='flex justify-center items-center flex-col gap-4 animate-fadeInTransformAndScale'>
-            <Icon
-                className='splash-screen-icon h-[38px] w-[38px] text-white'
-                icon='logo-icon'
-            />
-            <Icon className='splash-screen-icon h-4 w-[170px]' icon='logo-text' />
-          </div>
-          <div className='absolute bottom-0 w-full flex flex-col translate-y-full animate-translateUp'>
-            <div className='w-full h-[200px] bg-theme-primary-650 animate-decreaseHeight' />
-            <div className='w-full h-[60px] bg-light-black dark:bg-white' />
-          </div>
+        <div className='fixed left-0 top-0 flex h-[600px] w-full animate-slideUp flex-col items-center justify-center bg-theme-primary-700'>
+            <div className='flex animate-fadeInTransformAndScale flex-col items-center justify-center gap-4'>
+                <Icon
+                    className='splash-screen-icon h-[38px] w-[38px] text-white'
+                    icon='logo-icon'
+                />
+                <Icon className='splash-screen-icon h-4 w-[170px]' icon='logo-text' />
+            </div>
+            <div className='absolute bottom-0 flex w-full translate-y-full animate-translateUp flex-col'>
+                <div className='h-[200px] w-full animate-decreaseHeight bg-theme-primary-650' />
+                <div className='h-[60px] w-full bg-light-black dark:bg-white' />
+            </div>
         </div>
     );
 };
