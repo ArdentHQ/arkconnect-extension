@@ -97,6 +97,7 @@ export function Extension() {
                 throw new Error('MISSING_PASSWORD');
             }
 
+            env.data().flush();
             env.profiles().flush();
 
             await env.persist();

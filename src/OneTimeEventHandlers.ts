@@ -4,7 +4,7 @@ import { UUID } from '@ardenthq/sdk-cryptography';
 import { Extension } from '@/lib/background/extension';
 import { ExtensionEvents } from '@/lib/events';
 import { importWallets } from '@/background.helpers';
-import { ProfileData } from '@/lib/background/contracts';
+import { EnvironmentData, ProfileData } from '@/lib/background/contracts';
 import { SendTransferInput } from '@/lib/background/extension.wallet';
 import { SessionEntries } from '@/lib/store/session';
 
@@ -363,6 +363,7 @@ const handleRemoveWallets = async (request: any, extension: ReturnType<typeof Ex
     await extension.persist();
 
     if (extension.profile().wallets().count() === 0) {
+        extension.env().data().set(EnvironmentData.HasOnboarded, false);
         return {
             noWallets: true,
         };
