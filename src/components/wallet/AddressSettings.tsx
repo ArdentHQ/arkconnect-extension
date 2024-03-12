@@ -166,12 +166,13 @@ const AddressRow = ({ address }: { address: Contracts.IReadWriteWallet }) => {
                     {address.address()}
                 </Paragraph>
 
-                <Paragraph $typeset='body' color='base'>
+                <Paragraph $typeset='body' color='base' className='cursor-pointer'>
                     <Amount
                         ticker={getNetworkCurrency(address.network())}
                         maxDigits={5}
                         value={address.balance()}
                         withTicker
+                        underlineOnHover={true}
                     />
                 </Paragraph>
             </div>
