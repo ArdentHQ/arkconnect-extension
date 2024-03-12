@@ -95,7 +95,7 @@ const ConnectionsList = () => {
                                             .address()}
                                         placement='bottom-start'
                                     >
-                                        <strong className='decoration-theme-secondary-500 underline-offset-2 hover:underline dark:decoration-theme-secondary-300'>
+                                        <strong className='text-theme-secondary-700 underline-offset-2 hover:underline dark:text-theme-secondary-200'>
                                             {trimAddress(getWalletName(session.walletId), 14)}
                                         </strong>
                                     </Tooltip>
