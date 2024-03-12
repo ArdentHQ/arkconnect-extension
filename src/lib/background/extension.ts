@@ -1,6 +1,5 @@
 import { Contracts, Environment } from '@ardenthq/sdk-profiles';
 
-// import { getLocalValues } from '../utils/localStorage';
 import { initializeEnvironment } from '../utils/env.background';
 import { LockHandler } from './handleAutoLock';
 import { PrimaryWallet } from './extension.wallet.primary';
