@@ -17,7 +17,7 @@ import { useProfileContext } from '@/lib/context/Profile';
 import { CopyAddress } from '@/components/wallet/CopyAddress';
 
 interface HeaderProps {
-    hideNavbar?: boolean
+    hideNavbar?: boolean;
 }
 
 export const Header = ({ hideNavbar = false }: HeaderProps) => {
