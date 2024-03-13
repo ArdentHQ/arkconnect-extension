@@ -12,7 +12,6 @@ export enum AutoLockTimer {
 interface LocalStorageValues {
     autoLockTimer: AutoLockTimer;
     devModeSeeded: boolean;
-    hasOnboarded: boolean;
     ratesCache?: {
         lastFetch: number;
         rates: Record<string, number>;
@@ -36,7 +35,6 @@ export const getLocalValues = async (): Promise<LocalStorageValues> => {
     return {
         autoLockTimer: localValues?.autoLockTimer,
         devModeSeeded: localValues?.devModeSeeded ?? false,
-        hasOnboarded: localValues?.hasOnboarded ?? false,
         ratesCache: localValues?.ratesCache,
     };
 };

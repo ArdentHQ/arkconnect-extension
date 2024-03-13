@@ -10,12 +10,13 @@ import ImportWallets from '@/components/ledger/ImportWallets';
 import { LedgerConnectionStep } from '@/components/ledger/LedgerConnectionStep';
 import SetupPassword from '@/components/settings/SetupPassword';
 import { getLedgerAlias } from '@/lib/utils/getDefaultAlias';
-import { getLocalValues } from '@/lib/utils/localStorage';
 import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
 import useLoadingModal from '@/lib/hooks/useLoadingModal';
 import useLocaleCurrency from '@/lib/hooks/useLocalCurrency';
 import useActiveNetwork from '@/lib/hooks/useActiveNetwork';
 import { useProfileContext } from '@/lib/context/Profile';
+import { useEnvironmentContext } from '@/lib/context/Environment';
+import { EnvironmentData } from '@/lib/background/contracts';
 
 export type ImportWithLedger = {
     wallets: LedgerData[];
@@ -35,6 +36,8 @@ const ImportWithLedger = () => {
         { component: LedgerConnectionStep, containerPaddingX: '24' },
         { component: ImportWallets },
     ]);
+    const { env } = useEnvironmentContext();
+
     const loadingModal = useLoadingModal({
         loadingMessage: 'Setting up your wallet',
         completedMessage: 'Your wallet is ready!',
@@ -91,8 +94,7 @@ const ImportWithLedger = () => {
 
     useEffect(() => {
         (async () => {
-            const { hasOnboarded } = await getLocalValues();
-            if (!hasOnboarded) {
+            if (!env.data().get(EnvironmentData.HasOnboarded)) {
                 setSteps([...steps, { component: SetupPassword, containerPaddingX: '24' }]);
             }
         })();

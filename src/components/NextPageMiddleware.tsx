@@ -2,10 +2,9 @@ import { ReactNode, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { runtime } from 'webextension-polyfill';
 import { useIdleTimer } from 'react-idle-timer';
 import { useNavigate } from 'react-router-dom';
-import { getPersistedValues } from './wallet/form-persist';
 import * as UIStore from '@/lib/store/ui';
 
-import { LastVisitedPage, ProfileData, ScreenName } from '@/lib/background/contracts';
+import { LastVisitedPage, ProfileData } from '@/lib/background/contracts';
 import { useAppDispatch, useAppSelector } from '@/lib/store';
 
 import { HandleLoadingState } from '@/shared/components/handleStates/HandleLoadingState';
@@ -19,7 +18,6 @@ type Props = {
 
 const NextPageMiddleware = ({ children }: Props) => {
     const dispatch = useAppDispatch();
-    const { persistScreen } = getPersistedValues();
     const { profile, isProfileReady } = useProfileContext();
     const navigate = useNavigate();
     const [isLoadingLocalData, setIsLoadingLocalData] = useState<boolean>(true);
@@ -81,22 +79,19 @@ const NextPageMiddleware = ({ children }: Props) => {
             return;
         }
 
-        if (isProfileReady && profile.wallets().count() === 0) {
-            const lastVisitedPage = profile.settings().get(ProfileData.LastVisitedPage) as
-                | LastVisitedPage
-                | undefined;
+        const lastVisitedPage = profile.settings().get(ProfileData.LastVisitedPage) as
+            | LastVisitedPage
+            | undefined;
 
-            lastVisitedPage || persistScreen ? navigate('/onboarding') : navigate('/splash-screen');
+        if (isProfileReady && profile.wallets().count() === 0) {
+            lastVisitedPage ? navigate('/onboarding') : navigate('/splash-screen');
 
             // This is needed to push an additional route to the history stack
             // to handle the back button navigation during onboarding
             if (lastVisitedPage) {
-                navigate('/wallet/create');
+                navigate(lastVisitedPage.path);
                 return;
             }
-
-            persistScreen && navigate(persistScreen.screen);
-            return;
         }
 
         // If an action is triggered while a screen is persisted, we should
@@ -116,17 +111,8 @@ const NextPageMiddleware = ({ children }: Props) => {
             return;
         }
 
-        if (persistScreen) {
-            navigate(persistScreen.screen);
-            return;
-        }
-
-        const lastVisitedPage = profile.settings().get(ProfileData.LastVisitedPage) as
-            | LastVisitedPage
-            | undefined;
-
-        if (lastVisitedPage?.name === ScreenName.CreateWallet) {
-            navigate('/wallet/create');
+        if (lastVisitedPage) {
+            navigate(lastVisitedPage.path);
             return;
         }
     };

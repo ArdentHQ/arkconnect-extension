@@ -88,10 +88,17 @@ export const LedgerConnectionStep = ({
     );
 
     return (
-        <div>
-            <Heading level={3} className='mb-6'>
-                Connect Your Ledger Device
-            </Heading>
+        <div className='space-y-6'>
+            <div>
+                <Heading level={3} className='mb-2'>
+                    Connect Your Ledger Device
+                </Heading>
+
+                <p className='typehead-body text-theme-secondary-500 dark:text-theme-secondary-300'>
+                    Please complete the steps mentioned below to connect your Ledger.
+                </p>
+            </div>
+
             <div className='my-6 flex justify-center'>
                 <Icon icon='ledger-device' className='h-30 w-[13.75rem]' />
             </div>
