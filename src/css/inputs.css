@@ -17,7 +17,7 @@
 
     /** Radio Input **/
     .radio-indicator {
-        @apply transition-smoothEase absolute top-0 h-5 w-5 rounded-[10px] border border-solid border-theme-primary-700 after:absolute after:hidden after:content-[""] hover:bg-[#CCEEE0] focus:shadow-[0_0_0_2px_#E5FFF4] focus:shadow-[#E5FFF4] active:shadow-[0_0_0_2px_#E5FFF4] dark:border-theme-primary-600 hover:dark:bg-theme-primary-900;
+        @apply transition-smoothEase absolute top-0 h-5 w-5 rounded-[10px] border border-solid border-theme-primary-700 after:absolute after:hidden after:content-[""] hover:bg-theme-primary-50 focus:shadow-[0_0_0_2px_light-green] focus:shadow-light-green active:shadow-[0_0_0_2px_light-green] dark:border-theme-primary-600 hover:dark:bg-theme-primary-900;
     }
 
     [type='radio']:checked + .radio-indicator::after {
@@ -79,11 +79,11 @@
 
     /** Toggle switch **/
     .toggle-switch-slider {
-        @apply absolute bottom-0 left-0 right-0 top-0 z-[1] cursor-pointer rounded-xl bg-theme-secondary-200 duration-[0.4s] hover:bg-theme-primary-700 group-hover:bg-[#CCEEE0] dark:bg-theme-secondary-600 dark:hover:bg-theme-primary-650 dark:group-hover:bg-theme-primary-900;
+        @apply absolute bottom-0 left-0 right-0 top-0 z-[1] cursor-pointer rounded-xl bg-theme-secondary-200 duration-[0.4s] hover:bg-theme-primary-700 group-hover:bg-theme-primary-50 dark:bg-theme-secondary-600 dark:hover:bg-theme-primary-650 dark:group-hover:bg-theme-primary-900;
     }
 
     .toggle-switch-slider::before {
-        @apply absolute bottom-0.5 left-[3px] h-4 w-4 rounded-full bg-white fill-white drop-shadow-[0_1px_3px_rgba(16,24,40,0.10)] duration-[0.4s] content-[""];
+        @apply absolute bottom-0.5 left-[3px] h-4 w-4 rounded-full bg-white fill-white drop-shadow-dark duration-[0.4s] content-[""];
     }
 
     [type='checkbox']:checked + .toggle-switch-slider {
@@ -103,7 +103,7 @@
     }
 
     [type='checkbox']:disabled:not(:checked) + .toggle-switch-slider::before {
-        @apply bg-theme-secondary-300 drop-shadow-[0_1px_3px_rgba(16,24,40,0.10)];
+        @apply bg-theme-secondary-300 drop-shadow-dark;
     }
 
     [type='checkbox']:disabled:checked + .toggle-switch-slider {
