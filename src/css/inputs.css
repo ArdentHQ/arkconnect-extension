@@ -145,7 +145,7 @@
     }
 
     [type='checkbox']:disabled:checked + .toggle-switch-slider {
-        @apply bg-[#9ADCC1] dark:bg-theme-primary-800;
+        @apply bg-theme-primary-200 dark:bg-theme-primary-800;
     }
 
     [type='checkbox']:disabled:checked + .toggle-switch-slider::before {
