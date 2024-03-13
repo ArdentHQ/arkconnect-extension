@@ -1,11 +1,10 @@
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { runtime, tabs } from 'webextension-polyfill';
 import SubPageLayout from '../SubPageLayout';
 import SelectNetworkTypeModal from './SelectNetworkTypeModal';
 import { Icon, IconDefinition, RowLayout, Tooltip } from '@/shared/components';
 import { isFirefox } from '@/lib/utils/isFirefox';
-import { clearPersistScreenData } from '@/components/wallet/form-persist/helpers';
 
 type NetworkModalState = {
     nextAction?: (isTestnet: boolean) => void;
@@ -16,8 +15,10 @@ type NetworkModalState = {
 const CreateOrImportAddress = () => {
     const navigate = useNavigate();
 
-    // Clear any old data
-    clearPersistScreenData();
+    useEffect(() => {
+        // Clear any old data
+        void runtime.sendMessage({ type: 'CLEAR_LAST_SCREEN' });
+    }, []);
 
     const [networkModalState, setNetworkModalState] = useState<NetworkModalState>({
         nextAction: undefined,
