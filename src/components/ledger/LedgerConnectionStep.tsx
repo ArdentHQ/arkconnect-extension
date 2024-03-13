@@ -74,20 +74,11 @@ export const LedgerConnectionStep = ({
     }, [ledgerError]);
 
     useEffect(() => {
-        console.log({
-            ledgerError,
-            ledgerDevice,
-            isConnected,
-            isBusy,
-            isAwaitingDeviceConfirmation,
-            isAwaitingConnection,
-        });
         if (!hasDeviceAvailable) return;
 
         (async () => {
             try {
                 await connect(activeProfile, network.coin(), network.id());
-                // goToNextStep();
             } catch (error) {
                 onError(error);
             }
@@ -113,6 +104,15 @@ export const LedgerConnectionStep = ({
         },
         [abortConnectionRetry],
     );
+
+    const continueToNextStep = async () => {
+        try {
+            await connect(activeProfile, network.coin(), network.id());
+            goToNextStep();
+        } catch (error) {
+            onError(error);
+        }
+    };
 
     return (
         <div className='space-y-6'>
@@ -151,7 +151,7 @@ export const LedgerConnectionStep = ({
             </div>
             <div className='pb-4'>
                 {isConnected ? (
-                    <Button variant='primary' onClick={goToNextStep}>
+                    <Button variant='primary' onClick={continueToNextStep}>
                         Continue
                     </Button>
                 ) : (
