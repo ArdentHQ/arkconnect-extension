@@ -19,8 +19,6 @@ const useResetExtension = () => {
 
     const clearPersistedData = () => {
         localStorage.removeItem('persist:ui');
-
-        localStorage.removeItem('persist:form');
     };
 
     const resetEnvironment = async () => {

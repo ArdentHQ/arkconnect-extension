@@ -28,7 +28,7 @@ export const ToggleSwitch: FC<ToggleSwitchProps> = ({
                 'pointer-events-auto cursor-pointer': !disabled,
             })}
         >
-            <div className='ml-11 flex flex-col items-start gap-[5px]'>
+            <div className='ml-11 flex flex-col items-start gap-1.25'>
                 <p className='text-base-black w-max text-base font-normal leading-tight dark:text-white'>
                     {title}
                 </p>

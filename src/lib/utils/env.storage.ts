@@ -29,6 +29,13 @@ export class ExtensionClientStorage implements Storage {
             return;
         }
 
+        if (key === 'data') {
+            await runtime.sendMessage({
+                type: 'PERSIST_ENV_DATA',
+                data: value,
+            });
+        }
+
         this.storage[key] = value;
     }
 

@@ -10,12 +10,17 @@ export default {
                 sans: ['var(--font-dm-sans)', ...defaultTheme.fontFamily.sans],
             },
             spacing: {
+                1.25: '0.3125rem',
+                1.75: '0.4375rem',
                 3.5: '0.875rem',
+                3.75: '0.9375rem',
                 4.5: '1.125rem',
+                12.5: '3.125rem',
                 13: '3.25rem',
                 23: '5.75rem',
                 30: '7.5rem',
                 50: '12.5rem',
+                65: '16.25rem',
             },
             boxShadow: {
                 light: '0 1px 4px 0 rgba(0, 0, 0, 0.05)',
@@ -24,6 +29,10 @@ export default {
                     '0 4px 6px -2px rgba(16, 24, 40, 0.03), 0 12px 16px -4px rgba(16, 24, 40, 0.08)',
                 'action-details': 'inset 0 0 0 1px  var(--theme-color-secondary-200)',
                 'action-details-dark': 'inset 0 0 0 1px  var(--theme-color-secondary-700)',
+                'secondary-dark': '0 1px 2px 0 rgba(16, 24, 40, 0.05)',
+            },
+            dropShadow: {
+                dark: '0 1px 3px  rgba(16, 24, 40, 0.10)',
             },
             maxWidth: {
                 'extension-screen': '370px',
@@ -61,6 +70,12 @@ export default {
                     'fadeInAndTransform 0.8s ease-in-out forwards, scale 0.4s ease-in-out 1s forwards',
                 translateUp: 'translateUp 0.5s ease-in-out 2s forwards',
                 decreaseHeight: 'decreaseHeight 0.5s ease-in-out 2s forwards',
+            },
+            zIndex: {
+                1: '1',
+            },
+            borderRadius: {
+                '2.5xl': '1.25rem',
             },
         },
         colors: {
@@ -124,6 +139,9 @@ export default {
             'theme-warning-700': 'rgb(var(--theme-color-warning-700) / <alpha-value>)',
             'theme-warning-800': 'rgb(var(--theme-color-warning-800) / <alpha-value>)',
             'theme-warning-900': 'rgb(var(--theme-color-warning-900) / <alpha-value>)',
+
+            // shadow
+            'light-green': 'rgb(var(--theme-color-light-green) / <alpha-value>)',
         },
     },
     plugins: [],

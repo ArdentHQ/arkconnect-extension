@@ -68,4 +68,7 @@
 
     /* light black */
     --theme-color-light-black: 43 43 43; /* #2B2B2B */
+
+    /* light green */
+    --theme-color-light-green: 229 255 244; /* #E5FFF4 */
 }

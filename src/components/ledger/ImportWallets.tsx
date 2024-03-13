@@ -125,7 +125,7 @@ const ImportWallets = ({ goToNextStep, formik }: Props) => {
             <p className='typeset-body mb-6 px-6 text-theme-secondary-500 dark:text-theme-secondary-300'>
                 Multiple addresses can be imported too!
             </p>
-            <div className='custom-scroll h-[260px] max-h-[260px] overflow-y-scroll border-b border-t border-solid border-b-theme-secondary-200 border-t-theme-secondary-200 dark:border-b-theme-secondary-700 dark:border-t-theme-secondary-700'>
+            <div className='custom-scroll h-65 max-h-65 overflow-y-scroll border-b border-t border-solid border-b-theme-secondary-200 border-t-theme-secondary-200 dark:border-b-theme-secondary-700 dark:border-t-theme-secondary-700'>
                 <HandleLoadingState loading={showLoader}>
                     {wallets.map((wallet) => {
                         const isImported = isWalletImported(wallet.address);

@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
+import { runtime } from 'webextension-polyfill';
 import Balance from '@/components/wallet/Balance';
 import { ExternalLink, Icon, Layout } from '@/shared/components';
 import constants from '@/constants';
-import { clearPersistScreenData } from '@/components/wallet/form-persist/helpers';
 import { useProfileContext } from '@/lib/context/Profile';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 
@@ -12,13 +12,13 @@ const Home = () => {
     const primaryWallet = usePrimaryWallet();
 
     useEffect(() => {
-        clearPersistScreenData();
+        void runtime.sendMessage({ type: 'CLEAR_LAST_SCREEN' });
     }, []);
 
     return (
         <Layout data-testid='Home'>
-            <div className='m-4 rounded-b-2xl rounded-t-[20px] bg-white shadow-light dark:bg-subtle-black'>
-                <div className=' rounded-[20px] bg-theme-primary-700 text-white dark:bg-theme-primary-650'>
+            <div className='m-4 rounded-b-2xl rounded-t-2.5xl bg-white shadow-light dark:bg-subtle-black'>
+                <div className=' rounded-2.5xl bg-theme-primary-700 text-white dark:bg-theme-primary-650'>
                     <div className='p-4'>
                         <Balance
                             balance={primaryWallet?.balance() ?? 0}
