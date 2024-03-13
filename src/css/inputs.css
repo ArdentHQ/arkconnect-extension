@@ -1,11 +1,11 @@
 @layer utilities {
     /** Text Area, Passphrase and Text Inputs **/
-    .textarea, 
+    .textarea,
     .text-input,
     .passphrase-primary,
     .passphrase-destructive,
     .passphrase-errorFree {
-        @apply border border-solid bg-white text-light-black focus:border focus:border-solid dark:bg-subtle-black dark:text-white
+        @apply border border-solid bg-white text-light-black focus:border focus:border-solid dark:bg-subtle-black dark:text-white;
     }
 
     .textarea-primary,
@@ -17,7 +17,7 @@
     .textarea-primary {
         @apply read-only:bg-white dark:read-only:bg-subtle-black;
     }
-    
+
     .textarea-destructive,
     .text-input-destructive,
     .passphrase-destructive {
@@ -43,7 +43,7 @@
     .radio-indicator,
     .checkbox-indicator,
     .toggle-switch-slider {
-        @apply absolute top-0
+        @apply absolute top-0;
     }
 
     .radio-indicator:hover,
