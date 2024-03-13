@@ -32,7 +32,7 @@ export const ConnectionStatus = () => {
                         icon='globe-with-dot'
                         className={
                             currentThemeMode +
-                            ' globeIcon dark:thext-theme-primary-600 h-4 w-4 text-theme-primary-700 '
+                            'globeIcon h-4 w-4 text-theme-primary-700 dark:text-theme-primary-600 '
                         }
                     />
                 </HeaderButton>
