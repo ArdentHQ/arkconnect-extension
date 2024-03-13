@@ -161,8 +161,8 @@ const handleIsConnected = async (
     isLocked: boolean
 ) => {
     try {
-        assertHasWallet(profile);
         assertIsUnlocked(isLocked);
+        assertHasWallet(profile);
 
         tabs.sendMessage(payload.data.tabId, {
             type: `${payload.type}_RESOLVE`,
@@ -224,8 +224,8 @@ const handleGetAddress = async (
     isLocked: boolean
 ) => {
     try {
-        assertHasWallet(profile);
         assertIsUnlocked(isLocked);
+        assertHasWallet(profile);
 
         const activeSession = assertIsNotConnected({ payload, profile });
 
@@ -261,8 +261,8 @@ const handleGetNetwork = async (
     isLocked: boolean
 ) => {
     try {
-        assertHasWallet(profile);
         assertIsUnlocked(isLocked);
+        assertHasWallet(profile);
 
         const activeSession = assertIsNotConnected({ payload, profile });
 
@@ -298,8 +298,8 @@ const handleGetBalance = async (
     isLocked: boolean
 ) => {
     try {
-        assertHasWallet(profile);
         assertIsUnlocked(isLocked);
+        assertHasWallet(profile);
 
         const activeSession = assertIsNotConnected({ payload, profile });
 
