@@ -1,5 +1,5 @@
 @layer utilities {
-    /** Text Area, Passphrase Input and Text Input **/
+    /** Text Area, Passphrase and Text Inputs **/
     .textarea, 
     .text-input,
     .passphrase-primary,
@@ -34,9 +34,32 @@
         @apply border-theme-error-500;
     }
 
+    /** Radio, Toggle switch and Checkbox Inputs **/
+    .radio-indicator,
+    .checkbox-indicator {
+        @apply h-5 w-5 border border-solid border-theme-primary-700 dark:border-theme-primary-600;
+    }
+
+    .radio-indicator,
+    .checkbox-indicator,
+    .toggle-switch-slider {
+        @apply absolute top-0
+    }
+
+    .radio-indicator:hover,
+    .checkbox-indicator:hover {
+        @apply bg-theme-primary-50 dark:hover:bg-theme-primary-900;
+    }
+
+    [type='radio']:disabled + .radio-indicator,
+    [type='checkbox']:disabled + .checkbox-indicator,
+    [type='checkbox']:disabled + .toggle-switch-slider {
+        @apply pointer-events-none;
+    }
+
     /** Radio Input **/
     .radio-indicator {
-        @apply transition-smoothEase absolute top-0 h-5 w-5 rounded-[10px] border border-solid border-theme-primary-700 after:absolute after:hidden after:content-[""] hover:bg-theme-primary-50 focus:shadow-[0_0_0_2px_light-green] focus:shadow-light-green active:shadow-[0_0_0_2px_light-green] dark:border-theme-primary-600 hover:dark:bg-theme-primary-900;
+        @apply transition-smoothEase rounded-[10px] after:absolute after:hidden after:content-[""] focus:shadow-[0_0_0_2px_light-green] focus:shadow-light-green active:shadow-[0_0_0_2px_light-green];
     }
 
     [type='radio']:checked + .radio-indicator::after {
@@ -48,12 +71,12 @@
     }
 
     [type='radio']:disabled + .radio-indicator {
-        @apply pointer-events-none border border-solid border-theme-secondary-300 bg-theme-secondary-100 dark:bg-black;
+        @apply border-theme-secondary-300 bg-theme-secondary-100 dark:bg-black;
     }
 
     /** Checkbox Input **/
     .checkbox-indicator {
-        @apply absolute top-0 h-5 w-5 rounded-md border border-solid border-theme-primary-700 bg-transparent hover:bg-theme-primary-50  dark:border-theme-primary-600 dark:hover:bg-theme-primary-900;
+        @apply rounded-md bg-transparent;
     }
 
     .checkbox-indicator::after {
@@ -98,7 +121,7 @@
 
     /** Toggle switch **/
     .toggle-switch-slider {
-        @apply absolute bottom-0 left-0 right-0 top-0 z-1 cursor-pointer rounded-xl bg-theme-secondary-200 duration-[0.4s] hover:bg-theme-primary-700 group-hover:bg-theme-primary-50 dark:bg-theme-secondary-600 dark:hover:bg-theme-primary-650 dark:group-hover:bg-theme-primary-900;
+        @apply bottom-0 left-0 right-0 z-1 cursor-pointer rounded-xl bg-theme-secondary-200 duration-[0.4s] hover:bg-theme-primary-700 group-hover:bg-theme-primary-50 dark:bg-theme-secondary-600 dark:hover:bg-theme-primary-650 dark:group-hover:bg-theme-primary-900;
     }
 
     .toggle-switch-slider::before {
@@ -111,10 +134,6 @@
 
     [type='checkbox']:checked + .toggle-switch-slider::before {
         @apply translate-x-[14px] transform;
-    }
-
-    [type='checkbox']:disabled + .toggle-switch-slider {
-        @apply pointer-events-none;
     }
 
     [type='checkbox']:disabled:not(:checked) + .toggle-switch-slider {
@@ -132,5 +151,4 @@
     [type='checkbox']:disabled:checked + .toggle-switch-slider::before {
         @apply bg-white;
     }
-
 }
