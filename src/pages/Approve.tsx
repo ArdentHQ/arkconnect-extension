@@ -47,7 +47,7 @@ const Approve = () => {
             throw new Error('Ledger Transport is not supported!');
         }
         setIsModalOpen(true);
-        await connect(profile, wallet.coinId(), wallet.networkId(), undefined, true);
+        await connect(profile, wallet.coinId(), wallet.networkId(), undefined);
     };
 
     const closeLedgerScreen = () => {
