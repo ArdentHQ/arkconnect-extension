@@ -1,7 +1,6 @@
 import { useLocation } from 'react-router-dom';
 import { WalletNetwork } from '@/lib/store/wallet';
 import { useProfileContext } from '@/lib/context/Profile';
-import { getPersistedValues } from '@/components/wallet/form-persist';
 import { LastVisitedPage, ProfileData } from '@/lib/background/contracts';
 
 const useActiveNetwork = () => {
@@ -20,15 +19,6 @@ const useActiveNetwork = () => {
     if (lastVisitedPage && lastVisitedPage.data.network) {
         selectedNetwork =
             lastVisitedPage.data.network === 'ark.devnet'
-                ? WalletNetwork.DEVNET
-                : WalletNetwork.MAINNET;
-    }
-
-    const { persistScreen } = getPersistedValues();
-
-    if (persistScreen && persistScreen?.networkName) {
-        selectedNetwork =
-            persistScreen.networkName === WalletNetwork.DEVNET
                 ? WalletNetwork.DEVNET
                 : WalletNetwork.MAINNET;
     }
