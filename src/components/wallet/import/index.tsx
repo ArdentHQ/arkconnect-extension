@@ -14,11 +14,12 @@ import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
 import useActiveNetwork from '@/lib/hooks/useActiveNetwork';
 import useWalletImport from '@/lib/hooks/useWalletImport';
 import useLocaleCurrency from '@/lib/hooks/useLocalCurrency';
-import { getLocalValues } from '@/lib/utils/localStorage';
 import useLoadingModal from '@/lib/hooks/useLoadingModal';
 import { useBackgroundEvents } from '@/lib/context/BackgroundEventHandler';
 import { LastVisitedPage, ProfileData, ScreenName } from '@/lib/background/contracts';
 
+import { useEnvironmentContext } from '@/lib/context/Environment';
+import { EnvironmentData } from '@/lib/background/contracts';
 export type ImportedWalletFormik = {
     enteredPassphrase: string;
     wallet?: Contracts.IReadWriteWallet;
@@ -56,14 +57,15 @@ const ImportNewWallet = () => {
     const [defaultStep, setDefaultStep] = useState<number>(0);
     const [isGeneratingWallet, setIsGeneratingWallet] = useState(true);
     const { defaultCurrency } = useLocaleCurrency();
+    const { env } = useEnvironmentContext();
 
     const { events } = useBackgroundEvents();
 
     useEffect(() => {
         (async () => {
-            const { hasOnboarded } = await getLocalValues();
 
-            if (!hasOnboarded) {
+
+            if (!env.data().get(EnvironmentData.HasOnboarded)) {
                 setSteps([...steps, { component: SetupPassword }]);
             }
 

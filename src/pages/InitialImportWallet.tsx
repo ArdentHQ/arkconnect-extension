@@ -1,15 +1,12 @@
 import { useNavigate } from 'react-router-dom';
 import { runtime, tabs } from 'webextension-polyfill';
 import { useEffect } from 'react';
-import { BigButton, Paragraph, Tooltip } from '@/shared/components';
+import { BigButton, Tooltip } from '@/shared/components';
 import SubPageLayout from '@/components/settings/SubPageLayout';
-import useThemeMode from '@/lib/hooks/useThemeMode';
 import { isFirefox } from '@/lib/utils/isFirefox';
 
 const InitialImportWallet = () => {
     const navigate = useNavigate();
-
-    const { getThemeColor } = useThemeMode();
 
     useEffect(() => {
         void runtime.sendMessage({ type: 'CLEAR_LAST_SCREEN' });
@@ -17,14 +14,9 @@ const InitialImportWallet = () => {
 
     return (
         <SubPageLayout title='Import an Existing Address' onBack='goBack'>
-            <Paragraph
-                $typeset='headline'
-                fontWeight='regular'
-                marginBottom='24'
-                color={getThemeColor('secondary500', 'secondary300')}
-            >
+            <p className='typeset-headline mb-6 text-theme-secondary-500 dark:text-theme-secondary-300'>
                 Select an option below that you would like to proceed with...
-            </Paragraph>
+            </p>
             <BigButton
                 iconLeading='key'
                 iconTrailing='arrow-right'
@@ -37,10 +29,10 @@ const InitialImportWallet = () => {
             <Tooltip
                 disabled={!isFirefox}
                 content={
-                    <Paragraph>
+                    <p>
                         ARK Connect requires the use of a chromium <br /> based browser when using a
                         Ledger.
-                    </Paragraph>
+                    </p>
                 }
                 placement='bottom'
             >

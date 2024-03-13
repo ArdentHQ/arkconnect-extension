@@ -1,4 +1,4 @@
-import { EmptyConnectionsIcon, Layout, Paragraph } from '@/shared/components';
+import { EmptyConnectionsIcon, Layout } from '@/shared/components';
 
 const WalletNotFound = () => {
     return (
@@ -6,16 +6,10 @@ const WalletNotFound = () => {
             <div className='m-4 flex min-h-full flex-col items-center justify-center'>
                 <div className='flex max-w-[210px] flex-col items-center justify-center'>
                     <EmptyConnectionsIcon />
-                    <Paragraph
-                        $typeset='headline'
-                        fontWeight='regular'
-                        color='base'
-                        mt='24'
-                        textAlign='center'
-                    >
+                    <p className='typeset-headline mt-6 text-center text-light-black dark:text-white'>
                         You don&apos;t have any wallet imported in ARK Connect! <br />
                         Please create or import a wallet first!
-                    </Paragraph>
+                    </p>
                 </div>
             </div>
         </Layout>

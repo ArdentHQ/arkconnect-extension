@@ -1,12 +1,11 @@
 import { useEffect, useState } from 'react';
-import styled from 'styled-components';
 import { useLocation } from 'react-router-dom';
 import classNames from 'classnames';
 import { DisconnectSessionModal } from '../wallet/DisconnectSessionModal';
 import ConnectionLogoImage from './ConnectionLogoImage';
 import { useAppSelector } from '@/lib/store';
 import * as SessionStore from '@/lib/store/session';
-import { Button, Icon, Paragraph, Tooltip } from '@/shared/components';
+import { Button, Icon, Tooltip } from '@/shared/components';
 import formatDomain from '@/lib/utils/formatDomain';
 import removeWindowInstance from '@/lib/utils/removeWindowInstance';
 import trimAddress from '@/lib/utils/trimAddress';
@@ -51,7 +50,10 @@ const ConnectionsList = () => {
             <div className='mb-2 flex flex-col gap-2'>
                 {Object.values(sessions).map((session) => {
                     return (
-                        <StyledRow key={session.id}>
+                        <div
+                            className='relative flex min-h-[58px] w-full items-center justify-between gap-3 rounded-2xl bg-white p-3 shadow-light dark:bg-subtle-black'
+                            key={session.id}
+                        >
                             <div className='flex h-10 w-10 flex-shrink-0 items-center justify-center overflow-hidden rounded-full bg-theme-secondary-50 dark:bg-black'>
                                 <ConnectionLogoImage
                                     appLogo={session.logo}
@@ -64,29 +66,19 @@ const ConnectionsList = () => {
                                 <div>
                                     <Tooltip
                                         content={
-                                            <StyledSpan>
+                                            <span className='truncate'>
                                                 {formatDomain(session.domain, false)}
-                                            </StyledSpan>
+                                            </span>
                                         }
                                         placement='top'
                                     >
-                                        <Paragraph
-                                            $typeset='headline'
-                                            fontWeight='medium'
-                                            color='base'
-                                        >
+                                        <p className='typeset-headline font-medium text-light-black dark:text-white'>
                                             {formatDomain(session.domain, false)}
-                                        </Paragraph>
+                                        </p>
                                     </Tooltip>
                                 </div>
 
-                                <Paragraph
-                                    $typeset='body'
-                                    color='gray'
-                                    fontWeight='regular'
-                                    mt='4'
-                                    display='inline'
-                                >
+                                <span className='typeset-body mt-1 text-theme-secondary-500 dark:text-theme-secondary-300'>
                                     Connected with{' '}
                                     <Tooltip
                                         content={profile
@@ -95,11 +87,11 @@ const ConnectionsList = () => {
                                             .address()}
                                         placement='bottom-start'
                                     >
-                                        <strong className='decoration-theme-secondary-500 underline-offset-2 hover:underline dark:decoration-theme-secondary-300'>
+                                        <strong className='text-theme-secondary-700 underline-offset-2 hover:underline dark:text-theme-secondary-200'>
                                             {trimAddress(getWalletName(session.walletId), 14)}
                                         </strong>
                                     </Tooltip>
-                                </Paragraph>
+                                </span>
                             </div>
 
                             <Tooltip content='Disconnect' placement='left'>
@@ -122,7 +114,7 @@ const ConnectionsList = () => {
                                     />
                                 </button>
                             </Tooltip>
-                        </StyledRow>
+                        </div>
                     );
                 })}
             </div>
@@ -157,25 +149,5 @@ const ConnectionsList = () => {
         </div>
     );
 };
-
-const StyledRow = styled.div`
-    ${({ theme }) => `
-  border-radius: ${theme.radii['16']}px;
-  background-color: ${theme.colors.inputBackground};
-  box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.05);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  min-height: 58px;
-  padding: 12px;
-  grid-gap: 12px;
-  position: relative;
-`}
-`;
-
-const StyledSpan = styled.span`
-    word-wrap: break-word;
-`;
 
 export default ConnectionsList;

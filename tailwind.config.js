@@ -31,6 +31,37 @@ export default {
             width: {
                 'extension-screen': '370px',
             },
+            keyframes: {
+                fadeInAndTransform: {
+                    '0%': { opacity: '0', transform: 'translateY(10px)' },
+                    '100%': { opacity: '1', transform: 'translateY(0)' },
+                },
+                scale: {
+                    '0%': { transform: 'scale(1)' },
+                    '100%': { transform: 'scale(0.9)' },
+                },
+                slideUp: {
+                    '0%': { transform: 'translateY(0)' },
+                    '100%': { transform: 'translateY(-100%)' },
+                },
+                decreaseHeight: {
+                    '0%': { height: '200px' },
+                    '50%': { height: '100px' },
+                    '75%': { height: '80px' },
+                    '100%': { height: '60px' },
+                },
+                translateUp: {
+                    '0%': { transform: 'translateY(100%)' },
+                    '100%': { transform: 'translateY(0%)' },
+                },
+            },
+            animation: {
+                slideUp: 'slideUp 1.2s ease-in-out 1.8s forwards',
+                fadeInTransformAndScale:
+                    'fadeInAndTransform 0.8s ease-in-out forwards, scale 0.4s ease-in-out 1s forwards',
+                translateUp: 'translateUp 0.5s ease-in-out 2s forwards',
+                decreaseHeight: 'decreaseHeight 0.5s ease-in-out 2s forwards',
+            },
         },
         colors: {
             transparent: 'transparent',

@@ -55,7 +55,6 @@ vi.mock('./src/routing', () => ({
 vi.mock('./src/lib/utils/localStorage', () => ({
     getLocalValues: () => ({
         autoLockTimer: 60,
-        hasOnboarded: false,
     }),
     setLocalValue: vi.fn(),
     clearLocalStorage: vi.fn(),
