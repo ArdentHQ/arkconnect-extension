@@ -47,9 +47,6 @@ export const LedgerConnectionStep = ({
         error: ledgerError,
         ledgerDevice,
         isConnected,
-        isBusy,
-        isAwaitingDeviceConfirmation,
-        isAwaitingConnection,
         resetConnectionState,
     } = useLedgerContext();
 
@@ -83,14 +80,7 @@ export const LedgerConnectionStep = ({
                 onError(error);
             }
         })();
-    }, [
-        ledgerDevice,
-        isConnected,
-        isBusy,
-        isAwaitingDeviceConfirmation,
-        isAwaitingConnection,
-        ledgerError,
-    ]);
+    }, [hasDeviceAvailable]);
 
     useEffect(() => {
         if (ledgerError) {
@@ -107,7 +97,6 @@ export const LedgerConnectionStep = ({
 
     const continueToNextStep = async () => {
         try {
-            await connect(activeProfile, network.coin(), network.id());
             goToNextStep();
         } catch (error) {
             onError(error);
@@ -132,15 +121,15 @@ export const LedgerConnectionStep = ({
 
             <div className='mb-6'>
                 <ul className='flex flex-col space-y-3'>
-                    <ConnectionStep ready={hasDeviceAvailable}>
+                    <ConnectionStep ready={isConnected || hasDeviceAvailable}>
                         Connect your Ledger device and close other apps connected to it.
                     </ConnectionStep>
 
-                    <ConnectionStep ready={ledgerDevice !== undefined}>
+                    <ConnectionStep ready={isConnected || ledgerDevice !== undefined}>
                         Choose your Ledger device in the browser window and click Connect.
                     </ConnectionStep>
 
-                    <ConnectionStep ready={ledgerDevice !== undefined}>
+                    <ConnectionStep ready={isConnected || ledgerDevice !== undefined}>
                         Unlock your Ledger device.
                     </ConnectionStep>
 
@@ -150,8 +139,8 @@ export const LedgerConnectionStep = ({
                 </ul>
             </div>
             <div className='pb-4'>
-                {isConnected ? (
-                    <Button variant='primary' onClick={continueToNextStep}>
+                {ledgerDevice !== undefined ? (
+                    <Button variant='primary' onClick={continueToNextStep} disabled={!isConnected}>
                         Continue
                     </Button>
                 ) : (
