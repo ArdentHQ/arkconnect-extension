@@ -44,7 +44,7 @@ const Connect = () => {
         if (isAlreadyConnected) {
             void onCancel('Already connected!');
         }
-    }, [isAlreadyConnected]);
+    }, []);
 
     const reject = (message = 'Connection denied!') => {
         runtime.sendMessage({
