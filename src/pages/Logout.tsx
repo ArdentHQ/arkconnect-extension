@@ -122,6 +122,7 @@ const Logout = () => {
         <SubPageLayout
             title={`Remove Address${walletsToLogout.length > 1 ? 'es' : ''}`}
             hideCloseButton={false}
+            noPaddingBottom
         >
             <div className='flex h-full flex-col'>
                 <p className='typeset-headline text-theme-secondary-500 dark:text-theme-secondary-300'>
@@ -144,37 +145,41 @@ const Logout = () => {
                     <WarningIcon iconClassName='w-[146px] h-[135px]' />
                 </div>
 
-                <div className='mt-6 flex flex-col gap-1.5'>
-                    <p className='typeset-headline font-medium text-subtle-black dark:text-theme-secondary-200'>
-                        Enter Password
-                    </p>
-                    <PasswordInput
-                        name='password'
-                        variant={validationVariant}
-                        onChange={handlePasswordChange}
-                        onKeyDown={handleEnterKey}
-                        value={password}
-                        helperText={validationVariant === 'destructive' ? 'Incorrect password' : ''}
-                    />
-                </div>
+                <div className='flex flex-1 flex-col justify-between'>
+                    <div className='mt-[18px] flex flex-col gap-1.5'>
+                        <p className='typeset-headline font-medium text-subtle-black dark:text-theme-secondary-200'>
+                            Enter Password
+                        </p>
+                        <PasswordInput
+                            name='password'
+                            variant={validationVariant}
+                            onChange={handlePasswordChange}
+                            onKeyDown={handleEnterKey}
+                            value={password}
+                            helperText={
+                                validationVariant === 'destructive' ? 'Incorrect password' : ''
+                            }
+                        />
+                    </div>
 
-                <div className='mt-12 flex flex-col'>
-                    <Button
-                        variant='destructivePrimary'
-                        onClick={logoutWallet}
-                        disabled={!password.length}
-                        className='mb-6'
-                    >
-                        {`Remove Address${walletsToLogout.length > 1 ? 'es' : ''}`}
-                    </Button>
-                    <Button
-                        onClick={() => navigate(-1)}
-                        className='mb-0 flex w-full bg-transparent py-0 text-light-black dark:text-white'
-                    >
-                        <span className='typeset-headline font-medium text-light-black dark:text-white'>
-                            Cancel and Go Back
-                        </span>
-                    </Button>
+                    <div className='-mb-2 flex flex-col'>
+                        <Button
+                            variant='destructivePrimary'
+                            onClick={logoutWallet}
+                            disabled={!password.length}
+                            className='mb-2'
+                        >
+                            {`Remove Address${walletsToLogout.length > 1 ? 'es' : ''}`}
+                        </Button>
+                        <Button
+                            onClick={() => navigate(-1)}
+                            className='mb-0 flex w-full bg-transparent py-0 text-light-black dark:text-white'
+                        >
+                            <span className='typeset-headline font-medium text-light-black dark:text-white'>
+                                Cancel and Go Back
+                            </span>
+                        </Button>
+                    </div>
                 </div>
             </div>
         </SubPageLayout>
