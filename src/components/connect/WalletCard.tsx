@@ -23,8 +23,8 @@ export const WalletCard = ({ wallet }: Props) => {
             <div className='flex w-full items-start gap-3'>
                 <div className='flex w-full items-center justify-between'>
                     <div className='flex flex-col items-start gap-1'>
-                        <div className='flex flex-row items-center gap-1.5'>
-                            <div className=' font-medium text-light-black dark:text-white'>
+                        <div className='flex flex-row items-center gap-1.5 leading-none'>
+                            <div className='font-medium text-light-black dark:text-white'>
                                 {title}
                             </div>
 

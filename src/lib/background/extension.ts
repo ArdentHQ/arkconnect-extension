@@ -1,9 +1,9 @@
 import { Contracts, Environment } from '@ardenthq/sdk-profiles';
 
-import { getLocalValues } from '../utils/localStorage';
 import { initializeEnvironment } from '../utils/env.background';
 import { LockHandler } from './handleAutoLock';
 import { PrimaryWallet } from './extension.wallet.primary';
+import { EnvironmentData } from './contracts';
 import { createTestProfile, isDev } from '@/dev/utils/dev';
 
 const exists = (profile?: Contracts.IProfile | null): profile is Contracts.IProfile => !!profile;
@@ -80,7 +80,7 @@ export function Extension() {
 
             return {
                 data: readOnlyData,
-                profileData: profile.data().all(),
+                envData: env.data().all(),
             };
         },
         /**
@@ -96,6 +96,7 @@ export function Extension() {
                 throw new Error('MISSING_PASSWORD');
             }
 
+            env.data().flush();
             env.profiles().flush();
 
             await env.persist();
@@ -193,7 +194,7 @@ export function Extension() {
             await env.verify();
             await env.boot();
 
-            const { hasOnboarded } = await getLocalValues();
+            const hasOnboarded = await env.data().get(EnvironmentData.HasOnboarded);
 
             if (this.exists() && hasOnboarded) {
                 // If profile exists, it means that the extension was restarted.

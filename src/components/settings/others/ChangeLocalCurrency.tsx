@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import { Contracts } from '@ardenthq/sdk-profiles';
 import SubPageLayout, { SettingsRowItem } from '../SubPageLayout';
-import { Icon, Paragraph } from '@/shared/components';
+import { Icon } from '@/shared/components';
 import { Currency, general } from '@/lib/data/general';
 import useToast from '@/lib/hooks/useToast';
 import { useProfileContext } from '@/lib/context/Profile';
@@ -46,9 +46,7 @@ const ChangeLocalCurrency = () => {
                         active={currencyItem.value === currency}
                         onClick={() => changeCurrency(currencyItem)}
                     >
-                        <Paragraph $typeset='headline' as='span'>
-                            {currencyItem.label}
-                        </Paragraph>
+                        <span className='typeset-headline'>{currencyItem.label}</span>
                         {currencyItem.value == currency && (
                             <Icon icon='check' className='h-5 w-5' />
                         )}

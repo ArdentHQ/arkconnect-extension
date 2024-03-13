@@ -1,18 +1,16 @@
-import { Heading, Paragraph } from '@/shared/components';
+import { Heading } from '@/shared/components';
 
 const DisconnectedAddress = () => {
     return (
         <div>
             <div className=' break-words'>
-                <Heading $typeset='h4' fontWeight='medium' color='base'>
-                    Disconnected Address
-                </Heading>
+                <Heading level={4}>Disconnected Address</Heading>
             </div>
 
-            <Paragraph $typeset='headline' fontWeight='regular' color='gray' marginTop='6'>
+            <p className='typeset-headline mt-1.5 text-theme-secondary-500 dark:text-theme-secondary-300'>
                 ARK Connect is currently not linked to this website. To establish a connection with
                 a Web3 site, locate and click on the connect button.
-            </Paragraph>
+            </p>
         </div>
     );
 };

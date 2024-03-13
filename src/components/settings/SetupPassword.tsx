@@ -2,10 +2,11 @@ import { ChangeEvent, useEffect, useState } from 'react';
 import { useFormik } from 'formik';
 import { persistScreenChanged } from '../wallet/form-persist/helpers';
 import { WalletFormScreen } from '../wallet/form-persist';
-import { Button, Checkbox, ExternalLink, PasswordInput } from '@/shared/components';
-import { getLocalValues, setLocalValue } from '@/lib/utils/localStorage';
+import { Button, Checkbox, ExternalLink, Heading, PasswordInput } from '@/shared/components';
 
 import constants from '@/constants';
+import { useEnvironmentContext } from '@/lib/context/Environment';
+import { EnvironmentData } from '@/lib/background/contracts';
 
 type Props = {
     formik: ReturnType<typeof useFormik>;
@@ -19,6 +20,7 @@ type PasswordValidation = {
 };
 
 const SetupPassword = ({ formik }: Props) => {
+    const { env } = useEnvironmentContext();
     const { values } = formik;
 
     const [validation, setValidation] = useState<PasswordValidation>({
@@ -38,9 +40,7 @@ const SetupPassword = ({ formik }: Props) => {
         if (locationHref.includes('import_with_ledger')) return;
 
         (async () => {
-            const { hasOnboarded } = await getLocalValues();
-
-            if (hasOnboarded) {
+            if (env.data().get(EnvironmentData.HasOnboarded)) {
                 persistScreenChanged({
                     screen: WalletFormScreen.OVERVIEW,
                     step: 0,
@@ -80,14 +80,17 @@ const SetupPassword = ({ formik }: Props) => {
     };
 
     const submitForm = async () => {
-        await setLocalValue('hasOnboarded', true);
+        env.data().set(EnvironmentData.HasOnboarded, true);
+        await env.persist();
 
         formik.submitForm();
     };
 
     return (
         <div className='flex min-h-[450px] flex-col'>
-            <h3 className='typeset-h3 mb-2 text-light-black dark:text-white'>Setup a Password</h3>
+            <Heading level={3} className='mb-2'>
+                Setup a Password
+            </Heading>
             <p className='typeset-headline mb-4'>
                 Create a password to access your wallet each time you use ARK Connect.
             </p>
