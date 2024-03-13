@@ -4,7 +4,7 @@ import Step from './Step';
 import { connectSteps } from './utils/connectionSteps';
 import * as ModalStore from '@/lib/store/modal';
 
-import { Button, ExternalLink, Heading, Icon } from '@/shared/components';
+import { Button, ExternalLink, Heading, Icon, Loader } from '@/shared/components';
 
 import constants from '@/constants';
 import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
@@ -12,6 +12,18 @@ import { useLedgerContext } from '@/lib/Ledger';
 import useLoadingModal from '@/lib/hooks/useLoadingModal';
 import useActiveNetwork from '@/lib/hooks/useActiveNetwork';
 import { useProfileContext } from '@/lib/context/Profile';
+
+const ConnectionStep = ({ children }: { children: React.ReactNode }) => {
+    return (
+        <li className='flex justify-start space-x-2 text-light-black dark:text-white'>
+            <span className='flex h-6 w-6 flex-shrink-0'>
+                <Loader className='typeset-body h-5 w-5 border-2 border-theme-secondary-400 border-t-theme-secondary-200 dark:border-theme-secondary-300 dark:border-t-theme-secondary-600' />
+            </span>
+
+            <span>{children}</span>
+        </li>
+    );
+};
 
 export const LedgerConnectionStep = ({
     goToNextStep,
@@ -104,6 +116,23 @@ export const LedgerConnectionStep = ({
             </div>
 
             <div className='mb-6'>
+                <ul className='flex flex-col space-y-3'>
+                    {true && (
+                        <ConnectionStep>
+                            Connect your Ledger device and close other apps connected to it.
+                        </ConnectionStep>
+                    )}
+                    {true && (
+                        <ConnectionStep>
+                            Choose your Ledger device in the browser window and click Connect.
+                        </ConnectionStep>
+                    )}
+                    {true && <ConnectionStep>Unlock your Ledger device.</ConnectionStep>}
+                    {true && (
+                        <ConnectionStep>Open the ARK app on the Ledger device.</ConnectionStep>
+                    )}
+                </ul>
+
                 {connectSteps.map((step, index) => (
                     <div key={index} className='flex items-start gap-2'>
                         <Step step={index + 1} />
