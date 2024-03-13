@@ -79,7 +79,7 @@ const CreateNewWallet = () => {
                 | LastVisitedPage
                 | undefined;
 
-            if (lastVisitedPage && lastVisitedPage.name === ScreenName.CreateWallet) {
+            if (lastVisitedPage && lastVisitedPage.path === ScreenName.CreateWallet) {
                 setIsGeneratingWallet(true);
 
                 const mnemonic = lastVisitedPage.data.mnemonic;
@@ -216,7 +216,7 @@ const CreateNewWallet = () => {
 
             runtime.sendMessage({
                 type: 'SET_LAST_SCREEN',
-                name: ScreenName.CreateWallet,
+                path: ScreenName.CreateWallet,
                 data: {
                     step,
                     mnemonic: formik.values.passphrase.join(' '),
@@ -230,7 +230,7 @@ const CreateNewWallet = () => {
 
         runtime.sendMessage({
             type: 'SET_LAST_SCREEN',
-            name: ScreenName.CreateWallet,
+            path: ScreenName.CreateWallet,
             data: {
                 step,
                 mnemonic: formik.values.passphrase.join(' '),
@@ -253,7 +253,7 @@ const CreateNewWallet = () => {
 
             await runtime.sendMessage({
                 type: 'SET_LAST_SCREEN',
-                name: ScreenName.CreateWallet,
+                path: ScreenName.CreateWallet,
                 data: {
                     step: 0,
                     mnemonic: response?.mnemonic,

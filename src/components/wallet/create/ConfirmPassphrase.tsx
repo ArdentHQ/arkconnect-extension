@@ -56,7 +56,7 @@ const ConfirmPassphrase = ({ goToNextStep, formik }: Props) => {
 
         runtime.sendMessage({
             type: 'SET_LAST_SCREEN',
-            name: ScreenName.CreateWallet,
+            path: ScreenName.CreateWallet,
             data: {
                 step: 1,
                 mnemonic: values.passphrase.join(' '),

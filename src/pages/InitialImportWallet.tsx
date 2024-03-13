@@ -4,13 +4,12 @@ import { useEffect } from 'react';
 import { BigButton, Tooltip } from '@/shared/components';
 import SubPageLayout from '@/components/settings/SubPageLayout';
 import { isFirefox } from '@/lib/utils/isFirefox';
-import { clearPersistScreenData } from '@/components/wallet/form-persist/helpers';
 
 const InitialImportWallet = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        clearPersistScreenData();
+        void runtime.sendMessage({ type: 'CLEAR_LAST_SCREEN' });
     }, []);
 
     return (
