@@ -56,13 +56,17 @@ export const ProfileProvider = ({ children }: Properties) => {
 
     const restoreProfile = async () => {
         try {
-            const { data } = await runtime.sendMessage({
+            const { data, envData } = await runtime.sendMessage({
                 type: 'GET_DATA',
             });
 
             if (!data) {
                 onError('Failed to initialize profile', false);
                 return;
+            }
+
+            if (envData) {
+                env.data().fill(envData);
             }
 
             const profile = await importProfile(data);

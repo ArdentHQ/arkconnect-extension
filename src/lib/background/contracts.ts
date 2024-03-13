@@ -1,3 +1,7 @@
+export enum EnvironmentData {
+    HasOnboarded = 'HAS_ONBOARDED',
+}
+
 export enum ProfileData {
     Sessions = 'SESSIONS',
     LastVisitedPage = 'LAST_VISITED_PAGE',
@@ -20,13 +24,26 @@ interface WalletCreateScreenData {
     step: number;
 }
 
-export enum ScreenName {
-    CreateWallet = 'CREATE_WALLET',
+interface WalletImportScreenData {
+    step: number;
+    network: string;
 }
 
-export interface LastVisitedPage {
-    name: ScreenName;
+export enum ScreenName {
+    CreateWallet = '/wallet/create',
+    ImportWallet = '/wallet/import',
+}
+
+interface WalletCreate {
+    path: ScreenName.CreateWallet;
     data: WalletCreateScreenData;
 }
+
+interface WalletImport {
+    path: ScreenName.ImportWallet;
+    data: WalletImportScreenData;
+}
+
+export type LastVisitedPage = WalletCreate | WalletImport;
 
 export type SessionEntries = { [id: string]: Session };

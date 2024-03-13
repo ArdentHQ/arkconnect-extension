@@ -21,7 +21,7 @@ export const BigButton = ({
     return (
         <button
             className={cn(
-                'box-border flex max-h-24 w-full cursor-pointer gap-3 rounded-[20px] border border-solid border-transparent bg-white p-4 shadow-[0_1px_4px_0_rgba(0,0,0,0.05)] hover:border hover:border-solid hover:border-theme-primary-800 disabled:pointer-events-none disabled:cursor-not-allowed dark:bg-subtle-black hover:dark:border-theme-primary-600',
+                'box-border flex max-h-24 w-full cursor-pointer gap-3 rounded-[20px] border border-solid border-transparent bg-white p-4 shadow-light hover:border hover:border-solid hover:border-theme-primary-800 disabled:pointer-events-none disabled:cursor-not-allowed dark:bg-subtle-black hover:dark:border-theme-primary-600',
                 {
                     'transition-firefoxSmoothEase focus-visible:outline focus-visible:outline-2':
                         isFirefox,
