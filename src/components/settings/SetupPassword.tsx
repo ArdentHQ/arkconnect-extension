@@ -102,8 +102,6 @@ const SetupPassword = ({ formik }: Props) => {
                                 : ''
                         }
                     />
-                </div>
-                <div className='flex flex-col'>
                     <div className='flex'>
                         <Checkbox
                             id='termsAndConditionsConfirmed'
