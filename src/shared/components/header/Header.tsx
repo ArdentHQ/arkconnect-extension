@@ -16,7 +16,11 @@ import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 import { useProfileContext } from '@/lib/context/Profile';
 import { CopyAddress } from '@/components/wallet/CopyAddress';
 
-export const Header = () => {
+interface HeaderProps {
+    hideNavbar?: boolean
+}
+
+export const Header = ({ hideNavbar = false }: HeaderProps) => {
     const [openSettings, setOpenSettings] = useState(false);
 
     const isLocked = useAppSelector(selectLocked);
@@ -33,7 +37,7 @@ export const Header = () => {
 
     const [showAddressesDropdown, setShowAddressesDropdown] = useState<boolean>(false);
 
-    if (!primaryWallet || isLocked) {
+    if (!primaryWallet || isLocked || hideNavbar) {
         return (
             <HeaderWrapper className='px-4 py-[17px]' withShadow={!isOnboardingPage}>
                 <div className='logo flex items-center gap-2'>
