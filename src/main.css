@@ -74,7 +74,7 @@ header {
 }
 
 .dropdown-body {
-    @apply invisible translate-y-[-10px] opacity-0 transition-transform duration-200 ease-in-out;
+    @apply invisible -translate-y-2.5 opacity-0 transition-transform duration-200 ease-in-out;
 }
 
 .dropdown-transition {

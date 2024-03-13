@@ -17,8 +17,8 @@ const Home = () => {
 
     return (
         <Layout data-testid='Home'>
-            <div className='m-4 rounded-b-2xl rounded-t-[20px] bg-white shadow-light dark:bg-subtle-black'>
-                <div className=' rounded-[20px] bg-theme-primary-700 text-white dark:bg-theme-primary-650'>
+            <div className='m-4 rounded-b-2xl rounded-t-2.5xl bg-white shadow-light dark:bg-subtle-black'>
+                <div className=' rounded-2.5xl bg-theme-primary-700 text-white dark:bg-theme-primary-650'>
                     <div className='p-4'>
                         <Balance
                             balance={primaryWallet?.balance() ?? 0}
