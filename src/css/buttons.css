@@ -95,7 +95,7 @@
         @apply bg-theme-error-700;
     }
     .button-destructivePrimary:disabled {
-        @apply bg-theme-error-300 dark:bg-[rgba(240,68,56,0.20)];
+        @apply bg-theme-error-300 dark:bg-theme-error-800/20;
     }
     .button-destructivePrimary:focus {
         @apply shadow-[0_0_0_4px_theme-error-100] dark:shadow-[0_0_0_4px_#552D2A];
