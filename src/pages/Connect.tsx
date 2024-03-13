@@ -13,6 +13,7 @@ import { assertIsUnlocked } from '@/lib/background/assertions';
 import ActionHeader from '@/shared/components/actions/ActionHeader';
 import { useNotifyOnUnload } from '@/lib/hooks/useNotifyOnUnload';
 import useLoadingModal from '@/lib/hooks/useLoadingModal';
+import {useEffect, useMemo} from "react";
 
 const Connect = () => {
     const location = useLocation();
@@ -30,6 +31,22 @@ const Connect = () => {
     const locked = useAppSelector(selectLocked);
     assertIsUnlocked(locked);
 
+    const isAlreadyConnected = useMemo(() => {
+        return Object.values(sessions).some((session) => {
+            return (
+                session.domain === location.state?.domain &&
+                session.walletId === primaryWallet?.id()
+            );
+        });
+    }, [sessions]);
+
+    useEffect(() => {
+        if (isAlreadyConnected) {
+            void onCancel('Already connected!');
+        }
+    }, [isAlreadyConnected]);
+
+
     const reject = (message = 'Connection denied!') => {
         runtime.sendMessage({
             type: 'CONNECT_REJECT',
@@ -44,26 +61,15 @@ const Connect = () => {
 
     const setSubmitted = useNotifyOnUnload(reject);
 
-    const isAlreadyConnected = () => {
-        return Object.values(sessions).some((session) => {
-            return (
-                session.domain === location.state?.domain &&
-                session.walletId === primaryWallet?.id()
-            );
-        });
-    };
-
     const onSubmit = async () => {
         loadingModal.setLoading();
-
-        const isConnected = isAlreadyConnected();
 
         if (!primaryWallet) {
             reject('Wallet not found');
             return;
         }
 
-        if (isConnected) {
+        if (isAlreadyConnected) {
             reject('Already connected!');
             return;
         }
@@ -97,8 +103,8 @@ const Connect = () => {
         }
     };
 
-    const onCancel = async () => {
-        reject();
+    const onCancel = async (message?: string) => {
+        reject(message);
         await windows.remove(location.state?.windowId);
     };
 

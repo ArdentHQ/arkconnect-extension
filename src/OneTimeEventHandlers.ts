@@ -153,11 +153,16 @@ export function OneTimeEventHandlers(extension: ReturnType<typeof Extension>) {
 
         [OneTimeEvents.LOCK]: async (_request: any) => {
             extension.lockHandler().lock();
+            void ExtensionEvents({ profile: extension.profile() }).lockToggled(true);
         },
 
         [OneTimeEvents.UNLOCK]: async (request: any) => {
             try {
                 await extension.unlock(request.data.password);
+
+                if (!extension.isLocked()) {
+                    void ExtensionEvents({ profile: extension.profile() }).lockToggled(false);
+                }
 
                 return {
                     isLocked: extension.isLocked(),
