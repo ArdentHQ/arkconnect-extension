@@ -57,7 +57,7 @@ export const RowLayout = forwardRef(function RowLayout(
             'cursor-auto': !hasPointer,
             'rounded-2xl bg-white dark:bg-subtle-black shadow-light hover:shadow-[0_0_0_1px] hover:shadow-theme-secondary-200 hover:dark:shadow-theme-secondary-600':
                 variant === 'primary',
-            'rounded-[20px] bg-white dark:bg-subtle-black shadow-light border border-solid border-theme-primary-700 dark:border-theme-primary-650':
+            'rounded-2.5xl bg-white dark:bg-subtle-black shadow-light border border-solid border-theme-primary-700 dark:border-theme-primary-650':
                 variant === 'errorFree',
             'focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2':
                 isFirefox,
@@ -98,7 +98,7 @@ export const RowLayout = forwardRef(function RowLayout(
                         </span>
 
                         {helperText && (
-                            <span className='flex items-center gap-[5px] text-left text-sm leading-[18px] text-theme-secondary-500 dark:text-theme-secondary-300'>
+                            <span className='flex items-center gap-1.25 text-left text-sm leading-[18px] text-theme-secondary-500 dark:text-theme-secondary-300'>
                                 {address && (
                                     <>
                                         <Address
@@ -128,7 +128,7 @@ export const RowLayout = forwardRef(function RowLayout(
                                               return (
                                                   <span key={index}>
                                                       {index > 0 && helperText.length > 1 && (
-                                                          <span className='flex gap-[5px]'>
+                                                          <span className='flex gap-1.25'>
                                                               <span> • </span>
                                                               <span>{item}</span>
                                                           </span>

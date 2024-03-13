@@ -10,12 +10,17 @@ export default {
                 sans: ['var(--font-dm-sans)', ...defaultTheme.fontFamily.sans],
             },
             spacing: {
+                1.25: '0.3125rem',
+                1.75: '0.4375rem',
                 3.5: '0.875rem',
+                3.75: '0.9375rem',
                 4.5: '1.125rem',
+                12.5: '3.125rem',
                 13: '3.25rem',
                 23: '5.75rem',
                 30: '7.5rem',
                 50: '12.5rem',
+                65: '16.25rem',
             },
             boxShadow: {
                 light: '0 1px 4px 0 rgba(0, 0, 0, 0.05)',
@@ -65,6 +70,12 @@ export default {
                     'fadeInAndTransform 0.8s ease-in-out forwards, scale 0.4s ease-in-out 1s forwards',
                 translateUp: 'translateUp 0.5s ease-in-out 2s forwards',
                 decreaseHeight: 'decreaseHeight 0.5s ease-in-out 2s forwards',
+            },
+            zIndex: {
+                1: '1',
+            },
+            borderRadius: {
+                '2.5xl': '1.25rem',
             },
         },
         colors: {

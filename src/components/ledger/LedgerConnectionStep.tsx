@@ -100,7 +100,7 @@ export const LedgerConnectionStep = ({
             </div>
 
             <div className='my-6 flex justify-center'>
-                <Icon icon='ledger-device' className='h-[7.5rem] w-[13.75rem]' />
+                <Icon icon='ledger-device' className='h-30 w-[13.75rem]' />
             </div>
 
             <div className='mb-6'>
