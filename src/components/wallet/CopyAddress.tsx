@@ -14,7 +14,7 @@ export const CopyAddress = () => {
         return <></>;
     }
 
-    const trimmedAddress = trimAddress(primaryWallet.address(), 7);
+    const trimmedAddress = trimAddress(primaryWallet.address(), 10);
 
     return (
         <Tooltip content='Copy address' placement='bottom-end'>
