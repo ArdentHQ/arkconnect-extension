@@ -19,7 +19,7 @@ export const WalletCard = ({ wallet }: Props) => {
     const ledgerIndicator = wallet.isLedger();
 
     return (
-        <div className='relative flex max-h-[74px] w-full gap-3 rounded-[20px]  border border-solid border-theme-primary-700 bg-white p-4 shadow-light disabled:pointer-events-none disabled:cursor-not-allowed dark:border-theme-primary-600 dark:bg-subtle-black'>
+        <div className='relative flex max-h-[74px] w-full gap-3 rounded-2.5xl border border-solid border-theme-primary-700 bg-white p-4 shadow-light disabled:pointer-events-none disabled:cursor-not-allowed dark:border-theme-primary-600 dark:bg-subtle-black'>
             <div className='flex w-full items-start gap-3'>
                 <div className='flex w-full items-center justify-between'>
                     <div className='flex flex-col items-start gap-1'>
@@ -32,7 +32,7 @@ export const WalletCard = ({ wallet }: Props) => {
                             {testnetIndicator && <TestnetIcon />}
                         </div>
 
-                        <div className='flex items-center gap-[5px] text-left text-sm leading-[18px] text-theme-secondary-500 dark:text-theme-secondary-300'>
+                        <div className='flex items-center gap-1.25 text-left text-sm leading-[18px] text-theme-secondary-500 dark:text-theme-secondary-300'>
                             {hasAlias && (
                                 <>
                                     <Address
@@ -61,7 +61,7 @@ export const WalletCard = ({ wallet }: Props) => {
                                     return (
                                         <div key={index}>
                                             {index > 0 && helperText.length > 1 && (
-                                                <div className='flex gap-[5px]'>
+                                                <div className='flex gap-1.25'>
                                                     <div> • </div>
                                                     <div>{item}</div>
                                                 </div>

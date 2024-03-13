@@ -27,7 +27,7 @@ const SubPageLayout = ({
                 className={classNames(
                     'flex items-center justify-between bg-subtle-white p-4 dark:bg-light-black',
                     {
-                        'sticky top-[50px]': withStickyHeader,
+                        'sticky top-12.5': withStickyHeader,
                     },
                 )}
             >
