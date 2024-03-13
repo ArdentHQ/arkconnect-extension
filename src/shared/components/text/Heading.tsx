@@ -1,12 +1,17 @@
+import { twMerge } from 'tailwind-merge';
+
 interface Props extends React.HTMLAttributes<HTMLHeadingElement> {
     level: 2 | 3 | 4;
 }
 
-export const Heading = ({ level, ...properties }: Props) => {
+export const Heading = ({ level, className, ...properties }: Props) => {
     if (level === 4) {
         return (
             <h4
-                className='text-lg font-medium leading-[23px] text-light-black dark:text-white'
+                className={twMerge(
+                    'text-lg font-medium leading-[23px] text-light-black dark:text-white',
+                    className,
+                )}
                 {...properties}
             />
         );
@@ -15,11 +20,16 @@ export const Heading = ({ level, ...properties }: Props) => {
     if (level === 3) {
         return (
             <h3
-                className='text-xl font-bold leading-[25px] text-light-black dark:text-white'
+                className={twMerge(
+                    'text-xl font-bold leading-[25px] text-light-black dark:text-white',
+                    className,
+                )}
                 {...properties}
             />
         );
     }
 
-    return <h2 className=' text-2xl font-bold leading-[30px]' {...properties} />;
+    return (
+        <h2 className={twMerge('text-2xl font-bold leading-[30px]', className)} {...properties} />
+    );
 };
