@@ -1,6 +1,6 @@
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useFormik } from 'formik';
-import { Button, Checkbox, ExternalLink, PasswordInput } from '@/shared/components';
+import {Button, Checkbox, ExternalLink, Heading, PasswordInput} from '@/shared/components';
 import constants from '@/constants';
 import { useEnvironmentContext } from '@/lib/context/Environment';
 import { EnvironmentData } from '@/lib/background/contracts';
