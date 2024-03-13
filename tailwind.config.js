@@ -142,6 +142,7 @@ export default {
 
             // shadow
             'light-green': 'rgb(var(--theme-color-light-green) / <alpha-value>)',
+            'shadow-green': 'rgb(var(--theme-color-shadow-green) / <alpha-value>)',
         },
     },
     plugins: [],
