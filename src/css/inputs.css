@@ -1,18 +1,37 @@
 @layer utilities {
-    /** Textarea **/
-    .textarea {
-        @apply border border-solid bg-white text-light-black focus:border focus:border-solid  dark:bg-subtle-black dark:text-white;
-    }
-    .textarea-primary {
-        @apply border-theme-secondary-400 read-only:bg-white focus:border-light-black disabled:bg-theme-secondary-100 dark:border-theme-secondary-500 read-only:dark:bg-subtle-black focus:dark:border-theme-secondary-300;
+    /** Text Area, Passphrase Input and Text Input **/
+    .textarea, 
+    .text-input,
+    .passphrase-primary,
+    .passphrase-destructive,
+    .passphrase-errorFree {
+        @apply border border-solid bg-white text-light-black focus:border focus:border-solid dark:bg-subtle-black dark:text-white
     }
 
-    .textarea-destructive {
+    .textarea-primary,
+    .text-input-primary,
+    .passphrase-primary {
+        @apply border-theme-secondary-400 focus:border-light-black disabled:bg-theme-secondary-100 dark:border-theme-secondary-500 focus:dark:border-theme-secondary-300;
+    }
+
+    .textarea-primary {
+        @apply read-only:bg-white dark:read-only:bg-subtle-black;
+    }
+    
+    .textarea-destructive,
+    .text-input-destructive,
+    .passphrase-destructive {
         @apply border-theme-error-300 focus:border-theme-error-600 focus:dark:border-theme-error-500;
     }
 
-    .textarea-errorFree {
+    .textarea-errorFree,
+    .text-input-errorFree,
+    .passphrase-errorFree {
         @apply border-theme-primary-700 focus:border-theme-primary-700 disabled:bg-theme-secondary-100 dark:border-theme-primary-650 focus:dark:border-theme-primary-650;
+    }
+
+    .text-input-destructive {
+        @apply border-theme-error-500;
     }
 
     /** Radio Input **/
@@ -114,39 +133,4 @@
         @apply bg-white;
     }
 
-    /** Text Input **/
-    .text-input {
-        @apply border border-solid bg-white text-light-black focus:border focus:border-solid dark:bg-subtle-black dark:text-white;
-    }
-
-    .text-input-primary {
-        @apply border-theme-secondary-400 focus:border-light-black disabled:bg-theme-secondary-100 dark:border-theme-secondary-500 focus:dark:border-theme-secondary-300;
-    }
-
-    .text-input-destructive {
-        @apply border-theme-error-500 focus:border-theme-error-600 focus:dark:border-theme-error-500;
-    }
-
-    .text-input-errorFree {
-        @apply border-theme-primary-700 focus:border-theme-primary-700  disabled:bg-theme-secondary-100 dark:border-theme-primary-650 focus:dark:border-theme-primary-650;
-    }
-
-    /** Passphrase Input **/
-    .passphrase-primary,
-    .passphrase-destructive,
-    .passphrase-errorFree {
-        @apply border border-solid bg-white text-light-black focus:border focus:border-solid dark:bg-subtle-black dark:text-white;
-    }
-
-    .passphrase-primary {
-        @apply border-theme-secondary-400 read-only:bg-white focus:border-light-black disabled:bg-theme-secondary-100 dark:read-only:bg-subtle-black dark:focus:border-theme-secondary-300;
-    }
-
-    .passphrase-destructive {
-        @apply border-theme-error-300 focus:border-theme-error-600 dark:focus:border-theme-error-500;
-    }
-
-    .passphrase-errorFree {
-        @apply border-theme-primary-700 focus:border-theme-primary-700 disabled:bg-theme-secondary-100 dark:border-theme-primary-650 dark:focus:border-theme-primary-650;
-    }
 }
