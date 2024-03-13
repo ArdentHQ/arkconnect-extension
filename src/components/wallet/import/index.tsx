@@ -16,10 +16,14 @@ import useWalletImport from '@/lib/hooks/useWalletImport';
 import useLocaleCurrency from '@/lib/hooks/useLocalCurrency';
 import useLoadingModal from '@/lib/hooks/useLoadingModal';
 import { useBackgroundEvents } from '@/lib/context/BackgroundEventHandler';
-import { LastVisitedPage, ProfileData, ScreenName } from '@/lib/background/contracts';
+import {
+    EnvironmentData,
+    LastVisitedPage,
+    ProfileData,
+    ScreenName,
+} from '@/lib/background/contracts';
 
 import { useEnvironmentContext } from '@/lib/context/Environment';
-import { EnvironmentData } from '@/lib/background/contracts';
 export type ImportedWalletFormik = {
     enteredPassphrase: string;
     wallet?: Contracts.IReadWriteWallet;
@@ -63,8 +67,6 @@ const ImportNewWallet = () => {
 
     useEffect(() => {
         (async () => {
-
-
             if (!env.data().get(EnvironmentData.HasOnboarded)) {
                 setSteps([...steps, { component: SetupPassword }]);
             }
