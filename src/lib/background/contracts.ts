@@ -1,3 +1,7 @@
+export enum EnvironmentData {
+    HasOnboarded = 'HAS_ONBOARDED',
+}
+
 export enum ProfileData {
     Sessions = 'SESSIONS',
     LastVisitedPage = 'LAST_VISITED_PAGE',
