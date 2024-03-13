@@ -120,8 +120,8 @@ export function ExtensionEvents(properties?: ExtensionEventsProperties) {
                 tabs.sendMessage(id, {
                     type: ExtensionSupportedEvents.LockToggled,
                     data: {
-                        isLocked
-                    }
+                        isLocked,
+                    },
                 });
             }
         },

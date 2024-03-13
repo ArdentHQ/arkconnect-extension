@@ -126,7 +126,7 @@ const initWindow = async (payload: EventPayload<ConnectData>) => {
 const handleOnConnect = async (
     payload: EventPayload<ConnectData>,
     profile: Contracts.IProfile | null,
-    isLocked: boolean
+    isLocked: boolean,
 ) => {
     try {
         if (profile?.wallets().count() === 0) {
@@ -158,7 +158,7 @@ const handleOnConnect = async (
 const handleIsConnected = async (
     payload: EventPayload<DefaultPayload>,
     profile: Contracts.IProfile | null,
-    isLocked: boolean
+    isLocked: boolean,
 ) => {
     try {
         assertHasWallet(profile);
@@ -221,7 +221,7 @@ const handleDisconnect = async (
 const handleGetAddress = async (
     payload: EventPayload<DefaultPayload>,
     profile: Contracts.IProfile | null,
-    isLocked: boolean
+    isLocked: boolean,
 ) => {
     try {
         assertHasWallet(profile);
@@ -258,7 +258,7 @@ const handleGetAddress = async (
 const handleGetNetwork = async (
     payload: EventPayload<DefaultPayload>,
     profile: Contracts.IProfile | null,
-    isLocked: boolean
+    isLocked: boolean,
 ) => {
     try {
         assertHasWallet(profile);
@@ -295,7 +295,7 @@ const handleGetNetwork = async (
 const handleGetBalance = async (
     payload: EventPayload<DefaultPayload>,
     profile: Contracts.IProfile | null,
-    isLocked: boolean
+    isLocked: boolean,
 ) => {
     try {
         assertHasWallet(profile);

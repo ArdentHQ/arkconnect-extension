@@ -45,7 +45,7 @@ const handleLongLivedConnection = async (message: any, port: Runtime.Port) => {
                 },
             },
             extension.profile(),
-            extension.isLocked()
+            extension.isLocked(),
         );
     }
 };

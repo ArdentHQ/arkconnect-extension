@@ -1,6 +1,7 @@
 import { useLocation } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 import { runtime, windows } from 'webextension-polyfill';
+import { useEffect, useMemo } from 'react';
 import ConnectFooter from '@/components/connect/ConnectFooter';
 import ConnectWithWallet from '@/components/connect/ConnectWithWallet';
 import { useAppDispatch, useAppSelector } from '@/lib/store';
@@ -13,7 +14,6 @@ import { assertIsUnlocked } from '@/lib/background/assertions';
 import ActionHeader from '@/shared/components/actions/ActionHeader';
 import { useNotifyOnUnload } from '@/lib/hooks/useNotifyOnUnload';
 import useLoadingModal from '@/lib/hooks/useLoadingModal';
-import {useEffect, useMemo} from "react";
 
 const Connect = () => {
     const location = useLocation();
@@ -45,7 +45,6 @@ const Connect = () => {
             void onCancel('Already connected!');
         }
     }, [isAlreadyConnected]);
-
 
     const reject = (message = 'Connection denied!') => {
         runtime.sendMessage({
