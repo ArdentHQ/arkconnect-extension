@@ -36,7 +36,11 @@ const ConnectedAddress = ({ connectedTo, wallet, logo, onDisconnect }: Propertie
             <div>
                 <AddressRow address={wallet} logo={logo} />
 
-                <Button variant='linkDestructive' onClick={onDisconnect} className='mb-1 mt-5 hover:text-theme-error-700 dark:hover:text-theme-error-600 hover:underline underline-offset-2'>
+                <Button
+                    variant='linkDestructive'
+                    onClick={onDisconnect}
+                    className='mb-1 mt-5 underline-offset-2 hover:text-theme-error-700 hover:underline dark:hover:text-theme-error-600'
+                >
                     Disconnect
                 </Button>
             </div>
@@ -65,7 +69,7 @@ const AddressRow = ({ address, logo }: { address: Contracts.IReadWriteWallet; lo
 
                 <div className='flex items-center gap-1.5 text-theme-secondary-500 dark:text-theme-secondary-300'>
                     <Address address={address.address()} />
-                    <div className="leading-[18px]">•</div>
+                    <div className='leading-[18px]'>•</div>
                     <AddressBalance
                         balance={address.balance()}
                         currency={getNetworkCurrency(address.network())}
