@@ -27,8 +27,7 @@ const RequestedTransactionBody = ({ wallet, amount, fee, total, receiverAddress 
         ticker: wallet.currency(),
     });
 
-    // const withFiat = wallet.network().isLive()
-    const withFiat = true;
+    const withFiat = wallet.network().isLive();
 
     return (
         <ActionDetails>
