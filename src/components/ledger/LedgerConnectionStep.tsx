@@ -126,15 +126,11 @@ export const LedgerConnectionStep = ({
                     </ConnectionStep>
 
                     <ConnectionStep ready={isConnected || ledgerDevice !== undefined}>
-                        Choose your Ledger device in the browser window and click Connect.
-                    </ConnectionStep>
-
-                    <ConnectionStep ready={isConnected || ledgerDevice !== undefined}>
-                        Unlock your Ledger device.
+                        Click Connect and choose your Ledger device in the browser window.
                     </ConnectionStep>
 
                     <ConnectionStep ready={isConnected}>
-                        Open the ARK app on the Ledger device.
+                        Unlock and open the ARK app on the Ledger device.
                     </ConnectionStep>
                 </ul>
             </div>
