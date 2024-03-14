@@ -33,23 +33,25 @@ const AboutARK = () => {
             </div>
 
             <div className='flex flex-col gap-2 text-light-black dark:text-white'>
-                <RowLayout
-                    title='Support Email'
-                    iconTrailing='link-external'
-                    tabIndex={-1}
-                    href={`mailto:${constants.SUPPORT_EMAIL}?subject=ARK%20Connect`}
-                    className='flex w-full items-center justify-between rounded-2xl'
-                    target='_blank'
-                    rel='noopener noreferrer'
-                ></RowLayout>
+                <div className='relative flex items-center'>
+                    <RowLayout
+                        title='Support Email'
+                        iconTrailing='link-external'
+                        tabIndex={-1}
+                        href={`mailto:${constants.SUPPORT_EMAIL}?subject=ARK%20Connect`}
+                        className='flex w-full items-center justify-between rounded-2xl'
+                        target='_blank'
+                        rel='noopener noreferrer'
+                    ></RowLayout>
 
-                {/* <button onClick={copyEmailToClipboard} type='button'>
-                            <Icon
-                                icon='copy'
-                                className='h-5 w-5 text-light-black dark:text-white'
-                            />
-                        </button> */}
-                {/* </ExternalLink> */}
+                    <button
+                        onClick={copyEmailToClipboard}
+                        type='button'
+                        className='absolute right-0 mr-12'
+                    >
+                        <Icon icon='copy' className='h-5 w-5 text-light-black dark:text-white' />
+                    </button>
+                </div>
 
                 <RowLayout
                     href={constants.ARK_CONNECT}
