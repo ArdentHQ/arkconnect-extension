@@ -1,6 +1,10 @@
 import { Contracts } from '@ardenthq/sdk-profiles';
 import Amount from '../wallet/Amount';
-import ActionDetails, { ActionDetailsRow } from './ActionDetails';
+import ActionDetails, {
+    ActionDetailsFiatValue,
+    ActionDetailsRow,
+    ActionDetailsValue,
+} from './ActionDetails';
 import trimAddress from '@/lib/utils/trimAddress';
 import { getNetworkCurrency } from '@/lib/utils/getActiveCoin';
 import { useExchangeRate } from '@/lib/hooks/useExchangeRate';
@@ -23,51 +27,65 @@ const RequestedTransactionBody = ({ wallet, amount, fee, total, receiverAddress 
         ticker: wallet.currency(),
     });
 
+    // const withFiat = wallet.network().isLive()
+    const withFiat = true;
+
     return (
         <ActionDetails>
-            <ActionDetailsRow label='Amount'>
-                <div className='flex items-center gap-4'>
-                    <div className='font-medium text-light-black dark:text-white'>
-                        <Amount value={amount} ticker={coin} withTicker />
-                    </div>
-
-                    {wallet.network().isLive() && (
-                        <div className='text-sm font-medium text-theme-secondary-500 dark:text-theme-secondary-300'>
+            <ActionDetailsRow
+                label='Amount'
+                below={
+                    withFiat && (
+                        <ActionDetailsFiatValue>
                             <Amount value={convert(amount)} ticker={exchangeCurrency} />
-                        </div>
-                    )}
+                        </ActionDetailsFiatValue>
+                    )
+                }
+            >
+                <div className='flex items-center gap-4'>
+                    <ActionDetailsValue>
+                        <Amount value={amount} ticker={coin} withTicker />
+                    </ActionDetailsValue>
                 </div>
             </ActionDetailsRow>
 
             <ActionDetailsRow label='Receiver'>
-                <div className='font-medium text-light-black dark:text-white'>
+                <ActionDetailsValue>
                     {trimAddress(receiverAddress as string, 10)}
-                </div>
+                </ActionDetailsValue>
             </ActionDetailsRow>
 
-            <ActionDetailsRow label='Transaction Fee'>
-                <div className='flex items-center gap-4'>
-                    <div className='font-medium text-light-black dark:text-white'>
-                        <Amount value={fee} ticker={coin} withTicker />
-                    </div>
-                    {wallet.network().isLive() && (
-                        <div className='text-sm font-medium text-theme-secondary-500 dark:text-theme-secondary-300'>
+            <ActionDetailsRow
+                label='Transaction Fee'
+                below={
+                    withFiat && (
+                        <ActionDetailsFiatValue>
                             <Amount value={convert(fee)} ticker={exchangeCurrency} />
-                        </div>
-                    )}
+                        </ActionDetailsFiatValue>
+                    )
+                }
+            >
+                <div className='flex items-center gap-4'>
+                    <ActionDetailsValue>
+                        <Amount value={fee} ticker={coin} withTicker />
+                    </ActionDetailsValue>
                 </div>
             </ActionDetailsRow>
 
-            <ActionDetailsRow label='Total Amount'>
-                <div className='flex items-center gap-4'>
-                    <div className='font-medium text-light-black dark:text-white'>
-                        <Amount value={total} ticker={coin} withTicker />
-                    </div>
-                    {wallet.network().isLive() && (
-                        <div className='text-sm font-medium text-theme-secondary-500 dark:text-theme-secondary-300'>
+            <ActionDetailsRow
+                label='Total Amount'
+                below={
+                    withFiat && (
+                        <ActionDetailsFiatValue>
                             <Amount value={convert(total)} ticker={exchangeCurrency} />
-                        </div>
-                    )}
+                        </ActionDetailsFiatValue>
+                    )
+                }
+            >
+                <div className='flex items-center gap-4'>
+                    <ActionDetailsValue>
+                        <Amount value={total} ticker={coin} withTicker />
+                    </ActionDetailsValue>
                 </div>
             </ActionDetailsRow>
         </ActionDetails>
