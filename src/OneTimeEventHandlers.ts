@@ -369,6 +369,8 @@ const handleRemoveWallets = async (request: any, extension: ReturnType<typeof Ex
 
     if (extension.profile().wallets().count() === 0) {
         extension.env().data().set(EnvironmentData.HasOnboarded, false);
+        await extension.persist();
+
         return {
             noWallets: true,
         };
