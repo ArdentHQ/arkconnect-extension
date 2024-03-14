@@ -1,6 +1,6 @@
 import { runtime } from 'webextension-polyfill';
 import SubPageLayout from '../SubPageLayout';
-import { ExternalLink, Icon, RowLayout } from '@/shared/components';
+import { Icon, RowLayout } from '@/shared/components';
 import useClipboard from '@/lib/hooks/useClipboard';
 import constants from '@/constants';
 
@@ -33,64 +33,55 @@ const AboutARK = () => {
             </div>
 
             <div className='flex flex-col gap-2 text-light-black dark:text-white'>
-                <ExternalLink
-                    className='flex w-full items-center justify-between rounded-2xl'
-                    href={`mailto:${constants.SUPPORT_EMAIL}?subject=ARK%20Connect`}
-                >
+                <div className='relative flex items-center'>
                     <RowLayout
                         title='Support Email'
                         iconTrailing='link-external'
                         tabIndex={-1}
-                        className='cursor-pointer'
-                    >
-                        <button onClick={copyEmailToClipboard} type='button'>
-                            <Icon
-                                icon='copy'
-                                className='h-5 w-5 text-light-black dark:text-white'
-                            />
-                        </button>
-                    </RowLayout>
-                </ExternalLink>
+                        href={`mailto:${constants.SUPPORT_EMAIL}?subject=ARK%20Connect`}
+                        className='flex w-full items-center justify-between rounded-2xl'
+                        target='_blank'
+                        rel='noopener noreferrer'
+                    ></RowLayout>
 
-                <ExternalLink
-                    className='flex w-full items-center justify-between rounded-2xl'
+                    <button
+                        onClick={copyEmailToClipboard}
+                        type='button'
+                        className='absolute right-0 mr-12'
+                    >
+                        <Icon icon='copy' className='h-5 w-5 text-light-black dark:text-white' />
+                    </button>
+                </div>
+
+                <RowLayout
                     href={constants.ARK_CONNECT}
+                    title='Official Website'
+                    iconTrailing='link-external'
+                    tabIndex={-1}
+                    className='flex w-full items-center justify-between rounded-2xl'
                     target='_blank'
                     rel='noopener noreferrer'
-                >
-                    <RowLayout
-                        title='Official Website'
-                        iconTrailing='link-external'
-                        tabIndex={-1}
-                        className='cursor-pointer'
-                    />
-                </ExternalLink>
-                <ExternalLink
-                    className='flex w-full items-center justify-between rounded-2xl'
+                />
+
+                <RowLayout
+                    title='Terms of Service'
+                    iconTrailing='link-external'
+                    tabIndex={-1}
                     href={constants.TERMS_OF_SERVICE}
                     target='_blank'
                     rel='noopener noreferrer'
-                >
-                    <RowLayout
-                        title='Terms of Service'
-                        iconTrailing='link-external'
-                        tabIndex={-1}
-                        className='cursor-pointer'
-                    />
-                </ExternalLink>
-                <ExternalLink
+                    className='flex w-full items-center justify-between rounded-2xl'
+                />
+
+                <RowLayout
+                    title='Privacy Policy'
+                    iconTrailing='link-external'
+                    tabIndex={-1}
                     className='flex w-full items-center justify-between rounded-2xl'
                     href={constants.PRIVACY_POLICY}
                     target='_blank'
                     rel='noopener noreferrer'
-                >
-                    <RowLayout
-                        title='Privacy Policy'
-                        iconTrailing='link-external'
-                        tabIndex={-1}
-                        className='cursor-pointer'
-                    />
-                </ExternalLink>
+                />
             </div>
         </SubPageLayout>
     );
