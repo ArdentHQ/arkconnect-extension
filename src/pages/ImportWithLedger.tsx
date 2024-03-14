@@ -102,7 +102,7 @@ const ImportWithLedger = () => {
 
     return (
         <div className='min-h-screen w-screen bg-subtle-white dark:bg-light-black'>
-            <Header />
+            <Header hideNavbar />
             <div className='flex min-h-screen w-full items-center justify-center pt-14'>
                 <div className='flex h-full items-center justify-center'>
                     <div className='w-[355px] rounded-lg bg-white py-6 dark:bg-subtle-black'>
