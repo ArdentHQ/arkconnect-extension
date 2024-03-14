@@ -99,6 +99,8 @@ export function Extension() {
             env.data().flush();
             env.profiles().flush();
 
+            env.data().set(EnvironmentData.HasOnboarded, false);
+
             await env.persist();
 
             const profile = await env.profiles().create('arkconnect');
