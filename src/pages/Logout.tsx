@@ -62,6 +62,7 @@ const Logout = () => {
 
             if (noWallets) {
                 await resetExtension();
+                await initProfile();
                 return;
             }
 

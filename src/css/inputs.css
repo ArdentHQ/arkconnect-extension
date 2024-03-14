@@ -1,23 +1,65 @@
 @layer utilities {
-    /** Textarea **/
-    .textarea {
-        @apply border border-solid bg-white text-light-black focus:border focus:border-solid  dark:bg-subtle-black dark:text-white;
-    }
-    .textarea-primary {
-        @apply border-theme-secondary-400 read-only:bg-white focus:border-light-black disabled:bg-theme-secondary-100 dark:border-theme-secondary-500 read-only:dark:bg-subtle-black focus:dark:border-theme-secondary-300;
+    /** Text Area, Passphrase and Text Inputs **/
+    .textarea,
+    .text-input,
+    .passphrase-primary,
+    .passphrase-destructive,
+    .passphrase-errorFree {
+        @apply border border-solid bg-white text-light-black focus:border focus:border-solid dark:bg-subtle-black dark:text-white;
     }
 
-    .textarea-destructive {
+    .textarea-primary,
+    .text-input-primary,
+    .passphrase-primary {
+        @apply border-theme-secondary-400 focus:border-light-black disabled:bg-theme-secondary-100 dark:border-theme-secondary-500 focus:dark:border-theme-secondary-300;
+    }
+
+    .textarea-primary {
+        @apply read-only:bg-white dark:read-only:bg-subtle-black;
+    }
+
+    .textarea-destructive,
+    .text-input-destructive,
+    .passphrase-destructive {
         @apply border-theme-error-300 focus:border-theme-error-600 focus:dark:border-theme-error-500;
     }
 
-    .textarea-errorFree {
+    .textarea-errorFree,
+    .text-input-errorFree,
+    .passphrase-errorFree {
         @apply border-theme-primary-700 focus:border-theme-primary-700 disabled:bg-theme-secondary-100 dark:border-theme-primary-650 focus:dark:border-theme-primary-650;
+    }
+
+    .text-input-destructive {
+        @apply border-theme-error-500;
+    }
+
+    /** Radio, Toggle switch and Checkbox Inputs **/
+    .radio-indicator,
+    .checkbox-indicator {
+        @apply h-5 w-5 border border-solid border-theme-primary-700 dark:border-theme-primary-600;
+    }
+
+    .radio-indicator,
+    .checkbox-indicator,
+    .toggle-switch-slider {
+        @apply absolute top-0;
+    }
+
+    .radio-indicator:hover,
+    .checkbox-indicator:hover {
+        @apply bg-theme-primary-50 dark:hover:bg-theme-primary-900;
+    }
+
+    [type='radio']:disabled + .radio-indicator,
+    [type='checkbox']:disabled + .checkbox-indicator,
+    [type='checkbox']:disabled + .toggle-switch-slider {
+        @apply pointer-events-none;
     }
 
     /** Radio Input **/
     .radio-indicator {
-        @apply transition-smoothEase absolute top-0 h-5 w-5 rounded-[10px] border border-solid border-theme-primary-700 after:absolute after:hidden after:content-[""] hover:bg-theme-primary-50 focus:shadow-[0_0_0_2px_light-green] focus:shadow-light-green active:shadow-[0_0_0_2px_light-green] dark:border-theme-primary-600 hover:dark:bg-theme-primary-900;
+        @apply transition-smoothEase rounded-[10px] after:absolute after:hidden after:content-[""] focus:shadow-[0_0_0_2px_light-green] focus:shadow-light-green active:shadow-[0_0_0_2px_light-green];
     }
 
     [type='radio']:checked + .radio-indicator::after {
@@ -29,12 +71,12 @@
     }
 
     [type='radio']:disabled + .radio-indicator {
-        @apply pointer-events-none border border-solid border-theme-secondary-300 bg-theme-secondary-100 dark:bg-black;
+        @apply border-theme-secondary-300 bg-theme-secondary-100 dark:bg-black;
     }
 
     /** Checkbox Input **/
     .checkbox-indicator {
-        @apply absolute top-0 h-5 w-5 rounded-md border border-solid border-theme-primary-700 bg-transparent hover:bg-theme-primary-50  dark:border-theme-primary-600 dark:hover:bg-theme-primary-900;
+        @apply rounded-md bg-transparent;
     }
 
     .checkbox-indicator::after {
@@ -79,7 +121,7 @@
 
     /** Toggle switch **/
     .toggle-switch-slider {
-        @apply absolute bottom-0 left-0 right-0 top-0 z-1 cursor-pointer rounded-xl bg-theme-secondary-200 duration-[0.4s] hover:bg-theme-primary-700 group-hover:bg-theme-primary-50 dark:bg-theme-secondary-600 dark:hover:bg-theme-primary-650 dark:group-hover:bg-theme-primary-900;
+        @apply bottom-0 left-0 right-0 z-1 cursor-pointer rounded-xl bg-theme-secondary-200 duration-[0.4s] hover:bg-theme-primary-700 group-hover:bg-theme-primary-50 dark:bg-theme-secondary-600 dark:hover:bg-theme-primary-650 dark:group-hover:bg-theme-primary-900;
     }
 
     .toggle-switch-slider::before {
@@ -94,10 +136,6 @@
         @apply translate-x-[14px] transform;
     }
 
-    [type='checkbox']:disabled + .toggle-switch-slider {
-        @apply pointer-events-none;
-    }
-
     [type='checkbox']:disabled:not(:checked) + .toggle-switch-slider {
         @apply bg-theme-secondary-100 dark:bg-theme-secondary-400;
     }
@@ -107,46 +145,10 @@
     }
 
     [type='checkbox']:disabled:checked + .toggle-switch-slider {
-        @apply bg-[#9ADCC1] dark:bg-theme-primary-800;
+        @apply bg-theme-primary-200 dark:bg-theme-primary-800;
     }
 
     [type='checkbox']:disabled:checked + .toggle-switch-slider::before {
         @apply bg-white;
-    }
-
-    /** Text Input **/
-    .text-input {
-        @apply border border-solid bg-white text-light-black focus:border focus:border-solid dark:bg-subtle-black dark:text-white;
-    }
-
-    .text-input-primary {
-        @apply border-theme-secondary-400 focus:border-light-black disabled:bg-theme-secondary-100 dark:border-theme-secondary-500 focus:dark:border-theme-secondary-300;
-    }
-
-    .text-input-destructive {
-        @apply border-theme-error-500 focus:border-theme-error-600 focus:dark:border-theme-error-500;
-    }
-
-    .text-input-errorFree {
-        @apply border-theme-primary-700 focus:border-theme-primary-700  disabled:bg-theme-secondary-100 dark:border-theme-primary-650 focus:dark:border-theme-primary-650;
-    }
-
-    /** Passphrase Input **/
-    .passphrase-primary,
-    .passphrase-destructive,
-    .passphrase-errorFree {
-        @apply border border-solid bg-white text-light-black focus:border focus:border-solid dark:bg-subtle-black dark:text-white;
-    }
-
-    .passphrase-primary {
-        @apply border-theme-secondary-400 read-only:bg-white focus:border-light-black disabled:bg-theme-secondary-100 dark:read-only:bg-subtle-black dark:focus:border-theme-secondary-300;
-    }
-
-    .passphrase-destructive {
-        @apply border-theme-error-300 focus:border-theme-error-600 dark:focus:border-theme-error-500;
-    }
-
-    .passphrase-errorFree {
-        @apply border-theme-primary-700 focus:border-theme-primary-700 disabled:bg-theme-secondary-100 dark:border-theme-primary-650 dark:focus:border-theme-primary-650;
     }
 }
