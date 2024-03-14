@@ -45,13 +45,12 @@ export const LedgerConnectionStep = ({
         listenDevice,
         hasDeviceAvailable,
         error: ledgerError,
-        ledgerDevice,
         isConnected,
         resetConnectionState,
     } = useLedgerContext();
 
-    const handleListenDevice = () => {
-        listenDevice();
+    const handleListenDevice = async () => {
+        await listenDevice();
     };
 
     useEffect(() => {
@@ -97,6 +96,8 @@ export const LedgerConnectionStep = ({
 
     const continueToNextStep = async () => {
         try {
+            await connect(activeProfile, network.coin(), network.id());
+
             goToNextStep();
         } catch (error) {
             onError(error);
@@ -125,7 +126,7 @@ export const LedgerConnectionStep = ({
                         Connect your Ledger device and close other apps connected to it.
                     </ConnectionStep>
 
-                    <ConnectionStep ready={isConnected || ledgerDevice !== undefined}>
+                    <ConnectionStep ready={isConnected || hasDeviceAvailable}>
                         Click Connect and choose your Ledger device in the browser window.
                     </ConnectionStep>
 
@@ -135,7 +136,7 @@ export const LedgerConnectionStep = ({
                 </ul>
             </div>
             <div className='pb-4'>
-                {ledgerDevice !== undefined ? (
+                {hasDeviceAvailable ? (
                     <Button variant='primary' onClick={continueToNextStep} disabled={!isConnected}>
                         Continue
                     </Button>
