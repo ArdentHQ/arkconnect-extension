@@ -18,7 +18,7 @@
         @apply bg-theme-secondary-100 text-theme-secondary-400 dark:bg-theme-secondary-700;
     }
     .button-primary:focus {
-        @apply shadow-[0_0_0_4px_#E5F3ED] dark:shadow-[0_0_0_4px_rgba(74,205,151,0.24)];
+        @apply shadow-[0_0_0_4px_shadow-green] dark:shadow-[0_0_0_4px_rgba(74,205,151,0.24)];
     }
     .button-primary:focus-visible {
         @apply outline-2 outline-theme-primary-600;
@@ -32,7 +32,7 @@
         @apply bg-theme-primary-50 dark:bg-theme-secondary-800;
     }
     .button-secondary:focus-visible {
-        @apply shadow-[0_0_0_4px_#E5F3ED] outline-none dark:shadow-[0_0_0_4px_#2B3D35];
+        @apply shadow-[0_0_0_4px_shadow-green] outline-none dark:shadow-[0_0_0_4px_#2B3D35];
     }
     .button-secondary:disabled {
         @apply border-theme-secondary-100 bg-white text-theme-secondary-500 dark:border-theme-secondary-400 dark:bg-light-black dark:text-theme-secondary-300;
@@ -95,7 +95,7 @@
         @apply bg-theme-error-700;
     }
     .button-destructivePrimary:disabled {
-        @apply bg-theme-error-300 dark:bg-[rgba(240,68,56,0.20)];
+        @apply bg-theme-error-300 dark:bg-theme-error-800/20;
     }
     .button-destructivePrimary:focus {
         @apply shadow-[0_0_0_4px_theme-error-100] dark:shadow-[0_0_0_4px_#552D2A];
