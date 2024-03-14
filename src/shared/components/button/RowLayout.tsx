@@ -24,7 +24,55 @@ type RowLayoutProps = React.ComponentPropsWithRef<'button'> & {
     variant?: 'primary' | 'errorFree';
     onKeyDown?: (event: React.KeyboardEvent<HTMLDivElement>) => void;
     onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
+    href?: React.AnchorHTMLAttributes<HTMLAnchorElement>['href'];
+    target?: React.AnchorHTMLAttributes<HTMLAnchorElement>['target'];
+    rel?: React.AnchorHTMLAttributes<HTMLAnchorElement>['rel'];
 };
+
+const RowLayoutWrapper = forwardRef(function RowLayoutWrapper(
+    {
+        href,
+        target,
+        rel,
+        className,
+        tabIndex,
+        onClick,
+        onKeyDown,
+        children,
+    }: Pick<
+        RowLayoutProps,
+        'href' | 'rel' | 'target' | 'tabIndex' | 'className' | 'onClick' | 'onKeyDown' | 'children'
+    >,
+    forwardedRef: React.Ref<HTMLButtonElement>,
+) {
+    if (href) {
+        return (
+            <a
+                href={href}
+                target={target}
+                rel={rel}
+                className={cn(
+                    className,
+                    'cursor-pointer no-underline hover:underline focus-visible:outline-2 focus-visible:outline-theme-primary-600',
+                )}
+            >
+                {children}
+            </a>
+        );
+    }
+
+    return (
+        <button
+            className={className}
+            tabIndex={tabIndex}
+            ref={forwardedRef}
+            onClick={onClick}
+            onKeyDown={onKeyDown}
+        >
+            {children}
+        </button>
+    );
+});
 
 export const RowLayout = forwardRef(function RowLayout(
     {
@@ -44,6 +92,9 @@ export const RowLayout = forwardRef(function RowLayout(
         tabIndex = 0,
         testnetIndicator,
         title,
+        href,
+        rel,
+        target,
         variant = 'primary',
     }: RowLayoutProps,
     forwardedRef: React.Ref<HTMLButtonElement>,
@@ -66,12 +117,15 @@ export const RowLayout = forwardRef(function RowLayout(
     );
 
     return (
-        <button
+        <RowLayoutWrapper
             className={containerStyles}
             tabIndex={tabIndex}
             ref={forwardedRef}
             onClick={onClick}
             onKeyDown={onKeyDown}
+            href={href}
+            rel={rel}
+            target={target}
         >
             <span className='items-star flex w-full gap-3'>
                 {iconLeading && iconLeading}
@@ -181,6 +235,6 @@ export const RowLayout = forwardRef(function RowLayout(
                     </span>
                 </span>
             </span>
-        </button>
+        </RowLayoutWrapper>
     );
 });
