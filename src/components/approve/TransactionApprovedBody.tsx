@@ -1,12 +1,15 @@
 import { useLocation } from 'react-router-dom';
 import Amount from '../wallet/Amount';
 import { ToastPosition } from '../toast/ToastContainer';
-import ActionDetails, { ActionDetailsRow, ActionDetailsValue } from './ActionDetails';
+import ActionDetails, {
+    ActionDetailsFiatValue,
+    ActionDetailsRow,
+    ActionDetailsValue,
+} from './ActionDetails';
 import useClipboard from '@/lib/hooks/useClipboard';
 import trimAddress from '@/lib/utils/trimAddress';
 import { Icon } from '@/shared/components';
 import getActiveCoin from '@/lib/utils/getActiveCoin';
-import { WalletNetwork } from '@/lib/store/wallet';
 
 const TransactionApprovedBody = () => {
     const { state } = useLocation();
@@ -27,12 +30,12 @@ const TransactionApprovedBody = () => {
                     label='Amount'
                     below={
                         showFiat && (
-                            <div className='text-sm font-medium text-theme-secondary-500 dark:text-theme-secondary-300'>
+                            <ActionDetailsFiatValue>
                                 <Amount
                                     value={state?.transaction.convertedAmount as number}
                                     ticker={state?.transaction.exchangeCurrency as string}
                                 />
-                            </div>
+                            </ActionDetailsFiatValue>
                         )
                     }
                 >
@@ -56,12 +59,12 @@ const TransactionApprovedBody = () => {
                     label='Transaction Fee'
                     below={
                         showFiat && (
-                            <div className='text-sm font-medium text-theme-secondary-500 dark:text-theme-secondary-300'>
+                            <ActionDetailsFiatValue>
                                 <Amount
                                     value={state?.transaction.convertedFee as number}
                                     ticker={state?.transaction.exchangeCurrency as string}
                                 />
-                            </div>
+                            </ActionDetailsFiatValue>
                         )
                     }
                 >
@@ -79,12 +82,12 @@ const TransactionApprovedBody = () => {
                     label='Total Amount'
                     below={
                         showFiat && (
-                            <div className='text-sm font-medium text-theme-secondary-500 dark:text-theme-secondary-300'>
+                            <ActionDetailsFiatValue>
                                 <Amount
                                     value={state?.transaction.convertedTotal as number}
                                     ticker={state?.transaction.exchangeCurrency as string}
                                 />
-                            </div>
+                            </ActionDetailsFiatValue>
                         )
                     }
                 >
