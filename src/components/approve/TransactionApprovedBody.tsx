@@ -10,6 +10,7 @@ import useClipboard from '@/lib/hooks/useClipboard';
 import trimAddress from '@/lib/utils/trimAddress';
 import { Icon } from '@/shared/components';
 import getActiveCoin from '@/lib/utils/getActiveCoin';
+import { WalletNetwork } from '@/lib/store/wallet';
 
 const TransactionApprovedBody = () => {
     const { state } = useLocation();
