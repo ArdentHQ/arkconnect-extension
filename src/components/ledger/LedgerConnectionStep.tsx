@@ -1,17 +1,30 @@
 import { useEffect } from 'react';
-import classNames from 'classnames';
-import Step from './Step';
-import { connectSteps } from './utils/connectionSteps';
-import * as ModalStore from '@/lib/store/modal';
 
-import { Button, ExternalLink, Heading, Icon } from '@/shared/components';
+import { Button, ExternalLink, Heading, Icon, Loader } from '@/shared/components';
 
 import constants from '@/constants';
 import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
 import { useLedgerContext } from '@/lib/Ledger';
-import useLoadingModal from '@/lib/hooks/useLoadingModal';
 import useActiveNetwork from '@/lib/hooks/useActiveNetwork';
 import { useProfileContext } from '@/lib/context/Profile';
+
+const ConnectionStep = ({ children, ready }: { children: React.ReactNode; ready: boolean }) => {
+    return (
+        <li className='flex justify-start space-x-2 text-light-black dark:text-white'>
+            <span className='mt-px flex flex-shrink-0'>
+                {ready ? (
+                    <span className='flex h-5 w-5 items-center justify-center rounded-full bg-theme-primary-700 dark:bg-theme-primary-600'>
+                        <Icon icon='check' className='h-4 w-4 text-white dark:text-subtle-black' />
+                    </span>
+                ) : (
+                    <Loader className='typeset-body h-5 w-5 border-2 border-theme-secondary-400 border-t-theme-secondary-200 dark:border-theme-secondary-300 dark:border-t-theme-secondary-600' />
+                )}
+            </span>
+
+            <span>{children}</span>
+        </li>
+    );
+};
 
 export const LedgerConnectionStep = ({
     goToNextStep,
@@ -24,26 +37,20 @@ export const LedgerConnectionStep = ({
     const { profile: activeProfile } = useProfileContext();
     const { onError } = useErrorHandlerContext();
     const network = useActiveNetwork();
-    const loadingModal = useLoadingModal({
-        completedMessage: 'Ledger Connected!',
-        loadingMessage: 'Waiting for you to choose and connect a Ledger device.',
-        other: {
-            CTA: ModalStore.CTAType.INITIATE_LEDGER,
-        },
-    });
-
-    const { connect, abortConnectionRetry, error, isConnected, accessDenied } = useLedgerContext();
 
     const {
+        connect,
+        abortConnectionRetry,
+        accessDenied,
         listenDevice,
         hasDeviceAvailable,
         error: ledgerError,
+        isConnected,
         resetConnectionState,
     } = useLedgerContext();
 
-    const handleListenDevice = () => {
-        loadingModal.setLoading();
-        listenDevice();
+    const handleListenDevice = async () => {
+        await listenDevice();
     };
 
     useEffect(() => {
@@ -64,10 +71,10 @@ export const LedgerConnectionStep = ({
 
     useEffect(() => {
         if (!hasDeviceAvailable) return;
+
         (async () => {
             try {
                 await connect(activeProfile, network.coin(), network.id());
-                goToNextStep();
             } catch (error) {
                 onError(error);
             }
@@ -75,10 +82,10 @@ export const LedgerConnectionStep = ({
     }, [hasDeviceAvailable]);
 
     useEffect(() => {
-        if (error) {
-            onFailed?.(new Error(error));
+        if (ledgerError) {
+            onFailed?.(new Error(ledgerError));
         }
-    }, [isConnected, error]);
+    }, [isConnected, ledgerError]);
 
     useEffect(
         () => () => {
@@ -86,6 +93,16 @@ export const LedgerConnectionStep = ({
         },
         [abortConnectionRetry],
     );
+
+    const continueToNextStep = async () => {
+        try {
+            await connect(activeProfile, network.coin(), network.id());
+
+            goToNextStep();
+        } catch (error) {
+            onError(error);
+        }
+    };
 
     return (
         <div className='space-y-6'>
@@ -104,26 +121,30 @@ export const LedgerConnectionStep = ({
             </div>
 
             <div className='mb-6'>
-                {connectSteps.map((step, index) => (
-                    <div key={index} className='flex items-start gap-2'>
-                        <Step step={index + 1} />
-                        <p
-                            className={classNames(
-                                'typeset-headline text-light-black dark:text-white',
-                                {
-                                    'mb-3': index !== connectSteps.length - 1,
-                                },
-                            )}
-                        >
-                            {step}
-                        </p>
-                    </div>
-                ))}
+                <ul className='flex flex-col space-y-3'>
+                    <ConnectionStep ready={isConnected || hasDeviceAvailable}>
+                        Connect your Ledger device and close other apps connected to it.
+                    </ConnectionStep>
+
+                    <ConnectionStep ready={isConnected || hasDeviceAvailable}>
+                        Click Connect and choose your Ledger device in the browser window.
+                    </ConnectionStep>
+
+                    <ConnectionStep ready={isConnected}>
+                        Unlock and open the ARK app on the Ledger device.
+                    </ConnectionStep>
+                </ul>
             </div>
             <div className='pb-4'>
-                <Button variant='primary' onClick={handleListenDevice}>
-                    Continue
-                </Button>
+                {hasDeviceAvailable ? (
+                    <Button variant='primary' onClick={continueToNextStep} disabled={!isConnected}>
+                        Continue
+                    </Button>
+                ) : (
+                    <Button variant='primary' onClick={handleListenDevice}>
+                        Connect
+                    </Button>
+                )}
             </div>
             <ExternalLink
                 className='flex w-full items-center justify-center gap-3 text-theme-primary-700 dark:text-theme-primary-650'

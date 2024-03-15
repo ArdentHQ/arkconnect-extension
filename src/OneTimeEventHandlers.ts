@@ -113,6 +113,8 @@ export function OneTimeEventHandlers(extension: ReturnType<typeof Extension>) {
                     wallets: request.data.wallets,
                 });
 
+                extension.env().data().set(EnvironmentData.HasOnboarded, true);
+
                 await extension.persist();
 
                 return { error: undefined };
