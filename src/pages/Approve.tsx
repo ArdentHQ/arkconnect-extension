@@ -1,6 +1,6 @@
 import { Contracts } from '@ardenthq/sdk-profiles';
 import { useLocation } from 'react-router-dom';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Layout } from '@/shared/components';
 import ApproveTransaction from '@/components/approve/ApproveTransaction';
 import ApproveMessage from '@/components/approve/ApproveMessage';
@@ -26,10 +26,11 @@ export enum ApproveActionType {
 const Approve = () => {
     const location = useLocation();
     const { profile } = useProfileContext();
-    const { connect } = useLedgerContext();
+    const { connect, listenDevice, hasDeviceAvailable } = useLedgerContext();
     const abortReference = useRef(new AbortController());
     const [isModalOpen, setIsModalOpen] = useState(false);
     const wallets = useAppSelector(WalletStore.selectWallets);
+    const [approveWithLedgerResolver, setApproveWithLedgerResolver] = useState<() => void>();
 
     const walletData = wallets.find(
         (wallet) => wallet.walletId === location.state.session.walletId,
@@ -39,6 +40,15 @@ const Approve = () => {
     const locked = useAppSelector(UIStore.selectLocked);
     assertIsUnlocked(locked);
 
+    // Resolve the promise that waits for the device to be available once it is
+    useEffect(() => {
+        if (hasDeviceAvailable && approveWithLedgerResolver !== undefined) {
+            approveWithLedgerResolver();
+
+            setApproveWithLedgerResolver(undefined);
+        }
+    }, [hasDeviceAvailable, approveWithLedgerResolver]);
+
     const approveWithLedger = async (
         profile: Contracts.IProfile,
         wallet: Contracts.IReadWriteWallet,
@@ -46,7 +56,20 @@ const Approve = () => {
         if (!isLedgerTransportSupported()) {
             throw new Error('Ledger Transport is not supported!');
         }
+
         setIsModalOpen(true);
+
+        // Wait for the device to be available
+        await new Promise<void>((resolve) => {
+            if (!hasDeviceAvailable) {
+                listenDevice();
+
+                setApproveWithLedgerResolver(() => resolve);
+            } else {
+                resolve();
+            }
+        });
+
         await connect(profile, wallet.coinId(), wallet.networkId(), undefined);
     };
 
