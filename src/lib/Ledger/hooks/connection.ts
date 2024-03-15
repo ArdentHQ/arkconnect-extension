@@ -1,9 +1,10 @@
 import { Coins } from '@ardenthq/sdk';
 import { Contracts } from '@ardenthq/sdk-profiles';
 import { Options } from 'p-retry';
-import { useCallback, useMemo, useReducer, useRef } from 'react';
+import { useCallback, useEffect, useMemo, useReducer, useRef, useState } from 'react';
 
 import { persistLedgerConnection } from '../utils/connection';
+import { useLedgerContext } from '../Ledger';
 import { connectionReducer, defaultConnectionState } from './connection.state';
 import { useLedgerImport } from './import';
 import { closeDevices, isLedgerTransportSupported, openTransport } from '@/lib/Ledger/transport';
@@ -29,6 +30,7 @@ export const useLedgerConnection = () => {
 
         try {
             const { descriptor, deviceModel } = await openTransport();
+            console.log({ descriptor, deviceModel });
             dispatch({ id: deviceModel?.id || 'nanoS', path: descriptor, type: 'add' });
         } catch (error: any) {
             dispatch({ message: error.message, type: 'failed' });
@@ -163,5 +165,52 @@ export const useLedgerConnection = () => {
         handleLedgerConnectionError,
         removeErrors,
         accessDenied,
+    };
+};
+
+export const useLedgerConnectionStatusMessage = (): string => {
+    const { hasDeviceAvailable, isConnected } = useLedgerContext();
+
+    if (!hasDeviceAvailable) {
+        return 'Connect and choose your Ledger device in the browser window';
+    }
+
+    if (!isConnected) {
+        return 'Unlock and open the ARK app on the Ledger device';
+    }
+
+    return 'Waiting for your signature';
+};
+
+export const useWaitForAvailableDevice = (): {
+    waitUntilLedgerIsAvailable: () => Promise<void>;
+} => {
+    const { hasDeviceAvailable, listenDevice } = useLedgerContext();
+
+    const [ledgerIsAvailableResolver, setDeviceIsAvailableResolver] = useState<() => void>();
+
+    // Resolve the promise that waits for the device to be available once it is
+    useEffect(() => {
+        if (hasDeviceAvailable && ledgerIsAvailableResolver !== undefined) {
+            ledgerIsAvailableResolver();
+
+            setDeviceIsAvailableResolver(undefined);
+        }
+    }, [hasDeviceAvailable, ledgerIsAvailableResolver]);
+
+    const waitUntilLedgerIsAvailable = async () => {
+        return new Promise<void>((resolve) => {
+            if (!hasDeviceAvailable) {
+                listenDevice();
+
+                setDeviceIsAvailableResolver(() => resolve);
+            } else {
+                resolve();
+            }
+        });
+    };
+
+    return {
+        waitUntilLedgerIsAvailable,
     };
 };

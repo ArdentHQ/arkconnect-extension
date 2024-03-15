@@ -1,11 +1,11 @@
 import { Contracts } from '@ardenthq/sdk-profiles';
 import { useLocation } from 'react-router-dom';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { Layout } from '@/shared/components';
 import ApproveTransaction from '@/components/approve/ApproveTransaction';
 import ApproveMessage from '@/components/approve/ApproveMessage';
 import ApproveVote from '@/components/approve/ApproveVote';
-import { useLedgerContext } from '@/lib/Ledger';
+import { useLedgerContext, useWaitForAvailableDevice } from '@/lib/Ledger';
 import Modal from '@/shared/components/modal/Modal';
 import ApproveWithLedger from '@/components/ledger/ApproveWithLedger';
 import { isLedgerTransportSupported } from '@/lib/Ledger/transport';
@@ -26,11 +26,12 @@ export enum ApproveActionType {
 const Approve = () => {
     const location = useLocation();
     const { profile } = useProfileContext();
-    const { connect, listenDevice, hasDeviceAvailable } = useLedgerContext();
+    const { connect } = useLedgerContext();
     const abortReference = useRef(new AbortController());
     const [isModalOpen, setIsModalOpen] = useState(false);
     const wallets = useAppSelector(WalletStore.selectWallets);
-    const [approveWithLedgerResolver, setApproveWithLedgerResolver] = useState<() => void>();
+
+    const { waitUntilLedgerIsAvailable } = useWaitForAvailableDevice();
 
     const walletData = wallets.find(
         (wallet) => wallet.walletId === location.state.session.walletId,
@@ -39,15 +40,6 @@ const Approve = () => {
 
     const locked = useAppSelector(UIStore.selectLocked);
     assertIsUnlocked(locked);
-
-    // Resolve the promise that waits for the device to be available once it is
-    useEffect(() => {
-        if (hasDeviceAvailable && approveWithLedgerResolver !== undefined) {
-            approveWithLedgerResolver();
-
-            setApproveWithLedgerResolver(undefined);
-        }
-    }, [hasDeviceAvailable, approveWithLedgerResolver]);
 
     const approveWithLedger = async (
         profile: Contracts.IProfile,
@@ -59,16 +51,7 @@ const Approve = () => {
 
         setIsModalOpen(true);
 
-        // Wait for the device to be available
-        await new Promise<void>((resolve) => {
-            if (!hasDeviceAvailable) {
-                listenDevice();
-
-                setApproveWithLedgerResolver(() => resolve);
-            } else {
-                resolve();
-            }
-        });
+        await waitUntilLedgerIsAvailable();
 
         await connect(profile, wallet.coinId(), wallet.networkId(), undefined);
     };
