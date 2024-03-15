@@ -13,6 +13,7 @@ import { useExchangeRate } from '@/lib/hooks/useExchangeRate';
 import RequestedBy from '@/shared/components/actions/RequestedBy';
 import { useSendTransferForm } from '@/lib/hooks/useSendTransferForm';
 import { NavButton } from '@/shared/components/nav/NavButton';
+import { useLedgerConnectionStatusMessage } from '@/lib/Ledger';
 
 type Props = {
     actionType: ApproveActionType;
@@ -71,6 +72,8 @@ const ApproveWithLedger = ({
         ApproveActionType.UNVOTE,
         ApproveActionType.SWITCH_VOTE,
     ];
+
+    const statusMessage = useLedgerConnectionStatusMessage();
 
     const getActionMessage = () => {
         switch (actionType) {
@@ -160,9 +163,10 @@ const ApproveWithLedger = ({
                         </div>
                     )}
 
-                    <div className='flex items-center justify-center rounded-b-2xl bg-theme-warning-50 p-2 dark:bg-theme-warning-500/10'>
-                        <Loader variant='warning' />
-                        <p className='typeset-body font-medium'>Waiting for your signature</p>
+                    <div className='flex items-center justify-center space-x-2 rounded-b-2xl bg-theme-warning-50 px-4 py-2 dark:bg-theme-warning-500/10'>
+                        <Loader variant='warning' className=' flex-shrink-0' />
+
+                        <span className='typeset-body font-medium'>{statusMessage}</span>
                     </div>
                 </div>
             </div>
