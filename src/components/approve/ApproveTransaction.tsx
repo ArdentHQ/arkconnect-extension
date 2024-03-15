@@ -18,7 +18,7 @@ import RequestedTransactionBody from '@/components/approve/RequestedTransactionB
 import { useExchangeRate } from '@/lib/hooks/useExchangeRate';
 import { useNotifyOnUnload } from '@/lib/hooks/useNotifyOnUnload';
 import useLoadingModal from '@/lib/hooks/useLoadingModal';
-
+import { useWaitForConnectedDevice } from '@/lib/Ledger';
 type Props = {
     abortReference: AbortController;
     approveWithLedger: (
@@ -50,6 +50,7 @@ const ApproveTransaction = ({
         exchangeTicker: wallet.exchangeCurrency(),
         ticker: wallet.currency(),
     });
+    const { waitUntilLedgerIsConnected } = useWaitForConnectedDevice();
 
     const {
         formValuesLoaded,
@@ -93,6 +94,7 @@ const ApproveTransaction = ({
 
             if (wallet.isLedger()) {
                 await approveWithLedger(profile, wallet);
+                await waitUntilLedgerIsConnected();
                 loadingModal.setLoading();
             }
 

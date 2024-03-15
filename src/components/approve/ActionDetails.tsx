@@ -22,7 +22,7 @@ const ActionDetails = ({
     maxHeight?: string;
 }) => {
     return (
-        <div className='flex h-full w-full flex-col items-center'>
+        <div className='flex h-full w-full flex-1 flex-col items-center overflow-auto'>
             <div className=' mb-2 text-center text-sm font-medium text-theme-secondary-500 dark:text-theme-secondary-300'>
                 Details
             </div>

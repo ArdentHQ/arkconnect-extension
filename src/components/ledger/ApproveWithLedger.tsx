@@ -105,9 +105,9 @@ const ApproveWithLedger = ({
     };
 
     return (
-        <div className=' min-h-screen bg-subtle-white dark:bg-light-black'>
+        <div className='flex max-h-screen min-h-screen flex-col overflow-auto bg-subtle-white dark:bg-light-black'>
             <RequestedBy appDomain={formatDomain(appName) || ''} appLogo={appLogo} />
-            <div className='px-4 pt-4'>
+            <div className='flex flex-1 flex-col overflow-auto px-4 pt-4'>
                 <div className='flex items-center justify-between gap-3 bg-subtle-white dark:bg-light-black'>
                     <NavButton onClick={closeLedgerScreen}>
                         <Icon
@@ -123,7 +123,7 @@ const ApproveWithLedger = ({
                     Connect your Ledger device, launch the ARK app, and carefully review the request
                     on your device before confirming your approval.
                 </p>
-                <div className='mt-6'>
+                <div className='mt-6 flex flex-1 flex-col overflow-auto'>
                     {votingActionTypes.includes(actionType) && (
                         <RequestedVoteBody
                             unvote={unvote}
@@ -149,24 +149,21 @@ const ApproveWithLedger = ({
                     )}
                 </div>
 
-                <div
-                    className={classNames(
-                        'mb-6 overflow-hidden rounded-2xl border border-solid border-theme-warning-400',
-                        getTopMarginClass(),
-                    )}
-                >
-                    {!!address && (
-                        <div className='flex justify-center bg-white p-[14px] dark:bg-light-black'>
-                            <p className='typeset-headline text-light-black dark:text-white'>
-                                {trimAddress(address, 'long')}
-                            </p>
+                <div className={classNames('mb-6', getTopMarginClass())}>
+                    <div className='overflow-hidden rounded-2xl border border-solid border-theme-warning-400'>
+                        {!!address && (
+                            <div className='flex justify-center rounded-t bg-white p-[14px] dark:bg-light-black'>
+                                <p className='typeset-headline text-light-black dark:text-white'>
+                                    {trimAddress(address, 'long')}
+                                </p>
+                            </div>
+                        )}
+
+                        <div className='flex items-center justify-center space-x-2 rounded-b-2xl bg-theme-warning-50 px-4 py-2 dark:bg-theme-warning-500/10'>
+                            <Loader variant='warning' className=' flex-shrink-0' />
+
+                            <span className='typeset-body font-medium'>{statusMessage}</span>
                         </div>
-                    )}
-
-                    <div className='flex items-center justify-center space-x-2 rounded-b-2xl bg-theme-warning-50 px-4 py-2 dark:bg-theme-warning-500/10'>
-                        <Loader variant='warning' className=' flex-shrink-0' />
-
-                        <span className='typeset-body font-medium'>{statusMessage}</span>
                     </div>
                 </div>
             </div>
