@@ -15,6 +15,7 @@ import RequestedSignatureMessage from '@/components/approve/RequestedSignatureMe
 import { useNotifyOnUnload } from '@/lib/hooks/useNotifyOnUnload';
 import useLoadingModal from '@/lib/hooks/useLoadingModal';
 import constants from '@/constants';
+import { useWaitForConnectedDevice } from '@/lib/Ledger';
 
 type Props = {
     abortReference: AbortController;
@@ -43,6 +44,7 @@ const ApproveMessage = ({
         completedMessage: 'Signed Successfully',
         loadingMessage: 'Signing...',
     });
+    const { waitUntilLedgerIsConnected } = useWaitForConnectedDevice();
 
     const reject = (message: string = 'Sign message denied!') => {
         runtime.sendMessage({
@@ -68,6 +70,8 @@ const ApproveMessage = ({
 
             if (wallet.isLedger()) {
                 await approveWithLedger(profile, wallet);
+
+                await waitUntilLedgerIsConnected();
             }
 
             const signedMessageResult = await sign(wallet, message, {

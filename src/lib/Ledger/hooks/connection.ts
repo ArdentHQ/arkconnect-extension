@@ -214,3 +214,34 @@ export const useWaitForAvailableDevice = (): {
         waitUntilLedgerIsAvailable,
     };
 };
+
+export const useWaitForConnectedDevice = (): {
+    waitUntilLedgerIsConnected: () => Promise<void>;
+} => {
+    const { isConnected } = useLedgerContext();
+
+    const [ledgerIsAvailableResolver, setDeviceIsAvailableResolver] = useState<() => void>();
+
+    // Resolve the promise that waits for the device to be available once it is
+    useEffect(() => {
+        if (isConnected && ledgerIsAvailableResolver !== undefined) {
+            ledgerIsAvailableResolver();
+
+            setDeviceIsAvailableResolver(undefined);
+        }
+    }, [isConnected, ledgerIsAvailableResolver]);
+
+    const waitUntilLedgerIsConnected = async () => {
+        return new Promise<void>((resolve) => {
+            if (!isConnected) {
+                setDeviceIsAvailableResolver(() => resolve);
+            } else {
+                resolve();
+            }
+        });
+    };
+
+    return {
+        waitUntilLedgerIsConnected,
+    };
+};
