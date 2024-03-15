@@ -18,6 +18,7 @@ import { useEnvironmentContext } from '@/lib/context/Environment';
 import RequestedVoteBody from '@/components/approve/RequestedVoteBody';
 import { useNotifyOnUnload } from '@/lib/hooks/useNotifyOnUnload';
 import useLoadingModal from '@/lib/hooks/useLoadingModal';
+import { useWaitForConnectedDevice } from '@/lib/Ledger';
 
 type Props = {
     abortReference: AbortController;
@@ -42,6 +43,7 @@ const ApproveVote = ({ abortReference, approveWithLedger, wallet, closeLedgerScr
         exchangeTicker: wallet.exchangeCurrency(),
         ticker: wallet.currency(),
     });
+    const { waitUntilLedgerIsConnected } = useWaitForConnectedDevice();
 
     const {
         resetForm,
@@ -110,6 +112,7 @@ const ApproveVote = ({ abortReference, approveWithLedger, wallet, closeLedgerScr
 
             if (wallet.isLedger()) {
                 await approveWithLedger(profile, wallet);
+                await waitUntilLedgerIsConnected();
                 loadingModal.setLoading();
             }
 
