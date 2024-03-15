@@ -59,7 +59,9 @@ const VoteApproved = () => {
                         }
                         color='base'
                     >
-                        <span className='typeset-headline font-medium'>View transaction on ARKScan</span>
+                        <span className='typeset-headline font-medium'>
+                            View transaction on ARKScan
+                        </span>
                         <Icon icon='link-external' className='h-5 w-5' />
                     </ExternalLink>
                 </div>
