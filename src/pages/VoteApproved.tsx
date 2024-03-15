@@ -32,7 +32,7 @@ const VoteApproved = () => {
     };
 
     return (
-        <div className='fixed left-0 top-0 z-10 flex w-full  items-center justify-center bg-subtle-white dark:bg-light-black'>
+        <div className='left-0 top-0 z-10 flex w-full flex-col items-center justify-center bg-subtle-white dark:bg-light-black'>
             <RequestedBy appDomain={formatDomain(session.domain) || ''} appLogo={session.logo} />
             <div className='flex w-full flex-col items-center justify-between gap-[37px] px-4 py-6'>
                 <div className='flex w-full flex-col items-center gap-6'>
@@ -59,7 +59,7 @@ const VoteApproved = () => {
                         }
                         color='base'
                     >
-                        <p className='typeset-headline font-medium'>View transaction on ARKScan</p>
+                        <span className='typeset-headline font-medium'>View transaction on ARKScan</span>
                         <Icon icon='link-external' className='h-5 w-5' />
                     </ExternalLink>
                 </div>
