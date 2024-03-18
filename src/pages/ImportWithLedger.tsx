@@ -30,11 +30,24 @@ const ImportWithLedger = () => {
     const network = useActiveNetwork();
     const { profile, initProfile } = useProfileContext();
     const { defaultCurrency } = useLocaleCurrency();
-    const { error, removeErrors } = useLedgerContext();
+    const { 
+        error, 
+        removeErrors,
+        resetConnectionState,
+        disconnect,
+        abortConnectionRetry,
+    } = useLedgerContext();
     const { onError } = useErrorHandlerContext();
+
+    const handleClickBack = () => {
+        disconnect();
+        abortConnectionRetry();
+        resetConnectionState();
+    };
+
     const [steps, setSteps] = useState<Step[]>([
-        { component: LedgerConnectionStep, containerPaddingX: '24' },
-        { component: ImportWallets },
+        { component: LedgerConnectionStep, containerPaddingX: '24'},
+        { component: ImportWallets, onClickBack: handleClickBack },
     ]);
     const { env } = useEnvironmentContext();
 
