@@ -1,7 +1,11 @@
 import { useLocation } from 'react-router-dom';
 import Amount from '../wallet/Amount';
 import { ToastPosition } from '../toast/ToastContainer';
-import ActionDetails, { ActionDetailsRow } from './ActionDetails';
+import ActionDetails, {
+    ActionDetailsFiatValue,
+    ActionDetailsRow,
+    ActionDetailsValue,
+} from './ActionDetails';
 import useClipboard from '@/lib/hooks/useClipboard';
 import trimAddress from '@/lib/utils/trimAddress';
 import { Icon } from '@/shared/components';
@@ -12,83 +16,97 @@ const TransactionApprovedBody = () => {
     const { state } = useLocation();
     const { copy } = useClipboard();
 
+    const showFiat = state.walletNetwork === WalletNetwork.MAINNET;
+
     return (
         <div className='w-full'>
             <ActionDetails maxHeight='229px'>
                 <ActionDetailsRow label='Sender'>
-                    <div className='font-medium text-light-black dark:text-white'>
+                    <ActionDetailsValue>
                         {trimAddress(state?.transaction.sender, 'short')}
-                    </div>
+                    </ActionDetailsValue>
                 </ActionDetailsRow>
 
-                <ActionDetailsRow label='Amount'>
-                    <div className='flex items-baseline gap-1'>
-                        <div className='font-medium text-light-black dark:text-white'>
-                            <Amount
-                                value={state?.transaction.amount}
-                                ticker={getActiveCoin(state?.walletNetwork)}
-                            />
-                        </div>
-                        {state.walletNetwork === WalletNetwork.MAINNET && (
-                            <div className='text-sm font-medium text-theme-secondary-500 dark:text-theme-secondary-300'>
+                <ActionDetailsRow
+                    label='Amount'
+                    below={
+                        showFiat && (
+                            <ActionDetailsFiatValue>
                                 <Amount
                                     value={state?.transaction.convertedAmount as number}
                                     ticker={state?.transaction.exchangeCurrency as string}
                                 />
-                            </div>
-                        )}
+                            </ActionDetailsFiatValue>
+                        )
+                    }
+                >
+                    <div className='flex items-baseline gap-1'>
+                        <ActionDetailsValue>
+                            <Amount
+                                value={state?.transaction.amount}
+                                ticker={getActiveCoin(state?.walletNetwork)}
+                            />
+                        </ActionDetailsValue>
                     </div>
                 </ActionDetailsRow>
 
                 <ActionDetailsRow label='Receiver'>
-                    <div className='font-medium text-light-black dark:text-white'>
+                    <ActionDetailsValue>
                         {trimAddress(state?.transaction.receiver, 'short')}
-                    </div>
+                    </ActionDetailsValue>
                 </ActionDetailsRow>
 
-                <ActionDetailsRow label='Transaction Fee'>
-                    <div className='flex items-baseline gap-1'>
-                        <div className='font-medium text-light-black dark:text-white'>
-                            <Amount
-                                value={state?.transaction.fee}
-                                ticker={getActiveCoin(state?.walletNetwork)}
-                            />
-                        </div>
-                        {state.walletNetwork === WalletNetwork.MAINNET && (
-                            <div className='text-sm font-medium text-theme-secondary-500 dark:text-theme-secondary-300'>
+                <ActionDetailsRow
+                    label='Transaction Fee'
+                    below={
+                        showFiat && (
+                            <ActionDetailsFiatValue>
                                 <Amount
                                     value={state?.transaction.convertedFee as number}
                                     ticker={state?.transaction.exchangeCurrency as string}
                                 />
-                            </div>
-                        )}
+                            </ActionDetailsFiatValue>
+                        )
+                    }
+                >
+                    <div className='flex items-baseline gap-1'>
+                        <ActionDetailsValue>
+                            <Amount
+                                value={state?.transaction.fee}
+                                ticker={getActiveCoin(state?.walletNetwork)}
+                            />
+                        </ActionDetailsValue>
                     </div>
                 </ActionDetailsRow>
 
-                <ActionDetailsRow label='Total Amount'>
-                    <div className='flex items-baseline gap-1'>
-                        <div className='font-medium text-light-black dark:text-white'>
-                            <Amount
-                                value={state?.transaction.total}
-                                ticker={getActiveCoin(state?.walletNetwork)}
-                            />
-                        </div>
-                        {state.walletNetwork === WalletNetwork.MAINNET && (
-                            <div className='text-sm font-medium text-theme-secondary-500 dark:text-theme-secondary-300'>
+                <ActionDetailsRow
+                    label='Total Amount'
+                    below={
+                        showFiat && (
+                            <ActionDetailsFiatValue>
                                 <Amount
                                     value={state?.transaction.convertedTotal as number}
                                     ticker={state?.transaction.exchangeCurrency as string}
                                 />
-                            </div>
-                        )}
+                            </ActionDetailsFiatValue>
+                        )
+                    }
+                >
+                    <div className='flex items-baseline gap-1'>
+                        <ActionDetailsValue>
+                            <Amount
+                                value={state?.transaction.total}
+                                ticker={getActiveCoin(state?.walletNetwork)}
+                            />
+                        </ActionDetailsValue>
                     </div>
                 </ActionDetailsRow>
 
                 <ActionDetailsRow label='Transaction ID'>
                     <div className='flex items-center gap-1'>
-                        <div className='font-medium text-light-black dark:text-white'>
+                        <ActionDetailsValue>
                             {trimAddress(state?.transaction.id, 'short')}
-                        </div>
+                        </ActionDetailsValue>
 
                         <button
                             type='button'

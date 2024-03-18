@@ -1,17 +1,41 @@
 export const ActionDetailsRow = ({
     label,
     children,
+    below,
 }: {
     label: string | React.ReactNode;
     children: string | React.ReactNode;
+    below?: React.ReactNode;
 }) => {
     return (
-        <div className='flex justify-between border-b border-solid border-b-theme-secondary-100 p-3 last:border-b-0 dark:border-b-theme-secondary-700'>
-            <div className=' text-theme-secondary-500 dark:text-theme-secondary-300'>{label}</div>
+        <div className='flex flex-col space-y-1 border-b border-solid border-b-theme-secondary-100 p-3 last:border-b-0 dark:border-b-theme-secondary-700'>
+            <div className='flex justify-between'>
+                <div className='text-sm text-theme-secondary-500 dark:text-theme-secondary-300'>
+                    {label}
+                </div>
 
-            {children}
+                {children}
+            </div>
+
+            {below}
         </div>
     );
+};
+
+export const ActionDetailsFiatValue = ({ children }: { children: React.ReactNode }) => {
+    return (
+        <div className='flex justify-between'>
+            <div className='text-sm text-theme-secondary-500 dark:text-theme-secondary-300'>≈</div>
+
+            <div className='text-sm text-theme-secondary-500 dark:text-theme-secondary-300 '>
+                {children}
+            </div>
+        </div>
+    );
+};
+
+export const ActionDetailsValue = ({ children }: { children: React.ReactNode }) => {
+    return <div className='text-sm font-medium text-light-black dark:text-white'>{children}</div>;
 };
 
 const ActionDetails = ({
