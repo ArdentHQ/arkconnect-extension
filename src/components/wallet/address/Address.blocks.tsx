@@ -7,6 +7,7 @@ import trimAddress from '@/lib/utils/trimAddress';
 import { ToastPosition } from '@/components/toast/ToastContainer';
 import useClipboard from '@/lib/hooks/useClipboard';
 import { useIsTruncated } from '@/lib/hooks/useIsTruncated';
+import {twMerge} from "tailwind-merge";
 
 export const AddressAlias = ({
     alias,
@@ -65,15 +66,17 @@ export const Address = ({
     address,
     length = 10,
     tooltipPlacement = 'top',
+    classNames
 }: {
     address: string;
     length?: number;
     tooltipPlacement?: TippyProps['placement'];
+    classNames?: string;
 }) => {
     return (
         <div>
             <Tooltip content={address} placement={tooltipPlacement}>
-                <p className='typeset-body max-w-44  font-normal text-theme-secondary-500 underline-offset-2 hover:underline dark:text-theme-secondary-300'>
+                <p className={twMerge('text-sm leading-[17.5px] max-w-44 font-normal text-theme-secondary-500 underline-offset-2 hover:underline dark:text-theme-secondary-300', classNames)}>
                     {trimAddress(address, length)}
                 </p>
             </Tooltip>
