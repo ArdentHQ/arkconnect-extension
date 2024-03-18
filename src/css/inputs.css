@@ -114,7 +114,7 @@
     [type='checkbox']:not(:disabled):not(:checked) + .checkbox-indicator {
         @apply bg-white group-hover:bg-theme-primary-50 dark:bg-transparent dark:group-hover:bg-theme-primary-900;
     }
-    
+
     [type='checkbox']:not(:disabled):checked + .checkbox-indicator {
         @apply group-hover:bg-theme-primary-50 group-hover:dark:bg-theme-primary-950;
     }
