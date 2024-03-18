@@ -4,7 +4,7 @@ import ActionDetails, { ActionDetailsRow } from './ActionDetails';
 import { Tooltip } from '@/shared/components';
 import trimAddress from '@/lib/utils/trimAddress';
 import { getNetworkCurrency } from '@/lib/utils/getActiveCoin';
-import {Address} from "@/components/wallet/address/Address.blocks";
+import { Address } from '@/components/wallet/address/Address.blocks';
 
 type Props = {
     vote: Contracts.VoteRegistryItem | null;
@@ -45,7 +45,12 @@ const RequestedVoteBody = ({ vote, unvote, fee, convertedFee, wallet }: Props) =
 
             {unvote && !wallet.isLedger() && (
                 <ActionDetailsRow label='Unvote Delegate Address'>
-                    <Address address={unvote.wallet?.address() ?? ''} tooltipPlacement='bottom-end' length={10} classNames="text-base leading-5 font-medium text-light-black dark:text-white"/>
+                    <Address
+                        address={unvote.wallet?.address() ?? ''}
+                        tooltipPlacement='bottom-end'
+                        length={10}
+                        classNames='text-base leading-5 font-medium text-light-black dark:text-white'
+                    />
                 </ActionDetailsRow>
             )}
 
@@ -59,7 +64,7 @@ const RequestedVoteBody = ({ vote, unvote, fee, convertedFee, wallet }: Props) =
                         }
                         placement='bottom-end'
                     >
-                        <div className='font-medium text-light-black dark:text-white underline-offset-2 hover:underline'>
+                        <div className='font-medium text-light-black underline-offset-2 hover:underline dark:text-white'>
                             {trimAddress(unvote.wallet?.publicKey() ?? '', 10)}
                         </div>
                     </Tooltip>
@@ -76,7 +81,12 @@ const RequestedVoteBody = ({ vote, unvote, fee, convertedFee, wallet }: Props) =
 
             {vote && !wallet.isLedger() && (
                 <ActionDetailsRow label='Vote Delegate Address'>
-                    <Address address={vote.wallet?.address() ?? ''} tooltipPlacement='bottom-end' length={10} classNames="text-base leading-5 font-medium text-light-black dark:text-white"/>
+                    <Address
+                        address={vote.wallet?.address() ?? ''}
+                        tooltipPlacement='bottom-end'
+                        length={10}
+                        classNames='text-base leading-5 font-medium text-light-black dark:text-white'
+                    />
                 </ActionDetailsRow>
             )}
 
@@ -90,7 +100,7 @@ const RequestedVoteBody = ({ vote, unvote, fee, convertedFee, wallet }: Props) =
                         }
                         placement='bottom-end'
                     >
-                        <div className='font-medium text-light-black dark:text-white underline-offset-2 hover:underline'>
+                        <div className='font-medium text-light-black underline-offset-2 hover:underline dark:text-white'>
                             {trimAddress(vote.wallet?.publicKey() ?? '', 10)}
                         </div>
                     </Tooltip>
