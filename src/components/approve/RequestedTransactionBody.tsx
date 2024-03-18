@@ -49,8 +49,13 @@ const RequestedTransactionBody = ({ wallet, amount, fee, total, receiverAddress 
             >
                 <div className='flex items-center gap-4'>
                     <ActionDetailsValue>
-                        <Amount value={amount} ticker={coin} withTicker  underlineOnHover={true}
-                                tooltipPlacement='bottom-end' />
+                        <Amount
+                            value={amount}
+                            ticker={coin}
+                            withTicker
+                            underlineOnHover={true}
+                            tooltipPlacement='bottom-end'
+                        />
                     </ActionDetailsValue>
                 </div>
             </ActionDetailsRow>
@@ -69,14 +74,25 @@ const RequestedTransactionBody = ({ wallet, amount, fee, total, receiverAddress 
                 below={
                     withFiat && (
                         <ActionDetailsFiatValue>
-                            <Amount value={convert(fee)} ticker={exchangeCurrency} underlineOnHover={true} tooltipPlacement='bottom-end' />
+                            <Amount
+                                value={convert(fee)}
+                                ticker={exchangeCurrency}
+                                underlineOnHover={true}
+                                tooltipPlacement='bottom-end'
+                            />
                         </ActionDetailsFiatValue>
                     )
                 }
             >
                 <div className='flex items-center gap-4'>
                     <ActionDetailsValue>
-                        <Amount value={fee} ticker={coin} withTicker underlineOnHover={true} tooltipPlacement='bottom-end' />
+                        <Amount
+                            value={fee}
+                            ticker={coin}
+                            withTicker
+                            underlineOnHover={true}
+                            tooltipPlacement='bottom-end'
+                        />
                     </ActionDetailsValue>
                 </div>
             </ActionDetailsRow>
@@ -86,14 +102,25 @@ const RequestedTransactionBody = ({ wallet, amount, fee, total, receiverAddress 
                 below={
                     withFiat && (
                         <ActionDetailsFiatValue>
-                            <Amount value={convert(total)} ticker={exchangeCurrency} underlineOnHover={true} tooltipPlacement='bottom-end' />
+                            <Amount
+                                value={convert(total)}
+                                ticker={exchangeCurrency}
+                                underlineOnHover={true}
+                                tooltipPlacement='bottom-end'
+                            />
                         </ActionDetailsFiatValue>
                     )
                 }
             >
                 <div className='flex items-center gap-4'>
                     <ActionDetailsValue>
-                        <Amount value={total} ticker={coin} withTicker underlineOnHover={true} tooltipPlacement='bottom-end' />
+                        <Amount
+                            value={total}
+                            ticker={coin}
+                            withTicker
+                            underlineOnHover={true}
+                            tooltipPlacement='bottom-end'
+                        />
                     </ActionDetailsValue>
                 </div>
             </ActionDetailsRow>

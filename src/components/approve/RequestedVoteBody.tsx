@@ -8,7 +8,7 @@ import ActionDetails, {
 import { Tooltip } from '@/shared/components';
 import trimAddress from '@/lib/utils/trimAddress';
 import { getNetworkCurrency } from '@/lib/utils/getActiveCoin';
-import {Address} from "@/components/wallet/address/Address.blocks";
+import { Address } from '@/components/wallet/address/Address.blocks';
 
 type Props = {
     vote: Contracts.VoteRegistryItem | null;
@@ -71,8 +71,9 @@ const RequestedVoteBody = ({ vote, unvote, fee, convertedFee, wallet }: Props) =
                         placement='bottom-end'
                     >
                         <ActionDetailsValue>
-                            <span className="underline-offset-2 hover:underline">
-                            {trimAddress(unvote.wallet?.publicKey() ?? '', 10)}</span>
+                            <span className='underline-offset-2 hover:underline'>
+                                {trimAddress(unvote.wallet?.publicKey() ?? '', 10)}
+                            </span>
                         </ActionDetailsValue>
                     </Tooltip>
                 </ActionDetailsRow>
@@ -106,8 +107,8 @@ const RequestedVoteBody = ({ vote, unvote, fee, convertedFee, wallet }: Props) =
                         placement='bottom-end'
                     >
                         <ActionDetailsValue>
-                            <span className="underline-offset-2 hover:underline">
-                            {trimAddress(vote.wallet?.publicKey() ?? '', 10)}
+                            <span className='underline-offset-2 hover:underline'>
+                                {trimAddress(vote.wallet?.publicKey() ?? '', 10)}
                             </span>
                         </ActionDetailsValue>
                     </Tooltip>
