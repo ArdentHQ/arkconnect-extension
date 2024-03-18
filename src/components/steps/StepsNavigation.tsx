@@ -41,7 +41,7 @@ const StepsNavigation = <T extends Record<string, any>>({
             navigate(-1);
             onStepChange?.(-1);
         }
-        if(steps[currentStep].onClickBack) {
+        if (steps[currentStep].onClickBack) {
             steps[currentStep].onClickBack?.();
         }
     };
