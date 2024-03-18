@@ -18,6 +18,7 @@ import RequestedTransactionBody from '@/components/approve/RequestedTransactionB
 import { useExchangeRate } from '@/lib/hooks/useExchangeRate';
 import { useNotifyOnUnload } from '@/lib/hooks/useNotifyOnUnload';
 import useLoadingModal from '@/lib/hooks/useLoadingModal';
+import { HigherFeeBanner } from '@/components/approve/HigherCustomFee.blocks';
 
 type Props = {
     abortReference: AbortController;
@@ -37,7 +38,7 @@ const ApproveTransaction = ({
 }: Props) => {
     const navigate = useNavigate();
     const location = useLocation();
-    const { domain, tabId, session, amount, receiverAddress } = location.state;
+    const { domain, tabId, session, amount, receiverAddress, fee: customFee } = location.state;
     const { profile } = useProfileContext();
     const { env } = useEnvironmentContext();
     const { syncAll } = useWalletSync({ env, profile });
@@ -55,12 +56,15 @@ const ApproveTransaction = ({
         formValuesLoaded,
         resetForm,
         submitForm,
-        values: { fee, total },
+        values: { fee, total, hasHigherCustomFee },
     } = useSendTransferForm(wallet, {
         session,
         amount,
         receiverAddress,
+        customFee,
     });
+
+    const [showHigherCustomFeeBanner, setShowHigherCustomFeeBanner] = useState(true);
 
     useEffect(() => {
         if (BigNumber.make(amount).plus(fee).isGreaterThan(wallet.balance())) {
@@ -164,6 +168,13 @@ const ApproveTransaction = ({
 
     return (
         <>
+            {showHigherCustomFeeBanner && hasHigherCustomFee && (
+                <HigherFeeBanner
+                    averageFee={hasHigherCustomFee}
+                    coin={wallet.currency()}
+                    onClose={() => setShowHigherCustomFeeBanner(false)}
+                />
+            )}
             <ApproveHeader
                 actionType={ApproveActionType.TRANSACTION}
                 appName={session.domain}
@@ -176,6 +187,7 @@ const ApproveTransaction = ({
                     fee={fee}
                     total={total}
                     wallet={wallet}
+                    hasHigherCustomFee={hasHigherCustomFee}
                 />
             </ApproveBody>
             <ApproveFooter

@@ -31,21 +31,19 @@ export type ConnectData = {
 export type SignMessageData = {
     type: 'signature';
     message: string;
-    session: Session;
 };
 
 export type SignTransactionData = {
     type: 'transfer';
     amount: number;
+    fee?: number;
     receiverAddress: string;
-    session: Session;
 };
 
 export type SignVoteData = {
     type: 'vote' | 'unvote';
     amount: number;
     receiverAddress: string;
-    session: Session;
 };
 
 let extensionWindowId: number | null = null;

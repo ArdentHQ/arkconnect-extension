@@ -78,6 +78,7 @@ type SignMessageResponse = {
 
 type SignTransactionRequest = {
     amount: number;
+    fee?: number;
     receiverAddress: string;
 };
 
@@ -364,6 +365,10 @@ class ArkConnectInPageProvider {
 
                 try {
                     assertPositiveNonZero(request.amount);
+
+                    if (request.fee) {
+                        assertPositiveNonZero(request.fee);
+                    }
                 } catch (error: unknown) {
                     reject({
                         domain: window.location.origin,

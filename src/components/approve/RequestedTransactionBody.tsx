@@ -8,6 +8,7 @@ import ActionDetails, {
 import trimAddress from '@/lib/utils/trimAddress';
 import { getNetworkCurrency } from '@/lib/utils/getActiveCoin';
 import { useExchangeRate } from '@/lib/hooks/useExchangeRate';
+import { HigherFeeWarning } from '@/components/approve/HigherCustomFee.blocks';
 
 type Props = {
     amount: number;
@@ -15,9 +16,17 @@ type Props = {
     fee: number;
     receiverAddress: string;
     wallet: Contracts.IReadWriteWallet;
+    hasHigherCustomFee: number | null;
 };
 
-const RequestedTransactionBody = ({ wallet, amount, fee, total, receiverAddress }: Props) => {
+const RequestedTransactionBody = ({
+    wallet,
+    amount,
+    fee,
+    total,
+    receiverAddress,
+    hasHigherCustomFee,
+}: Props) => {
     const exchangeCurrency = wallet.exchangeCurrency() ?? 'USD';
 
     const coin = getNetworkCurrency(wallet.network());
@@ -55,7 +64,14 @@ const RequestedTransactionBody = ({ wallet, amount, fee, total, receiverAddress 
             </ActionDetailsRow>
 
             <ActionDetailsRow
-                label='Transaction Fee'
+                label={
+                    <span className='flex items-center gap-1'>
+                        Transaction Fee{' '}
+                        {hasHigherCustomFee && (
+                            <HigherFeeWarning averageFee={hasHigherCustomFee} coin={coin} />
+                        )}
+                    </span>
+                }
                 below={
                     withFiat && (
                         <ActionDetailsFiatValue>
