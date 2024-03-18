@@ -12,6 +12,7 @@ type CheckboxProps = {
     helperText?: string;
     disabled?: boolean;
     tabIndex?: number;
+    transparentBackground?: boolean;
 };
 
 export const Checkbox: FC<CheckboxProps> = ({
@@ -23,6 +24,7 @@ export const Checkbox: FC<CheckboxProps> = ({
     helperText,
     disabled,
     tabIndex = 0,
+    transparentBackground,
 }) => {
     const [isFocusWithin, setIsFocusWithin] = useState(false);
 
@@ -76,6 +78,7 @@ export const Checkbox: FC<CheckboxProps> = ({
                     'transition-smoothEase': !isFirefox,
                     'outline outline-2 outline-offset-2 outline-theme-primary-600': isFocusWithin,
                     'cursor-not-allowed': disabled,
+                    'checkbox-transparent': transparentBackground
                 })}
             />
         </label>

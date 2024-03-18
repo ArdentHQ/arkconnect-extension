@@ -115,6 +115,10 @@
         @apply bg-white group-hover:bg-theme-primary-50 dark:bg-light-black dark:group-hover:bg-theme-primary-900;
     }
 
+    [type='checkbox']:not(:disabled):not(:checked) + .checkbox-indicator.checkbox-transparent {
+        @apply bg-transparent dark:bg-transparent
+    }
+    
     [type='checkbox']:not(:disabled):checked + .checkbox-indicator {
         @apply group-hover:bg-theme-primary-50 group-hover:dark:bg-theme-primary-950;
     }
