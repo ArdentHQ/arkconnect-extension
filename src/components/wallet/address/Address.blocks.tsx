@@ -78,7 +78,7 @@ export const Address = ({
             <Tooltip content={address} placement={tooltipPlacement}>
                 <p
                     className={twMerge(
-                        'max-w-44 text-sm font-normal leading-[17.5px] text-theme-secondary-500 underline-offset-2 hover:underline dark:text-theme-secondary-300 cursor-pointer',
+                        'max-w-44 cursor-pointer text-sm font-normal leading-[17.5px] text-theme-secondary-500 underline-offset-2 hover:underline dark:text-theme-secondary-300',
                         classNames,
                     )}
                 >
