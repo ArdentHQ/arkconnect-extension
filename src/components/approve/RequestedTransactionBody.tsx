@@ -1,6 +1,10 @@
 import { Contracts } from '@ardenthq/sdk-profiles';
 import Amount from '../wallet/Amount';
-import ActionDetails, { ActionDetailsRow } from './ActionDetails';
+import ActionDetails, {
+    ActionDetailsFiatValue,
+    ActionDetailsRow,
+    ActionDetailsValue,
+} from './ActionDetails';
 import { getNetworkCurrency } from '@/lib/utils/getActiveCoin';
 import { useExchangeRate } from '@/lib/hooks/useExchangeRate';
 import { Address } from '@/components/wallet/address/Address.blocks';
@@ -23,87 +27,64 @@ const RequestedTransactionBody = ({ wallet, amount, fee, total, receiverAddress 
         ticker: wallet.currency(),
     });
 
+    const withFiat = wallet.network().isLive();
+
     return (
         <ActionDetails>
-            <ActionDetailsRow label='Amount'>
+            <ActionDetailsRow
+                label='Amount'
+                below={
+                    withFiat && (
+                        <ActionDetailsFiatValue>
+                            <Amount value={convert(amount)} ticker={exchangeCurrency} />
+                        </ActionDetailsFiatValue>
+                    )
+                }
+            >
                 <div className='flex items-center gap-4'>
-                    <div className='font-medium text-light-black dark:text-white'>
-                        <Amount
-                            value={amount}
-                            ticker={coin}
-                            withTicker
-                            underlineOnHover={true}
-                            tooltipPlacement='bottom-end'
-                        />
-                    </div>
-
-                    {wallet.network().isLive() && (
-                        <div className='text-sm font-medium text-theme-secondary-500 dark:text-theme-secondary-300'>
-                            <Amount
-                                value={convert(amount)}
-                                ticker={exchangeCurrency}
-                                underlineOnHover={true}
-                                tooltipPlacement='bottom-end'
-                            />
-                        </div>
-                    )}
+                    <ActionDetailsValue>
+                        <Amount value={amount} ticker={coin} withTicker />
+                    </ActionDetailsValue>
                 </div>
             </ActionDetailsRow>
 
             <ActionDetailsRow label='Receiver'>
-                <Address
-                    address={receiverAddress}
-                    tooltipPlacement='bottom-end'
-                    length={10}
-                    classNames='text-base leading-5 font-medium text-light-black dark:text-white'
-                />
+                <ActionDetailsValue>
+                    {trimAddress(receiverAddress as string, 10)}
+                </ActionDetailsValue>
             </ActionDetailsRow>
 
-            <ActionDetailsRow label='Transaction Fee'>
+            <ActionDetailsRow
+                label='Transaction Fee'
+                below={
+                    withFiat && (
+                        <ActionDetailsFiatValue>
+                            <Amount value={convert(fee)} ticker={exchangeCurrency} />
+                        </ActionDetailsFiatValue>
+                    )
+                }
+            >
                 <div className='flex items-center gap-4'>
-                    <div className='font-medium text-light-black dark:text-white'>
-                        <Amount
-                            value={fee}
-                            ticker={coin}
-                            withTicker
-                            underlineOnHover={true}
-                            tooltipPlacement='bottom-end'
-                        />
-                    </div>
-                    {wallet.network().isLive() && (
-                        <div className='text-sm font-medium text-theme-secondary-500 dark:text-theme-secondary-300'>
-                            <Amount
-                                value={convert(fee)}
-                                ticker={exchangeCurrency}
-                                underlineOnHover={true}
-                                tooltipPlacement='bottom-end'
-                            />
-                        </div>
-                    )}
+                    <ActionDetailsValue>
+                        <Amount value={fee} ticker={coin} withTicker />
+                    </ActionDetailsValue>
                 </div>
             </ActionDetailsRow>
 
-            <ActionDetailsRow label='Total Amount'>
+            <ActionDetailsRow
+                label='Total Amount'
+                below={
+                    withFiat && (
+                        <ActionDetailsFiatValue>
+                            <Amount value={convert(total)} ticker={exchangeCurrency} />
+                        </ActionDetailsFiatValue>
+                    )
+                }
+            >
                 <div className='flex items-center gap-4'>
-                    <div className='font-medium text-light-black dark:text-white'>
-                        <Amount
-                            value={total}
-                            ticker={coin}
-                            withTicker
-                            underlineOnHover={true}
-                            tooltipPlacement='bottom-end'
-                        />
-                    </div>
-                    {wallet.network().isLive() && (
-                        <div className='text-sm font-medium text-theme-secondary-500 dark:text-theme-secondary-300'>
-                            <Amount
-                                value={convert(total)}
-                                ticker={exchangeCurrency}
-                                underlineOnHover={true}
-                                tooltipPlacement='bottom-end'
-                            />
-                        </div>
-                    )}
+                    <ActionDetailsValue>
+                        <Amount value={total} ticker={coin} withTicker />
+                    </ActionDetailsValue>
                 </div>
             </ActionDetailsRow>
         </ActionDetails>
