@@ -186,7 +186,6 @@ const ImportWallets = ({ goToNextStep, formik }: Props) => {
                                                     disabled={isImported}
                                                     checked={isSelected(wallet.path) || isImported}
                                                     onChange={() => toggleSelect(wallet.path)}
-                                                    transparentBackground
                                                 />
                                             </div>
                                         </div>
