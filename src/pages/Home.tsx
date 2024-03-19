@@ -76,7 +76,7 @@ const Home = () => {
                     <div className='flex flex-row items-center justify-between p-4'>
                         <Icon icon='speakerphone' className='h-4.5 w-4.5' />
                         <span className=' text-sm font-medium'>
-                            {t('HOME.TRY_OUR_DEMO_APP_NOW')}
+                            {t('PAGES.HOME.TRY_OUR_DEMO_APP_NOW')}
                         </span>
                         <Icon icon='link-external' className='h-4 w-4' />
                     </div>

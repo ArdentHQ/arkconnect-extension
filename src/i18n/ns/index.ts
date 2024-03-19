@@ -1,9 +1,9 @@
 import COMMON from './common';
-import HOME from './home';
+import PAGES from './pages';
 import ERROR from './error';
 
 export default {
     COMMON,
     ERROR,
-    HOME,
+    PAGES,
 };
