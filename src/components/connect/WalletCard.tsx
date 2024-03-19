@@ -1,6 +1,6 @@
 import { Contracts } from '@ardenthq/sdk-profiles';
 import { Address, LedgerIcon, TestnetIcon } from '../wallet/address/Address.blocks';
-import Amount from '../wallet/Amount';
+import Amount from '@/components/wallet/Amount';
 import constants from '@/constants';
 import { generateWalletHelperText } from '@/lib/utils/generateWalletHelperText';
 import trimAddress from '@/lib/utils/trimAddress';
