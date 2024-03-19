@@ -1,5 +1,5 @@
 import { runtime } from 'webextension-polyfill';
-import SubPageLayout from '../SubPageLayout';
+import SubPageLayout from '@/components/settings/SubPageLayout';
 import { Icon, RowLayout } from '@/shared/components';
 import useClipboard from '@/lib/hooks/useClipboard';
 import constants from '@/constants';
