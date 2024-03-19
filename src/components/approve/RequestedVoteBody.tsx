@@ -1,4 +1,5 @@
 import { Contracts } from '@ardenthq/sdk-profiles';
+import { useTranslation } from 'react-i18next';
 import Amount from '../wallet/Amount';
 import ActionDetails, {
     ActionDetailsFiatValue,
@@ -18,10 +19,12 @@ type Props = {
 };
 
 const RequestedVoteBody = ({ vote, unvote, fee, convertedFee, wallet }: Props) => {
+    const { t } = useTranslation();
+
     return (
         <ActionDetails maxHeight='165px'>
             <ActionDetailsRow
-                label='Transaction Fee'
+                label={t('COMMON.TRANSACTION_FEE')}
                 below={
                     wallet.network().isLive() && (
                         <ActionDetailsFiatValue>
@@ -41,13 +44,13 @@ const RequestedVoteBody = ({ vote, unvote, fee, convertedFee, wallet }: Props) =
             </ActionDetailsRow>
 
             {unvote && (
-                <ActionDetailsRow label='Unvote Delegate Name'>
+                <ActionDetailsRow label={t('COMMON.UNVOTE_DELEGATE_NAME')}>
                     <ActionDetailsValue>{unvote.wallet?.username() ?? ''}</ActionDetailsValue>
                 </ActionDetailsRow>
             )}
 
             {unvote && !wallet.isLedger() && (
-                <ActionDetailsRow label='Unvote Delegate Address'>
+                <ActionDetailsRow label={t('COMMON.UNVOTE_DELEGATE_ADDRESS')}>
                     <ActionDetailsValue>
                         {trimAddress(unvote.wallet?.address() ?? '', 10)}
                     </ActionDetailsValue>
@@ -55,7 +58,7 @@ const RequestedVoteBody = ({ vote, unvote, fee, convertedFee, wallet }: Props) =
             )}
 
             {unvote && wallet.isLedger() && (
-                <ActionDetailsRow label='Unvote Delegate Pubkey'>
+                <ActionDetailsRow label={t('COMMON.UNVOTE_DELEGATE_PUBKEY')}>
                     <Tooltip
                         content={
                             <span className='block w-65 break-words text-left'>
@@ -72,13 +75,13 @@ const RequestedVoteBody = ({ vote, unvote, fee, convertedFee, wallet }: Props) =
             )}
 
             {vote && (
-                <ActionDetailsRow label='Vote Delegate Name'>
+                <ActionDetailsRow label={t('COMMON.VOTE_DELEGATE_NAME')}>
                     <ActionDetailsValue>{vote.wallet?.username() ?? ''}</ActionDetailsValue>
                 </ActionDetailsRow>
             )}
 
             {vote && !wallet.isLedger() && (
-                <ActionDetailsRow label='Vote Delegate Address'>
+                <ActionDetailsRow label={t('COMMON.VOTE_DELEGATE_ADDRESS')}>
                     <ActionDetailsValue>
                         {trimAddress(vote.wallet?.address() ?? '', 10)}
                     </ActionDetailsValue>
@@ -86,7 +89,7 @@ const RequestedVoteBody = ({ vote, unvote, fee, convertedFee, wallet }: Props) =
             )}
 
             {vote && wallet.isLedger() && (
-                <ActionDetailsRow label='Vote Delegate Pubkey'>
+                <ActionDetailsRow label={t('COMMON.VOTE_DELEGATE_PUBKEY')}>
                     <Tooltip
                         content={
                             <span className='block w-65 break-words text-left'>

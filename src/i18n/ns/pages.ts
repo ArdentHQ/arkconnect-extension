@@ -125,4 +125,7 @@ export default {
             SIGN_TRANSACTIONS: 'Sign transactions and <br /> perform on-chain actions.',
         },
     },
+    TRANSACTION_APPROVED: {
+        TRANSACTION_APPROVED: 'Transaction Approved',
+    },
 };
