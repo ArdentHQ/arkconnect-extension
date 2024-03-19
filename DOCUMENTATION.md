@@ -225,6 +225,16 @@ window.arkconnect?.on('addressChanged', (data) => {
 });
 ```
 
+### `on.lockToggled`
+
+> Emitted when the extension locks / unlocks
+
+```javascript
+window.arkconnect?.on('lockToggled', (data) => {
+  // Handle data: { type: 'lockToggled', data: { isLocked: boolean } }
+});
+```
+
 ## Error Responses
 
 The error response that can be returned by the API calls
