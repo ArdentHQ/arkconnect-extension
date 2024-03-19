@@ -3,6 +3,7 @@ import filterXSS from 'xss';
 import { EmptyConnectionsIcon, Layout } from '@/shared/components';
 const WalletNotFound = () => {
     const { t } = useTranslation();
+
     return (
         <Layout>
             <div className='m-4 flex min-h-full flex-col items-center justify-center'>
