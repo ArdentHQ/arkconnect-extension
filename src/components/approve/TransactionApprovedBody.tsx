@@ -1,11 +1,11 @@
 import { useLocation } from 'react-router-dom';
 import Amount from '../wallet/Amount';
-import { ToastPosition } from '../toast/ToastContainer';
 import ActionDetails, {
     ActionDetailsFiatValue,
     ActionDetailsRow,
     ActionDetailsValue,
 } from './ActionDetails';
+import { ToastPosition } from '@/components/toast/ToastContainer';
 import useClipboard from '@/lib/hooks/useClipboard';
 import trimAddress from '@/lib/utils/trimAddress';
 import { Icon } from '@/shared/components';
