@@ -74,6 +74,10 @@ export default {
         COMPLETE_STEPS_TO_CONNECT:
             'Please complete the steps mentioned below to connect your Ledger.',
         REINITIATE_LEDGER_WINDOW: 'Reinitiate Ledger Window',
+        WAITING_FOR_YOUR_SIGNATURE: 'Waiting for your signature',
+        CONNECT_LEDGER_AND_SIGN_THE_REQUEST: 'Connect Ledger and Sign The {{action}} Request',
+        CONNECT_YOUR_LEDGER_DEVICE_DISCLAIMER:
+            'Connect your Ledger device, launch the ARK app, and carefully review the request on your device before confirming your approval.',
         FEEDBACK: {
             SETTING_UP_YOUR_WALLET: 'Setting up your wallet',
             YOUR_WALLET_IS_READY: 'Your wallet is ready!',
