@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 import { TippyProps } from '@tippyjs/react';
 import cn from 'classnames';
-import Amount from '../Amount';
+import Amount from '@/components/wallet/Amount';
 import { Icon, Tooltip } from '@/shared/components';
 import trimAddress from '@/lib/utils/trimAddress';
 import { ToastPosition } from '@/components/toast/ToastContainer';
