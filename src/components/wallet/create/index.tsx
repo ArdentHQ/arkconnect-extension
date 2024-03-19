@@ -269,6 +269,12 @@ const CreateNewWallet = () => {
         }
     };
 
+    useEffect(() => {
+        if(isGeneratingWallet) {
+            formik.setFieldValue('confirmPassphrase', ['', '', '']);
+        }
+    }, [isGeneratingWallet]);
+
     return (
         <HandleLoadingState
             loading={
