@@ -1,8 +1,8 @@
 import { useTranslation } from 'react-i18next';
+import filterXSS from 'xss';
 import { Button, ExternalLink, Heading, Icon, SmallWarningIcon } from '@/shared/components';
 import constants from '@/constants';
 import { errorParser, errorTitleParser } from '@/lib/utils/errorParser';
-
 type Props = {
     error: string | null;
     onClose: () => Promise<void>;
@@ -29,7 +29,11 @@ const ErrorModal = ({ error, onClose }: Props) => {
                             ) : (
                                 <span
                                     dangerouslySetInnerHTML={{
-                                        __html: t('MISC.UNKNOWN_CONNECTION_ERROR'),
+                                        __html: filterXSS(t('MISC.UNKNOWN_CONNECTION_ERROR'), {
+                                            whiteList: {
+                                                br: [],
+                                            },
+                                        }),
                                     }}
                                 ></span>
                             )}
