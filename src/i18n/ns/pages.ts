@@ -73,6 +73,7 @@ export default {
         CONNECT_YOUR_LEDGER_DEVICE: 'Connect Your Ledger Device',
         COMPLETE_STEPS_TO_CONNECT:
             'Please complete the steps mentioned below to connect your Ledger.',
+        REINITIATE_LEDGER_WINDOW: 'Reinitiate Ledger Window',
         FEEDBACK: {
             SETTING_UP_YOUR_WALLET: 'Setting up your wallet',
             YOUR_WALLET_IS_READY: 'Your wallet is ready!',
