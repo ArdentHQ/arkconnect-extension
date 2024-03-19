@@ -14,10 +14,10 @@ const ConnectFooter = ({ onSubmit, onCancel }: ConnectFooterProps) => {
             </p>
             <div className='grid grid-cols-2 gap-2'>
                 <Button variant='secondaryBlack' onClick={onCancel}>
-                    {t('COMMON.REFUSE')}
+                    {t('ACTION.REFUSE')}
                 </Button>
                 <Button variant='primary' onClick={onSubmit}>
-                    {t('COMMON.CONNECT')}
+                    {t('ACTION.CONNECT')}
                 </Button>
             </div>
         </div>

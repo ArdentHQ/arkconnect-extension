@@ -39,7 +39,7 @@ const ErrorModal = ({ error, onClose }: Props) => {
 
                 <div className='flex w-full max-w-[340px] flex-col items-center'>
                     <Button variant='primary' onClick={onClose} className='mb-6'>
-                        {t('COMMON.CLOSE')}
+                        {t('ACTION.CLOSE')}
                     </Button>
 
                     <ExternalLink

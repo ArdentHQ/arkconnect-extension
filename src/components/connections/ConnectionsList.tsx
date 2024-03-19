@@ -95,7 +95,7 @@ const ConnectionsList = () => {
                                 </span>
                             </div>
 
-                            <Tooltip content={t('COMMON.DISCONNECT')} placement='left'>
+                            <Tooltip content={t('ACTION.DISCONNECT')} placement='left'>
                                 <button
                                     type='button'
                                     className={cn(
