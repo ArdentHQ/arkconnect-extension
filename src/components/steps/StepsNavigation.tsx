@@ -3,7 +3,7 @@ import { ComponentType, useState } from 'react';
 
 import { FormikProps } from 'formik';
 import { useNavigate } from 'react-router-dom';
-import classNames from 'classnames';
+import cn from 'classnames';
 import { ArrowButton } from '@/shared/components';
 
 export type Step = {
@@ -61,7 +61,7 @@ const StepsNavigation = <T extends Record<string, any>>({
     return (
         <>
             <div
-                className={classNames(
+                className={cn(
                     'flex items-center justify-between gap-4 pb-6 text-light-black dark:text-white',
                     className,
                 )}
@@ -82,7 +82,7 @@ const StepsNavigation = <T extends Record<string, any>>({
             </div>
 
             <div
-                className={classNames('flex h-full flex-col', {
+                className={cn('flex h-full flex-col', {
                     'px-6': steps[currentStep].containerPaddingX === '24',
                     'px-0': steps[currentStep].containerPaddingX === '0',
                 })}

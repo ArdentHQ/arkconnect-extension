@@ -1,7 +1,7 @@
 import { Contracts } from '@ardenthq/sdk-profiles';
 import { useNavigate } from 'react-router-dom';
 import { useRef } from 'react';
-import classNames from 'classnames';
+import cn from 'classnames';
 import { Icon, RadioButton } from '@/shared/components';
 import {
     AddressAlias,
@@ -124,7 +124,7 @@ const AddressRow = ({
 
     return (
         <div
-            className={classNames(
+            className={cn(
                 'flex items-center justify-between px-3 py-4 transition duration-200 ease-in-out ',
                 {
                     'bg-theme-primary-50 dark:bg-theme-primary-650/15': isSelected,
@@ -167,7 +167,7 @@ const AddressRow = ({
                     onClose();
                     navigate('/address/settings', { state: { address } });
                 }}
-                className={classNames(
+                className={cn(
                     'flex cursor-pointer items-center rounded-full p-1.75 text-light-black transition duration-200 ease-in-out dark:text-white',
                     {
                         'hover:bg-theme-primary-200/60 dark:hover:bg-theme-primary-800/50':

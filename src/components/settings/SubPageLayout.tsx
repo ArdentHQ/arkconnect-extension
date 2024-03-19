@@ -1,4 +1,4 @@
-import classNames from 'classnames';
+import cn from 'classnames';
 import { ArrowButton, CloseButton, Heading, Layout } from '@/shared/components';
 
 type Props = {
@@ -24,7 +24,7 @@ const SubPageLayout = ({
     return (
         <Layout>
             <div
-                className={classNames(
+                className={cn(
                     'flex items-center justify-between bg-subtle-white p-4 dark:bg-light-black',
                     {
                         'sticky top-12.5': withStickyHeader,
@@ -41,7 +41,7 @@ const SubPageLayout = ({
                 </div>
             </div>
             <div
-                className={classNames('h-full px-4', {
+                className={cn('h-full px-4', {
                     'pb-4': !noPaddingBottom,
                 })}
             >
@@ -63,7 +63,7 @@ export const SettingsRowItem = ({
     return (
         <button
             type='button'
-            className={classNames(
+            className={cn(
                 'flex w-full items-center justify-between px-4 py-4.5 text-light-black hover:bg-theme-secondary-50 dark:text-white dark:hover:bg-theme-secondary-700',
                 {
                     'bg-theme-primary-50 font-medium text-theme-primary-700 dark:bg-theme-primary-650/15 dark:text-theme-primary-650':

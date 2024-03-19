@@ -1,4 +1,4 @@
-import classNames from 'classnames';
+import cn from 'classnames';
 import { Header } from '@/shared/components';
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
@@ -11,7 +11,7 @@ export const Layout = ({ withHeader = true, className, ...props }: Props) => {
         <>
             {withHeader && <Header />}
             <div
-                className={classNames(
+                className={cn(
                     'flex h-screen flex-col pb-4',
                     {
                         'pt-[59px]': withHeader,
