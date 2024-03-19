@@ -139,7 +139,7 @@ const ImportWallets = ({ goToNextStep, formik }: Props) => {
                                             isImported,
                                         'text-light-black dark:bg-subtle-black dark:text-white dark:hover:bg-theme-secondary-700':
                                             !isImported,
-                                        'bg-theme-primary-50 dark:bg-theme-primary-650/15 hover:bg-theme-primary-50 dark:hover:bg-theme-primary-650/15':
+                                        'bg-theme-primary-50 hover:bg-theme-primary-50 dark:bg-theme-primary-650/15 dark:hover:bg-theme-primary-650/15':
                                             !isImported && isSelected(wallet.path),
                                     },
                                 )}
