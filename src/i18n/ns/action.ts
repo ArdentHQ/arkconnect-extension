@@ -4,4 +4,6 @@ export default {
     DISCONNECT: 'Disconnect',
     DISCONNECT_ALL: 'Disconnect All',
     CLOSE: 'Close',
+    COPY: 'Copy',
+    CONTINUE: 'Continue',
 };

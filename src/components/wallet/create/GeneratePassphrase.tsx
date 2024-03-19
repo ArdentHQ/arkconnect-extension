@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { FormikProps } from 'formik';
 import cn from 'classnames';
+import { useTranslation } from 'react-i18next';
 import { CreateWalletFormik } from '.';
 import { Button, Heading, Icon, ToggleSwitch } from '@/shared/components';
 import useToast from '@/lib/hooks/useToast';
@@ -15,7 +16,7 @@ type Props = {
 
 const GeneratePassphrase = ({ goToNextStep, formik }: Props) => {
     const [showPassphrase, setShowPassphrase] = useState<boolean>(false);
-
+    const { t } = useTranslation();
     const toast = useToast();
 
     const selectedNetwork = useActiveNetwork();
@@ -23,9 +24,17 @@ const GeneratePassphrase = ({ goToNextStep, formik }: Props) => {
     const copyPassphraseToClipboard = async () => {
         try {
             await navigator.clipboard.writeText(formik.values.passphrase.join(' '));
-            toast('success', 'Passphrase Copied to Clipboard', ToastPosition.HIGH);
+            toast(
+                'success',
+                t('PAGES.CREATE_WALLET.FEEDBACK.PASSPHRASE_COPIED'),
+                ToastPosition.HIGH,
+            );
         } catch {
-            toast('danger', 'Failed to Copy to Clipboard', ToastPosition.HIGH);
+            toast(
+                'danger',
+                t('PAGES.CREATE_WALLET.FEEDBACK.FAILED_TO_COPY_TO_CLIPBOARD'),
+                ToastPosition.HIGH,
+            );
         }
     };
 
@@ -53,11 +62,11 @@ const GeneratePassphrase = ({ goToNextStep, formik }: Props) => {
     return (
         <div className='flex flex-1 flex-col'>
             <div className='mb-2 flex items-center gap-2'>
-                <Heading level={3}>Save Your Secret Passphrase</Heading>
+                <Heading level={3}>{t('PAGES.CREATE_WALLET.SAVE_YOUR_SECRET_PASSPHRASE')}</Heading>
                 {selectedNetwork.isTest() && <TestnetIcon />}
             </div>
             <p className='typeset-headline mb-4 text-theme-secondary-500 dark:text-theme-secondary-300'>
-                Write down or copy your passphrase. Make sure to store it safely.
+                {t('PAGES.CREATE_WALLET.WRITE_DOWN_OR_COPY_YOUR_PASSPHRASE')}
             </p>
             {formik.values.passphrase && (
                 <div className='mb-4 max-h-[226px] rounded-lg border border-solid border-theme-secondary-100 bg-white p-3 dark:border-theme-secondary-400 dark:bg-subtle-black'>
@@ -93,7 +102,7 @@ const GeneratePassphrase = ({ goToNextStep, formik }: Props) => {
                     checked={showPassphrase}
                     onChange={() => setShowPassphrase(!showPassphrase)}
                     id='show-password'
-                    title='Show Passphrase'
+                    title={t('PAGES.CREATE_WALLET.SHOW_PASSPHRASE')}
                 />
 
                 <button
@@ -106,13 +115,13 @@ const GeneratePassphrase = ({ goToNextStep, formik }: Props) => {
                     </span>
 
                     <span className='typeset-headline inline-block font-medium leading-[18px]'>
-                        Copy
+                        {t('ACTION.COPY')}
                     </span>
                 </button>
             </div>
 
             <Button variant='primary' onClick={goToNextStep} className='mt-auto'>
-                Continue
+                {t('ACTION.CONTINUE')}
             </Button>
         </div>
     );

@@ -24,11 +24,17 @@ export default {
         CONNECTED_WITH: 'Connected with',
     },
     CREATE_WALLET: {
+        SAVE_YOUR_SECRET_PASSPHRASE: 'Save Your Secret Passphrase',
+        WRITE_DOWN_OR_COPY_YOUR_PASSPHRASE:
+            'Write down or copy your passphrase. Make sure to store it safely.',
+        SHOW_PASSPHRASE: 'Show Passphrase',
         FEEDBACK: {
             WALLET_IS_READY: 'Your Wallet is Ready!',
             SETTING_UP_THE_WALLET: 'Setting up the wallet, please wait!',
             SOMETHING_WENT_WRONG: 'Something went wrong while creating your wallet',
             FAILED_TO_GENERATE_WALLET: 'Failed to generate wallet.',
+            PASSPHRASE_COPIED: 'Passphrase Copied to Clipboard',
+            FAILED_TO_COPY_TO_CLIPBOARD: 'Failed to Copy to Clipboard',
         },
     },
 };
