@@ -44,4 +44,12 @@ export default {
         UNLOCK_EXTENSION: 'Unlock Extension',
         FORGOT_PASSWORD: 'Forgot Password?',
     },
+    FORGOT_PASSWORD: {
+        FORGOT_PASSWORD: 'Forgot Password?',
+        NO_RECOVERY_METHOD_AVAILABLE_DISCLAIMER:
+            'Unfortunately there is no recovery method available other than resetting the extension and re-importing your address(es). Ensure that you have your passphrase(s) saved.',
+        RESET_EXTENSION: 'Reset Extension',
+        RESET_WILL_RESULT_LOSS_OF_DATA_DISCLAIMER:
+            'I am aware that resetting the extension will result in the loss of all data, including locally stored passphrases.',
+    },
 };
