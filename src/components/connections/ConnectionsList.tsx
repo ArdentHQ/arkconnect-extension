@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import classNames from 'classnames';
-import { DisconnectSessionModal } from '../wallet/DisconnectSessionModal';
 import ConnectionLogoImage from './ConnectionLogoImage';
+import { DisconnectSessionModal } from '@/components/wallet/DisconnectSessionModal';
 import { useAppSelector } from '@/lib/store';
 import * as SessionStore from '@/lib/store/session';
 import { Button, Icon, Tooltip } from '@/shared/components';

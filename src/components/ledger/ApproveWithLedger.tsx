@@ -1,9 +1,9 @@
 import { useLocation } from 'react-router-dom';
 import { Contracts } from '@ardenthq/sdk-profiles';
 import classNames from 'classnames';
-import RequestedVoteBody from '../approve/RequestedVoteBody';
-import RequestedTransactionBody from '../approve/RequestedTransactionBody';
-import RequestedSignatureMessage from '../approve/RequestedSignatureMessage';
+import RequestedTransactionBody from '@/components/approve/RequestedTransactionBody';
+import RequestedSignatureMessage from '@/components/approve/RequestedSignatureMessage';
+import RequestedVoteBody from '@/components/approve/RequestedVoteBody';
 import formatDomain from '@/lib/utils/formatDomain';
 import trimAddress from '@/lib/utils/trimAddress';
 import { ApproveActionType } from '@/pages/Approve';
