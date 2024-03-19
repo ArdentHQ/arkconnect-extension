@@ -1,6 +1,6 @@
 import { Contracts } from '@ardenthq/sdk-profiles';
 import { useLocation } from 'react-router-dom';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Layout } from '@/shared/components';
 import ApproveTransaction from '@/components/approve/ApproveTransaction';
 import ApproveMessage from '@/components/approve/ApproveMessage';
@@ -14,6 +14,8 @@ import { useAppSelector } from '@/lib/store';
 import { useProfileContext } from '@/lib/context/Profile';
 import * as UIStore from '@/lib/store/ui';
 import { assertIsUnlocked } from '@/lib/background/assertions';
+import useWalletSync from '@/lib/hooks/useWalletSync';
+import { useEnvironmentContext } from '@/lib/context/Environment';
 
 export enum ApproveActionType {
     SIGNATURE = 'signature',
@@ -29,14 +31,21 @@ const Approve = () => {
     const { connect } = useLedgerContext();
     const abortReference = useRef(new AbortController());
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const { env } = useEnvironmentContext();
     const wallets = useAppSelector(WalletStore.selectWallets);
-
     const { waitUntilLedgerIsAvailable } = useWaitForAvailableDevice();
+    const { syncAll } = useWalletSync({ env, profile });
 
-    const walletData = wallets.find(
+  const walletData = wallets.find(
         (wallet) => wallet.walletId === location.state.session.walletId,
     )!;
     const wallet = profile.wallets().findById(walletData?.walletId);
+
+    useEffect(() => {
+        (async () => {
+            await syncAll(wallet);
+        })();
+    }, [wallet]);
 
     const locked = useAppSelector(UIStore.selectLocked);
     assertIsUnlocked(locked);
