@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { ChangeEvent, KeyboardEvent, useState } from 'react';
 import { runtime } from 'webextension-polyfill';
-import classNames from 'classnames';
+import cn from 'classnames';
 import { Button, Icon, InternalLink, Layout, LockIcon, PasswordInput } from '@/shared/components';
 import { ValidationVariant } from '@/components/wallet/create';
 import { useProfileContext } from '@/lib/context/Profile';
@@ -62,7 +62,7 @@ const EnterPassword = () => {
 
                 <div>
                     <div
-                        className={classNames('flex flex-col gap-1.5', {
+                        className={cn('flex flex-col gap-1.5', {
                             'mb-5': validationVariant === 'destructive',
                             'mb-11': validationVariant !== 'destructive',
                         })}
@@ -90,7 +90,7 @@ const EnterPassword = () => {
                     >
                         Unlock Extension
                         <span
-                            className={classNames(
+                            className={cn(
                                 'unlock-button absolute right-4 top-1/2 h-5 w-5 -translate-y-1/2',
                                 {
                                     disabled:

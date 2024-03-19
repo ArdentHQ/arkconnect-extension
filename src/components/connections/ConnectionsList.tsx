@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import classNames from 'classnames';
+import cn from 'classnames';
+import { DisconnectSessionModal } from '../wallet/DisconnectSessionModal';
 import ConnectionLogoImage from './ConnectionLogoImage';
-import { DisconnectSessionModal } from '@/components/wallet/DisconnectSessionModal';
 import { useAppSelector } from '@/lib/store';
 import * as SessionStore from '@/lib/store/session';
 import { Button, Icon, Tooltip } from '@/shared/components';
@@ -97,7 +97,7 @@ const ConnectionsList = () => {
                             <Tooltip content='Disconnect' placement='left'>
                                 <button
                                     type='button'
-                                    className={classNames(
+                                    className={cn(
                                         'flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full text-theme-error-500 hover:bg-theme-secondary-50 dark:text-theme-error-600 dark:hover:bg-theme-secondary-700',
                                         {
                                             'transition-smoothEase': !isFirefox,

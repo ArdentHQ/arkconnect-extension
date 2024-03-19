@@ -1,5 +1,6 @@
 import { Helpers } from '@ardenthq/sdk-profiles';
 import { TippyProps } from '@tippyjs/react';
+import cn from 'classnames';
 import constants from '@/constants';
 import cropToMaxDigits from '@/lib/utils/cropToMaxDigits';
 import { Tooltip } from '@/shared/components';
@@ -50,9 +51,9 @@ const Amount = ({
             placement={tooltipPlacement}
         >
             <span
-                className={
-                    !tooltipDisabled && underlineOnHover ? 'underline-offset-2 hover:underline' : ''
-                }
+                className={cn({
+                    'underline-offset-2 hover:underline': !tooltipDisabled && underlineOnHover,
+                })}
             >
                 {formattedAmount}
             </span>
