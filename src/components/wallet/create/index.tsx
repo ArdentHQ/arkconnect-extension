@@ -270,7 +270,7 @@ const CreateNewWallet = () => {
     };
 
     useEffect(() => {
-        if(isGeneratingWallet) {
+        if (isGeneratingWallet) {
             formik.setFieldValue('confirmPassphrase', ['', '', '']);
         }
     }, [isGeneratingWallet]);
