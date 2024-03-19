@@ -5,6 +5,7 @@ import { LockHandler } from './handleAutoLock';
 import { PrimaryWallet } from './extension.wallet.primary';
 import { EnvironmentData } from './contracts';
 import { createTestProfile, isDev } from '@/dev/utils/dev';
+import { getLocalValues } from '../utils/localStorage';
 
 const exists = (profile?: Contracts.IProfile | null): profile is Contracts.IProfile => !!profile;
 
@@ -197,8 +198,9 @@ export function Extension() {
             await env.boot();
 
             const hasOnboarded = await env.data().get(EnvironmentData.HasOnboarded);
+            const ls = await getLocalValues();
 
-            if (this.exists() && hasOnboarded) {
+            if (this.exists() && (hasOnboarded || ls.hasOnboarded)) {
                 // If profile exists, it means that the extension was restarted.
                 // Go to locked state and require password to unlock.
                 return lockHandler.lock();
