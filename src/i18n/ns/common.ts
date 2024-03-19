@@ -2,6 +2,7 @@ export default {
     ADDRESS: 'Address',
     AMOUNT: 'Amount',
     BALANCE: 'Balance',
+    DETAILS: 'Details',
     EXCHANGES: 'Exchanges',
     EXPLORER: 'Explorer',
     FAUCET: 'Faucet',

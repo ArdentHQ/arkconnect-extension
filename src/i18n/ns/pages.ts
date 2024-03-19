@@ -128,4 +128,8 @@ export default {
     TRANSACTION_APPROVED: {
         TRANSACTION_APPROVED: 'Transaction Approved',
     },
+    WALLET_NOT_FOUND: {
+        YOU_DONT_HAVE_ANY_WALLET:
+            "You don't have any wallet imported in ARK Connect! <br /> Please create or import a wallet first!",
+    },
 };
