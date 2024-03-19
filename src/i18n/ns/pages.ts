@@ -97,4 +97,22 @@ export default {
             UNLOCK_AND_OPEN: 'Unlock and open the ARK app on the Ledger device.',
         },
     },
+    LOGOUT: {
+        REMOVE_ADDRESS: 'Remove Address',
+        REMOVE_ADDRESSES: 'Remove Addresses',
+        INCORRECT_PASSWORD: 'Incorrect password',
+        ENTER_PASSWORD: 'Enter Password',
+        ARE_YOU_SURE_YOU_WANT_TO_REMOVE_1: 'Are you sure you want to remove ',
+        ARE_YOU_SURE_YOU_WANT_TO_REMOVE_2: 'addresses?',
+        YOU_WONT_BE_ABLE_TO_LOGIN_AGAIN: 'You won’t be able to login again without',
+        YOU_WONT_BE_ABLE_TO_LOGIN_AGAIN_WITHOUT_LEDGER:
+            'Are you sure you want to remove this address? You will be unable to log in again using this address without a Ledger device.',
+        YOU_WONT_BE_ABLE_TO_LOGIN_AGAIN_WITHOUT_PASSPHRASE:
+            'Are you sure you want to remove this address? You will be unable to log in again using this address without a passphrase.',
+        ADDRESS_TYPE: {
+            PASSPHRASE_OR_LEDGER: 'a passphrase or a Ledger device',
+            LEDGER: 'a Ledger device',
+            PASSPHRASE: 'a passphrase',
+        },
+    },
 };

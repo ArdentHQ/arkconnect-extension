@@ -9,4 +9,5 @@ export default {
     SHOW_PASSPHRASE: 'Show Passphrase',
     CONFIRM_IMPORT: 'Confirm & Import',
     IMPORT: 'Import',
+    CANCEL_AND_GO_BACK: 'Cancel and Go Back',
 };
