@@ -9,6 +9,7 @@ import { ArrowButton } from '@/shared/components';
 export type Step = {
     component: ComponentType<any>;
     containerPaddingX?: '0' | '24';
+    onClickBack?: () => void;
 };
 
 interface StepNavigationProps<T> extends React.HTMLAttributes<HTMLDivElement> {
@@ -39,6 +40,9 @@ const StepsNavigation = <T extends Record<string, any>>({
         } else {
             navigate(-1);
             onStepChange?.(-1);
+        }
+        if (steps[currentStep].onClickBack) {
+            steps[currentStep].onClickBack?.();
         }
     };
 
