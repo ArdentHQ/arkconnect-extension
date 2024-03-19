@@ -21,5 +21,6 @@ export default {
     CONNECTIONS: {
         CONNECTED_APPS: 'Connected Apps',
         NO_CONNECTED_APPS_DESCRIPTION: 'You are currently not connected to any applications.',
+        CONNECTED_WITH: 'Connected with',
     },
 };

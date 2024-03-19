@@ -80,7 +80,7 @@ const ConnectionsList = () => {
                                 </div>
 
                                 <span className='typeset-body mt-1 text-theme-secondary-500 dark:text-theme-secondary-300'>
-                                    Connected with{' '}
+                                    {t('PAGES.CONNECTIONS.CONNECTED_WITH')}{' '}
                                     <Tooltip
                                         content={profile
                                             .wallets()
