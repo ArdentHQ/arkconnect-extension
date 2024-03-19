@@ -3,6 +3,7 @@ import { FormikValues, useFormik } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { runtime } from 'webextension-polyfill';
+import { useTranslation } from 'react-i18next';
 import SetupPassword from '../../settings/SetupPassword';
 import { ValidationVariant } from '../create';
 import EnterPassphrase from './EnterPassphrase';
@@ -49,10 +50,11 @@ const ImportNewWallet = () => {
     const { profile, initProfile } = useProfileContext();
     const { onError } = useErrorHandlerContext();
     const { importWallet } = useWalletImport({ profile });
+    const { t } = useTranslation();
     const activeNetwork = useActiveNetwork();
     const loadingModal = useLoadingModal({
-        completedMessage: 'Your Wallet is Ready!',
-        loadingMessage: 'Setting up the wallet, please wait!',
+        completedMessage: t('PAGES.IMPORT_NEW_WALLET.FEEDBACK.YOUR_WALLET_IS_READY'),
+        loadingMessage: t('PAGES.IMPORT_NEW_WALLET.FEEDBACK.SETTING_UP_THE_WALLET'),
     });
     const [steps, setSteps] = useState<Step[]>([
         { component: EnterPassphrase },

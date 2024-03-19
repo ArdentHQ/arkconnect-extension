@@ -52,4 +52,10 @@ export default {
         RESET_WILL_RESULT_LOSS_OF_DATA_DISCLAIMER:
             'I am aware that resetting the extension will result in the loss of all data, including locally stored passphrases.',
     },
+    IMPORT_NEW_WALLET: {
+        FEEDBACK: {
+            YOUR_WALLET_IS_READY: 'Your Wallet is Ready!',
+            SETTING_UP_THE_WALLET: 'Setting up the wallet, please wait!',
+        },
+    },
 };
