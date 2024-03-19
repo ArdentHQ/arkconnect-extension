@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { Button } from '@/shared/components';
 
 type ConnectFooterProps = {
@@ -5,18 +6,18 @@ type ConnectFooterProps = {
     onCancel: () => Promise<void>;
 };
 const ConnectFooter = ({ onSubmit, onCancel }: ConnectFooterProps) => {
+    const { t } = useTranslation();
     return (
         <div className='px-4'>
             <p className='typeset-headline mb-8 text-theme-secondary-500 dark:text-theme-secondary-300'>
-                It can see your address, balance, activity, and can send requests for transactions.
-                It cannot access your funds without your approval.
+                {t('PAGES.CONNECT.CAN_SEE_YOUR_ADDRESS_DISCLAIMER')}
             </p>
             <div className='grid grid-cols-2 gap-2'>
                 <Button variant='secondaryBlack' onClick={onCancel}>
-                    Refuse
+                    {t('COMMON.REFUSE')}
                 </Button>
                 <Button variant='primary' onClick={onSubmit}>
-                    Connect
+                    {t('COMMON.CONNECT')}
                 </Button>
             </div>
         </div>
