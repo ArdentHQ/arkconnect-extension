@@ -1,3 +1,5 @@
 export default {
-    TEST: 'test',
+    EXPLORER: 'Explorer',
+    FAUCET: 'Faucet',
+    EXCHANGES: 'Exchanges',
 };

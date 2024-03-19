@@ -41,7 +41,7 @@ const Home = () => {
                                       }/${primaryWallet?.address()}`
                             }
                         >
-                            <span className='text-sm font-medium'>Explorer</span>
+                            <span className='text-sm font-medium'>{t('COMMON.EXPLORER')}</span>
 
                             <Icon icon='link-external' className='h-4 w-4' />
                         </ExternalLink>
@@ -60,7 +60,9 @@ const Home = () => {
                             }
                         >
                             <span className='text-sm font-medium'>
-                                {primaryWallet?.network().isTest() ? 'Faucet' : 'Exchanges'}
+                                {primaryWallet?.network().isTest()
+                                    ? t('COMMON.FAUCET')
+                                    : t('COMMON.EXCHANGES')}
                             </span>
                             <Icon icon='link-external' className='h-4 w-4' />
                         </ExternalLink>
