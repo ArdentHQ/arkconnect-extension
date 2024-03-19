@@ -68,4 +68,12 @@ export default {
             SETTING_UP_THE_WALLET: 'Setting up the wallet, please wait!',
         },
     },
+    IMPORT_WITH_LEDGER: {
+        FEEDBACK: {
+            SETTING_UP_YOUR_WALLET: 'Setting up your wallet',
+            YOUR_WALLET_IS_READY: 'Your wallet is ready!',
+            OPEN_THE_EXTENSION_AND_MANAGE_YOUR_ADDRESSES:
+                'You can now open the extension and manage your addresses!',
+        },
+    },
 };
