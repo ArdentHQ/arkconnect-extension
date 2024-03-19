@@ -6,9 +6,10 @@ export enum ExtensionSupportedEvents {
     AddressChanged = 'addressChanged',
     Disconnected = 'disconnected',
     Connected = 'connected',
+    LockToggled = 'lockToggled',
 }
 
-type EventNames = 'addressChanged' | 'disconnected' | 'connected';
+type EventNames = 'addressChanged' | 'disconnected' | 'connected' | 'lockToggled';
 
 interface WalletData {
     network: string;
@@ -25,6 +26,7 @@ export function ExtensionEvents(properties?: ExtensionEventsProperties) {
         ExtensionSupportedEvents.AddressChanged,
         ExtensionSupportedEvents.Disconnected,
         ExtensionSupportedEvents.Connected,
+        ExtensionSupportedEvents.LockToggled,
     ];
 
     return {
@@ -101,6 +103,25 @@ export function ExtensionEvents(properties?: ExtensionEventsProperties) {
                 tabs.sendMessage(id, {
                     type: ExtensionSupportedEvents.AddressChanged,
                     data,
+                });
+            }
+        },
+
+        /**
+         * Emits lockToggled event.
+         *
+         * @param isLocked
+         * @returns {Promise<void>}
+         */
+        async lockToggled(isLocked: boolean): Promise<void> {
+            const tabIds = await this.sessionTabIds();
+
+            for (const id of tabIds) {
+                tabs.sendMessage(id, {
+                    type: ExtensionSupportedEvents.LockToggled,
+                    data: {
+                        isLocked,
+                    },
                 });
             }
         },
