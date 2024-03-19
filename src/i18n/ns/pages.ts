@@ -37,4 +37,11 @@ export default {
             FAILED_TO_COPY_TO_CLIPBOARD: 'Failed to Copy to Clipboard',
         },
     },
+    ENTER_PASSWORD: {
+        ENTER_PASSWORD_TO_UNLOCK: 'Enter Password to Unlock',
+        YOUR_PASSWORD: 'Your Password',
+        INCORRECT_PASSWORD: 'Incorrect password',
+        UNLOCK_EXTENSION: 'Unlock Extension',
+        FORGOT_PASSWORD: 'Forgot Password?',
+    },
 };
