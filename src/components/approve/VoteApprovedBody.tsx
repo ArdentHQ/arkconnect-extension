@@ -1,7 +1,11 @@
 import { useLocation } from 'react-router-dom';
 import { Contracts } from '@ardenthq/sdk-profiles';
 import Amount from '../wallet/Amount';
-import ActionDetails, { ActionDetailsRow } from './ActionDetails';
+import ActionDetails, {
+    ActionDetailsFiatValue,
+    ActionDetailsRow,
+    ActionDetailsValue,
+} from './ActionDetails';
 import useClipboard from '@/lib/hooks/useClipboard';
 import trimAddress from '@/lib/utils/trimAddress';
 import { Icon, Tooltip } from '@/shared/components';
@@ -12,36 +16,39 @@ const VoteApprovedBody = ({ wallet }: { wallet: Contracts.IReadWriteWallet }) =>
     const { state } = useLocation();
     const { copy } = useClipboard();
 
+    const showFiat = state.walletNetwork === WalletNetwork.MAINNET;
     return (
         <div className='w-full'>
             <ActionDetails maxHeight='229px'>
                 <ActionDetailsRow label='Sender'>
-                    <div className='font-medium text-light-black dark:text-white'>
+                    <ActionDetailsValue>
                         {trimAddress(state?.vote.sender ?? '', 10)}
-                    </div>
+                    </ActionDetailsValue>
                 </ActionDetailsRow>
 
-                <ActionDetailsRow label='Transaction Fee'>
-                    <div className='flex items-baseline gap-1'>
-                        <div className='font-medium text-light-black dark:text-white'>
-                            {state?.vote.fee} {getActiveCoin(state?.walletNetwork)}
-                        </div>
-                        {state.walletNetwork === WalletNetwork.MAINNET && (
-                            <div className='text-sm font-medium text-theme-secondary-500 dark:text-theme-secondary-300'>
+                <ActionDetailsRow
+                    label='Transaction Fee'
+                    below={
+                        showFiat && (
+                            <ActionDetailsFiatValue>
                                 <Amount
                                     value={state?.vote.convertedFee as number}
                                     ticker={state?.vote.exchangeCurrency as string}
                                 />
-                            </div>
-                        )}
+                            </ActionDetailsFiatValue>
+                        )
+                    }
+                >
+                    <div className='flex items-baseline gap-1'>
+                        <ActionDetailsValue>
+                            {state?.vote.fee} {getActiveCoin(state?.walletNetwork)}
+                        </ActionDetailsValue>
                     </div>
                 </ActionDetailsRow>
 
                 {state?.vote.unvoteDelegateName && (
                     <ActionDetailsRow label='Unvote Delegate Name'>
-                        <div className='font-medium text-light-black dark:text-white'>
-                            {state?.vote.unvoteDelegateName}
-                        </div>
+                        <ActionDetailsValue>{state?.vote.unvoteDelegateName}</ActionDetailsValue>
                     </ActionDetailsRow>
                 )}
 
@@ -55,26 +62,24 @@ const VoteApprovedBody = ({ wallet }: { wallet: Contracts.IReadWriteWallet }) =>
                             }
                             placement='bottom-end'
                         >
-                            <div className='font-medium text-light-black dark:text-white'>
+                            <ActionDetailsValue>
                                 {trimAddress(state?.vote.unvotePublicKey ?? '', 10)}
-                            </div>
+                            </ActionDetailsValue>
                         </Tooltip>
                     </ActionDetailsRow>
                 )}
 
                 {state?.vote.unvoteDelegateAddress && !wallet.isLedger() && (
                     <ActionDetailsRow label='Unvote Delegate Address'>
-                        <div className='font-medium text-light-black dark:text-white'>
+                        <ActionDetailsValue>
                             {trimAddress(state.vote.unvoteDelegateAddress ?? '', 10)}
-                        </div>
+                        </ActionDetailsValue>
                     </ActionDetailsRow>
                 )}
 
                 {state?.vote.voteDelegateName && (
                     <ActionDetailsRow label='Vote Delegate Name'>
-                        <div className='font-medium text-light-black dark:text-white'>
-                            {state?.vote.voteDelegateName}
-                        </div>
+                        <ActionDetailsValue>{state?.vote.voteDelegateName}</ActionDetailsValue>
                     </ActionDetailsRow>
                 )}
 
@@ -88,26 +93,26 @@ const VoteApprovedBody = ({ wallet }: { wallet: Contracts.IReadWriteWallet }) =>
                             }
                             placement='bottom-end'
                         >
-                            <div className='font-medium text-light-black dark:text-white'>
+                            <ActionDetailsValue>
                                 {trimAddress(state?.vote.votePublicKey ?? '', 10)}
-                            </div>
+                            </ActionDetailsValue>
                         </Tooltip>
                     </ActionDetailsRow>
                 )}
 
                 {state?.vote.voteDelegateAddress && !wallet.isLedger() && (
                     <ActionDetailsRow label='Vote Delegate Address'>
-                        <div className='font-medium text-light-black dark:text-white'>
+                        <ActionDetailsValue>
                             {trimAddress(state.vote.voteDelegateAddress ?? '', 10)}
-                        </div>
+                        </ActionDetailsValue>
                     </ActionDetailsRow>
                 )}
 
                 <ActionDetailsRow label='Transaction ID'>
                     <div className='flex items-center gap-1'>
-                        <div className='font-medium text-light-black dark:text-white'>
+                        <ActionDetailsValue>
                             {trimAddress(state?.vote.id, 'short')}
-                        </div>
+                        </ActionDetailsValue>
                         <button
                             type='button'
                             className='block'
