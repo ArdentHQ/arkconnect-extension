@@ -1,11 +1,11 @@
 import { useEffect } from 'react';
 import { runtime } from 'webextension-polyfill';
+import { useTranslation } from 'react-i18next';
 import Balance from '@/components/wallet/Balance';
 import { ExternalLink, Icon, Layout } from '@/shared/components';
 import constants from '@/constants';
 import { useProfileContext } from '@/lib/context/Profile';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
-
 const Home = () => {
     const { convertedBalance } = useProfileContext();
 
@@ -14,6 +14,8 @@ const Home = () => {
     useEffect(() => {
         void runtime.sendMessage({ type: 'CLEAR_LAST_SCREEN' });
     }, []);
+
+    const { t } = useTranslation();
 
     return (
         <Layout data-testid='Home'>
@@ -71,7 +73,9 @@ const Home = () => {
                 >
                     <div className='flex flex-row items-center justify-between p-4'>
                         <Icon icon='speakerphone' className='h-4.5 w-4.5' />
-                        <span className=' text-sm font-medium'>Try Our Demo App Now!</span>
+                        <span className=' text-sm font-medium'>
+                            {t('HOME.TRY_OUR_DEMO_APP_NOW')}
+                        </span>
                         <Icon icon='link-external' className='h-4 w-4' />
                     </div>
                 </ExternalLink>
