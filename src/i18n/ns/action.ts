@@ -8,4 +8,5 @@ export default {
     CONTINUE: 'Continue',
     SHOW_PASSPHRASE: 'Show Passphrase',
     CONFIRM_IMPORT: 'Confirm & Import',
+    IMPORT: 'Import',
 };

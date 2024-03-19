@@ -78,6 +78,9 @@ export default {
         CONNECT_LEDGER_AND_SIGN_THE_REQUEST: 'Connect Ledger and Sign The {{action}} Request',
         CONNECT_YOUR_LEDGER_DEVICE_DISCLAIMER:
             'Connect your Ledger device, launch the ARK app, and carefully review the request on your device before confirming your approval.',
+        SELECT_ADDRESSES_TO_IMPORT: 'Select Addresses to Import',
+        MULTIPLE_ADDRESSES_CAN_BE_IMPORTED: 'Multiple addresses can be imported too!',
+        ADDRESS_ALREADY_IMPORTED: 'Address already imported',
         FEEDBACK: {
             SETTING_UP_YOUR_WALLET: 'Setting up your wallet',
             YOUR_WALLET_IS_READY: 'Your wallet is ready!',
