@@ -115,4 +115,14 @@ export default {
             PASSPHRASE: 'a passphrase',
         },
     },
+    ONBOARDING: {
+        CREATE_NEW_ADDRESS: 'Create New Address',
+        IMPORT_AN_ADDRESS: 'Import an Address',
+        SCREEN_HEADINGS: {
+            EASILY_SECURE: 'Easily & securely log in to <br /> your favorite web3 apps.',
+            CONTROL_YOUR_IDENTITY:
+                'Control your identity with our <br /> session management feature.',
+            SIGN_TRANSACTIONS: 'Sign transactions and <br /> perform on-chain actions.',
+        },
+    },
 };

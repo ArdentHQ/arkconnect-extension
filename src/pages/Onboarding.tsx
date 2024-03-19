@@ -1,7 +1,8 @@
 import { ReactNode, useEffect, useState } from 'react';
-
+import filterXSS from 'xss';
 import cn from 'classnames';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import {
     Button,
     ControlConnectionsIcon,
@@ -19,6 +20,8 @@ type OnboardingScreen = {
 };
 
 const Onboarding = () => {
+    const { t } = useTranslation();
+
     const navigate = useNavigate();
 
     const [activeOnboardingScreen, setActiveOnboardingScreen] = useState<number>(0);
@@ -31,6 +34,66 @@ const Onboarding = () => {
             clearInterval(interval);
         };
     }, []);
+
+    const onboardingScreens: OnboardingScreen[] = [
+        {
+            id: 1,
+            illustration: <FingerPrintIcon />,
+            heading: (
+                <Heading level={3} className='w-[256px] text-center'>
+                    <span
+                        dangerouslySetInnerHTML={{
+                            __html: filterXSS(t('PAGES.ONBOARDING.SCREEN_HEADINGS.EASILY_SECURE'), {
+                                whiteList: {
+                                    br: [],
+                                },
+                            }),
+                        }}
+                    />
+                </Heading>
+            ),
+        },
+        {
+            id: 2,
+            illustration: <ControlConnectionsIcon />,
+            heading: (
+                <Heading level={3} className='w-[297px] text-center'>
+                    <span
+                        dangerouslySetInnerHTML={{
+                            __html: filterXSS(
+                                t('PAGES.ONBOARDING.SCREEN_HEADINGS.CONTROL_YOUR_IDENTITY'),
+                                {
+                                    whiteList: {
+                                        br: [],
+                                    },
+                                },
+                            ),
+                        }}
+                    />
+                </Heading>
+            ),
+        },
+        {
+            id: 3,
+            illustration: <TransactionsPassphraseIcon />,
+            heading: (
+                <Heading level={3} className='w-[257px] text-center'>
+                    <span
+                        dangerouslySetInnerHTML={{
+                            __html: filterXSS(
+                                t('PAGES.ONBOARDING.SCREEN_HEADINGS.SIGN_TRANSACTIONS'),
+                                {
+                                    whiteList: {
+                                        br: [],
+                                    },
+                                },
+                            ),
+                        }}
+                    />
+                </Heading>
+            ),
+        },
+    ];
 
     return (
         <div className='fade pt-[58px] duration-1000 ease-in-out'>
@@ -58,45 +121,14 @@ const Onboarding = () => {
             </div>
             <div className='flex flex-col gap-3 px-4'>
                 <Button variant='primary' onClick={() => navigate('/wallet/create')}>
-                    Create New Address
+                    {t('PAGES.ONBOARDING.CREATE_NEW_ADDRESS')}
                 </Button>
                 <Button variant='secondary' onClick={() => navigate('/wallet')}>
-                    Import an Address
+                    {t('PAGES.ONBOARDING.IMPORT_AN_ADDRESS')}
                 </Button>
             </div>
         </div>
     );
 };
-
-const onboardingScreens: OnboardingScreen[] = [
-    {
-        id: 1,
-        illustration: <FingerPrintIcon />,
-        heading: (
-            <Heading level={3} className='w-[256px] text-center'>
-                Easily & securely log in to <br /> your favorite web3 apps.
-            </Heading>
-        ),
-    },
-    {
-        id: 2,
-        illustration: <ControlConnectionsIcon />,
-        heading: (
-            <Heading level={3} className='w-[297px] text-center'>
-                Control your identity with our <br /> session management feature.
-            </Heading>
-        ),
-    },
-    {
-        id: 3,
-        illustration: <TransactionsPassphraseIcon />,
-        heading: (
-            <Heading level={3} className='w-[257px] text-center'>
-                Sign transactions and <br />
-                perform on-chain actions.
-            </Heading>
-        ),
-    },
-];
 
 export default Onboarding;
