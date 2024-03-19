@@ -1,6 +1,6 @@
 import { ReactNode, useEffect, useState } from 'react';
 
-import classNames from 'classnames';
+import cn from 'classnames';
 import { useNavigate } from 'react-router-dom';
 import {
     Button,
@@ -39,7 +39,7 @@ const Onboarding = () => {
             <div className='relative h-[410px]'>
                 {onboardingScreens.map((screen, index) => (
                     <div
-                        className={classNames(
+                        className={cn(
                             'absolute left-0 top-[70px] flex w-full items-center justify-center gap-6 px-9 transition-all duration-1000 ease-in-out',
                             {
                                 'translate-x-0 opacity-100': activeOnboardingScreen === index,

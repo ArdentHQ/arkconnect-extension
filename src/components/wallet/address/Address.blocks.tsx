@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import { TippyProps } from '@tippyjs/react';
-import classNames from 'classnames';
+import cn from 'classnames';
 import Amount from '../Amount';
 import { Icon, Tooltip } from '@/shared/components';
 import trimAddress from '@/lib/utils/trimAddress';
@@ -23,7 +23,7 @@ export const AddressAlias = ({
         <div>
             <Tooltip content={alias} placement='top' disabled={!withTooltip || !isTruncated}>
                 <div
-                    className={classNames(
+                    className={cn(
                         'typeset-headline max-w-[180px] truncate text-light-black dark:text-white',
                         {
                             'font-bold': isBold,
