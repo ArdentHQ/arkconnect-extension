@@ -1,3 +1,4 @@
+/* eslint-disable quotes */
 export default {
     HOME: {
         TRY_OUR_DEMO_APP_NOW: 'Try Our Demo App Now!',
@@ -69,11 +70,23 @@ export default {
         },
     },
     IMPORT_WITH_LEDGER: {
+        CONNECT_YOUR_LEDGER_DEVICE: 'Connect Your Ledger Device',
+        COMPLETE_STEPS_TO_CONNECT:
+            'Please complete the steps mentioned below to connect your Ledger.',
         FEEDBACK: {
             SETTING_UP_YOUR_WALLET: 'Setting up your wallet',
             YOUR_WALLET_IS_READY: 'Your wallet is ready!',
             OPEN_THE_EXTENSION_AND_MANAGE_YOUR_ADDRESSES:
                 'You can now open the extension and manage your addresses!',
+        },
+        ERRORS: {
+            FAILED_TO_REQUEST_DEVICE: "Failed to execute requestDevice on 'HID'",
+            ACCESS_DENED_TO_USE_LEDGER_DEVICE: 'Access denied to use Ledger device',
+        },
+        CONNECT_STEPS: {
+            CONNECT_YOUR_LEDGER: 'Connect your Ledger device and close other apps connected to it.',
+            CLICK_CONNECT: 'Click Connect and choose your Ledger device in the browser window.',
+            UNLOCK_AND_OPEN: 'Unlock and open the ARK app on the Ledger device.',
         },
     },
 };
