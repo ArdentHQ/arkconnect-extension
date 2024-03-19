@@ -20,5 +20,7 @@ export default {
     },
     CONNECTIONS: {
         CONNECTED_APPS: 'Connected Apps',
+        NO_CONNECTED_APPS_DESCRIPTION: 'You are currently not connected to any applications.',
+        DISCONNECT_ALL: 'Disconnect All',
     },
 };

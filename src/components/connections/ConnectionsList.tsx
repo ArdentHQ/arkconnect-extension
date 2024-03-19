@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import cn from 'classnames';
+import { useTranslation } from 'react-i18next';
 import { DisconnectSessionModal } from '../wallet/DisconnectSessionModal';
 import ConnectionLogoImage from './ConnectionLogoImage';
 import { useAppSelector } from '@/lib/store';
@@ -19,7 +20,7 @@ const ConnectionsList = () => {
     const { profile } = useProfileContext();
     const primaryWalletId = useAppSelector(selectPrimaryWalletId);
     const [sessionsToRemove, setSessionsToRemove] = useState<SessionStore.Session[]>([]);
-
+    const { t } = useTranslation();
     const getWalletName = (walletId: string) => {
         const wallet = profile.wallets().findById(walletId);
 
@@ -94,7 +95,7 @@ const ConnectionsList = () => {
                                 </span>
                             </div>
 
-                            <Tooltip content='Disconnect' placement='left'>
+                            <Tooltip content={t('COMMON.DISCONNECT')} placement='left'>
                                 <button
                                     type='button'
                                     className={cn(
@@ -125,7 +126,7 @@ const ConnectionsList = () => {
                 }}
                 className='mt-4'
             >
-                Disconnect All
+                {t('PAGES.CONNECTIONS.DISCONNECT_ALL')}
             </Button>
 
             <DisconnectSessionModal
