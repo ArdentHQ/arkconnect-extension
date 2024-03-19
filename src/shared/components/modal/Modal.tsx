@@ -1,7 +1,7 @@
 import { ReactNode, useRef } from 'react';
 import FocusTrap from 'focus-trap-react';
 import cn from 'classnames';
-import Portal from '../utils/Portal';
+import Portal from '@/shared/components/utils/Portal';
 import useOnClickOutside from '@/lib/hooks/useOnClickOutside';
 import { Button, Icon, Icon as IconComponent, IconDefinition } from '@/shared/components';
 
