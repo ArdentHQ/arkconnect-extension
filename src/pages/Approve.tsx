@@ -36,7 +36,7 @@ const Approve = () => {
     const { waitUntilLedgerIsAvailable } = useWaitForAvailableDevice();
     const { syncAll } = useWalletSync({ env, profile });
 
-  const walletData = wallets.find(
+    const walletData = wallets.find(
         (wallet) => wallet.walletId === location.state.session.walletId,
     )!;
     const wallet = profile.wallets().findById(walletData?.walletId);
