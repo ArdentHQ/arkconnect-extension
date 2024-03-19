@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { Button, ExternalLink, Heading, Icon, SmallWarningIcon } from '@/shared/components';
 import constants from '@/constants';
 import { errorParser, errorTitleParser } from '@/lib/utils/errorParser';
@@ -8,6 +9,7 @@ type Props = {
 };
 
 const ErrorModal = ({ error, onClose }: Props) => {
+    const { t } = useTranslation();
     return (
         <div className='fixed left-0 top-0 z-50 flex h-screen w-full bg-subtle-white px-4 pb-6 dark:bg-light-black'>
             <div className='flex w-full flex-col items-center justify-between gap-4'>
@@ -25,10 +27,11 @@ const ErrorModal = ({ error, onClose }: Props) => {
                                     dangerouslySetInnerHTML={{ __html: errorParser(error) }}
                                 ></span>
                             ) : (
-                                <>
-                                    An unknown error occurred. Try <br /> connecting again. If this
-                                    error continues <br /> send an email to our support team.
-                                </>
+                                <span
+                                    dangerouslySetInnerHTML={{
+                                        __html: t('MISC.UNKNOWN_CONNECTION_ERROR'),
+                                    }}
+                                ></span>
                             )}
                         </div>
                     </div>
@@ -36,14 +39,14 @@ const ErrorModal = ({ error, onClose }: Props) => {
 
                 <div className='flex w-full max-w-[340px] flex-col items-center'>
                     <Button variant='primary' onClick={onClose} className='mb-6'>
-                        Close
+                        {t('COMMON.CLOSE')}
                     </Button>
 
                     <ExternalLink
                         className='flex w-full items-center justify-center gap-2 text-light-black dark:text-white'
-                        href={`mailto:${constants.SUPPORT_EMAIL}?subject=ARK%20Connect%20Support`}
+                        href={`mailto:${constants.SUPPORT_EMAIL}?subject=${encodeURIComponent(t('MISC.ARK_CONNECT_SUPPORT'))}`}
                     >
-                        <span className='font-medium'>Reach out to support team</span>
+                        <span className='font-medium'>{t('MISC.REACH_OUT_TO_SUPPORT_TEAM')}</span>
 
                         <Icon icon='link-external' className='h-5 w-5' />
                     </ExternalLink>

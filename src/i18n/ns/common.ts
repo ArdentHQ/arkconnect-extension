@@ -4,4 +4,5 @@ export default {
     EXCHANGES: 'Exchanges',
     REFUSE: 'Refuse',
     CONNECT: 'Connect',
+    CLOSE: 'Close',
 };
