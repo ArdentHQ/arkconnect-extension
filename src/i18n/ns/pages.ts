@@ -18,4 +18,7 @@ export default {
             SECURELY_CONNECTED: 'Securely Connected',
         },
     },
+    CONNECTIONS: {
+        CONNECTED_APPS: 'Connected Apps',
+    },
 };
