@@ -23,4 +23,12 @@ export default {
         NO_CONNECTED_APPS_DESCRIPTION: 'You are currently not connected to any applications.',
         CONNECTED_WITH: 'Connected with',
     },
+    CREATE_WALLET: {
+        FEEDBACK: {
+            WALLET_IS_READY: 'Your Wallet is Ready!',
+            SETTING_UP_THE_WALLET: 'Setting up the wallet, please wait!',
+            SOMETHING_WENT_WRONG: 'Something went wrong while creating your wallet',
+            FAILED_TO_GENERATE_WALLET: 'Failed to generate wallet.',
+        },
+    },
 };
