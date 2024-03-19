@@ -126,7 +126,7 @@ const ConnectionsList = () => {
                 }}
                 className='mt-4'
             >
-                {t('PAGES.CONNECTIONS.DISCONNECT_ALL')}
+                {t('ACTION.DISCONNECT_ALL')}
             </Button>
 
             <DisconnectSessionModal
