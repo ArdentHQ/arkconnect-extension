@@ -6,4 +6,6 @@ export default {
     CLOSE: 'Close',
     COPY: 'Copy',
     CONTINUE: 'Continue',
+    SHOW_PASSPHRASE: 'Show Passphrase',
+    CONFIRM_IMPORT: 'Confirm & Import',
 };

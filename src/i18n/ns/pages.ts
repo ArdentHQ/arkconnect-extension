@@ -53,6 +53,16 @@ export default {
             'I am aware that resetting the extension will result in the loss of all data, including locally stored passphrases.',
     },
     IMPORT_NEW_WALLET: {
+        ENTER_PASSPHRASE: 'Enter Passphrase',
+        ENTER_YOUR_PASSPHRASE:
+            'Enter your 12 or 24-word passphrase that you were given when you created the address.',
+        INVALID_PASSPHRASE: 'Invalid passphrase. Please check again.',
+        ENTER_YOUR_PASSPHRASE_HERE: 'Paste your 12 or 24-word passphrase here',
+        ADDRESS_IMPORTED: 'Address Imported Successfully!',
+        ADDRESS_DETAILS_ARE_SHOWN_BELOW: 'Your address details are shown below.',
+        ADDRESS_NAME: 'Address Name',
+        MAXIMUM_CHARACTERS: '20 characters maximum',
+        NAME_YOUR_ADDRESS: 'Name your address so you can identify it later.',
         FEEDBACK: {
             YOUR_WALLET_IS_READY: 'Your Wallet is Ready!',
             SETTING_UP_THE_WALLET: 'Setting up the wallet, please wait!',

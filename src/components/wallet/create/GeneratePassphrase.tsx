@@ -102,7 +102,7 @@ const GeneratePassphrase = ({ goToNextStep, formik }: Props) => {
                     checked={showPassphrase}
                     onChange={() => setShowPassphrase(!showPassphrase)}
                     id='show-password'
-                    title={t('PAGES.CREATE_WALLET.SHOW_PASSPHRASE')}
+                    title={t('ACTION.SHOW_PASSPHRASE')}
                 />
 
                 <button
