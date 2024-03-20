@@ -162,6 +162,15 @@ export default {
         CHANGE_LOCAL_PASSWORD: 'Change Local Password',
         CHANGE_PASSWORD_FOR_YOUR_WALLET:
             'Change password for your wallet. Your password is only stored locally.',
+        CREATE_N_IMPORT_ADDRESS: 'Create & Import Address',
+        CREATE_NEW_ADDRESS: 'Create New Address',
+        BY_CREATING_A_NEW_PASSPHRASE: 'By creating a new passphrase',
+        IMPORT_AN_ADDRESS: 'Import an Address',
+        BY_USING_EXISTING_PASSPHRASE: 'By using existing passphrase',
+        ARK_CONNECT_REQUIRES_TO_USE_CHROMIUM:
+            'ARK Connect requires the use of a chromium <br /> based browser when using a Ledger.',
+        CONNECT_A_LEDGER: 'Connect a Ledger',
+        IMPORT_ADDRESSES_USING_LEDGER: 'Import addresses using a Ledger',
         FEEDBACK: {
             UPDATING_YOUR_PASWORD: 'Updating your password...',
             INCORRECT_PASSWORD: 'Incorrect password',
