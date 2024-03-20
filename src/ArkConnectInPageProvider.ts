@@ -368,6 +368,10 @@ class ArkConnectInPageProvider {
 
                     if (request.fee) {
                         assertPositiveNonZero(request.fee);
+
+                        if (request.fee > 1) {
+                            throw new Error(`Fee cannot be larger than 1, received ${request.fee}`);
+                        }
                     }
                 } catch (error: unknown) {
                     reject({
