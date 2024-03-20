@@ -1,11 +1,11 @@
 import { useLocation } from 'react-router-dom';
 import { Contracts } from '@ardenthq/sdk-profiles';
-import Amount from '../wallet/Amount';
 import ActionDetails, {
     ActionDetailsFiatValue,
     ActionDetailsRow,
     ActionDetailsValue,
 } from './ActionDetails';
+import Amount from '@/components/wallet/Amount';
 import useClipboard from '@/lib/hooks/useClipboard';
 import trimAddress from '@/lib/utils/trimAddress';
 import { Icon, Tooltip } from '@/shared/components';

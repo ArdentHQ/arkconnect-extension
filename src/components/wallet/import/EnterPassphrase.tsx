@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 import { Contracts } from '@ardenthq/sdk-profiles';
 import { FormikProps } from 'formik';
 import { runtime } from 'webextension-polyfill';
-import { TestnetIcon } from '../address/Address.blocks';
 import { ImportedWalletFormik } from '.';
+import { TestnetIcon } from '@/components/wallet/address/Address.blocks';
 import { Button, Heading, PassphraseInput, ToggleSwitch } from '@/shared/components';
 
 import { assertWallet } from '@/lib/utils/assertions';

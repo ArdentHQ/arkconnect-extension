@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import { Contracts } from '@ardenthq/sdk-profiles';
-import SubPageLayout, { SettingsRowItem } from '../SubPageLayout';
+import SubPageLayout, { SettingsRowItem } from '@/components/settings/SubPageLayout';
 import { Icon } from '@/shared/components';
 import { Currency, general } from '@/lib/data/general';
 import useToast from '@/lib/hooks/useToast';

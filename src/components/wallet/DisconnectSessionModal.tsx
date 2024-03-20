@@ -1,5 +1,5 @@
 import { runtime } from 'webextension-polyfill';
-import RemoveConnections from '../connections/RemoveConnections';
+import RemoveConnections from '@/components/connections/RemoveConnections';
 import Modal from '@/shared/components/modal/Modal';
 import { useAppDispatch } from '@/lib/store';
 import * as SessionStore from '@/lib/store/session';

@@ -1,10 +1,10 @@
 import { Contracts } from '@ardenthq/sdk-profiles';
-import Amount from '../wallet/Amount';
 import ActionDetails, {
     ActionDetailsFiatValue,
     ActionDetailsRow,
     ActionDetailsValue,
 } from './ActionDetails';
+import Amount from '@/components/wallet/Amount';
 import trimAddress from '@/lib/utils/trimAddress';
 import { getNetworkCurrency } from '@/lib/utils/getActiveCoin';
 import { useExchangeRate } from '@/lib/hooks/useExchangeRate';
