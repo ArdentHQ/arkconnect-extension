@@ -157,6 +157,7 @@ export default {
         },
     },
     SETTINGS: {
+        AUTO_LOCK_TIMER: 'Auto Lock Timer',
         ABOUT_ARK_CONNECT: 'About ARK Connect',
         OFFICIAL_WEBSITE: 'Official Website',
         CHANGE_LOCAL_PASSWORD: 'Change Local Password',
@@ -188,6 +189,7 @@ export default {
             UPDATING_YOUR_PASWORD: 'Updating your password...',
             PASSWORD_CHANGED_SUCCESSFULLY: 'Password changed successfully',
             ADDRESS_NAME_UPDATED: 'Address name updated',
+            AUTOLOCK_TIMER_CHANGED_SUCCESSFULLY: 'Auto lock timer changed successfully',
         },
         FORM: {
             ENTER_NAME: 'Enter name...',
