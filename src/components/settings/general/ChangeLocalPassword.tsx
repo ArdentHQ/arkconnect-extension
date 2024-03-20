@@ -4,7 +4,7 @@ import { runtime } from 'webextension-polyfill';
 import { useFormik } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import SubPageLayout from '../SubPageLayout';
-import { Button, Headline, PasswordInput } from '@/shared/components';
+import { Button, HeadingDescription, PasswordInput } from '@/shared/components';
 
 import { ToastPosition } from '@/components/toast/ToastContainer';
 import { isValidPassword } from '@/lib/utils/validations';
@@ -83,9 +83,9 @@ const ChangeLocalPassword = () => {
     return (
         <SubPageLayout title='Change Local Password'>
             <div className='flex h-full flex-1 flex-col justify-between'>
-                <Headline className='mb-6'>
+                <HeadingDescription className='mb-6'>
                     Change password for your wallet. Your password is only stored locally.
-                </Headline>
+                </HeadingDescription>
                 <div className='h-full'>
                     <div className='mb-4 border-b border-solid border-b-theme-secondary-200 pb-4 dark:border-b-theme-secondary-600'>
                         <PasswordInput

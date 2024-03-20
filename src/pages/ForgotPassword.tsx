@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button, Checkbox, Headline, WarningIcon } from '@/shared/components';
+import { Button, Checkbox, HeadingDescription, WarningIcon } from '@/shared/components';
 import SubPageLayout from '@/components/settings/SubPageLayout';
 import useResetExtension from '@/lib/hooks/useResetExtension';
 
@@ -10,11 +10,11 @@ const ForgotPassword = () => {
     return (
         <SubPageLayout title='Forgot Password?' onBack='goBack' noPaddingBottom>
             <div className='flex h-full flex-col justify-between'>
-                <Headline>
+                <HeadingDescription>
                     Unfortunately there is no recovery method available other than resetting the
                     extension and re-importing your address(es). Ensure that you have your
                     passphrase(s) saved.
-                </Headline>
+                </HeadingDescription>
 
                 <div className='flex items-center justify-center'>
                     <WarningIcon />

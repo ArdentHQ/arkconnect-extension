@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import SubPageLayout from '../SubPageLayout';
-import { Button, Headline, PassphraseInput, ToggleSwitch } from '@/shared/components';
+import { Button, HeadingDescription, PassphraseInput, ToggleSwitch } from '@/shared/components';
 import useClipboard from '@/lib/hooks/useClipboard';
 import { ToastPosition } from '@/components/toast/ToastContainer';
 
@@ -19,10 +19,10 @@ const YourPrivateKey = ({ privateKey }: Props) => {
     return (
         <SubPageLayout title='Show Private Key' hideCloseButton={false} noPaddingBottom>
             <div className='flex h-full flex-col'>
-                <Headline className='mb-4'>
+                <HeadingDescription className='mb-4'>
                     Remember, anyone with your private key can steal your assets. Do not share this
                     publicly.
-                </Headline>
+                </HeadingDescription>
                 <div className='flex flex-1 flex-col justify-between'>
                     <div>
                         <div className='relative mb-4'>

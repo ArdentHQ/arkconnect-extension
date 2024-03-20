@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { runtime, tabs } from 'webextension-polyfill';
 import { useEffect } from 'react';
-import { BigButton, Headline, Tooltip } from '@/shared/components';
+import { BigButton, HeadingDescription, Tooltip } from '@/shared/components';
 import SubPageLayout from '@/components/settings/SubPageLayout';
 import { isFirefox } from '@/lib/utils/isFirefox';
 
@@ -14,9 +14,9 @@ const InitialImportWallet = () => {
 
     return (
         <SubPageLayout title='Import an Existing Address' onBack='goBack'>
-            <Headline className='mb-6'>
+            <HeadingDescription className='mb-6'>
                 Select an option below that you would like to proceed with...
-            </Headline>
+            </HeadingDescription>
             <BigButton
                 iconLeading='key'
                 iconTrailing='arrow-right'
