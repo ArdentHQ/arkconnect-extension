@@ -1,5 +1,6 @@
 export default {
     ADDRESS: 'Address',
+    ADDRESSES_DROPDOWN: 'Addresses Dropdown',
     ADDRESSES: 'Addresses',
     AMOUNT: 'Amount',
     BALANCE: 'Balance',
@@ -12,6 +13,7 @@ export default {
     PASSPHRASE: 'Passphrase',
     PRIVATE_KEY: 'Private Key',
     RECEIVER: 'Receiver',
+    REQUESTED_BY: 'Requested by',
     REQUESTED_TO_SWITCH_VOTE: 'Requested to switch vote',
     REQUESTED: 'Requested',
     SENDER: 'Sender',
@@ -30,4 +32,5 @@ export default {
     VOTE_DELEGATE_NAME: 'Vote Delegate Name',
     VOTE_DELEGATE_PUBKEY: 'Vote Delegate Pubkey',
     VOTE: 'Vote',
+    YES: 'Yes',
 };

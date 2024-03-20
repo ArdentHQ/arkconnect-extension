@@ -2,6 +2,7 @@ import { Contracts } from '@ardenthq/sdk-profiles';
 import { useNavigate } from 'react-router-dom';
 import { useRef } from 'react';
 import cn from 'classnames';
+import { useTranslation } from 'react-i18next';
 import { Icon, RadioButton } from '@/shared/components';
 import {
     AddressAlias,
@@ -30,6 +31,7 @@ export const AddressesDropdown = ({
     triggerRef: React.RefObject<HTMLButtonElement | null>;
     onClose: () => void;
 }) => {
+    const { t } = useTranslation();
     const navigate = useNavigate();
     const { profile, initProfile } = useProfileContext();
     const { persist } = useEnvironmentContext();
@@ -79,7 +81,9 @@ export const AddressesDropdown = ({
         >
             <div className='border-b border-solid border-b-theme-secondary-200 dark:border-b-theme-secondary-600'>
                 <div className=' flex items-center justify-between p-3'>
-                    <span className='font-medium text-light-black dark:text-white'>Addresses</span>
+                    <span className='font-medium text-light-black dark:text-white'>
+                        {t('COMMON.ADDRESSES')}
+                    </span>
 
                     <button
                         type='button'
