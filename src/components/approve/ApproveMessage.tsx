@@ -1,6 +1,7 @@
 import { useLocation } from 'react-router-dom';
 import { runtime } from 'webextension-polyfill';
 import { Contracts } from '@ardenthq/sdk-profiles';
+import { useTranslation } from 'react-i18next';
 import ApproveBody from '@/components/approve/ApproveBody';
 import ApproveFooter from '@/components/approve/ApproveFooter';
 import ApproveHeader from '@/components/approve/ApproveHeader';
@@ -39,12 +40,13 @@ const ApproveMessage = ({
     const { syncAll } = useWalletSync({ env, profile });
     const { onError } = useErrorHandlerContext();
     const { sign } = useMessageSigner();
+    const { t } = useTranslation();
     const loadingModal = useLoadingModal({
-        completedMessage: 'Signed Successfully',
-        loadingMessage: 'Signing...',
+        completedMessage: t('PAGES.APPROVE.FEEDBACK.SIGNED_SUCCESSFULLY'),
+        loadingMessage: t('PAGES.APPROVE.FEEDBACK.SIGNING'),
     });
 
-    const reject = (message: string = 'Sign message denied!') => {
+    const reject = (message: string = t('PAGES.APPROVE.FEEDBACK.SIGN_MESSAGE_DENIED')) => {
         runtime.sendMessage({
             type: 'SIGN_MESSAGE_REJECT',
             data: {
@@ -124,7 +126,7 @@ const ApproveMessage = ({
                 appName={session.domain}
                 appLogo={session.logo}
             />
-            <ApproveBody header='Signing with' wallet={wallet}>
+            <ApproveBody header={t('PAGES.APPROVE.SIGNING_WITH')} wallet={wallet}>
                 <RequestedSignatureMessage data={{ message }} />
             </ApproveBody>
             <ApproveFooter onSubmit={onSubmit} onCancel={onCancel} />

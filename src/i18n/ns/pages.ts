@@ -137,4 +137,12 @@ export default {
         YOU_DONT_HAVE_ANY_WALLET:
             "You don't have any wallet imported in ARK Connect! <br /> Please create or import a wallet first!",
     },
+    APPROVE: {
+        SIGNING_WITH: 'Signing with',
+        FEEDBACK: {
+            SIGNED_SUCCESSFULLY: 'Signed Successfully',
+            SIGNING: 'Signing...',
+            SIGN_MESSAGE_DENIED: 'Sign message denied!',
+        },
+    },
 };
