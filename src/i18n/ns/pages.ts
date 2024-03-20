@@ -174,6 +174,9 @@ export default {
         EDIT_ADDRESS_NAME: 'Edit Address Name',
         NAME_YOUR_ADDRESS_SO_YOU_CAN_IDENTIFY:
             'Name your address so you can identify it later. This name is only stored locally.',
+        SELECT_NETWORK_TYPE: 'Select Network Type',
+        SELECT_NETWORK_TO_CREATE: 'Select a network to create your new address with.',
+        SELECT_NETWORK_TO_IMPORT: 'Select a network to import your address with.',
         FEEDBACK: {
             UPDATING_YOUR_PASWORD: 'Updating your password...',
             INCORRECT_PASSWORD: 'Incorrect password',

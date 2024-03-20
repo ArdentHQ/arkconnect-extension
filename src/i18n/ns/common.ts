@@ -1,5 +1,6 @@
 export default {
     ADDRESS: 'Address',
+    ADDRESSES: 'Addresses',
     AMOUNT: 'Amount',
     BALANCE: 'Balance',
     DETAILS: 'Details',
@@ -25,4 +26,6 @@ export default {
     VOTE_DELEGATE_NAME: 'Vote Delegate Name',
     VOTE_DELEGATE_PUBKEY: 'Vote Delegate Pubkey',
     VOTE: 'Vote',
+    TESTNET: 'Testnet',
+    MAINNET: 'Mainnet',
 };
