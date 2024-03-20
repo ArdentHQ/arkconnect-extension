@@ -207,5 +207,16 @@ export default {
             YOUR_PASSWORD: 'Your Password',
             ENTER_PASSWORD_TO_ACCESS: 'Enter Password to Access',
         },
+        MENU: {
+            LOCK_EXTENSION: 'Lock Extension',
+            DARK_MODE: 'Dark Mode',
+            CHANGE_PASSWORD: 'Change Password',
+            CHANGE_LOCAL_CURRENCY: 'Change Local Currency',
+            AUTO_LOCK_TIMER: 'Auto Lock Timer',
+            ABOUT_ARK_CONNECT: 'About ARK Connect',
+            REMOVE_ADDRESSES: 'Remove Addresses',
+            CONNECTED_APPS: 'Connected Apps',
+            CREATE_N_IMPORT_ADDRESS: 'Create & Import Address',
+        },
     },
 };
