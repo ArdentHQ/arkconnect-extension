@@ -6,4 +6,5 @@ export default {
     VIEW_TRANSACTION_ON_ARKSCAN: 'View transaction on ARKScan',
     UNKNOWN_CONNECTION_ERROR:
         'An unknown error occurred. Try <br /> connecting again. If this error continues <br /> send an email to our support team.',
+    SOMETHING_WENT_WRONG: 'Something went wrong!',
 };

@@ -158,4 +158,23 @@ export default {
             SIGN_VOTE_DENIED: 'Sign vote denied!',
         },
     },
+    SETTINGS: {
+        CHANGE_LOCAL_PASSWORD: 'Change Local Password',
+        CHANGE_PASSWORD_FOR_YOUR_WALLET:
+            'Change password for your wallet. Your password is only stored locally.',
+        FEEDBACK: {
+            UPDATING_YOUR_PASWORD: 'Updating your password...',
+            INCORRECT_PASSWORD: 'Incorrect password',
+            PASSWORD_CHANGED_SUCCESSFULLY: 'Password changed successfully',
+        },
+        FORM: {
+            OLD_PASSWORD: 'Old Password',
+            ENTER_OLD_PASSWORD: 'Enter old password',
+            NEW_PASSWORD: 'New Password',
+            ENTER_NEW_PASSWORD: 'Enter new password',
+            CONFIRM_NEW_PASSWORD: 'Confirm New Password',
+            ENTER_NEW_PASSWORD_AGAIN: 'Enter new password again',
+            SAVE_NEW_PASSWORD: 'Save New Password',
+        },
+    },
 };
