@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { BIP44 } from '@ardenthq/sdk-cryptography';
 import { Contracts as ProfilesContracts } from '@ardenthq/sdk-profiles';
 import { FormikProps } from 'formik';
-import classNames from 'classnames';
+import cn from 'classnames';
 import { Button, Checkbox, Heading, Tooltip } from '@/shared/components';
 import trimAddress from '@/lib/utils/trimAddress';
 import { useLedgerContext, useLedgerScanner } from '@/lib/Ledger';
@@ -132,7 +132,7 @@ const ImportWallets = ({ goToNextStep, formik }: Props) => {
 
                         return (
                             <div
-                                className={classNames(
+                                className={cn(
                                     'flex cursor-pointer justify-between transition-all duration-500 ease-in-out hover:bg-theme-secondary-50 dark:bg-theme-secondary-700',
                                     {
                                         'bg-theme-secondary-100 text-theme-secondary-500 dark:bg-transparent dark:text-theme-secondary-300':
@@ -157,7 +157,7 @@ const ImportWallets = ({ goToNextStep, formik }: Props) => {
                                     placement='bottom'
                                 >
                                     <div
-                                        className={classNames(
+                                        className={cn(
                                             'flex w-full items-center justify-between px-6 py-4',
                                             {
                                                 'text-theme-secondary-500 dark:text-theme-secondary-300':

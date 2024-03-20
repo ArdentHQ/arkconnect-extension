@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { FormikProps } from 'formik';
-import classNames from 'classnames';
+import cn from 'classnames';
 import { CreateWalletFormik } from '.';
 import { Button, Heading, Icon, ToggleSwitch } from '@/shared/components';
 import useToast from '@/lib/hooks/useToast';
@@ -35,7 +35,7 @@ const GeneratePassphrase = ({ goToNextStep, formik }: Props) => {
 
         return (
             <div
-                className={classNames('flex items-center gap-1.5', {
+                className={cn('flex items-center gap-1.5', {
                     'pb-1.5': index + 1 < sliceIndex,
                 })}
                 key={index}

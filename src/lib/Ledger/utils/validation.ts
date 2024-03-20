@@ -1,6 +1,6 @@
 import { lt } from 'semver';
 import { Coins } from '@ardenthq/sdk';
-import { minVersionList } from '../Ledger.contracts';
+import { minVersionList } from '@/lib/Ledger/Ledger.contracts';
 
 export const hasRequiredAppVersion = async (coin: Coins.Coin) => {
     const coinId = coin.network().coin();

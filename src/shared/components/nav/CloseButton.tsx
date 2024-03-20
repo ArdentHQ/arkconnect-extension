@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
-import { Icon } from '../icon';
 import { NavButton } from './NavButton';
+import { Icon } from '@/shared/components/icon';
 
 export const CloseButton = () => {
     const navigate = useNavigate();

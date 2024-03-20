@@ -1,9 +1,9 @@
 import { Contracts, Environment } from '@ardenthq/sdk-profiles';
 
-import { initializeEnvironment } from '../utils/env.background';
 import { LockHandler } from './handleAutoLock';
 import { PrimaryWallet } from './extension.wallet.primary';
 import { EnvironmentData } from './contracts';
+import { initializeEnvironment } from '@/lib/utils/env.background';
 import { createTestProfile, isDev } from '@/dev/utils/dev';
 
 const exists = (profile?: Contracts.IProfile | null): profile is Contracts.IProfile => !!profile;

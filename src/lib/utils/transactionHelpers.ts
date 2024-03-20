@@ -1,5 +1,5 @@
 import { Coins, Services } from '@ardenthq/sdk';
-import { RecipientItem } from '../hooks/useSendTransferForm';
+import { RecipientItem } from '@/lib/hooks/useSendTransferForm';
 
 interface BuildTransferDataProperties {
     isMultiSignature?: boolean;
