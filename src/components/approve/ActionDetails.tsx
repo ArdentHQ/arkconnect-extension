@@ -1,3 +1,5 @@
+import { useTranslation } from 'react-i18next';
+
 export const ActionDetailsRow = ({
     label,
     children,
@@ -45,10 +47,11 @@ const ActionDetails = ({
     children: React.ReactNode;
     maxHeight?: string;
 }) => {
+    const { t } = useTranslation();
     return (
         <div className='flex h-full w-full flex-col items-center'>
             <div className=' mb-2 text-center text-sm font-medium text-theme-secondary-500 dark:text-theme-secondary-300'>
-                Details
+                {t('COMMON.DETAILS')}
             </div>
 
             <div

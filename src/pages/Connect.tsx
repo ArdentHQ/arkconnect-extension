@@ -2,6 +2,7 @@ import { useLocation } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 import { runtime, windows } from 'webextension-polyfill';
 import { useEffect, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import ConnectFooter from '@/components/connect/ConnectFooter';
 import ConnectWithWallet from '@/components/connect/ConnectWithWallet';
 import { useAppDispatch, useAppSelector } from '@/lib/store';
@@ -22,10 +23,10 @@ const Connect = () => {
     const { profile } = useProfileContext();
     const primaryWalletId = useAppSelector(WalletStore.selectPrimaryWalletId);
     const primaryWallet = primaryWalletId ? profile.wallets().findById(primaryWalletId) : undefined;
-
+    const { t } = useTranslation();
     const loadingModal = useLoadingModal({
-        completedMessage: 'Securely Connected',
-        loadingMessage: 'Connecting...',
+        completedMessage: t('PAGES.CONNECT.FEEDBACK.SECURELY_CONNECTED'),
+        loadingMessage: t('PAGES.CONNECT.FEEDBACK.CONNECTING'),
     });
 
     const locked = useAppSelector(selectLocked);
@@ -42,11 +43,11 @@ const Connect = () => {
 
     useEffect(() => {
         if (isAlreadyConnected) {
-            void onCancel('Already connected!');
+            void onCancel(t('PAGES.CONNECT.FEEDBACK.ALREADY_CONNECTED'));
         }
     }, []);
 
-    const reject = (message = 'Connection denied!') => {
+    const reject = (message = t('PAGES.CONNECT.FEEDBACK.CONNECTION_DENIED')) => {
         runtime.sendMessage({
             type: 'CONNECT_REJECT',
             data: {
@@ -64,12 +65,12 @@ const Connect = () => {
         loadingModal.setLoading();
 
         if (!primaryWallet) {
-            reject('Wallet not found');
+            reject(t('PAGES.CONNECT.FEEDBACK.WALLET_NOT_FOUND'));
             return;
         }
 
         if (isAlreadyConnected) {
-            reject('Already connected!');
+            reject(t('PAGES.CONNECT.FEEDBACK.ALREADY_CONNECTED'));
             return;
         }
 
@@ -113,7 +114,7 @@ const Connect = () => {
                 appDomain={location.state?.domain}
                 appLogo={location.state?.favicon}
                 icon='action-connect'
-                actionLabel='Connect to App'
+                actionLabel={t('PAGES.CONNECT.CONNECT_TO_APP')}
                 iconClassNames='w-[22px] h-[31px]'
             />
 

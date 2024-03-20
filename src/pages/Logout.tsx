@@ -1,6 +1,7 @@
 import { ChangeEvent, KeyboardEvent, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { runtime } from 'webextension-polyfill';
+import { useTranslation } from 'react-i18next';
 import { Button, PasswordInput, WarningIcon } from '@/shared/components';
 import { ValidationVariant } from '@/components/wallet/create';
 import { useAppDispatch, useAppSelector } from '@/lib/store';
@@ -24,7 +25,7 @@ const Logout = () => {
     const { onError } = useErrorHandlerContext();
     const walletsIds = useAppSelector(WalletStore.selectWalletsIds);
     const resetExtension = useResetExtension();
-
+    const { t } = useTranslation();
     const walletsToLogout = location.state;
 
     const walletId: string | undefined =
@@ -109,11 +110,11 @@ const Logout = () => {
         });
 
         if (hasLedger && hasPassphrase) {
-            text = 'a passphrase or a Ledger device';
+            text = t('PAGES.LOGOUT.ADDRESS_TYPE.PASSPHRASE_OR_LEDGER');
         } else if (hasLedger) {
-            text = 'a Ledger device';
+            text = t('PAGES.LOGOUT.ADDRESS_TYPE.LEDGER');
         } else {
-            text = 'a passphrase';
+            text = t('PAGES.LOGOUT.ADDRESS_TYPE.PASSPHRASE');
         }
 
         return text;
@@ -121,7 +122,11 @@ const Logout = () => {
 
     return (
         <SubPageLayout
-            title={`Remove Address${walletsToLogout.length > 1 ? 'es' : ''}`}
+            title={
+                walletsToLogout.length > 1
+                    ? t('PAGES.LOGOUT.REMOVE_ADDRESSES')
+                    : t('PAGES.LOGOUT.REMOVE_ADDRESS')
+            }
             hideCloseButton={false}
             noPaddingBottom
         >
@@ -129,16 +134,17 @@ const Logout = () => {
                 <p className='typeset-headline text-theme-secondary-500 dark:text-theme-secondary-300'>
                     {walletsToLogout && walletsToLogout.length > 1 ? (
                         <span className='typeset-headline'>
-                            Are you sure you want to remove{' '}
+                            {t('PAGES.LOGOUT.ARE_YOU_SURE_YOU_WANT_TO_REMOVE_1')}
                             <span className='typeset-headline inline-block text-light-black dark:text-white'>
-                                {walletsToLogout.length} addresses?
+                                {walletsToLogout.length}{' '}
+                                {t('PAGES.LOGOUT.ARE_YOU_SURE_YOU_WANT_TO_REMOVE_2')}
                             </span>{' '}
-                            {`You won’t be able to login again without ${getAddressesType()}.`}
+                            {`${t('PAGES.LOGOUT.YOU_WONT_BE_ABLE_TO_LOGIN_AGAIN')} ${getAddressesType()}.`}
                         </span>
+                    ) : wallet?.isLedger() ? (
+                        t('PAGES.LOGOUT.YOU_WONT_BE_ABLE_TO_LOGIN_AGAIN_WITHOUT_LEDGER')
                     ) : (
-                        `Are you sure you want to remove this address? You will be unable to log in again using this address without ${
-                            wallet?.isLedger() ? 'a Ledger device.' : 'a passphrase.'
-                        }`
+                        t('PAGES.LOGOUT.YOU_WONT_BE_ABLE_TO_LOGIN_AGAIN_WITHOUT_PASSPHRASE')
                     )}
                 </p>
 
@@ -149,7 +155,7 @@ const Logout = () => {
                 <div className='flex flex-1 flex-col justify-between'>
                     <div className='mt-[18px] flex flex-col gap-1.5'>
                         <p className='typeset-headline font-medium text-subtle-black dark:text-theme-secondary-200'>
-                            Enter Password
+                            {t('PAGES.LOGOUT.ENTER_PASSWORD')}
                         </p>
                         <PasswordInput
                             name='password'
@@ -158,7 +164,9 @@ const Logout = () => {
                             onKeyDown={handleEnterKey}
                             value={password}
                             helperText={
-                                validationVariant === 'destructive' ? 'Incorrect password' : ''
+                                validationVariant === 'destructive'
+                                    ? t('PAGES.LOGOUT.INCORRECT_PASSWORD')
+                                    : ''
                             }
                         />
                     </div>
@@ -170,14 +178,16 @@ const Logout = () => {
                             disabled={!password.length}
                             className='mb-2'
                         >
-                            {`Remove Address${walletsToLogout.length > 1 ? 'es' : ''}`}
+                            {walletsToLogout.length > 1
+                                ? t('PAGES.LOGOUT.REMOVE_ADDRESSES')
+                                : t('PAGES.LOGOUT.REMOVE_ADDRESS')}
                         </Button>
                         <Button
                             onClick={() => navigate(-1)}
                             className='mb-0 flex w-full bg-transparent py-0 text-light-black dark:text-white'
                         >
                             <span className='typeset-headline font-medium text-light-black dark:text-white'>
-                                Cancel and Go Back
+                                {t('ACTION.CANCEL_AND_GO_BACK')}
                             </span>
                         </Button>
                     </div>
