@@ -1,6 +1,7 @@
 import { Contracts } from '@ardenthq/sdk-profiles';
 import { useLocation } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Layout } from '@/shared/components';
 import ApproveTransaction from '@/components/approve/ApproveTransaction';
 import ApproveMessage from '@/components/approve/ApproveMessage';
@@ -40,6 +41,7 @@ const Approve = () => {
         (wallet) => wallet.walletId === location.state.session.walletId,
     )!;
     const wallet = profile.wallets().findById(walletData?.walletId);
+    const { t } = useTranslation();
 
     useEffect(() => {
         (async () => {
@@ -55,7 +57,7 @@ const Approve = () => {
         wallet: Contracts.IReadWriteWallet,
     ) => {
         if (!isLedgerTransportSupported()) {
-            throw new Error('Ledger Transport is not supported!');
+            throw new Error(t('ERROR.LEDGER_TRANSPORT_NOT_SUPPORTED'));
         }
 
         setIsModalOpen(true);

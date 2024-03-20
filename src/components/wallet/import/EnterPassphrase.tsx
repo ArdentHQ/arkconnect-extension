@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Contracts } from '@ardenthq/sdk-profiles';
 import { FormikProps } from 'formik';
 import { runtime } from 'webextension-polyfill';
+import { useTranslation } from 'react-i18next';
 import { ImportedWalletFormik } from '.';
 import { TestnetIcon } from '@/components/wallet/address/Address.blocks';
 import { Button, Heading, PassphraseInput, ToggleSwitch } from '@/shared/components';
@@ -37,6 +38,7 @@ const EnterPassphrase = ({ goToNextStep, formik }: Props) => {
     const { importWallet } = useWalletImport({ profile });
     const [submitAfterValidation, setSubmitAfterValidation] = useState<boolean>(false);
     const selectedNetwork = useActiveNetwork();
+    const { t } = useTranslation();
 
     useEffect(() => {
         setSubmitAfterValidation(false);
@@ -190,12 +192,11 @@ const EnterPassphrase = ({ goToNextStep, formik }: Props) => {
     return (
         <>
             <div className='mb-2 flex items-center gap-2'>
-                <Heading level={3}>Enter Passphrase</Heading>
+                <Heading level={3}>{t('PAGES.IMPORT_NEW_WALLET.ENTER_PASSPHRASE')}</Heading>
                 {selectedNetwork.isTest() && <TestnetIcon />}
             </div>
             <p className='typeset-headline mb-8 text-theme-secondary-500 dark:text-theme-secondary-300'>
-                Enter your 12 or 24-word passphrase that you were given when you created the
-                address.
+                {t('PAGES.IMPORT_NEW_WALLET.ENTER_YOUR_PASSPHRASE')}
             </p>
             <div className='relative mb-4'>
                 <PassphraseInput
@@ -211,10 +212,10 @@ const EnterPassphrase = ({ goToNextStep, formik }: Props) => {
                     hideValue={!showPassphrase}
                     helperText={
                         values.passphraseValidation === 'destructive'
-                            ? 'Invalid passphrase. Please check again.'
+                            ? t('PAGES.IMPORT_NEW_WALLET.INVALID_PASSPHRASE')
                             : ''
                     }
-                    placeholder='Paste your 12 or 24-word passphrase here'
+                    placeholder={t('PAGES.IMPORT_NEW_WALLET.ENTER_YOUR_PASSPHRASE_HERE')}
                     className='custom-scroll h-[104px]'
                 />
             </div>
@@ -224,7 +225,7 @@ const EnterPassphrase = ({ goToNextStep, formik }: Props) => {
                     checked={showPassphrase}
                     onChange={() => setShowPassphrase(!showPassphrase)}
                     id='show-password'
-                    title='Show Passphrase'
+                    title={t('ACTION.SHOW_PASSPHRASE')}
                 />
             </div>
 
@@ -235,7 +236,7 @@ const EnterPassphrase = ({ goToNextStep, formik }: Props) => {
                 disabled={values.passphraseValidation !== 'errorFree'}
                 onClick={handleWalletImport}
             >
-                Confirm & Import
+                {t('ACTION.CONFIRM_IMPORT')}
             </Button>
         </>
     );

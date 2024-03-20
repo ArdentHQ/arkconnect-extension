@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 
+import { useTranslation } from 'react-i18next';
 import { Button, ExternalLink, Heading, Icon, Loader } from '@/shared/components';
 
 import constants from '@/constants';
@@ -37,6 +38,7 @@ export const LedgerConnectionStep = ({
     const { profile: activeProfile } = useProfileContext();
     const { onError } = useErrorHandlerContext();
     const network = useActiveNetwork();
+    const { t } = useTranslation();
 
     const {
         connect,
@@ -55,8 +57,8 @@ export const LedgerConnectionStep = ({
 
     useEffect(() => {
         const notAvailableErrors = [
-            `Failed to execute ${'requestDevice'} on 'HID'`,
-            'Access denied to use Ledger device',
+            t('PAGES.IMPORT_WITH_LEDGER.ERRORS.FAILED_TO_REQUEST_DEVICE'),
+            t('PAGES.IMPORT_WITH_LEDGER.ERRORS.ACCESS_DENED_TO_USE_LEDGER_DEVICE'),
         ];
 
         if (
@@ -108,11 +110,11 @@ export const LedgerConnectionStep = ({
         <div className='space-y-6'>
             <div>
                 <Heading level={3} className='mb-2'>
-                    Connect Your Ledger Device
+                    {t('PAGES.IMPORT_WITH_LEDGER.CONNECT_YOUR_LEDGER_DEVICE')}
                 </Heading>
 
                 <p className='typehead-body text-theme-secondary-500 dark:text-theme-secondary-300'>
-                    Please complete the steps mentioned below to connect your Ledger.
+                    {t('PAGES.IMPORT_WITH_LEDGER.COMPLETE_STEPS_TO_CONNECT')}
                 </p>
             </div>
 
@@ -123,34 +125,34 @@ export const LedgerConnectionStep = ({
             <div className='mb-6'>
                 <ul className='flex flex-col space-y-3'>
                     <ConnectionStep ready={isConnected || hasDeviceAvailable}>
-                        Connect your Ledger device and close other apps connected to it.
+                        {t('PAGES.IMPORT_WITH_LEDGER.CONNECT_STEPS.CONNECT_YOUR_LEDGER')}
                     </ConnectionStep>
 
                     <ConnectionStep ready={isConnected || hasDeviceAvailable}>
-                        Click Connect and choose your Ledger device in the browser window.
+                        {t('PAGES.IMPORT_WITH_LEDGER.CONNECT_STEPS.CLICK_CONNECT')}
                     </ConnectionStep>
 
                     <ConnectionStep ready={isConnected}>
-                        Unlock and open the ARK app on the Ledger device.
+                        {t('PAGES.IMPORT_WITH_LEDGER.CONNECT_STEPS.UNLOCK_AND_OPEN')}
                     </ConnectionStep>
                 </ul>
             </div>
             <div className='pb-4'>
                 {hasDeviceAvailable ? (
                     <Button variant='primary' onClick={continueToNextStep} disabled={!isConnected}>
-                        Continue
+                        {t('ACTION.CONTINUE')}
                     </Button>
                 ) : (
                     <Button variant='primary' onClick={handleListenDevice}>
-                        Connect
+                        {t('ACTION.CONNECT')}
                     </Button>
                 )}
             </div>
             <ExternalLink
                 className='flex w-full items-center justify-center gap-3 text-theme-primary-700 dark:text-theme-primary-650'
-                href={`mailto:${constants.SUPPORT_EMAIL}?subject=ARK%20Connect%20Support%20Ledger`}
+                href={`mailto:${constants.SUPPORT_EMAIL}?subject=${encodeURIComponent(t('MISC.ARK_CONNECT_SUPPORT_LEDGER'))}`}
             >
-                <p className='typeset-headline font-medium'>Support Email</p>
+                <p className='typeset-headline font-medium'>{t('MISC.SUPPORT_EMAIL')}</p>
                 <Icon icon='link-external' className='h-5 w-5' />
             </ExternalLink>
         </div>
