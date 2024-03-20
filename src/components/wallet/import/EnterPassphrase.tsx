@@ -5,7 +5,13 @@ import { runtime } from 'webextension-polyfill';
 import { useTranslation } from 'react-i18next';
 import { ImportedWalletFormik } from '.';
 import { TestnetIcon } from '@/components/wallet/address/Address.blocks';
-import { Button, Heading, HeadingDescription, PassphraseInput, ToggleSwitch } from '@/shared/components';
+import {
+    Button,
+    Heading,
+    HeadingDescription,
+    PassphraseInput,
+    ToggleSwitch,
+} from '@/shared/components';
 
 import { assertWallet } from '@/lib/utils/assertions';
 import { getDefaultAlias } from '@/lib/utils/getDefaultAlias';

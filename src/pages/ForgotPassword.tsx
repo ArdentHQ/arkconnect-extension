@@ -16,7 +16,6 @@ const ForgotPassword = () => {
             noPaddingBottom
         >
             <div className='flex h-full flex-col justify-between'>
-
                 <HeadingDescription>
                     {t('PAGES.FORGOT_PASSWORD.NO_RECOVERY_METHOD_AVAILABLE_DISCLAIMER')}
                 </HeadingDescription>
