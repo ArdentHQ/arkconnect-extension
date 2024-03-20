@@ -116,6 +116,8 @@ export default {
             LEDGER: 'a Ledger device',
             PASSPHRASE: 'a passphrase',
         },
+        SELECT_ADDRESSES_TO_REMOVE: 'Select Addresses to Remove.',
+        REMOVE_ALL_ADDRESSES: 'Remove All Addresses',
     },
     ONBOARDING: {
         CREATE_NEW_ADDRESS: 'Create New Address',
