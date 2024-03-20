@@ -139,10 +139,14 @@ export default {
     },
     APPROVE: {
         SIGNING_WITH: 'Signing with',
+        SENDING_WITH: 'Sending with',
         FEEDBACK: {
             SIGNED_SUCCESSFULLY: 'Signed Successfully',
             SIGNING: 'Signing...',
             SIGN_MESSAGE_DENIED: 'Sign message denied!',
+            PROCESSING_TRANSACTION: 'Processing transaction...',
+            SIGN_TRANSACTION_DENIED: 'Sign transaction denied!',
+            INSUFFICIENT_BALANCE: 'Insufficient balance. Add funds or switch address.',
         },
     },
 };
