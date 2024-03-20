@@ -171,12 +171,18 @@ export default {
             'ARK Connect requires the use of a chromium <br /> based browser when using a Ledger.',
         CONNECT_A_LEDGER: 'Connect a Ledger',
         IMPORT_ADDRESSES_USING_LEDGER: 'Import addresses using a Ledger',
+        EDIT_ADDRESS_NAME: 'Edit Address Name',
+        NAME_YOUR_ADDRESS_SO_YOU_CAN_IDENTIFY:
+            'Name your address so you can identify it later. This name is only stored locally.',
         FEEDBACK: {
             UPDATING_YOUR_PASWORD: 'Updating your password...',
             INCORRECT_PASSWORD: 'Incorrect password',
             PASSWORD_CHANGED_SUCCESSFULLY: 'Password changed successfully',
+            ADDRESS_NAME_UPDATED: 'Address name updated',
         },
         FORM: {
+            ENTER_NAME: 'Enter name...',
+            ADDRESS_NAME: 'Address Name',
             OLD_PASSWORD: 'Old Password',
             ENTER_OLD_PASSWORD: 'Enter old password',
             NEW_PASSWORD: 'New Password',

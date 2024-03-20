@@ -10,5 +10,6 @@ export default {
     DISCONNECT: 'Disconnect',
     IMPORT: 'Import',
     REFUSE: 'Refuse',
+    SAVE: 'Save',
     SHOW_PASSPHRASE: 'Show Passphrase',
 };
