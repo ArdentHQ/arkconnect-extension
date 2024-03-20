@@ -175,6 +175,13 @@ export default {
         SELECT_NETWORK_TYPE: 'Select Network Type',
         SELECT_NETWORK_TO_CREATE: 'Select a network to create your new address with.',
         SELECT_NETWORK_TO_IMPORT: 'Select a network to import your address with.',
+        SHOW_PASSPHRASE: 'Show Passphrase',
+        SHOW_PASSPHRASE_DISCLAIMER:
+            'Remember, anyone with your passphrase can steal your assets. Do not share this publicly.',
+        SHOW_PRIVATE_KEY: 'Show Private Key',
+        SHOW_PRIVATE_KEY_DISCLAIMER:
+            'Remember, anyone with your private key can steal your assets. Do not share this publicly.',
+
         FEEDBACK: {
             UPDATING_YOUR_PASWORD: 'Updating your password...',
             PASSWORD_CHANGED_SUCCESSFULLY: 'Password changed successfully',

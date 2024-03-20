@@ -12,4 +12,5 @@ export default {
     REFUSE: 'Refuse',
     SAVE: 'Save',
     SHOW_PASSPHRASE: 'Show Passphrase',
+    COPY_TO_CLIPBOARD: 'Copy to Clipboard',
 };
