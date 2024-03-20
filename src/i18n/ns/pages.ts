@@ -140,6 +140,7 @@ export default {
     APPROVE: {
         SIGNING_WITH: 'Signing with',
         SENDING_WITH: 'Sending with',
+        APPROVING_WITH: 'Approving with',
         FEEDBACK: {
             SIGNED_SUCCESSFULLY: 'Signed Successfully',
             SIGNING: 'Signing...',
@@ -147,6 +148,10 @@ export default {
             PROCESSING_TRANSACTION: 'Processing transaction...',
             SIGN_TRANSACTION_DENIED: 'Sign transaction denied!',
             INSUFFICIENT_BALANCE: 'Insufficient balance. Add funds or switch address.',
+            PROCESSING_THE_VOTE: 'Processing the vote...',
+            PROCESSING_THE_UNVOTE: 'Processing the unvote...',
+            PROCESSING_THE_VOTE_SWITCH: 'Processing the vote switch...',
+            SIGN_VOTE_DENIED: 'Sign vote denied!',
         },
     },
 };
