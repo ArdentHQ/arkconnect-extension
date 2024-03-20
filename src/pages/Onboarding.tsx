@@ -1,8 +1,7 @@
 import { ReactNode, useEffect, useState } from 'react';
-import filterXSS from 'xss';
 import cn from 'classnames';
 import { useNavigate } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import {
     Button,
     ControlConnectionsIcon,
@@ -41,15 +40,7 @@ const Onboarding = () => {
             illustration: <FingerPrintIcon />,
             heading: (
                 <Heading level={3} className='w-[256px] text-center'>
-                    <span
-                        dangerouslySetInnerHTML={{
-                            __html: filterXSS(t('PAGES.ONBOARDING.SCREEN_HEADINGS.EASILY_SECURE'), {
-                                whiteList: {
-                                    br: [],
-                                },
-                            }),
-                        }}
-                    />
+                    <Trans i18nKey='PAGES.ONBOARDING.SCREEN_HEADINGS.EASILY_SECURE' />
                 </Heading>
             ),
         },
@@ -58,18 +49,7 @@ const Onboarding = () => {
             illustration: <ControlConnectionsIcon />,
             heading: (
                 <Heading level={3} className='w-[297px] text-center'>
-                    <span
-                        dangerouslySetInnerHTML={{
-                            __html: filterXSS(
-                                t('PAGES.ONBOARDING.SCREEN_HEADINGS.CONTROL_YOUR_IDENTITY'),
-                                {
-                                    whiteList: {
-                                        br: [],
-                                    },
-                                },
-                            ),
-                        }}
-                    />
+                    <Trans i18nKey='PAGES.ONBOARDING.SCREEN_HEADINGS.CONTROL_YOUR_IDENTITY' />
                 </Heading>
             ),
         },
@@ -78,18 +58,7 @@ const Onboarding = () => {
             illustration: <TransactionsPassphraseIcon />,
             heading: (
                 <Heading level={3} className='w-[257px] text-center'>
-                    <span
-                        dangerouslySetInnerHTML={{
-                            __html: filterXSS(
-                                t('PAGES.ONBOARDING.SCREEN_HEADINGS.SIGN_TRANSACTIONS'),
-                                {
-                                    whiteList: {
-                                        br: [],
-                                    },
-                                },
-                            ),
-                        }}
-                    />
+                    <Trans i18nKey='PAGES.ONBOARDING.SCREEN_HEADINGS.SIGN_TRANSACTIONS' />
                 </Heading>
             ),
         },
