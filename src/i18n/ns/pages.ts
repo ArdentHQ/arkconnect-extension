@@ -157,6 +157,8 @@ export default {
         },
     },
     SETTINGS: {
+        ABOUT_ARK_CONNECT: 'About ARK Connect',
+        OFFICIAL_WEBSITE: 'Official Website',
         CHANGE_LOCAL_PASSWORD: 'Change Local Password',
         CHANGE_PASSWORD_FOR_YOUR_WALLET:
             'Change password for your wallet. Your password is only stored locally.',
