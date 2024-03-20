@@ -9,10 +9,10 @@ import { ErrorHandlerProvider, useErrorHandlerContext } from './lib/context/Erro
 import { ProfileProvider } from './lib/context/Profile';
 import { EnvironmentProvider, useEnvironmentContext } from './lib/context/Environment';
 import LoadingModal from './shared/components/loader/LoadingModal';
-import ToastContainer from './components/toast/ToastContainer';
 import { initializeEnvironment } from './lib/utils/env';
 import { LoadingFullScreen } from './shared/components/handleStates/LoadingFullScreen';
 import { i18n as index18n } from './i18n';
+import ToastContainer from '@/components/toast/ToastContainer';
 import store, { persistor } from '@/lib/store';
 import routes from '@/routing';
 import { BackgroundEvents } from '@/lib/context/BackgroundEventHandler';
