@@ -184,12 +184,13 @@ export default {
         SHOW_PRIVATE_KEY: 'Show Private Key',
         SHOW_PRIVATE_KEY_DISCLAIMER:
             'Remember, anyone with your private key can steal your assets. Do not share this publicly.',
-
+        CHANGE_LOCAL_CURRENCY: 'Change Local Currency',
         FEEDBACK: {
             UPDATING_YOUR_PASWORD: 'Updating your password...',
             PASSWORD_CHANGED_SUCCESSFULLY: 'Password changed successfully',
             ADDRESS_NAME_UPDATED: 'Address name updated',
             AUTOLOCK_TIMER_CHANGED_SUCCESSFULLY: 'Auto lock timer changed successfully',
+            CURRENCY_CHANGED_SUCCESSFULLY: 'Currency changed successfully',
         },
         FORM: {
             ENTER_NAME: 'Enter name...',
