@@ -252,6 +252,7 @@ export function Extension() {
         async runEnvMigrations(): Promise<void> {
             const temporaryProfile = await env.profiles().create('temp');
             await env.profiles().import(await env.profiles().export(temporaryProfile));
+            env.profiles().forget(temporaryProfile.id());
         },
     };
 }
