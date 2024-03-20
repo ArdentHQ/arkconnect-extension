@@ -43,25 +43,27 @@ const ApproveWithLedger = ({
         vote = null,
         unvote = null;
 
+    const {
+        values: { fee: transactionFee, total: transactionTotal, hasHigherCustomFee },
+    } = useSendTransferForm(wallet, {
+        session,
+        amount,
+        receiverAddress,
+    });
+
+    const {
+        values: { fee: voteFee, vote: voteAction, unvote: unvoteAction },
+    } = useVoteForm(wallet, state);
+
     if (
         actionType === ApproveActionType.VOTE ||
         actionType === ApproveActionType.UNVOTE ||
         actionType === ApproveActionType.SWITCH_VOTE
     ) {
-        const {
-            values: { fee: voteFee, vote: voteAction, unvote: unvoteAction },
-        } = useVoteForm(wallet, state);
         fee = voteFee;
         vote = voteAction;
         unvote = unvoteAction;
     } else if (actionType === ApproveActionType.TRANSACTION) {
-        const {
-            values: { fee: transactionFee, total: transactionTotal },
-        } = useSendTransferForm(wallet, {
-            session,
-            amount,
-            receiverAddress,
-        });
         fee = transactionFee;
         total = transactionTotal;
     }
@@ -137,6 +139,7 @@ const ApproveWithLedger = ({
                             fee={fee}
                             total={total}
                             wallet={wallet}
+                            hasHigherCustomFee={hasHigherCustomFee}
                         />
                     )}
                     {actionType === ApproveActionType.SIGNATURE && (
