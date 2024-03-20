@@ -30,11 +30,19 @@ const ImportWithLedger = () => {
     const network = useActiveNetwork();
     const { profile, initProfile } = useProfileContext();
     const { defaultCurrency } = useLocaleCurrency();
-    const { error, removeErrors } = useLedgerContext();
+    const { error, removeErrors, resetConnectionState, disconnect, abortConnectionRetry } =
+        useLedgerContext();
     const { onError } = useErrorHandlerContext();
+
+    const handleClickBack = () => {
+        disconnect();
+        abortConnectionRetry();
+        resetConnectionState();
+    };
+
     const [steps, setSteps] = useState<Step[]>([
         { component: LedgerConnectionStep, containerPaddingX: '24' },
-        { component: ImportWallets },
+        { component: ImportWallets, onClickBack: handleClickBack },
     ]);
     const { env } = useEnvironmentContext();
 
@@ -115,8 +123,8 @@ const ImportWithLedger = () => {
                     </div>
                 </div>
                 {error && (
-                    <div className=' fixed bottom-0 left-0 z-20 flex w-full items-center justify-center border border-solid border-t-theme-error-300 bg-theme-error-500 px-2 dark:border-t-theme-error-500 dark:bg-[rgba(255,86,74,0.26)]'>
-                        <div className='flex items-center gap-6'>
+                    <div className='fixed bottom-0 left-0 z-20 flex w-full items-center justify-center border-t border-t-theme-error-300 bg-theme-error-50 px-2 py-2 dark:border-t-theme-error-500 dark:bg-[rgba(255,86,74,0.26)]'>
+                        <div className='flex h-8 items-center gap-4'>
                             <div className='flex items-center gap-2'>
                                 <Icon
                                     icon='information-circle'

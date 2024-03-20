@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import SubPageLayout from '../SubPageLayout';
+import SubPageLayout from '@/components/settings/SubPageLayout';
 import { Button, Checkbox, RowLayout } from '@/shared/components';
 import { selectWalletsIds } from '@/lib/store/wallet';
 import { useAppSelector } from '@/lib/store';

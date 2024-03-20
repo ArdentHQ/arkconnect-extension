@@ -1,7 +1,7 @@
 import { runtime } from 'webextension-polyfill';
 import { useNavigate } from 'react-router-dom';
-import { useProfileContext } from '../context/Profile';
 import useOnError from '.';
+import { useProfileContext } from '@/lib/context/Profile';
 import { revertAll } from '@/lib/store/ui';
 import { useAppDispatch } from '@/lib/store';
 import { clearLocalStorage } from '@/lib/utils/localStorage';

@@ -1,8 +1,8 @@
 import { useRef } from 'react';
 import { TippyProps } from '@tippyjs/react';
-import classNames from 'classnames';
+import cn from 'classnames';
 import { twMerge } from 'tailwind-merge';
-import Amount from '../Amount';
+import Amount from '@/components/wallet/Amount';
 import { Icon, Tooltip } from '@/shared/components';
 import trimAddress from '@/lib/utils/trimAddress';
 import { ToastPosition } from '@/components/toast/ToastContainer';
@@ -24,7 +24,7 @@ export const AddressAlias = ({
         <div>
             <Tooltip content={alias} placement='top' disabled={!withTooltip || !isTruncated}>
                 <div
-                    className={classNames(
+                    className={cn(
                         'typeset-headline max-w-[180px] truncate text-light-black dark:text-white',
                         {
                             'font-bold': isBold,

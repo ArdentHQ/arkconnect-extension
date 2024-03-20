@@ -1,5 +1,5 @@
 import { twMerge } from 'tailwind-merge';
-import classNames from 'classnames';
+import cn from 'classnames';
 import { Icon } from '@/shared/components';
 
 import { ThemeMode } from '@/lib/store/ui';
@@ -25,14 +25,11 @@ const ConnectionLogoImage = ({
         return (
             <div
                 className={twMerge(
-                    classNames(
-                        'h-5 w-5 flex-shrink-0 overflow-hidden bg-white dark:bg-light-black',
-                        {
-                            'border-[10px] border-solid': withBorder,
-                            'border-white dark:border-light-black': withBorder,
-                            'rounded-full': roundCorners,
-                        },
-                    ),
+                    cn('h-5 w-5 flex-shrink-0 overflow-hidden bg-white dark:bg-light-black', {
+                        'border-[10px] border-solid': withBorder,
+                        'border-white dark:border-light-black': withBorder,
+                        'rounded-full': roundCorners,
+                    }),
                     className,
                 )}
             >
