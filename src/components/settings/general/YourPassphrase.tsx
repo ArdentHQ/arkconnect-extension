@@ -15,7 +15,7 @@ const YourPassphrase = ({ passphrase }: Props) => {
     const [showPassphrase, setShowPassphrase] = useState<boolean>(false);
 
     const handleCopyToClipboard = () => {
-        copy(passphrase, t('MISC.PASSPHRASE'), ToastPosition.HIGH);
+        copy(passphrase, t('COMMON.PASSPHRASE'), ToastPosition.HIGH);
     };
 
     return (
