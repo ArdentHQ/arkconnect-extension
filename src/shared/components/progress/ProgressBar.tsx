@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import classNames from 'classnames';
+import cn from 'classnames';
 
 export const ProgressBar = () => {
     const [activeBarIndex, setActiveBarIndex] = useState<number>(0);
@@ -38,7 +38,7 @@ export const ProgressBar = () => {
             className='relative h-1.25 w-full overflow-hidden rounded-2.5xl bg-theme-secondary-200 dark:bg-theme-secondary-600'
         >
             <div
-                className={classNames(
+                className={cn(
                     ' h-full rounded-3xl bg-theme-primary-700 dark:bg-theme-primary-650',
                     {
                         'w-full': isFilled,

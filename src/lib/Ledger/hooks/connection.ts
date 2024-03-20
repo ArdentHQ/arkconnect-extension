@@ -3,10 +3,10 @@ import { Contracts } from '@ardenthq/sdk-profiles';
 import { Options } from 'p-retry';
 import { useCallback, useEffect, useMemo, useReducer, useRef, useState } from 'react';
 
-import { persistLedgerConnection } from '../utils/connection';
-import { useLedgerContext } from '../Ledger';
 import { connectionReducer, defaultConnectionState } from './connection.state';
 import { useLedgerImport } from './import';
+import { useLedgerContext } from '@/lib/Ledger/Ledger';
+import { persistLedgerConnection } from '@/lib/Ledger/utils/connection';
 import { closeDevices, isLedgerTransportSupported, openTransport } from '@/lib/Ledger/transport';
 import { useEnvironmentContext } from '@/lib/context/Environment';
 import useSentryException from '@/lib/hooks/useSentryException';

@@ -3,7 +3,7 @@ import * as Yup from 'yup';
 import { runtime } from 'webextension-polyfill';
 import { useFormik } from 'formik';
 import { useNavigate } from 'react-router-dom';
-import SubPageLayout from '../SubPageLayout';
+import SubPageLayout from '@/components/settings/SubPageLayout';
 import { Button, PasswordInput } from '@/shared/components';
 
 import { ToastPosition } from '@/components/toast/ToastContainer';

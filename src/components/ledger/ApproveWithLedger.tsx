@@ -1,9 +1,9 @@
 import { useLocation } from 'react-router-dom';
 import { Contracts } from '@ardenthq/sdk-profiles';
-import classNames from 'classnames';
-import RequestedVoteBody from '../approve/RequestedVoteBody';
-import RequestedTransactionBody from '../approve/RequestedTransactionBody';
-import RequestedSignatureMessage from '../approve/RequestedSignatureMessage';
+import cn from 'classnames';
+import RequestedVoteBody from '@/components/approve/RequestedVoteBody';
+import RequestedTransactionBody from '@/components/approve/RequestedTransactionBody';
+import RequestedSignatureMessage from '@/components/approve/RequestedSignatureMessage';
 import formatDomain from '@/lib/utils/formatDomain';
 import trimAddress from '@/lib/utils/trimAddress';
 import { ApproveActionType } from '@/pages/Approve';
@@ -149,7 +149,7 @@ const ApproveWithLedger = ({
                     )}
                 </div>
 
-                <div className={classNames('mb-6', getTopMarginClass())}>
+                <div className={cn('mb-6', getTopMarginClass())}>
                     <div className='overflow-hidden rounded-2xl border border-solid border-theme-warning-400'>
                         {!!address && (
                             <div className='flex justify-center rounded-t bg-white p-[14px] dark:bg-light-black'>

@@ -1,4 +1,4 @@
-import ConnectionLogoImage from '../../../components/connections/ConnectionLogoImage';
+import ConnectionLogoImage from '@/components/connections/ConnectionLogoImage';
 import formatDomain from '@/lib/utils/formatDomain';
 
 type Props = {
