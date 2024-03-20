@@ -1,8 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Runtime, runtime, tabs, windows } from 'webextension-polyfill';
 import { Contracts } from '@ardenthq/sdk-profiles';
-import { Session } from '../store/session';
-import { WalletNetwork } from '../store/wallet';
 import {
     assertHasProfile,
     assertHasWallet,
@@ -11,6 +9,8 @@ import {
     assertIsUnlocked,
     getActiveSession,
 } from './assertions';
+import { WalletNetwork } from '@/lib/store/wallet';
+import { Session } from '@/lib/store/session';
 
 export type EventPayload<T> = {
     type: keyof typeof longLivedConnectionHandlers;
