@@ -3,6 +3,7 @@ import { Contracts } from '@ardenthq/sdk-profiles';
 import { Options } from 'p-retry';
 import { useCallback, useEffect, useMemo, useReducer, useRef, useState } from 'react';
 
+import { useTranslation } from 'react-i18next';
 import { connectionReducer, defaultConnectionState } from './connection.state';
 import { useLedgerImport } from './import';
 import { useLedgerContext } from '@/lib/Ledger/Ledger';
@@ -168,17 +169,19 @@ export const useLedgerConnection = () => {
 };
 
 export const useLedgerConnectionStatusMessage = (): string => {
+    const { t } = useTranslation();
+
     const { hasDeviceAvailable, isConnected } = useLedgerContext();
 
     if (!hasDeviceAvailable) {
-        return 'Connect and choose your Ledger device in the browser window';
+        return t('PAGES.IMPORT_WITH_LEDGER.STATUS.CLICK_CONNECT');
     }
 
     if (!isConnected) {
-        return 'Unlock and open the ARK app on the Ledger device';
+        return t('PAGES.IMPORT_WITH_LEDGER.STATUS.UNLOCK_AN_OPEN_ARK_APP');
     }
 
-    return 'Waiting for your signature';
+    return t('PAGES.IMPORT_WITH_LEDGER.STATUS.WAITING_FOR_YOUR_SIGNATURE');
 };
 
 export const useWaitForAvailableDevice = (): {

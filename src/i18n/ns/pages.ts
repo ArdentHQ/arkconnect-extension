@@ -96,6 +96,11 @@ export default {
             CLICK_CONNECT: 'Click Connect and choose your Ledger device in the browser window.',
             UNLOCK_AND_OPEN: 'Unlock and open the ARK app on the Ledger device.',
         },
+        STATUS: {
+            CLICK_CONNECT: 'Connect and choose your Ledger device in the browser window',
+            UNLOCK_AN_OPEN_ARK_APP: 'Unlock and open the ARK app on the Ledger device',
+            WAITING_FOR_YOUR_SIGNATURE: 'Waiting for your signature',
+        },
     },
     LOGOUT: {
         REMOVE_ADDRESS: 'Remove Address',
