@@ -1,4 +1,5 @@
 export * from './text/Heading';
+export * from './text/Headline';
 export * from './nav/ArrowButton';
 export * from './nav/CloseButton';
 export * from './nav/InternalLink';
