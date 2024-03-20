@@ -1,6 +1,7 @@
 import { useLocation } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 import { runtime, windows } from 'webextension-polyfill';
+import { useEffect, useMemo } from 'react';
 import ConnectFooter from '@/components/connect/ConnectFooter';
 import ConnectWithWallet from '@/components/connect/ConnectWithWallet';
 import { useAppDispatch, useAppSelector } from '@/lib/store';
@@ -30,6 +31,21 @@ const Connect = () => {
     const locked = useAppSelector(selectLocked);
     assertIsUnlocked(locked);
 
+    const isAlreadyConnected = useMemo(() => {
+        return Object.values(sessions).some((session) => {
+            return (
+                session.domain === location.state?.domain &&
+                session.walletId === primaryWallet?.id()
+            );
+        });
+    }, [sessions]);
+
+    useEffect(() => {
+        if (isAlreadyConnected) {
+            void onCancel('Already connected!');
+        }
+    }, []);
+
     const reject = (message = 'Connection denied!') => {
         runtime.sendMessage({
             type: 'CONNECT_REJECT',
@@ -44,26 +60,15 @@ const Connect = () => {
 
     const setSubmitted = useNotifyOnUnload(reject);
 
-    const isAlreadyConnected = () => {
-        return Object.values(sessions).some((session) => {
-            return (
-                session.domain === location.state?.domain &&
-                session.walletId === primaryWallet?.id()
-            );
-        });
-    };
-
     const onSubmit = async () => {
         loadingModal.setLoading();
-
-        const isConnected = isAlreadyConnected();
 
         if (!primaryWallet) {
             reject('Wallet not found');
             return;
         }
 
-        if (isConnected) {
+        if (isAlreadyConnected) {
             reject('Already connected!');
             return;
         }
@@ -97,8 +102,8 @@ const Connect = () => {
         }
     };
 
-    const onCancel = async () => {
-        reject();
+    const onCancel = async (message?: string) => {
+        reject(message);
         await windows.remove(location.state?.windowId);
     };
 

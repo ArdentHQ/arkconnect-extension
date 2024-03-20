@@ -1,15 +1,16 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Runtime, runtime, tabs, windows } from 'webextension-polyfill';
 import { Contracts } from '@ardenthq/sdk-profiles';
-import { Session } from '../store/session';
-import { WalletNetwork } from '../store/wallet';
 import {
     assertHasProfile,
     assertHasWallet,
     assertIsConnected,
     assertIsNotConnected,
+    assertIsUnlocked,
     getActiveSession,
 } from './assertions';
+import { WalletNetwork } from '@/lib/store/wallet';
+import { Session } from '@/lib/store/session';
 
 export type EventPayload<T> = {
     type: keyof typeof longLivedConnectionHandlers;
@@ -123,18 +124,22 @@ const initWindow = async (payload: EventPayload<ConnectData>) => {
 const handleOnConnect = async (
     payload: EventPayload<ConnectData>,
     profile: Contracts.IProfile | null,
+    isLocked: boolean,
 ) => {
     try {
         if (profile?.wallets().count() === 0) {
             void initWindow(payload);
 
             throw new Error('No profile found. Please connect your wallet and try again.');
-        } else {
-            assertHasWallet(profile);
-            assertIsConnected({ payload, profile });
-
-            void initWindow(payload);
         }
+
+        assertHasWallet(profile);
+
+        if (!isLocked) {
+            assertIsConnected({ payload, profile });
+        }
+
+        void initWindow(payload);
     } catch (error: any) {
         tabs.sendMessage(payload.data.tabId, {
             type: `${payload.type}_REJECT`,
@@ -151,8 +156,10 @@ const handleOnConnect = async (
 const handleIsConnected = async (
     payload: EventPayload<DefaultPayload>,
     profile: Contracts.IProfile | null,
+    isLocked: boolean,
 ) => {
     try {
+        assertIsUnlocked(isLocked);
         assertHasWallet(profile);
 
         tabs.sendMessage(payload.data.tabId, {
@@ -212,8 +219,10 @@ const handleDisconnect = async (
 const handleGetAddress = async (
     payload: EventPayload<DefaultPayload>,
     profile: Contracts.IProfile | null,
+    isLocked: boolean,
 ) => {
     try {
+        assertIsUnlocked(isLocked);
         assertHasWallet(profile);
 
         const activeSession = assertIsNotConnected({ payload, profile });
@@ -247,8 +256,10 @@ const handleGetAddress = async (
 const handleGetNetwork = async (
     payload: EventPayload<DefaultPayload>,
     profile: Contracts.IProfile | null,
+    isLocked: boolean,
 ) => {
     try {
+        assertIsUnlocked(isLocked);
         assertHasWallet(profile);
 
         const activeSession = assertIsNotConnected({ payload, profile });
@@ -282,8 +293,10 @@ const handleGetNetwork = async (
 const handleGetBalance = async (
     payload: EventPayload<DefaultPayload>,
     profile: Contracts.IProfile | null,
+    isLocked: boolean,
 ) => {
     try {
+        assertIsUnlocked(isLocked);
         assertHasWallet(profile);
 
         const activeSession = assertIsNotConnected({ payload, profile });

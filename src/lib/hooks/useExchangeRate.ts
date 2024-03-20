@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import { DateTime } from '@ardenthq/sdk-intl';
-import { useEnvironmentContext } from '../context/Environment';
+import { useEnvironmentContext } from '@/lib/context/Environment';
 
 interface Input {
     ticker?: string;

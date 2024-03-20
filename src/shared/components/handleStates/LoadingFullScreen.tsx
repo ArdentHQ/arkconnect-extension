@@ -1,5 +1,5 @@
-import classNames from 'classnames';
-import { Loader } from '../loader/Loader';
+import cn from 'classnames';
+import { Loader } from '@/shared/components/loader/Loader';
 import useThemeMode from '@/lib/hooks/useThemeMode';
 
 export const LoadingFullScreen = () => {
@@ -7,7 +7,7 @@ export const LoadingFullScreen = () => {
 
     return (
         <div
-            className={classNames('flex h-screen w-screen items-center justify-center', {
+            className={cn('flex h-screen w-screen items-center justify-center', {
                 // The loading screen is the first thing to show when the extension is loaded,
                 // which means we can't rely on the dark class initially since the ThemeProvider
                 // adds the class after is mounted. We need to check the theme mode manually.

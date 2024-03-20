@@ -2,9 +2,9 @@ import { omitBy, uniqBy } from '@ardenthq/sdk-helpers';
 import { Contracts as ProfilesContracts } from '@ardenthq/sdk-profiles';
 import { Contracts } from '@ardenthq/sdk';
 import { useCallback, useMemo, useReducer, useRef, useState } from 'react';
-import { useLedgerContext } from '../Ledger';
-import { LedgerData } from '../Ledger.contracts';
 import { scannerReducer } from './scanner.state';
+import { useLedgerContext } from '@/lib/Ledger';
+import { LedgerData } from '@/lib/Ledger/Ledger.contracts';
 
 export const useLedgerScanner = (coin: string, network: string) => {
     const { setBusy, setIdle } = useLedgerContext();

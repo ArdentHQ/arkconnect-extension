@@ -1,5 +1,5 @@
 import { Networks } from '@ardenthq/sdk';
-import { WalletNetwork } from '../store/wallet';
+import { WalletNetwork } from '@/lib/store/wallet';
 
 const getActiveCoin = (network?: WalletNetwork) => {
     if (!network) return 'ARK';
