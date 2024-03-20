@@ -7,7 +7,7 @@ import RequestedSignatureMessage from '../approve/RequestedSignatureMessage';
 import formatDomain from '@/lib/utils/formatDomain';
 import trimAddress from '@/lib/utils/trimAddress';
 import { ApproveActionType } from '@/pages/Approve';
-import { Heading, Icon, Loader } from '@/shared/components';
+import { Heading, Headline, Icon, Loader } from '@/shared/components';
 import { useVoteForm } from '@/lib/hooks/useVoteForm';
 import { useExchangeRate } from '@/lib/hooks/useExchangeRate';
 import RequestedBy from '@/shared/components/actions/RequestedBy';
@@ -116,10 +116,10 @@ const ApproveWithLedger = ({
                 <Heading className='mb-2 mt-4' level={3}>
                     Connect Ledger and Sign The {getActionMessage()} Request
                 </Heading>
-                <p className='typeset-headline text-theme-secondary-500 dark:text-theme-secondary-300'>
+                <Headline>
                     Connect your Ledger device, launch the ARK app, and carefully review the request
                     on your device before confirming your approval.
-                </p>
+                </Headline>
                 <div className='mt-6'>
                     {votingActionTypes.includes(actionType) && (
                         <RequestedVoteBody

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { FormikProps } from 'formik';
 import classNames from 'classnames';
 import { CreateWalletFormik } from '.';
-import { Button, Heading, Icon, ToggleSwitch } from '@/shared/components';
+import { Button, Heading, Headline, Icon, ToggleSwitch } from '@/shared/components';
 import useToast from '@/lib/hooks/useToast';
 import { ToastPosition } from '@/components/toast/ToastContainer';
 import { TestnetIcon } from '@/components/wallet/address/Address.blocks';
@@ -56,9 +56,9 @@ const GeneratePassphrase = ({ goToNextStep, formik }: Props) => {
                 <Heading level={3}>Save Your Secret Passphrase</Heading>
                 {selectedNetwork.isTest() && <TestnetIcon />}
             </div>
-            <p className='typeset-headline mb-4 text-theme-secondary-500 dark:text-theme-secondary-300'>
+            <Headline className='mb-4'>
                 Write down or copy your passphrase. Make sure to store it safely.
-            </p>
+            </Headline>
             {formik.values.passphrase && (
                 <div className='mb-4 max-h-[226px] rounded-lg border border-solid border-theme-secondary-100 bg-white p-3 dark:border-theme-secondary-400 dark:bg-subtle-black'>
                     <div className='grid grid-cols-3 gap-2.5'>

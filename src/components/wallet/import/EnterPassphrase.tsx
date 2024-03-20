@@ -4,7 +4,7 @@ import { FormikProps } from 'formik';
 import { runtime } from 'webextension-polyfill';
 import { TestnetIcon } from '../address/Address.blocks';
 import { ImportedWalletFormik } from '.';
-import { Button, Heading, PassphraseInput, ToggleSwitch } from '@/shared/components';
+import { Button, Heading, Headline, PassphraseInput, ToggleSwitch } from '@/shared/components';
 
 import { assertWallet } from '@/lib/utils/assertions';
 import { getDefaultAlias } from '@/lib/utils/getDefaultAlias';
@@ -193,10 +193,10 @@ const EnterPassphrase = ({ goToNextStep, formik }: Props) => {
                 <Heading level={3}>Enter Passphrase</Heading>
                 {selectedNetwork.isTest() && <TestnetIcon />}
             </div>
-            <p className='typeset-headline mb-8 text-theme-secondary-500 dark:text-theme-secondary-300'>
+            <Headline className='mb-8'>
                 Enter your 12 or 24-word passphrase that you were given when you created the
                 address.
-            </p>
+            </Headline>
             <div className='relative mb-4'>
                 <PassphraseInput
                     name='enteredPassphrase'

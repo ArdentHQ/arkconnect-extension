@@ -2,7 +2,7 @@ import { FormikProps } from 'formik';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { Contracts } from '@ardenthq/sdk-profiles';
 import { ImportedWalletFormik } from '.';
-import { Button, Heading, Input } from '@/shared/components';
+import { Button, Heading, Headline, Input } from '@/shared/components';
 
 type Props = {
     goToNextStep: () => void;
@@ -42,9 +42,9 @@ const ImportedWallet = ({ goToNextStep, formik }: Props) => {
             <Heading className='mb-2' level={3}>
                 Address Imported Successfully!
             </Heading>
-            <p className='typeset-headline mb-6 text-theme-secondary-500 dark:text-theme-secondary-300'>
+            <Headline className='mb-6'>
                 Your address details are shown below.
-            </p>
+            </Headline>
             <div>
                 <div className=' mb-4 border-b border-solid border-b-theme-secondary-200 pb-4 dark:border-b-theme-secondary-600'>
                     <p className='typeset-body mb-2 font-medium text-theme-secondary-500 dark:text-theme-secondary-300'>

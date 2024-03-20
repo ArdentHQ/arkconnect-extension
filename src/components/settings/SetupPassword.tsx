@@ -1,6 +1,6 @@
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useFormik } from 'formik';
-import { Button, Checkbox, ExternalLink, Heading, PasswordInput } from '@/shared/components';
+import { Button, Checkbox, ExternalLink, Heading, Headline, PasswordInput } from '@/shared/components';
 import constants from '@/constants';
 import { useEnvironmentContext } from '@/lib/context/Environment';
 import { EnvironmentData } from '@/lib/background/contracts';
@@ -73,9 +73,9 @@ const SetupPassword = ({ formik }: Props) => {
             <Heading level={3} className='mb-2'>
                 Setup a Password
             </Heading>
-            <p className='typeset-headline mb-4 text-theme-secondary-500 dark:text-theme-secondary-300'>
+            <Headline className='mb-4'>
                 Create a password to access your wallet each time you use ARK Connect.
-            </p>
+            </Headline>
             <div className='flex h-full flex-col justify-between'>
                 <div className='flex flex-col gap-4'>
                     <PasswordInput

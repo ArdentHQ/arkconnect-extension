@@ -1,4 +1,4 @@
-import { Heading } from '@/shared/components';
+import { Heading, Headline } from '@/shared/components';
 
 type Props = {
     sessionDomain?: string;
@@ -14,11 +14,11 @@ const RemoveConnections = ({ numberOfSessions, sessionDomain }: Props) => {
             </Heading>
 
             <div className='mt-2'>
-                <span className='typeset-headline text-theme-secondary-500 dark:text-theme-secondary-300'>
+                <Headline>
                     Are you certain you want to disconnect
                     {hasMultipleSessions ? ' all ' : ' your connection with '}
-                </span>
-                <span className='typeset-headline text-theme-secondary-500 dark:text-theme-secondary-300'>
+                </Headline>
+                <Headline>
                     {sessionDomain && numberOfSessions === 1 ? (
                         <span className='typeset-headline text-light-black dark:text-white'>
                             <span className='break-words'>{sessionDomain}</span>
@@ -32,7 +32,7 @@ const RemoveConnections = ({ numberOfSessions, sessionDomain }: Props) => {
                         </>
                     )}
                     ?
-                </span>
+                </Headline>
             </div>
         </div>
     );

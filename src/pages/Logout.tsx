@@ -1,7 +1,7 @@
 import { ChangeEvent, KeyboardEvent, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { runtime } from 'webextension-polyfill';
-import { Button, PasswordInput, WarningIcon } from '@/shared/components';
+import { Button, Headline, PasswordInput, WarningIcon } from '@/shared/components';
 import { ValidationVariant } from '@/components/wallet/create';
 import { useAppDispatch, useAppSelector } from '@/lib/store';
 import * as WalletStore from '@/lib/store/wallet';
@@ -126,7 +126,7 @@ const Logout = () => {
             noPaddingBottom
         >
             <div className='flex h-full flex-col'>
-                <p className='typeset-headline text-theme-secondary-500 dark:text-theme-secondary-300'>
+                <Headline>
                     {walletsToLogout && walletsToLogout.length > 1 ? (
                         <span className='typeset-headline'>
                             Are you sure you want to remove{' '}
@@ -140,7 +140,7 @@ const Logout = () => {
                             wallet?.isLedger() ? 'a Ledger device.' : 'a passphrase.'
                         }`
                     )}
-                </p>
+                </Headline>
 
                 <div className='mt-4 flex items-center justify-center'>
                     <WarningIcon iconClassName='w-[146px] h-[135px]' />

@@ -1,4 +1,4 @@
-import { Button, Heading } from '@/shared/components';
+import { Button, Heading, Headline } from '@/shared/components';
 import Modal from '@/shared/components/modal/Modal';
 
 type Props = {
@@ -31,10 +31,10 @@ const SelectNetworkTypeModal = ({ onNetworkSelect, onClose, action = 'create' }:
                     Select Network Type
                 </Heading>
                 <div>
-                    <span className='typeset-headline mt-2 text-theme-secondary-500 dark:text-theme-secondary-300'>
+                    <Headline className='mt-2'>
                         Select a network to {action} your {action === 'create' ? 'new' : ''} address
                         with.
-                    </span>
+                    </Headline>
                 </div>
             </div>
         </Modal>

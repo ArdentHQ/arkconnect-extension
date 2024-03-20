@@ -2,7 +2,7 @@ import { NavigateOptions, useLocation, useNavigate } from 'react-router-dom';
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { runtime } from 'webextension-polyfill';
 import { Contracts } from '@ardenthq/sdk-profiles';
-import { ToggleSwitch } from '@/shared/components';
+import { Headline, ToggleSwitch } from '@/shared/components';
 import { SettingsOption } from '@/components/settings/SettingsOption';
 import { lockedChanged } from '@/lib/store/ui';
 import { selectWalletsIds } from '@/lib/store/wallet';
@@ -138,11 +138,11 @@ export const SettingsMenu = ({
                         title='Change Local Currency'
                         iconLeading='currency-dollar-circle'
                         rightContent={
-                            <p className='typeset-headline mr-2 text-base font-normal text-theme-secondary-500 dark:text-theme-secondary-300'>
+                            <Headline className='mr-2 text-base font-normal'>
                                 {`${profile
                                     .settings()
                                     .get(Contracts.ProfileSetting.ExchangeCurrency)}`}
-                            </p>
+                            </Headline>
                         }
                         iconTrailing='arrow-right'
                         onClick={() => handleNavigation('/local-currency')}
@@ -154,9 +154,9 @@ export const SettingsMenu = ({
                         title='Auto Lock Timer'
                         iconLeading='clock'
                         rightContent={
-                            <p className='typeset-headline mr-2 text-base font-normal text-theme-secondary-500 dark:text-theme-secondary-300'>
+                            <Headline className='mr-2 text-base font-normal'>
                                 {autoLockTimer ? showAutoLockTimerValue(autoLockTimer) : ''}
-                            </p>
+                            </Headline>
                         }
                         iconTrailing='arrow-right'
                         onClick={() => {
