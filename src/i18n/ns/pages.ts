@@ -45,7 +45,6 @@ export default {
     ENTER_PASSWORD: {
         ENTER_PASSWORD_TO_UNLOCK: 'Enter Password to Unlock',
         YOUR_PASSWORD: 'Your Password',
-        INCORRECT_PASSWORD: 'Incorrect password',
         UNLOCK_EXTENSION: 'Unlock Extension',
         FORGOT_PASSWORD: 'Forgot Password?',
     },
@@ -104,7 +103,6 @@ export default {
     LOGOUT: {
         REMOVE_ADDRESS: 'Remove Address',
         REMOVE_ADDRESSES: 'Remove Addresses',
-        INCORRECT_PASSWORD: 'Incorrect password',
         ENTER_PASSWORD: 'Enter Password',
         ARE_YOU_SURE_YOU_WANT_TO_REMOVE_1: 'Are you sure you want to remove ',
         ARE_YOU_SURE_YOU_WANT_TO_REMOVE_2: 'addresses?',
@@ -179,7 +177,6 @@ export default {
         SELECT_NETWORK_TO_IMPORT: 'Select a network to import your address with.',
         FEEDBACK: {
             UPDATING_YOUR_PASWORD: 'Updating your password...',
-            INCORRECT_PASSWORD: 'Incorrect password',
             PASSWORD_CHANGED_SUCCESSFULLY: 'Password changed successfully',
             ADDRESS_NAME_UPDATED: 'Address name updated',
         },
@@ -193,6 +190,8 @@ export default {
             CONFIRM_NEW_PASSWORD: 'Confirm New Password',
             ENTER_NEW_PASSWORD_AGAIN: 'Enter new password again',
             SAVE_NEW_PASSWORD: 'Save New Password',
+            YOUR_PASSWORD: 'Your Password',
+            ENTER_PASSWORD_TO_ACCESS: 'Enter Password to Access',
         },
     },
 };

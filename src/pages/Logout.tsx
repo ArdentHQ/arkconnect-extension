@@ -165,7 +165,7 @@ const Logout = () => {
                             value={password}
                             helperText={
                                 validationVariant === 'destructive'
-                                    ? t('PAGES.LOGOUT.INCORRECT_PASSWORD')
+                                    ? t('MISC.INCORRECT_PASSWORD')
                                     : ''
                             }
                         />

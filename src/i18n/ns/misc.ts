@@ -7,4 +7,5 @@ export default {
     UNKNOWN_CONNECTION_ERROR:
         'An unknown error occurred. Try <br /> connecting again. If this error continues <br /> send an email to our support team.',
     SOMETHING_WENT_WRONG: 'Something went wrong!',
+    INCORRECT_PASSWORD: 'Incorrect password',
 };
