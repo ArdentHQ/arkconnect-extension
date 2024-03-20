@@ -3,19 +3,19 @@ import { Networks, Services } from '@ardenthq/sdk';
 import { Contracts } from '@ardenthq/sdk-profiles';
 import { useEffect, useState } from 'react';
 import { runtime } from 'webextension-polyfill';
-import { useEnvironmentContext } from '../context/Environment';
-import { precisionRound } from '../utils/precisionRound';
-import { assertWallet } from '../utils/assertions';
+import { useFees } from './useFees';
 import {
     buildTransferData,
     handleBroadcastError,
     withAbortPromise,
-} from '../utils/transactionHelpers';
-import { useAppSelector } from '../store';
-import { useProfileContext } from '../context/Profile';
-import { useErrorHandlerContext } from '../context/ErrorHandler';
-import { useLedgerContext } from '../Ledger';
-import { useFees } from './useFees';
+} from '@/lib/utils/transactionHelpers';
+import { useAppSelector } from '@/lib/store';
+import { useProfileContext } from '@/lib/context/Profile';
+import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
+import { useLedgerContext } from '@/lib/Ledger';
+import { assertWallet } from '@/lib/utils/assertions';
+import { precisionRound } from '@/lib/utils/precisionRound';
+import { useEnvironmentContext } from '@/lib/context/Environment';
 import * as SessionStore from '@/lib/store/session';
 import { ApproveActionType } from '@/pages/Approve';
 import { selectWallets } from '@/lib/store/wallet';

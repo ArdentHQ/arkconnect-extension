@@ -1,4 +1,5 @@
 import { useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { ApproveActionType } from './Approve';
 import VoteApprovedBody from '@/components/approve/VoteApprovedBody';
 import constants from '@/constants';
@@ -9,6 +10,7 @@ import RequestedBy from '@/shared/components/actions/RequestedBy';
 import { useProfileContext } from '@/lib/context/Profile';
 
 const VoteApproved = () => {
+    const { t } = useTranslation();
     const { state } = useLocation();
     const { profile } = useProfileContext();
     const { session } = state;
@@ -21,11 +23,11 @@ const VoteApproved = () => {
     const getTitle = () => {
         switch (state?.type) {
             case ApproveActionType.VOTE:
-                return 'Vote Approved';
+                return t('PAGES.VOTE_APPROVED.VOTE_APPROVED');
             case ApproveActionType.UNVOTE:
-                return 'Unvote Approved';
+                return t('PAGES.VOTE_APPROVED.UNVOTE_APPROVED');
             case ApproveActionType.SWITCH_VOTE:
-                return 'Switch Vote Approved';
+                return t('PAGES.VOTE_APPROVED.SWITCH_VOTE_APPROVED');
             default:
                 return '';
         }
@@ -48,7 +50,7 @@ const VoteApproved = () => {
 
                 <div className='flex w-full flex-col gap-5'>
                     <Button variant='primary' onClick={onClose}>
-                        Close
+                        {t('ACTION.CLOSE')}
                     </Button>
                     <ExternalLink
                         className='flex w-full items-center justify-center gap-3 text-light-black dark:text-white'
@@ -60,7 +62,7 @@ const VoteApproved = () => {
                         color='base'
                     >
                         <span className='typeset-headline font-medium'>
-                            View transaction on ARKScan
+                            {t('MISC.VIEW_TRANSACTION_ON_ARKSCAN')}
                         </span>
                         <Icon icon='link-external' className='h-5 w-5' />
                     </ExternalLink>

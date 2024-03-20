@@ -1,7 +1,7 @@
 import { ReactNode, useEffect, useState } from 'react';
-
-import classNames from 'classnames';
+import cn from 'classnames';
 import { useNavigate } from 'react-router-dom';
+import { Trans, useTranslation } from 'react-i18next';
 import {
     Button,
     ControlConnectionsIcon,
@@ -19,6 +19,8 @@ type OnboardingScreen = {
 };
 
 const Onboarding = () => {
+    const { t } = useTranslation();
+
     const navigate = useNavigate();
 
     const [activeOnboardingScreen, setActiveOnboardingScreen] = useState<number>(0);
@@ -32,6 +34,36 @@ const Onboarding = () => {
         };
     }, []);
 
+    const onboardingScreens: OnboardingScreen[] = [
+        {
+            id: 1,
+            illustration: <FingerPrintIcon />,
+            heading: (
+                <Heading level={3} className='w-[256px] text-center'>
+                    <Trans i18nKey='PAGES.ONBOARDING.SCREEN_HEADINGS.EASILY_SECURE' />
+                </Heading>
+            ),
+        },
+        {
+            id: 2,
+            illustration: <ControlConnectionsIcon />,
+            heading: (
+                <Heading level={3} className='w-[297px] text-center'>
+                    <Trans i18nKey='PAGES.ONBOARDING.SCREEN_HEADINGS.CONTROL_YOUR_IDENTITY' />
+                </Heading>
+            ),
+        },
+        {
+            id: 3,
+            illustration: <TransactionsPassphraseIcon />,
+            heading: (
+                <Heading level={3} className='w-[257px] text-center'>
+                    <Trans i18nKey='PAGES.ONBOARDING.SCREEN_HEADINGS.SIGN_TRANSACTIONS' />
+                </Heading>
+            ),
+        },
+    ];
+
     return (
         <div className='fade pt-[58px] duration-1000 ease-in-out'>
             <Header />
@@ -39,7 +71,7 @@ const Onboarding = () => {
             <div className='relative h-[410px]'>
                 {onboardingScreens.map((screen, index) => (
                     <div
-                        className={classNames(
+                        className={cn(
                             'absolute left-0 top-[70px] flex w-full items-center justify-center gap-6 px-9 transition-all duration-1000 ease-in-out',
                             {
                                 'translate-x-0 opacity-100': activeOnboardingScreen === index,
@@ -58,45 +90,14 @@ const Onboarding = () => {
             </div>
             <div className='flex flex-col gap-3 px-4'>
                 <Button variant='primary' onClick={() => navigate('/wallet/create')}>
-                    Create New Address
+                    {t('PAGES.ONBOARDING.CREATE_NEW_ADDRESS')}
                 </Button>
                 <Button variant='secondary' onClick={() => navigate('/wallet')}>
-                    Import an Address
+                    {t('PAGES.ONBOARDING.IMPORT_AN_ADDRESS')}
                 </Button>
             </div>
         </div>
     );
 };
-
-const onboardingScreens: OnboardingScreen[] = [
-    {
-        id: 1,
-        illustration: <FingerPrintIcon />,
-        heading: (
-            <Heading level={3} className='w-[256px] text-center'>
-                Easily & securely log in to <br /> your favorite web3 apps.
-            </Heading>
-        ),
-    },
-    {
-        id: 2,
-        illustration: <ControlConnectionsIcon />,
-        heading: (
-            <Heading level={3} className='w-[297px] text-center'>
-                Control your identity with our <br /> session management feature.
-            </Heading>
-        ),
-    },
-    {
-        id: 3,
-        illustration: <TransactionsPassphraseIcon />,
-        heading: (
-            <Heading level={3} className='w-[257px] text-center'>
-                Sign transactions and <br />
-                perform on-chain actions.
-            </Heading>
-        ),
-    },
-];
 
 export default Onboarding;

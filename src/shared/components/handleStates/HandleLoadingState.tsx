@@ -1,4 +1,4 @@
-import { Loader } from '../loader/Loader';
+import { Loader } from '@/shared/components/loader/Loader';
 
 type Props = {
     children: React.ReactNode;

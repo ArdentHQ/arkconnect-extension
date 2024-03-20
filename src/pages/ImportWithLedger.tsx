@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Contracts } from '@ardenthq/sdk-profiles';
 import { runtime } from 'webextension-polyfill';
 import { useFormik } from 'formik';
+import { useTranslation } from 'react-i18next';
 import { Header, Icon } from '@/shared/components';
 import { LedgerData, useLedgerContext } from '@/lib/Ledger';
 import StepsNavigation, { Step } from '@/components/steps/StepsNavigation';
@@ -30,19 +31,29 @@ const ImportWithLedger = () => {
     const network = useActiveNetwork();
     const { profile, initProfile } = useProfileContext();
     const { defaultCurrency } = useLocaleCurrency();
-    const { error, removeErrors } = useLedgerContext();
+    const { error, removeErrors, resetConnectionState, disconnect, abortConnectionRetry } =
+        useLedgerContext();
     const { onError } = useErrorHandlerContext();
+    const { t } = useTranslation();
+    const handleClickBack = () => {
+        disconnect();
+        abortConnectionRetry();
+        resetConnectionState();
+    };
+
     const [steps, setSteps] = useState<Step[]>([
         { component: LedgerConnectionStep, containerPaddingX: '24' },
-        { component: ImportWallets },
+        { component: ImportWallets, onClickBack: handleClickBack },
     ]);
     const { env } = useEnvironmentContext();
 
     const loadingModal = useLoadingModal({
-        loadingMessage: 'Setting up your wallet',
-        completedMessage: 'Your wallet is ready!',
+        loadingMessage: t('PAGES.IMPORT_WITH_LEDGER.FEEDBACK.SETTING_UP_YOUR_WALLET'),
+        completedMessage: t('PAGES.IMPORT_WITH_LEDGER.FEEDBACK.YOUR_WALLET_IS_READY'),
         other: {
-            completedDescription: 'You can now open the extension and manage your addresses!',
+            completedDescription: t(
+                'PAGES.IMPORT_WITH_LEDGER.FEEDBACK.OPEN_THE_EXTENSION_AND_MANAGE_YOUR_ADDRESSES',
+            ),
         },
     });
 

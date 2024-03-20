@@ -1,9 +1,10 @@
 import { useLocation } from 'react-router-dom';
 import { Contracts } from '@ardenthq/sdk-profiles';
-import classNames from 'classnames';
-import RequestedVoteBody from '../approve/RequestedVoteBody';
-import RequestedTransactionBody from '../approve/RequestedTransactionBody';
-import RequestedSignatureMessage from '../approve/RequestedSignatureMessage';
+import cn from 'classnames';
+import { useTranslation } from 'react-i18next';
+import RequestedVoteBody from '@/components/approve/RequestedVoteBody';
+import RequestedTransactionBody from '@/components/approve/RequestedTransactionBody';
+import RequestedSignatureMessage from '@/components/approve/RequestedSignatureMessage';
 import formatDomain from '@/lib/utils/formatDomain';
 import trimAddress from '@/lib/utils/trimAddress';
 import { ApproveActionType } from '@/pages/Approve';
@@ -34,6 +35,7 @@ const ApproveWithLedger = ({
     const location = useLocation();
     const { state } = location;
     const { session, amount, receiverAddress } = state;
+    const { t } = useTranslation();
     const { convert } = useExchangeRate({
         exchangeTicker: wallet.exchangeCurrency(),
         ticker: wallet.currency(),
@@ -75,15 +77,15 @@ const ApproveWithLedger = ({
     const getActionMessage = () => {
         switch (actionType) {
             case ApproveActionType.SIGNATURE:
-                return 'Message';
+                return t('COMMON.MESSAGE');
             case ApproveActionType.TRANSACTION:
-                return 'Transaction';
+                return t('COMMON.TRANSACTION');
             case ApproveActionType.VOTE:
-                return 'Vote';
+                return t('COMMON.VOTE');
             case ApproveActionType.UNVOTE:
-                return 'Unvote';
+                return t('COMMON.UNVOTE');
             case ApproveActionType.SWITCH_VOTE:
-                return 'Switch Vote';
+                return t('COMMON.SWITCH_VOTE');
             default:
                 return '';
         }
@@ -114,11 +116,12 @@ const ApproveWithLedger = ({
                     </NavButton>
                 </div>
                 <Heading className='mb-2 mt-4' level={3}>
-                    Connect Ledger and Sign The {getActionMessage()} Request
+                    {t('PAGES.IMPORT_WITH_LEDGER.CONNECT_LEDGER_AND_SIGN_THE_REQUEST', {
+                        action: getActionMessage(),
+                    })}
                 </Heading>
                 <HeadingDescription>
-                    Connect your Ledger device, launch the ARK app, and carefully review the request
-                    on your device before confirming your approval.
+                    {t('PAGES.IMPORT_WITH_LEDGER.CONNECT_YOUR_LEDGER_DEVICE_DISCLAIMER')}
                 </HeadingDescription>
                 <div className='mt-6'>
                     {votingActionTypes.includes(actionType) && (
@@ -147,7 +150,7 @@ const ApproveWithLedger = ({
                 </div>
 
                 <div
-                    className={classNames(
+                    className={cn(
                         'mb-6 overflow-hidden rounded-2xl border border-solid border-theme-warning-400',
                         getTopMarginClass(),
                     )}
@@ -162,7 +165,9 @@ const ApproveWithLedger = ({
 
                     <div className='flex items-center justify-center rounded-b-2xl bg-theme-warning-50 p-2 dark:bg-theme-warning-500/10'>
                         <Loader variant='warning' />
-                        <p className='typeset-body font-medium'>Waiting for your signature</p>
+                        <p className='typeset-body font-medium'>
+                            {t('PAGES.IMPORT_WITH_LEDGER.WAITING_FOR_YOUR_SIGNATURE')}
+                        </p>
                     </div>
                 </div>
             </div>

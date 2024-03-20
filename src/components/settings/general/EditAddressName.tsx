@@ -1,8 +1,8 @@
 import { useFormik } from 'formik';
 import { useNavigate, useParams } from 'react-router-dom';
 import { object, string } from 'yup';
-import classNames from 'classnames';
-import SubPageLayout from '../SubPageLayout';
+import cn from 'classnames';
+import SubPageLayout from '@/components/settings/SubPageLayout';
 import { Button, HeadingDescription, Input } from '@/shared/components';
 import useToast from '@/lib/hooks/useToast';
 import { useEnvironmentContext } from '@/lib/context/Environment';
@@ -61,7 +61,7 @@ const EditAddressName = () => {
                 </HeadingDescription>
 
                 <div
-                    className={classNames({
+                    className={cn({
                         'mb-[270px]': formik.isValid || !formik.values.addressName?.length,
                         'mb-[246px]': !formik.isValid && formik.values.addressName?.length,
                     })}

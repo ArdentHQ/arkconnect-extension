@@ -1,6 +1,6 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { runtime } from 'webextension-polyfill';
-import SubPageLayout, { SettingsRowItem } from '../SubPageLayout';
+import SubPageLayout, { SettingsRowItem } from '@/components/settings/SubPageLayout';
 import { Icon } from '@/shared/components';
 import useToast from '@/lib/hooks/useToast';
 import { AutoLockTimer as AutoLockTimerEnum, setLocalValue } from '@/lib/utils/localStorage';

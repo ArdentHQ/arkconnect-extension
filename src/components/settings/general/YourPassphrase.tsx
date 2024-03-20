@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import SubPageLayout from '../SubPageLayout';
+import SubPageLayout from '@/components/settings/SubPageLayout';
 import { Button, HeadingDescription, PassphraseInput, ToggleSwitch } from '@/shared/components';
 import useClipboard from '@/lib/hooks/useClipboard';
 import { ToastPosition } from '@/components/toast/ToastContainer';

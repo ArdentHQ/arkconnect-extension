@@ -1,8 +1,8 @@
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { runtime, tabs } from 'webextension-polyfill';
-import SubPageLayout from '../SubPageLayout';
 import SelectNetworkTypeModal from './SelectNetworkTypeModal';
+import SubPageLayout from '@/components/settings/SubPageLayout';
 import { Icon, IconDefinition, RowLayout, Tooltip } from '@/shared/components';
 import { isFirefox } from '@/lib/utils/isFirefox';
 

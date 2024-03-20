@@ -1,6 +1,7 @@
 import { FormikProps } from 'formik';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { Contracts } from '@ardenthq/sdk-profiles';
+import { useTranslation } from 'react-i18next';
 import { ImportedWalletFormik } from '.';
 import { Button, Heading, HeadingDescription, Input } from '@/shared/components';
 
@@ -11,6 +12,7 @@ type Props = {
 
 const ImportedWallet = ({ goToNextStep, formik }: Props) => {
     const [isAddressValid, setIsAddressValid] = useState<boolean>(true);
+    const { t } = useTranslation();
 
     useEffect(() => {
         if (
@@ -40,15 +42,15 @@ const ImportedWallet = ({ goToNextStep, formik }: Props) => {
     return (
         <>
             <Heading className='mb-2' level={3}>
-                Address Imported Successfully!
+                {t('PAGES.IMPORT_NEW_WALLET.ADDRESS_IMPORTED')}
             </Heading>
             <HeadingDescription className='mb-6'>
-                Your address details are shown below.
+                {t('PAGES.IMPORT_NEW_WALLET.ADDRESS_DETAILS_ARE_SHOWN_BELOW')}
             </HeadingDescription>
             <div>
                 <div className=' mb-4 border-b border-solid border-b-theme-secondary-200 pb-4 dark:border-b-theme-secondary-600'>
                     <p className='typeset-body mb-2 font-medium text-theme-secondary-500 dark:text-theme-secondary-300'>
-                        Address
+                        {t('COMMON.ADDRESS')}
                     </p>
                     <p className='typeset-headline text-light-black dark:text-white'>
                         {formik.values.wallet?.address()}
@@ -57,7 +59,7 @@ const ImportedWallet = ({ goToNextStep, formik }: Props) => {
 
                 <div className=' mb-4 border-b border-solid border-b-theme-secondary-200 pb-4 dark:border-b-theme-secondary-600'>
                     <p className='typeset-body mb-2 font-medium text-theme-secondary-500 dark:text-theme-secondary-300'>
-                        Balance
+                        {t('COMMON.BALANCE')}
                     </p>
                     <p className='typeset-headline text-light-black dark:text-white'>
                         {formik.values.wallet?.balance()?.toLocaleString()}{' '}
@@ -68,11 +70,11 @@ const ImportedWallet = ({ goToNextStep, formik }: Props) => {
                 <div>
                     <Input
                         variant={isAddressValid ? 'primary' : 'destructive'}
-                        labelText='Address Name'
+                        labelText={t('PAGES.IMPORT_NEW_WALLET.ADDRESS_NAME')}
                         helperText={
                             isAddressValid
-                                ? 'Name your address so you can identify it later.'
-                                : '20 characters maximum'
+                                ? t('PAGES.IMPORT_NEW_WALLET.NAME_YOUR_ADDRESS')
+                                : t('PAGES.IMPORT_NEW_WALLET.MAXIMUM_CHARACTERS')
                         }
                         name='addressName'
                         value={formik.values.addressName}
@@ -86,7 +88,7 @@ const ImportedWallet = ({ goToNextStep, formik }: Props) => {
                 onClick={handleNextStep}
                 className='mt-auto'
             >
-                Continue
+                {t('ACTION.CONTINUE')}
             </Button>
         </>
     );

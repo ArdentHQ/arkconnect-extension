@@ -1,14 +1,14 @@
 import { runtime } from 'webextension-polyfill';
 import { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAppDispatch } from '@/lib/store';
 import {
     ConnectData,
     EventPayload,
     SignMessageData,
     SignTransactionData,
     SignVoteData,
-} from '../background/eventListenerHandlers';
-import { useAppDispatch } from '../store';
+} from '@/lib/background/eventListenerHandlers';
 import { lockedChanged } from '@/lib/store/ui';
 
 export type Event = {
