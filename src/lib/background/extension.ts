@@ -1,11 +1,11 @@
 import { Contracts, Environment } from '@ardenthq/sdk-profiles';
 
 import { initializeEnvironment } from '../utils/env.background';
+import { getLocalValues } from '../utils/localStorage';
 import { LockHandler } from './handleAutoLock';
 import { PrimaryWallet } from './extension.wallet.primary';
 import { EnvironmentData } from './contracts';
 import { createTestProfile, isDev } from '@/dev/utils/dev';
-import { getLocalValues } from '../utils/localStorage';
 
 const exists = (profile?: Contracts.IProfile | null): profile is Contracts.IProfile => !!profile;
 
