@@ -23,6 +23,10 @@ export default {
         CONNECTED_APPS: 'Connected Apps',
         NO_CONNECTED_APPS_DESCRIPTION: 'You are currently not connected to any applications.',
         CONNECTED_WITH: 'Connected with',
+        ARE_YOU_CERTAIN_TO_DISCONNECT_ALL: 'Are you certain you want to disconnect all ',
+        OF_YOUR_CONNECTIONS: 'of your connections',
+        ARE_YOU_CERTAIN_TO_DISCONNECT_YOUR_CONNECTION:
+            'Are you certain you want to disconnect your connection with ',
     },
     CREATE_WALLET: {
         SAVE_YOUR_SECRET_PASSPHRASE: 'Save Your Secret Passphrase',
