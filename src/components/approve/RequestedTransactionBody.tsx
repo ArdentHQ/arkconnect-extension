@@ -10,7 +10,6 @@ import { useExchangeRate } from '@/lib/hooks/useExchangeRate';
 import { Address } from '@/components/wallet/address/Address.blocks';
 import { HigherFeeWarning } from '@/components/approve/HigherCustomFee.blocks';
 
-
 type Props = {
     amount: number;
     total: number;

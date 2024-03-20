@@ -190,7 +190,8 @@ export const useSendTransferForm = (
                     remainingBalance: wallet.balance(),
                     network: wallet.network(),
                     fee,
-                    hasHigherCustomFee: (request.customFee && request.customFee > averageFee) ? averageFee : null,
+                    hasHigherCustomFee:
+                        request.customFee && request.customFee > averageFee ? averageFee : null,
                     mnemonic: passphrase?.join(' ') || '',
                     total: BigNumber.make(fee).plus(request.amount).toHuman(),
                     recipients: [

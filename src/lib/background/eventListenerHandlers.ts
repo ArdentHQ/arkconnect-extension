@@ -10,7 +10,6 @@ import {
     getActiveSession,
 } from './assertions';
 import { WalletNetwork } from '@/lib/store/wallet';
-import { Session } from '@/lib/store/session';
 
 export type EventPayload<T> = {
     type: keyof typeof longLivedConnectionHandlers;
