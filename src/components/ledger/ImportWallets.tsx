@@ -91,9 +91,9 @@ const ImportWallets = ({ goToNextStep, formik }: Props) => {
         let lengthDescriptor: string = '';
 
         if (selectedWallets.length === 1) {
-            lengthDescriptor = `${selectedWallets.length} Address`;
+            lengthDescriptor = `${selectedWallets.length} ${t('COMMON.ADDRESS')}`;
         } else if (selectedWallets.length > 1) {
-            lengthDescriptor = `${selectedWallets.length} Addresses`;
+            lengthDescriptor = `${selectedWallets.length} ${t('COMMON.ADDRESSES')}`;
         }
 
         return lengthDescriptor;
