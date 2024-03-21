@@ -68,7 +68,7 @@ const ActionAmountRow = ({
                             />
                         ) : (
                             <span>
-                                {amount} {network} {/* {isApproved ? getActiveCoin(walletNetwork) : getNetworkCurrency(walletNetwork)} */}
+                                {amount} {network}
                             </span>
                         )
                     }

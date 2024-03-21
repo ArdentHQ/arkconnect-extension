@@ -17,7 +17,7 @@ const TransactionApprovedBody = () => {
                 amount={state?.transaction.amount}
                 convertedAmount={state?.transaction.convertedAmount as number}
                 exchangeCurrency={state?.transaction.exchangeCurrency as string}
-                walletNetwork={state?.walletNetwork}
+                network={getActiveCoin(state?.walletNetwork)}
                 showFiat={showFiat}
                 receiver={trimAddress(state?.transaction.receiver, 'short')}
                 fee={state?.transaction.fee}
