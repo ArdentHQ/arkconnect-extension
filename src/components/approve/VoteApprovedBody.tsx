@@ -1,15 +1,16 @@
 import { useLocation } from 'react-router-dom';
 import { Contracts } from '@ardenthq/sdk-profiles';
-import { VoteBody } from './Vote/VoteBody';
+import { ActionBody } from './ActionBody';
 import { WalletNetwork } from '@/lib/store/wallet';
 import trimAddress from '@/lib/utils/trimAddress';
+import getActiveCoin from '@/lib/utils/getActiveCoin';
 
 const VoteApprovedBody = ({ wallet }: { wallet: Contracts.IReadWriteWallet }) => {
     const { state } = useLocation();
     const showFiat = state.walletNetwork === WalletNetwork.MAINNET;
 
     return (
-        <VoteBody 
+        <ActionBody 
             isApproved
             wallet={wallet}
             sender={trimAddress(state?.vote.sender ?? '', 10)}
@@ -17,7 +18,7 @@ const VoteApprovedBody = ({ wallet }: { wallet: Contracts.IReadWriteWallet }) =>
             fee={state?.vote.fee}
             convertedFee={state?.vote.convertedFee as number}
             exchangeCurrency={state?.vote.exchangeCurrency as string}
-            walletNetwork={state?.walletNetwork}
+            network={getActiveCoin(state?.walletNetwork)}
             unvote={{
                 delegateName: state?.vote.unvoteDelegateName,
                 publicKey: state?.vote.unvotePublicKey,

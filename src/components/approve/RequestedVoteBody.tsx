@@ -1,5 +1,6 @@
 import { Contracts } from '@ardenthq/sdk-profiles';
-import { VoteBody } from './Vote/VoteBody';
+import { ActionBody } from './ActionBody';
+import { getNetworkCurrency } from '@/lib/utils/getActiveCoin';
 
 type Props = {
     vote: Contracts.VoteRegistryItem | null;
@@ -11,14 +12,14 @@ type Props = {
 
 const RequestedVoteBody = ({ vote, unvote, fee, convertedFee, wallet }: Props) => {
     return (
-        <VoteBody
+        <ActionBody
             isApproved={false}
             showFiat={wallet.network().isLive()}
             wallet={wallet}
             fee={fee}
             convertedFee={convertedFee}
             exchangeCurrency={wallet.exchangeCurrency() ?? 'USD'}
-            walletNetwork={wallet.network()}
+            network={getNetworkCurrency(wallet.network())}
             unvote={{
                 delegateName: unvote?.wallet?.username(),
                 publicKey: unvote?.wallet?.publicKey(),
