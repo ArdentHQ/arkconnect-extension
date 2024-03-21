@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { ApproveActionType } from '@/pages/Approve';
 import { IconDefinition } from '@/shared/components';
 import ActionHeader from '@/shared/components/actions/ActionHeader';
@@ -9,6 +10,7 @@ type Props = {
 };
 
 const ApproveHeader = ({ appName, appLogo, actionType }: Props) => {
+    const { t } = useTranslation();
     const icons: {
         [key in ApproveActionType]: IconDefinition;
     } = {
@@ -21,11 +23,11 @@ const ApproveHeader = ({ appName, appLogo, actionType }: Props) => {
     const labels: {
         [key in ApproveActionType]: string;
     } = {
-        [ApproveActionType.SIGNATURE]: 'Signature Requested',
-        [ApproveActionType.TRANSACTION]: 'Transaction Requested',
-        [ApproveActionType.VOTE]: 'Vote Requested',
-        [ApproveActionType.UNVOTE]: 'Unvote Requested',
-        [ApproveActionType.SWITCH_VOTE]: 'Requested to Switch Vote',
+        [ApproveActionType.SIGNATURE]: `${t('COMMON.SIGNATURE')} ${t('COMMON.REQUESTED')}`,
+        [ApproveActionType.TRANSACTION]: `${t('COMMON.TRANSACTION')} ${t('COMMON.REQUESTED')}`,
+        [ApproveActionType.VOTE]: `${t('COMMON.VOTE')} ${t('COMMON.REQUESTED')}`,
+        [ApproveActionType.UNVOTE]: `${t('COMMON.UNVOTE')} ${t('COMMON.REQUESTED')}`,
+        [ApproveActionType.SWITCH_VOTE]: t('COMMON.REQUESTED_TO_SWITCH_VOTE'),
     };
 
     return (

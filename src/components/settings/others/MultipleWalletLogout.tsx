@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import SubPageLayout from '@/components/settings/SubPageLayout';
 import { Button, Checkbox, RowLayout } from '@/shared/components';
 import { selectWalletsIds } from '@/lib/store/wallet';
@@ -9,6 +10,7 @@ import { generateWalletHelperText } from '@/lib/utils/generateWalletHelperText';
 import { useProfileContext } from '@/lib/context/Profile';
 
 const MultipleWalletLogout = () => {
+    const { t } = useTranslation();
     const { profile } = useProfileContext();
     const walletsIds = useAppSelector(selectWalletsIds);
     const wallets = walletsIds
@@ -42,10 +44,10 @@ const MultipleWalletLogout = () => {
     };
 
     return (
-        <SubPageLayout title='Remove Addresses'>
+        <SubPageLayout title={t('PAGES.LOGOUT.REMOVE_ADDRESSES')}>
             <div className='flex h-full flex-col'>
                 <p className='typeset-headline mb-6 text-theme-secondary-500 dark:text-theme-secondary-300'>
-                    Select Addresses to Remove.
+                    {t('PAGES.LOGOUT.SELECT_ADDRESSES_TO_REMOVE')}
                 </p>
                 {wallets.map((wallet) => {
                     return (
@@ -85,14 +87,15 @@ const MultipleWalletLogout = () => {
                     }}
                     disabled={!selectedIdsToLogout.length}
                 >
-                    Remove {selectedIdsToLogout.length > 0 && `(${selectedIdsToLogout.length})`}
+                    {t('ACTION.REMOVE')}{' '}
+                    {selectedIdsToLogout.length > 0 && `(${selectedIdsToLogout.length})`}
                 </Button>
                 <Button
                     variant='primaryLinkDestructive'
                     className='mt-4'
                     onClick={handleSelectAllWallets}
                 >
-                    Remove All Addresses
+                    {t('PAGES.LOGOUT.REMOVE_ALL_ADDRESSES')}
                 </Button>
             </div>
         </SubPageLayout>
