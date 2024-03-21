@@ -1,15 +1,14 @@
-import { ReactNode, createContext, useContext, useEffect, useState } from 'react';
+import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
 import { Contracts } from '@ardenthq/sdk-profiles';
+import { runtime } from 'webextension-polyfill';
+import { useAppDispatch } from '../store';
+import { useWalletBalance } from '../hooks/useWalletBalance';
+import { ProfileData } from '../background/contracts';
 import { useEnvironmentContext } from './Environment';
 import { useErrorHandlerContext } from './ErrorHandler';
 import * as WalletStore from '@/lib/store/wallet';
-import { useAppDispatch, useAppSelector } from '../store';
-import browser from 'webextension-polyfill';
 import * as SessionStore from '@/lib/store/session';
-import { useWalletBalance } from '../hooks/useWalletBalance';
-import { ProfileData } from '../background/contracts';
 import { LoadingFullScreen } from '@/shared/components/handleStates/LoadingFullScreen';
-import { testnetEnabledChanged } from '../store/ui';
 
 interface Context {
     profile: Contracts.IProfile;
@@ -33,27 +32,18 @@ export const ProfileProvider = ({ children }: Properties) => {
     const [isProfileReady, setIsProfileReady] = useState<boolean>(false);
     const [profile, setProfile] = useState<Contracts.IProfile | undefined>(undefined);
 
-    const primaryWalletId = useAppSelector(WalletStore.selectPrimaryWalletId);
-
     useEffect(() => {
         void initProfile();
     }, []);
 
-    const getPrimaryWallet = () => {
-        if (isLoading || !primaryWalletId) {
-            return undefined;
-        }
-
-        let primaryWallet;
-
-        try {
-            primaryWallet = profile?.wallets().findById(primaryWalletId);
-        } catch (_e) {}
-
-        return primaryWallet;
+    const getPrimaryWallet = (profile?: Contracts.IProfile) => {
+        return profile
+            ?.wallets()
+            .values()
+            .find((wallet) => wallet.isPrimary());
     };
 
-    const convertedBalance = useWalletBalance(getPrimaryWallet());
+    const convertedBalance = useWalletBalance(getPrimaryWallet(profile));
 
     const initProfile = async () => {
         setIsProfileReady(false);
@@ -66,7 +56,7 @@ export const ProfileProvider = ({ children }: Properties) => {
 
     const restoreProfile = async () => {
         try {
-            const { data, profileData } = await browser.runtime.sendMessage({
+            const { data, envData } = await runtime.sendMessage({
                 type: 'GET_DATA',
             });
 
@@ -75,12 +65,11 @@ export const ProfileProvider = ({ children }: Properties) => {
                 return;
             }
 
-            const profile = await importProfile(data);
-            profile.data().fill(profileData);
-
-            if (profile.wallets().count() === 0) {
-                dispatch(testnetEnabledChanged(false));
+            if (envData) {
+                env.data().fill(envData);
             }
+
+            const profile = await importProfile(data);
 
             await updateStore({ profile });
         } catch (error) {
@@ -91,7 +80,7 @@ export const ProfileProvider = ({ children }: Properties) => {
     const updateStore = async ({ profile }: { profile: Contracts.IProfile }) => {
         await updateStoreWallets({ profile });
 
-        const sessions = profile.data().get(ProfileData.Sessions) as
+        const sessions = profile.settings().get(ProfileData.Sessions) as
             | SessionStore.SessionEntries
             | undefined;
 
@@ -108,8 +97,18 @@ export const ProfileProvider = ({ children }: Properties) => {
 
         await dispatch(WalletStore.walletsLoaded(wallets));
 
-        const primaryWalletId = profile.data().get('PRIMARY_WALLET_ID') as string;
-        await dispatch(WalletStore.primaryWalletIdChanged(primaryWalletId));
+        // Background primary wallet is not set. Reset to first & persist.
+        if (!getPrimaryWallet(profile) && profile.wallets().count() > 0) {
+            profile.wallets().first().data().set(Contracts.WalletData.IsPrimary, true);
+            await env.persist();
+        }
+
+        const primaryWallet = getPrimaryWallet(profile);
+
+        if (primaryWallet) {
+            await dispatch(WalletStore.primaryWalletIdChanged(primaryWallet.id()));
+            return;
+        }
     };
 
     const importProfile = async (profileDump: string): Promise<Contracts.IProfile> => {

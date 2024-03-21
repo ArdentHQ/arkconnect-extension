@@ -1,18 +1,12 @@
 import ImportNewWallet from '@/components/wallet/import';
-import { Layout, FlexContainer } from '@/shared/components';
+import { Layout } from '@/shared/components';
 
 const ImportWallet = () => {
     return (
         <Layout>
-            <FlexContainer
-                flexDirection='column'
-                paddingX='16'
-                paddingTop='16'
-                paddingBottom='16'
-                height='550px'
-            >
+            <div className='flex h-[550px] flex-col p-4 pb-0'>
                 <ImportNewWallet />
-            </FlexContainer>
+            </div>
         </Layout>
     );
 };

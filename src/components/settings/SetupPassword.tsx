@@ -1,17 +1,9 @@
-import {
-    Button,
-    Checkbox,
-    ExternalLink,
-    FlexContainer,
-    Heading,
-    Paragraph,
-    PasswordInput,
-} from '@/shared/components';
-import React, { useEffect, useState } from 'react';
-import { setLocalValue } from '@/lib/utils/localStorage';
-
-import constants from '@/constants';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { useFormik } from 'formik';
+import { Button, Checkbox, ExternalLink, Heading, PasswordInput } from '@/shared/components';
+import constants from '@/constants';
+import { useEnvironmentContext } from '@/lib/context/Environment';
+import { EnvironmentData } from '@/lib/background/contracts';
 
 type Props = {
     formik: ReturnType<typeof useFormik>;
@@ -25,6 +17,7 @@ type PasswordValidation = {
 };
 
 const SetupPassword = ({ formik }: Props) => {
+    const { env } = useEnvironmentContext();
     const { values } = formik;
 
     const [validation, setValidation] = useState<PasswordValidation>({
@@ -38,15 +31,15 @@ const SetupPassword = ({ formik }: Props) => {
         validatePassword();
     }, [values.password, values.passwordConfirm]);
 
-    const handleTermsAndConditionsChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
+    const handleTermsAndConditionsChange = (evt: ChangeEvent<HTMLInputElement>) => {
         formik.setFieldValue('termsAndConditionsConfirmed', evt.target.checked);
     };
 
-    const handlePasswordChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
+    const handlePasswordChange = (evt: ChangeEvent<HTMLInputElement>) => {
         formik.setFieldValue('password', evt.target.value);
     };
 
-    const handlePasswordConfirmChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
+    const handlePasswordConfirmChange = (evt: ChangeEvent<HTMLInputElement>) => {
         formik.setFieldValue('passwordConfirm', evt.target.value);
     };
 
@@ -69,92 +62,92 @@ const SetupPassword = ({ formik }: Props) => {
     };
 
     const submitForm = async () => {
-        await setLocalValue('hasOnboarded', true);
+        env.data().set(EnvironmentData.HasOnboarded, true);
+        await env.persist();
 
         formik.submitForm();
     };
 
     return (
-        <FlexContainer flexDirection='column' minHeight='450px'>
-            <Heading $typeset='h3' fontWeight='bold' color='base' mb='8'>
+        <div className='flex min-h-[450px] flex-col'>
+            <Heading level={3} className='mb-2'>
                 Setup a Password
             </Heading>
-            <Paragraph $typeset='headline' color='gray' mb='16'>
+            <p className='typeset-headline mb-4 text-theme-secondary-500 dark:text-theme-secondary-300'>
                 Create a password to access your wallet each time you use ARK Connect.
-            </Paragraph>
-            <FlexContainer flexDirection='column' gridGap='16px'>
-                <PasswordInput
-                    name='password'
-                    variant={validation.password}
-                    labelText='Password'
-                    onChange={handlePasswordChange}
-                    value={values.password ?? ''}
-                    helperText={
-                        validation.password !== 'errorFree'
-                            ? 'Requires at least 8 characters and one number'
-                            : ''
-                    }
-                />
-                <PasswordInput
-                    name='passwordConfirm'
-                    value={values.passwordConfirm ?? ''}
-                    variant={validation.passwordConfirm}
-                    labelText='Confirm Password'
-                    onChange={handlePasswordConfirmChange}
-                    helperText={
-                        validation.passwordConfirm === 'destructive'
-                            ? 'Passwords do not match.'
-                            : ''
-                    }
-                />
-            </FlexContainer>
-            <FlexContainer mt='auto'>
-                <Checkbox
-                    id='termsAndConditionsConfirmed'
-                    name='termsAndConditionsConfirmed'
-                    checked={values.termsAndConditionsConfirmed}
-                    onChange={handleTermsAndConditionsChange}
-                />
-                <FlexContainer>
-                    <Paragraph
-                        as='label'
-                        htmlFor='termsAndConditionsConfirmed'
-                        $typeset='body'
-                        color='base'
-                        fontWeight='medium'
-                    >
-                        I accept the{' '}
-                        <ExternalLink
-                            href={constants.TERMS_OF_SERVICE}
-                            target='_blank'
-                            rel='noopener noreferrer'
-                            color='primary'
-                        >
-                            Terms of Service
-                        </ExternalLink>{' '}
-                        and{' '}
-                        <ExternalLink
-                            href={constants.PRIVACY_POLICY}
-                            target='_blank'
-                            rel='noopener noreferrer'
-                            color='primary'
-                        >
-                            Privacy Policy
-                        </ExternalLink>
-                        .
-                    </Paragraph>
-                </FlexContainer>
-            </FlexContainer>
+            </p>
+            <div className='flex h-full flex-col justify-between'>
+                <div className='flex flex-col gap-4'>
+                    <PasswordInput
+                        name='password'
+                        variant={validation.password}
+                        labelText='Password'
+                        onChange={handlePasswordChange}
+                        value={values.password ?? ''}
+                        helperText={
+                            validation.password !== 'errorFree'
+                                ? 'Requires at least 8 characters and one number'
+                                : ''
+                        }
+                    />
+                    <PasswordInput
+                        name='passwordConfirm'
+                        value={values.passwordConfirm ?? ''}
+                        variant={validation.passwordConfirm}
+                        labelText='Confirm Password'
+                        onChange={handlePasswordConfirmChange}
+                        helperText={
+                            validation.passwordConfirm === 'destructive'
+                                ? 'Passwords do not match.'
+                                : ''
+                        }
+                    />
+                    <div className='flex'>
+                        <Checkbox
+                            id='termsAndConditionsConfirmed'
+                            name='termsAndConditionsConfirmed'
+                            checked={values.termsAndConditionsConfirmed}
+                            onChange={handleTermsAndConditionsChange}
+                        />
+                        <div className='flex'>
+                            <label
+                                htmlFor='termsAndConditionsConfirmed'
+                                className='typeset-body font-medium text-light-black dark:text-white'
+                            >
+                                I accept the{' '}
+                                <ExternalLink
+                                    href={constants.TERMS_OF_SERVICE}
+                                    target='_blank'
+                                    rel='noopener noreferrer'
+                                    className='text-theme-primary-700 dark:text-theme-primary-650'
+                                >
+                                    Terms of Service
+                                </ExternalLink>{' '}
+                                and{' '}
+                                <ExternalLink
+                                    href={constants.PRIVACY_POLICY}
+                                    target='_blank'
+                                    rel='noopener noreferrer'
+                                    className='text-theme-primary-700 dark:text-theme-primary-650'
+                                >
+                                    Privacy Policy
+                                </ExternalLink>
+                                .
+                            </label>
+                        </div>
+                    </div>
 
-            <Button
-                mt='24'
-                variant='primary'
-                disabled={!values.termsAndConditionsConfirmed || !isValid}
-                onClick={submitForm}
-            >
-                Confirm
-            </Button>
-        </FlexContainer>
+                    <Button
+                        className='mt-6'
+                        variant='primary'
+                        disabled={!values.termsAndConditionsConfirmed || !isValid}
+                        onClick={submitForm}
+                    >
+                        Confirm
+                    </Button>
+                </div>
+            </div>
+        </div>
     );
 };
 

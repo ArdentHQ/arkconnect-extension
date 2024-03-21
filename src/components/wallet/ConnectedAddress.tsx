@@ -1,7 +1,5 @@
-import styled from 'styled-components';
 import { Contracts } from '@ardenthq/sdk-profiles';
-import { Container, FlexContainer, Heading, Paragraph } from '@/shared/components';
-import useThemeMode from '@/lib/hooks/useThemeMode';
+import { Button, Heading } from '@/shared/components';
 import formatDomain from '@/lib/utils/formatDomain';
 import {
     Address,
@@ -13,87 +11,72 @@ import {
 import ConnectionLogoImage from '@/components/connections/ConnectionLogoImage';
 import { getNetworkCurrency } from '@/lib/utils/getActiveCoin';
 
-type Props = {
+type Properties = {
     connectedTo?: string;
     address: string;
     logo: string;
     wallet: Contracts.IReadWriteWallet;
+    onDisconnect?: () => void;
 };
 
-const ConnectionStatusTitle = styled.div`
-    word-break: break-word;
-`;
-
-const ConnectedSite = styled.span`
-    color: ${({ theme }) => theme.colors['base']};
-    font-weight: bold;
-`;
-
-const ConnectedAddress = ({ connectedTo, wallet, logo }: Props) => {
+const ConnectedAddress = ({ connectedTo, wallet, logo, onDisconnect }: Properties) => {
     return (
         <>
-            <Container>
-                <ConnectionStatusTitle>
-                    <Heading $typeset='h4' fontWeight='medium' color='base'>
-                        Connected Address
-                    </Heading>
-                </ConnectionStatusTitle>
+            <div>
+                <Heading level={4}>Connected Address</Heading>
 
-                <Paragraph $typeset='headline' fontWeight='regular' color='gray' marginTop='6'>
+                <p className='typeset-headline mt-1.5 text-theme-secondary-500 dark:text-theme-secondary-300'>
                     The following address is currently connected to{' '}
-                    <ConnectedSite>{formatDomain(connectedTo, false)}</ConnectedSite>
-                </Paragraph>
-            </Container>
-            <Container>
+                    <span className='font-medium text-light-black dark:text-white'>
+                        {formatDomain(connectedTo, false)}
+                    </span>
+                </p>
+            </div>
+
+            <div>
                 <AddressRow address={wallet} logo={logo} />
-            </Container>
+
+                <Button
+                    variant='linkDestructive'
+                    onClick={onDisconnect}
+                    className='mb-1 mt-5 underline-offset-2 hover:text-theme-error-700 hover:underline dark:hover:text-theme-error-600'
+                >
+                    Disconnect
+                </Button>
+            </div>
         </>
     );
 };
 
 const AddressRow = ({ address, logo }: { address: Contracts.IReadWriteWallet; logo: string }) => {
-    const { getThemeColor } = useThemeMode();
-
     return (
-        <FlexContainer
-            gridGap='12'
-            border='1px solid'
-            borderRadius='16'
-            borderColor={getThemeColor('primary600', 'primary650')}
-            backgroundColor={getThemeColor('lightGreen', '#02a86326')}
-            boxShadow='0 1px 4px 0 rgba(0, 0, 0, 0.05)'
-            padding='16'
-        >
-            <Container>
-                <ConnectionLogoImage
-                    appLogo={logo}
-                    appName='Connected'
-                    borderColor={getThemeColor('primary200', '#296148')}
-                    roundCorners
-                    withBorder
-                    width='40px'
-                    height='40px'
-                />
-            </Container>
-            <FlexContainer flexDirection='column' gridGap='4'>
-                <FlexContainer gridGap='6' alignItems='center'>
+        <div className='flex gap-3 rounded-2xl border border-solid border-theme-primary-600 bg-theme-primary-50 p-4 shadow-light dark:border-theme-primary-650 dark:bg-theme-primary-650/15'>
+            <ConnectionLogoImage
+                appLogo={logo}
+                appName='Connected'
+                roundCorners
+                withBorder
+                className='h-10 w-10 border-theme-primary-200 dark:border-[#296148]'
+            />
+            <div className='flex flex-col gap-1'>
+                <div className='flex items-center gap-1.5'>
                     <AddressAlias alias={address.alias() ?? ''} />
 
                     {address.isLedger() && <LedgerIcon />}
 
                     {address.network().isTest() && <TestnetIcon />}
-                </FlexContainer>
+                </div>
 
-                <FlexContainer gridGap='6' color='gray' alignItems='center'>
+                <div className='flex items-center gap-1.5 text-theme-secondary-500 dark:text-theme-secondary-300'>
                     <Address address={address.address()} />
-                    <div>•</div>
+                    <div className='leading-[18px]'>•</div>
                     <AddressBalance
                         balance={address.balance()}
                         currency={getNetworkCurrency(address.network())}
                     />
-                </FlexContainer>
-            </FlexContainer>
-        </FlexContainer>
+                </div>
+            </div>
+        </div>
     );
 };
 

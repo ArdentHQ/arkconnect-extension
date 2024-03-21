@@ -1,35 +1,24 @@
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
-import browser from 'webextension-polyfill';
+import { useEffect, useState } from 'react';
+import { runtime, tabs } from 'webextension-polyfill';
 import SubPageLayout from '../SubPageLayout';
 import SelectNetworkTypeModal from './SelectNetworkTypeModal';
-import {
-    RowLayout,
-    Container,
-    FlexContainer,
-    Icon,
-    IconDefinition,
-    Paragraph,
-    Tooltip,
-} from '@/shared/components';
-import { useAppDispatch } from '@/lib/store';
-import { testnetEnabledChanged } from '@/lib/store/ui';
-import { handleSubmitKeyAction } from '@/lib/utils/handleKeyAction';
+import { Icon, IconDefinition, RowLayout, Tooltip } from '@/shared/components';
 import { isFirefox } from '@/lib/utils/isFirefox';
-import { clearPersistScreenData } from '@/components/wallet/form-persist/helpers';
 
 type NetworkModalState = {
-    nextAction?: () => void;
+    nextAction?: (isTestnet: boolean) => void;
     isOpen: boolean;
     action?: 'import' | 'create';
 };
 
 const CreateOrImportAddress = () => {
     const navigate = useNavigate();
-    const dispatch = useAppDispatch();
 
-    // Clear any old data
-    clearPersistScreenData();
+    useEffect(() => {
+        // Clear any old data
+        void runtime.sendMessage({ type: 'CLEAR_LAST_SCREEN' });
+    }, []);
 
     const [networkModalState, setNetworkModalState] = useState<NetworkModalState>({
         nextAction: undefined,
@@ -41,7 +30,12 @@ const CreateOrImportAddress = () => {
 
     const handleCreateNewAddress = () => {
         setNetworkModalState({
-            nextAction: () => navigate('/wallet/create'),
+            nextAction: (isTestnet: boolean) =>
+                navigate('/wallet/create', {
+                    state: {
+                        isTestnet,
+                    },
+                }),
             isOpen: true,
             action: 'create',
         });
@@ -49,7 +43,12 @@ const CreateOrImportAddress = () => {
 
     const handleImportAddress = () => {
         setNetworkModalState({
-            nextAction: () => navigate('/wallet/import'),
+            nextAction: (isTestnet: boolean) =>
+                navigate('/wallet/import', {
+                    state: {
+                        isTestnet,
+                    },
+                }),
             isOpen: true,
             action: 'import',
         });
@@ -59,9 +58,11 @@ const CreateOrImportAddress = () => {
         if (isFirefox) return;
 
         setNetworkModalState({
-            nextAction: () => {
-                void browser.tabs.create({
-                    url: browser.runtime.getURL('/src/main.html?import_with_ledger'),
+            nextAction: (isTestnet: boolean) => {
+                const testnetParam = isTestnet ? 'isTestnet' : '';
+
+                void tabs.create({
+                    url: runtime.getURL(`/src/main.html?import_with_ledger&${testnetParam}`),
                 });
                 window.close(); // Close extension popup as we navigate away
             },
@@ -72,15 +73,14 @@ const CreateOrImportAddress = () => {
 
     return (
         <SubPageLayout title='Create & Import Address'>
-            <Container>
+            <div>
                 <RowLayout
                     title='Create New Address'
                     helperText='By creating a new passphrase'
                     iconLeading={<LeadingIcon icon='plus-circle' />}
                     iconTrailing='arrow-right'
                     onClick={handleCreateNewAddress}
-                    mb='8'
-                    onKeyDown={(e) => handleSubmitKeyAction(e, handleCreateNewAddress)}
+                    className='mb-2'
                 />
 
                 <RowLayout
@@ -89,18 +89,16 @@ const CreateOrImportAddress = () => {
                     iconLeading={<LeadingIcon icon='download' />}
                     iconTrailing='arrow-right'
                     onClick={handleImportAddress}
-                    onKeyDown={(e) => handleSubmitKeyAction(e, handleImportAddress)}
-                    mb='8'
-                    as='button'
+                    className='mb-2'
                 />
 
                 <Tooltip
                     disabled={!isFirefox}
                     content={
-                        <Paragraph>
+                        <p>
                             ARK Connect requires the use of a chromium <br /> based browser when
                             using a Ledger.
-                        </Paragraph>
+                        </p>
                     }
                     placement='bottom'
                 >
@@ -111,19 +109,16 @@ const CreateOrImportAddress = () => {
                         iconTrailing='arrow-right'
                         onClick={handleConnectLedger}
                         disabled={isFirefox}
-                        as='button'
-                        onKeyDown={(e) => handleSubmitKeyAction(e, handleConnectLedger)}
                     />
                 </Tooltip>
-            </Container>
+            </div>
 
             {networkModalState.isOpen && (
                 <SelectNetworkTypeModal
                     onClose={onCloseModalHandler}
                     action={networkModalState.action}
                     onNetworkSelect={(isTestnet: boolean) => {
-                        dispatch(testnetEnabledChanged(isTestnet));
-                        networkModalState.nextAction?.();
+                        networkModalState.nextAction?.(isTestnet);
                     }}
                 />
             )}
@@ -133,15 +128,9 @@ const CreateOrImportAddress = () => {
 
 const LeadingIcon = ({ icon }: { icon: IconDefinition }) => {
     return (
-        <FlexContainer
-            justifyContent='center'
-            alignItems='center'
-            alignSelf='center'
-            color='gray'
-            as='span'
-        >
-            <Icon width='20px' height='20px' icon={icon} />
-        </FlexContainer>
+        <span className='text-theme-seoncdary-500 flex items-center justify-center self-center dark:text-theme-secondary-300'>
+            <Icon className='h-5 w-5' icon={icon} />
+        </span>
     );
 };
 

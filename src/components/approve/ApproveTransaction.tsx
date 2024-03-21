@@ -1,6 +1,6 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import browser from 'webextension-polyfill';
+import { runtime } from 'webextension-polyfill';
 import { Contracts } from '@ardenthq/sdk-profiles';
 import { BigNumber } from '@ardenthq/sdk-helpers';
 import ApproveBody from '@/components/approve/ApproveBody';
@@ -71,7 +71,7 @@ const ApproveTransaction = ({
     }, [wallet, fee, amount]);
 
     const reject = (message: string = 'Sign transaction denied!') => {
-        browser.runtime.sendMessage({
+        runtime.sendMessage({
             type: 'SIGN_TRANSACTION_REJECT',
             data: {
                 domain,
@@ -115,7 +115,7 @@ const ApproveTransaction = ({
                 closeLedgerScreen();
             }
 
-            await browser.runtime.sendMessage({
+            await runtime.sendMessage({
                 type: 'SIGN_TRANSACTION_RESOLVE',
                 data: {
                     domain,

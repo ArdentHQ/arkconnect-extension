@@ -1,4 +1,4 @@
-import { Grid, Button } from '@/shared/components';
+import { Button } from '@/shared/components';
 
 type Props = {
     disabled?: boolean;
@@ -14,14 +14,14 @@ const ApproveFooter = ({ disabled, onSubmit, onCancel }: Props) => {
     };
 
     return (
-        <Grid gridGap='8px' gridTemplateColumns='repeat(2, 1fr)' px='16'>
+        <div className='grid grid-cols-2 gap-2 px-4'>
             <Button variant='secondaryBlack' onClick={onCancel}>
                 Refuse
             </Button>
             <Button variant='primary' disabled={disabled} onClick={onApprove}>
                 Approve
             </Button>
-        </Grid>
+        </div>
     );
 };
 

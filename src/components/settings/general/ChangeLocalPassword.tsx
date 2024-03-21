@@ -1,10 +1,10 @@
 import * as Yup from 'yup';
 
-import browser from 'webextension-polyfill';
+import { runtime } from 'webextension-polyfill';
 import { useFormik } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import SubPageLayout from '../SubPageLayout';
-import { Button, Container, FlexContainer, Paragraph, PasswordInput } from '@/shared/components';
+import { Button, PasswordInput } from '@/shared/components';
 
 import { ToastPosition } from '@/components/toast/ToastContainer';
 import { isValidPassword } from '@/lib/utils/validations';
@@ -54,7 +54,7 @@ const ChangeLocalPassword = () => {
 
                 loadingModal.setLoading();
 
-                const { error } = await browser.runtime.sendMessage({
+                const { error } = await runtime.sendMessage({
                     type: 'CHANGE_PASSWORD',
                     data: {
                         newPassword: formik.values.newPassword,
@@ -82,22 +82,12 @@ const ChangeLocalPassword = () => {
 
     return (
         <SubPageLayout title='Change Local Password'>
-            <FlexContainer
-                flexDirection='column'
-                flex={1}
-                justifyContent={'space-between'}
-                height={'100%'}
-            >
-                <Paragraph $typeset='headline' fontWeight='regular' color='gray' mb='24'>
+            <div className='flex h-full flex-1 flex-col justify-between'>
+                <p className='typeset-headline mb-6 text-theme-secondary-500 dark:text-theme-secondary-300'>
                     Change password for your wallet. Your password is only stored locally.
-                </Paragraph>
-                <Container height='100%'>
-                    <Container
-                        pb='16'
-                        mb='16'
-                        borderBottom='1px solid'
-                        borderColor='toggleInactive'
-                    >
+                </p>
+                <div className='h-full'>
+                    <div className='mb-4 border-b border-solid border-b-theme-secondary-200 pb-4 dark:border-b-theme-secondary-600'>
                         <PasswordInput
                             name='oldPassword'
                             variant={formik.errors.oldPassword ? 'destructive' : 'primary'}
@@ -108,9 +98,9 @@ const ChangeLocalPassword = () => {
                             onBlur={formik.handleBlur}
                             value={formik.values.oldPassword}
                         />
-                    </Container>
+                    </div>
 
-                    <FlexContainer flexDirection='column' gridGap='16px'>
+                    <div className='flex flex-col gap-4'>
                         <PasswordInput
                             name='newPassword'
                             variant={
@@ -143,17 +133,17 @@ const ChangeLocalPassword = () => {
                             onBlur={formik.handleBlur}
                             value={formik.values.confirmNewPassword}
                         />
-                    </FlexContainer>
-                </Container>
+                    </div>
+                </div>
                 <Button
                     variant='primary'
                     disabled={!formik.isValid || !formik.values.oldPassword.length}
                     onClick={formik.submitForm}
-                    mt='auto'
+                    className='mt-auto'
                 >
                     Save New Password
                 </Button>
-            </FlexContainer>
+            </div>
         </SubPageLayout>
     );
 };

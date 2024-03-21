@@ -1,8 +1,11 @@
 import { Contracts } from '@ardenthq/sdk-profiles';
-import styled from 'styled-components';
 import Amount from '../wallet/Amount';
-import ActionDetails, { ActionDetailsRow } from './ActionDetails';
-import { FlexContainer, Paragraph, Tooltip } from '@/shared/components';
+import ActionDetails, {
+    ActionDetailsFiatValue,
+    ActionDetailsRow,
+    ActionDetailsValue,
+} from './ActionDetails';
+import { Tooltip } from '@/shared/components';
 import trimAddress from '@/lib/utils/trimAddress';
 import { getNetworkCurrency } from '@/lib/utils/getActiveCoin';
 
@@ -17,88 +20,89 @@ type Props = {
 const RequestedVoteBody = ({ vote, unvote, fee, convertedFee, wallet }: Props) => {
     return (
         <ActionDetails maxHeight='165px'>
-            <ActionDetailsRow label='Transaction Fee'>
-                <FlexContainer gridGap='4px' alignItems='baseline'>
-                    <Paragraph $typeset='headline' fontWeight='medium' color='base'>
-                        {fee} {getNetworkCurrency(wallet.network())}
-                    </Paragraph>
-                    {wallet.network().isLive() && (
-                        <Paragraph $typeset='body' fontWeight='medium' color='gray'>
+            <ActionDetailsRow
+                label='Transaction Fee'
+                below={
+                    wallet.network().isLive() && (
+                        <ActionDetailsFiatValue>
                             <Amount
                                 value={convertedFee}
                                 ticker={wallet.exchangeCurrency() ?? 'USD'}
                             />
-                        </Paragraph>
-                    )}
-                </FlexContainer>
+                        </ActionDetailsFiatValue>
+                    )
+                }
+            >
+                <div className='flex items-baseline gap-1'>
+                    <ActionDetailsValue>
+                        {fee} {getNetworkCurrency(wallet.network())}
+                    </ActionDetailsValue>
+                </div>
             </ActionDetailsRow>
 
             {unvote && (
                 <ActionDetailsRow label='Unvote Delegate Name'>
-                    <Paragraph $typeset='headline' fontWeight='medium' color='base'>
-                        {unvote.wallet?.username() ?? ''}
-                    </Paragraph>
+                    <ActionDetailsValue>{unvote.wallet?.username() ?? ''}</ActionDetailsValue>
                 </ActionDetailsRow>
             )}
 
             {unvote && !wallet.isLedger() && (
                 <ActionDetailsRow label='Unvote Delegate Address'>
-                    <Paragraph $typeset='headline' fontWeight='medium' color='base'>
+                    <ActionDetailsValue>
                         {trimAddress(unvote.wallet?.address() ?? '', 10)}
-                    </Paragraph>
+                    </ActionDetailsValue>
                 </ActionDetailsRow>
             )}
 
             {unvote && wallet.isLedger() && (
                 <ActionDetailsRow label='Unvote Delegate Pubkey'>
                     <Tooltip
-                        content={<StyledSpan>{unvote.wallet?.publicKey() ?? ''}</StyledSpan>}
+                        content={
+                            <span className='block w-65 break-words text-left'>
+                                {unvote.wallet?.publicKey() ?? ''}
+                            </span>
+                        }
                         placement='bottom-end'
                     >
-                        <Paragraph $typeset='headline' fontWeight='medium' color='base'>
+                        <ActionDetailsValue>
                             {trimAddress(unvote.wallet?.publicKey() ?? '', 10)}
-                        </Paragraph>
+                        </ActionDetailsValue>
                     </Tooltip>
                 </ActionDetailsRow>
             )}
 
             {vote && (
                 <ActionDetailsRow label='Vote Delegate Name'>
-                    <Paragraph $typeset='headline' fontWeight='medium' color='base'>
-                        {vote.wallet?.username() ?? ''}
-                    </Paragraph>
+                    <ActionDetailsValue>{vote.wallet?.username() ?? ''}</ActionDetailsValue>
                 </ActionDetailsRow>
             )}
 
             {vote && !wallet.isLedger() && (
                 <ActionDetailsRow label='Vote Delegate Address'>
-                    <Paragraph $typeset='headline' fontWeight='medium' color='base'>
+                    <ActionDetailsValue>
                         {trimAddress(vote.wallet?.address() ?? '', 10)}
-                    </Paragraph>
+                    </ActionDetailsValue>
                 </ActionDetailsRow>
             )}
 
             {vote && wallet.isLedger() && (
                 <ActionDetailsRow label='Vote Delegate Pubkey'>
                     <Tooltip
-                        content={<StyledSpan>{vote.wallet?.publicKey() ?? ''}</StyledSpan>}
+                        content={
+                            <span className='block w-65 break-words text-left'>
+                                {vote.wallet?.publicKey() ?? ''}
+                            </span>
+                        }
                         placement='bottom-end'
                     >
-                        <Paragraph $typeset='headline' fontWeight='medium' color='base'>
+                        <ActionDetailsValue>
                             {trimAddress(vote.wallet?.publicKey() ?? '', 10)}
-                        </Paragraph>
+                        </ActionDetailsValue>
                     </Tooltip>
                 </ActionDetailsRow>
             )}
         </ActionDetails>
     );
 };
-
-const StyledSpan = styled.span`
-    width: 260px;
-    display: block;
-    overflow-wrap: break-word;
-    text-align: left;
-`;
 
 export default RequestedVoteBody;

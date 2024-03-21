@@ -1,34 +1,17 @@
-import { FlexContainer, Paragraph, EmptyConnectionsIcon, Layout } from '@/shared/components';
+import { EmptyConnectionsIcon, Layout } from '@/shared/components';
 
 const WalletNotFound = () => {
     return (
         <Layout>
-            <FlexContainer
-                margin='16'
-                minHeight='100%'
-                flexDirection='column'
-                justifyContent='center'
-                alignItems='center'
-            >
-                <FlexContainer
-                    maxWidth='210px'
-                    flexDirection='column'
-                    justifyContent='center'
-                    alignItems='center'
-                >
+            <div className='m-4 flex min-h-full flex-col items-center justify-center'>
+                <div className='flex max-w-[210px] flex-col items-center justify-center'>
                     <EmptyConnectionsIcon />
-                    <Paragraph
-                        $typeset='headline'
-                        fontWeight='regular'
-                        color='base'
-                        mt='24'
-                        textAlign='center'
-                    >
+                    <p className='typeset-headline mt-6 text-center text-light-black dark:text-white'>
                         You don&apos;t have any wallet imported in ARK Connect! <br />
                         Please create or import a wallet first!
-                    </Paragraph>
-                </FlexContainer>
-            </FlexContainer>
+                    </p>
+                </div>
+            </div>
         </Layout>
     );
 };

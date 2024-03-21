@@ -1,8 +1,8 @@
 import { FormikProps } from 'formik';
-import React, { useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { Contracts } from '@ardenthq/sdk-profiles';
 import { ImportedWalletFormik } from '.';
-import { Heading, Paragraph, Button, Container, Input } from '@/shared/components';
+import { Button, Heading, Input } from '@/shared/components';
 
 type Props = {
     goToNextStep: () => void;
@@ -32,40 +32,40 @@ const ImportedWallet = ({ goToNextStep, formik }: Props) => {
         }
     };
 
-    const handleAddressNameChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
+    const handleAddressNameChange = (evt: ChangeEvent<HTMLInputElement>) => {
         const addressName = evt.target.value.trim() === '' ? '' : evt.target.value;
         formik.setFieldValue('addressName', addressName);
     };
 
     return (
         <>
-            <Heading $typeset='h3' fontWeight='bold' color='base' mb='8'>
+            <Heading className='mb-2' level={3}>
                 Address Imported Successfully!
             </Heading>
-            <Paragraph $typeset='headline' color='gray' mb='24'>
+            <p className='typeset-headline mb-6 text-theme-secondary-500 dark:text-theme-secondary-300'>
                 Your address details are shown below.
-            </Paragraph>
-            <Container>
-                <Container pb='16' mb='16' borderBottom='1px solid' borderColor='toggleInactive'>
-                    <Paragraph $typeset='body' fontWeight='medium' mb='8' color='gray'>
+            </p>
+            <div>
+                <div className=' mb-4 border-b border-solid border-b-theme-secondary-200 pb-4 dark:border-b-theme-secondary-600'>
+                    <p className='typeset-body mb-2 font-medium text-theme-secondary-500 dark:text-theme-secondary-300'>
                         Address
-                    </Paragraph>
-                    <Paragraph $typeset='headline' color='base'>
+                    </p>
+                    <p className='typeset-headline text-light-black dark:text-white'>
                         {formik.values.wallet?.address()}
-                    </Paragraph>
-                </Container>
+                    </p>
+                </div>
 
-                <Container pb='16' mb='16' borderBottom='1px solid' borderColor='toggleInactive'>
-                    <Paragraph $typeset='body' fontWeight='medium' mb='8' color='gray'>
+                <div className=' mb-4 border-b border-solid border-b-theme-secondary-200 pb-4 dark:border-b-theme-secondary-600'>
+                    <p className='typeset-body mb-2 font-medium text-theme-secondary-500 dark:text-theme-secondary-300'>
                         Balance
-                    </Paragraph>
-                    <Paragraph $typeset='headline' color='base'>
+                    </p>
+                    <p className='typeset-headline text-light-black dark:text-white'>
                         {formik.values.wallet?.balance()?.toLocaleString()}{' '}
                         {formik.values.wallet?.currency()}
-                    </Paragraph>
-                </Container>
+                    </p>
+                </div>
 
-                <Container>
+                <div>
                     <Input
                         variant={isAddressValid ? 'primary' : 'destructive'}
                         labelText='Address Name'
@@ -78,9 +78,14 @@ const ImportedWallet = ({ goToNextStep, formik }: Props) => {
                         value={formik.values.addressName}
                         onChange={handleAddressNameChange}
                     />
-                </Container>
-            </Container>
-            <Button variant='primary' disabled={!isAddressValid} onClick={handleNextStep} mt='auto'>
+                </div>
+            </div>
+            <Button
+                variant='primary'
+                disabled={!isAddressValid}
+                onClick={handleNextStep}
+                className='mt-auto'
+            >
                 Continue
             </Button>
         </>

@@ -1,10 +1,14 @@
 import { useLocation } from 'react-router-dom';
 import Amount from '../wallet/Amount';
 import { ToastPosition } from '../toast/ToastContainer';
-import ActionDetails, { ActionDetailsRow } from './ActionDetails';
+import ActionDetails, {
+    ActionDetailsFiatValue,
+    ActionDetailsRow,
+    ActionDetailsValue,
+} from './ActionDetails';
 import useClipboard from '@/lib/hooks/useClipboard';
 import trimAddress from '@/lib/utils/trimAddress';
-import { FlexContainer, Paragraph, Container, Icon } from '@/shared/components';
+import { Icon } from '@/shared/components';
 import getActiveCoin from '@/lib/utils/getActiveCoin';
 import { WalletNetwork } from '@/lib/store/wallet';
 
@@ -12,95 +16,114 @@ const TransactionApprovedBody = () => {
     const { state } = useLocation();
     const { copy } = useClipboard();
 
+    const showFiat = state.walletNetwork === WalletNetwork.MAINNET;
+
     return (
-        <Container width='100%'>
+        <div className='w-full'>
             <ActionDetails maxHeight='229px'>
                 <ActionDetailsRow label='Sender'>
-                    <Paragraph $typeset='headline' fontWeight='medium' color='base'>
+                    <ActionDetailsValue>
                         {trimAddress(state?.transaction.sender, 'short')}
-                    </Paragraph>
+                    </ActionDetailsValue>
                 </ActionDetailsRow>
 
-                <ActionDetailsRow label='Amount'>
-                    <FlexContainer gridGap='4px' alignItems='baseline'>
-                        <Paragraph $typeset='headline' fontWeight='medium' color='base' as='div'>
-                            <Amount
-                                value={state?.transaction.amount}
-                                ticker={getActiveCoin(state?.walletNetwork)}
-                            />
-                        </Paragraph>
-                        {state.walletNetwork === WalletNetwork.MAINNET && (
-                            <Paragraph $typeset='body' fontWeight='medium' color='gray'>
+                <ActionDetailsRow
+                    label='Amount'
+                    below={
+                        showFiat && (
+                            <ActionDetailsFiatValue>
                                 <Amount
                                     value={state?.transaction.convertedAmount as number}
                                     ticker={state?.transaction.exchangeCurrency as string}
                                 />
-                            </Paragraph>
-                        )}
-                    </FlexContainer>
+                            </ActionDetailsFiatValue>
+                        )
+                    }
+                >
+                    <div className='flex items-baseline gap-1'>
+                        <ActionDetailsValue>
+                            <Amount
+                                value={state?.transaction.amount}
+                                ticker={getActiveCoin(state?.walletNetwork)}
+                            />
+                        </ActionDetailsValue>
+                    </div>
                 </ActionDetailsRow>
 
                 <ActionDetailsRow label='Receiver'>
-                    <Paragraph $typeset='headline' fontWeight='medium' color='base'>
+                    <ActionDetailsValue>
                         {trimAddress(state?.transaction.receiver, 'short')}
-                    </Paragraph>
+                    </ActionDetailsValue>
                 </ActionDetailsRow>
 
-                <ActionDetailsRow label='Transaction Fee'>
-                    <FlexContainer gridGap='4px' alignItems='baseline'>
-                        <Paragraph $typeset='headline' fontWeight='medium' color='base' as='div'>
-                            <Amount
-                                value={state?.transaction.fee}
-                                ticker={getActiveCoin(state?.walletNetwork)}
-                            />
-                        </Paragraph>
-                        {state.walletNetwork === WalletNetwork.MAINNET && (
-                            <Paragraph $typeset='body' fontWeight='medium' color='gray'>
+                <ActionDetailsRow
+                    label='Transaction Fee'
+                    below={
+                        showFiat && (
+                            <ActionDetailsFiatValue>
                                 <Amount
                                     value={state?.transaction.convertedFee as number}
                                     ticker={state?.transaction.exchangeCurrency as string}
                                 />
-                            </Paragraph>
-                        )}
-                    </FlexContainer>
-                </ActionDetailsRow>
-
-                <ActionDetailsRow label='Total Amount'>
-                    <FlexContainer gridGap='4px' alignItems='baseline'>
-                        <Paragraph $typeset='headline' fontWeight='medium' color='base' as='div'>
+                            </ActionDetailsFiatValue>
+                        )
+                    }
+                >
+                    <div className='flex items-baseline gap-1'>
+                        <ActionDetailsValue>
                             <Amount
-                                value={state?.transaction.total}
+                                value={state?.transaction.fee}
                                 ticker={getActiveCoin(state?.walletNetwork)}
                             />
-                        </Paragraph>
-                        {state.walletNetwork === WalletNetwork.MAINNET && (
-                            <Paragraph $typeset='body' fontWeight='medium' color='gray'>
+                        </ActionDetailsValue>
+                    </div>
+                </ActionDetailsRow>
+
+                <ActionDetailsRow
+                    label='Total Amount'
+                    below={
+                        showFiat && (
+                            <ActionDetailsFiatValue>
                                 <Amount
                                     value={state?.transaction.convertedTotal as number}
                                     ticker={state?.transaction.exchangeCurrency as string}
                                 />
-                            </Paragraph>
-                        )}
-                    </FlexContainer>
+                            </ActionDetailsFiatValue>
+                        )
+                    }
+                >
+                    <div className='flex items-baseline gap-1'>
+                        <ActionDetailsValue>
+                            <Amount
+                                value={state?.transaction.total}
+                                ticker={getActiveCoin(state?.walletNetwork)}
+                            />
+                        </ActionDetailsValue>
+                    </div>
                 </ActionDetailsRow>
 
                 <ActionDetailsRow label='Transaction ID'>
-                    <FlexContainer gridGap='4px' alignItems='center'>
-                        <Paragraph $typeset='headline' fontWeight='medium' color='base'>
+                    <div className='flex items-center gap-1'>
+                        <ActionDetailsValue>
                             {trimAddress(state?.transaction.id, 'short')}
-                        </Paragraph>
-                        <Container
-                            className='c-pointer'
+                        </ActionDetailsValue>
+
+                        <button
+                            type='button'
                             onClick={() =>
                                 copy(state?.transaction.id, 'Transaction ID', ToastPosition.HIGH)
                             }
+                            className='block'
                         >
-                            <Icon icon='copy' color='primary' width='20px' height='20px' />
-                        </Container>
-                    </FlexContainer>
+                            <Icon
+                                icon='copy'
+                                className='h-5 w-5 text-theme-primary-700 dark:text-theme-primary-650'
+                            />
+                        </button>
+                    </div>
                 </ActionDetailsRow>
             </ActionDetails>
-        </Container>
+        </div>
     );
 };
 

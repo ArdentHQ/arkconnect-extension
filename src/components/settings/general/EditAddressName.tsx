@@ -1,8 +1,9 @@
 import { useFormik } from 'formik';
 import { useNavigate, useParams } from 'react-router-dom';
 import { object, string } from 'yup';
+import cn from 'classnames';
 import SubPageLayout from '../SubPageLayout';
-import { Paragraph, FlexContainer, Input, Button, Container } from '@/shared/components';
+import { Button, Input } from '@/shared/components';
 import useToast from '@/lib/hooks/useToast';
 import { useEnvironmentContext } from '@/lib/context/Environment';
 import { useProfileContext } from '@/lib/context/Profile';
@@ -53,14 +54,17 @@ const EditAddressName = () => {
 
     return (
         <SubPageLayout title='Edit Address Name' hideCloseButton={false}>
-            <FlexContainer height='100%' flexDirection='column'>
-                <Paragraph $typeset='headline' color='gray' mb='24'>
+            <div className='flex h-full flex-col'>
+                <p className='typeset-headline mb-6 text-theme-secondary-500 dark:text-theme-secondary-300'>
                     Name your address so you can identify it later. This name is only stored
                     locally.
-                </Paragraph>
+                </p>
 
-                <Container
-                    mb={formik.isValid || !formik.values.addressName?.length ? '270' : '246'}
+                <div
+                    className={cn({
+                        'mb-[270px]': formik.isValid || !formik.values.addressName?.length,
+                        'mb-[246px]': !formik.isValid && formik.values.addressName?.length,
+                    })}
                 >
                     <Input
                         variant={formik.errors.addressName ? 'destructive' : 'primary'}
@@ -73,7 +77,7 @@ const EditAddressName = () => {
                         labelText='Address Name'
                         helperText={formik.errors.addressName}
                     />
-                </Container>
+                </div>
                 <Button
                     variant='primary'
                     onClick={formik.submitForm}
@@ -81,7 +85,7 @@ const EditAddressName = () => {
                 >
                     Save
                 </Button>
-            </FlexContainer>
+            </div>
         </SubPageLayout>
     );
 };

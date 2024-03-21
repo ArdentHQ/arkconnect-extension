@@ -1,316 +1,179 @@
-html,
-body,
-div,
-span,
-applet,
-object,
-iframe,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-p,
-blockquote,
-pre,
-a,
-abbr,
-acronym,
-address,
-big,
-cite,
-code,
-del,
-dfn,
-em,
-img,
-ins,
-kbd,
-q,
-s,
-samp,
-small,
-strike,
-strong,
-sub,
-sup,
-tt,
-var,
-b,
-u,
-i,
-center,
-dl,
-dt,
-dd,
-ol,
-ul,
-li,
-fieldset,
-form,
-label,
-legend,
-table,
-caption,
-tbody,
-tfoot,
-thead,
-tr,
-th,
-td,
-article,
-aside,
-canvas,
-details,
-embed,
-figure,
-figcaption,
-footer,
-header,
-hgroup,
-menu,
-nav,
-output,
-ruby,
-section,
-summary,
-time,
-mark,
-audio,
-video {
-  margin: 0;
-  padding: 0;
-  border: 0;
-  font-size: 100%;
-  font: inherit;
-  font-family: 'DM Sans', sans-serif;
-  vertical-align: baseline;
-}
-/* HTML5 display-role reset for older browsers */
-article,
-aside,
-details,
-figcaption,
-figure,
-footer,
-header,
-hgroup,
-menu,
-nav,
-section {
-  display: block;
-}
+@import './css/variables.css';
+@import './css/transitions.css';
+@import './css/general.css';
+@import './css/inputs.css';
+@import './css/buttons.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 body {
-  line-height: 1;
-}
-ol,
-ul {
-  list-style: none;
-}
-blockquote,
-q {
-  quotes: none;
-}
-blockquote:before,
-blockquote:after {
-  content: '';
-  content: none;
-}
-q:before,
-q:after {
-  content: '';
-  content: none;
-}
-header,
-main,
-footer {
-  width: 100%;
-}
-table {
-  border-collapse: collapse;
-  border-spacing: 0;
-}
-* {
-  box-sizing: border-box;
-}
-*:after,
-*:before {
-  box-sizing: border-box;
-}
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-p,
-li,
-a,
-div,
-ul,
-input,
-blockquote,
-span,
-button,
-i,
-b,
-em,
-strong {
-  text-rendering: auto;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-decoration: none;
-}
-img {
-  max-width: 100%;
-  height: auto;
-}
-i,
-em {
-  font-style: italic;
-}
-b,
-strong {
-  font-weight: bold;
-}
-body {
-  overflow-x: hidden;
-  position: relative;
+    @apply relative overflow-x-hidden font-sans leading-none antialiased;
 }
 
 html,
 body {
-  width: 370px;
-  min-height: 600px;
-  padding: 0;
-  margin: 0;
+    @apply m-0 min-h-[600px] w-extension-screen p-0 text-base;
+}
+
+b,
+strong {
+    @apply font-bold;
+}
+
+header {
+    @apply block w-full;
 }
 
 * {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  outline-color: #01b86c;
+    @apply outline-theme-primary-600;
 }
 
-button {
-  background-color: transparent;
-  border: none;
+*:focus-visible:not(input, textarea) {
+    @apply outline outline-2 outline-theme-primary-600;
+    transition: outline-width 0s !important;
 }
 
 #extension-root {
-  height: 100%;
+    @apply relative z-0 h-full;
 }
 
-.c-pointer {
-  cursor: pointer;
+#portal {
+    @apply relative;
 }
 
 .input-correct {
-  border: 1px solid green !important;
+    border: 1px solid green !important;
 }
 
 .input-incorrect {
-  border: 1px solid red !important;
+    border: 1px solid red !important;
 }
 
 @keyframes fadeOut {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
-  }
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }
 
 .splash-screen-icon {
-  animation: fadeOut 0.4s ease-in-out 1s forwards;
+    animation: fadeOut 0.4s ease-in-out 1s forwards;
 }
 
 .dropdown-body {
-  transform: translateY(-10px);
-  transition: transform 0.2s ease-in-out;
-  visibility: hidden;
-  opacity: 0;
+    @apply invisible -translate-y-2.5 opacity-0 transition-transform duration-200 ease-in-out;
 }
 
 .dropdown-transition {
-  visibility: visible;
-  transform: translateY(0);
-  opacity: 1;
+    @apply visible translate-y-0 opacity-100;
 }
 
 #scrollable-container {
-  height: 100vh;
-  overflow-y: auto;
-  overflow-x: hidden;
-  width: 370px;
-  max-width: 370px;
+    @apply h-screen w-extension-screen max-w-extension-screen overflow-y-auto overflow-x-hidden;
 }
 
 .main-container {
-  width: 370px;
+    @apply w-extension-screen;
 }
 
 .dialog-wrapper {
-  max-width: 370px;
+    @apply max-w-extension-screen;
 }
 
 .tippy-box[data-theme*='ark'] {
-  border-radius: 8px;
+    @apply rounded-lg;
 }
 
 .tippy-box[data-theme*='ark'] .tippy-content {
-  padding: 8px 12px;
+    @apply px-2 py-3;
 }
 
 .tippy-box[data-theme~='ark-light'] {
-  background-color: #383838;
-  color: #fff;
+    @apply bg-subtle-black text-white;
 }
 
 .tippy-box[data-theme~='ark-dark'] {
-  background-color: #fff;
-  color: #383838;
+    @apply bg-white text-subtle-black;
 }
 
 .tippy-box[data-theme~='ark-light'] .tippy-svg-arrow {
-  fill: #383838;
+    @apply fill-subtle-black;
 }
 
 .tippy-box[data-theme~='ark-dark'] .tippy-svg-arrow {
-  fill: #fff;
+    @apply fill-white;
 }
 
 .globeIcon.dark circle {
-  stroke: #3b3b3b;
+    stroke: #3b3b3b;
 }
 
 .dialog-bg .globeIcon.dark circle {
-  stroke: #2e2e2e;
+    stroke: #2e2e2e;
 }
 
 @-moz-document url-prefix() {
-  .custom-scroll {
-    scrollbar-width: thin;
-    scrollbar-color: #058751 transparent;
-  }
+    .custom-scroll {
+        scrollbar-width: thin;
+        scrollbar-color: #058751 transparent;
+    }
 
-  .custom-scroll::-webkit-scrollbar-thumb {
-    background-color: #058751;
-  }
+    .custom-scroll::-webkit-scrollbar-thumb {
+        @apply bg-theme-primary-700;
+    }
 
-  .custom-scroll::-webkit-scrollbar-track {
-    background-color: transparent;
-  }
+    .custom-scroll::-webkit-scrollbar-track {
+        @apply bg-transparent;
+    }
 }
 
 .custom-scroll::-webkit-scrollbar {
-  width: 4px;
+    @apply w-1;
 }
 
 .custom-scroll::-webkit-scrollbar-thumb {
-  border-radius: 50px;
-  background: #058751;
+    @apply rounded-[50px] bg-theme-primary-700;
+}
+
+.logo path#ark {
+    @apply !fill-theme-primary-950 dark:fill-white;
+}
+
+.dark .logo path#ark {
+    @apply !fill-white;
+}
+
+.logo path#connect,
+.logo #ark-logo {
+    @apply !fill-theme-primary-700 dark:fill-theme-primary-650;
+}
+
+.dark .logo path#connect,
+.dark .logo #ark-logo {
+    @apply !fill-theme-primary-650;
+}
+
+.unlock-button #corner-down-left {
+    @apply stroke-theme-primary-500;
+}
+
+.unlock-button.disabled #corner-down-left {
+    @apply stroke-theme-secondary-400;
+}
+
+.animation-fade-in {
+    animation: fadeIn 1s ease-in-out;
 }

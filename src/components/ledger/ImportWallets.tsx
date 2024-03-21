@@ -2,25 +2,18 @@ import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { BIP44 } from '@ardenthq/sdk-cryptography';
 import { Contracts as ProfilesContracts } from '@ardenthq/sdk-profiles';
 import { FormikProps } from 'formik';
-import styled from 'styled-components';
-import {
-    Button,
-    Checkbox,
-    Container,
-    FlexContainer,
-    Heading,
-    Paragraph,
-    Tooltip,
-} from '@/shared/components';
+import cn from 'classnames';
+import { Button, Checkbox, Heading, Tooltip } from '@/shared/components';
 import trimAddress from '@/lib/utils/trimAddress';
 import { useLedgerContext, useLedgerScanner } from '@/lib/Ledger';
-import useNetwork from '@/lib/hooks/useNetwork';
+import useActiveNetwork from '@/lib/hooks/useActiveNetwork';
 import { useProfileContext } from '@/lib/context/Profile';
 import { ImportWithLedger } from '@/pages/ImportWithLedger';
 import { HandleLoadingState } from '@/shared/components/handleStates/HandleLoadingState';
 import useOnError from '@/lib/hooks';
 import { getNetworkCurrency } from '@/lib/utils/getActiveCoin';
 import { AddressBalance } from '@/components/wallet/address/Address.blocks';
+import { handleSubmitKeyAction } from '@/lib/utils/handleKeyAction';
 
 type Props = {
     goToNextStep: () => void;
@@ -28,7 +21,7 @@ type Props = {
 };
 
 const ImportWallets = ({ goToNextStep, formik }: Props) => {
-    const { activeNetwork: network } = useNetwork();
+    const network = useActiveNetwork();
     const onError = useOnError();
     const retryFunctionReference = useRef<() => void>();
     const { profile } = useProfileContext();
@@ -125,62 +118,68 @@ const ImportWallets = ({ goToNextStep, formik }: Props) => {
     };
 
     return (
-        <Container>
-            <Heading $typeset='h3' fontWeight='bold' color='base' mb='8' px='24'>
+        <div>
+            <Heading level={3} className='mb-2 px-6'>
                 Select Addresses to Import
             </Heading>
-            <Paragraph $typeset='body' color='gray' mb='24' px='24'>
+            <p className='typeset-body mb-6 px-6 text-theme-secondary-500 dark:text-theme-secondary-300'>
                 Multiple addresses can be imported too!
-            </Paragraph>
-            <StyledContainer
-                height='260px'
-                maxHeight='260px'
-                className='custom-scroll'
-                overflowY='scroll'
-            >
+            </p>
+            <div className='custom-scroll h-65 max-h-65 overflow-y-scroll border-b border-t border-solid border-b-theme-secondary-200 border-t-theme-secondary-200 dark:border-b-theme-secondary-700 dark:border-t-theme-secondary-700'>
                 <HandleLoadingState loading={showLoader}>
                     {wallets.map((wallet) => {
                         const isImported = isWalletImported(wallet.address);
+
                         return (
-                            <StyledFlexContainer
+                            <div
+                                className={cn(
+                                    'flex cursor-pointer justify-between transition-all duration-500 ease-in-out hover:bg-theme-secondary-50 dark:bg-theme-secondary-700',
+                                    {
+                                        'bg-theme-secondary-100 text-theme-secondary-500 dark:bg-transparent dark:text-theme-secondary-300':
+                                            isImported,
+                                        'text-light-black dark:text-white': !isImported,
+                                        'bg-theme-primary-50 dark:bg-theme-primary-950':
+                                            !isImported && isSelected(wallet.path),
+                                    },
+                                )}
                                 key={wallet.address}
-                                isImported={isImported}
-                                isSelected={isSelected(wallet.path)}
-                                justifyContent='space-between'
-                                color={isImported ? 'gray' : 'base'}
                                 onClick={() => {
                                     if (isImported) return;
                                     toggleSelect(wallet.path);
                                 }}
-                                className='c-pointer'
+                                onKeyDown={(e) =>
+                                    handleSubmitKeyAction(e, () => toggleSelect(wallet.path))
+                                }
                             >
                                 <Tooltip
                                     disabled={!isImported}
                                     content='Address already imported'
                                     placement='bottom'
                                 >
-                                    <FlexContainer
-                                        width='100%'
-                                        py='16'
-                                        px='24'
-                                        justifyContent='space-between'
-                                        alignItems='center'
-                                        color={isImported ? 'gray' : 'base'}
+                                    <div
+                                        className={cn(
+                                            'flex w-full items-center justify-between px-6 py-4',
+                                            {
+                                                'text-theme-secondary-500 dark:text-theme-secondary-300':
+                                                    isImported,
+                                                'text-light-black dark:text-white': !isImported,
+                                            },
+                                        )}
                                     >
-                                        <FlexContainer gridGap='4px' flexDirection='column'>
-                                            <Paragraph $typeset='headline' fontWeight='medium'>
+                                        <div className='flex flex-col gap-1'>
+                                            <p className='typeset-headline'>
                                                 {trimAddress(wallet.address, 10)}
-                                            </Paragraph>
-                                            <Paragraph $typeset='body' fontWeight='regular'>
+                                            </p>
+                                            <span className='typeset-body'>
                                                 <AddressBalance
                                                     balance={wallet.balance ?? 0}
                                                     currency={getNetworkCurrency(network)}
                                                     maxDigits={2}
                                                 />
-                                            </Paragraph>
-                                        </FlexContainer>
-                                        <FlexContainer gridGap='12px' alignItems='center'>
-                                            <Container width='20px' height='20px'>
+                                            </span>
+                                        </div>
+                                        <div className='flex items-center gap-3'>
+                                            <div className='h-5 w-5'>
                                                 <Checkbox
                                                     id={`import-${wallet.address}`}
                                                     name={`import-${wallet.address}`}
@@ -188,16 +187,16 @@ const ImportWallets = ({ goToNextStep, formik }: Props) => {
                                                     checked={isSelected(wallet.path) || isImported}
                                                     onChange={() => toggleSelect(wallet.path)}
                                                 />
-                                            </Container>
-                                        </FlexContainer>
-                                    </FlexContainer>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </Tooltip>
-                            </StyledFlexContainer>
+                            </div>
                         );
                     })}
                 </HandleLoadingState>
-            </StyledContainer>
-            <Container px='24' pt='24'>
+            </div>
+            <div className='px-4 pt-4'>
                 <Button
                     variant='primary'
                     disabled={!selectedWallets.length}
@@ -205,35 +204,9 @@ const ImportWallets = ({ goToNextStep, formik }: Props) => {
                 >
                     Import {showImportedWalletsLength()}
                 </Button>
-            </Container>
-        </Container>
+            </div>
+        </div>
     );
 };
-
-const StyledFlexContainer = styled(FlexContainer)<{ isImported: boolean; isSelected: boolean }>`
-    transition: all 0.5s ease;
-    ${({ theme, isImported, isSelected }) => `
-      ${
-          isImported
-              ? `
-        background-color: ${theme.colors.disabledCheckbox};
-      `
-              : `
-        ${isSelected ? `background-color: ${theme.colors.checkboxBackground};` : ''}
-
-        &:hover {
-          background-color: ${theme.colors.lightestGray};
-        }
-        `
-      }
-      `}
-`;
-
-const StyledContainer = styled(Container)`
-    ${({ theme }) => `
-    border-top: 1px solid ${theme.colors.dividerGray};
-    border-bottom: 1px solid ${theme.colors.dividerGray};
-  `}
-`;
 
 export default ImportWallets;

@@ -1,13 +1,6 @@
 import { useState } from 'react';
 import SubPageLayout from '../SubPageLayout';
-import {
-    FlexContainer,
-    Paragraph,
-    Container,
-    Button,
-    ToggleSwitch,
-    PassphraseInput,
-} from '@/shared/components';
+import { Button, PassphraseInput, ToggleSwitch } from '@/shared/components';
 import useClipboard from '@/lib/hooks/useClipboard';
 import { ToastPosition } from '@/components/toast/ToastContainer';
 
@@ -24,45 +17,44 @@ const YourPrivateKey = ({ privateKey }: Props) => {
     };
 
     return (
-        <SubPageLayout title='Show Private Key' hideCloseButton={false} paddingBottom='0'>
-            <FlexContainer height='100%' flexDirection='column'>
-                <Paragraph $typeset='headline' color='gray' mb='16'>
+        <SubPageLayout title='Show Private Key' hideCloseButton={false} noPaddingBottom>
+            <div className='flex h-full flex-col'>
+                <p className='typeset-headline mb-4 text-theme-secondary-500 dark:text-theme-secondary-300'>
                     Remember, anyone with your private key can steal your assets. Do not share this
                     publicly.
-                </Paragraph>
-                <FlexContainer justifyContent='space-between' flex='1' flexDirection='column'>
-                    <Container>
-                        <Container mb='16' position='relative'>
+                </p>
+                <div className='flex flex-1 flex-col justify-between'>
+                    <div>
+                        <div className='relative mb-4'>
                             <PassphraseInput
                                 name='privateKey'
-                                className='read-only'
+                                className='read-only max-h-[70px]'
                                 rows={2}
                                 value={privateKey}
                                 hideValue={!showPrivateKey}
                                 variant='primary'
                                 readOnly
                                 disabled
-                                maxHeight='70px'
                             />
-                        </Container>
+                        </div>
                         <ToggleSwitch
                             checked={showPrivateKey}
                             onChange={() => setShowPassphrase(!showPrivateKey)}
                             id='show-private-key'
                             title='Show Private Key'
                         />
-                    </Container>
+                    </div>
 
                     <Button
                         variant='secondary'
                         iconLeading='copy'
                         onClick={handleCopyToClipboard}
-                        mb='12'
+                        className='mb-3'
                     >
                         Copy to Clipboard
                     </Button>
-                </FlexContainer>
-            </FlexContainer>
+                </div>
+            </div>
         </SubPageLayout>
     );
 };

@@ -1,5 +1,5 @@
-import browser from 'webextension-polyfill';
-import { useEffect, useState } from 'react';
+import { runtime } from 'webextension-polyfill';
+import { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
     ConnectData,
@@ -8,11 +8,10 @@ import {
     SignTransactionData,
     SignVoteData,
 } from '../background/eventListenerHandlers';
-import { useAppDispatch, useAppSelector } from '../store';
-import { selectLocked, lockedChanged } from '@/lib/store/ui';
-import { getPersistedValues } from '@/components/wallet/form-persist';
+import { useAppDispatch } from '../store';
+import { lockedChanged } from '@/lib/store/ui';
 
-type Event = {
+export type Event = {
     callback: any;
     request: {
         type: string;
@@ -23,13 +22,11 @@ type Event = {
 const useBackgroundEventHandler = () => {
     const dispatch = useAppDispatch();
     const [events, setEvents] = useState<Event[]>([]);
-    const locked = useAppSelector(selectLocked);
     const navigate = useNavigate();
-    const { persistScreen } = getPersistedValues();
 
     useEffect(() => {
         // Listen for messages from background script
-        browser.runtime.onMessage.addListener(function (request) {
+        runtime.onMessage.addListener(function (request) {
             switch (request.type) {
                 case 'CONNECT_UI': {
                     setEvents([...events, { request, callback: onConnect }]);
@@ -57,25 +54,23 @@ const useBackgroundEventHandler = () => {
                 }
             }
         });
-    }, [locked]);
+    }, []);
 
-    useEffect(() => {
-        if (events.length === 0 || locked) return;
+    const runEventHandlers = useCallback(() => {
+        const eventsLength = events.length;
 
-        events.forEach((event) => {
-            event.callback(event.request);
-        });
-        setEvents([]);
-    }, [events, locked]);
+        if (eventsLength > 0) {
+            events.forEach((event) => {
+                event.callback(event.request);
+            });
 
-    const onConnect = (request: EventPayload<ConnectData>) => {
-        // If persist screen is set, redirection is going to be handled on
-        // `src/components/AutoUnlockWrapper.tsx@handlePersistScreenRedirect`
-        // and navigates to the last used screen instead
-        if (persistScreen) {
-            return;
+            setEvents([]);
         }
 
+        return eventsLength;
+    }, [events]);
+
+    const onConnect = (request: EventPayload<ConnectData>) => {
         navigate('/connect', {
             state: request.data,
         });
@@ -98,6 +93,8 @@ const useBackgroundEventHandler = () => {
     const onLockExtension = () => {
         dispatch(lockedChanged(true));
     };
+
+    return { runEventHandlers, events };
 };
 
 export default useBackgroundEventHandler;

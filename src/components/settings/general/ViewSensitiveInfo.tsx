@@ -1,17 +1,10 @@
 import { useParams } from 'react-router-dom';
-import { object, string, boolean } from 'yup';
+import { boolean, object, string } from 'yup';
 import { useFormik } from 'formik';
 import { useState } from 'react';
 import SubPageLayout from '../SubPageLayout';
 import YourPrivateKey from './YourPrivateKey';
-import {
-    Paragraph,
-    FlexContainer,
-    PasswordInput,
-    Container,
-    Button,
-    Checkbox,
-} from '@/shared/components';
+import { Button, Checkbox, PasswordInput } from '@/shared/components';
 import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
 import { useProfileContext } from '@/lib/context/Profile';
 import YourPassphrase from '@/components/settings/general/YourPassphrase';
@@ -95,13 +88,13 @@ const ViewSensitiveInfo = () => {
     }
 
     return (
-        <SubPageLayout title={texts[infoType].title} hideCloseButton={false} paddingBottom='0'>
-            <FlexContainer height='100%' flexDirection='column' className='salam'>
-                <Paragraph $typeset='headline' color='gray' mb='24'>
+        <SubPageLayout title={texts[infoType].title} hideCloseButton={false} noPaddingBottom>
+            <div className='flex h-full flex-col'>
+                <p className='typeset-headline mb-6 text-theme-secondary-500 dark:text-theme-secondary-300'>
                     {texts[infoType].description}
-                </Paragraph>
-                <FlexContainer flexDirection='column' flex='1' justifyContent='space-between'>
-                    <Container>
+                </p>
+                <div className='flex flex-1 flex-col justify-between'>
+                    <div>
                         <PasswordInput
                             variant={formik.errors.password ? 'destructive' : 'primary'}
                             placeholder='Your password'
@@ -112,9 +105,9 @@ const ViewSensitiveInfo = () => {
                             onBlur={formik.handleBlur}
                             labelText='Enter Password to Access'
                         />
-                    </Container>
+                    </div>
 
-                    <Container>
+                    <div>
                         <Checkbox
                             id='doNotShare'
                             name='doNotShare'
@@ -126,7 +119,7 @@ const ViewSensitiveInfo = () => {
                         <Button
                             variant='primary'
                             onClick={formik.submitForm}
-                            mt='24'
+                            className='mt-6'
                             disabled={
                                 !formik.isValid ||
                                 !formik.values.password.length ||
@@ -135,9 +128,9 @@ const ViewSensitiveInfo = () => {
                         >
                             Continue
                         </Button>
-                    </Container>
-                </FlexContainer>
-            </FlexContainer>
+                    </div>
+                </div>
+            </div>
         </SubPageLayout>
     );
 };

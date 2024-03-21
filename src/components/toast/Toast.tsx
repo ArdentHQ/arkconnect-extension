@@ -1,22 +1,14 @@
-import { FlexContainer, Icon, IconDefinition, Paragraph } from '@/shared/components';
+import { Icon, IconDefinition } from '@/shared/components';
 import * as UIStore from '@/lib/store/ui';
 
 const Toast = ({ type, message }: UIStore.Toast) => {
     return (
-        <FlexContainer
-            display='flex'
-            alignItems='center'
-            paddingX='10'
-            paddingY='8'
-            backgroundColor='base'
-            borderRadius='8'
-            marginTop='8'
-        >
-            <Icon icon={type as IconDefinition} width='20px' height='20px' />
-            <Paragraph $typeset='body' fontWeight='regular' color='background' marginLeft='4'>
+        <div className='mt-2 flex items-center rounded-lg bg-light-black px-2.5 py-2 dark:bg-white'>
+            <Icon icon={type as IconDefinition} className='h-5 w-5' />
+            <p className='typeset-body ml-1 w-fit font-normal text-white dark:text-light-black'>
                 {message}
-            </Paragraph>
-        </FlexContainer>
+            </p>
+        </div>
     );
 };
 

@@ -1,51 +1,26 @@
 import { useState } from 'react';
-import browser from 'webextension-polyfill';
-import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
-import useLogoutAll from '@/lib/hooks/useLogoutAll';
-import { Button, Checkbox, FlexContainer, Paragraph, WarningIcon } from '@/shared/components';
+import { Button, Checkbox, WarningIcon } from '@/shared/components';
 import SubPageLayout from '@/components/settings/SubPageLayout';
-import useThemeMode from '@/lib/hooks/useThemeMode';
-import { useProfileContext } from '@/lib/context/Profile';
+import useResetExtension from '@/lib/hooks/useResetExtension';
 
 const ForgotPassword = () => {
-    const logoutAll = useLogoutAll();
+    const resetExtension = useResetExtension();
     const [lostPasswordAwareness, setLostPasswordAwareness] = useState<boolean>(false);
-    const { onError } = useErrorHandlerContext();
-
-    const { initProfile } = useProfileContext();
-
-    const { getThemeColor } = useThemeMode();
-
-    const handleLogout = async () => {
-        try {
-            await browser.runtime.sendMessage({ type: 'RESET' });
-
-            await logoutAll();
-
-            await initProfile();
-        } catch (error) {
-            onError(error);
-        }
-    };
 
     return (
-        <SubPageLayout title='Forgot Password?' onBack='goBack' paddingBottom='0'>
-            <FlexContainer flexDirection='column' justifyContent='space-between' height='100%'>
-                <Paragraph
-                    $typeset='headline'
-                    fontWeight='regular'
-                    color={getThemeColor('secondary500', 'secondary300')}
-                >
+        <SubPageLayout title='Forgot Password?' onBack='goBack' noPaddingBottom>
+            <div className='flex h-full flex-col justify-between'>
+                <p className='typeset-headline text-theme-secondary-500 dark:text-theme-secondary-300'>
                     Unfortunately there is no recovery method available other than resetting the
                     extension and re-importing your address(es). Ensure that you have your
                     passphrase(s) saved.
-                </Paragraph>
+                </p>
 
-                <FlexContainer justifyContent='center' alignItems='center'>
+                <div className='flex items-center justify-center'>
                     <WarningIcon />
-                </FlexContainer>
+                </div>
 
-                <FlexContainer flexDirection='column'>
+                <div className='flex flex-col'>
                     <Checkbox
                         id='lostPassword'
                         name='lostPasswordAwareness'
@@ -56,13 +31,13 @@ const ForgotPassword = () => {
                     <Button
                         variant='primary'
                         disabled={!lostPasswordAwareness}
-                        mt='24'
-                        onClick={handleLogout}
+                        className='mt-6'
+                        onClick={resetExtension}
                     >
                         Reset Extension
                     </Button>
-                </FlexContainer>
-            </FlexContainer>
+                </div>
+            </div>
         </SubPageLayout>
     );
 };

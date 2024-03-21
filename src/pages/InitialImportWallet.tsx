@@ -1,48 +1,38 @@
 import { useNavigate } from 'react-router-dom';
-import browser from 'webextension-polyfill';
+import { runtime, tabs } from 'webextension-polyfill';
 import { useEffect } from 'react';
-import { Paragraph, BigButton, Tooltip } from '@/shared/components';
+import { BigButton, Tooltip } from '@/shared/components';
 import SubPageLayout from '@/components/settings/SubPageLayout';
-import useThemeMode from '@/lib/hooks/useThemeMode';
 import { isFirefox } from '@/lib/utils/isFirefox';
-import { clearPersistScreenData } from '@/components/wallet/form-persist/helpers';
 
 const InitialImportWallet = () => {
     const navigate = useNavigate();
 
-    const { getThemeColor } = useThemeMode();
-
     useEffect(() => {
-        clearPersistScreenData();
+        void runtime.sendMessage({ type: 'CLEAR_LAST_SCREEN' });
     }, []);
 
     return (
         <SubPageLayout title='Import an Existing Address' onBack='goBack'>
-            <Paragraph
-                $typeset='headline'
-                fontWeight='regular'
-                marginBottom='24'
-                color={getThemeColor('secondary500', 'secondary300')}
-            >
+            <p className='typeset-headline mb-6 text-theme-secondary-500 dark:text-theme-secondary-300'>
                 Select an option below that you would like to proceed with...
-            </Paragraph>
+            </p>
             <BigButton
                 iconLeading='key'
                 iconTrailing='arrow-right'
                 title='Enter Passphrase'
                 helperText='Use your 12 or 24-word passphrase to securely access your address.'
-                color='primary'
-                mb='8'
+                className='mb-2 text-theme-primary-700 dark:text-theme-primary-650'
                 onClick={() => navigate('/wallet/import')}
             />
 
             <Tooltip
                 disabled={!isFirefox}
                 content={
-                    <Paragraph>
+                    <p>
                         ARK Connect requires the use of a chromium <br /> based browser when using a
                         Ledger.
-                    </Paragraph>
+                    </p>
                 }
                 placement='bottom'
             >
@@ -55,12 +45,12 @@ const InitialImportWallet = () => {
                         disabled={isFirefox}
                         onClick={() => {
                             if (isFirefox) return;
-                            browser.tabs.create({
-                                url: browser.runtime.getURL('/src/main.html?import_with_ledger'),
+                            tabs.create({
+                                url: runtime.getURL('/src/main.html?import_with_ledger'),
                             });
                             window.close(); // Close extension popup as we navigate away
                         }}
-                        color='primary'
+                        className='text-theme-primary-700 dark:text-theme-primary-650'
                     />
                 </div>
             </Tooltip>

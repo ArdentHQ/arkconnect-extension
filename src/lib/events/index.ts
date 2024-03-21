@@ -1,4 +1,4 @@
-import browser from 'webextension-polyfill';
+import { tabs } from 'webextension-polyfill';
 import { Contracts } from '@ardenthq/sdk-profiles';
 import { ProfileData } from '../background/contracts';
 
@@ -6,9 +6,10 @@ export enum ExtensionSupportedEvents {
     AddressChanged = 'addressChanged',
     Disconnected = 'disconnected',
     Connected = 'connected',
+    LockToggled = 'lockToggled',
 }
 
-type EventNames = 'addressChanged' | 'disconnected' | 'connected';
+type EventNames = 'addressChanged' | 'disconnected' | 'connected' | 'lockToggled';
 
 interface WalletData {
     network: string;
@@ -25,6 +26,7 @@ export function ExtensionEvents(properties?: ExtensionEventsProperties) {
         ExtensionSupportedEvents.AddressChanged,
         ExtensionSupportedEvents.Disconnected,
         ExtensionSupportedEvents.Connected,
+        ExtensionSupportedEvents.LockToggled,
     ];
 
     return {
@@ -51,10 +53,10 @@ export function ExtensionEvents(properties?: ExtensionEventsProperties) {
                 throw new Error('Cannot resolve sessions. Profile is missing');
             }
 
-            const sessions = Object.values(profile.data().get(ProfileData.Sessions) ?? {});
-            const tabs = await browser.tabs.query({});
+            const sessions = Object.values(profile.settings().get(ProfileData.Sessions) ?? {});
+            const queriedTabs = await tabs.query({});
 
-            const sessionTabs = tabs.filter((tab) => {
+            const sessionTabs = queriedTabs.filter((tab) => {
                 if (!tab.id) {
                     return false;
                 }
@@ -83,7 +85,7 @@ export function ExtensionEvents(properties?: ExtensionEventsProperties) {
             const tabIds = await this.sessionTabIds(domain);
 
             for (const id of tabIds) {
-                browser.tabs.sendMessage(id, {
+                tabs.sendMessage(id, {
                     type: ExtensionSupportedEvents.Disconnected,
                 });
             }
@@ -98,9 +100,28 @@ export function ExtensionEvents(properties?: ExtensionEventsProperties) {
             const tabIds = await this.sessionTabIds();
 
             for (const id of tabIds) {
-                browser.tabs.sendMessage(id, {
+                tabs.sendMessage(id, {
                     type: ExtensionSupportedEvents.AddressChanged,
                     data,
+                });
+            }
+        },
+
+        /**
+         * Emits lockToggled event.
+         *
+         * @param isLocked
+         * @returns {Promise<void>}
+         */
+        async lockToggled(isLocked: boolean): Promise<void> {
+            const tabIds = await this.sessionTabIds();
+
+            for (const id of tabIds) {
+                tabs.sendMessage(id, {
+                    type: ExtensionSupportedEvents.LockToggled,
+                    data: {
+                        isLocked,
+                    },
                 });
             }
         },
@@ -115,7 +136,7 @@ export function ExtensionEvents(properties?: ExtensionEventsProperties) {
             const tabIds = await this.sessionTabIds(domain);
 
             for (const id of tabIds) {
-                browser.tabs.sendMessage(id, {
+                tabs.sendMessage(id, {
                     type: ExtensionSupportedEvents.Connected,
                 });
             }

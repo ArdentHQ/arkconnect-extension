@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { Icon } from '../icon';
-import { ContainerWithHover } from './ArrowButton';
+import { NavButton } from './NavButton';
 
 export const CloseButton = () => {
     const navigate = useNavigate();
@@ -10,8 +10,8 @@ export const CloseButton = () => {
     };
 
     return (
-        <ContainerWithHover borderRadius='50' padding='7' onClick={handleNavigate} as='button'>
-            <Icon icon='x' width='18px' height='18px' color='base' />
-        </ContainerWithHover>
+        <NavButton onClick={handleNavigate}>
+            <Icon icon='x' className='h-4.5 w-4.5 text-light-black dark:text-white' />
+        </NavButton>
     );
 };

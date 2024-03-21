@@ -1,20 +1,12 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import SubPageLayout from '../SubPageLayout';
-import {
-    Button,
-    Checkbox,
-    Container,
-    FlexContainer,
-    Paragraph,
-    RowLayout,
-} from '@/shared/components';
+import { Button, Checkbox, RowLayout } from '@/shared/components';
 import { selectWalletsIds } from '@/lib/store/wallet';
 import { useAppSelector } from '@/lib/store';
 import trimAddress from '@/lib/utils/trimAddress';
 import { generateWalletHelperText } from '@/lib/utils/generateWalletHelperText';
 import { useProfileContext } from '@/lib/context/Profile';
-import { handleSubmitKeyAction } from '@/lib/utils/handleKeyAction';
 
 const MultipleWalletLogout = () => {
     const { profile } = useProfileContext();
@@ -51,10 +43,10 @@ const MultipleWalletLogout = () => {
 
     return (
         <SubPageLayout title='Remove Addresses'>
-            <FlexContainer height='100%' flexDirection='column'>
-                <Paragraph $typeset='headline' color='gray' mb='24'>
+            <div className='flex h-full flex-col'>
+                <p className='typeset-headline mb-6 text-theme-secondary-500 dark:text-theme-secondary-300'>
                     Select Addresses to Remove.
-                </Paragraph>
+                </p>
                 {wallets.map((wallet) => {
                     return (
                         <RowLayout
@@ -66,16 +58,13 @@ const MultipleWalletLogout = () => {
                             }
                             address={wallet.address()}
                             helperText={generateWalletHelperText(wallet, false)}
-                            mb='8'
+                            className='mb-2'
                             testnetIndicator={wallet.network().isTest()}
                             ledgerIndicator={wallet.isLedger()}
                             onClick={(evt) => handleSelectWallet(evt, wallet.id())}
                             currency={wallet.currency()}
-                            onKeyDown={(e) =>
-                                handleSubmitKeyAction(e, () => handleSelectWallet(e, wallet.id()))
-                            }
                         >
-                            <Container width='20px' height='20px' as='span' display='block'>
+                            <span className='block h-5 w-5'>
                                 <Checkbox
                                     name='select-wallet'
                                     id={wallet.id()}
@@ -83,14 +72,14 @@ const MultipleWalletLogout = () => {
                                     onChange={(evt) => handleSelectWallet(evt, wallet.id())}
                                     tabIndex={-1}
                                 />
-                            </Container>
+                            </span>
                         </RowLayout>
                     );
                 })}
 
                 <Button
                     variant='destructivePrimary'
-                    mt='16'
+                    className='mt-4'
                     onClick={() => {
                         navigate('/logout', { state: selectedIdsToLogout });
                     }}
@@ -98,10 +87,14 @@ const MultipleWalletLogout = () => {
                 >
                     Remove {selectedIdsToLogout.length > 0 && `(${selectedIdsToLogout.length})`}
                 </Button>
-                <Button variant='primaryLinkDestructive' mt='16' onClick={handleSelectAllWallets}>
+                <Button
+                    variant='primaryLinkDestructive'
+                    className='mt-4'
+                    onClick={handleSelectAllWallets}
+                >
                     Remove All Addresses
                 </Button>
-            </FlexContainer>
+            </div>
         </SubPageLayout>
     );
 };

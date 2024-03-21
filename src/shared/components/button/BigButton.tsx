@@ -1,117 +1,58 @@
-import styled from 'styled-components';
-import {
-    space,
-    SpaceProps,
-    color,
-    ColorProps,
-    layout,
-    LayoutProps,
-    position,
-    PositionProps,
-    shadow,
-    ShadowProps,
-    border,
-    BorderProps,
-} from 'styled-system';
-import { Theme } from '@/shared/theme';
-import { FlexContainer, Icon, IconDefinition, Paragraph } from '@/shared/components';
-import { FlexVariantProps, flexVariant } from '@/shared/theme/variants';
+import cn from 'classnames';
+import { Icon, IconDefinition } from '@/shared/components';
 import { isFirefox } from '@/lib/utils/isFirefox';
 
-type BaseProps = ColorProps<Theme> &
-    SpaceProps<Theme> &
-    LayoutProps<Theme> &
-    PositionProps<Theme> &
-    ShadowProps<Theme> &
-    BorderProps<Theme> &
-    FlexVariantProps;
-
-type BigButtonProps = React.ComponentPropsWithRef<typeof StyledButton> & {
+type BigButtonProps = React.ComponentPropsWithRef<'button'> & {
     iconLeading?: IconDefinition;
     iconTrailing?: IconDefinition;
     title: string;
     helperText?: string;
+    className?: string;
 };
-
-const StyledButton = styled.button<BaseProps>`
-    ${({ theme }) => `
-  border: 1px solid transparent;
-  border-radius: ${theme.radii['20']}px;
-  background-color: ${theme.colors.inputBackground};
-  box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.05);
-  display: flex;
-  width: 100%;
-  padding: 16px;
-  max-height: 96px;
-  box-sizing: border-box;
-  transition: ${isFirefox ? theme.transitions.firefoxSmoothEase : theme.transitions.smoothEase};
-  cursor: pointer;
-  grid-gap: 12px;
-
-  &:hover {
-    border: 1px solid ${theme.colors.activeNav};
-  }
-
-  ${isFirefox ? theme.browserCompatibility.firefox.focus : ''}
-
-  &:disabled {
-    cursor: not-allowed;
-    pointer-events: none;
-  }
-`}
-    ${space}
-  ${color}
-  ${layout}
-  ${position}
-  ${shadow}
-  ${border}
-  ${flexVariant}
-`;
 
 export const BigButton = ({
     iconLeading,
     iconTrailing,
     title,
     helperText,
+    className,
     ...rest
 }: BigButtonProps) => {
     return (
-        <StyledButton {...rest}>
-            <FlexContainer width='100%' gridGap='12px' alignItems='flex-start'>
-                {iconLeading && <Icon width='24px' height='24px' icon={iconLeading} />}
-                <FlexContainer alignItems='center' justifyContent='space-between' width='100%'>
-                    <FlexContainer
-                        flexDirection='column'
-                        alignItems='flex-start'
-                        width='100%'
-                        gridGap='8px'
-                    >
+        <button
+            className={cn(
+                'box-border flex max-h-24 w-full cursor-pointer gap-3 rounded-2.5xl border border-solid border-transparent bg-white p-4 shadow-light hover:border hover:border-solid hover:border-theme-primary-800 disabled:pointer-events-none disabled:cursor-not-allowed dark:bg-subtle-black hover:dark:border-theme-primary-600',
+                {
+                    'transition-firefoxSmoothEase focus-visible:outline focus-visible:outline-2':
+                        isFirefox,
+                    'transition-smoothEase': !isFirefox,
+                },
+                className,
+            )}
+            {...rest}
+        >
+            <span className='flex w-full items-start gap-3'>
+                {iconLeading && <Icon className='h-6 w-6' icon={iconLeading} />}
+
+                <span className='flex w-full items-center justify-between'>
+                    <span className='flex w-full flex-col items-start gap-2'>
                         {title && (
-                            <Paragraph $typeset='headline' fontWeight='medium' color='base'>
+                            <span className='typeset-heading font-medium text-subtle-black dark:text-white'>
                                 {title}
-                            </Paragraph>
+                            </span>
                         )}
                         {helperText && (
-                            <Paragraph
-                                $typeset='body'
-                                fontWeight='regular'
-                                color='gray'
-                                textAlign='left'
-                            >
+                            <span className='typeset-body text-left font-normal text-theme-secondary-600 dark:text-theme-secondary-300'>
                                 {helperText}
-                            </Paragraph>
+                            </span>
                         )}
-                    </FlexContainer>
-                    <FlexContainer
-                        height='100%'
-                        $flexVariant='columnCenter'
-                        justifyContent='center'
-                        color='base'
-                    >
-                        {iconTrailing && <Icon width='20px' height='20px' icon={iconTrailing} />}
-                    </FlexContainer>
-                </FlexContainer>
-            </FlexContainer>
-        </StyledButton>
+                    </span>
+
+                    <span className='flex h-full flex-col items-center justify-center text-light-black dark:text-white'>
+                        {iconTrailing && <Icon className='h-5 w-5' icon={iconTrailing} />}
+                    </span>
+                </span>
+            </span>
+        </button>
     );
 };

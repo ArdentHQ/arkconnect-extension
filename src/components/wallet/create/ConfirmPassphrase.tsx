@@ -1,21 +1,12 @@
 import { FormikProps } from 'formik';
 import { useEffect, useState } from 'react';
+import { runtime } from 'webextension-polyfill';
 import { CreateWalletFormik, ValidationVariant } from '.';
-import {
-    Button,
-    Checkbox,
-    FlexContainer,
-    Heading,
-    Paragraph,
-    Input,
-    Container,
-} from '@/shared/components';
+import { Button, Checkbox, Heading, Input } from '@/shared/components';
 import getNumberSuffix from '@/lib/utils/getNumberSuffix';
 import { TestnetIcon } from '@/components/wallet/address/Address.blocks';
-import { useAppSelector } from '@/lib/store';
-import { selectTestnetEnabled } from '@/lib/store/ui';
+import useActiveNetwork from '@/lib/hooks/useActiveNetwork';
 import { ScreenName } from '@/lib/background/contracts';
-import browser from 'webextension-polyfill';
 
 type Props = {
     goToNextStep: () => void;
@@ -26,7 +17,7 @@ const ConfirmPassphrase = ({ goToNextStep, formik }: Props) => {
     const { values } = formik;
     const [validationStatus, setValidationStatus] = useState<ValidationVariant[]>([]);
 
-    const isTestnet = useAppSelector(selectTestnetEnabled);
+    const selectedNetwork = useActiveNetwork();
 
     useEffect(() => {
         checkConfirmation();
@@ -61,11 +52,11 @@ const ConfirmPassphrase = ({ goToNextStep, formik }: Props) => {
         const confirmPassphrase = values.confirmPassphrase;
         confirmPassphrase[index] = evt.target.value;
 
-        formik.setFieldValue(`confirmPassphrase`, confirmPassphrase);
+        formik.setFieldValue('confirmPassphrase', confirmPassphrase);
 
-        browser.runtime.sendMessage({
+        runtime.sendMessage({
             type: 'SET_LAST_SCREEN',
-            screenName: ScreenName.CreateWallet,
+            path: ScreenName.CreateWallet,
             data: {
                 step: 1,
                 mnemonic: values.passphrase.join(' '),
@@ -80,29 +71,22 @@ const ConfirmPassphrase = ({ goToNextStep, formik }: Props) => {
 
     return (
         <>
-            <FlexContainer mb='8' alignItems='center' gridGap='8'>
-                <Heading $typeset='h4' fontWeight='medium' color='base'>
-                    Confirm Your Passphrase
-                </Heading>
-                {isTestnet && <TestnetIcon />}
-            </FlexContainer>
+            <div className='mb-2 flex items-center gap-2'>
+                <Heading level={4}>Confirm Your Passphrase</Heading>
+                {selectedNetwork.isTest() && <TestnetIcon />}
+            </div>
 
-            <Paragraph $typeset='headline' color='gray' mb='16'>
+            <p className='typeset-headline mb-4 text-theme-secondary-500 dark:text-theme-secondary-300'>
                 Confirm that you’ve saved your secret passphrase by correctly entering the word in
                 the designated input field below.
-            </Paragraph>
+            </p>
 
-            <FlexContainer gridGap='10px' alignItems='top' flex={1}>
+            <div className='flex flex-1 items-start gap-2.5'>
                 {values.confirmationNumbers?.map((number: number, index: number) => (
-                    <FlexContainer
-                        key={index}
-                        gridGap='6px'
-                        alignItems='flex-start'
-                        flexDirection='column'
-                    >
-                        <Paragraph $typeset='headline' fontWeight='medium' color='base'>
+                    <div className='flex flex-col items-start gap-1.5' key={index}>
+                        <p className='typeset-headline font-medium text-light-black dark:text-white'>
                             {getNumberSuffix(number)} word
-                        </Paragraph>
+                        </p>
                         <Input
                             variant={validationStatus[index]}
                             type='text'
@@ -110,11 +94,11 @@ const ConfirmPassphrase = ({ goToNextStep, formik }: Props) => {
                             value={values.confirmPassphrase[index]}
                             onChange={(evt) => handleConfirmPassphraseInputChange(evt, index)}
                         />
-                    </FlexContainer>
+                    </div>
                 ))}
-            </FlexContainer>
+            </div>
 
-            <Container mt='auto'>
+            <div className='mt-auto'>
                 <Checkbox
                     id='test-1'
                     name='lostPasswordAwareness'
@@ -129,11 +113,11 @@ const ConfirmPassphrase = ({ goToNextStep, formik }: Props) => {
                         !validationStatus.every((status) => status === 'errorFree')
                     }
                     onClick={handleNextStep}
-                    mt='24'
+                    className='mt-6'
                 >
                     Confirm
                 </Button>
-            </Container>
+            </div>
         </>
     );
 };

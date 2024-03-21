@@ -2,7 +2,7 @@ import { DateTime } from '@ardenthq/sdk-intl';
 
 interface CacheItem {
     value: any;
-    expires_at: DateTime;
+    expiresAt: DateTime;
 }
 
 export class Cache {
@@ -17,18 +17,18 @@ export class Cache {
         // 1. Check if we still have a matching item for the key.
         const cacheItem = this.store[key];
 
-        if (cacheItem && DateTime.make().isBefore(cacheItem.expires_at)) {
+        if (cacheItem && DateTime.make().isBefore(cacheItem.expiresAt)) {
             return cacheItem.value;
         }
 
-        // 2. We don't have a matching value so we need to set it.
+        // 2. We don't have a matching value, so we need to set it.
         let result: unknown = value;
 
         if (typeof value === 'function') {
             result = await value();
         }
 
-        this.store[key] = { expires_at: DateTime.make().addSeconds(this.ttl), value: result };
+        this.store[key] = { expiresAt: DateTime.make().addSeconds(this.ttl), value: result };
 
         return result;
     }

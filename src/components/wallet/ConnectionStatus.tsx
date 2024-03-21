@@ -1,16 +1,18 @@
 import { useState } from 'react';
 import ConnectionIndicator from './ConnectionIndicator';
+import { DisconnectSessionModal } from './DisconnectSessionModal';
 import { useActiveTabConnection } from '@/lib/hooks/useActiveTabConnection';
-import { Icon, Paragraph, Tooltip } from '@/shared/components';
+import { Icon, Tooltip } from '@/shared/components';
 import Modal from '@/shared/components/modal/Modal';
 import ConnectedAddress from '@/components/wallet/ConnectedAddress';
-import { StyledFlexContainer } from '@/shared/components/header/Header';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 import useThemeMode from '@/lib/hooks/useThemeMode';
 import DisconnectedAddress from '@/components/wallet/DisconnectedAddress';
+import { HeaderButton } from '@/shared/components/header/HeaderButton';
 
 export const ConnectionStatus = () => {
-    const { currentThemeMode, getThemeColor } = useThemeMode();
+    const { currentThemeMode } = useThemeMode();
+    const [isDisconnectModalOpen, setIsDisconnectModalOpen] = useState(false);
 
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
@@ -22,40 +24,30 @@ export const ConnectionStatus = () => {
     return (
         <>
             {tabSession ? (
-                <StyledFlexContainer
-                    borderRadius='50'
-                    padding='8'
-                    color={getThemeColor('primary700', 'primary600')}
-                    className='c-pointer'
+                <HeaderButton
+                    className='dark:thext-theme-primary-600 rounded-full text-theme-primary-700'
                     onClick={() => setIsModalOpen(true)}
-                    as='button'
                 >
                     <Icon
                         icon='globe-with-dot'
-                        className={currentThemeMode + ' globeIcon'}
-                        width='16px'
-                        height='16px'
+                        className={
+                            currentThemeMode +
+                            ' globeIcon h-4 w-4 text-theme-primary-700 dark:text-theme-primary-600'
+                        }
                     />
-                </StyledFlexContainer>
+                </HeaderButton>
             ) : (
                 <Tooltip
                     content={
-                        <Paragraph>
+                        <p>
                             This ARK address isn’t <br /> connected to this site.
-                        </Paragraph>
+                        </p>
                     }
                     placement='bottom-end'
                 >
-                    <StyledFlexContainer
-                        borderRadius='50'
-                        padding='8'
-                        color='base'
-                        className='c-pointer'
-                        onClick={() => setIsModalOpen(true)}
-                        as='button'
-                    >
-                        <Icon icon='globe' width='16px' height='16px' />
-                    </StyledFlexContainer>
+                    <HeaderButton className='rounded-full' onClick={() => setIsModalOpen(true)}>
+                        <Icon icon='globe' className='h-4 w-4' />
+                    </HeaderButton>
                 </Tooltip>
             )}
 
@@ -74,6 +66,10 @@ export const ConnectionStatus = () => {
                                 wallet={primaryWallet}
                                 logo={logo}
                                 address={primaryWallet.address()}
+                                onDisconnect={() => {
+                                    setIsModalOpen(false);
+                                    setIsDisconnectModalOpen(true);
+                                }}
                             />
                         </Modal>
                     ) : (
@@ -89,6 +85,13 @@ export const ConnectionStatus = () => {
                     )}
                 </>
             )}
+
+            <DisconnectSessionModal
+                isOpen={isDisconnectModalOpen}
+                sessions={tabSession ? [tabSession] : []}
+                onConfirm={() => setIsDisconnectModalOpen(false)}
+                onCancel={() => setIsDisconnectModalOpen(false)}
+            />
         </>
     );
 };

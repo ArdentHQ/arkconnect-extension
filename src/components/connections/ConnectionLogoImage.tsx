@@ -1,52 +1,40 @@
-import styled from 'styled-components';
-import { Container, Icon } from '@/shared/components';
+import { twMerge } from 'tailwind-merge';
+import cn from 'classnames';
+import { Icon } from '@/shared/components';
 
 import { ThemeMode } from '@/lib/store/ui';
-import useThemeMode, { Color } from '@/lib/hooks/useThemeMode';
+import useThemeMode from '@/lib/hooks/useThemeMode';
 
-type Props = {
+interface Props extends React.HTMLProps<HTMLImageElement> {
     alt?: string;
     appLogo?: string;
     appName?: string;
     withBorder?: boolean;
-    borderColor?: Color;
-    width?: string;
-    height?: string;
     roundCorners?: boolean;
-};
-
-const StyledConnectionImage = styled.img`
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-`;
-const StyledContainer = styled(Container)`
-    flex-shrink: 0;
-`;
+}
 
 const ConnectionLogoImage = ({
     appName,
     appLogo,
     alt,
     withBorder = false,
-    borderColor = 'background',
-    width = '20px',
-    height = '20px',
     roundCorners = false,
+    className,
 }: Props) => {
     if (appLogo) {
         return (
-            <StyledContainer
-                width={width}
-                height={height}
-                border={withBorder ? '10px solid' : undefined}
-                borderColor={withBorder ? borderColor : undefined}
-                borderRadius={roundCorners ? '100%' : undefined}
-                overflow='hidden'
-                backgroundColor='background'
+            <div
+                className={twMerge(
+                    cn('h-5 w-5 flex-shrink-0 overflow-hidden bg-white dark:bg-light-black', {
+                        'border-[10px] border-solid': withBorder,
+                        'border-white dark:border-light-black': withBorder,
+                        'rounded-full': roundCorners,
+                    }),
+                    className,
+                )}
             >
-                <StyledConnectionImage src={appLogo} alt={alt || appName} />
-            </StyledContainer>
+                <img className='h-full w-full  object-contain' src={appLogo} alt={alt || appName} />
+            </div>
         );
     }
 
@@ -54,7 +42,12 @@ const ConnectionLogoImage = ({
     const defaultFavicon =
         currentThemeMode === ThemeMode.LIGHT ? 'default-favicon-light' : 'default-favicon-dark';
 
-    return <Icon icon={defaultFavicon} width={'15px'} height={'15px'} color='primary' />;
+    return (
+        <Icon
+            icon={defaultFavicon}
+            className='h-3.75 w-3.75 text-theme-primary-700 dark:text-theme-primary-650'
+        />
+    );
 };
 
 export default ConnectionLogoImage;

@@ -19,7 +19,6 @@ ARK Connect is a browser extension for Chrome and Firefox that offers message an
 - [formik](https://formik.org/docs/overview)
 - [Redux Toolkit](https://redux-toolkit.js.org/)
 - [ArdentHQ Platform SDK](https://github.com/ArdentHQ/platform-sdk)
-- [crypto js](https://www.npmjs.com/package/crypto-js)
 - [ESLint](https://eslint.org/)
 - [Styled components](https://styled-components.com/)
 - [Styled system](https://styled-system.com/)

@@ -1,26 +1,41 @@
-import styled from 'styled-components';
-import { Container, FlexContainer, Paragraph } from '@/shared/components';
-
 export const ActionDetailsRow = ({
     label,
     children,
+    below,
 }: {
     label: string | React.ReactNode;
     children: string | React.ReactNode;
+    below?: React.ReactNode;
 }) => {
     return (
-        <FlexContainer
-            p='12'
-            justifyContent='space-between'
-            borderBottom='1px solid'
-            borderColor='primaryDisabled'
-        >
-            <Paragraph $typeset='headline' fontWeight='regular' color='gray'>
-                {label}
-            </Paragraph>
-            {children}
-        </FlexContainer>
+        <div className='flex flex-col space-y-1 border-b border-solid border-b-theme-secondary-100 p-3 last:border-b-0 dark:border-b-theme-secondary-700'>
+            <div className='flex justify-between'>
+                <div className='text-sm text-theme-secondary-500 dark:text-theme-secondary-300'>
+                    {label}
+                </div>
+
+                {children}
+            </div>
+
+            {below}
+        </div>
     );
+};
+
+export const ActionDetailsFiatValue = ({ children }: { children: React.ReactNode }) => {
+    return (
+        <div className='flex justify-between'>
+            <div className='text-sm text-theme-secondary-500 dark:text-theme-secondary-300'>≈</div>
+
+            <div className='text-sm text-theme-secondary-500 dark:text-theme-secondary-300 '>
+                {children}
+            </div>
+        </div>
+    );
+};
+
+export const ActionDetailsValue = ({ children }: { children: React.ReactNode }) => {
+    return <div className='text-sm font-medium text-light-black dark:text-white'>{children}</div>;
 };
 
 const ActionDetails = ({
@@ -31,32 +46,21 @@ const ActionDetails = ({
     maxHeight?: string;
 }) => {
     return (
-        <FlexContainer width='100%' height='100%' flexDirection='column' alignItems='center'>
-            <Paragraph $typeset='body' fontWeight='medium' color='gray' mb='8' textAlign='center'>
+        <div className='flex h-full w-full flex-col items-center'>
+            <div className=' mb-2 text-center text-sm font-medium text-theme-secondary-500 dark:text-theme-secondary-300'>
                 Details
-            </Paragraph>
+            </div>
 
-            <SyledContainer
-                overflow='auto'
-                className='custom-scroll'
-                backgroundColor='secondaryBackground'
-                borderRadius='8'
-                width='100%'
-                maxHeight={maxHeight}
+            <div
+                className='custom-scroll w-full overflow-auto rounded-lg bg-white shadow-action-details dark:bg-subtle-black dark:shadow-action-details-dark'
+                style={{
+                    maxHeight: maxHeight,
+                }}
             >
                 {children}
-            </SyledContainer>
-        </FlexContainer>
+            </div>
+        </div>
     );
 };
 
 export default ActionDetails;
-
-const SyledContainer = styled(Container)`
-    ${({ theme }) => `
-    box-shadow: inset 0 0 0 1px ${theme.colors.lightGrayBackground};
-  `}
-    & > div:last-child {
-        border-bottom: none;
-    }
-`;

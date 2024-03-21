@@ -37,3 +37,7 @@ dist-ssr
 
 # Build files
 build.zip
+
+# Tests
+/coverage
+.coverage

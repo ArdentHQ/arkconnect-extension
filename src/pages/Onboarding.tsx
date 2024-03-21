@@ -1,42 +1,29 @@
-import React, { useState, useEffect } from 'react';
-import styled, { keyframes } from 'styled-components';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { ReactNode, useEffect, useState } from 'react';
+
+import cn from 'classnames';
+import { useNavigate } from 'react-router-dom';
 import {
-    Container,
-    ProgressBar,
-    FingerPrintIcon,
-    ControlConnectionsIcon,
-    TransactionsPassphraseIcon,
-    Heading,
-    FlexContainer,
     Button,
+    ControlConnectionsIcon,
+    FingerPrintIcon,
     Header,
+    Heading,
+    ProgressBar,
+    TransactionsPassphraseIcon,
 } from '@/shared/components';
-import { useProfileContext } from '@/lib/context/Profile';
-import useLogoutAll from '@/lib/hooks/useLogoutAll';
 
 type OnboardingScreen = {
     id: number;
-    illustration: React.ReactNode;
-    heading: React.ReactNode;
+    illustration: ReactNode;
+    heading: ReactNode;
 };
 
 const Onboarding = () => {
-    const { initProfile } = useProfileContext();
-    const logoutAll = useLogoutAll();
     const navigate = useNavigate();
-    const { state } = useLocation();
 
     const [activeOnboardingScreen, setActiveOnboardingScreen] = useState<number>(0);
 
     useEffect(() => {
-        (async () => {
-            if (state?.initProfile) {
-                await logoutAll();
-
-                await initProfile();
-            }
-        })();
         const interval = setInterval(() => {
             setActiveOnboardingScreen((prevIndex) => (prevIndex + 1) % 3);
         }, 5000);
@@ -46,94 +33,47 @@ const Onboarding = () => {
     }, []);
 
     return (
-        <FadeInLayout paddingTop='58'>
+        <div className='fade pt-[58px] duration-1000 ease-in-out'>
             <Header />
             <ProgressBar />
-            <Container position='relative' height='410px'>
+            <div className='relative h-[410px]'>
                 {onboardingScreens.map((screen, index) => (
-                    <SlidingItem
+                    <div
+                        className={cn(
+                            'absolute left-0 top-[70px] flex w-full items-center justify-center gap-6 px-9 transition-all duration-1000 ease-in-out',
+                            {
+                                'translate-x-0 opacity-100': activeOnboardingScreen === index,
+                                '-translate-x-full opacity-0': activeOnboardingScreen > index,
+                                'translate-x-full opacity-0': activeOnboardingScreen < index,
+                            },
+                        )}
                         key={screen.id}
-                        className={`${
-                            activeOnboardingScreen === index
-                                ? 'isActive'
-                                : activeOnboardingScreen > index
-                                ? 'isPrev'
-                                : 'isNext'
-                        }`}
-                        $flexVariant='columnCenter'
-                        gridGap='24px'
-                        paddingX='36'
                     >
-                        <FlexContainer
-                            flexDirection='column'
-                            alignItems='center'
-                            gridGap='24px'
-                            textAlign='center'
-                        >
+                        <div className='flex flex-col items-center gap-6 text-center'>
                             {screen.illustration}
                             {screen.heading}
-                        </FlexContainer>
-                    </SlidingItem>
+                        </div>
+                    </div>
                 ))}
-            </Container>
-            <FlexContainer paddingX='16' flexDirection='column' gridGap='12px'>
+            </div>
+            <div className='flex flex-col gap-3 px-4'>
                 <Button variant='primary' onClick={() => navigate('/wallet/create')}>
                     Create New Address
                 </Button>
                 <Button variant='secondary' onClick={() => navigate('/wallet')}>
                     Import an Address
                 </Button>
-            </FlexContainer>
-        </FadeInLayout>
+            </div>
+        </div>
     );
 };
-
-const fadeIn = keyframes`
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
-  }
-`;
-
-const FadeInLayout = styled(Container)`
-    animation: ${fadeIn} 1s ease-in-out;
-`;
-
-const SlidingItem = styled(FlexContainer)`
-    width: 100%;
-    position: absolute;
-    top: 70px;
-    left: 0;
-    opacity: 1;
-    transition:
-        transform 1s ease-in-out,
-        opacity 1s ease-in-out;
-
-    &.isActive {
-        transform: translateX(0);
-        opacity: 1;
-    }
-
-    &.isNext {
-        transform: translateX(100%);
-        opacity: 0;
-    }
-
-    &.isPrev {
-        transform: translateX(-100%);
-        opacity: 0;
-    }
-`;
 
 const onboardingScreens: OnboardingScreen[] = [
     {
         id: 1,
         illustration: <FingerPrintIcon />,
         heading: (
-            <Heading $typeset='h3' fontWeight='bold' textAlign='center' color='base' width='256px'>
+            <Heading level={3} className='w-[256px] text-center'>
                 Easily & securely log in to <br /> your favorite web3 apps.
             </Heading>
         ),
@@ -142,7 +82,7 @@ const onboardingScreens: OnboardingScreen[] = [
         id: 2,
         illustration: <ControlConnectionsIcon />,
         heading: (
-            <Heading $typeset='h3' fontWeight='bold' textAlign='center' color='base' width='297px'>
+            <Heading level={3} className='w-[297px] text-center'>
                 Control your identity with our <br /> session management feature.
             </Heading>
         ),
@@ -151,7 +91,7 @@ const onboardingScreens: OnboardingScreen[] = [
         id: 3,
         illustration: <TransactionsPassphraseIcon />,
         heading: (
-            <Heading $typeset='h3' fontWeight='bold' textAlign='center' color='base' width='257px'>
+            <Heading level={3} className='w-[257px] text-center'>
                 Sign transactions and <br />
                 perform on-chain actions.
             </Heading>

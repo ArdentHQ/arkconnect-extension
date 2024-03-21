@@ -1,4 +1,4 @@
-import { Container, FlexContainer, Heading, Paragraph, Button } from '@/shared/components';
+import { Button, Heading } from '@/shared/components';
 import Modal from '@/shared/components/modal/Modal';
 
 type Props = {
@@ -13,36 +13,30 @@ const SelectNetworkTypeModal = ({ onNetworkSelect, onClose, action = 'create' }:
             onClose={onClose}
             icon='code'
             footer={
-                <FlexContainer alignItems='center' gridGap='8px'>
+                <div className='flex items-center gap-2'>
                     <Button variant='secondary' onClick={() => onNetworkSelect(true)}>
                         Testnet
                     </Button>
                     <Button variant='primary' onClick={() => onNetworkSelect(false)}>
                         Mainnet
                     </Button>
-                </FlexContainer>
+                </div>
             }
             focusTrapOptions={{
                 initialFocus: false,
             }}
         >
-            <Container>
-                <Heading $typeset='h4' fontWeight='medium' color='base' mb='6'>
+            <div>
+                <Heading className=' mb-1.5' level={4}>
                     Select Network Type
                 </Heading>
-                <Container>
-                    <Paragraph
-                        $typeset='headline'
-                        fontWeight='regular'
-                        color='gray'
-                        mt='8'
-                        display='inline'
-                    >
+                <div>
+                    <span className='typeset-headline mt-2 text-theme-secondary-500 dark:text-theme-secondary-300'>
                         Select a network to {action} your {action === 'create' ? 'new' : ''} address
                         with.
-                    </Paragraph>
-                </Container>
-            </Container>
+                    </span>
+                </div>
+            </div>
         </Modal>
     );
 };

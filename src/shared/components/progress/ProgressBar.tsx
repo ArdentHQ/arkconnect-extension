@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { Container, FlexContainer } from '@/shared/components';
+import { useEffect, useState } from 'react';
+import cn from 'classnames';
 
 export const ProgressBar = () => {
     const [activeBarIndex, setActiveBarIndex] = useState<number>(0);
@@ -33,27 +33,25 @@ export const ProgressBar = () => {
     }, [filledSegments]);
 
     const bars = filledSegments.map((isFilled, index) => (
-        <Container
+        <div
             key={index}
-            width='100%'
-            height='5px'
-            backgroundColor='toggleInactive'
-            position='relative'
-            borderRadius='20'
-            overflow='hidden'
+            className='relative h-1.25 w-full overflow-hidden rounded-2.5xl bg-theme-secondary-200 dark:bg-theme-secondary-600'
         >
-            <Container
-                width={isFilled ? '100%' : 0}
-                height='100%'
-                backgroundColor='primary'
-                borderRadius='24'
+            <div
+                className={cn(
+                    ' h-full rounded-3xl bg-theme-primary-700 dark:bg-theme-primary-650',
+                    {
+                        'w-full': isFilled,
+                        'w-0': !isFilled,
+                    },
+                )}
                 style={{
                     transition:
                         activeBarIndex === index && isFilled ? 'width 5s ease-in-out' : 'unset',
                 }}
             />
-        </Container>
+        </div>
     ));
 
-    return <FlexContainer gridGap='8px'>{bars}</FlexContainer>;
+    return <div className='flex gap-2'>{bars}</div>;
 };

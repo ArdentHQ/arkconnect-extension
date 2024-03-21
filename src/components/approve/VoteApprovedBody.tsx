@@ -1,123 +1,132 @@
 import { useLocation } from 'react-router-dom';
-import styled from 'styled-components';
 import { Contracts } from '@ardenthq/sdk-profiles';
 import Amount from '../wallet/Amount';
-import ActionDetails, { ActionDetailsRow } from './ActionDetails';
+import ActionDetails, {
+    ActionDetailsFiatValue,
+    ActionDetailsRow,
+    ActionDetailsValue,
+} from './ActionDetails';
 import useClipboard from '@/lib/hooks/useClipboard';
 import trimAddress from '@/lib/utils/trimAddress';
-import { Container, FlexContainer, Icon, Paragraph, Tooltip } from '@/shared/components';
+import { Icon, Tooltip } from '@/shared/components';
 import getActiveCoin from '@/lib/utils/getActiveCoin';
 import { WalletNetwork } from '@/lib/store/wallet';
-
-const StyledSpan = styled.span`
-    width: 260px;
-    display: block;
-    overflow-wrap: break-word;
-    text-align: left;
-`;
 
 const VoteApprovedBody = ({ wallet }: { wallet: Contracts.IReadWriteWallet }) => {
     const { state } = useLocation();
     const { copy } = useClipboard();
 
+    const showFiat = state.walletNetwork === WalletNetwork.MAINNET;
     return (
-        <Container width='100%'>
+        <div className='w-full'>
             <ActionDetails maxHeight='229px'>
                 <ActionDetailsRow label='Sender'>
-                    <Paragraph $typeset='headline' fontWeight='medium' color='base'>
+                    <ActionDetailsValue>
                         {trimAddress(state?.vote.sender ?? '', 10)}
-                    </Paragraph>
+                    </ActionDetailsValue>
                 </ActionDetailsRow>
 
-                <ActionDetailsRow label='Transaction Fee'>
-                    <FlexContainer gridGap='4px' alignItems='baseline'>
-                        <Paragraph $typeset='headline' fontWeight='medium' color='base'>
-                            {state?.vote.fee} {getActiveCoin(state?.walletNetwork)}
-                        </Paragraph>
-                        {state.walletNetwork === WalletNetwork.MAINNET && (
-                            <Paragraph $typeset='body' fontWeight='medium' color='gray'>
+                <ActionDetailsRow
+                    label='Transaction Fee'
+                    below={
+                        showFiat && (
+                            <ActionDetailsFiatValue>
                                 <Amount
                                     value={state?.vote.convertedFee as number}
                                     ticker={state?.vote.exchangeCurrency as string}
                                 />
-                            </Paragraph>
-                        )}
-                    </FlexContainer>
+                            </ActionDetailsFiatValue>
+                        )
+                    }
+                >
+                    <div className='flex items-baseline gap-1'>
+                        <ActionDetailsValue>
+                            {state?.vote.fee} {getActiveCoin(state?.walletNetwork)}
+                        </ActionDetailsValue>
+                    </div>
                 </ActionDetailsRow>
 
                 {state?.vote.unvoteDelegateName && (
                     <ActionDetailsRow label='Unvote Delegate Name'>
-                        <Paragraph $typeset='headline' fontWeight='medium' color='base'>
-                            {state?.vote.unvoteDelegateName}
-                        </Paragraph>
+                        <ActionDetailsValue>{state?.vote.unvoteDelegateName}</ActionDetailsValue>
                     </ActionDetailsRow>
                 )}
 
                 {state?.vote.unvotePublicKey && wallet.isLedger() && (
                     <ActionDetailsRow label='Unvote Delegate Pubkey'>
                         <Tooltip
-                            content={<StyledSpan>{state?.vote.unvotePublicKey ?? ''}</StyledSpan>}
+                            content={
+                                <span className='block w-65 break-words text-left'>
+                                    {state?.vote.unvotePublicKey ?? ''}
+                                </span>
+                            }
                             placement='bottom-end'
                         >
-                            <Paragraph $typeset='headline' fontWeight='medium' color='base'>
+                            <ActionDetailsValue>
                                 {trimAddress(state?.vote.unvotePublicKey ?? '', 10)}
-                            </Paragraph>
+                            </ActionDetailsValue>
                         </Tooltip>
                     </ActionDetailsRow>
                 )}
 
                 {state?.vote.unvoteDelegateAddress && !wallet.isLedger() && (
                     <ActionDetailsRow label='Unvote Delegate Address'>
-                        <Paragraph $typeset='headline' fontWeight='medium' color='base'>
+                        <ActionDetailsValue>
                             {trimAddress(state.vote.unvoteDelegateAddress ?? '', 10)}
-                        </Paragraph>
+                        </ActionDetailsValue>
                     </ActionDetailsRow>
                 )}
 
                 {state?.vote.voteDelegateName && (
                     <ActionDetailsRow label='Vote Delegate Name'>
-                        <Paragraph $typeset='headline' fontWeight='medium' color='base'>
-                            {state?.vote.voteDelegateName}
-                        </Paragraph>
+                        <ActionDetailsValue>{state?.vote.voteDelegateName}</ActionDetailsValue>
                     </ActionDetailsRow>
                 )}
 
                 {state?.vote.votePublicKey && wallet.isLedger() && (
                     <ActionDetailsRow label='Vote Delegate Pubkey'>
                         <Tooltip
-                            content={<StyledSpan>{state?.vote.votePublicKey ?? ''}</StyledSpan>}
+                            content={
+                                <span className='block w-65 break-words text-left'>
+                                    {state?.vote.votePublicKey ?? ''}
+                                </span>
+                            }
                             placement='bottom-end'
                         >
-                            <Paragraph $typeset='headline' fontWeight='medium' color='base'>
+                            <ActionDetailsValue>
                                 {trimAddress(state?.vote.votePublicKey ?? '', 10)}
-                            </Paragraph>
+                            </ActionDetailsValue>
                         </Tooltip>
                     </ActionDetailsRow>
                 )}
 
                 {state?.vote.voteDelegateAddress && !wallet.isLedger() && (
                     <ActionDetailsRow label='Vote Delegate Address'>
-                        <Paragraph $typeset='headline' fontWeight='medium' color='base'>
+                        <ActionDetailsValue>
                             {trimAddress(state.vote.voteDelegateAddress ?? '', 10)}
-                        </Paragraph>
+                        </ActionDetailsValue>
                     </ActionDetailsRow>
                 )}
 
                 <ActionDetailsRow label='Transaction ID'>
-                    <FlexContainer gridGap='4px' alignItems='center'>
-                        <Paragraph $typeset='headline' fontWeight='medium' color='base'>
+                    <div className='flex items-center gap-1'>
+                        <ActionDetailsValue>
                             {trimAddress(state?.vote.id, 'short')}
-                        </Paragraph>
-                        <Container
-                            className='c-pointer'
+                        </ActionDetailsValue>
+                        <button
+                            type='button'
+                            className='block'
                             onClick={() => copy(state?.vote.id, 'Transaction ID')}
                         >
-                            <Icon icon='copy' color='primary' width='20px' height='20px' />
-                        </Container>
-                    </FlexContainer>
+                            <Icon
+                                icon='copy'
+                                className='h-5 w-5 text-theme-primary-700 dark:text-theme-primary-650'
+                            />
+                        </button>
+                    </div>
                 </ActionDetailsRow>
             </ActionDetails>
-        </Container>
+        </div>
     );
 };
 

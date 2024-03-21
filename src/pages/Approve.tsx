@@ -1,10 +1,10 @@
 import { Contracts } from '@ardenthq/sdk-profiles';
-import { Layout } from '@/shared/components';
 import { useLocation } from 'react-router-dom';
+import { useEffect, useRef, useState } from 'react';
+import { Layout } from '@/shared/components';
 import ApproveTransaction from '@/components/approve/ApproveTransaction';
 import ApproveMessage from '@/components/approve/ApproveMessage';
 import ApproveVote from '@/components/approve/ApproveVote';
-import { useRef, useState } from 'react';
 import { useLedgerContext } from '@/lib/Ledger';
 import Modal from '@/shared/components/modal/Modal';
 import ApproveWithLedger from '@/components/ledger/ApproveWithLedger';
@@ -14,7 +14,8 @@ import { useAppSelector } from '@/lib/store';
 import { useProfileContext } from '@/lib/context/Profile';
 import * as UIStore from '@/lib/store/ui';
 import { assertIsUnlocked } from '@/lib/background/assertions';
-import useThemeMode from '@/lib/hooks/useThemeMode';
+import useWalletSync from '@/lib/hooks/useWalletSync';
+import { useEnvironmentContext } from '@/lib/context/Environment';
 
 export enum ApproveActionType {
     SIGNATURE = 'signature',
@@ -28,15 +29,21 @@ const Approve = () => {
     const location = useLocation();
     const { profile } = useProfileContext();
     const { connect } = useLedgerContext();
-    const { getThemeColor } = useThemeMode();
     const abortReference = useRef(new AbortController());
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const { env } = useEnvironmentContext();
     const wallets = useAppSelector(WalletStore.selectWallets);
-
+    const { syncAll } = useWalletSync({ env, profile });
     const walletData = wallets.find(
         (wallet) => wallet.walletId === location.state.session.walletId,
     )!;
     const wallet = profile.wallets().findById(walletData?.walletId);
+
+    useEffect(() => {
+        (async () => {
+            await syncAll(wallet);
+        })();
+    }, [wallet]);
 
     const locked = useAppSelector(UIStore.selectLocked);
     assertIsUnlocked(locked);
@@ -49,7 +56,7 @@ const Approve = () => {
             throw new Error('Ledger Transport is not supported!');
         }
         setIsModalOpen(true);
-        await connect(profile, wallet.coinId(), wallet.networkId(), undefined, true);
+        await connect(profile, wallet.coinId(), wallet.networkId(), undefined);
     };
 
     const closeLedgerScreen = () => {
@@ -96,12 +103,8 @@ const Approve = () => {
             {isModalOpen && (
                 <Modal
                     onClose={() => {}}
-                    containerPadding='0'
-                    contentStyles={{
-                        minHeight: '100vh',
-                        margin: '0',
-                        backgroundColor: getThemeColor('warning600', 'warning400'),
-                    }}
+                    containerClassName='p-0'
+                    className='m-0 min-h-screen bg-theme-warning-600 dark:bg-theme-warning-400'
                     activateFocusTrap={false}
                     hideCloseButton
                 >

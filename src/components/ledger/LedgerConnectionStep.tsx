@@ -1,24 +1,30 @@
-import * as ModalStore from '@/lib/store/modal';
-
-import {
-    Button,
-    Container,
-    ExternalLink,
-    FlexContainer,
-    Heading,
-    Icon,
-    Paragraph,
-} from '@/shared/components';
-
-import Step from './Step';
-import { connectSteps } from './utils/connectionSteps';
-import constants from '@/constants';
 import { useEffect } from 'react';
+
+import { Button, ExternalLink, Heading, Icon, Loader } from '@/shared/components';
+
+import constants from '@/constants';
 import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
 import { useLedgerContext } from '@/lib/Ledger';
-import useLoadingModal from '@/lib/hooks/useLoadingModal';
-import useNetwork from '@/lib/hooks/useNetwork';
+import useActiveNetwork from '@/lib/hooks/useActiveNetwork';
 import { useProfileContext } from '@/lib/context/Profile';
+
+const ConnectionStep = ({ children, ready }: { children: React.ReactNode; ready: boolean }) => {
+    return (
+        <li className='flex justify-start space-x-2 text-light-black dark:text-white'>
+            <span className='mt-px flex flex-shrink-0'>
+                {ready ? (
+                    <span className='flex h-5 w-5 items-center justify-center rounded-full bg-theme-primary-700 dark:bg-theme-primary-600'>
+                        <Icon icon='check' className='h-4 w-4 text-white dark:text-subtle-black' />
+                    </span>
+                ) : (
+                    <Loader className='typeset-body h-5 w-5 border-2 border-theme-secondary-400 border-t-theme-secondary-200 dark:border-theme-secondary-300 dark:border-t-theme-secondary-600' />
+                )}
+            </span>
+
+            <span>{children}</span>
+        </li>
+    );
+};
 
 export const LedgerConnectionStep = ({
     goToNextStep,
@@ -30,27 +36,21 @@ export const LedgerConnectionStep = ({
 }) => {
     const { profile: activeProfile } = useProfileContext();
     const { onError } = useErrorHandlerContext();
-    const { activeNetwork: network } = useNetwork();
-    const loadingModal = useLoadingModal({
-        completedMessage: 'Ledger Connected!',
-        loadingMessage: 'Waiting for you to choose and connect a Ledger device.',
-        other: {
-            CTA: ModalStore.CTAType.INITIATE_LEDGER,
-        },
-    });
-
-    const { connect, abortConnectionRetry, error, isConnected, accessDenied } = useLedgerContext();
+    const network = useActiveNetwork();
 
     const {
+        connect,
+        abortConnectionRetry,
+        accessDenied,
         listenDevice,
         hasDeviceAvailable,
         error: ledgerError,
+        isConnected,
         resetConnectionState,
     } = useLedgerContext();
 
-    const handleListenDevice = () => {
-        loadingModal.setLoading();
-        listenDevice();
+    const handleListenDevice = async () => {
+        await listenDevice();
     };
 
     useEffect(() => {
@@ -71,10 +71,10 @@ export const LedgerConnectionStep = ({
 
     useEffect(() => {
         if (!hasDeviceAvailable) return;
+
         (async () => {
             try {
                 await connect(activeProfile, network.coin(), network.id());
-                goToNextStep();
             } catch (error) {
                 onError(error);
             }
@@ -82,10 +82,10 @@ export const LedgerConnectionStep = ({
     }, [hasDeviceAvailable]);
 
     useEffect(() => {
-        if (error) {
-            onFailed?.(new Error(error));
+        if (ledgerError) {
+            onFailed?.(new Error(ledgerError));
         }
-    }, [isConnected, error]);
+    }, [isConnected, ledgerError]);
 
     useEffect(
         () => () => {
@@ -94,48 +94,65 @@ export const LedgerConnectionStep = ({
         [abortConnectionRetry],
     );
 
+    const continueToNextStep = async () => {
+        try {
+            await connect(activeProfile, network.coin(), network.id());
+
+            goToNextStep();
+        } catch (error) {
+            onError(error);
+        }
+    };
+
     return (
-        <Container>
-            <Heading $typeset='h3' fontWeight='bold' color='base' mb='24'>
-                Connect Your Ledger Device
-            </Heading>
-            <FlexContainer my='24' justifyContent='center'>
-                <Icon icon='ledger-device' width='220px' height='120px' />
-            </FlexContainer>
-            <Container mb='24'>
-                {connectSteps.map((step, index) => (
-                    <FlexContainer key={index} alignItems='flex-start' gridGap='8px'>
-                        <Step step={index + 1} />
-                        <Paragraph
-                            fontWeight='regular'
-                            $typeset='headline'
-                            color='base'
-                            mb={index !== connectSteps.length - 1 ? '12' : '0'}
-                        >
-                            {step}
-                        </Paragraph>
-                    </FlexContainer>
-                ))}
-            </Container>
-            <Container pb='16'>
-                <Button variant='primary' onClick={handleListenDevice}>
-                    Continue
-                </Button>
-            </Container>
+        <div className='space-y-6'>
+            <div>
+                <Heading level={3} className='mb-2'>
+                    Connect Your Ledger Device
+                </Heading>
+
+                <p className='typehead-body text-theme-secondary-500 dark:text-theme-secondary-300'>
+                    Please complete the steps mentioned below to connect your Ledger.
+                </p>
+            </div>
+
+            <div className='my-6 flex justify-center'>
+                <Icon icon='ledger-device' className='h-30 w-[13.75rem]' />
+            </div>
+
+            <div className='mb-6'>
+                <ul className='flex flex-col space-y-3'>
+                    <ConnectionStep ready={isConnected || hasDeviceAvailable}>
+                        Connect your Ledger device and close other apps connected to it.
+                    </ConnectionStep>
+
+                    <ConnectionStep ready={isConnected || hasDeviceAvailable}>
+                        Click Connect and choose your Ledger device in the browser window.
+                    </ConnectionStep>
+
+                    <ConnectionStep ready={isConnected}>
+                        Unlock and open the ARK app on the Ledger device.
+                    </ConnectionStep>
+                </ul>
+            </div>
+            <div className='pb-4'>
+                {hasDeviceAvailable ? (
+                    <Button variant='primary' onClick={continueToNextStep} disabled={!isConnected}>
+                        Continue
+                    </Button>
+                ) : (
+                    <Button variant='primary' onClick={handleListenDevice}>
+                        Connect
+                    </Button>
+                )}
+            </div>
             <ExternalLink
-                alignItems='center'
-                justifyContent='center'
-                display='flex'
-                width='100%'
-                gridGap='12px'
+                className='flex w-full items-center justify-center gap-3 text-theme-primary-700 dark:text-theme-primary-650'
                 href={`mailto:${constants.SUPPORT_EMAIL}?subject=ARK%20Connect%20Support%20Ledger`}
-                color='primary'
             >
-                <Paragraph $typeset='headline' fontWeight='medium'>
-                    Support Email
-                </Paragraph>
-                <Icon icon='link-external' width='20px' height='20px' />
+                <p className='typeset-headline font-medium'>Support Email</p>
+                <Icon icon='link-external' className='h-5 w-5' />
             </ExternalLink>
-        </Container>
+        </div>
     );
 };

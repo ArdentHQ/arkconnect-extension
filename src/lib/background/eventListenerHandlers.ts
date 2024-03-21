@@ -1,35 +1,32 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import browser from 'webextension-polyfill';
+import { Runtime, runtime, tabs, windows } from 'webextension-polyfill';
 import { Contracts } from '@ardenthq/sdk-profiles';
 import { Session } from '../store/session';
 import { WalletNetwork } from '../store/wallet';
 import {
+    assertHasProfile,
+    assertHasWallet,
     assertIsConnected,
     assertIsNotConnected,
-    assertHasWallet,
+    assertIsUnlocked,
     getActiveSession,
-    assertHasProfile,
 } from './assertions';
 
 export type EventPayload<T> = {
-    type: keyof typeof BACKGROUND_EVENT_LISTENERS_HANDLERS;
+    type: keyof typeof longLivedConnectionHandlers;
     data: T & DefaultPayload;
 };
 
 type DefaultPayload = {
     domain: string;
     tabId: number;
-    port: browser.Runtime.Port;
+    port: Runtime.Port;
     windowId?: number;
     network: WalletNetwork;
 };
 
 export type ConnectData = {
     favicon: string;
-};
-
-export type EventListenerData = {
-    eventName: string;
 };
 
 export type SignMessageData = {
@@ -52,14 +49,12 @@ export type SignVoteData = {
     session: Session;
 };
 
-const forwardEvent = { callback: () => {} };
-
 let extensionWindowId: number | null = null;
 
 const createExtensionWindow = async (onWindowReady: (id?: number) => void) => {
     // Check if a window is already open
     if (extensionWindowId !== null) {
-        await browser.windows.update(extensionWindowId, { focused: true });
+        await windows.update(extensionWindowId, { focused: true });
         return;
     }
 
@@ -69,7 +64,7 @@ const createExtensionWindow = async (onWindowReady: (id?: number) => void) => {
     let top = 0;
 
     try {
-        const lastFocused = await browser.windows.getLastFocused();
+        const lastFocused = await windows.getLastFocused();
 
         // Position window in top right corner of lastFocused window.
         top = lastFocused.top ?? 0;
@@ -84,7 +79,7 @@ const createExtensionWindow = async (onWindowReady: (id?: number) => void) => {
         left = Math.max(screenX + (outerWidth - POPUP_WIDTH), 0);
     }
 
-    const newTab = await browser.windows.create({
+    const newTab = await windows.create({
         url: '/src/main.html',
         type: 'popup',
         width: POPUP_WIDTH,
@@ -99,19 +94,19 @@ const createExtensionWindow = async (onWindowReady: (id?: number) => void) => {
     extensionWindowId = newTab.id;
 
     const onUpdatedListener = async (id: number) => {
-        const tab = await browser.tabs.get(id);
+        const tab = await tabs.get(id);
         if (extensionWindowId !== tab.windowId || tab.status === 'loading') return;
 
         onWindowReady(extensionWindowId);
 
-        browser.tabs.onUpdated.removeListener(onUpdatedListener);
+        tabs.onUpdated.removeListener(onUpdatedListener);
     };
 
-    browser.tabs.onUpdated.addListener(onUpdatedListener);
+    tabs.onUpdated.addListener(onUpdatedListener);
 
-    browser.windows.onRemoved.addListener((removedWindowId) => {
+    windows.onRemoved.addListener((removedWindowId) => {
         if (removedWindowId === extensionWindowId) {
-            browser.tabs.onUpdated.removeListener(onUpdatedListener);
+            tabs.onUpdated.removeListener(onUpdatedListener);
             extensionWindowId = null; // Reset the global variable when the window is closed
         }
     });
@@ -121,7 +116,7 @@ const initWindow = async (payload: EventPayload<ConnectData>) => {
     await createExtensionWindow((id) => {
         const { port, ...rest } = payload.data;
 
-        browser.runtime.sendMessage({
+        runtime.sendMessage({
             type: `${payload.type}_UI`,
             data: { ...rest, windowId: id },
         });
@@ -131,23 +126,29 @@ const initWindow = async (payload: EventPayload<ConnectData>) => {
 const handleOnConnect = async (
     payload: EventPayload<ConnectData>,
     profile: Contracts.IProfile | null,
+    isLocked: boolean,
 ) => {
     try {
-        if (!profile) {
-            throw new Error('No profile found. Please connect your wallet and try again.');
-        } else {
-            assertHasWallet(profile);
-            assertIsConnected({ payload, profile });
+        if (profile?.wallets().count() === 0) {
+            void initWindow(payload);
 
-            initWindow(payload);
+            throw new Error('No profile found. Please connect your wallet and try again.');
         }
+
+        assertHasWallet(profile);
+
+        if (!isLocked) {
+            assertIsConnected({ payload, profile });
+        }
+
+        void initWindow(payload);
     } catch (error: any) {
-        browser.tabs.sendMessage(payload.data.tabId, {
+        tabs.sendMessage(payload.data.tabId, {
             type: `${payload.type}_REJECT`,
             data: {
                 status: 'failed',
                 domain: payload.data.domain,
-                message: 'Wallet is locked.',
+                message: error.message,
                 tabId: payload.data.tabId,
             },
         });
@@ -157,11 +158,13 @@ const handleOnConnect = async (
 const handleIsConnected = async (
     payload: EventPayload<DefaultPayload>,
     profile: Contracts.IProfile | null,
+    isLocked: boolean,
 ) => {
     try {
+        assertIsUnlocked(isLocked);
         assertHasWallet(profile);
 
-        browser.tabs.sendMessage(payload.data.tabId, {
+        tabs.sendMessage(payload.data.tabId, {
             type: `${payload.type}_RESOLVE`,
             data: {
                 status: 'success',
@@ -174,7 +177,7 @@ const handleIsConnected = async (
             },
         });
     } catch (error: any) {
-        browser.tabs.sendMessage(payload.data.tabId, {
+        tabs.sendMessage(payload.data.tabId, {
             type: `${payload.type}_REJECT`,
             data: {
                 status: 'failed',
@@ -197,13 +200,13 @@ const handleDisconnect = async (
         await createExtensionWindow((id) => {
             const { port, ...rest } = payload.data;
 
-            browser.runtime.sendMessage({
+            runtime.sendMessage({
                 type: `${payload.type}_UI`,
                 data: { ...rest, windowId: id },
             });
         });
     } catch (error: any) {
-        browser.tabs.sendMessage(payload.data.tabId, {
+        tabs.sendMessage(payload.data.tabId, {
             type: `${payload.type}_REJECT`,
             data: {
                 status: 'failed',
@@ -218,8 +221,10 @@ const handleDisconnect = async (
 const handleGetAddress = async (
     payload: EventPayload<DefaultPayload>,
     profile: Contracts.IProfile | null,
+    isLocked: boolean,
 ) => {
     try {
+        assertIsUnlocked(isLocked);
         assertHasWallet(profile);
 
         const activeSession = assertIsNotConnected({ payload, profile });
@@ -228,7 +233,7 @@ const handleGetAddress = async (
 
         const wallet = profile?.wallets().findById(activeSession.walletId);
 
-        browser.tabs.sendMessage(payload.data.tabId, {
+        tabs.sendMessage(payload.data.tabId, {
             type: `${payload.type}_RESOLVE`,
             data: {
                 status: 'success',
@@ -238,7 +243,7 @@ const handleGetAddress = async (
             },
         });
     } catch (error: any) {
-        browser.tabs.sendMessage(payload.data.tabId, {
+        tabs.sendMessage(payload.data.tabId, {
             type: `${payload.type}_REJECT`,
             data: {
                 status: 'failed',
@@ -253,8 +258,10 @@ const handleGetAddress = async (
 const handleGetNetwork = async (
     payload: EventPayload<DefaultPayload>,
     profile: Contracts.IProfile | null,
+    isLocked: boolean,
 ) => {
     try {
+        assertIsUnlocked(isLocked);
         assertHasWallet(profile);
 
         const activeSession = assertIsNotConnected({ payload, profile });
@@ -263,7 +270,7 @@ const handleGetNetwork = async (
 
         const wallet = profile?.wallets().findById(activeSession.walletId);
 
-        browser.tabs.sendMessage(payload.data.tabId, {
+        tabs.sendMessage(payload.data.tabId, {
             type: `${payload.type}_RESOLVE`,
             data: {
                 status: 'success',
@@ -273,7 +280,7 @@ const handleGetNetwork = async (
             },
         });
     } catch (error: any) {
-        browser.tabs.sendMessage(payload.data.tabId, {
+        tabs.sendMessage(payload.data.tabId, {
             type: `${payload.type}_REJECT`,
             data: {
                 status: 'failed',
@@ -288,15 +295,17 @@ const handleGetNetwork = async (
 const handleGetBalance = async (
     payload: EventPayload<DefaultPayload>,
     profile: Contracts.IProfile | null,
+    isLocked: boolean,
 ) => {
     try {
+        assertIsUnlocked(isLocked);
         assertHasWallet(profile);
 
         const activeSession = assertIsNotConnected({ payload, profile });
 
         const wallet = profile?.wallets().findById(activeSession.walletId);
 
-        browser.tabs.sendMessage(payload.data.tabId, {
+        tabs.sendMessage(payload.data.tabId, {
             type: `${payload.type}_RESOLVE`,
             data: {
                 status: 'success',
@@ -306,7 +315,7 @@ const handleGetBalance = async (
             },
         });
     } catch (error: any) {
-        browser.tabs.sendMessage(payload.data.tabId, {
+        tabs.sendMessage(payload.data.tabId, {
             type: `${payload.type}_REJECT`,
             data: {
                 status: 'failed',
@@ -334,13 +343,13 @@ const handleSignMessage = async (
         await createExtensionWindow((id) => {
             const { port, ...rest } = payload.data;
 
-            browser.runtime.sendMessage({
+            runtime.sendMessage({
                 type: `${payload.type}_UI`,
                 data: { ...rest, session: { ...activeSession, wallet }, windowId: id },
             });
         });
     } catch (error: any) {
-        browser.tabs.sendMessage(payload.data.tabId, {
+        tabs.sendMessage(payload.data.tabId, {
             type: `${payload.type}_REJECT`,
             data: {
                 status: 'failed',
@@ -368,13 +377,13 @@ const handleSignTransaction = async (
         await createExtensionWindow((id) => {
             const { port, ...rest } = payload.data;
 
-            browser.runtime.sendMessage({
+            runtime.sendMessage({
                 type: `${payload.type}_UI`,
                 data: { ...rest, session: { ...activeSession, wallet }, windowId: id },
             });
         });
     } catch (error: any) {
-        browser.tabs.sendMessage(payload.data.tabId, {
+        tabs.sendMessage(payload.data.tabId, {
             type: `${payload.type}_REJECT`,
             data: {
                 status: 'failed',
@@ -402,13 +411,13 @@ const handleSignVote = async (
         await createExtensionWindow((id) => {
             const { port, ...rest } = payload.data;
 
-            browser.runtime.sendMessage({
+            runtime.sendMessage({
                 type: `${payload.type}_UI`,
                 data: { ...rest, session: { ...activeSession, wallet }, windowId: id },
             });
         });
     } catch (error: any) {
-        browser.tabs.sendMessage(payload.data.tabId, {
+        tabs.sendMessage(payload.data.tabId, {
             type: `${payload.type}_REJECT`,
             data: {
                 status: 'failed',
@@ -420,50 +429,14 @@ const handleSignVote = async (
     }
 };
 
-export const BACKGROUND_EVENT_LISTENERS_HANDLERS = {
-    CONNECT: {
-        callback: handleOnConnect,
-    },
-    CONNECT_RESOLVE: forwardEvent,
-    CONNECT_REJECT: forwardEvent,
-    IS_CONNECTED: {
-        callback: handleIsConnected,
-    },
-    IS_CONNECTED_RESOLVE: forwardEvent,
-    IS_CONNECTED_REJECT: forwardEvent,
-    DISCONNECT: {
-        callback: handleDisconnect,
-    },
-    DISCONNECT_RESOLVE: forwardEvent,
-    DISCONNECT_REJECT: forwardEvent,
-    GET_ADDRESS: {
-        callback: handleGetAddress,
-    },
-    GET_ADDRESS_RESOLVE: forwardEvent,
-    GET_ADDRESS_REJECT: forwardEvent,
-    GET_BALANCE: {
-        callback: handleGetBalance,
-    },
-    GET_BALANCE_RESOLVE: forwardEvent,
-    GET_BALANCE_REJECT: forwardEvent,
-    GET_NETWORK: {
-        callback: handleGetNetwork,
-    },
-    GET_NETWORK_RESOLVE: forwardEvent,
-    GET_NETWORK_REJECT: forwardEvent,
-    SIGN_MESSAGE: {
-        callback: handleSignMessage,
-    },
-    SIGN_MESSAGE_RESOLVE: forwardEvent,
-    SIGN_MESSAGE_REJECT: forwardEvent,
-    SIGN_TRANSACTION: {
-        callback: handleSignTransaction,
-    },
-    SIGN_TRANSACTION_RESOLVE: forwardEvent,
-    SIGN_TRANSACTION_REJECT: forwardEvent,
-    SIGN_VOTE: {
-        callback: handleSignVote,
-    },
-    SIGN_VOTE_RESOLVE: forwardEvent,
-    SIGN_VOTE_REJECT: forwardEvent,
+export const longLivedConnectionHandlers = {
+    CONNECT: handleOnConnect,
+    IS_CONNECTED: handleIsConnected,
+    DISCONNECT: handleDisconnect,
+    GET_ADDRESS: handleGetAddress,
+    GET_BALANCE: handleGetBalance,
+    GET_NETWORK: handleGetNetwork,
+    SIGN_MESSAGE: handleSignMessage,
+    SIGN_TRANSACTION: handleSignTransaction,
+    SIGN_VOTE: handleSignVote,
 };

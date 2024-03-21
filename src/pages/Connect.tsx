@@ -1,6 +1,7 @@
 import { useLocation } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
-import browser from 'webextension-polyfill';
+import { runtime, windows } from 'webextension-polyfill';
+import { useEffect, useMemo } from 'react';
 import ConnectFooter from '@/components/connect/ConnectFooter';
 import ConnectWithWallet from '@/components/connect/ConnectWithWallet';
 import { useAppDispatch, useAppSelector } from '@/lib/store';
@@ -30,8 +31,23 @@ const Connect = () => {
     const locked = useAppSelector(selectLocked);
     assertIsUnlocked(locked);
 
+    const isAlreadyConnected = useMemo(() => {
+        return Object.values(sessions).some((session) => {
+            return (
+                session.domain === location.state?.domain &&
+                session.walletId === primaryWallet?.id()
+            );
+        });
+    }, [sessions]);
+
+    useEffect(() => {
+        if (isAlreadyConnected) {
+            void onCancel('Already connected!');
+        }
+    }, []);
+
     const reject = (message = 'Connection denied!') => {
-        browser.runtime.sendMessage({
+        runtime.sendMessage({
             type: 'CONNECT_REJECT',
             data: {
                 domain: location.state?.domain,
@@ -44,26 +60,15 @@ const Connect = () => {
 
     const setSubmitted = useNotifyOnUnload(reject);
 
-    const isAlreadyConnected = () => {
-        return Object.values(sessions).some((session) => {
-            return (
-                session.domain === location.state?.domain &&
-                session.walletId === primaryWallet?.id()
-            );
-        });
-    };
-
     const onSubmit = async () => {
         loadingModal.setLoading();
-
-        const isConnected = isAlreadyConnected();
 
         if (!primaryWallet) {
             reject('Wallet not found');
             return;
         }
 
-        if (isConnected) {
+        if (isAlreadyConnected) {
             reject('Already connected!');
             return;
         }
@@ -80,7 +85,7 @@ const Connect = () => {
                 }),
             );
 
-            await browser.runtime.sendMessage({
+            await runtime.sendMessage({
                 type: 'CONNECT_RESOLVE',
                 data: {
                     domain: location.state?.domain,
@@ -92,14 +97,14 @@ const Connect = () => {
 
             setSubmitted();
 
-            await browser.windows.remove(location.state?.windowId);
+            await windows.remove(location.state?.windowId);
             return;
         }
     };
 
-    const onCancel = async () => {
-        reject();
-        await browser.windows.remove(location.state?.windowId);
+    const onCancel = async (message?: string) => {
+        reject(message);
+        await windows.remove(location.state?.windowId);
     };
 
     return (
@@ -109,7 +114,7 @@ const Connect = () => {
                 appLogo={location.state?.favicon}
                 icon='action-connect'
                 actionLabel='Connect to App'
-                iconDimensions={{ width: 22, height: 31 }}
+                iconClassNames='w-[22px] h-[31px]'
             />
 
             <ConnectWithWallet wallet={primaryWallet} />

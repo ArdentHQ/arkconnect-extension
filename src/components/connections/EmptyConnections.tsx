@@ -1,33 +1,16 @@
-import { FlexContainer, Paragraph, EmptyConnectionsIcon } from '@/shared/components';
+import { EmptyConnectionsIcon } from '@/shared/components';
 
 const EmptyConnections = () => {
     return (
-        <FlexContainer
-            margin='16'
-            mt='96'
-            flexDirection='column'
-            justifyContent='center'
-            alignItems='center'
-            flex={1}
-        >
-            <FlexContainer
-                maxWidth='210px'
-                flexDirection='column'
-                justifyContent='center'
-                alignItems='center'
-            >
+        <div className=' mx-4 mb-4 mt-24 flex flex-1 flex-col items-center justify-center'>
+            <div className='flex max-w-[210px] flex-col items-center justify-center'>
                 <EmptyConnectionsIcon />
-                <Paragraph
-                    $typeset='headline'
-                    fontWeight='regular'
-                    color='base'
-                    mt='24'
-                    textAlign='center'
-                >
+
+                <p className=' mt-6 text-center text-light-black dark:text-white '>
                     You are currently not connected to any applications.
-                </Paragraph>
-            </FlexContainer>
-        </FlexContainer>
+                </p>
+            </div>
+        </div>
     );
 };
 

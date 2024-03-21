@@ -1,13 +1,11 @@
 import { Contracts } from '@ardenthq/sdk-profiles';
-import styled from 'styled-components';
-import { Container, FlexContainer, Paragraph } from '@/shared/components';
+import { Address, LedgerIcon, TestnetIcon } from '../wallet/address/Address.blocks';
+import Amount from '../wallet/Amount';
 import constants from '@/constants';
 import { generateWalletHelperText } from '@/lib/utils/generateWalletHelperText';
 import trimAddress from '@/lib/utils/trimAddress';
-import { Address, LedgerIcon, TestnetIcon } from '../wallet/address/Address.blocks';
-import Amount from '../wallet/Amount';
 
-type Props = React.ComponentProps<typeof StyledRow> & {
+type Props = {
     wallet: Contracts.IReadWriteWallet;
 };
 
@@ -21,20 +19,20 @@ export const WalletCard = ({ wallet }: Props) => {
     const ledgerIndicator = wallet.isLedger();
 
     return (
-        <StyledRow>
-            <FlexContainer width='100%' gridGap='12px' alignItems='flex-start'>
-                <FlexContainer alignItems='center' justifyContent='space-between' width='100%'>
-                    <FlexContainer flexDirection='column' alignItems='flex-start' gridGap='4px'>
-                        <FlexContainer flexDirection='row' alignItems='center' gridGap='6px'>
-                            <Paragraph $typeset='headline' fontWeight='medium' color='base'>
+        <div className='relative flex max-h-[74px] w-full gap-3 rounded-2.5xl border border-solid border-theme-primary-700 bg-white p-4 shadow-light disabled:pointer-events-none disabled:cursor-not-allowed dark:border-theme-primary-600 dark:bg-subtle-black'>
+            <div className='flex w-full items-start gap-3'>
+                <div className='flex w-full items-center justify-between'>
+                    <div className='flex flex-col items-start gap-1'>
+                        <div className='flex flex-row items-center gap-1.5 leading-none'>
+                            <div className='font-medium text-light-black dark:text-white'>
                                 {title}
-                            </Paragraph>
+                            </div>
 
                             {ledgerIndicator && <LedgerIcon />}
                             {testnetIndicator && <TestnetIcon />}
-                        </FlexContainer>
+                        </div>
 
-                        <StyledFlexContainer color={'gray'}>
+                        <div className='flex items-center gap-1.25 text-left text-sm leading-[18px] text-theme-secondary-500 dark:text-theme-secondary-300'>
                             {hasAlias && (
                                 <>
                                     <Address
@@ -42,7 +40,7 @@ export const WalletCard = ({ wallet }: Props) => {
                                         length={10}
                                         tooltipPlacement='bottom-start'
                                     />
-                                    <Container> • </Container>
+                                    <div> • </div>
                                 </>
                             )}
 
@@ -56,54 +54,26 @@ export const WalletCard = ({ wallet }: Props) => {
                                             key={index}
                                             maxDigits={constants.MAX_CURRENCY_DIGITS_ALLOWED}
                                             tooltipPlacement='bottom-start'
+                                            underlineOnHover={true}
                                         />
                                     );
                                 } else {
                                     return (
-                                        <Container key={index}>
+                                        <div key={index}>
                                             {index > 0 && helperText.length > 1 && (
-                                                <FlexContainer gridGap='5px'>
-                                                    <Container> • </Container>
-                                                    <Container>{item}</Container>
-                                                </FlexContainer>
+                                                <div className='flex gap-1.25'>
+                                                    <div> • </div>
+                                                    <div>{item}</div>
+                                                </div>
                                             )}
-                                        </Container>
+                                        </div>
                                     );
                                 }
                             })}
-                        </StyledFlexContainer>
-                    </FlexContainer>
-                </FlexContainer>
-            </FlexContainer>
-        </StyledRow>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     );
 };
-
-const StyledRow = styled.div`
-    position: relative;
-    display: flex;
-    width: 100%;
-    max-height: 74px;
-    padding: 16px;
-    grid-gap: 12px;
-    border-radius: 20px;
-    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.05);
-
-    &:disabled {
-        cursor: not-allowed;
-        pointer-events: none;
-    }
-
-    ${({ theme }) => `
-    background-color: ${theme.colors.inputBackground};
-    border: 1px solid ${theme.colors.primary};
-  `}
-`;
-
-const StyledFlexContainer = styled(FlexContainer)`
-    font-size: 14px;
-    line-height: 18px;
-    text-align: left;
-    align-items: center;
-    grid-gap: 5px;
-`;

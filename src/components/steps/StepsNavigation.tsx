@@ -1,25 +1,27 @@
-import { ArrowButton, Container, FlexContainer, Paragraph } from '@/shared/components';
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ComponentType, useState } from 'react';
 
 import { FormikProps } from 'formik';
-import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import cn from 'classnames';
+import { ArrowButton } from '@/shared/components';
 
 export type Step = {
     component: ComponentType<any>;
     containerPaddingX?: '0' | '24';
+    onClickBack?: () => void;
 };
 
-type StepNavigationProps<T> = React.ComponentProps<typeof StyledFlexContainer> & {
+interface StepNavigationProps<T> extends React.HTMLAttributes<HTMLDivElement> {
     steps: Step[];
     formik?: FormikProps<T>;
     disabledSteps?: number[];
     defaultStep?: number;
     onStepChange?: (step: number) => void;
-};
+}
 
 const StepsNavigation = <T extends Record<string, any>>({
+    className,
     steps,
     formik,
     disabledSteps,
@@ -39,6 +41,9 @@ const StepsNavigation = <T extends Record<string, any>>({
             navigate(-1);
             onStepChange?.(-1);
         }
+        if (steps[currentStep].onClickBack) {
+            steps[currentStep].onClickBack?.();
+        }
     };
 
     const handleStepForward = () => {
@@ -55,48 +60,41 @@ const StepsNavigation = <T extends Record<string, any>>({
 
     return (
         <>
-            <StyledFlexContainer color='base' {...stepsProps}>
+            <div
+                className={cn(
+                    'flex items-center justify-between gap-4 pb-6 text-light-black dark:text-white',
+                    className,
+                )}
+                {...stepsProps}
+            >
                 <ArrowButton disabled={isPrevDisabled} onClick={handleStepBack} />
-                <FlexContainer
-                    height='8px'
-                    borderRadius='8'
-                    overflow='hidden'
-                    bg='toggleInactive'
-                    width='242px'
-                >
-                    <Container
+                <div className='flex h-2 w-[242px] overflow-hidden rounded-lg bg-theme-secondary-200 dark:bg-theme-secondary-600'>
+                    <div
                         style={{ width: `${((currentStep + 1) / totalSteps) * 100}%` }}
-                        bg='primary'
-                        borderRadius='8'
-                        width={((currentStep + 1) / totalSteps) * 100}
+                        className='rounded-lg bg-theme-primary-700 dark:bg-theme-primary-650'
                     />
-                </FlexContainer>
-                <Container padding='6'>
-                    <Paragraph $typeset='body' fontWeight='medium'>
+                </div>
+                <div className='p-1.5'>
+                    <p className='typeset-body font-medium'>
                         {currentStep + 1}/{totalSteps}
-                    </Paragraph>
-                </Container>
-            </StyledFlexContainer>
-            <FlexContainer
-                flexDirection='column'
-                height='100%'
-                px={steps[currentStep].containerPaddingX}
+                    </p>
+                </div>
+            </div>
+
+            <div
+                className={cn('flex h-full flex-col', {
+                    'px-6': steps[currentStep].containerPaddingX === '24',
+                    'px-0': steps[currentStep].containerPaddingX === '0',
+                })}
             >
                 <CurrentStepComponent
                     goToNextStep={handleStepForward}
                     goToPrevStep={handleStepBack}
                     formik={formik}
                 />
-            </FlexContainer>
+            </div>
         </>
     );
 };
-
-const StyledFlexContainer = styled(FlexContainer)`
-    grid-gap: 16px;
-    justify-content: space-between;
-    align-items: center;
-    padding-bottom: 24px;
-`;
 
 export default StepsNavigation;

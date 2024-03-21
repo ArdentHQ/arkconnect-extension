@@ -1,23 +1,13 @@
-import {
-    Button,
-    Container,
-    Layout,
-    LockIcon,
-    FlexContainer,
-    PasswordInput,
-    Paragraph,
-    InternalLink,
-    Icon,
-} from '@/shared/components';
 import { useNavigate } from 'react-router-dom';
-import React, { useState } from 'react';
+import { ChangeEvent, KeyboardEvent, useState } from 'react';
+import { runtime } from 'webextension-polyfill';
+import cn from 'classnames';
+import { Button, Icon, InternalLink, Layout, LockIcon, PasswordInput } from '@/shared/components';
 import { ValidationVariant } from '@/components/wallet/create';
-import styled from 'styled-components';
 import { useProfileContext } from '@/lib/context/Profile';
 import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
 import { useAppDispatch } from '@/lib/store';
 import * as UIStore from '@/lib/store/ui';
-import browser from 'webextension-polyfill';
 
 const EnterPassword = () => {
     const navigate = useNavigate();
@@ -29,7 +19,7 @@ const EnterPassword = () => {
 
     const unlockExtension = async () => {
         try {
-            const status = await browser.runtime.sendMessage({
+            const status = await runtime.sendMessage({
                 type: 'UNLOCK',
                 data: { password },
             });
@@ -51,13 +41,13 @@ const EnterPassword = () => {
         }
     };
 
-    const handlePasswordChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
+    const handlePasswordChange = (evt: ChangeEvent<HTMLInputElement>) => {
         setPassword(evt.target.value);
         if (validationVariant !== 'destructive') return;
         setValidationVariant('primary');
     };
 
-    const handleEnterKey = (evt: React.KeyboardEvent<HTMLInputElement>) => {
+    const handleEnterKey = (evt: KeyboardEvent<HTMLInputElement>) => {
         if (evt.key === 'Enter') {
             unlockExtension();
         }
@@ -65,19 +55,21 @@ const EnterPassword = () => {
 
     return (
         <Layout>
-            <Container height='550px' px='16'>
-                <FlexContainer justifyContent='center' alignItems='center' py='59'>
+            <div className='h-[550px] px-4'>
+                <div className='flex items-center justify-center py-[59px]'>
                     <LockIcon />
-                </FlexContainer>
-                <Container>
-                    <FlexContainer
-                        flexDirection='column'
-                        gridGap='6px'
-                        mb={validationVariant === 'destructive' ? '20' : '44'}
+                </div>
+
+                <div>
+                    <div
+                        className={cn('flex flex-col gap-1.5', {
+                            'mb-5': validationVariant === 'destructive',
+                            'mb-11': validationVariant !== 'destructive',
+                        })}
                     >
-                        <Paragraph $typeset='headline' fontWeight='medium' color='labelText'>
+                        <p className='typeset-headline font-medium text-subtle-black dark:text-theme-secondary-200'>
                             Enter Password to Unlock
-                        </Paragraph>
+                        </p>
                         <PasswordInput
                             name='password'
                             variant={validationVariant}
@@ -89,60 +81,38 @@ const EnterPassword = () => {
                                 validationVariant === 'destructive' ? 'Incorrect password' : ''
                             }
                         />
-                    </FlexContainer>
+                    </div>
                     <Button
                         variant='primary'
                         onClick={unlockExtension}
                         disabled={!password.length || validationVariant === 'destructive'}
-                        mb='24'
+                        className='mb-6'
                     >
                         Unlock Extension
-                        <StyledIconWrapper
-                            className={
-                                !password.length || validationVariant === 'destructive'
-                                    ? 'disabled'
-                                    : ''
-                            }
-                            as='span'
+                        <span
+                            className={cn(
+                                'unlock-button absolute right-4 top-1/2 h-5 w-5 -translate-y-1/2',
+                                {
+                                    disabled:
+                                        !password.length || validationVariant === 'destructive',
+                                },
+                            )}
                         >
-                            <Icon icon='corner-down-left' width='20px' height='20px' />
-                        </StyledIconWrapper>
+                            <Icon icon='corner-down-left' className='h-5 w-5' />
+                        </span>
                     </Button>
                     <InternalLink
                         to='/forgot-password'
-                        width='100%'
-                        display='flex'
-                        justifyContent='center'
-                        alignItems='center'
-                        color='base'
+                        className='flex w-full items-center justify-center text-light-black dark:text-white'
                     >
-                        <Paragraph $typeset='headline' fontWeight='medium' color='base'>
+                        <span className='typeset-headline font-medium text-light-black dark:text-white'>
                             Forgot Password?
-                        </Paragraph>
+                        </span>
                     </InternalLink>
-                </Container>
-            </Container>
+                </div>
+            </div>
         </Layout>
     );
 };
-
-const StyledIconWrapper = styled(Container)`
-    width: 20px;
-    height: 20px;
-    position: absolute;
-    top: 50%;
-    right: 16px;
-    transform: translateY(-50%);
-
-    ${({ theme }) => `
-    & #corner-down-left {
-      stroke: ${theme.colors.primary500};
-    }
-
-    &.disabled #corner-down-left {
-      stroke: ${theme.colors.secondary400};
-    }
-  `}
-`;
 
 export default EnterPassword;

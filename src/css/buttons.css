@@ -1,0 +1,123 @@
+@layer utilities {
+    /** Button Base **/
+    .button-base {
+        @apply relative flex max-h-13 w-full cursor-pointer flex-row items-center justify-center gap-3 rounded-2xl border-none px-7 py-4 text-base font-bold leading-5;
+    }
+    .button-base:disabled {
+        @apply pointer-events-none cursor-not-allowed;
+    }
+
+    /** Button Primary **/
+    .button-primary {
+        @apply bg-theme-primary-700 text-white dark:bg-theme-primary-650;
+    }
+    .button-primary:hover {
+        @apply bg-theme-primary-600;
+    }
+    .button-primary:disabled {
+        @apply bg-theme-secondary-100 text-theme-secondary-400 dark:bg-theme-secondary-700;
+    }
+    .button-primary:focus {
+        @apply shadow-[0_0_0_4px_shadow-green] dark:shadow-[0_0_0_4px_rgba(74,205,151,0.24)];
+    }
+    .button-primary:focus-visible {
+        @apply outline-2 outline-theme-primary-600;
+    }
+
+    /** Button Secondary **/
+    .button-secondary {
+        @apply border border-solid border-theme-primary-700 bg-white text-theme-primary-700 dark:border-theme-primary-650 dark:bg-light-black dark:text-theme-primary-650;
+    }
+    .button-secondary:hover {
+        @apply bg-theme-primary-50 dark:bg-theme-secondary-800;
+    }
+    .button-secondary:focus-visible {
+        @apply shadow-[0_0_0_4px_shadow-green] outline-none dark:shadow-[0_0_0_4px_#2B3D35];
+    }
+    .button-secondary:disabled {
+        @apply border-theme-secondary-100 bg-white text-theme-secondary-500 dark:border-theme-secondary-400 dark:bg-light-black dark:text-theme-secondary-300;
+    }
+
+    /** Button Secondary Black **/
+    .button-secondaryBlack {
+        @apply border border-solid border-subtle-black bg-white font-medium text-subtle-black shadow-secondary-dark dark:border-white dark:bg-light-black dark:text-white;
+    }
+    .button-secondaryBlack:hover {
+        @apply bg-theme-secondary-50 dark:bg-theme-secondary-700;
+    }
+    .button-secondaryBlack:focus {
+        @apply shadow-[0_0_0_4px_theme-secondary-50] dark:shadow-[0_0_0_4px_#3B3A3A];
+    }
+    .button-secondaryBlack:disabled {
+        @apply border-theme-secondary-200 bg-light-black text-theme-secondary-200 dark:border-theme-secondary-500 dark:bg-white dark:text-theme-secondary-500;
+    }
+
+    /** Button Primary Text **/
+    .button-primaryText {
+        @apply bg-subtle-white text-theme-primary-700 dark:bg-light-black dark:text-theme-primary-650;
+    }
+    .button-primaryText:hover {
+        @apply bg-theme-primary-50;
+    }
+    .button-primaryText:disabled {
+        @apply text-theme-secondary-500 dark:text-theme-secondary-400;
+    }
+
+    /** Button Primary Link **/
+    .button-primaryLink {
+        @apply bg-transparent p-0 text-theme-primary-700 dark:text-theme-primary-650;
+    }
+    .button-primaryLink:hover {
+        @apply text-theme-primary-600;
+    }
+    .button-primaryLink:disabled {
+        @apply text-theme-secondary-500 dark:text-theme-secondary-400;
+    }
+
+    /** Button Primary Link Destructive **/
+    .button-primaryLinkDestructive {
+        @apply bg-subtle-white p-0 font-medium text-theme-error-600 dark:bg-light-black dark:text-theme-error-500;
+    }
+    .button-primaryLinkDestructive:focus-visible {
+        @apply outline-2 outline-theme-error-700;
+    }
+
+    /** Button Link Destructive **/
+    .button-linkDestructive {
+        @apply bg-transparent p-0 font-medium text-theme-error-600 dark:text-theme-error-500;
+    }
+
+    /** Button Destructive Primary **/
+    .button-destructivePrimary {
+        @apply bg-theme-error-600 text-white dark:bg-theme-error-500;
+    }
+    .button-destructivePrimary:hover {
+        @apply bg-theme-error-700;
+    }
+    .button-destructivePrimary:disabled {
+        @apply bg-theme-error-300 dark:bg-theme-error-800/20;
+    }
+    .button-destructivePrimary:focus {
+        @apply shadow-[0_0_0_4px_theme-error-100] dark:shadow-[0_0_0_4px_#552D2A];
+    }
+    .button-destructivePrimary:focus-visible {
+        @apply outline-2 outline-offset-1 outline-theme-error-700;
+    }
+
+    /** Button Destructive Secondary **/
+    .button-destructiveSecondary {
+        @apply border border-solid border-theme-error-600 bg-white font-medium text-theme-error-600 dark:border-theme-error-500 dark:bg-light-black dark:text-theme-error-500;
+    }
+    .button-destructiveSecondary:hover {
+        @apply bg-theme-error-50 dark:bg-[rgba(91,16,5,0.08)];
+    }
+    .button-destructiveSecondary:focus {
+        @apply shadow-[0_0_0_4px_theme-error-100] dark:shadow-[0_0_0_4px_#43302F];
+    }
+    .button-destructiveSecondary:disabled {
+        @apply border-theme-error-200 text-theme-error-300;
+    }
+    .button-destructiveSecondary:focus-visible {
+        @apply outline-2 outline-offset-1 outline-theme-error-700;
+    }
+}

@@ -2,23 +2,29 @@ import { useEffect, useState } from 'react';
 import { useFormik } from 'formik';
 import { Contracts } from '@ardenthq/sdk-profiles';
 import { useNavigate } from 'react-router-dom';
-import browser from 'webextension-polyfill';
+import { runtime } from 'webextension-polyfill';
 import SetupPassword from '../../settings/SetupPassword';
 import ConfirmPassphrase from './ConfirmPassphrase';
 import GeneratePassphrase from './GeneratePassphrase';
 import StepsNavigation, { Step } from '@/components/steps/StepsNavigation';
 import useToast from '@/lib/hooks/useToast';
-import useNetwork from '@/lib/hooks/useNetwork';
+import useActiveNetwork from '@/lib/hooks/useActiveNetwork';
 import { useProfileContext } from '@/lib/context/Profile';
 import { getDefaultAlias } from '@/lib/utils/getDefaultAlias';
 import { HandleLoadingState } from '@/shared/components/handleStates/HandleLoadingState';
 import { assertNetwork } from '@/lib/utils/assertions';
 import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
 import useLocaleCurrency from '@/lib/hooks/useLocalCurrency';
-import { getLocalValues } from '@/lib/utils/localStorage';
-import { LastScreen, ProfileData, ScreenName } from '@/lib/background/contracts';
+import {
+    EnvironmentData,
+    LastVisitedPage,
+    ProfileData,
+    ScreenName,
+} from '@/lib/background/contracts';
 import randomWordPositions from '@/lib/utils/randomWordPositions';
 import useLoadingModal from '@/lib/hooks/useLoadingModal';
+import { useBackgroundEvents } from '@/lib/context/BackgroundEventHandler';
+import { useEnvironmentContext } from '@/lib/context/Environment';
 
 export type CreateWalletFormik = {
     wallet?: Contracts.IReadWriteWallet;
@@ -49,33 +55,39 @@ const CreateNewWallet = () => {
     const { onError } = useErrorHandlerContext();
     const { profile, initProfile } = useProfileContext();
     const { defaultCurrency } = useLocaleCurrency();
-    const { activeNetwork } = useNetwork();
+    const activeNetwork = useActiveNetwork();
     const [isGeneratingWallet, setIsGeneratingWallet] = useState(true);
     const [steps, setSteps] = useState<Step[]>([
         { component: GeneratePassphrase },
         { component: ConfirmPassphrase },
     ]);
     const [defaultStep, setDefaultStep] = useState(0);
+    const { env } = useEnvironmentContext();
 
     const loadingModal = useLoadingModal({
         completedMessage: 'Your Wallet is Ready!',
         loadingMessage: 'Setting up the wallet, please wait!',
     });
 
+    const { events } = useBackgroundEvents();
+
     useEffect(() => {
         (async () => {
-            const { hasOnboarded } = await getLocalValues();
-            const lastScreen = profile.data().get(ProfileData.LastScreen) as LastScreen | undefined;
+            const hasOnboarded = env.data().get(EnvironmentData.HasOnboarded);
 
-            if (lastScreen && lastScreen.screenName === ScreenName.CreateWallet) {
+            const lastVisitedPage = profile.settings().get(ProfileData.LastVisitedPage) as
+                | LastVisitedPage
+                | undefined;
+
+            if (lastVisitedPage && lastVisitedPage.path === ScreenName.CreateWallet) {
                 setIsGeneratingWallet(true);
 
-                const mnemonic = lastScreen.data.mnemonic;
-                const network = lastScreen.data.network;
-                const coin = lastScreen.data.coin;
-                const confirmationNumbers = lastScreen.data.confirmationNumbers;
-                const confirmPassphrase = lastScreen.data.confirmPassphrase;
-                const step = lastScreen.data.step;
+                const mnemonic = lastVisitedPage.data.mnemonic;
+                const network = lastVisitedPage.data.network;
+                const coin = lastVisitedPage.data.coin;
+                const confirmationNumbers = lastVisitedPage.data.confirmationNumbers;
+                const confirmPassphrase = lastVisitedPage.data.confirmPassphrase;
+                const step = lastVisitedPage.data.step;
 
                 if (mnemonic && network && coin) {
                     const wallet = await profile.walletFactory().fromMnemonicWithBIP39({
@@ -116,8 +128,8 @@ const CreateNewWallet = () => {
 
     useEffect(() => {
         return () => {
-            browser.runtime.sendMessage({ type: 'CLEAR_LAST_SCREEN' });
-            profile.data().set(ProfileData.LastScreen, undefined);
+            runtime.sendMessage({ type: 'CLEAR_LAST_SCREEN' });
+            profile.settings().forget(ProfileData.LastVisitedPage);
         };
     }, []);
 
@@ -132,7 +144,7 @@ const CreateNewWallet = () => {
                 return;
             }
 
-            const { error } = await browser.runtime.sendMessage({
+            const { error } = await runtime.sendMessage({
                 type: 'IMPORT_WALLETS',
                 data: {
                     currency: defaultCurrency,
@@ -154,7 +166,7 @@ const CreateNewWallet = () => {
                 return;
             }
 
-            await browser.runtime.sendMessage({ type: 'CLEAR_LAST_SCREEN' });
+            await runtime.sendMessage({ type: 'CLEAR_LAST_SCREEN' });
 
             // Fetch updated profile data and update store.
             await initProfile();
@@ -163,7 +175,9 @@ const CreateNewWallet = () => {
 
             formikHelpers.resetForm();
 
-            navigate('/');
+            if (events.length === 0) {
+                navigate('/');
+            }
         },
     });
 
@@ -185,15 +199,14 @@ const CreateNewWallet = () => {
     // Persist the exact step if user goes back 'n forth.
     const handleStepChange = async (step: number) => {
         if (step === -1) {
-            const { hasOnboarded } = await getLocalValues();
-            browser.runtime.sendMessage({ type: 'CLEAR_LAST_SCREEN' });
-            profile.data().set(ProfileData.LastScreen, undefined);
+            runtime.sendMessage({ type: 'CLEAR_LAST_SCREEN' });
+            profile.settings().forget(ProfileData.LastVisitedPage);
 
-            if (hasOnboarded) {
+            if (env.data().get(EnvironmentData.HasOnboarded)) {
                 return navigate('/create-import-address');
             }
 
-            return navigate('/splash-screen');
+            return navigate('/onboarding');
         }
 
         if (step === 0) {
@@ -201,9 +214,9 @@ const CreateNewWallet = () => {
             formik.setFieldValue('confirmationNumbers', confirmationNumbers);
             formik.setFieldValue('confirmPassphrase', ['', '', '']);
 
-            browser.runtime.sendMessage({
+            runtime.sendMessage({
                 type: 'SET_LAST_SCREEN',
-                screenName: ScreenName.CreateWallet,
+                path: ScreenName.CreateWallet,
                 data: {
                     step,
                     mnemonic: formik.values.passphrase.join(' '),
@@ -215,9 +228,9 @@ const CreateNewWallet = () => {
             return;
         }
 
-        browser.runtime.sendMessage({
+        runtime.sendMessage({
             type: 'SET_LAST_SCREEN',
-            screenName: ScreenName.CreateWallet,
+            path: ScreenName.CreateWallet,
             data: {
                 step,
                 mnemonic: formik.values.passphrase.join(' '),
@@ -238,9 +251,9 @@ const CreateNewWallet = () => {
             formik.setFieldValue('wallet', response.wallet);
             formik.setFieldValue('passphrase', response.mnemonic.split(' '));
 
-            await browser.runtime.sendMessage({
+            await runtime.sendMessage({
                 type: 'SET_LAST_SCREEN',
-                screenName: ScreenName.CreateWallet,
+                path: ScreenName.CreateWallet,
                 data: {
                     step: 0,
                     mnemonic: response?.mnemonic,

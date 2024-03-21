@@ -1,7 +1,7 @@
 import { useLocation, useNavigate } from 'react-router-dom';
-import browser from 'webextension-polyfill';
+import { runtime } from 'webextension-polyfill';
 import SubPageLayout, { SettingsRowItem } from '../SubPageLayout';
-import { Container, Icon, Paragraph } from '@/shared/components';
+import { Icon } from '@/shared/components';
 import useToast from '@/lib/hooks/useToast';
 import { AutoLockTimer as AutoLockTimerEnum, setLocalValue } from '@/lib/utils/localStorage';
 import showAutoLockTimerValue from '@/lib/utils/showAutoLockTimerValue';
@@ -18,8 +18,8 @@ const AutoLockTimer = () => {
 
     const changeAutoLockTimer = async (autoLockValue: AutoLockTimerEnum) => {
         await setLocalValue('autoLockTimer', autoLockValue);
-        browser.runtime.sendMessage({
-            type: 'AUTOLOCK_TIMER_CHANGED',
+        runtime.sendMessage({
+            type: 'REFRESH_AUTOLOCK_TIMER',
             data: {
                 autoLockValue,
             },
@@ -30,25 +30,20 @@ const AutoLockTimer = () => {
 
     return (
         <SubPageLayout title='Auto Lock Timer'>
-            <Container borderRadius='16' paddingY='8' bg='secondaryBackground'>
+            <div className='rounded-2xl bg-white py-2 dark:bg-subtle-black'>
                 {timerKeys.map((timerKey) => (
                     <SettingsRowItem
                         key={timerKey}
-                        className={location.state?.autoLockTimer === timerKey ? 'active' : ''}
+                        active={location.state?.autoLockTimer === timerKey}
                         onClick={() => changeAutoLockTimer(timerKey)}
-                        tabIndex={0}
-                        as='button'
-                        width='100%'
                     >
-                        <Paragraph $typeset='headline' as='span'>
-                            {showAutoLockTimerValue(timerKey)}
-                        </Paragraph>
+                        <span className='typeset-headline'>{showAutoLockTimerValue(timerKey)}</span>
                         {location.state?.autoLockTimer === timerKey && (
-                            <Icon icon='check' width='20px' height='20px' />
+                            <Icon icon='check' className='h-5 w-5' />
                         )}
                     </SettingsRowItem>
                 ))}
-            </Container>
+            </div>
         </SubPageLayout>
     );
 };

@@ -2,22 +2,28 @@ import { Contracts } from '@ardenthq/sdk-profiles';
 import { FormikValues, useFormik } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import browser from 'webextension-polyfill';
+import { runtime } from 'webextension-polyfill';
 import SetupPassword from '../../settings/SetupPassword';
 import { ValidationVariant } from '../create';
-import { getPersistedValues } from '../form-persist';
-import { clearPersistScreenData } from '../form-persist/helpers';
 import EnterPassphrase from './EnterPassphrase';
 import ImportedWallet from './ImportedWallet';
 import StepsNavigation, { Step } from '@/components/steps/StepsNavigation';
 import { useProfileContext } from '@/lib/context/Profile';
 import { HandleLoadingState } from '@/shared/components/handleStates/HandleLoadingState';
 import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
-import useNetwork from '@/lib/hooks/useNetwork';
+import useActiveNetwork from '@/lib/hooks/useActiveNetwork';
 import useWalletImport from '@/lib/hooks/useWalletImport';
 import useLocaleCurrency from '@/lib/hooks/useLocalCurrency';
-import { getLocalValues } from '@/lib/utils/localStorage';
 import useLoadingModal from '@/lib/hooks/useLoadingModal';
+import { useBackgroundEvents } from '@/lib/context/BackgroundEventHandler';
+import {
+    EnvironmentData,
+    LastVisitedPage,
+    ProfileData,
+    ScreenName,
+} from '@/lib/background/contracts';
+
+import { useEnvironmentContext } from '@/lib/context/Environment';
 export type ImportedWalletFormik = {
     enteredPassphrase: string;
     wallet?: Contracts.IReadWriteWallet;
@@ -42,9 +48,8 @@ const ImportNewWallet = () => {
     const navigate = useNavigate();
     const { profile, initProfile } = useProfileContext();
     const { onError } = useErrorHandlerContext();
-    const { persistScreen } = getPersistedValues();
     const { importWallet } = useWalletImport({ profile });
-    const { activeNetwork } = useNetwork();
+    const activeNetwork = useActiveNetwork();
     const loadingModal = useLoadingModal({
         completedMessage: 'Your Wallet is Ready!',
         loadingMessage: 'Setting up the wallet, please wait!',
@@ -56,16 +61,22 @@ const ImportNewWallet = () => {
     const [defaultStep, setDefaultStep] = useState<number>(0);
     const [isGeneratingWallet, setIsGeneratingWallet] = useState(true);
     const { defaultCurrency } = useLocaleCurrency();
+    const { env } = useEnvironmentContext();
+
+    const { events } = useBackgroundEvents();
 
     useEffect(() => {
         (async () => {
-            const { hasOnboarded } = await getLocalValues();
-            if (!hasOnboarded) {
+            if (!env.data().get(EnvironmentData.HasOnboarded)) {
                 setSteps([...steps, { component: SetupPassword }]);
             }
 
-            if (persistScreen) {
-                if (persistScreen.step > 0) {
+            const lastVisitedPage = profile.settings().get(ProfileData.LastVisitedPage) as
+                | LastVisitedPage
+                | undefined;
+
+            if (lastVisitedPage?.path === ScreenName.ImportWallet) {
+                if (lastVisitedPage.data.step > 0) {
                     const importedWallet = await importWallet({
                         network: activeNetwork,
                         value: formik.values.enteredPassphrase,
@@ -76,7 +87,7 @@ const ImportNewWallet = () => {
                     formik.setFieldValue('wallet', importedWallet);
                 }
 
-                setDefaultStep(persistScreen.step);
+                setDefaultStep(lastVisitedPage.data.step);
             }
 
             setIsGeneratingWallet(false);
@@ -85,7 +96,7 @@ const ImportNewWallet = () => {
 
     useEffect(() => {
         return () => {
-            clearPersistScreenData();
+            void runtime.sendMessage({ type: 'CLEAR_LAST_SCREEN' });
         };
     }, []);
 
@@ -94,7 +105,7 @@ const ImportNewWallet = () => {
         onSubmit: async (values: FormikValues, formikHelpers) => {
             loadingModal.setLoading();
 
-            const { error } = await browser.runtime.sendMessage({
+            const { error } = await runtime.sendMessage({
                 type: 'IMPORT_WALLETS',
                 data: {
                     currency: defaultCurrency,
@@ -122,7 +133,10 @@ const ImportNewWallet = () => {
             await loadingModal.setCompletedAndClose();
 
             formikHelpers.resetForm();
-            navigate('/');
+
+            if (events.length === 0) {
+                navigate('/');
+            }
         },
     });
 

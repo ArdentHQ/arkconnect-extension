@@ -1,16 +1,11 @@
 import { useEffect, useState } from 'react';
-import styled from 'styled-components';
 import { useLocation } from 'react-router-dom';
-import browser from 'webextension-polyfill';
-import RemoveConnections from './RemoveConnections';
+import cn from 'classnames';
+import { DisconnectSessionModal } from '../wallet/DisconnectSessionModal';
 import ConnectionLogoImage from './ConnectionLogoImage';
-import useThemeMode from '@/lib/hooks/useThemeMode';
-import { useAppDispatch, useAppSelector } from '@/lib/store';
+import { useAppSelector } from '@/lib/store';
 import * as SessionStore from '@/lib/store/session';
-import { ThemeMode } from '@/lib/store/ui';
-import Modal from '@/shared/components/modal/Modal';
-import { Button, Container, FlexContainer, Icon, Paragraph, Tooltip } from '@/shared/components';
-import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
+import { Button, Icon, Tooltip } from '@/shared/components';
 import formatDomain from '@/lib/utils/formatDomain';
 import removeWindowInstance from '@/lib/utils/removeWindowInstance';
 import trimAddress from '@/lib/utils/trimAddress';
@@ -18,35 +13,12 @@ import { useProfileContext } from '@/lib/context/Profile';
 import { selectPrimaryWalletId } from '@/lib/store/wallet';
 import { isFirefox } from '@/lib/utils/isFirefox';
 
-type StateProps = {
-    sessionDomain?: string;
-    numberOfSessions?: number;
-    isOpen: boolean;
-    onConfirm: () => void;
-    onCancel: () => void;
-};
-
-const initialState: StateProps = {
-    sessionDomain: undefined,
-    numberOfSessions: 0,
-    isOpen: false,
-    onConfirm: () => {
-        return;
-    },
-    onCancel: () => {
-        return;
-    },
-};
-
 const ConnectionsList = () => {
     const location = useLocation();
-    const { currentThemeMode } = useThemeMode();
     const sessions = useAppSelector(SessionStore.selectSessions);
     const { profile } = useProfileContext();
-    const [state, setState] = useState<StateProps>(initialState);
-    const { onError } = useErrorHandlerContext();
-    const dispatch = useAppDispatch();
     const primaryWalletId = useAppSelector(selectPrimaryWalletId);
+    const [sessionsToRemove, setSessionsToRemove] = useState<SessionStore.Session[]>([]);
 
     const getWalletName = (walletId: string) => {
         const wallet = profile.wallets().findById(walletId);
@@ -56,253 +28,126 @@ const ConnectionsList = () => {
         return displayName ? displayName : trimAddress(wallet.address(), 'short');
     };
 
-    const getWalletAddress = (walletId: string) => {
-        const wallet = profile.wallets().findById(walletId);
-
-        return wallet.address();
-    };
-
-    const disconnectSessions = async (sessions: SessionStore.Session[]) => {
-        await dispatch(SessionStore.sessionRemoved(sessions.map((s) => s.id)));
-
-        await browser.runtime.sendMessage({
-            type: 'DISCONNECT_RESOLVE',
-            data: {
-                domain: sessions[0].domain,
-                status: 'success',
-                disconnected: false,
-            },
-        });
+    const getSessionByUrl = (sessions: SessionStore.Session[]) => {
+        return Object.values(sessions).find(
+            (session) =>
+                session.domain === location.state?.domain && session.walletId === primaryWalletId,
+        );
     };
 
     useEffect(() => {
-        (async () => {
-            const session = Object.values(sessions).find(
-                (s) => s.domain === location.state?.domain && s.walletId === primaryWalletId,
-            );
+        // Check whether the view is within a standalone popup,
+        // and open removal confirmation modal on initial render.
+        const popupSession = getSessionByUrl(Object.values(sessions));
 
-            if (session) {
-                const confirmed = await confirm({
-                    sessionDomain: session.domain,
-                });
-
-                if (!confirmed) {
-                    await removeWindowInstance(location.state?.windowId, 1000);
-                    return;
-                }
-
-                await disconnectSessions([session]);
-            }
-
-            await removeWindowInstance(location.state?.windowId, 100);
-        })();
+        if (popupSession) {
+            setSessionsToRemove([popupSession]);
+        }
     }, [location.state, primaryWalletId, sessions]);
 
-    const handleRemoveSession = async (session: SessionStore.Session) => {
-        try {
-            const confirmed = await confirm({
-                sessionDomain: session.domain,
-            });
-            if (!confirmed) return;
-
-            await disconnectSessions([session]);
-        } catch (error) {
-            onError(error, false);
-        }
-    };
-
-    const handleRemoveAllSession = async () => {
-        try {
-            const confirmed = await confirm({
-                numberOfSessions: Object.keys(sessions).length,
-            });
-            if (!confirmed) return;
-
-            await disconnectSessions(Object.values(sessions));
-        } catch (error) {
-            onError(error, false);
-        }
-    };
-
-    const confirm = ({
-        sessionDomain,
-        numberOfSessions,
-    }: {
-        sessionDomain?: string;
-        numberOfSessions?: number;
-    }) => {
-        return new Promise((resolve) => {
-            setState({
-                sessionDomain,
-                numberOfSessions,
-                isOpen: !state.isOpen,
-                onConfirm() {
-                    setState(initialState);
-                    resolve(true);
-                },
-                onCancel() {
-                    setState(initialState);
-                    resolve(false);
-                },
-            });
-        });
-    };
-
     return (
-        <Container>
-            <FlexContainer flexDirection='column' gridGap='8px' mb='8'>
+        <div>
+            <div className='mb-2 flex flex-col gap-2'>
                 {Object.values(sessions).map((session) => {
                     return (
-                        <StyledRow key={session.id}>
-                            <FlexContainer
-                                width='40px'
-                                height='40px'
-                                alignItems='center'
-                                justifyContent='center'
-                                borderRadius='50%'
-                                overflow='hidden'
-                                backgroundColor={
-                                    currentThemeMode === ThemeMode.LIGHT ? 'secondary50' : 'black'
-                                }
-                            >
+                        <div
+                            className='relative flex min-h-[58px] w-full items-center justify-between gap-3 rounded-2xl bg-white p-3 shadow-light dark:bg-subtle-black'
+                            key={session.id}
+                        >
+                            <div className='flex h-10 w-10 flex-shrink-0 items-center justify-center overflow-hidden rounded-full bg-theme-secondary-50 dark:bg-black'>
                                 <ConnectionLogoImage
                                     appLogo={session.logo}
                                     alt={session.domain}
                                     roundCorners
                                 />
-                            </FlexContainer>
+                            </div>
 
-                            <Container width='calc(100% - 96px)'>
+                            <div className='flex flex-1 flex-col justify-between'>
                                 <div>
                                     <Tooltip
                                         content={
-                                            <StyledSpan>
+                                            <span className='truncate'>
                                                 {formatDomain(session.domain, false)}
-                                            </StyledSpan>
+                                            </span>
                                         }
                                         placement='top'
                                     >
-                                        <Paragraph
-                                            $typeset='headline'
-                                            fontWeight='medium'
-                                            color='base'
-                                            display='inline'
-                                        >
-                                            <span>{formatDomain(session.domain, false)}</span>
-                                        </Paragraph>
+                                        <p className='typeset-headline font-medium text-light-black dark:text-white'>
+                                            {formatDomain(session.domain, false)}
+                                        </p>
                                     </Tooltip>
                                 </div>
 
-                                <Tooltip
-                                    content={getWalletAddress(session.walletId)}
-                                    placement='bottom-start'
-                                >
-                                    <Paragraph
-                                        $typeset='body'
-                                        color='gray'
-                                        fontWeight='regular'
-                                        mt='4'
-                                        display='inline'
+                                <span className='typeset-body mt-1 text-theme-secondary-500 dark:text-theme-secondary-300'>
+                                    Connected with{' '}
+                                    <Tooltip
+                                        content={profile
+                                            .wallets()
+                                            .findById(session.walletId)
+                                            .address()}
+                                        placement='bottom-start'
                                     >
-                                        Connected with{' '}
-                                        <strong>
+                                        <strong className='text-theme-secondary-700 underline-offset-2 hover:underline dark:text-theme-secondary-200'>
                                             {trimAddress(getWalletName(session.walletId), 14)}
                                         </strong>
-                                    </Paragraph>
-                                </Tooltip>
-                            </Container>
+                                    </Tooltip>
+                                </span>
+                            </div>
 
                             <Tooltip content='Disconnect' placement='left'>
-                                <StyledFlexContainer
-                                    isDark={currentThemeMode === ThemeMode.DARK}
-                                    width='32px'
-                                    height='32px'
-                                    alignItems='center'
-                                    justifyContent='center'
-                                    borderRadius='50%'
+                                <button
+                                    type='button'
+                                    className={cn(
+                                        'flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full text-theme-error-500 hover:bg-theme-secondary-50 dark:text-theme-error-600 dark:hover:bg-theme-secondary-700',
+                                        {
+                                            'transition-smoothEase': !isFirefox,
+                                            'transition-firefoxSmoothEase': isFirefox,
+                                        },
+                                    )}
                                     onClick={() => {
-                                        handleRemoveSession(session);
+                                        setSessionsToRemove([session]);
                                     }}
-                                    as='button'
                                 >
-                                    <Icon icon='slash' width='18px' height='18px' />
-                                </StyledFlexContainer>
+                                    <Icon
+                                        icon='slash'
+                                        className='h-4.5 w-4.5 text-theme-error-600 dark:text-theme-error-500'
+                                    />
+                                </button>
                             </Tooltip>
-                        </StyledRow>
+                        </div>
                     );
                 })}
-            </FlexContainer>
-            <Button variant='destructiveSecondary' onClick={handleRemoveAllSession} mt='16'>
+            </div>
+            <Button
+                variant='destructiveSecondary'
+                onClick={() => {
+                    setSessionsToRemove(Object.values(sessions));
+                }}
+                className='mt-4'
+            >
                 Disconnect All
             </Button>
-            {state.isOpen && (
-                <Modal
-                    onClose={state.onCancel}
-                    onCancel={state.onCancel}
-                    icon='alert-octagon'
-                    variant='danger'
-                    onResolve={async () => {
-                        await browser.runtime.sendMessage({
-                            type: 'DISCONNECT_RESOLVE',
-                            data: {
-                                domain: state.sessionDomain,
-                                status: 'success',
-                                disconnected: false,
-                            },
-                        });
 
-                        state.onConfirm();
-                    }}
-                    hideCloseButton
-                    focusTrapOptions={{
-                        initialFocus: false,
-                    }}
-                >
-                    <RemoveConnections
-                        sessionDomain={state.sessionDomain}
-                        numberOfSessions={state.numberOfSessions}
-                    />
-                </Modal>
-            )}
-        </Container>
+            <DisconnectSessionModal
+                sessions={sessionsToRemove}
+                isOpen={sessionsToRemove.length > 0}
+                onCancel={async () => {
+                    if (getSessionByUrl(sessionsToRemove)) {
+                        await removeWindowInstance(location.state?.windowId, 100);
+                    }
+
+                    setSessionsToRemove([]);
+                }}
+                onConfirm={async () => {
+                    if (getSessionByUrl(sessionsToRemove)) {
+                        await removeWindowInstance(location.state?.windowId, 100);
+                    }
+
+                    setSessionsToRemove([]);
+                }}
+            />
+        </div>
     );
 };
-
-const StyledRow = styled.div`
-    ${({ theme }) => `
-  border-radius: ${theme.radii['16']}px;
-  background-color: ${theme.colors.inputBackground};
-  box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.05);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  min-height: 58px;
-  padding: 8px;
-  grid-gap: 12px;
-  position: relative;
-`}
-`;
-
-const StyledFlexContainer = styled(FlexContainer)<{ isDark?: boolean }>`
-    cursor: pointer;
-    color: ${({ theme, isDark }) => (isDark ? theme.colors.error500 : theme.colors.error600)};
-    transition: ${({ theme }) =>
-        isFirefox ? theme.transitions.firefoxSmoothEase : theme.transitions.smoothEase};
-    border: none;
-    background: ${({ theme }) => theme.colors.transparent};
-
-    &:hover {
-        ${({ theme, isDark }) => `
-      background-color: ${isDark ? theme.colors.secondary700 : theme.colors.secondary50};
-    `}
-    }
-
-    ${({ theme }) => (isFirefox ? theme.browserCompatibility.firefox.focus : '')}
-`;
-
-const StyledSpan = styled.span`
-    word-wrap: break-word;
-`;
 
 export default ConnectionsList;

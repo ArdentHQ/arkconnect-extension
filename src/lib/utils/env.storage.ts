@@ -1,5 +1,5 @@
+import { runtime } from 'webextension-polyfill';
 import { Storage } from '@ardenthq/sdk-profiles';
-import browser from 'webextension-polyfill';
 
 export class ExtensionClientStorage implements Storage {
     private storage: any;
@@ -18,7 +18,7 @@ export class ExtensionClientStorage implements Storage {
 
     public async set(key: string, value: string | object): Promise<void> {
         if (key === 'profiles') {
-            const { profileDump } = await browser.runtime.sendMessage({
+            const { profileDump } = await runtime.sendMessage({
                 type: 'PERSIST',
                 data: { profileDump: value },
             });
@@ -27,6 +27,13 @@ export class ExtensionClientStorage implements Storage {
                 [profileDump.id]: profileDump,
             };
             return;
+        }
+
+        if (key === 'data') {
+            await runtime.sendMessage({
+                type: 'PERSIST_ENV_DATA',
+                data: value,
+            });
         }
 
         this.storage[key] = value;

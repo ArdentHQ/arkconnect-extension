@@ -1,48 +1,35 @@
-import React from 'react';
-import styled from 'styled-components';
-import {
-    fontWeight,
-    FontWeightProps,
-    textAlign,
-    TextAlignProps,
-    space,
-    SpaceProps,
-    color,
-    ColorProps,
-    width,
-    WidthProps,
-} from 'styled-system';
-import { Theme } from '../../theme';
-import { HeadingVariantProps, typesetVariant } from '@/shared/theme/variants';
+import { twMerge } from 'tailwind-merge';
 
-type BaseProps = TextAlignProps<Theme> &
-    SpaceProps<Theme> &
-    FontWeightProps<Theme> &
-    ColorProps<Theme> &
-    WidthProps<Theme> &
-    HeadingVariantProps;
+interface Props extends React.HTMLAttributes<HTMLHeadingElement> {
+    level: 2 | 3 | 4;
+}
 
-const StyledHeading = styled.h1<BaseProps>`
-    ${fontWeight}
-    ${textAlign}
-  ${space}
-  ${color}
-  ${width}
-  ${typesetVariant}
-`;
-
-type Props = React.PropsWithChildren<BaseProps>;
-
-export const Heading = (props: Props) => {
-    if (!props.$typeset) {
-        return null;
+export const Heading = ({ level, className, ...properties }: Props) => {
+    if (level === 4) {
+        return (
+            <h4
+                className={twMerge(
+                    'text-lg font-medium leading-[23px] text-light-black dark:text-white',
+                    className,
+                )}
+                {...properties}
+            />
+        );
     }
 
-    const colorProp = props.color as string | undefined;
+    if (level === 3) {
+        return (
+            <h3
+                className={twMerge(
+                    'text-xl font-bold leading-[25px] text-light-black dark:text-white',
+                    className,
+                )}
+                {...properties}
+            />
+        );
+    }
 
     return (
-        <StyledHeading as={props.$typeset} {...props} color={colorProp}>
-            {props.children}
-        </StyledHeading>
+        <h2 className={twMerge('text-2xl font-bold leading-[30px]', className)} {...properties} />
     );
 };

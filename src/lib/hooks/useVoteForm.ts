@@ -1,19 +1,18 @@
 import { Networks, Services } from '@ardenthq/sdk';
 import { Contracts } from '@ardenthq/sdk-profiles';
 import { useEffect, useState } from 'react';
+import { runtime } from 'webextension-polyfill';
 import { useEnvironmentContext } from '../context/Environment';
 import { precisionRound } from '../utils/precisionRound';
-import { handleBroadcastError } from '../utils/transactionHelpers';
-import * as SessionStore from '@/lib/store/session';
-import * as WalletStore from '@/lib/store/wallet';
+import { handleBroadcastError, withAbortPromise } from '../utils/transactionHelpers';
 import { useAppSelector } from '../store';
-import { useFees } from './useFees';
-import { ApproveActionType } from '@/pages/Approve';
 import { useProfileContext } from '../context/Profile';
 import { useErrorHandlerContext } from '../context/ErrorHandler';
-import browser from 'webextension-polyfill';
-import { withAbortPromise } from '../utils/transactionHelpers';
 import { useLedgerContext } from '../Ledger';
+import { useFees } from './useFees';
+import { ApproveActionType } from '@/pages/Approve';
+import * as WalletStore from '@/lib/store/wallet';
+import * as SessionStore from '@/lib/store/session';
 
 interface SendVoteForm {
     senderAddress: string;
@@ -107,7 +106,7 @@ export const useVoteForm = (wallet: Contracts.IReadWriteWallet, request: Approve
                 signatory,
             };
 
-            // @ts-ignore
+            // @ts-expect-error data is already there
             const uuid = await wallet.transaction().signVote(voteTransactionInput);
             const response = await wallet.transaction().broadcast(uuid);
 
@@ -123,7 +122,7 @@ export const useVoteForm = (wallet: Contracts.IReadWriteWallet, request: Approve
             };
         }
 
-        const { transaction, response, error } = await browser.runtime.sendMessage({
+        const { transaction, response, error } = await runtime.sendMessage({
             type: 'SEND_VOTE',
             data,
         });
@@ -194,7 +193,7 @@ export const useVoteForm = (wallet: Contracts.IReadWriteWallet, request: Approve
                 }));
             } catch (error: any) {
                 onError(error);
-                browser.runtime.sendMessage({
+                runtime.sendMessage({
                     type: 'SIGN_VOTE_REJECT',
                     data: {
                         domain: request.domain,

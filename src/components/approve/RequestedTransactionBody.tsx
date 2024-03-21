@@ -1,8 +1,11 @@
 import { Contracts } from '@ardenthq/sdk-profiles';
 import Amount from '../wallet/Amount';
-import ActionDetails, { ActionDetailsRow } from './ActionDetails';
+import ActionDetails, {
+    ActionDetailsFiatValue,
+    ActionDetailsRow,
+    ActionDetailsValue,
+} from './ActionDetails';
 import trimAddress from '@/lib/utils/trimAddress';
-import { FlexContainer, Paragraph } from '@/shared/components';
 import { getNetworkCurrency } from '@/lib/utils/getActiveCoin';
 import { useExchangeRate } from '@/lib/hooks/useExchangeRate';
 
@@ -24,51 +27,65 @@ const RequestedTransactionBody = ({ wallet, amount, fee, total, receiverAddress 
         ticker: wallet.currency(),
     });
 
+    const withFiat = wallet.network().isLive();
+
     return (
         <ActionDetails>
-            <ActionDetailsRow label='Amount'>
-                <FlexContainer gridGap='4px' alignItems='end'>
-                    <Paragraph $typeset='headline' fontWeight='medium' color='base'>
-                        <Amount value={amount} ticker={coin} withTicker />
-                    </Paragraph>
-                    {wallet.network().isLive() && (
-                        <Paragraph $typeset='body' fontWeight='medium' color='gray'>
+            <ActionDetailsRow
+                label='Amount'
+                below={
+                    withFiat && (
+                        <ActionDetailsFiatValue>
                             <Amount value={convert(amount)} ticker={exchangeCurrency} />
-                        </Paragraph>
-                    )}
-                </FlexContainer>
+                        </ActionDetailsFiatValue>
+                    )
+                }
+            >
+                <div className='flex items-center gap-4'>
+                    <ActionDetailsValue>
+                        <Amount value={amount} ticker={coin} withTicker />
+                    </ActionDetailsValue>
+                </div>
             </ActionDetailsRow>
 
             <ActionDetailsRow label='Receiver'>
-                <Paragraph $typeset='headline' fontWeight='medium' color='base'>
+                <ActionDetailsValue>
                     {trimAddress(receiverAddress as string, 10)}
-                </Paragraph>
+                </ActionDetailsValue>
             </ActionDetailsRow>
 
-            <ActionDetailsRow label='Transaction Fee'>
-                <FlexContainer gridGap='4px' alignItems='end'>
-                    <Paragraph $typeset='headline' fontWeight='medium' color='base'>
-                        <Amount value={fee} ticker={coin} withTicker />
-                    </Paragraph>
-                    {wallet.network().isLive() && (
-                        <Paragraph $typeset='body' fontWeight='medium' color='gray'>
+            <ActionDetailsRow
+                label='Transaction Fee'
+                below={
+                    withFiat && (
+                        <ActionDetailsFiatValue>
                             <Amount value={convert(fee)} ticker={exchangeCurrency} />
-                        </Paragraph>
-                    )}
-                </FlexContainer>
+                        </ActionDetailsFiatValue>
+                    )
+                }
+            >
+                <div className='flex items-center gap-4'>
+                    <ActionDetailsValue>
+                        <Amount value={fee} ticker={coin} withTicker />
+                    </ActionDetailsValue>
+                </div>
             </ActionDetailsRow>
 
-            <ActionDetailsRow label='Total Amount'>
-                <FlexContainer gridGap='4px' alignItems='end'>
-                    <Paragraph $typeset='headline' fontWeight='medium' color='base'>
-                        <Amount value={total} ticker={coin} withTicker />
-                    </Paragraph>
-                    {wallet.network().isLive() && (
-                        <Paragraph $typeset='body' fontWeight='medium' color='gray'>
+            <ActionDetailsRow
+                label='Total Amount'
+                below={
+                    withFiat && (
+                        <ActionDetailsFiatValue>
                             <Amount value={convert(total)} ticker={exchangeCurrency} />
-                        </Paragraph>
-                    )}
-                </FlexContainer>
+                        </ActionDetailsFiatValue>
+                    )
+                }
+            >
+                <div className='flex items-center gap-4'>
+                    <ActionDetailsValue>
+                        <Amount value={total} ticker={coin} withTicker />
+                    </ActionDetailsValue>
+                </div>
             </ActionDetailsRow>
         </ActionDetails>
     );

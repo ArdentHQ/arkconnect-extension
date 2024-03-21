@@ -1,7 +1,8 @@
-import { Button, FlexContainer, Paragraph, PasswordInput, WarningIcon } from '@/shared/components';
-import React, { useState } from 'react';
-import { ValidationVariant } from '@/components/wallet/create';
+import { ChangeEvent, KeyboardEvent, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { runtime } from 'webextension-polyfill';
+import { Button, PasswordInput, WarningIcon } from '@/shared/components';
+import { ValidationVariant } from '@/components/wallet/create';
 import { useAppDispatch, useAppSelector } from '@/lib/store';
 import * as WalletStore from '@/lib/store/wallet';
 import * as SessionStore from '@/lib/store/session';
@@ -9,9 +10,8 @@ import { useProfileContext } from '@/lib/context/Profile';
 import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
 import { isValidPassword } from '@/lib/utils/validations';
 import { ExtensionEvents } from '@/lib/events';
-import browser from 'webextension-polyfill';
-import useThemeMode from '@/lib/hooks/useThemeMode';
 import SubPageLayout from '@/components/settings/SubPageLayout';
+import useResetExtension from '@/lib/hooks/useResetExtension';
 
 const Logout = () => {
     const dispatch = useAppDispatch();
@@ -20,10 +20,10 @@ const Logout = () => {
     const { initProfile, profile } = useProfileContext();
     const [password, setPassword] = useState<string>('');
     const [validationVariant, setValidationVariant] = useState<ValidationVariant>('primary');
-    const { getThemeColor } = useThemeMode();
     const sessions = useAppSelector(SessionStore.selectSessions);
     const { onError } = useErrorHandlerContext();
     const walletsIds = useAppSelector(WalletStore.selectWalletsIds);
+    const resetExtension = useResetExtension();
 
     const walletsToLogout = location.state;
 
@@ -52,13 +52,19 @@ const Logout = () => {
                 });
             });
 
-            const { error } = await browser.runtime.sendMessage({
+            const { error, noWallets } = await runtime.sendMessage({
                 type: 'REMOVE_WALLETS',
                 data: {
                     password,
                     walletIds: walletsToDelete,
                 },
             });
+
+            if (noWallets) {
+                await resetExtension();
+                await initProfile();
+                return;
+            }
 
             if (error) {
                 onError(error);
@@ -74,13 +80,13 @@ const Logout = () => {
         }
     };
 
-    const handlePasswordChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
+    const handlePasswordChange = (evt: ChangeEvent<HTMLInputElement>) => {
         setPassword(evt.target.value);
         if (validationVariant !== 'destructive') return;
         setValidationVariant('primary');
     };
 
-    const handleEnterKey = async (evt: React.KeyboardEvent<HTMLInputElement>) => {
+    const handleEnterKey = async (evt: KeyboardEvent<HTMLInputElement>) => {
         if (evt.key === 'Enter') {
             await logoutWallet();
         }
@@ -117,76 +123,66 @@ const Logout = () => {
         <SubPageLayout
             title={`Remove Address${walletsToLogout.length > 1 ? 'es' : ''}`}
             hideCloseButton={false}
+            noPaddingBottom
         >
-            <FlexContainer height='100%' flexDirection='column'>
-                <Paragraph
-                    $typeset='headline'
-                    fontWeight='regular'
-                    color={getThemeColor('secondary500', 'secondary300')}
-                >
+            <div className='flex h-full flex-col'>
+                <p className='typeset-headline text-theme-secondary-500 dark:text-theme-secondary-300'>
                     {walletsToLogout && walletsToLogout.length > 1 ? (
-                        <Paragraph as='span' $typeset='headline'>
+                        <span className='typeset-headline'>
                             Are you sure you want to remove{' '}
-                            <Paragraph
-                                as='span'
-                                color='base'
-                                fontWeight='regular'
-                                $typeset='headline'
-                                display='inline-block'
-                            >
+                            <span className='typeset-headline inline-block text-light-black dark:text-white'>
                                 {walletsToLogout.length} addresses?
-                            </Paragraph>{' '}
+                            </span>{' '}
                             {`You won’t be able to login again without ${getAddressesType()}.`}
-                        </Paragraph>
+                        </span>
                     ) : (
                         `Are you sure you want to remove this address? You will be unable to log in again using this address without ${
                             wallet?.isLedger() ? 'a Ledger device.' : 'a passphrase.'
                         }`
                     )}
-                </Paragraph>
+                </p>
 
-                <FlexContainer justifyContent='center' alignContent='center' mt='16'>
-                    <WarningIcon width='146px' height='135px' />
-                </FlexContainer>
+                <div className='mt-4 flex items-center justify-center'>
+                    <WarningIcon iconClassName='w-[146px] h-[135px]' />
+                </div>
 
-                <FlexContainer mt='24' flexDirection='column' gridGap='6'>
-                    <Paragraph $typeset='headline' fontWeight='medium' color='labelText'>
-                        Enter Password
-                    </Paragraph>
-                    <PasswordInput
-                        name='password'
-                        variant={validationVariant}
-                        onChange={handlePasswordChange}
-                        onKeyDown={handleEnterKey}
-                        value={password}
-                        helperText={validationVariant === 'destructive' ? 'Incorrect password' : ''}
-                    />
-                </FlexContainer>
+                <div className='flex flex-1 flex-col justify-between'>
+                    <div className='mt-[18px] flex flex-col gap-1.5'>
+                        <p className='typeset-headline font-medium text-subtle-black dark:text-theme-secondary-200'>
+                            Enter Password
+                        </p>
+                        <PasswordInput
+                            name='password'
+                            variant={validationVariant}
+                            onChange={handlePasswordChange}
+                            onKeyDown={handleEnterKey}
+                            value={password}
+                            helperText={
+                                validationVariant === 'destructive' ? 'Incorrect password' : ''
+                            }
+                        />
+                    </div>
 
-                <FlexContainer mt='48' flexDirection='column'>
-                    <Button
-                        variant='destructivePrimary'
-                        onClick={logoutWallet}
-                        disabled={!password.length}
-                        mb='24'
-                    >
-                        {`Remove Address${walletsToLogout.length > 1 ? 'es' : ''}`}
-                    </Button>
-                    <Button
-                        onClick={() => navigate(-1)}
-                        width='100%'
-                        display='flex'
-                        color='base'
-                        backgroundColor='transparent'
-                        py='0'
-                        mb='0'
-                    >
-                        <Paragraph $typeset='headline' fontWeight='medium' color='base' as='span'>
-                            Cancel and Go Back
-                        </Paragraph>
-                    </Button>
-                </FlexContainer>
-            </FlexContainer>
+                    <div className='-mb-2 flex flex-col'>
+                        <Button
+                            variant='destructivePrimary'
+                            onClick={logoutWallet}
+                            disabled={!password.length}
+                            className='mb-2'
+                        >
+                            {`Remove Address${walletsToLogout.length > 1 ? 'es' : ''}`}
+                        </Button>
+                        <Button
+                            onClick={() => navigate(-1)}
+                            className='mb-0 flex w-full bg-transparent py-0 text-light-black dark:text-white'
+                        >
+                            <span className='typeset-headline font-medium text-light-black dark:text-white'>
+                                Cancel and Go Back
+                            </span>
+                        </Button>
+                    </div>
+                </div>
+            </div>
         </SubPageLayout>
     );
 };

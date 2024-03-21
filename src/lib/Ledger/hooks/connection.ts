@@ -6,10 +6,9 @@ import { useCallback, useMemo, useReducer, useRef } from 'react';
 import { persistLedgerConnection } from '../utils/connection';
 import { connectionReducer, defaultConnectionState } from './connection.state';
 import { useLedgerImport } from './import';
-import { openTransport, closeDevices, isLedgerTransportSupported } from '@/lib/Ledger/transport';
+import { closeDevices, isLedgerTransportSupported, openTransport } from '@/lib/Ledger/transport';
 import { useEnvironmentContext } from '@/lib/context/Environment';
 import useSentryException from '@/lib/hooks/useSentryException';
-import useLoadingModal from '@/lib/hooks/useLoadingModal';
 
 type LedgerConnectionError = { statusText?: string; message: string };
 
@@ -18,9 +17,6 @@ export const useLedgerConnection = () => {
     const [state, dispatch] = useReducer(connectionReducer, defaultConnectionState);
     const abortRetryReference = useRef<boolean>(false);
     const { device, isBusy, isConnected, isWaiting, error } = state;
-    const loadingModal = useLoadingModal({
-        completedMessage: 'Ledger Connected!',
-    });
     const { importLedgerWallets } = useLedgerImport({ device, env });
 
     // Actively listen to WebUSB devices and emit ONE device that was either accepted before,
@@ -91,7 +87,6 @@ export const useLedgerConnection = () => {
             coin: string,
             network: string,
             retryOptions?: Options,
-            hideCompletedState: boolean = false,
         ) => {
             const coinInstance = profile.coins().set(coin, network);
 
@@ -101,19 +96,11 @@ export const useLedgerConnection = () => {
             }
 
             const options = retryOptions || { factor: 1, randomize: false, retries: 50 };
-            await resetConnectionState();
 
             dispatch({ type: 'waiting' });
             abortRetryReference.current = false;
 
             try {
-                if (!hideCompletedState) {
-                    loadingModal.open();
-
-                    setTimeout(() => {
-                        loadingModal.close();
-                    }, 2500);
-                }
                 await persistLedgerConnection({
                     coin: coinInstance,
                     hasRequestedAbort: () => abortRetryReference.current,

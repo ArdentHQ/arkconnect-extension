@@ -1,35 +1,28 @@
 import { useState } from 'react';
-import styled from 'styled-components';
-import { Input, Container, Icon, FlexContainer } from '@/shared/components';
+import cn from 'classnames';
+import { Icon, Input } from '@/shared/components';
 import { isFirefox } from '@/lib/utils/isFirefox';
 
 type Props = React.ComponentProps<typeof Input> & {
     labelText?: string;
 };
 
-const EyeButton = ({
-    showPassword,
-    onClick,
-    labelText,
-}: {
-    showPassword: boolean;
-    onClick: () => void;
-    labelText?: string;
-}) => {
+const EyeButton = ({ showPassword, onClick }: { showPassword: boolean; onClick: () => void }) => {
     return (
-        <StyledEyeWrapper
-            as='button'
+        <button
+            className={cn(
+                'flex h-7 w-7 cursor-pointer items-center justify-center rounded-full text-light-black dark:text-white',
+                {
+                    'focus-visible:outline focus-visible:outline-2': isFirefox,
+                },
+            )}
             onClick={onClick}
-            color='base'
-            width='28px'
-            height='28px'
-            borderRadius='50%'
-            justifyContent='center'
-            alignItems='center'
-            top={labelText ? '36px' : '12px'}
         >
-            <Icon width='20px' height='20px' icon={showPassword ? 'eye-off' : 'eye'} color='base' />
-        </StyledEyeWrapper>
+            <Icon
+                className='h-5 w-5 text-light-black dark:text-white'
+                icon={showPassword ? 'eye-off' : 'eye'}
+            />
+        </button>
     );
 };
 
@@ -40,25 +33,14 @@ export const PasswordInput = ({ labelText, ...props }: Props) => {
     };
 
     return (
-        <Container position='relative' color='base'>
+        <div className='relative text-light-black dark:text-white'>
             <Input
                 type={showPassword ? 'text' : 'password'}
                 labelText={labelText}
                 {...props}
-                paddingRight='40'
-                trailing={
-                    <EyeButton
-                        showPassword={showPassword}
-                        onClick={toggleShowPassword}
-                        labelText={labelText}
-                    />
-                }
+                className='pr-10'
+                trailing={<EyeButton showPassword={showPassword} onClick={toggleShowPassword} />}
             />
-        </Container>
+        </div>
     );
 };
-
-const StyledEyeWrapper = styled(FlexContainer)`
-    cursor: pointer;
-    ${({ theme }) => (isFirefox ? theme.browserCompatibility.firefox.focus : '')}
-`;
