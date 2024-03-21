@@ -81,7 +81,7 @@ const EnterPassword = () => {
                             value={password}
                             helperText={
                                 validationVariant === 'destructive'
-                                    ? t('PAGES.ENTER_PASSWORD.INCORRECT_PASSWORD')
+                                    ? t('MISC.INCORRECT_PASSWORD')
                                     : ''
                             }
                         />
