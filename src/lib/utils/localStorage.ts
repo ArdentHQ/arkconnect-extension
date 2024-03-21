@@ -1,6 +1,6 @@
 import { storage } from 'webextension-polyfill';
 
-const KEY = import.meta.env.VITE_PUBLIC_LOCAL_STORAGE_KEY as string;
+export const KEY = import.meta.env.VITE_PUBLIC_LOCAL_STORAGE_KEY as string;
 
 export enum AutoLockTimer {
     FIFTEEN_MINUTES = 15,
