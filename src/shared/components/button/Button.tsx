@@ -49,15 +49,14 @@ export const Button = ({
     if (isLoading) {
         return (
             <button
-                className={twMerge(cn(
-                    'button-base button-primary',
-                    {
+                className={twMerge(
+                    cn('button-base button-primary', {
                         'transition-firefoxSmoothEase focus-visible:outline focus-visible:outline-2':
                             isFirefox,
                         'transition-smoothEase': !isFirefox,
-                    },
-                ),
-                className)}
+                    }),
+                    className,
+                )}
                 {...rest}
             >
                 <Loader variant='small' />
@@ -67,15 +66,15 @@ export const Button = ({
 
     return (
         <button
-            className={twMerge(cn(
-                'button-base',
-                {
+            className={twMerge(
+                cn('button-base', {
                     'transition-firefoxSmoothEase focus-visible:outline focus-visible:outline-2':
                         isFirefox,
                     'transition-smoothEase': !isFirefox,
                     [getButtonClass(variant)]: variant,
-                },
-            ), className)}
+                }),
+                className,
+            )}
             {...rest}
         >
             {iconLeading && <Icon className='h-5 w-5' icon={iconLeading} />}

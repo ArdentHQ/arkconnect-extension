@@ -64,14 +64,16 @@ export const SettingsRowItem = ({
     return (
         <button
             type='button'
-            className={twMerge(cn(
-                'flex w-full items-center justify-between px-4 py-4.5 text-light-black hover:bg-theme-secondary-50 dark:text-white dark:hover:bg-theme-secondary-700',
-                {
-                    'bg-theme-primary-50 font-medium text-theme-primary-700 dark:bg-theme-primary-650/15 dark:text-theme-primary-650':
-                        active,
-                },
-            ),
-            className)}
+            className={twMerge(
+                cn(
+                    'flex w-full items-center justify-between px-4 py-4.5 text-light-black hover:bg-theme-secondary-50 dark:text-white dark:hover:bg-theme-secondary-700',
+                    {
+                        'bg-theme-primary-50 font-medium text-theme-primary-700 dark:bg-theme-primary-650/15 dark:text-theme-primary-650':
+                            active,
+                    },
+                ),
+                className,
+            )}
             {...properties}
         />
     );

@@ -54,14 +54,16 @@ export const ModalIcon = ({
 }) => {
     return (
         <div
-            className={twMerge(cn(
-                'relative flex h-13 w-13 items-center justify-center rounded-lg border border-solid border-theme-secondary-200 shadow-light dark:border-theme-secondary-600',
-                {
-                    'text-theme-error-600 dark:text-theme-error-500': variant === 'danger',
-                    'text-subtle-black dark:text-subtle-white': variant !== 'danger',
-                },
-            ),
-            className)}
+            className={twMerge(
+                cn(
+                    'relative flex h-13 w-13 items-center justify-center rounded-lg border border-solid border-theme-secondary-200 shadow-light dark:border-theme-secondary-600',
+                    {
+                        'text-theme-error-600 dark:text-theme-error-500': variant === 'danger',
+                        'text-subtle-black dark:text-subtle-white': variant !== 'danger',
+                    },
+                ),
+                className,
+            )}
         >
             <IconComponent icon={icon} className={twMerge('h-6 w-6', iconClassName)} />
         </div>
@@ -97,13 +99,15 @@ const Modal = ({
                             ref={ref}
                         >
                             <div
-                                className={twMerge(cn(
-                                    'flex flex-col gap-6 rounded-xl bg-white dark:bg-light-black',
-                                    {
-                                        'p-4': !containerClassName,
-                                    },
-                                ),
-                                containerClassName)}
+                                className={twMerge(
+                                    cn(
+                                        'flex flex-col gap-6 rounded-xl bg-white dark:bg-light-black',
+                                        {
+                                            'p-4': !containerClassName,
+                                        },
+                                    ),
+                                    containerClassName,
+                                )}
                             >
                                 {(icon || !hideCloseButton) && (
                                     <div className='flex items-start justify-between'>

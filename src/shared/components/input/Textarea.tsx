@@ -57,15 +57,17 @@ export const TextArea = forwardRef(function TextArea(
 
             <div className='relative w-full'>
                 <textarea
-                    className={twMerge(cn(
-                        'transition-smoothEase textarea w-full resize-none rounded-lg border-none p-3 text-base font-normal leading-5 shadow-secondary-dark outline-none placeholder:text-theme-secondary-400 disabled:pointer-events-none disabled:cursor-not-allowed',
-                        {
-                            'textarea-primary': variant === 'primary',
-                            'textarea-destructive': variant === 'destructive',
-                            'textarea-errorFree': variant === 'errorFree',
-                        },
-                    ),
-                    className)}
+                    className={twMerge(
+                        cn(
+                            'transition-smoothEase textarea w-full resize-none rounded-lg border-none p-3 text-base font-normal leading-5 shadow-secondary-dark outline-none placeholder:text-theme-secondary-400 disabled:pointer-events-none disabled:cursor-not-allowed',
+                            {
+                                'textarea-primary': variant === 'primary',
+                                'textarea-destructive': variant === 'destructive',
+                                'textarea-errorFree': variant === 'errorFree',
+                            },
+                        ),
+                        className,
+                    )}
                     rows={rows || 4}
                     ref={ref}
                     id={id}

@@ -21,15 +21,17 @@ export const BigButton = ({
 }: BigButtonProps) => {
     return (
         <button
-            className={twMerge(cn(
-                'box-border flex max-h-24 w-full cursor-pointer gap-3 rounded-2.5xl border border-solid border-transparent bg-white p-4 shadow-light hover:border hover:border-solid hover:border-theme-primary-800 disabled:pointer-events-none disabled:cursor-not-allowed dark:bg-subtle-black hover:dark:border-theme-primary-600',
-                {
-                    'transition-firefoxSmoothEase focus-visible:outline focus-visible:outline-2':
-                        isFirefox,
-                    'transition-smoothEase': !isFirefox,
-                },
-            ),
-            className)}
+            className={twMerge(
+                cn(
+                    'box-border flex max-h-24 w-full cursor-pointer gap-3 rounded-2.5xl border border-solid border-transparent bg-white p-4 shadow-light hover:border hover:border-solid hover:border-theme-primary-800 disabled:pointer-events-none disabled:cursor-not-allowed dark:bg-subtle-black hover:dark:border-theme-primary-600',
+                    {
+                        'transition-firefoxSmoothEase focus-visible:outline focus-visible:outline-2':
+                            isFirefox,
+                        'transition-smoothEase': !isFirefox,
+                    },
+                ),
+                className,
+            )}
             {...rest}
         >
             <span className='flex w-full items-start gap-3'>

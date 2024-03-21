@@ -12,13 +12,12 @@ export const Layout = ({ withHeader = true, className, ...props }: Props) => {
         <>
             {withHeader && <Header />}
             <div
-                className={twMerge(cn(
-                    'flex h-screen flex-col pb-4',
-                    {
+                className={twMerge(
+                    cn('flex h-screen flex-col pb-4', {
                         'pt-[59px]': withHeader,
-                    },
-                ),
-                className)}
+                    }),
+                    className,
+                )}
                 {...props}
             />
         </>

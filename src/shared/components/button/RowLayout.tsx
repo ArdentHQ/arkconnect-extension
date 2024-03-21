@@ -219,15 +219,14 @@ export const RowLayout = forwardRef(function RowLayout(
                             <span className='flex items-center gap-2'>
                                 {iconTrailing && (
                                     <Icon
-                                        className={twMerge(cn(
-                                            'h-5 w-5',
-                                            {
+                                        className={twMerge(
+                                            cn('h-5 w-5', {
                                                 'text-theme-secondary-500 dark:text-theme-secondary-300':
                                                     disabled,
                                                 'text-light-black dark:text-white': !disabled,
-                                            },
-                                        ),
-                                        iconClassName)}
+                                            }),
+                                            iconClassName,
+                                        )}
                                         icon={iconTrailing}
                                     />
                                 )}

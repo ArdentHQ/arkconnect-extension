@@ -10,13 +10,12 @@ type InternalLinkProps = React.ComponentPropsWithRef<typeof Link> & {
 export const InternalLink = ({ className, ...rest }: InternalLinkProps) => {
     return (
         <Link
-            className={twMerge(cn(
-                'cursor-pointer no-underline hover:underline',
-                {
+            className={twMerge(
+                cn('cursor-pointer no-underline hover:underline', {
                     'outline outline-2': isFirefox,
-                }
-            ),
-            className)}
+                }),
+                className,
+            )}
             {...rest}
         />
     );

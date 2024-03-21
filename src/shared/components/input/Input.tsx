@@ -35,14 +35,17 @@ export const Input = ({
 
             <div className='relative flex w-full items-center'>
                 <input
-                    className={twMerge(cn(
-                        'transition-smoothEase text-input max-h-13 w-full rounded-lg border-none px-3 py-4 text-base font-normal outline-none placeholder:text-theme-secondary-400 disabled:pointer-events-none disabled:cursor-not-allowed',
-                        {
-                            'text-input-primary': variant === 'primary',
-                            'text-input-destructive': variant === 'destructive',
-                            'text-input-errorFree': variant === 'errorFree',
-                        },
-                    ), className)}
+                    className={twMerge(
+                        cn(
+                            'transition-smoothEase text-input max-h-13 w-full rounded-lg border-none px-3 py-4 text-base font-normal outline-none placeholder:text-theme-secondary-400 disabled:pointer-events-none disabled:cursor-not-allowed',
+                            {
+                                'text-input-primary': variant === 'primary',
+                                'text-input-destructive': variant === 'destructive',
+                                'text-input-errorFree': variant === 'errorFree',
+                            },
+                        ),
+                        className,
+                    )}
                     id={id}
                     ref={innerRef}
                     {...rest}
