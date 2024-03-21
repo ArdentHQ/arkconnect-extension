@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Button, Checkbox, WarningIcon } from '@/shared/components';
 import SubPageLayout from '@/components/settings/SubPageLayout';
 import useResetExtension from '@/lib/hooks/useResetExtension';
@@ -6,14 +7,17 @@ import useResetExtension from '@/lib/hooks/useResetExtension';
 const ForgotPassword = () => {
     const resetExtension = useResetExtension();
     const [lostPasswordAwareness, setLostPasswordAwareness] = useState<boolean>(false);
+    const { t } = useTranslation();
 
     return (
-        <SubPageLayout title='Forgot Password?' onBack='goBack' noPaddingBottom>
+        <SubPageLayout
+            title={t('PAGES.FORGOT_PASSWORD.FORGOT_PASSWORD')}
+            onBack='goBack'
+            noPaddingBottom
+        >
             <div className='flex h-full flex-col justify-between'>
                 <p className='typeset-headline text-theme-secondary-500 dark:text-theme-secondary-300'>
-                    Unfortunately there is no recovery method available other than resetting the
-                    extension and re-importing your address(es). Ensure that you have your
-                    passphrase(s) saved.
+                    {t('PAGES.FORGOT_PASSWORD.NO_RECOVERY_METHOD_AVAILABLE_DISCLAIMER')}
                 </p>
 
                 <div className='flex items-center justify-center'>
@@ -26,7 +30,7 @@ const ForgotPassword = () => {
                         name='lostPasswordAwareness'
                         checked={lostPasswordAwareness}
                         onChange={(evt) => setLostPasswordAwareness(evt.target.checked)}
-                        title='I am aware that resetting the extension will result in the loss of all data, including locally stored passphrases.'
+                        title={t('PAGES.FORGOT_PASSWORD.RESET_WILL_RESULT_LOSS_OF_DATA_DISCLAIMER')}
                     />
                     <Button
                         variant='primary'
@@ -34,7 +38,7 @@ const ForgotPassword = () => {
                         className='mt-6'
                         onClick={resetExtension}
                     >
-                        Reset Extension
+                        {t('PAGES.FORGOT_PASSWORD.RESET_EXTENSION')}
                     </Button>
                 </div>
             </div>

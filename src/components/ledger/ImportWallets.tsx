@@ -3,6 +3,7 @@ import { BIP44 } from '@ardenthq/sdk-cryptography';
 import { Contracts as ProfilesContracts } from '@ardenthq/sdk-profiles';
 import { FormikProps } from 'formik';
 import cn from 'classnames';
+import { useTranslation } from 'react-i18next';
 import { Button, Checkbox, Heading, Tooltip } from '@/shared/components';
 import trimAddress from '@/lib/utils/trimAddress';
 import { useLedgerContext, useLedgerScanner } from '@/lib/Ledger';
@@ -27,6 +28,7 @@ const ImportWallets = ({ goToNextStep, formik }: Props) => {
     const { profile } = useProfileContext();
     const ledgerScanner = useLedgerScanner(network.coin(), network.id());
     const { isBusy, importLedgerWallets } = useLedgerContext();
+    const { t } = useTranslation();
 
     const {
         scan,
@@ -120,10 +122,10 @@ const ImportWallets = ({ goToNextStep, formik }: Props) => {
     return (
         <div>
             <Heading level={3} className='mb-2 px-6'>
-                Select Addresses to Import
+                {t('PAGES.IMPORT_WITH_LEDGER.SELECT_ADDRESSES_TO_IMPORT')}
             </Heading>
             <p className='typeset-body mb-6 px-6 text-theme-secondary-500 dark:text-theme-secondary-300'>
-                Multiple addresses can be imported too!
+                {t('PAGES.IMPORT_WITH_LEDGER.MULTIPLE_ADDRESSES_CAN_BE_IMPORTED')}
             </p>
             <div className='custom-scroll h-65 max-h-65 overflow-y-scroll border-b border-t border-solid border-b-theme-secondary-200 border-t-theme-secondary-200 dark:border-b-theme-secondary-700 dark:border-t-theme-secondary-700'>
                 <HandleLoadingState loading={showLoader}>
@@ -154,7 +156,7 @@ const ImportWallets = ({ goToNextStep, formik }: Props) => {
                             >
                                 <Tooltip
                                     disabled={!isImported}
-                                    content='Address already imported'
+                                    content={t('PAGES.IMPORT_WITH_LEDGER.ADDRESS_ALREADY_IMPORTED')}
                                     placement='bottom'
                                 >
                                     <div
@@ -203,7 +205,7 @@ const ImportWallets = ({ goToNextStep, formik }: Props) => {
                     disabled={!selectedWallets.length}
                     onClick={submitImportedWallets}
                 >
-                    Import {showImportedWalletsLength()}
+                    {t('ACTION.IMPORT')} {showImportedWalletsLength()}
                 </Button>
             </div>
         </div>

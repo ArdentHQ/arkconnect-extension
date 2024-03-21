@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import TransactionApprovedBody from '@/components/approve/TransactionApprovedBody';
 import constants from '@/constants';
 import { useEnvironmentContext } from '@/lib/context/Environment';
@@ -14,7 +15,7 @@ const TransactionApproved = () => {
     const { profile } = useProfileContext();
     const { env } = useEnvironmentContext();
     const { session } = state;
-
+    const { t } = useTranslation();
     const onClose = async () => {
         await removeWindowInstance(state?.windowId);
     };
@@ -36,7 +37,9 @@ const TransactionApproved = () => {
                             className='h-16 w-16 text-theme-primary-700 dark:text-theme-primary-650'
                         />
 
-                        <Heading level={3}>Transaction Approved</Heading>
+                        <Heading level={3}>
+                            {t('PAGES.TRANSACTION_APPROVED.TRANSACTION_APPROVED')}
+                        </Heading>
                     </div>
 
                     <TransactionApprovedBody />
@@ -44,7 +47,7 @@ const TransactionApproved = () => {
 
                 <div className='flex w-full flex-col gap-5'>
                     <Button variant='primary' onClick={onClose}>
-                        Close
+                        {t('ACTION.CLOSE')}
                     </Button>
 
                     <ExternalLink
@@ -55,7 +58,7 @@ const TransactionApproved = () => {
                                 : `${constants.ARKSCAN_MAINNET_TRANSACTIONS}/${state?.transaction.id}`
                         }
                     >
-                        <span className='font-medium'>View transaction on ARKScan</span>
+                        <span className='font-medium'>{t('MISC.VIEW_TRANSACTION_ON_ARKSCAN')}</span>
 
                         <Icon icon='link-external' className='h-5 w-5' />
                     </ExternalLink>
