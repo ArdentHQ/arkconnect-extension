@@ -1,5 +1,6 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { runtime } from 'webextension-polyfill';
+import { useTranslation } from 'react-i18next';
 import SubPageLayout, { SettingsRowItem } from '@/components/settings/SubPageLayout';
 import { Icon } from '@/shared/components';
 import useToast from '@/lib/hooks/useToast';
@@ -15,6 +16,7 @@ const AutoLockTimer = () => {
     const toast = useToast();
     const navigate = useNavigate();
     const location = useLocation();
+    const { t } = useTranslation();
 
     const changeAutoLockTimer = async (autoLockValue: AutoLockTimerEnum) => {
         await setLocalValue('autoLockTimer', autoLockValue);
@@ -24,12 +26,16 @@ const AutoLockTimer = () => {
                 autoLockValue,
             },
         });
-        toast('success', 'Auto lock timer changed successfully', ToastPosition.HIGH);
+        toast(
+            'success',
+            t('PAGES.SETTINGS.FEEDBACK.AUTOLOCK_TIMER_CHANGED_SUCCESSFULLY'),
+            ToastPosition.HIGH,
+        );
         navigate('/');
     };
 
     return (
-        <SubPageLayout title='Auto Lock Timer'>
+        <SubPageLayout title={t('PAGES.SETTINGS.AUTO_LOCK_TIMER')}>
             <div className='rounded-2xl bg-white py-2 dark:bg-subtle-black'>
                 {timerKeys.map((timerKey) => (
                     <SettingsRowItem

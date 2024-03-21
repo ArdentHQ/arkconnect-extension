@@ -2,6 +2,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { useRef, useState } from 'react';
 import cn from 'classnames';
 import FocusTrap from 'focus-trap-react';
+import { useTranslation } from 'react-i18next';
 import { HeaderButton } from './HeaderButton';
 import { HeaderWrapper } from './HeaderWrapper';
 import { Icon } from '@/shared/components';
@@ -21,6 +22,7 @@ interface HeaderProps {
 }
 
 export const Header = ({ hideNavbar = false }: HeaderProps) => {
+    const { t } = useTranslation();
     const [openSettings, setOpenSettings] = useState(false);
 
     const isLocked = useAppSelector(selectLocked);
@@ -76,7 +78,7 @@ export const Header = ({ hideNavbar = false }: HeaderProps) => {
                         <div className='relative -m-1 flex overflow-auto p-1'>
                             <HeaderButton
                                 selected={showAddressesDropdown}
-                                aria-label='Addresses Dropdown'
+                                aria-label={t('COMMON.ADDRESSES_DROPDOWN')}
                                 onClick={handleAddressDropdownClick}
                                 ref={addressesTriggerRef}
                                 className='ml-2 px-2 py-1.5'
