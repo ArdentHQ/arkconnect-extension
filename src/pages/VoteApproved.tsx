@@ -50,7 +50,7 @@ const VoteApproved = () => {
                         />
                         <Heading level={3}>{getTitle()}</Heading>
                     </div>
-                    <ActionBody 
+                    <ActionBody
                         isApproved
                         wallet={wallet}
                         sender={trimAddress(state?.vote.sender ?? '', 10)}

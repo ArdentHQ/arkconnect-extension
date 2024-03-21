@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { ActionDetailsFiatValue, ActionDetailsRow, ActionDetailsValue } from './ActionDetails';
-import {  Icon, Tooltip } from '@/shared/components';
+import { Icon, Tooltip } from '@/shared/components';
 import trimAddress from '@/lib/utils/trimAddress';
 import useClipboard from '@/lib/hooks/useClipboard';
 import Amount from '@/components/wallet/Amount';
@@ -50,49 +50,34 @@ export const ActionAmountRow = ({
             below={
                 showFiat && (
                     <ActionDetailsFiatValue>
-                        <Amount
-                            value={convertedAmount}
-                            ticker={exchangeCurrency}
-                        />
+                        <Amount value={convertedAmount} ticker={exchangeCurrency} />
                     </ActionDetailsFiatValue>
                 )
             }
         >
             <div className='flex items-baseline gap-1'>
                 <ActionDetailsValue>
-                    {
-                        amountTicker ? (
-                            <Amount
-                                value={amount}
-                                ticker={amountTicker}
-                                withTicker
-                            />
-                        ) : (
-                            <span>
-                                {amount} {network}
-                            </span>
-                        )
-                    }
+                    {amountTicker ? (
+                        <Amount value={amount} ticker={amountTicker} withTicker />
+                    ) : (
+                        <span>
+                            {amount} {network}
+                        </span>
+                    )}
                 </ActionDetailsValue>
             </div>
         </ActionDetailsRow>
     );
 };
 
-export const ActionTransactionIdRow = ({
-    transactionId,
-}: {
-    transactionId: string;
-}) => {
+export const ActionTransactionIdRow = ({ transactionId }: { transactionId: string }) => {
     const { t } = useTranslation();
     const { copy } = useClipboard();
 
     return (
         <ActionDetailsRow label={t('COMMON.TRANSACTION_ID')}>
             <div className='flex items-center gap-1'>
-                <ActionDetailsValue>
-                    {trimAddress(transactionId, 'short')}
-                </ActionDetailsValue>
+                <ActionDetailsValue>{trimAddress(transactionId, 'short')}</ActionDetailsValue>
                 <button
                     type='button'
                     className='block'
@@ -106,4 +91,4 @@ export const ActionTransactionIdRow = ({
             </div>
         </ActionDetailsRow>
     );
-}; 
+};

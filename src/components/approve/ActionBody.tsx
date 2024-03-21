@@ -8,7 +8,7 @@ type VoteData = {
     delegateAddress?: string;
     delegateName?: string;
     publicKey?: string;
-}
+};
 interface ActionBodyProps {
     fee: number;
     convertedFee: number;
@@ -48,40 +48,26 @@ export const ActionBody = ({
     receiver,
     amountTicker,
     totalAmount,
-    convertedTotalAmount
+    convertedTotalAmount,
 }: ActionBodyProps) => {
     const { t } = useTranslation();
 
     return (
         <ActionDetails maxHeight={maxHeight}>
-            {isApproved && (
-                <ActionBodyRow
-                    label={t('COMMON.SENDER')}
-                    value={sender}
+            {isApproved && <ActionBodyRow label={t('COMMON.SENDER')} value={sender} />}
+            {amount !== undefined && convertedAmount !== undefined && (
+                <ActionAmountRow
+                    label={t('COMMON.AMOUNT')}
+                    showFiat={showFiat}
+                    amount={amount}
+                    convertedAmount={convertedAmount}
+                    exchangeCurrency={exchangeCurrency}
+                    network={network}
+                    amountTicker={amountTicker}
                 />
             )}
-            {
-                (amount !== undefined && convertedAmount !== undefined) && (
-                    <ActionAmountRow
-                        label={t('COMMON.AMOUNT')}
-                        showFiat={showFiat}
-                        amount={amount}
-                        convertedAmount={convertedAmount}
-                        exchangeCurrency={exchangeCurrency}
-                        network={network}
-                        amountTicker={amountTicker}
-                    />
-                )
-            }
 
-            {
-                receiver && (
-                    <ActionBodyRow
-                        label={t('COMMON.RECEIVER')}
-                        value={receiver}
-                    />
-                )
-            }
+            {receiver && <ActionBodyRow label={t('COMMON.RECEIVER')} value={receiver} />}
 
             <ActionAmountRow
                 label={t('COMMON.TRANSACTION_FEE')}
@@ -93,89 +79,70 @@ export const ActionBody = ({
                 network={network}
             />
 
-            {
-                (totalAmount !== undefined && convertedTotalAmount !== undefined) && (
-                    <ActionAmountRow
-                        label={t('COMMON.TOTAL_AMOUNT')}
-                        amount={totalAmount}
-                        amountTicker={amountTicker}
-                        convertedAmount={convertedTotalAmount}
-                        showFiat={showFiat}
-                        exchangeCurrency={exchangeCurrency}
-                        network={network}
-                    />
-                )
-            }
-            
-            {
-                unvote?.delegateName && (
-                    <ActionBodyRow
-                        label={t('COMMON.UNVOTE_DELEGATE_NAME')}
-                        value={unvote.delegateName}
-                    />
-                )
-            }
+            {totalAmount !== undefined && convertedTotalAmount !== undefined && (
+                <ActionAmountRow
+                    label={t('COMMON.TOTAL_AMOUNT')}
+                    amount={totalAmount}
+                    amountTicker={amountTicker}
+                    convertedAmount={convertedTotalAmount}
+                    showFiat={showFiat}
+                    exchangeCurrency={exchangeCurrency}
+                    network={network}
+                />
+            )}
 
-            {
-                unvote?.publicKey && wallet?.isLedger() && (
-                    <ActionBodyRow
-                        label={t('COMMON.UNVOTE_DELEGATE_PUBKEY')}
-                        value={trimAddress(unvote.publicKey ?? '', 10)}
-                        tooltipContent={
-                            <span className='block w-65 break-words text-left'>
-                                {unvote.publicKey ?? ''}
-                            </span>
-                        }
-                    />
-                )
-            }
+            {unvote?.delegateName && (
+                <ActionBodyRow
+                    label={t('COMMON.UNVOTE_DELEGATE_NAME')}
+                    value={unvote.delegateName}
+                />
+            )}
 
-            {
-                unvote?.delegateAddress && !wallet?.isLedger() && (
-                    <ActionBodyRow
-                        label={t('COMMON.UNVOTE_DELEGATE_ADDRESS')}
-                        value={trimAddress(unvote.delegateAddress ?? '', 10)}
-                    />
-                )
-            }
+            {unvote?.publicKey && wallet?.isLedger() && (
+                <ActionBodyRow
+                    label={t('COMMON.UNVOTE_DELEGATE_PUBKEY')}
+                    value={trimAddress(unvote.publicKey ?? '', 10)}
+                    tooltipContent={
+                        <span className='block w-65 break-words text-left'>
+                            {unvote.publicKey ?? ''}
+                        </span>
+                    }
+                />
+            )}
 
-            {
-                vote?.delegateAddress && (
-                    <ActionBodyRow
-                        label={t('COMMON.VOTE_DELEGATE_NAME')}
-                        value={vote.delegateName}
-                    />
-                )
-            }
+            {unvote?.delegateAddress && !wallet?.isLedger() && (
+                <ActionBodyRow
+                    label={t('COMMON.UNVOTE_DELEGATE_ADDRESS')}
+                    value={trimAddress(unvote.delegateAddress ?? '', 10)}
+                />
+            )}
 
-            {
-                vote?.publicKey && wallet?.isLedger() && (
-                    <ActionBodyRow
-                        label={t('COMMON.VOTE_DELEGATE_PUBKEY')}
-                        value={trimAddress(vote.publicKey ?? '', 10)}
-                        tooltipContent={
-                            <span className='block w-65 break-words text-left'>
-                                {vote.publicKey ?? ''}
-                            </span>
-                        }
-                    />
-                )
-            }
+            {vote?.delegateAddress && (
+                <ActionBodyRow label={t('COMMON.VOTE_DELEGATE_NAME')} value={vote.delegateName} />
+            )}
 
-            {
-                vote?.delegateAddress && !wallet?.isLedger() && (
-                    <ActionBodyRow
-                        label={t('COMMON.VOTE_DELEGATE_ADDRESS')}
-                        value={trimAddress(vote.delegateAddress ?? '', 10)}
-                    />
-                )
-            }
+            {vote?.publicKey && wallet?.isLedger() && (
+                <ActionBodyRow
+                    label={t('COMMON.VOTE_DELEGATE_PUBKEY')}
+                    value={trimAddress(vote.publicKey ?? '', 10)}
+                    tooltipContent={
+                        <span className='block w-65 break-words text-left'>
+                            {vote.publicKey ?? ''}
+                        </span>
+                    }
+                />
+            )}
 
-            {
-                isApproved && transactionId && (
-                    <ActionTransactionIdRow transactionId={transactionId} />
-                )
-            }
+            {vote?.delegateAddress && !wallet?.isLedger() && (
+                <ActionBodyRow
+                    label={t('COMMON.VOTE_DELEGATE_ADDRESS')}
+                    value={trimAddress(vote.delegateAddress ?? '', 10)}
+                />
+            )}
+
+            {isApproved && transactionId && (
+                <ActionTransactionIdRow transactionId={transactionId} />
+            )}
         </ActionDetails>
     );
 };
