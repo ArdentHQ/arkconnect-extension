@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { runtime } from 'webextension-polyfill';
 import { Contracts } from '@ardenthq/sdk-profiles';
 import { BigNumber } from '@ardenthq/sdk-helpers';
+import { useTranslation } from 'react-i18next';
 import ApproveBody from '@/components/approve/ApproveBody';
 import ApproveFooter from '@/components/approve/ApproveFooter';
 import ApproveHeader from '@/components/approve/ApproveHeader';
@@ -43,8 +44,9 @@ const ApproveTransaction = ({
     const { syncAll } = useWalletSync({ env, profile });
     const { onError } = useErrorHandlerContext();
     const [error, setError] = useState<string | undefined>();
+    const { t } = useTranslation();
     const loadingModal = useLoadingModal({
-        loadingMessage: 'Processing transaction...',
+        loadingMessage: t('PAGES.APPROVE.FEEDBACK.PROCESSING_TRANSACTION'),
     });
     const { convert } = useExchangeRate({
         exchangeTicker: wallet.exchangeCurrency(),
@@ -65,13 +67,13 @@ const ApproveTransaction = ({
 
     useEffect(() => {
         if (BigNumber.make(amount).plus(fee).isGreaterThan(wallet.balance())) {
-            setError('Insufficient balance. Add funds or switch address.');
+            setError(t('PAGES.APPROVE.FEEDBACK.INSUFFICIENT_BALANCE'));
         } else {
             setError(undefined);
         }
     }, [wallet, fee, amount]);
 
-    const reject = (message: string = 'Sign transaction denied!') => {
+    const reject = (message: string = t('PAGES.APPROVE.FEEDBACK.SIGN_TRANSACTION_DENIED')) => {
         runtime.sendMessage({
             type: 'SIGN_TRANSACTION_REJECT',
             data: {
@@ -171,7 +173,8 @@ const ApproveTransaction = ({
                 appName={session.domain}
                 appLogo={session.logo}
             />
-            <ApproveBody header='Sending with' wallet={wallet} error={error}>
+
+            <ApproveBody header={t('PAGES.APPROVE.SENDING_WITH')} wallet={wallet} error={error}>
                 <RequestedTransactionBody
                     amount={amount}
                     receiverAddress={receiverAddress}
@@ -180,6 +183,7 @@ const ApproveTransaction = ({
                     wallet={wallet}
                 />
             </ApproveBody>
+
             <ApproveFooter
                 disabled={!!error || !formValuesLoaded}
                 onSubmit={onSubmit}

@@ -23,6 +23,10 @@ export default {
         CONNECTED_APPS: 'Connected Apps',
         NO_CONNECTED_APPS_DESCRIPTION: 'You are currently not connected to any applications.',
         CONNECTED_WITH: 'Connected with',
+        ARE_YOU_CERTAIN_TO_DISCONNECT_ALL: 'Are you certain you want to disconnect all ',
+        OF_YOUR_CONNECTIONS: 'of your connections',
+        ARE_YOU_CERTAIN_TO_DISCONNECT_YOUR_CONNECTION:
+            'Are you certain you want to disconnect your connection with ',
     },
     CREATE_WALLET: {
         SAVE_YOUR_SECRET_PASSPHRASE: 'Save Your Secret Passphrase',
@@ -41,7 +45,6 @@ export default {
     ENTER_PASSWORD: {
         ENTER_PASSWORD_TO_UNLOCK: 'Enter Password to Unlock',
         YOUR_PASSWORD: 'Your Password',
-        INCORRECT_PASSWORD: 'Incorrect password',
         UNLOCK_EXTENSION: 'Unlock Extension',
         FORGOT_PASSWORD: 'Forgot Password?',
     },
@@ -105,7 +108,6 @@ export default {
     LOGOUT: {
         REMOVE_ADDRESS: 'Remove Address',
         REMOVE_ADDRESSES: 'Remove Addresses',
-        INCORRECT_PASSWORD: 'Incorrect password',
         ENTER_PASSWORD: 'Enter Password',
         ARE_YOU_SURE_YOU_WANT_TO_REMOVE_1: 'Are you sure you want to remove ',
         ARE_YOU_SURE_YOU_WANT_TO_REMOVE_2: 'addresses?',
@@ -119,6 +121,8 @@ export default {
             LEDGER: 'a Ledger device',
             PASSPHRASE: 'a passphrase',
         },
+        SELECT_ADDRESSES_TO_REMOVE: 'Select Addresses to Remove.',
+        REMOVE_ALL_ADDRESSES: 'Remove All Addresses',
     },
     ONBOARDING: {
         CREATE_NEW_ADDRESS: 'Create New Address',
@@ -141,5 +145,83 @@ export default {
     WALLET_NOT_FOUND: {
         YOU_DONT_HAVE_ANY_WALLET:
             "You don't have any wallet imported in ARK Connect! <br /> Please create or import a wallet first!",
+    },
+    APPROVE: {
+        SIGNING_WITH: 'Signing with',
+        SENDING_WITH: 'Sending with',
+        APPROVING_WITH: 'Approving with',
+        FEEDBACK: {
+            SIGNED_SUCCESSFULLY: 'Signed Successfully',
+            SIGNING: 'Signing...',
+            SIGN_MESSAGE_DENIED: 'Sign message denied!',
+            PROCESSING_TRANSACTION: 'Processing transaction...',
+            SIGN_TRANSACTION_DENIED: 'Sign transaction denied!',
+            INSUFFICIENT_BALANCE: 'Insufficient balance. Add funds or switch address.',
+            PROCESSING_THE_VOTE: 'Processing the vote...',
+            PROCESSING_THE_UNVOTE: 'Processing the unvote...',
+            PROCESSING_THE_VOTE_SWITCH: 'Processing the vote switch...',
+            SIGN_VOTE_DENIED: 'Sign vote denied!',
+        },
+    },
+    SETTINGS: {
+        AUTO_LOCK_TIMER: 'Auto Lock Timer',
+        ABOUT_ARK_CONNECT: 'About ARK Connect',
+        OFFICIAL_WEBSITE: 'Official Website',
+        CHANGE_LOCAL_PASSWORD: 'Change Local Password',
+        CHANGE_PASSWORD_FOR_YOUR_WALLET:
+            'Change password for your wallet. Your password is only stored locally.',
+        CREATE_N_IMPORT_ADDRESS: 'Create & Import Address',
+        CREATE_NEW_ADDRESS: 'Create New Address',
+        BY_CREATING_A_NEW_PASSPHRASE: 'By creating a new passphrase',
+        IMPORT_AN_ADDRESS: 'Import an Address',
+        BY_USING_EXISTING_PASSPHRASE: 'By using existing passphrase',
+        ARK_CONNECT_REQUIRES_TO_USE_CHROMIUM:
+            'ARK Connect requires the use of a chromium <br /> based browser when using a Ledger.',
+        CONNECT_A_LEDGER: 'Connect a Ledger',
+        IMPORT_ADDRESSES_USING_LEDGER: 'Import addresses using a Ledger',
+        EDIT_ADDRESS_NAME: 'Edit Address Name',
+        NAME_YOUR_ADDRESS_SO_YOU_CAN_IDENTIFY:
+            'Name your address so you can identify it later. This name is only stored locally.',
+        SELECT_NETWORK_TYPE: 'Select Network Type',
+        SELECT_NETWORK_TO_CREATE: 'Select a network to create your new address with.',
+        SELECT_NETWORK_TO_IMPORT: 'Select a network to import your address with.',
+        SHOW_PASSPHRASE: 'Show Passphrase',
+        SHOW_PASSPHRASE_DISCLAIMER:
+            'Remember, anyone with your passphrase can steal your assets. Do not share this publicly.',
+        SHOW_PRIVATE_KEY: 'Show Private Key',
+        SHOW_PRIVATE_KEY_DISCLAIMER:
+            'Remember, anyone with your private key can steal your assets. Do not share this publicly.',
+        CHANGE_LOCAL_CURRENCY: 'Change Local Currency',
+        FEEDBACK: {
+            UPDATING_YOUR_PASWORD: 'Updating your password...',
+            PASSWORD_CHANGED_SUCCESSFULLY: 'Password changed successfully',
+            ADDRESS_NAME_UPDATED: 'Address name updated',
+            AUTOLOCK_TIMER_CHANGED_SUCCESSFULLY: 'Auto lock timer changed successfully',
+            CURRENCY_CHANGED_SUCCESSFULLY: 'Currency changed successfully',
+        },
+        FORM: {
+            ENTER_NAME: 'Enter name...',
+            ADDRESS_NAME: 'Address Name',
+            OLD_PASSWORD: 'Old Password',
+            ENTER_OLD_PASSWORD: 'Enter old password',
+            NEW_PASSWORD: 'New Password',
+            ENTER_NEW_PASSWORD: 'Enter new password',
+            CONFIRM_NEW_PASSWORD: 'Confirm New Password',
+            ENTER_NEW_PASSWORD_AGAIN: 'Enter new password again',
+            SAVE_NEW_PASSWORD: 'Save New Password',
+            YOUR_PASSWORD: 'Your Password',
+            ENTER_PASSWORD_TO_ACCESS: 'Enter Password to Access',
+        },
+        MENU: {
+            LOCK_EXTENSION: 'Lock Extension',
+            DARK_MODE: 'Dark Mode',
+            CHANGE_PASSWORD: 'Change Password',
+            CHANGE_LOCAL_CURRENCY: 'Change Local Currency',
+            AUTO_LOCK_TIMER: 'Auto Lock Timer',
+            ABOUT_ARK_CONNECT: 'About ARK Connect',
+            REMOVE_ADDRESSES: 'Remove Addresses',
+            CONNECTED_APPS: 'Connected Apps',
+            CREATE_N_IMPORT_ADDRESS: 'Create & Import Address',
+        },
     },
 };
