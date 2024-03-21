@@ -1,11 +1,13 @@
 import { useLocation } from 'react-router-dom';
-import Amount from '../wallet/Amount';
+import { useTranslation } from 'react-i18next';
 import { ToastPosition } from '../toast/ToastContainer';
 import ActionDetails, {
     ActionDetailsFiatValue,
     ActionDetailsRow,
     ActionDetailsValue,
 } from './ActionDetails';
+import Amount from '@/components/wallet/Amount';
+import { ToastPosition } from '@/components/toast/ToastContainer';
 import useClipboard from '@/lib/hooks/useClipboard';
 import trimAddress from '@/lib/utils/trimAddress';
 import { Icon } from '@/shared/components';
@@ -15,6 +17,7 @@ import { WalletNetwork } from '@/lib/store/wallet';
 const TransactionApprovedBody = () => {
     const { state } = useLocation();
     const { copy } = useClipboard();
+    const { t } = useTranslation();
 
     const showFiat = state.walletNetwork === WalletNetwork.MAINNET;
 
@@ -28,7 +31,7 @@ const TransactionApprovedBody = () => {
                 </ActionDetailsRow>
 
                 <ActionDetailsRow
-                    label='Amount'
+                    label={t('COMMON.AMOUNT')}
                     below={
                         showFiat && (
                             <ActionDetailsFiatValue>
@@ -50,14 +53,14 @@ const TransactionApprovedBody = () => {
                     </div>
                 </ActionDetailsRow>
 
-                <ActionDetailsRow label='Receiver'>
+                <ActionDetailsRow label={t('COMMON.RECEIVER')}>
                     <ActionDetailsValue>
                         {trimAddress(state?.transaction.receiver, 'short')}
                     </ActionDetailsValue>
                 </ActionDetailsRow>
 
                 <ActionDetailsRow
-                    label='Transaction Fee'
+                    label={t('COMMON.TRANSACTION_FEE')}
                     below={
                         showFiat && (
                             <ActionDetailsFiatValue>
@@ -80,7 +83,7 @@ const TransactionApprovedBody = () => {
                 </ActionDetailsRow>
 
                 <ActionDetailsRow
-                    label='Total Amount'
+                    label={t('COMMON.TOTAL_AMOUNT')}
                     below={
                         showFiat && (
                             <ActionDetailsFiatValue>
@@ -102,7 +105,7 @@ const TransactionApprovedBody = () => {
                     </div>
                 </ActionDetailsRow>
 
-                <ActionDetailsRow label='Transaction ID'>
+                <ActionDetailsRow label={t('COMMON.TRANSACTION_ID')}>
                     <div className='flex items-center gap-1'>
                         <ActionDetailsValue>
                             {trimAddress(state?.transaction.id, 'short')}
@@ -111,7 +114,11 @@ const TransactionApprovedBody = () => {
                         <button
                             type='button'
                             onClick={() =>
-                                copy(state?.transaction.id, 'Transaction ID', ToastPosition.HIGH)
+                                copy(
+                                    state?.transaction.id,
+                                    t('COMMON.TRANSACTION_ID'),
+                                    ToastPosition.HIGH,
+                                )
                             }
                             className='block'
                         >

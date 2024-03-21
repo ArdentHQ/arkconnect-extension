@@ -1,10 +1,12 @@
 import { Contracts } from '@ardenthq/sdk-profiles';
-import Amount from '../wallet/Amount';
+import { useTranslation } from 'react-i18next';
 import ActionDetails, {
     ActionDetailsFiatValue,
     ActionDetailsRow,
     ActionDetailsValue,
 } from './ActionDetails';
+import Amount from '@/components/wallet/Amount';
+import trimAddress from '@/lib/utils/trimAddress';
 import { getNetworkCurrency } from '@/lib/utils/getActiveCoin';
 import { useExchangeRate } from '@/lib/hooks/useExchangeRate';
 import { Address } from '@/components/wallet/address/Address.blocks';
@@ -18,6 +20,7 @@ type Props = {
 };
 
 const RequestedTransactionBody = ({ wallet, amount, fee, total, receiverAddress }: Props) => {
+    const { t } = useTranslation();
     const exchangeCurrency = wallet.exchangeCurrency() ?? 'USD';
 
     const coin = getNetworkCurrency(wallet.network());
@@ -32,7 +35,7 @@ const RequestedTransactionBody = ({ wallet, amount, fee, total, receiverAddress 
     return (
         <ActionDetails>
             <ActionDetailsRow
-                label='Amount'
+                label={t('COMMON.AMOUNT')}
                 below={
                     withFiat && (
                         <ActionDetailsFiatValue>
@@ -60,7 +63,7 @@ const RequestedTransactionBody = ({ wallet, amount, fee, total, receiverAddress 
                 </div>
             </ActionDetailsRow>
 
-            <ActionDetailsRow label='Receiver'>
+            <ActionDetailsRow label={t('COMMON.RECEIVER')}>
                 <Address
                     address={receiverAddress}
                     tooltipPlacement='bottom-end'
@@ -70,7 +73,7 @@ const RequestedTransactionBody = ({ wallet, amount, fee, total, receiverAddress 
             </ActionDetailsRow>
 
             <ActionDetailsRow
-                label='Transaction Fee'
+                label={t('COMMON.TRANSACTION_FEE')}
                 below={
                     withFiat && (
                         <ActionDetailsFiatValue>
@@ -98,7 +101,7 @@ const RequestedTransactionBody = ({ wallet, amount, fee, total, receiverAddress 
             </ActionDetailsRow>
 
             <ActionDetailsRow
-                label='Total Amount'
+                label={t('COMMON.TOTAL_AMOUNT')}
                 below={
                     withFiat && (
                         <ActionDetailsFiatValue>
