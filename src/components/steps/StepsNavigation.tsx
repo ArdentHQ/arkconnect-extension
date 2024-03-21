@@ -4,6 +4,7 @@ import { ComponentType, useState } from 'react';
 import { FormikProps } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import cn from 'classnames';
+import { twMerge } from 'tailwind-merge';
 import { ArrowButton } from '@/shared/components';
 
 export type Step = {
@@ -61,7 +62,7 @@ const StepsNavigation = <T extends Record<string, any>>({
     return (
         <>
             <div
-                className={cn(
+                className={twMerge(
                     'flex items-center justify-between gap-4 pb-6 text-light-black dark:text-white',
                     className,
                 )}

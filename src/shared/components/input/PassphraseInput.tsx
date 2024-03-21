@@ -1,5 +1,6 @@
 import { forwardRef } from 'react';
 import cn from 'classnames';
+import { twMerge } from 'tailwind-merge';
 
 type TextAreaProps = React.ComponentPropsWithRef<'textarea'> & {
     disabled?: boolean;
@@ -46,7 +47,7 @@ export const PassphraseInput = forwardRef(function TextArea(
 
             <div className='relative w-full'>
                 <textarea
-                    className={cn(
+                    className={twMerge(cn(
                         'transition-smoothEase w-full resize-none rounded-lg border-none p-3 text-base font-normal shadow-secondary-dark outline-none placeholder:text-theme-secondary-400 disabled:pointer-events-none disabled:cursor-not-allowed disabled:overflow-hidden disabled:bg-white dark:disabled:bg-subtle-black',
                         {
                             'passphrase-primary': variant === 'primary',
@@ -54,8 +55,7 @@ export const PassphraseInput = forwardRef(function TextArea(
                             'passphrase-errorFree': variant === 'errorFree',
                             'text-security-disc': hideValue,
                         },
-                        className,
-                    )}
+                    ), className)}
                     rows={rows || 4}
                     ref={ref}
                     id={id}

@@ -1,4 +1,4 @@
-import cn from 'classnames';
+import { twMerge } from 'tailwind-merge';
 
 type ExternalLinkProps = React.ComponentPropsWithRef<'a'> & {
     className?: string;
@@ -7,7 +7,7 @@ type ExternalLinkProps = React.ComponentPropsWithRef<'a'> & {
 export const ExternalLink = ({ className, ...rest }: ExternalLinkProps) => {
     return (
         <a
-            className={cn(
+            className={twMerge(
                 'cursor-pointer no-underline hover:underline focus-visible:outline-2 focus-visible:outline-theme-primary-600',
                 className,
             )}
