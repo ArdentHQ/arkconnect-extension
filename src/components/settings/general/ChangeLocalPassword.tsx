@@ -95,7 +95,6 @@ const ChangeLocalPassword = () => {
     return (
         <SubPageLayout title={t('PAGES.SETTINGS.CHANGE_LOCAL_PASSWORD')}>
             <div className='flex h-full flex-1 flex-col justify-between'>
-
                 <HeadingDescription className='mb-6'>
                     {t('PAGES.SETTINGS.CHANGE_PASSWORD_FOR_YOUR_WALLET')}
                 </HeadingDescription>

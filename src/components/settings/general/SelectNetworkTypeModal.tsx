@@ -34,7 +34,7 @@ const SelectNetworkTypeModal = ({ onNetworkSelect, onClose, action = 'create' }:
                 </Heading>
                 <div>
                     <HeadingDescription className='mt-2'>
-                       {action === 'create'
+                        {action === 'create'
                             ? t('PAGES.SETTINGS.SELECT_NETWORK_TO_CREATE')
                             : t('PAGES.SETTINGS.SELECT_NETWORK_TO_IMPORT')}
                     </HeadingDescription>

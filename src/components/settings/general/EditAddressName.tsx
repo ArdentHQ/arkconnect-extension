@@ -57,7 +57,6 @@ const EditAddressName = () => {
     return (
         <SubPageLayout title={t('PAGES.SETTINGS.EDIT_ADDRESS_NAME')} hideCloseButton={false}>
             <div className='flex h-full flex-col'>
-
                 <HeadingDescription className='mb-6'>
                     {t('PAGES.SETTINGS.NAME_YOUR_ADDRESS_SO_YOU_CAN_IDENTIFY')}
                 </HeadingDescription>

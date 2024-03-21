@@ -46,7 +46,6 @@ const MultipleWalletLogout = () => {
     return (
         <SubPageLayout title={t('PAGES.LOGOUT.REMOVE_ADDRESSES')}>
             <div className='flex h-full flex-col'>
-
                 <HeadingDescription className='mb-6'>
                     {t('PAGES.LOGOUT.SELECT_ADDRESSES_TO_REMOVE')}
                 </HeadingDescription>
