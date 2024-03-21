@@ -2,6 +2,7 @@ import { useParams } from 'react-router-dom';
 import { boolean, object, string } from 'yup';
 import { useFormik } from 'formik';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import YourPrivateKey from './YourPrivateKey';
 import SubPageLayout from '@/components/settings/SubPageLayout';
 import { Button, Checkbox, HeadingDescription, PasswordInput } from '@/shared/components';
@@ -38,7 +39,7 @@ const ViewSensitiveInfo = () => {
     const { onError } = useErrorHandlerContext();
     const { walletId, type } = useParams();
     const { profile } = useProfileContext();
-
+    const { t } = useTranslation();
     const [privateKey, setPrivateKey] = useState<string>('');
     const [passphrase, setPassphrase] = useState<string>('');
 
@@ -71,7 +72,7 @@ const ViewSensitiveInfo = () => {
                     setPrivateKey(privateKeyDto.privateKey);
                     setPassphrase(mnemonic);
                 } catch (error) {
-                    formikHelpers.setFieldError('password', 'Incorrect password');
+                    formikHelpers.setFieldError('password', t('MISC.INCORRECT_PASSWORD'));
                 }
             } catch (error) {
                 onError(error);
@@ -97,13 +98,13 @@ const ViewSensitiveInfo = () => {
                     <div>
                         <PasswordInput
                             variant={formik.errors.password ? 'destructive' : 'primary'}
-                            placeholder='Your password'
+                            placeholder={t('PAGES.SETTINGS.FORM.YOUR_PASSWORD')}
                             name='password'
                             helperText={formik.errors.password}
                             value={formik.values.password}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
-                            labelText='Enter Password to Access'
+                            labelText={t('PAGES.SETTINGS.FORM.ENTER_PASSWORD_TO_ACCESS')}
                         />
                     </div>
 
@@ -126,7 +127,7 @@ const ViewSensitiveInfo = () => {
                                 !formik.values.doNotShare
                             }
                         >
-                            Continue
+                            {t('ACTION.CONTINUE')}
                         </Button>
                     </div>
                 </div>
