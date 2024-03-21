@@ -6,7 +6,6 @@ import ActionDetails, {
     ActionDetailsValue,
 } from './ActionDetails';
 import Amount from '@/components/wallet/Amount';
-import trimAddress from '@/lib/utils/trimAddress';
 import { getNetworkCurrency } from '@/lib/utils/getActiveCoin';
 import { useExchangeRate } from '@/lib/hooks/useExchangeRate';
 import { Address } from '@/components/wallet/address/Address.blocks';

@@ -7,7 +7,6 @@ import ActionDetails, {
     ActionDetailsValue,
 } from './ActionDetails';
 import Amount from '@/components/wallet/Amount';
-import { ToastPosition } from '@/components/toast/ToastContainer';
 import useClipboard from '@/lib/hooks/useClipboard';
 import trimAddress from '@/lib/utils/trimAddress';
 import { Icon } from '@/shared/components';
