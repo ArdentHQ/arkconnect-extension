@@ -1,6 +1,7 @@
 import { useRef } from 'react';
 import { TippyProps } from '@tippyjs/react';
 import cn from 'classnames';
+import { twMerge } from 'tailwind-merge';
 import Amount from '@/components/wallet/Amount';
 import { Icon, Tooltip } from '@/shared/components';
 import trimAddress from '@/lib/utils/trimAddress';
@@ -65,15 +66,22 @@ export const Address = ({
     address,
     length = 10,
     tooltipPlacement = 'top',
+    classNames,
 }: {
     address: string;
     length?: number;
     tooltipPlacement?: TippyProps['placement'];
+    classNames?: string;
 }) => {
     return (
         <div>
             <Tooltip content={address} placement={tooltipPlacement}>
-                <p className='typeset-body max-w-44  font-normal text-theme-secondary-500 underline-offset-2 hover:underline dark:text-theme-secondary-300'>
+                <p
+                    className={twMerge(
+                        'max-w-44 cursor-pointer text-sm font-normal leading-[17.5px] text-theme-secondary-500 underline-offset-2 hover:underline dark:text-theme-secondary-300',
+                        classNames,
+                    )}
+                >
                     {trimAddress(address, length)}
                 </p>
             </Tooltip>

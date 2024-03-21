@@ -9,6 +9,7 @@ import Amount from '@/components/wallet/Amount';
 import { Tooltip } from '@/shared/components';
 import trimAddress from '@/lib/utils/trimAddress';
 import { getNetworkCurrency } from '@/lib/utils/getActiveCoin';
+import { Address } from '@/components/wallet/address/Address.blocks';
 
 type Props = {
     vote: Contracts.VoteRegistryItem | null;
@@ -31,6 +32,8 @@ const RequestedVoteBody = ({ vote, unvote, fee, convertedFee, wallet }: Props) =
                             <Amount
                                 value={convertedFee}
                                 ticker={wallet.exchangeCurrency() ?? 'USD'}
+                                underlineOnHover={true}
+                                tooltipPlacement='bottom-end'
                             />
                         </ActionDetailsFiatValue>
                     )
@@ -51,9 +54,12 @@ const RequestedVoteBody = ({ vote, unvote, fee, convertedFee, wallet }: Props) =
 
             {unvote && !wallet.isLedger() && (
                 <ActionDetailsRow label={t('COMMON.UNVOTE_DELEGATE_ADDRESS')}>
-                    <ActionDetailsValue>
-                        {trimAddress(unvote.wallet?.address() ?? '', 10)}
-                    </ActionDetailsValue>
+                    <Address
+                        address={unvote.wallet?.address() ?? ''}
+                        tooltipPlacement='bottom-end'
+                        length={10}
+                        classNames='leading-5 font-medium text-light-black dark:text-white'
+                    />
                 </ActionDetailsRow>
             )}
 
@@ -68,7 +74,9 @@ const RequestedVoteBody = ({ vote, unvote, fee, convertedFee, wallet }: Props) =
                         placement='bottom-end'
                     >
                         <ActionDetailsValue>
-                            {trimAddress(unvote.wallet?.publicKey() ?? '', 10)}
+                            <span className='underline-offset-2 hover:underline'>
+                                {trimAddress(unvote.wallet?.publicKey() ?? '', 10)}
+                            </span>
                         </ActionDetailsValue>
                     </Tooltip>
                 </ActionDetailsRow>
@@ -82,9 +90,12 @@ const RequestedVoteBody = ({ vote, unvote, fee, convertedFee, wallet }: Props) =
 
             {vote && !wallet.isLedger() && (
                 <ActionDetailsRow label={t('COMMON.VOTE_DELEGATE_ADDRESS')}>
-                    <ActionDetailsValue>
-                        {trimAddress(vote.wallet?.address() ?? '', 10)}
-                    </ActionDetailsValue>
+                    <Address
+                        address={vote.wallet?.address() ?? ''}
+                        tooltipPlacement='bottom-end'
+                        length={10}
+                        classNames='leading-5 font-medium text-light-black dark:text-white'
+                    />
                 </ActionDetailsRow>
             )}
 
@@ -99,7 +110,9 @@ const RequestedVoteBody = ({ vote, unvote, fee, convertedFee, wallet }: Props) =
                         placement='bottom-end'
                     >
                         <ActionDetailsValue>
-                            {trimAddress(vote.wallet?.publicKey() ?? '', 10)}
+                            <span className='underline-offset-2 hover:underline'>
+                                {trimAddress(vote.wallet?.publicKey() ?? '', 10)}
+                            </span>
                         </ActionDetailsValue>
                     </Tooltip>
                 </ActionDetailsRow>
