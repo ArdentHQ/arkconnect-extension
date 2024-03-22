@@ -2,18 +2,18 @@ import { useLocation } from 'react-router-dom';
 import { Contracts } from '@ardenthq/sdk-profiles';
 import { useTranslation } from 'react-i18next';
 import { twMerge } from 'tailwind-merge';
-import RequestedVoteBody from '@/components/approve/RequestedVoteBody';
-import RequestedTransactionBody from '@/components/approve/RequestedTransactionBody';
+import { ActionBody } from '@/components/approve/ActionBody';
 import RequestedSignatureMessage from '@/components/approve/RequestedSignatureMessage';
 import formatDomain from '@/lib/utils/formatDomain';
 import trimAddress from '@/lib/utils/trimAddress';
 import { ApproveActionType } from '@/pages/Approve';
-import { Heading, Icon, Loader } from '@/shared/components';
+import { Heading, HeadingDescription, Icon, Loader } from '@/shared/components';
 import { useVoteForm } from '@/lib/hooks/useVoteForm';
 import { useExchangeRate } from '@/lib/hooks/useExchangeRate';
 import RequestedBy from '@/shared/components/actions/RequestedBy';
 import { useSendTransferForm } from '@/lib/hooks/useSendTransferForm';
 import { NavButton } from '@/shared/components/nav/NavButton';
+import { getNetworkCurrency } from '@/lib/utils/getActiveCoin';
 
 type Props = {
     actionType: ApproveActionType;
@@ -40,6 +40,10 @@ const ApproveWithLedger = ({
         exchangeTicker: wallet.exchangeCurrency(),
         ticker: wallet.currency(),
     });
+    const exchangeCurrency = wallet.exchangeCurrency() ?? 'USD';
+    const coin = getNetworkCurrency(wallet.network());
+    const withFiat = wallet.network().isLive();
+
     let fee = 0,
         total = 0,
         vote = null,
@@ -120,26 +124,46 @@ const ApproveWithLedger = ({
                         action: getActionMessage(),
                     })}
                 </Heading>
-                <p className='typeset-headline text-theme-secondary-500 dark:text-theme-secondary-300'>
+                <HeadingDescription>
                     {t('PAGES.IMPORT_WITH_LEDGER.CONNECT_YOUR_LEDGER_DEVICE_DISCLAIMER')}
-                </p>
+                </HeadingDescription>
                 <div className='mt-6'>
                     {votingActionTypes.includes(actionType) && (
-                        <RequestedVoteBody
-                            unvote={unvote}
-                            vote={vote}
+                        <ActionBody
+                            isApproved={false}
+                            showFiat={wallet.network().isLive()}
+                            wallet={wallet}
                             fee={fee}
                             convertedFee={convert(fee)}
-                            wallet={wallet}
+                            exchangeCurrency={wallet.exchangeCurrency() ?? 'USD'}
+                            network={getNetworkCurrency(wallet.network())}
+                            unvote={{
+                                delegateName: unvote?.wallet?.username(),
+                                publicKey: unvote?.wallet?.publicKey(),
+                                delegateAddress: unvote?.wallet?.address(),
+                            }}
+                            vote={{
+                                delegateName: vote?.wallet?.username(),
+                                publicKey: vote?.wallet?.publicKey(),
+                                delegateAddress: vote?.wallet?.address(),
+                            }}
+                            maxHeight='165px'
                         />
                     )}
                     {actionType === ApproveActionType.TRANSACTION && (
-                        <RequestedTransactionBody
-                            amount={state?.amount}
-                            receiverAddress={state?.receiverAddress}
+                        <ActionBody
+                            isApproved={false}
+                            showFiat={withFiat}
+                            amount={amount}
+                            amountTicker={coin}
+                            convertedAmount={convert(amount)}
+                            exchangeCurrency={exchangeCurrency}
+                            network={getNetworkCurrency(wallet.network())}
                             fee={fee}
-                            total={total}
-                            wallet={wallet}
+                            convertedFee={convert(fee)}
+                            receiver={trimAddress(receiverAddress as string, 10)}
+                            totalAmount={total}
+                            convertedTotalAmount={convert(total)}
                         />
                     )}
                     {actionType === ApproveActionType.SIGNATURE && (

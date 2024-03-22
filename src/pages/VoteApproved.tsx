@@ -1,13 +1,16 @@
 import { useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { ApproveActionType } from './Approve';
-import VoteApprovedBody from '@/components/approve/VoteApprovedBody';
 import constants from '@/constants';
 import removeWindowInstance from '@/lib/utils/removeWindowInstance';
 import { Button, ExternalLink, Heading, Icon } from '@/shared/components';
 import formatDomain from '@/lib/utils/formatDomain';
 import RequestedBy from '@/shared/components/actions/RequestedBy';
 import { useProfileContext } from '@/lib/context/Profile';
+import { WalletNetwork } from '@/lib/store/wallet';
+import { ActionBody } from '@/components/approve/ActionBody';
+import trimAddress from '@/lib/utils/trimAddress';
+import getActiveCoin from '@/lib/utils/getActiveCoin';
 
 const VoteApproved = () => {
     const { t } = useTranslation();
@@ -15,6 +18,8 @@ const VoteApproved = () => {
     const { profile } = useProfileContext();
     const { session } = state;
     const wallet = profile.wallets().findById(session.walletId);
+
+    const showFiat = state.walletNetwork === WalletNetwork.MAINNET;
 
     const onClose = async () => {
         await removeWindowInstance(state?.windowId);
@@ -45,7 +50,28 @@ const VoteApproved = () => {
                         />
                         <Heading level={3}>{getTitle()}</Heading>
                     </div>
-                    <VoteApprovedBody wallet={wallet} />
+                    <ActionBody
+                        isApproved
+                        wallet={wallet}
+                        sender={trimAddress(state?.vote.sender ?? '', 10)}
+                        showFiat={showFiat}
+                        fee={state?.vote.fee}
+                        convertedFee={state?.vote.convertedFee as number}
+                        exchangeCurrency={state?.vote.exchangeCurrency as string}
+                        network={getActiveCoin(state?.walletNetwork)}
+                        unvote={{
+                            delegateName: state?.vote.unvoteDelegateName,
+                            publicKey: state?.vote.unvotePublicKey,
+                            delegateAddress: state?.vote.unvoteDelegateAddress,
+                        }}
+                        vote={{
+                            delegateName: state?.vote.voteDelegateName,
+                            publicKey: state?.vote.votePublicKey,
+                            delegateAddress: state?.vote.voteDelegateAddress,
+                        }}
+                        transactionId={state?.vote.id}
+                        maxHeight='229px'
+                    />
                 </div>
 
                 <div className='flex w-full flex-col gap-5'>

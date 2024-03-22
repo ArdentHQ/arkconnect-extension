@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { Heading } from '@/shared/components';
+import { Heading, HeadingDescription } from '@/shared/components';
 
 type Props = {
     sessionDomain?: string;
@@ -16,12 +16,12 @@ const RemoveConnections = ({ numberOfSessions, sessionDomain }: Props) => {
             </Heading>
 
             <div className='mt-2'>
-                <span className='typeset-headline text-theme-secondary-500 dark:text-theme-secondary-300'>
+                <HeadingDescription>
                     {hasMultipleSessions
                         ? t('PAGES.CONNECTIONS.ARE_YOU_CERTAIN_TO_DISCONNECT_ALL')
                         : t('PAGES.CONNECTIONS.ARE_YOU_CERTAIN_TO_DISCONNECT_YOUR_CONNECTION')}
-                </span>
-                <span className='typeset-headline text-theme-secondary-500 dark:text-theme-secondary-300'>
+                </HeadingDescription>
+                <HeadingDescription>
                     {sessionDomain && numberOfSessions === 1 ? (
                         <span className='typeset-headline text-light-black dark:text-white'>
                             <span className='break-words'>{sessionDomain}</span>
@@ -35,7 +35,7 @@ const RemoveConnections = ({ numberOfSessions, sessionDomain }: Props) => {
                         </>
                     )}
                     ?
-                </span>
+                </HeadingDescription>
             </div>
         </div>
     );
