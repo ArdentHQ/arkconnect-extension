@@ -193,7 +193,9 @@ export const useSendTransferForm = (
                     hasHigherCustomFee:
                         request.customFee && request.customFee > averageFee ? averageFee : null,
                     mnemonic: passphrase?.join(' ') || '',
-                    total: BigNumber.make(fee).plus(request.amount ?? 0).toHuman(),
+                    total: BigNumber.make(fee)
+                        .plus(request.amount ?? 0)
+                        .toHuman(),
                     recipients: [
                         {
                             address: request.receiverAddress,
