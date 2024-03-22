@@ -5,7 +5,7 @@ import { useFormik } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import SubPageLayout from '@/components/settings/SubPageLayout';
-import { Button, PasswordInput } from '@/shared/components';
+import { Button, HeadingDescription, PasswordInput } from '@/shared/components';
 
 import { ToastPosition } from '@/components/toast/ToastContainer';
 import { isValidPassword } from '@/lib/utils/validations';
@@ -95,9 +95,10 @@ const ChangeLocalPassword = () => {
     return (
         <SubPageLayout title={t('PAGES.SETTINGS.CHANGE_LOCAL_PASSWORD')}>
             <div className='flex h-full flex-1 flex-col justify-between'>
-                <p className='typeset-headline mb-6 text-theme-secondary-500 dark:text-theme-secondary-300'>
+                <HeadingDescription className='mb-6'>
                     {t('PAGES.SETTINGS.CHANGE_PASSWORD_FOR_YOUR_WALLET')}
-                </p>
+                </HeadingDescription>
+
                 <div className='h-full'>
                     <div className='mb-4 border-b border-solid border-b-theme-secondary-200 pb-4 dark:border-b-theme-secondary-600'>
                         <PasswordInput

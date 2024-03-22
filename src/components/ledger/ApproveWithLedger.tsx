@@ -7,7 +7,7 @@ import RequestedSignatureMessage from '@/components/approve/RequestedSignatureMe
 import formatDomain from '@/lib/utils/formatDomain';
 import trimAddress from '@/lib/utils/trimAddress';
 import { ApproveActionType } from '@/pages/Approve';
-import { Heading, Icon, Loader } from '@/shared/components';
+import { Heading, HeadingDescription, Icon, Loader } from '@/shared/components';
 import { useVoteForm } from '@/lib/hooks/useVoteForm';
 import { useExchangeRate } from '@/lib/hooks/useExchangeRate';
 import RequestedBy from '@/shared/components/actions/RequestedBy';
@@ -124,9 +124,9 @@ const ApproveWithLedger = ({
                         action: getActionMessage(),
                     })}
                 </Heading>
-                <p className='typeset-headline text-theme-secondary-500 dark:text-theme-secondary-300'>
+                <HeadingDescription>
                     {t('PAGES.IMPORT_WITH_LEDGER.CONNECT_YOUR_LEDGER_DEVICE_DISCLAIMER')}
-                </p>
+                </HeadingDescription>
                 <div className='mt-6'>
                     {votingActionTypes.includes(actionType) && (
                         <ActionBody

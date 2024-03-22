@@ -2,7 +2,7 @@ import { ChangeEvent, KeyboardEvent, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { runtime } from 'webextension-polyfill';
 import { useTranslation } from 'react-i18next';
-import { Button, PasswordInput, WarningIcon } from '@/shared/components';
+import { Button, HeadingDescription, PasswordInput, WarningIcon } from '@/shared/components';
 import { ValidationVariant } from '@/components/wallet/create';
 import { useAppDispatch, useAppSelector } from '@/lib/store';
 import * as WalletStore from '@/lib/store/wallet';
@@ -131,7 +131,7 @@ const Logout = () => {
             noPaddingBottom
         >
             <div className='flex h-full flex-col'>
-                <p className='typeset-headline text-theme-secondary-500 dark:text-theme-secondary-300'>
+                <HeadingDescription>
                     {walletsToLogout && walletsToLogout.length > 1 ? (
                         <span className='typeset-headline'>
                             {t('PAGES.LOGOUT.ARE_YOU_SURE_YOU_WANT_TO_REMOVE_1')}
@@ -146,7 +146,7 @@ const Logout = () => {
                     ) : (
                         t('PAGES.LOGOUT.YOU_WONT_BE_ABLE_TO_LOGIN_AGAIN_WITHOUT_PASSPHRASE')
                     )}
-                </p>
+                </HeadingDescription>
 
                 <div className='mt-4 flex items-center justify-center'>
                     <WarningIcon iconClassName='w-[146px] h-[135px]' />

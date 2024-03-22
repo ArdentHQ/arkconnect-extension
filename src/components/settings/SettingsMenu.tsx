@@ -3,7 +3,7 @@ import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { runtime } from 'webextension-polyfill';
 import { Contracts } from '@ardenthq/sdk-profiles';
 import { useTranslation } from 'react-i18next';
-import { ToggleSwitch } from '@/shared/components';
+import { HeadingDescription, ToggleSwitch } from '@/shared/components';
 import { SettingsOption } from '@/components/settings/SettingsOption';
 import { lockedChanged } from '@/lib/store/ui';
 import { selectWalletsIds } from '@/lib/store/wallet';
@@ -140,11 +140,11 @@ export const SettingsMenu = ({
                         title={t('PAGES.SETTINGS.MENU.CHANGE_LOCAL_CURRENCY')}
                         iconLeading='currency-dollar-circle'
                         rightContent={
-                            <p className='typeset-headline mr-2 text-base font-normal text-theme-secondary-500 dark:text-theme-secondary-300'>
+                            <HeadingDescription className='mr-2 text-base font-normal'>
                                 {`${profile
                                     .settings()
                                     .get(Contracts.ProfileSetting.ExchangeCurrency)}`}
-                            </p>
+                            </HeadingDescription>
                         }
                         iconTrailing='arrow-right'
                         onClick={() => handleNavigation('/local-currency')}
@@ -156,9 +156,9 @@ export const SettingsMenu = ({
                         title={t('PAGES.SETTINGS.MENU.AUTO_LOCK_TIMER')}
                         iconLeading='clock'
                         rightContent={
-                            <p className='typeset-headline mr-2 text-base font-normal text-theme-secondary-500 dark:text-theme-secondary-300'>
+                            <HeadingDescription className='mr-2 text-base font-normal'>
                                 {autoLockTimer ? showAutoLockTimerValue(autoLockTimer) : ''}
-                            </p>
+                            </HeadingDescription>
                         }
                         iconTrailing='arrow-right'
                         onClick={() => {

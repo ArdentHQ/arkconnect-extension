@@ -3,7 +3,7 @@ import { ChangeEvent, useEffect, useState } from 'react';
 import { Contracts } from '@ardenthq/sdk-profiles';
 import { useTranslation } from 'react-i18next';
 import { ImportedWalletFormik } from '.';
-import { Button, Heading, Input } from '@/shared/components';
+import { Button, Heading, HeadingDescription, Input } from '@/shared/components';
 
 type Props = {
     goToNextStep: () => void;
@@ -44,9 +44,9 @@ const ImportedWallet = ({ goToNextStep, formik }: Props) => {
             <Heading className='mb-2' level={3}>
                 {t('PAGES.IMPORT_NEW_WALLET.ADDRESS_IMPORTED')}
             </Heading>
-            <p className='typeset-headline mb-6 text-theme-secondary-500 dark:text-theme-secondary-300'>
+            <HeadingDescription className='mb-6'>
                 {t('PAGES.IMPORT_NEW_WALLET.ADDRESS_DETAILS_ARE_SHOWN_BELOW')}
-            </p>
+            </HeadingDescription>
             <div>
                 <div className=' mb-4 border-b border-solid border-b-theme-secondary-200 pb-4 dark:border-b-theme-secondary-600'>
                     <p className='typeset-body mb-2 font-medium text-theme-secondary-500 dark:text-theme-secondary-300'>

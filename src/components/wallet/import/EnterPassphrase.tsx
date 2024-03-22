@@ -5,7 +5,13 @@ import { runtime } from 'webextension-polyfill';
 import { useTranslation } from 'react-i18next';
 import { ImportedWalletFormik } from '.';
 import { TestnetIcon } from '@/components/wallet/address/Address.blocks';
-import { Button, Heading, PassphraseInput, ToggleSwitch } from '@/shared/components';
+import {
+    Button,
+    Heading,
+    HeadingDescription,
+    PassphraseInput,
+    ToggleSwitch,
+} from '@/shared/components';
 
 import { assertWallet } from '@/lib/utils/assertions';
 import { getDefaultAlias } from '@/lib/utils/getDefaultAlias';
@@ -195,9 +201,11 @@ const EnterPassphrase = ({ goToNextStep, formik }: Props) => {
                 <Heading level={3}>{t('PAGES.IMPORT_NEW_WALLET.ENTER_PASSPHRASE')}</Heading>
                 {selectedNetwork.isTest() && <TestnetIcon />}
             </div>
-            <p className='typeset-headline mb-8 text-theme-secondary-500 dark:text-theme-secondary-300'>
+
+            <HeadingDescription className='mb-8'>
                 {t('PAGES.IMPORT_NEW_WALLET.ENTER_YOUR_PASSPHRASE')}
-            </p>
+            </HeadingDescription>
+
             <div className='relative mb-4'>
                 <PassphraseInput
                     name='enteredPassphrase'

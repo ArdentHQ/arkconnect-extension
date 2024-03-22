@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { Button, Heading } from '@/shared/components';
+import { Button, Heading, HeadingDescription } from '@/shared/components';
 import Modal from '@/shared/components/modal/Modal';
 
 type Props = {
@@ -33,11 +33,11 @@ const SelectNetworkTypeModal = ({ onNetworkSelect, onClose, action = 'create' }:
                     {t('PAGES.SETTINGS.SELECT_NETWORK_TYPE')}
                 </Heading>
                 <div>
-                    <span className='typeset-headline mt-2 text-theme-secondary-500 dark:text-theme-secondary-300'>
+                    <HeadingDescription className='mt-2'>
                         {action === 'create'
                             ? t('PAGES.SETTINGS.SELECT_NETWORK_TO_CREATE')
                             : t('PAGES.SETTINGS.SELECT_NETWORK_TO_IMPORT')}
-                    </span>
+                    </HeadingDescription>
                 </div>
             </div>
         </Modal>

@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { Button } from '@/shared/components';
+import { Button, HeadingDescription } from '@/shared/components';
 
 type ConnectFooterProps = {
     onSubmit: () => Promise<void>;
@@ -9,9 +9,9 @@ const ConnectFooter = ({ onSubmit, onCancel }: ConnectFooterProps) => {
     const { t } = useTranslation();
     return (
         <div className='px-4'>
-            <p className='typeset-headline mb-8 text-theme-secondary-500 dark:text-theme-secondary-300'>
+            <HeadingDescription className='mb-8'>
                 {t('PAGES.CONNECT.CAN_SEE_YOUR_ADDRESS_DISCLAIMER')}
-            </p>
+            </HeadingDescription>
             <div className='grid grid-cols-2 gap-2'>
                 <Button variant='secondaryBlack' onClick={onCancel}>
                     {t('ACTION.REFUSE')}

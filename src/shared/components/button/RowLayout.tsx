@@ -1,6 +1,6 @@
 import { forwardRef } from 'react';
 import cn from 'classnames';
-import { Icon, IconDefinition } from '@/shared/components';
+import { HeadingDescription, Icon, IconDefinition } from '@/shared/components';
 import constants from '@/constants';
 import { Address, LedgerIcon, TestnetIcon } from '@/components/wallet/address/Address.blocks';
 import { isFirefox } from '@/lib/utils/isFirefox';
@@ -198,9 +198,9 @@ export const RowLayout = forwardRef(function RowLayout(
 
                     <span className='flex items-center'>
                         {rightHelperText && (
-                            <span className='typeset-headline mr-2 font-normal text-theme-secondary-500 dark:text-theme-secondary-300'>
+                            <HeadingDescription className='mr-2 font-normal'>
                                 {rightHelperText}
-                            </span>
+                            </HeadingDescription>
                         )}
 
                         {children && (
