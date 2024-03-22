@@ -1,6 +1,7 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import SubPageLayout from '@/components/settings/SubPageLayout';
-import { Button, PassphraseInput, ToggleSwitch } from '@/shared/components';
+import { Button, HeadingDescription, PassphraseInput, ToggleSwitch } from '@/shared/components';
 import useClipboard from '@/lib/hooks/useClipboard';
 import { ToastPosition } from '@/components/toast/ToastContainer';
 
@@ -9,20 +10,24 @@ type Props = {
 };
 
 const YourPassphrase = ({ passphrase }: Props) => {
+    const { t } = useTranslation();
     const { copy } = useClipboard();
     const [showPassphrase, setShowPassphrase] = useState<boolean>(false);
 
     const handleCopyToClipboard = () => {
-        copy(passphrase, 'Passphrase', ToastPosition.HIGH);
+        copy(passphrase, t('COMMON.PASSPHRASE'), ToastPosition.HIGH);
     };
 
     return (
-        <SubPageLayout title='Show Passphrase' hideCloseButton={false} noPaddingBottom>
+        <SubPageLayout
+            title={t('PAGES.SETTINGS.SHOW_PASSPHRASE')}
+            hideCloseButton={false}
+            noPaddingBottom
+        >
             <div className='flex h-full flex-col'>
-                <p className='typeset-headline mb-4 text-theme-secondary-500 dark:text-theme-secondary-300'>
-                    Remember, anyone with your passphrase can steal your assets. Do not share this
-                    publicly.
-                </p>
+                <HeadingDescription className='mb-4'>
+                    {t('PAGES.SETTINGS.SHOW_PASSPHRASE_DISCLAIMER')}
+                </HeadingDescription>
                 <div className='flex flex-1 flex-col justify-between'>
                     <div>
                         <div className='relative mb-4'>
@@ -41,12 +46,12 @@ const YourPassphrase = ({ passphrase }: Props) => {
                             checked={showPassphrase}
                             onChange={() => setShowPassphrase(!showPassphrase)}
                             id='show-passphrase'
-                            title='Show Passphrase'
+                            title={t('PAGES.SETTINGS.SHOW_PASSPHRASE')}
                         />
                     </div>
 
                     <Button variant='secondary' iconLeading='copy' onClick={handleCopyToClipboard}>
-                        Copy to Clipboard
+                        {t('ACTION.COPY_TO_CLIPBOARD')}
                     </Button>
                 </div>
             </div>

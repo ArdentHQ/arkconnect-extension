@@ -2,9 +2,10 @@ import { useParams } from 'react-router-dom';
 import { boolean, object, string } from 'yup';
 import { useFormik } from 'formik';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import YourPrivateKey from './YourPrivateKey';
 import SubPageLayout from '@/components/settings/SubPageLayout';
-import { Button, Checkbox, PasswordInput } from '@/shared/components';
+import { Button, Checkbox, HeadingDescription, PasswordInput } from '@/shared/components';
 import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
 import { useProfileContext } from '@/lib/context/Profile';
 import YourPassphrase from '@/components/settings/general/YourPassphrase';
@@ -38,7 +39,7 @@ const ViewSensitiveInfo = () => {
     const { onError } = useErrorHandlerContext();
     const { walletId, type } = useParams();
     const { profile } = useProfileContext();
-
+    const { t } = useTranslation();
     const [privateKey, setPrivateKey] = useState<string>('');
     const [passphrase, setPassphrase] = useState<string>('');
 
@@ -71,7 +72,7 @@ const ViewSensitiveInfo = () => {
                     setPrivateKey(privateKeyDto.privateKey);
                     setPassphrase(mnemonic);
                 } catch (error) {
-                    formikHelpers.setFieldError('password', 'Incorrect password');
+                    formikHelpers.setFieldError('password', t('MISC.INCORRECT_PASSWORD'));
                 }
             } catch (error) {
                 onError(error);
@@ -90,20 +91,20 @@ const ViewSensitiveInfo = () => {
     return (
         <SubPageLayout title={texts[infoType].title} hideCloseButton={false} noPaddingBottom>
             <div className='flex h-full flex-col'>
-                <p className='typeset-headline mb-6 text-theme-secondary-500 dark:text-theme-secondary-300'>
+                <HeadingDescription className='mb-6'>
                     {texts[infoType].description}
-                </p>
+                </HeadingDescription>
                 <div className='flex flex-1 flex-col justify-between'>
                     <div>
                         <PasswordInput
                             variant={formik.errors.password ? 'destructive' : 'primary'}
-                            placeholder='Your password'
+                            placeholder={t('PAGES.SETTINGS.FORM.YOUR_PASSWORD')}
                             name='password'
                             helperText={formik.errors.password}
                             value={formik.values.password}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
-                            labelText='Enter Password to Access'
+                            labelText={t('PAGES.SETTINGS.FORM.ENTER_PASSWORD_TO_ACCESS')}
                         />
                     </div>
 
@@ -126,7 +127,7 @@ const ViewSensitiveInfo = () => {
                                 !formik.values.doNotShare
                             }
                         >
-                            Continue
+                            {t('ACTION.CONTINUE')}
                         </Button>
                     </div>
                 </div>

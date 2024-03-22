@@ -1,6 +1,7 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import SubPageLayout from '@/components/settings/SubPageLayout';
-import { Button, PassphraseInput, ToggleSwitch } from '@/shared/components';
+import { Button, HeadingDescription, PassphraseInput, ToggleSwitch } from '@/shared/components';
 import useClipboard from '@/lib/hooks/useClipboard';
 import { ToastPosition } from '@/components/toast/ToastContainer';
 
@@ -9,20 +10,25 @@ type Props = {
 };
 
 const YourPrivateKey = ({ privateKey }: Props) => {
+    const { t } = useTranslation();
     const { copy } = useClipboard();
     const [showPrivateKey, setShowPassphrase] = useState<boolean>(false);
 
     const handleCopyToClipboard = () => {
-        copy(privateKey, 'Private key', ToastPosition.HIGH);
+        copy(privateKey, t('COMMON.PRIVATE_KEY'), ToastPosition.HIGH);
     };
 
     return (
-        <SubPageLayout title='Show Private Key' hideCloseButton={false} noPaddingBottom>
+        <SubPageLayout
+            title={t('PAGES.SETTINGS.SHOW_PRIVATE_KEY')}
+            hideCloseButton={false}
+            noPaddingBottom
+        >
             <div className='flex h-full flex-col'>
-                <p className='typeset-headline mb-4 text-theme-secondary-500 dark:text-theme-secondary-300'>
-                    Remember, anyone with your private key can steal your assets. Do not share this
-                    publicly.
-                </p>
+                <HeadingDescription className='mb-4'>
+                    {t('PAGES.SETTINGS.SHOW_PRIVATE_KEY_DISCLAIMER')}
+                </HeadingDescription>
+
                 <div className='flex flex-1 flex-col justify-between'>
                     <div>
                         <div className='relative mb-4'>
@@ -41,7 +47,7 @@ const YourPrivateKey = ({ privateKey }: Props) => {
                             checked={showPrivateKey}
                             onChange={() => setShowPassphrase(!showPrivateKey)}
                             id='show-private-key'
-                            title='Show Private Key'
+                            title={t('PAGES.SETTINGS.SHOW_PRIVATE_KEY')}
                         />
                     </div>
 
@@ -51,7 +57,7 @@ const YourPrivateKey = ({ privateKey }: Props) => {
                         onClick={handleCopyToClipboard}
                         className='mb-3'
                     >
-                        Copy to Clipboard
+                        {t('ACTION.COPY_TO_CLIPBOARD')}
                     </Button>
                 </div>
             </div>

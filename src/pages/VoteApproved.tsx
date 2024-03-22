@@ -1,18 +1,25 @@
 import { useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { ApproveActionType } from './Approve';
-import VoteApprovedBody from '@/components/approve/VoteApprovedBody';
 import constants from '@/constants';
 import removeWindowInstance from '@/lib/utils/removeWindowInstance';
 import { Button, ExternalLink, Heading, Icon } from '@/shared/components';
 import formatDomain from '@/lib/utils/formatDomain';
 import RequestedBy from '@/shared/components/actions/RequestedBy';
 import { useProfileContext } from '@/lib/context/Profile';
+import { WalletNetwork } from '@/lib/store/wallet';
+import { ActionBody } from '@/components/approve/ActionBody';
+import trimAddress from '@/lib/utils/trimAddress';
+import getActiveCoin from '@/lib/utils/getActiveCoin';
 
 const VoteApproved = () => {
+    const { t } = useTranslation();
     const { state } = useLocation();
     const { profile } = useProfileContext();
     const { session } = state;
     const wallet = profile.wallets().findById(session.walletId);
+
+    const showFiat = state.walletNetwork === WalletNetwork.MAINNET;
 
     const onClose = async () => {
         await removeWindowInstance(state?.windowId);
@@ -21,11 +28,11 @@ const VoteApproved = () => {
     const getTitle = () => {
         switch (state?.type) {
             case ApproveActionType.VOTE:
-                return 'Vote Approved';
+                return t('PAGES.VOTE_APPROVED.VOTE_APPROVED');
             case ApproveActionType.UNVOTE:
-                return 'Unvote Approved';
+                return t('PAGES.VOTE_APPROVED.UNVOTE_APPROVED');
             case ApproveActionType.SWITCH_VOTE:
-                return 'Switch Vote Approved';
+                return t('PAGES.VOTE_APPROVED.SWITCH_VOTE_APPROVED');
             default:
                 return '';
         }
@@ -43,12 +50,33 @@ const VoteApproved = () => {
                         />
                         <Heading level={3}>{getTitle()}</Heading>
                     </div>
-                    <VoteApprovedBody wallet={wallet} />
+                    <ActionBody
+                        isApproved
+                        wallet={wallet}
+                        sender={trimAddress(state?.vote.sender ?? '', 10)}
+                        showFiat={showFiat}
+                        fee={state?.vote.fee}
+                        convertedFee={state?.vote.convertedFee as number}
+                        exchangeCurrency={state?.vote.exchangeCurrency as string}
+                        network={getActiveCoin(state?.walletNetwork)}
+                        unvote={{
+                            delegateName: state?.vote.unvoteDelegateName,
+                            publicKey: state?.vote.unvotePublicKey,
+                            delegateAddress: state?.vote.unvoteDelegateAddress,
+                        }}
+                        vote={{
+                            delegateName: state?.vote.voteDelegateName,
+                            publicKey: state?.vote.votePublicKey,
+                            delegateAddress: state?.vote.voteDelegateAddress,
+                        }}
+                        transactionId={state?.vote.id}
+                        maxHeight='229px'
+                    />
                 </div>
 
                 <div className='flex w-full flex-col gap-5'>
                     <Button variant='primary' onClick={onClose}>
-                        Close
+                        {t('ACTION.CLOSE')}
                     </Button>
                     <ExternalLink
                         className='flex w-full items-center justify-center gap-3 text-light-black dark:text-white'
@@ -60,7 +88,7 @@ const VoteApproved = () => {
                         color='base'
                     >
                         <span className='typeset-headline font-medium'>
-                            View transaction on ARKScan
+                            {t('MISC.VIEW_TRANSACTION_ON_ARKSCAN')}
                         </span>
                         <Icon icon='link-external' className='h-5 w-5' />
                     </ExternalLink>

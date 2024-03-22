@@ -2,8 +2,9 @@ import { useFormik } from 'formik';
 import { useNavigate, useParams } from 'react-router-dom';
 import { object, string } from 'yup';
 import cn from 'classnames';
+import { useTranslation } from 'react-i18next';
 import SubPageLayout from '@/components/settings/SubPageLayout';
-import { Button, Input } from '@/shared/components';
+import { Button, HeadingDescription, Input } from '@/shared/components';
 import useToast from '@/lib/hooks/useToast';
 import { useEnvironmentContext } from '@/lib/context/Environment';
 import { useProfileContext } from '@/lib/context/Profile';
@@ -21,6 +22,7 @@ const EditAddressName = () => {
     const navigate = useNavigate();
     const { persist } = useEnvironmentContext();
     const { profile } = useProfileContext();
+    const { t } = useTranslation();
 
     const toast = useToast();
 
@@ -35,13 +37,13 @@ const EditAddressName = () => {
         validationSchema,
         onSubmit: async () => {
             if (!wallet || !formik.values.addressName) {
-                toast('danger', 'Something went wrong!');
+                toast('danger', t('MISC.SOMETHING_WENT_WRONG'));
                 return;
             }
 
             wallet.mutator().alias(formik.values.addressName);
             await persist();
-            toast('success', 'Address name updated');
+            toast('success', t('PAGES.SETTINGS.FEEDBACK.ADDRESS_NAME_UPDATED'));
             navigate(-1);
         },
     });
@@ -53,12 +55,11 @@ const EditAddressName = () => {
     };
 
     return (
-        <SubPageLayout title='Edit Address Name' hideCloseButton={false}>
+        <SubPageLayout title={t('PAGES.SETTINGS.EDIT_ADDRESS_NAME')} hideCloseButton={false}>
             <div className='flex h-full flex-col'>
-                <p className='typeset-headline mb-6 text-theme-secondary-500 dark:text-theme-secondary-300'>
-                    Name your address so you can identify it later. This name is only stored
-                    locally.
-                </p>
+                <HeadingDescription className='mb-6'>
+                    {t('PAGES.SETTINGS.NAME_YOUR_ADDRESS_SO_YOU_CAN_IDENTIFY')}
+                </HeadingDescription>
 
                 <div
                     className={cn({
@@ -70,11 +71,11 @@ const EditAddressName = () => {
                         variant={formik.errors.addressName ? 'destructive' : 'primary'}
                         type='text'
                         name='addressName'
-                        placeholder='Enter name...'
+                        placeholder={t('PAGES.SETTINGS.FORM.ENTER_NAME')}
                         value={formik.values.addressName}
                         onChange={handleAddressNameChange}
                         onBlur={formik.handleBlur}
-                        labelText='Address Name'
+                        labelText={t('PAGES.SETTINGS.FORM.ADDRESS_NAME')}
                         helperText={formik.errors.addressName}
                     />
                 </div>
@@ -83,7 +84,7 @@ const EditAddressName = () => {
                     onClick={formik.submitForm}
                     disabled={!formik.isValid || !formik.values.addressName?.length}
                 >
-                    Save
+                    {t('ACTION.SAVE')}
                 </Button>
             </div>
         </SubPageLayout>

@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { Button } from '@/shared/components';
 
 type Props = {
@@ -7,6 +8,7 @@ type Props = {
 };
 
 const ApproveFooter = ({ disabled, onSubmit, onCancel }: Props) => {
+    const { t } = useTranslation();
     const onApprove = async () => {
         if (disabled) return;
 
@@ -16,10 +18,10 @@ const ApproveFooter = ({ disabled, onSubmit, onCancel }: Props) => {
     return (
         <div className='grid grid-cols-2 gap-2 px-4'>
             <Button variant='secondaryBlack' onClick={onCancel}>
-                Refuse
+                {t('ACTION.REFUSE')}
             </Button>
             <Button variant='primary' disabled={disabled} onClick={onApprove}>
-                Approve
+                {t('ACTION.APPROVE')}
             </Button>
         </div>
     );

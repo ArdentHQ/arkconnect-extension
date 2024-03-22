@@ -2,6 +2,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { runtime } from 'webextension-polyfill';
 import { Contracts } from '@ardenthq/sdk-profiles';
+import { useTranslation } from 'react-i18next';
 import ApproveBody from '@/components/approve/ApproveBody';
 import ApproveFooter from '@/components/approve/ApproveFooter';
 import ApproveHeader from '@/components/approve/ApproveHeader';
@@ -15,9 +16,10 @@ import { HandleLoadingState } from '@/shared/components/handleStates/HandleLoadi
 import removeWindowInstance from '@/lib/utils/removeWindowInstance';
 import useWalletSync from '@/lib/hooks/useWalletSync';
 import { useEnvironmentContext } from '@/lib/context/Environment';
-import RequestedVoteBody from '@/components/approve/RequestedVoteBody';
 import { useNotifyOnUnload } from '@/lib/hooks/useNotifyOnUnload';
 import useLoadingModal from '@/lib/hooks/useLoadingModal';
+import { ActionBody } from '@/components/approve/ActionBody';
+import { getNetworkCurrency } from '@/lib/utils/getActiveCoin';
 
 type Props = {
     abortReference: AbortController;
@@ -38,6 +40,7 @@ const ApproveVote = ({ abortReference, approveWithLedger, wallet, closeLedgerScr
     const { syncAll } = useWalletSync({ env, profile });
     const { onError } = useErrorHandlerContext();
     const [error, setError] = useState<string | undefined>();
+    const { t } = useTranslation();
     const { convert } = useExchangeRate({
         exchangeTicker: wallet.exchangeCurrency(),
         ticker: wallet.currency(),
@@ -52,7 +55,7 @@ const ApproveVote = ({ abortReference, approveWithLedger, wallet, closeLedgerScr
 
     useEffect(() => {
         if (wallet.balance() < fee) {
-            setError('Insufficient balance. Add funds or switch address.');
+            setError(t('PAGES.APPROVE.FEEDBACK.INSUFFICIENT_BALANCE'));
         } else {
             setError(undefined);
         }
@@ -72,11 +75,11 @@ const ApproveVote = ({ abortReference, approveWithLedger, wallet, closeLedgerScr
     const getLoadingMessage = (actionType: string) => {
         switch (actionType) {
             case ApproveActionType.VOTE:
-                return 'Processing the vote...';
+                return t('PAGES.APPROVE.FEEDBACK.PROCESSING_THE_VOTE');
             case ApproveActionType.UNVOTE:
-                return 'Processing the unvote...';
+                return t('PAGES.APPROVE.FEEDBACK.PROCESSING_THE_UNVOTE');
             case ApproveActionType.SWITCH_VOTE:
-                return 'Processing the vote switch...';
+                return t('PAGES.APPROVE.FEEDBACK.PROCESSING_THE_VOTE_SWITCH');
             default:
                 return '';
         }
@@ -86,7 +89,7 @@ const ApproveVote = ({ abortReference, approveWithLedger, wallet, closeLedgerScr
         loadingMessage: getLoadingMessage(actionType),
     });
 
-    const reject = (message: string = 'Sign vote denied!') => {
+    const reject = (message: string = t('PAGES.APPROVE.FEEDBACK.SIGN_VOTE_DENIED')) => {
         runtime.sendMessage({
             type: 'SIGN_VOTE_REJECT',
             data: {
@@ -184,13 +187,27 @@ const ApproveVote = ({ abortReference, approveWithLedger, wallet, closeLedgerScr
                 appName={state.session.domain}
                 appLogo={state.session.logo}
             />
-            <ApproveBody header='Approving with' wallet={wallet} error={error}>
-                <RequestedVoteBody
-                    unvote={unvote}
-                    vote={vote}
+
+            <ApproveBody header={t('PAGES.APPROVE.APPROVING_WITH')} wallet={wallet} error={error}>
+                <ActionBody
+                    isApproved={false}
+                    showFiat={wallet.network().isLive()}
+                    wallet={wallet}
                     fee={fee}
                     convertedFee={convert(fee)}
-                    wallet={wallet}
+                    exchangeCurrency={wallet.exchangeCurrency() ?? 'USD'}
+                    network={getNetworkCurrency(wallet.network())}
+                    unvote={{
+                        delegateName: unvote?.wallet?.username(),
+                        publicKey: unvote?.wallet?.publicKey(),
+                        delegateAddress: unvote?.wallet?.address(),
+                    }}
+                    vote={{
+                        delegateName: vote?.wallet?.username(),
+                        publicKey: vote?.wallet?.publicKey(),
+                        delegateAddress: vote?.wallet?.address(),
+                    }}
+                    maxHeight='165px'
                 />
             </ApproveBody>
             <ApproveFooter disabled={!!error} onSubmit={onSubmit} onCancel={onCancel} />

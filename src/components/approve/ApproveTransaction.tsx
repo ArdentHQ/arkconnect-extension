@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react';
 import { runtime } from 'webextension-polyfill';
 import { Contracts } from '@ardenthq/sdk-profiles';
 import { BigNumber } from '@ardenthq/sdk-helpers';
+import { useTranslation } from 'react-i18next';
+import { ActionBody } from '@/components/approve/ActionBody';
 import ApproveBody from '@/components/approve/ApproveBody';
 import ApproveFooter from '@/components/approve/ApproveFooter';
 import ApproveHeader from '@/components/approve/ApproveHeader';
@@ -14,10 +16,11 @@ import removeWindowInstance from '@/lib/utils/removeWindowInstance';
 import { WalletNetwork } from '@/lib/store/wallet';
 import useWalletSync from '@/lib/hooks/useWalletSync';
 import { useEnvironmentContext } from '@/lib/context/Environment';
-import RequestedTransactionBody from '@/components/approve/RequestedTransactionBody';
 import { useExchangeRate } from '@/lib/hooks/useExchangeRate';
 import { useNotifyOnUnload } from '@/lib/hooks/useNotifyOnUnload';
 import useLoadingModal from '@/lib/hooks/useLoadingModal';
+import { getNetworkCurrency } from '@/lib/utils/getActiveCoin';
+import trimAddress from '@/lib/utils/trimAddress';
 import { HigherFeeBanner } from '@/components/approve/HigherCustomFee.blocks';
 
 type Props = {
@@ -44,13 +47,17 @@ const ApproveTransaction = ({
     const { syncAll } = useWalletSync({ env, profile });
     const { onError } = useErrorHandlerContext();
     const [error, setError] = useState<string | undefined>();
+    const { t } = useTranslation();
     const loadingModal = useLoadingModal({
-        loadingMessage: 'Processing transaction...',
+        loadingMessage: t('PAGES.APPROVE.FEEDBACK.PROCESSING_TRANSACTION'),
     });
     const { convert } = useExchangeRate({
         exchangeTicker: wallet.exchangeCurrency(),
         ticker: wallet.currency(),
     });
+    const exchangeCurrency = wallet.exchangeCurrency() ?? 'USD';
+    const coin = getNetworkCurrency(wallet.network());
+    const withFiat = wallet.network().isLive();
 
     const {
         formValuesLoaded,
@@ -68,13 +75,13 @@ const ApproveTransaction = ({
 
     useEffect(() => {
         if (BigNumber.make(amount).plus(fee).isGreaterThan(wallet.balance())) {
-            setError('Insufficient balance. Add funds or switch address.');
+            setError(t('PAGES.APPROVE.FEEDBACK.INSUFFICIENT_BALANCE'));
         } else {
             setError(undefined);
         }
     }, [wallet, fee, amount]);
 
-    const reject = (message: string = 'Sign transaction denied!') => {
+    const reject = (message: string = t('PAGES.APPROVE.FEEDBACK.SIGN_TRANSACTION_DENIED')) => {
         runtime.sendMessage({
             type: 'SIGN_TRANSACTION_REJECT',
             data: {
@@ -180,16 +187,24 @@ const ApproveTransaction = ({
                 appName={session.domain}
                 appLogo={session.logo}
             />
-            <ApproveBody header='Sending with' wallet={wallet} error={error}>
-                <RequestedTransactionBody
+            <ApproveBody header={t('PAGES.APPROVE.SENDING_WITH')} wallet={wallet} error={error}>
+                <ActionBody
+                    isApproved={false}
+                    showFiat={withFiat}
                     amount={amount}
-                    receiverAddress={receiverAddress}
+                    amountTicker={coin}
+                    convertedAmount={convert(amount)}
+                    exchangeCurrency={exchangeCurrency}
+                    network={getNetworkCurrency(wallet.network())}
                     fee={fee}
-                    total={total}
-                    wallet={wallet}
+                    convertedFee={convert(fee)}
+                    receiver={trimAddress(receiverAddress as string, 10)}
+                    totalAmount={total}
+                    convertedTotalAmount={convert(total)}
                     hasHigherCustomFee={hasHigherCustomFee}
                 />
             </ApproveBody>
+
             <ApproveFooter
                 disabled={!!error || !formValuesLoaded}
                 onSubmit={onSubmit}
