@@ -1,7 +1,12 @@
 import { Contracts } from '@ardenthq/sdk-profiles';
 import { useTranslation } from 'react-i18next';
 import ActionDetails from './ActionDetails';
-import { ActionAddressRow, ActionAmountRow, ActionBodyRow, ActionTransactionIdRow } from './ActionBody.blocks';
+import {
+    ActionAddressRow,
+    ActionAmountRow,
+    ActionBodyRow,
+    ActionTransactionIdRow,
+} from './ActionBody.blocks';
 import { HigherFeeWarning } from './HigherCustomFee.blocks';
 import trimAddress from '@/lib/utils/trimAddress';
 
@@ -133,9 +138,7 @@ export const ActionBody = ({
             )}
 
             {vote?.delegateAddress && (
-                <ActionBodyRow 
-                    label={t('COMMON.VOTE_DELEGATE_NAME')} 
-                    value={vote.delegateName} />
+                <ActionBodyRow label={t('COMMON.VOTE_DELEGATE_NAME')} value={vote.delegateName} />
             )}
 
             {vote?.publicKey && wallet?.isLedger() && (

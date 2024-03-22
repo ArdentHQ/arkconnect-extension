@@ -52,7 +52,12 @@ export const ActionAmountRow = ({
             below={
                 showFiat && (
                     <ActionDetailsFiatValue>
-                        <Amount value={convertedAmount} ticker={exchangeCurrency} underlineOnHover={true} tooltipPlacement='bottom-end' />
+                        <Amount
+                            value={convertedAmount}
+                            ticker={exchangeCurrency}
+                            underlineOnHover={true}
+                            tooltipPlacement='bottom-end'
+                        />
                     </ActionDetailsFiatValue>
                 )
             }
@@ -60,7 +65,13 @@ export const ActionAmountRow = ({
             <div className='flex items-baseline gap-1'>
                 <ActionDetailsValue>
                     {amountTicker ? (
-                        <Amount value={amount} ticker={amountTicker} withTicker underlineOnHover={true} tooltipPlacement='bottom-end' />
+                        <Amount
+                            value={amount}
+                            ticker={amountTicker}
+                            withTicker
+                            underlineOnHover={true}
+                            tooltipPlacement='bottom-end'
+                        />
                     ) : (
                         <span>
                             {amount} {network}
@@ -95,10 +106,10 @@ export const ActionTransactionIdRow = ({ transactionId }: { transactionId: strin
     );
 };
 
-export const ActionAddressRow = ({label, address}: {label: string, address: string }) => {
+export const ActionAddressRow = ({ label, address }: { label: string; address: string }) => {
     return (
         <ActionDetailsRow label={label}>
-             <Address
+            <Address
                 address={address}
                 tooltipPlacement='bottom-end'
                 length={10}
