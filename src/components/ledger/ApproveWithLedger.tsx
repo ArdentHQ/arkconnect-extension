@@ -192,7 +192,9 @@ const ApproveWithLedger = ({
                         <div className='flex items-center justify-center space-x-2 rounded-b-2xl bg-theme-warning-50 px-4 py-2 dark:bg-theme-warning-500/10'>
                             <Loader variant='warning' className=' flex-shrink-0' />
 
-                            <span className='typeset-body font-medium'>{statusMessage}</span>
+                            <span className='typeset-body font-medium text-theme-warning-500'>
+                                {statusMessage}
+                            </span>
                         </div>
                     </div>
                 </div>
