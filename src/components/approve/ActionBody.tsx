@@ -34,7 +34,7 @@ interface ActionBodyProps {
     unvote?: VoteData;
     vote?: VoteData;
     wallet?: Contracts.IReadWriteWallet;
-    hasHigherCustomFee: number | null;
+    hasHigherCustomFee?: number | null;
 }
 
 export const ActionBody = ({
@@ -56,7 +56,7 @@ export const ActionBody = ({
     amountTicker,
     totalAmount,
     convertedTotalAmount,
-    hasHigherCustomFee,
+    hasHigherCustomFee = null,
 }: ActionBodyProps) => {
     const { t } = useTranslation();
 

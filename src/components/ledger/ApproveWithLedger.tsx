@@ -167,7 +167,6 @@ const ApproveWithLedger = ({
                             receiver={trimAddress(receiverAddress as string, 10)}
                             totalAmount={total}
                             convertedTotalAmount={convert(total)}
-                            hasHigherCustomFee={null}
                         />
                     )}
                     {actionType === ApproveActionType.SIGNATURE && (
