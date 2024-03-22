@@ -1,7 +1,13 @@
 import { Contracts } from '@ardenthq/sdk-profiles';
 import { useTranslation } from 'react-i18next';
 import ActionDetails from './ActionDetails';
-import { ActionAmountRow, ActionBodyRow, ActionTransactionIdRow } from './ActionBody.blocks';
+import {
+    ActionAddressRow,
+    ActionAmountRow,
+    ActionBodyRow,
+    ActionTransactionIdRow,
+} from './ActionBody.blocks';
+import { HigherFeeWarning } from './HigherCustomFee.blocks';
 import trimAddress from '@/lib/utils/trimAddress';
 
 type VoteData = {
@@ -28,6 +34,7 @@ interface ActionBodyProps {
     unvote?: VoteData;
     vote?: VoteData;
     wallet?: Contracts.IReadWriteWallet;
+    hasHigherCustomFee?: number | null;
 }
 
 export const ActionBody = ({
@@ -49,12 +56,14 @@ export const ActionBody = ({
     amountTicker,
     totalAmount,
     convertedTotalAmount,
+    hasHigherCustomFee = null,
 }: ActionBodyProps) => {
     const { t } = useTranslation();
 
     return (
         <ActionDetails maxHeight={maxHeight}>
             {isApproved && <ActionBodyRow label={t('COMMON.SENDER')} value={sender} />}
+
             {amount !== undefined && convertedAmount !== undefined && (
                 <ActionAmountRow
                     label={t('COMMON.AMOUNT')}
@@ -67,10 +76,17 @@ export const ActionBody = ({
                 />
             )}
 
-            {receiver && <ActionBodyRow label={t('COMMON.RECEIVER')} value={receiver} />}
+            {receiver && <ActionAddressRow label={t('COMMON.RECEIVER')} address={receiver} />}
 
             <ActionAmountRow
-                label={t('COMMON.TRANSACTION_FEE')}
+                label={
+                    <span className='flex items-center gap-1'>
+                        {t('COMMON.TRANSACTION_FEE')}{' '}
+                        {hasHigherCustomFee && amountTicker && (
+                            <HigherFeeWarning averageFee={hasHigherCustomFee} coin={amountTicker} />
+                        )}
+                    </span>
+                }
                 showFiat={showFiat}
                 amount={fee}
                 amountTicker={amountTicker}
@@ -101,7 +117,11 @@ export const ActionBody = ({
             {unvote?.publicKey && wallet?.isLedger() && (
                 <ActionBodyRow
                     label={t('COMMON.UNVOTE_DELEGATE_PUBKEY')}
-                    value={trimAddress(unvote.publicKey ?? '', 10)}
+                    value={
+                        <span className='underline-offset-2 hover:underline'>
+                            {trimAddress(unvote.publicKey ?? '', 10)}
+                        </span>
+                    }
                     tooltipContent={
                         <span className='block w-65 break-words text-left'>
                             {unvote.publicKey ?? ''}
@@ -111,9 +131,9 @@ export const ActionBody = ({
             )}
 
             {unvote?.delegateAddress && !wallet?.isLedger() && (
-                <ActionBodyRow
+                <ActionAddressRow
                     label={t('COMMON.UNVOTE_DELEGATE_ADDRESS')}
-                    value={trimAddress(unvote.delegateAddress ?? '', 10)}
+                    address={trimAddress(unvote.delegateAddress ?? '', 10)}
                 />
             )}
 
@@ -124,7 +144,11 @@ export const ActionBody = ({
             {vote?.publicKey && wallet?.isLedger() && (
                 <ActionBodyRow
                     label={t('COMMON.VOTE_DELEGATE_PUBKEY')}
-                    value={trimAddress(vote.publicKey ?? '', 10)}
+                    value={
+                        <span className='underline-offset-2 hover:underline'>
+                            {trimAddress(vote.publicKey ?? '', 10)}
+                        </span>
+                    }
                     tooltipContent={
                         <span className='block w-65 break-words text-left'>
                             {vote.publicKey ?? ''}
@@ -134,9 +158,9 @@ export const ActionBody = ({
             )}
 
             {vote?.delegateAddress && !wallet?.isLedger() && (
-                <ActionBodyRow
+                <ActionAddressRow
                     label={t('COMMON.VOTE_DELEGATE_ADDRESS')}
-                    value={trimAddress(vote.delegateAddress ?? '', 10)}
+                    address={trimAddress(vote.delegateAddress ?? '', 10)}
                 />
             )}
 

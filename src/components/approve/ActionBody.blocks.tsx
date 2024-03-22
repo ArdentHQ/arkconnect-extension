@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next';
+import { Address } from '../wallet/address/Address.blocks';
 import { ActionDetailsFiatValue, ActionDetailsRow, ActionDetailsValue } from './ActionDetails';
 import { Icon, Tooltip } from '@/shared/components';
 import trimAddress from '@/lib/utils/trimAddress';
@@ -6,7 +7,7 @@ import useClipboard from '@/lib/hooks/useClipboard';
 import Amount from '@/components/wallet/Amount';
 
 interface ActionBodyRowProps {
-    label: string;
+    label: React.ReactNode;
     value?: React.ReactNode;
     below?: React.ReactNode;
     tooltipContent?: React.ReactNode;
@@ -25,7 +26,7 @@ export const ActionBodyRow = ({ label, below, value, tooltipContent }: ActionBod
 );
 
 interface ActionAmountRowProps {
-    label: string;
+    label: React.ReactNode;
     showFiat: boolean;
     amount: number;
     convertedAmount: number;
@@ -33,6 +34,7 @@ interface ActionAmountRowProps {
     amountTicker?: string;
     withTicker?: boolean;
     network?: string;
+    underlineOnHover?: boolean;
 }
 
 export const ActionAmountRow = ({
@@ -50,7 +52,12 @@ export const ActionAmountRow = ({
             below={
                 showFiat && (
                     <ActionDetailsFiatValue>
-                        <Amount value={convertedAmount} ticker={exchangeCurrency} />
+                        <Amount
+                            value={convertedAmount}
+                            ticker={exchangeCurrency}
+                            underlineOnHover={true}
+                            tooltipPlacement='bottom-end'
+                        />
                     </ActionDetailsFiatValue>
                 )
             }
@@ -58,7 +65,13 @@ export const ActionAmountRow = ({
             <div className='flex items-baseline gap-1'>
                 <ActionDetailsValue>
                     {amountTicker ? (
-                        <Amount value={amount} ticker={amountTicker} withTicker />
+                        <Amount
+                            value={amount}
+                            ticker={amountTicker}
+                            withTicker
+                            underlineOnHover={true}
+                            tooltipPlacement='bottom-end'
+                        />
                     ) : (
                         <span>
                             {amount} {network}
@@ -89,6 +102,19 @@ export const ActionTransactionIdRow = ({ transactionId }: { transactionId: strin
                     />
                 </button>
             </div>
+        </ActionDetailsRow>
+    );
+};
+
+export const ActionAddressRow = ({ label, address }: { label: string; address: string }) => {
+    return (
+        <ActionDetailsRow label={label}>
+            <Address
+                address={address}
+                tooltipPlacement='bottom-end'
+                length={10}
+                classNames='leading-5 font-medium text-light-black dark:text-white'
+            />
         </ActionDetailsRow>
     );
 };
