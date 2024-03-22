@@ -1,7 +1,7 @@
 import { useLocation } from 'react-router-dom';
 import { Contracts } from '@ardenthq/sdk-profiles';
-import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
+import { twMerge } from 'tailwind-merge';
 import { ActionBody } from '@/components/approve/ActionBody';
 import RequestedSignatureMessage from '@/components/approve/RequestedSignatureMessage';
 import formatDomain from '@/lib/utils/formatDomain';
@@ -177,7 +177,7 @@ const ApproveWithLedger = ({
                 </div>
 
                 <div
-                    className={cn(
+                    className={twMerge(
                         'mb-6 overflow-hidden rounded-2xl border border-solid border-theme-warning-400',
                         getTopMarginClass(),
                     )}

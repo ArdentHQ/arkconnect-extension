@@ -1,4 +1,4 @@
-import cn from 'classnames';
+import { twMerge } from 'tailwind-merge';
 import { IconDefinition, IconSvg } from './index.generated';
 
 export * from './index.generated';
@@ -10,7 +10,7 @@ type IconProps = {
 
 export const Icon = ({ icon, className, ...rest }: IconProps) => {
     return (
-        <span {...rest} className={cn('block', className ? className : '')} role='img'>
+        <span {...rest} className={twMerge('block', className ? className : '')} role='img'>
             {IconSvg[icon]}
         </span>
     );
