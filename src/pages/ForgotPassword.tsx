@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Button, Checkbox, WarningIcon } from '@/shared/components';
+import { Button, Checkbox, HeadingDescription, WarningIcon } from '@/shared/components';
 import SubPageLayout from '@/components/settings/SubPageLayout';
 import useResetExtension from '@/lib/hooks/useResetExtension';
 
@@ -16,9 +16,9 @@ const ForgotPassword = () => {
             noPaddingBottom
         >
             <div className='flex h-full flex-col justify-between'>
-                <p className='typeset-headline text-theme-secondary-500 dark:text-theme-secondary-300'>
+                <HeadingDescription>
                     {t('PAGES.FORGOT_PASSWORD.NO_RECOVERY_METHOD_AVAILABLE_DISCLAIMER')}
-                </p>
+                </HeadingDescription>
 
                 <div className='flex items-center justify-center'>
                     <WarningIcon />
