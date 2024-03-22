@@ -39,6 +39,15 @@ vi.mock('webextension-polyfill', () => {
 
     return {
         default: browser,
+        storage: {
+            local: {
+                get: async () => ({
+                    localStorageKey: {
+                        hasOnboarded: true,
+                    },
+                }),
+            },
+        },
     };
 });
 
@@ -53,6 +62,7 @@ vi.mock('./src/routing', () => ({
 }));
 
 vi.mock('./src/lib/utils/localStorage', () => ({
+    KEY: 'localStorageKey',
     getLocalValues: () => ({
         autoLockTimer: 60,
     }),
