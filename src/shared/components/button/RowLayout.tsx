@@ -1,6 +1,7 @@
 import { forwardRef } from 'react';
 import cn from 'classnames';
-import { Icon, IconDefinition } from '@/shared/components';
+import { twMerge } from 'tailwind-merge';
+import { HeadingDescription, Icon, IconDefinition } from '@/shared/components';
 import constants from '@/constants';
 import { Address, LedgerIcon, TestnetIcon } from '@/components/wallet/address/Address.blocks';
 import { isFirefox } from '@/lib/utils/isFirefox';
@@ -51,7 +52,7 @@ const RowLayoutWrapper = forwardRef(function RowLayoutWrapper(
                 href={href}
                 target={target}
                 rel={rel}
-                className={cn(
+                className={twMerge(
                     className,
                     'cursor-pointer no-underline hover:underline focus-visible:outline-2 focus-visible:outline-theme-primary-600',
                 )}
@@ -198,9 +199,9 @@ export const RowLayout = forwardRef(function RowLayout(
 
                     <span className='flex items-center'>
                         {rightHelperText && (
-                            <span className='typeset-headline mr-2 font-normal text-theme-secondary-500 dark:text-theme-secondary-300'>
+                            <HeadingDescription className='mr-2 font-normal'>
                                 {rightHelperText}
-                            </span>
+                            </HeadingDescription>
                         )}
 
                         {children && (
@@ -218,13 +219,12 @@ export const RowLayout = forwardRef(function RowLayout(
                             <span className='flex items-center gap-2'>
                                 {iconTrailing && (
                                     <Icon
-                                        className={cn(
-                                            'h-5 w-5',
-                                            {
+                                        className={twMerge(
+                                            cn('h-5 w-5', {
                                                 'text-theme-secondary-500 dark:text-theme-secondary-300':
                                                     disabled,
                                                 'text-light-black dark:text-white': !disabled,
-                                            },
+                                            }),
                                             iconClassName,
                                         )}
                                         icon={iconTrailing}

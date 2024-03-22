@@ -10,7 +10,6 @@ import {
     getActiveSession,
 } from './assertions';
 import { WalletNetwork } from '@/lib/store/wallet';
-import { Session } from '@/lib/store/session';
 
 export type EventPayload<T> = {
     type: keyof typeof longLivedConnectionHandlers;
@@ -32,21 +31,19 @@ export type ConnectData = {
 export type SignMessageData = {
     type: 'signature';
     message: string;
-    session: Session;
 };
 
 export type SignTransactionData = {
     type: 'transfer';
     amount: number;
+    fee?: number;
     receiverAddress: string;
-    session: Session;
 };
 
 export type SignVoteData = {
     type: 'vote' | 'unvote';
     amount: number;
     receiverAddress: string;
-    session: Session;
 };
 
 let extensionWindowId: number | null = null;

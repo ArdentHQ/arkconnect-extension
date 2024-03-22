@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import SubPageLayout from '@/components/settings/SubPageLayout';
-import { Button, Checkbox, RowLayout } from '@/shared/components';
+import { Button, Checkbox, HeadingDescription, RowLayout } from '@/shared/components';
 import { selectWalletsIds } from '@/lib/store/wallet';
 import { useAppSelector } from '@/lib/store';
 import trimAddress from '@/lib/utils/trimAddress';
@@ -46,9 +46,10 @@ const MultipleWalletLogout = () => {
     return (
         <SubPageLayout title={t('PAGES.LOGOUT.REMOVE_ADDRESSES')}>
             <div className='flex h-full flex-col'>
-                <p className='typeset-headline mb-6 text-theme-secondary-500 dark:text-theme-secondary-300'>
+                <HeadingDescription className='mb-6'>
                     {t('PAGES.LOGOUT.SELECT_ADDRESSES_TO_REMOVE')}
-                </p>
+                </HeadingDescription>
+
                 {wallets.map((wallet) => {
                     return (
                         <RowLayout

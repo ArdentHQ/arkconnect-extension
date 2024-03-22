@@ -3,7 +3,7 @@ import { FormikProps } from 'formik';
 import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
 import { CreateWalletFormik } from '.';
-import { Button, Heading, Icon, ToggleSwitch } from '@/shared/components';
+import { Button, Heading, HeadingDescription, Icon, ToggleSwitch } from '@/shared/components';
 import useToast from '@/lib/hooks/useToast';
 import { ToastPosition } from '@/components/toast/ToastContainer';
 import { TestnetIcon } from '@/components/wallet/address/Address.blocks';
@@ -65,9 +65,11 @@ const GeneratePassphrase = ({ goToNextStep, formik }: Props) => {
                 <Heading level={3}>{t('PAGES.CREATE_WALLET.SAVE_YOUR_SECRET_PASSPHRASE')}</Heading>
                 {selectedNetwork.isTest() && <TestnetIcon />}
             </div>
-            <p className='typeset-headline mb-4 text-theme-secondary-500 dark:text-theme-secondary-300'>
+
+            <HeadingDescription className='mb-4'>
                 {t('PAGES.CREATE_WALLET.WRITE_DOWN_OR_COPY_YOUR_PASSPHRASE')}
-            </p>
+            </HeadingDescription>
+
             {formik.values.passphrase && (
                 <div className='mb-4 max-h-[226px] rounded-lg border border-solid border-theme-secondary-100 bg-white p-3 dark:border-theme-secondary-400 dark:bg-subtle-black'>
                     <div className='grid grid-cols-3 gap-2.5'>

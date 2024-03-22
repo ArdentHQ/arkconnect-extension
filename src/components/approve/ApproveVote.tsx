@@ -16,10 +16,11 @@ import { HandleLoadingState } from '@/shared/components/handleStates/HandleLoadi
 import removeWindowInstance from '@/lib/utils/removeWindowInstance';
 import useWalletSync from '@/lib/hooks/useWalletSync';
 import { useEnvironmentContext } from '@/lib/context/Environment';
-import RequestedVoteBody from '@/components/approve/RequestedVoteBody';
 import { useNotifyOnUnload } from '@/lib/hooks/useNotifyOnUnload';
 import useLoadingModal from '@/lib/hooks/useLoadingModal';
 import { useWaitForConnectedDevice } from '@/lib/Ledger';
+import { ActionBody } from '@/components/approve/ActionBody';
+import { getNetworkCurrency } from '@/lib/utils/getActiveCoin';
 
 type Props = {
     abortReference: AbortController;
@@ -189,13 +190,27 @@ const ApproveVote = ({ abortReference, approveWithLedger, wallet, closeLedgerScr
                 appName={state.session.domain}
                 appLogo={state.session.logo}
             />
+
             <ApproveBody header={t('PAGES.APPROVE.APPROVING_WITH')} wallet={wallet} error={error}>
-                <RequestedVoteBody
-                    unvote={unvote}
-                    vote={vote}
+                <ActionBody
+                    isApproved={false}
+                    showFiat={wallet.network().isLive()}
+                    wallet={wallet}
                     fee={fee}
                     convertedFee={convert(fee)}
-                    wallet={wallet}
+                    exchangeCurrency={wallet.exchangeCurrency() ?? 'USD'}
+                    network={getNetworkCurrency(wallet.network())}
+                    unvote={{
+                        delegateName: unvote?.wallet?.username(),
+                        publicKey: unvote?.wallet?.publicKey(),
+                        delegateAddress: unvote?.wallet?.address(),
+                    }}
+                    vote={{
+                        delegateName: vote?.wallet?.username(),
+                        publicKey: vote?.wallet?.publicKey(),
+                        delegateAddress: vote?.wallet?.address(),
+                    }}
+                    maxHeight='165px'
                 />
             </ApproveBody>
             <ApproveFooter disabled={!!error} onSubmit={onSubmit} onCancel={onCancel} />

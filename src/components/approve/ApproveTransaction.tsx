@@ -4,6 +4,7 @@ import { runtime } from 'webextension-polyfill';
 import { Contracts } from '@ardenthq/sdk-profiles';
 import { BigNumber } from '@ardenthq/sdk-helpers';
 import { useTranslation } from 'react-i18next';
+import { ActionBody } from '@/components/approve/ActionBody';
 import ApproveBody from '@/components/approve/ApproveBody';
 import ApproveFooter from '@/components/approve/ApproveFooter';
 import ApproveHeader from '@/components/approve/ApproveHeader';
@@ -15,11 +16,14 @@ import removeWindowInstance from '@/lib/utils/removeWindowInstance';
 import { WalletNetwork } from '@/lib/store/wallet';
 import useWalletSync from '@/lib/hooks/useWalletSync';
 import { useEnvironmentContext } from '@/lib/context/Environment';
-import RequestedTransactionBody from '@/components/approve/RequestedTransactionBody';
 import { useExchangeRate } from '@/lib/hooks/useExchangeRate';
 import { useNotifyOnUnload } from '@/lib/hooks/useNotifyOnUnload';
 import useLoadingModal from '@/lib/hooks/useLoadingModal';
 import { useWaitForConnectedDevice } from '@/lib/Ledger';
+import { getNetworkCurrency } from '@/lib/utils/getActiveCoin';
+import trimAddress from '@/lib/utils/trimAddress';
+import { HigherFeeBanner } from '@/components/approve/HigherCustomFee.blocks';
+
 type Props = {
     abortReference: AbortController;
     approveWithLedger: (
@@ -38,7 +42,7 @@ const ApproveTransaction = ({
 }: Props) => {
     const navigate = useNavigate();
     const location = useLocation();
-    const { domain, tabId, session, amount, receiverAddress } = location.state;
+    const { domain, tabId, session, amount, receiverAddress, fee: customFee } = location.state;
     const { profile } = useProfileContext();
     const { env } = useEnvironmentContext();
     const { syncAll } = useWalletSync({ env, profile });
@@ -53,17 +57,23 @@ const ApproveTransaction = ({
         ticker: wallet.currency(),
     });
     const { waitUntilLedgerIsConnected } = useWaitForConnectedDevice();
+    const exchangeCurrency = wallet.exchangeCurrency() ?? 'USD';
+    const coin = getNetworkCurrency(wallet.network());
+    const withFiat = wallet.network().isLive();
 
     const {
         formValuesLoaded,
         resetForm,
         submitForm,
-        values: { fee, total },
+        values: { fee, total, hasHigherCustomFee },
     } = useSendTransferForm(wallet, {
         session,
         amount,
         receiverAddress,
+        customFee,
     });
+
+    const [showHigherCustomFeeBanner, setShowHigherCustomFeeBanner] = useState(true);
 
     useEffect(() => {
         if (BigNumber.make(amount).plus(fee).isGreaterThan(wallet.balance())) {
@@ -168,19 +178,33 @@ const ApproveTransaction = ({
 
     return (
         <>
+            {showHigherCustomFeeBanner && hasHigherCustomFee && (
+                <HigherFeeBanner
+                    averageFee={hasHigherCustomFee}
+                    coin={wallet.currency()}
+                    onClose={() => setShowHigherCustomFeeBanner(false)}
+                />
+            )}
             <ApproveHeader
                 actionType={ApproveActionType.TRANSACTION}
                 appName={session.domain}
                 appLogo={session.logo}
             />
-
             <ApproveBody header={t('PAGES.APPROVE.SENDING_WITH')} wallet={wallet} error={error}>
-                <RequestedTransactionBody
+                <ActionBody
+                    isApproved={false}
+                    showFiat={withFiat}
                     amount={amount}
-                    receiverAddress={receiverAddress}
+                    amountTicker={coin}
+                    convertedAmount={convert(amount)}
+                    exchangeCurrency={exchangeCurrency}
+                    network={getNetworkCurrency(wallet.network())}
                     fee={fee}
-                    total={total}
-                    wallet={wallet}
+                    convertedFee={convert(fee)}
+                    receiver={trimAddress(receiverAddress as string, 10)}
+                    totalAmount={total}
+                    convertedTotalAmount={convert(total)}
+                    hasHigherCustomFee={hasHigherCustomFee}
                 />
             </ApproveBody>
 

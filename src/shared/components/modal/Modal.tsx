@@ -2,6 +2,7 @@ import { ReactNode, useRef } from 'react';
 import FocusTrap from 'focus-trap-react';
 import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
+import { twMerge } from 'tailwind-merge';
 import Portal from '@/shared/components/utils/Portal';
 import useOnClickOutside from '@/lib/hooks/useOnClickOutside';
 import { Button, Icon, Icon as IconComponent, IconDefinition } from '@/shared/components';
@@ -53,16 +54,18 @@ export const ModalIcon = ({
 }) => {
     return (
         <div
-            className={cn(
-                'relative flex h-13 w-13 items-center justify-center rounded-lg border border-solid border-theme-secondary-200 shadow-light dark:border-theme-secondary-600',
-                {
-                    'text-theme-error-600 dark:text-theme-error-500': variant === 'danger',
-                    'text-subtle-black dark:text-subtle-white': variant !== 'danger',
-                },
+            className={twMerge(
+                cn(
+                    'relative flex h-13 w-13 items-center justify-center rounded-lg border border-solid border-theme-secondary-200 shadow-light dark:border-theme-secondary-600',
+                    {
+                        'text-theme-error-600 dark:text-theme-error-500': variant === 'danger',
+                        'text-subtle-black dark:text-subtle-white': variant !== 'danger',
+                    },
+                ),
                 className,
             )}
         >
-            <IconComponent icon={icon} className={cn('h-6 w-6', iconClassName)} />
+            <IconComponent icon={icon} className={twMerge('h-6 w-6', iconClassName)} />
         </div>
     );
 };
@@ -90,17 +93,19 @@ const Modal = ({
         <Portal>
             <FocusTrap active={activateFocusTrap} focusTrapOptions={focusTrapOptions}>
                 <div className='fixed bottom-0 left-0 right-0 top-0 z-50 flex items-center justify-center overflow-x-auto overflow-y-hidden outline-none'>
-                    <div className={cn('relative mx-4 my-auto w-auto max-w-max', className)}>
+                    <div className={twMerge('relative mx-4 my-auto w-auto max-w-max', className)}>
                         <div
                             className='relative flex w-full flex-col rounded-xl border-none outline-none'
                             ref={ref}
                         >
                             <div
-                                className={cn(
-                                    'flex flex-col gap-6 rounded-xl bg-white dark:bg-light-black',
-                                    {
-                                        'p-4': !containerClassName,
-                                    },
+                                className={twMerge(
+                                    cn(
+                                        'flex flex-col gap-6 rounded-xl bg-white dark:bg-light-black',
+                                        {
+                                            'p-4': !containerClassName,
+                                        },
+                                    ),
                                     containerClassName,
                                 )}
                             >

@@ -4,7 +4,7 @@ import { object, string } from 'yup';
 import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
 import SubPageLayout from '@/components/settings/SubPageLayout';
-import { Button, Input } from '@/shared/components';
+import { Button, HeadingDescription, Input } from '@/shared/components';
 import useToast from '@/lib/hooks/useToast';
 import { useEnvironmentContext } from '@/lib/context/Environment';
 import { useProfileContext } from '@/lib/context/Profile';
@@ -57,9 +57,9 @@ const EditAddressName = () => {
     return (
         <SubPageLayout title={t('PAGES.SETTINGS.EDIT_ADDRESS_NAME')} hideCloseButton={false}>
             <div className='flex h-full flex-col'>
-                <p className='typeset-headline mb-6 text-theme-secondary-500 dark:text-theme-secondary-300'>
+                <HeadingDescription className='mb-6'>
                     {t('PAGES.SETTINGS.NAME_YOUR_ADDRESS_SO_YOU_CAN_IDENTIFY')}
-                </p>
+                </HeadingDescription>
 
                 <div
                     className={cn({
