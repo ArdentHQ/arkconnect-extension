@@ -122,11 +122,11 @@ const ImportWallets = ({ goToNextStep, formik }: Props) => {
 
     return (
         <div>
-            <div className='flex flex-row gap-2 items-center mb-2 pl-6'>
+            <div className='mb-2 flex flex-row items-center gap-2 pl-6'>
                 <Heading level={3}>
                     {t('PAGES.IMPORT_WITH_LEDGER.SELECT_ADDRESSES_TO_IMPORT')}
                 </Heading>
-                {network.name() === WalletNetwork.DEVNET ? <TestnetIcon/> : null}
+                {network.name() === WalletNetwork.DEVNET ? <TestnetIcon /> : null}
             </div>
             <p className='typeset-body mb-6 px-6 text-theme-secondary-500 dark:text-theme-secondary-300'>
                 {t('PAGES.IMPORT_WITH_LEDGER.MULTIPLE_ADDRESSES_CAN_BE_IMPORTED')}
