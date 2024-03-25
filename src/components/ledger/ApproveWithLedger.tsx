@@ -1,17 +1,17 @@
-import { useLocation } from 'react-router-dom';
 import { Contracts } from '@ardenthq/sdk-profiles';
 import { useTranslation } from 'react-i18next';
 import { twMerge } from 'tailwind-merge';
-import { ActionBody } from '@/components/approve/ActionBody';
-import RequestedSignatureMessage from '@/components/approve/RequestedSignatureMessage';
+import { useLocation } from 'react-router-dom';
+import {
+    SignatureLedgerApprovalBody,
+    TransactionLedgerApprovalBody,
+    VoteLedgerApprovalBody,
+} from './ApproveWithLedger.blocks';
 import formatDomain from '@/lib/utils/formatDomain';
 import trimAddress from '@/lib/utils/trimAddress';
 import { ApproveActionType } from '@/pages/Approve';
 import { Heading, HeadingDescription, Icon, Loader } from '@/shared/components';
-import { useVoteForm } from '@/lib/hooks/useVoteForm';
-import { useExchangeRate } from '@/lib/hooks/useExchangeRate';
 import RequestedBy from '@/shared/components/actions/RequestedBy';
-import { useSendTransferForm } from '@/lib/hooks/useSendTransferForm';
 import { NavButton } from '@/shared/components/nav/NavButton';
 import { useLedgerConnectionStatusMessage } from '@/lib/Ledger';
 import { getNetworkCurrency } from '@/lib/utils/getActiveCoin';
@@ -35,45 +35,8 @@ const ApproveWithLedger = ({
 }: Props) => {
     const location = useLocation();
     const { state } = location;
-    const { session, amount, receiverAddress } = state;
+
     const { t } = useTranslation();
-    const { convert } = useExchangeRate({
-        exchangeTicker: wallet.exchangeCurrency(),
-        ticker: wallet.currency(),
-    });
-    const exchangeCurrency = wallet.exchangeCurrency() ?? 'USD';
-    const coin = getNetworkCurrency(wallet.network());
-    const withFiat = wallet.network().isLive();
-
-    let fee = 0,
-        total = 0,
-        vote = null,
-        unvote = null;
-
-    const {
-        values: { fee: transactionFee, total: transactionTotal, hasHigherCustomFee },
-    } = useSendTransferForm(wallet, {
-        session,
-        amount,
-        receiverAddress,
-    });
-
-    const {
-        values: { fee: voteFee, vote: voteAction, unvote: unvoteAction },
-    } = useVoteForm(wallet, state);
-
-    if (
-        actionType === ApproveActionType.VOTE ||
-        actionType === ApproveActionType.UNVOTE ||
-        actionType === ApproveActionType.SWITCH_VOTE
-    ) {
-        fee = voteFee;
-        vote = voteAction;
-        unvote = unvoteAction;
-    } else if (actionType === ApproveActionType.TRANSACTION) {
-        fee = transactionFee;
-        total = transactionTotal;
-    }
 
     const votingActionTypes = [
         ApproveActionType.VOTE,
@@ -134,49 +97,12 @@ const ApproveWithLedger = ({
                 </HeadingDescription>
                 <div className='mt-6 flex flex-1 flex-col overflow-auto'>
                     {votingActionTypes.includes(actionType) && (
-                        <ActionBody
-                            isApproved={false}
-                            showFiat={wallet.network().isLive()}
-                            wallet={wallet}
-                            fee={fee}
-                            convertedFee={convert(fee)}
-                            exchangeCurrency={wallet.exchangeCurrency() ?? 'USD'}
-                            network={getNetworkCurrency(wallet.network())}
-                            unvote={{
-                                delegateName: unvote?.wallet?.username(),
-                                publicKey: unvote?.wallet?.publicKey(),
-                                delegateAddress: unvote?.wallet?.address(),
-                            }}
-                            vote={{
-                                delegateName: vote?.wallet?.username(),
-                                publicKey: vote?.wallet?.publicKey(),
-                                delegateAddress: vote?.wallet?.address(),
-                            }}
-                            maxHeight='165px'
-                            hasHigherCustomFee={hasHigherCustomFee}
-                        />
+                        <VoteLedgerApprovalBody wallet={wallet} state={state} />
                     )}
                     {actionType === ApproveActionType.TRANSACTION && (
-                        <ActionBody
-                            isApproved={false}
-                            showFiat={withFiat}
-                            amount={amount}
-                            amountTicker={coin}
-                            convertedAmount={convert(amount)}
-                            exchangeCurrency={exchangeCurrency}
-                            network={getNetworkCurrency(wallet.network())}
-                            fee={fee}
-                            convertedFee={convert(fee)}
-                            receiver={trimAddress(receiverAddress as string, 10)}
-                            totalAmount={total}
-                            convertedTotalAmount={convert(total)}
-                        />
+                        <TransactionLedgerApprovalBody wallet={wallet} state={state} />
                     )}
-                    {actionType === ApproveActionType.SIGNATURE && (
-                        <div className='h-[191px]'>
-                            <RequestedSignatureMessage data={state} />
-                        </div>
-                    )}
+                    {actionType === ApproveActionType.SIGNATURE && <SignatureLedgerApprovalBody />}
                 </div>
 
                 <div className={twMerge('mb-6 ', getTopMarginClass())}>
