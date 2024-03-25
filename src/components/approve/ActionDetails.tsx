@@ -36,10 +36,6 @@ export const ActionDetailsFiatValue = ({ children }: { children: React.ReactNode
     );
 };
 
-export const ActionDetailsValue = ({ children }: { children: React.ReactNode }) => {
-    return <div className='text-sm font-medium text-light-black dark:text-white'>{children}</div>;
-};
-
 const ActionDetails = ({
     children,
     maxHeight,
