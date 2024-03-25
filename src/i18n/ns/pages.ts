@@ -100,6 +100,7 @@ export default {
             UNLOCK_AND_OPEN: 'Unlock and open the ARK app on the Ledger device.',
         },
         STATUS: {
+            OPEN_ARK_APP: 'Open the ARK app on your Ledger device',
             CLICK_CONNECT: 'Connect and choose your Ledger device in the browser window',
             UNLOCK_AN_OPEN_ARK_APP: 'Unlock and open the ARK app on the Ledger device',
             WAITING_FOR_YOUR_SIGNATURE: 'Waiting for your signature',

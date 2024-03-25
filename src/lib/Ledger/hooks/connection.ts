@@ -127,6 +127,8 @@ export const useLedgerConnection = () => {
     );
     const hasDeviceAvailable = useMemo(() => !!device, [device]);
 
+    console.log({hasDeviceAvailable, isAwaitingConnection, isConnected});
+
     const resetConnectionState = useCallback(async () => {
         await closeDevices();
         dispatch({ type: 'remove' });
@@ -171,7 +173,11 @@ export const useLedgerConnection = () => {
 export const useLedgerConnectionStatusMessage = (): string => {
     const { t } = useTranslation();
 
-    const { hasDeviceAvailable, isConnected } = useLedgerContext();
+    const { hasDeviceAvailable, isConnected, isAwaitingConnection } = useLedgerContext();
+
+    if (!isAwaitingConnection) {
+        return t('PAGES.IMPORT_WITH_LEDGER.STATUS.OPEN_ARK_APP');
+    }
 
     if (!hasDeviceAvailable) {
         return t('PAGES.IMPORT_WITH_LEDGER.STATUS.CLICK_CONNECT');
