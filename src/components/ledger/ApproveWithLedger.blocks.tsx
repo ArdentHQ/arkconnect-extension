@@ -7,23 +7,36 @@ import { getNetworkCurrency } from '@/lib/utils/getActiveCoin';
 import { useExchangeRate } from '@/lib/hooks/useExchangeRate';
 import { useSendTransferForm } from '@/lib/hooks/useSendTransferForm';
 import { useVoteForm } from '@/lib/hooks/useVoteForm';
+import * as SessionStore from '@/lib/store/session';
 
+type VoteDelegateProperties = {
+    delegateAddress: string;
+    amount: number;
+};
 interface Props {
     wallet: Contracts.IReadWriteWallet;
+    state: {
+        amount: number;
+        receiverAddress: string;
+        domain: string;
+        session: SessionStore.Session;
+        vote: VoteDelegateProperties;
+        unvote: VoteDelegateProperties;
+        tabId: number;
+    };
 }
 
 export const VoteLedgerApprovalBody = ({
-    wallet
+    wallet,
+    state,
 }: Props) => {
-    const location = useLocation();
-    const { state } = location;
     const { session, amount, receiverAddress } = state;
 
     const {
         values: { hasHigherCustomFee },
     } = useSendTransferForm(wallet, {
         session,
-        amount,
+        amount: amount ?? 0,
         receiverAddress,
     });
 
@@ -64,10 +77,9 @@ export const VoteLedgerApprovalBody = ({
 
 
 export const TransactionLedgerApprovalBody = ({
-    wallet
+    wallet,
+    state
 }: Props) => {
-    const location = useLocation();
-    const { state } = location;
     const { session, amount, receiverAddress } = state;
     const { convert } = useExchangeRate({
         exchangeTicker: wallet.exchangeCurrency(),

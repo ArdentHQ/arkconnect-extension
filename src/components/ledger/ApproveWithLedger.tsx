@@ -1,6 +1,7 @@
 import { Contracts } from '@ardenthq/sdk-profiles';
 import { useTranslation } from 'react-i18next';
 import { twMerge } from 'tailwind-merge';
+import { useLocation } from 'react-router-dom';
 import { SignatureLedgerApprovalBody, TransactionLedgerApprovalBody, VoteLedgerApprovalBody } from './ApproveWithLedger.blocks';
 import formatDomain from '@/lib/utils/formatDomain';
 import trimAddress from '@/lib/utils/trimAddress';
@@ -26,6 +27,9 @@ const ApproveWithLedger = ({
     closeLedgerScreen,
     wallet,
 }: Props) => {
+    const location = useLocation();
+    const { state } = location;
+
     const { t } = useTranslation();
 
     const votingActionTypes = [
@@ -85,10 +89,10 @@ const ApproveWithLedger = ({
                 </HeadingDescription>
                 <div className='mt-6'>
                     {votingActionTypes.includes(actionType) && (
-                        <VoteLedgerApprovalBody wallet={wallet} />
+                        <VoteLedgerApprovalBody wallet={wallet} state={state} />
                     )}
                     {actionType === ApproveActionType.TRANSACTION && (
-                        <TransactionLedgerApprovalBody wallet={wallet} />
+                        <TransactionLedgerApprovalBody wallet={wallet} state={state} />
                     )}
                     {actionType === ApproveActionType.SIGNATURE && (
                         <SignatureLedgerApprovalBody />
