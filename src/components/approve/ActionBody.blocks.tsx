@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { Address } from '../wallet/address/Address.blocks';
-import { ActionDetailsFiatValue, ActionDetailsRow, ActionDetailsValue } from './ActionDetails';
+import { ActionDetailsFiatValue, ActionDetailsRow } from './ActionDetails';
+import { ActionDetailsValue } from './ActionDetailsValue';
 import { Icon, Tooltip } from '@/shared/components';
 import trimAddress from '@/lib/utils/trimAddress';
 import useClipboard from '@/lib/hooks/useClipboard';
