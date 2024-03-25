@@ -13,8 +13,9 @@ import { ImportWithLedger } from '@/pages/ImportWithLedger';
 import { HandleLoadingState } from '@/shared/components/handleStates/HandleLoadingState';
 import useOnError from '@/lib/hooks';
 import { getNetworkCurrency } from '@/lib/utils/getActiveCoin';
-import { AddressBalance } from '@/components/wallet/address/Address.blocks';
+import { AddressBalance, TestnetIcon } from '@/components/wallet/address/Address.blocks';
 import { handleSubmitKeyAction } from '@/lib/utils/handleKeyAction';
+import { WalletNetwork } from '@/lib/store/wallet';
 
 type Props = {
     goToNextStep: () => void;
@@ -121,9 +122,12 @@ const ImportWallets = ({ goToNextStep, formik }: Props) => {
 
     return (
         <div>
-            <Heading level={3} className='mb-2 px-6'>
-                {t('PAGES.IMPORT_WITH_LEDGER.SELECT_ADDRESSES_TO_IMPORT')}
-            </Heading>
+            <div className='mb-2 flex flex-row items-center gap-2 pl-6'>
+                <Heading level={3}>
+                    {t('PAGES.IMPORT_WITH_LEDGER.SELECT_ADDRESSES_TO_IMPORT')}
+                </Heading>
+                {network.name() === WalletNetwork.DEVNET ? <TestnetIcon /> : null}
+            </div>
             <p className='typeset-body mb-6 px-6 text-theme-secondary-500 dark:text-theme-secondary-300'>
                 {t('PAGES.IMPORT_WITH_LEDGER.MULTIPLE_ADDRESSES_CAN_BE_IMPORTED')}
             </p>
