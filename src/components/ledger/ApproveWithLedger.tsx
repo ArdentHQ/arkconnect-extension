@@ -14,7 +14,6 @@ import { Heading, HeadingDescription, Icon, Loader } from '@/shared/components';
 import RequestedBy from '@/shared/components/actions/RequestedBy';
 import { NavButton } from '@/shared/components/nav/NavButton';
 import { useLedgerConnectionStatusMessage } from '@/lib/Ledger';
-import { getNetworkCurrency } from '@/lib/utils/getActiveCoin';
 
 type Props = {
     actionType: ApproveActionType;
