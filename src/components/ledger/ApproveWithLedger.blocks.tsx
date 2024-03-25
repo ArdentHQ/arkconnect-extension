@@ -12,9 +12,7 @@ interface Props {
     wallet: Contracts.IReadWriteWallet;
 }
 
-export const VoteLedgerApprovalBody = ({
-    wallet
-}: Props) => {
+export const VoteLedgerApprovalBody = ({ wallet }: Props) => {
     const location = useLocation();
     const { state } = location;
     const { session, amount, receiverAddress } = state;
@@ -61,11 +59,7 @@ export const VoteLedgerApprovalBody = ({
     );
 };
 
-
-
-export const TransactionLedgerApprovalBody = ({
-    wallet
-}: Props) => {
+export const TransactionLedgerApprovalBody = ({ wallet }: Props) => {
     const location = useLocation();
     const { state } = location;
     const { session, amount, receiverAddress } = state;
