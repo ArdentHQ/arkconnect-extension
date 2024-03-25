@@ -26,10 +26,7 @@ interface Props {
     };
 }
 
-export const VoteLedgerApprovalBody = ({
-    wallet,
-    state,
-}: Props) => {
+export const VoteLedgerApprovalBody = ({ wallet, state }: Props) => {
     const { session, amount, receiverAddress } = state;
 
     const {
@@ -74,12 +71,7 @@ export const VoteLedgerApprovalBody = ({
     );
 };
 
-
-
-export const TransactionLedgerApprovalBody = ({
-    wallet,
-    state
-}: Props) => {
+export const TransactionLedgerApprovalBody = ({ wallet, state }: Props) => {
     const { session, amount, receiverAddress } = state;
     const { convert } = useExchangeRate({
         exchangeTicker: wallet.exchangeCurrency(),

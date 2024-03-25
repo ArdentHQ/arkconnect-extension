@@ -2,7 +2,11 @@ import { Contracts } from '@ardenthq/sdk-profiles';
 import { useTranslation } from 'react-i18next';
 import { twMerge } from 'tailwind-merge';
 import { useLocation } from 'react-router-dom';
-import { SignatureLedgerApprovalBody, TransactionLedgerApprovalBody, VoteLedgerApprovalBody } from './ApproveWithLedger.blocks';
+import {
+    SignatureLedgerApprovalBody,
+    TransactionLedgerApprovalBody,
+    VoteLedgerApprovalBody,
+} from './ApproveWithLedger.blocks';
 import formatDomain from '@/lib/utils/formatDomain';
 import trimAddress from '@/lib/utils/trimAddress';
 import { ApproveActionType } from '@/pages/Approve';
