@@ -1,6 +1,5 @@
 import { MutableRefObject } from 'react';
 import cn from 'classnames';
-import { twMerge } from 'tailwind-merge';
 
 type InputProps = React.ComponentPropsWithRef<'input'> & {
     trailing?: React.ReactNode;
@@ -35,7 +34,7 @@ export const Input = ({
 
             <div className='relative flex w-full items-center'>
                 <input
-                    className={twMerge(
+                    className={
                         cn(
                             'transition-smoothEase text-input max-h-13 w-full rounded-lg border-none px-3 py-4 text-base font-normal outline-none placeholder:text-theme-secondary-400 disabled:pointer-events-none disabled:cursor-not-allowed',
                             {
@@ -43,9 +42,9 @@ export const Input = ({
                                 'text-input-destructive': variant === 'destructive',
                                 'text-input-errorFree': variant === 'errorFree',
                             },
-                        ),
-                        className,
-                    )}
+                            className
+                        )
+                    }
                     id={id}
                     ref={innerRef}
                     {...rest}
