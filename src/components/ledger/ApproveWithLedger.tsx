@@ -94,9 +94,7 @@ const ApproveWithLedger = ({
                     {actionType === ApproveActionType.TRANSACTION && (
                         <TransactionLedgerApprovalBody wallet={wallet} state={state} />
                     )}
-                    {actionType === ApproveActionType.SIGNATURE && (
-                        <SignatureLedgerApprovalBody />
-                    )}
+                    {actionType === ApproveActionType.SIGNATURE && <SignatureLedgerApprovalBody />}
                 </div>
 
                 <div
