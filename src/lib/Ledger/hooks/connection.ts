@@ -173,18 +173,14 @@ export const useLedgerConnection = () => {
 export const useLedgerConnectionStatusMessage = (): string => {
     const { t } = useTranslation();
 
-    const { hasDeviceAvailable, isConnected, isAwaitingConnection } = useLedgerContext();
-
-    if (!isAwaitingConnection) {
-        return t('PAGES.IMPORT_WITH_LEDGER.STATUS.OPEN_ARK_APP');
-    }
+    const { hasDeviceAvailable, isConnected } = useLedgerContext();
 
     if (!hasDeviceAvailable) {
         return t('PAGES.IMPORT_WITH_LEDGER.STATUS.CLICK_CONNECT');
     }
 
     if (!isConnected) {
-        return t('PAGES.IMPORT_WITH_LEDGER.STATUS.UNLOCK_AN_OPEN_ARK_APP');
+        return t('PAGES.IMPORT_WITH_LEDGER.STATUS.OPEN_ARK_APP');
     }
 
     return t('PAGES.IMPORT_WITH_LEDGER.STATUS.WAITING_FOR_YOUR_SIGNATURE');
