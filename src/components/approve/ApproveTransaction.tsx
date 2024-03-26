@@ -19,6 +19,7 @@ import { useEnvironmentContext } from '@/lib/context/Environment';
 import { useExchangeRate } from '@/lib/hooks/useExchangeRate';
 import { useNotifyOnUnload } from '@/lib/hooks/useNotifyOnUnload';
 import useLoadingModal from '@/lib/hooks/useLoadingModal';
+import { useWaitForConnectedDevice } from '@/lib/Ledger';
 import { getNetworkCurrency } from '@/lib/utils/getActiveCoin';
 import trimAddress from '@/lib/utils/trimAddress';
 import { HigherFeeBanner } from '@/components/approve/HigherCustomFee.blocks';
@@ -55,6 +56,7 @@ const ApproveTransaction = ({
         exchangeTicker: wallet.exchangeCurrency(),
         ticker: wallet.currency(),
     });
+    const { waitUntilLedgerIsConnected } = useWaitForConnectedDevice();
     const exchangeCurrency = wallet.exchangeCurrency() ?? 'USD';
     const coin = getNetworkCurrency(wallet.network());
     const withFiat = wallet.network().isLive();
@@ -104,6 +106,7 @@ const ApproveTransaction = ({
 
             if (wallet.isLedger()) {
                 await approveWithLedger(profile, wallet);
+                await waitUntilLedgerIsConnected();
                 loadingModal.setLoading();
             }
 
