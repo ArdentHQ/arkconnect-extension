@@ -68,7 +68,10 @@ const AddressRow = ({ address, logo }: { address: Contracts.IReadWriteWallet; lo
                 </div>
 
                 <div className='flex items-center gap-1.5 text-theme-secondary-500 dark:text-theme-secondary-300'>
-                    <Address address={address.address()} className='hover:text-light-black dark:hover:text-white' />
+                    <Address
+                        address={address.address()}
+                        className='hover:text-light-black dark:hover:text-white'
+                    />
                     <div className='leading-[18px]'>•</div>
                     <AddressBalance
                         balance={address.balance()}
