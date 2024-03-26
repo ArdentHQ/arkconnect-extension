@@ -16,7 +16,7 @@ const ErrorModal = ({ error, onClose }: Props) => {
                     <SmallWarningIcon />
 
                     <div>
-                        <Heading level={3} className='mb-2'>
+                        <Heading level={3} className='mb-2 text-center'>
                             {errorTitleParser(error)}
                         </Heading>
 
