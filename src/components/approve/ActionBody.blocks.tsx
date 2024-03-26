@@ -114,7 +114,7 @@ export const ActionAddressRow = ({ label, address }: { label: string; address: s
                 address={address}
                 tooltipPlacement='bottom-end'
                 length={10}
-                className='leading-5 font-medium text-light-black dark:text-white'
+                className='font-medium leading-5 text-light-black dark:text-white'
             />
         </ActionDetailsRow>
     );
