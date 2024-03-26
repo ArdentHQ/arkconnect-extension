@@ -115,7 +115,7 @@ const ApproveWithLedger = ({
                         </div>
                     )}
 
-                    <div className='flex items-center justify-center rounded-b-2xl bg-theme-warning-50 p-2 dark:bg-theme-warning-500/10 gap-2'>
+                    <div className='flex items-center justify-center gap-2 rounded-b-2xl bg-theme-warning-50 p-2 dark:bg-theme-warning-500/10'>
                         <Loader variant='warning' />
                         <p className='typeset-body font-medium text-theme-warning-500'>
                             {t('PAGES.IMPORT_WITH_LEDGER.WAITING_FOR_YOUR_SIGNATURE')}
