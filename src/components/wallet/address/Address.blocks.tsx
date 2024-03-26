@@ -125,7 +125,12 @@ export const AddressBalance = ({
 }) => {
     return (
         <div className='text-theme-secondary-500 dark:text-theme-primary-300'>
-            <p className={twMerge('typeset-body cursor-pointer text-theme-secondary-500 dark:text-theme-secondary-300', className)}>
+            <p
+                className={twMerge(
+                    'typeset-body cursor-pointer text-theme-secondary-500 dark:text-theme-secondary-300',
+                    className,
+                )}
+            >
                 <Amount
                     value={balance}
                     ticker={currency}
