@@ -35,7 +35,9 @@ const TransactionApproved = () => {
                     await wallet.coin().client().transaction(transactionId);
                     setIsConfirmed(true);
                     clearInterval(id);
-                } catch (e) {}
+                } catch (_e) {
+                    // transaction is not forged yet, ignore the error
+                }
             }, 1000);
         };
 
