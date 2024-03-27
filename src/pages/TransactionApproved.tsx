@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import constants from '@/constants';
@@ -6,7 +6,7 @@ import { useEnvironmentContext } from '@/lib/context/Environment';
 import { useProfileContext } from '@/lib/context/Profile';
 import formatDomain from '@/lib/utils/formatDomain';
 import removeWindowInstance from '@/lib/utils/removeWindowInstance';
-import { Button, ExternalLink, Heading, Icon } from '@/shared/components';
+import { Button, ExternalLink, Heading, Icon, Loader } from '@/shared/components';
 import RequestedBy from '@/shared/components/actions/RequestedBy';
 import { WalletNetwork } from '@/lib/store/wallet';
 import { ActionBody } from '@/components/approve/ActionBody';
@@ -23,47 +23,31 @@ const TransactionApproved = () => {
         await removeWindowInstance(state?.windowId);
     };
 
-    const [isReady, setIsReady] = useState(false);
     const [isConfirmed, setIsConfirmed] = useState(false);
 
     const transactionId = state?.transaction.id;
     const wallet = profile.wallets().findById(state?.walletId);
 
     useEffect(() => {
-        const sync = async () => {
-            await profile.sync();
-            await env.persist();
-
-            setIsReady(true)
-        }
-
-        void sync();
-    }, []);
-
-    useEffect(() => {
-        if (!isReady) return;
         const checkConfirmed = async () => {
-            const id = setInterval(() => {
+            const id = setInterval(async () => {
                 try {
-                    const confirm = wallet.transaction().transaction(transactionId).isConfirmed();
-                    console.log("confirm result", confirm)
-                    if (confirm) {
-                        clearInterval(id);
-                    }
-                }catch (e) {
-                    console.log("error", e)
-                }
-            }, 1000)
-
-            console.log(confirm);
-        }
+                    await wallet.coin().client().transaction(transactionId);
+                    setIsConfirmed(true);
+                    clearInterval(id);
+                } catch (e) {}
+            }, 1000);
+        };
 
         void checkConfirmed();
-    }, [wallet.id(), transactionId, isReady])
+    }, [wallet.id(), transactionId]);
 
     const showFiat = state.walletNetwork === WalletNetwork.MAINNET;
 
-
+    useEffect(() => {
+        profile.sync();
+        env.persist();
+    }, []);
 
     return (
         <div className=' fixed left-0 top-0 z-10 flex w-full flex-col items-center justify-center bg-subtle-white dark:bg-light-black'>
@@ -72,19 +56,30 @@ const TransactionApproved = () => {
             <div className=' flex w-full flex-col items-center justify-between gap-6 px-4 pt-6'>
                 <div className='flex w-full flex-col items-center gap-6'>
                     <div className='flex flex-col items-center gap-4'>
-                        <Icon
-                            icon='completed'
-                            className='h-16 w-16 text-theme-primary-700 dark:text-theme-primary-650'
-                        />
+                        {isConfirmed ? (
+                            <Icon
+                                icon='completed'
+                                className='h-16 w-16 text-theme-primary-700 dark:text-theme-primary-650'
+                            />
+                        ) : (
+                            <div className='flex h-16 w-16 items-center justify-center rounded-full bg-theme-primary-700 dark:bg-theme-primary-650'>
+                                <Icon
+                                    icon='pending'
+                                    className='h-10 w-10 text-theme-primary-700 dark:text-theme-primary-650'
+                                />
+                            </div>
+                        )}
 
                         <Heading level={3}>
-                            {t('PAGES.TRANSACTION_APPROVED.TRANSACTION_APPROVED')}
+                            {isConfirmed
+                                ? t('PAGES.TRANSACTION_APPROVED.TRANSACTION_APPROVED')
+                                : t('PAGES.TRANSACTION_APPROVED.PENDING_CONFIRMATION')}
                         </Heading>
                     </div>
 
                     <div className='w-full'>
                         <ActionBody
-                            isApproved={false}
+                            isApproved={true}
                             sender={trimAddress(state?.transaction.sender, 'short')}
                             amount={state?.transaction.amount}
                             convertedAmount={state?.transaction.convertedAmount as number}
@@ -97,7 +92,7 @@ const TransactionApproved = () => {
                             totalAmount={state?.transaction.total}
                             convertedTotalAmount={state?.transaction.convertedTotal as number}
                             amountTicker={getActiveCoin(state?.walletNetwork)}
-                            transactionId={state?.transaction.id}
+                            transactionId={isConfirmed ? state?.transaction.id : undefined}
                             maxHeight='229px'
                         />
                     </div>
@@ -108,18 +103,31 @@ const TransactionApproved = () => {
                         {t('ACTION.CLOSE')}
                     </Button>
 
-                    <ExternalLink
-                        className='flex w-full items-center justify-center gap-3 text-light-black dark:text-white'
-                        href={
-                            state?.isTestnet
-                                ? `${constants.ARKSCAN_TESTNET_TRANSACTIONS}/${state?.transaction.id}`
-                                : `${constants.ARKSCAN_MAINNET_TRANSACTIONS}/${state?.transaction.id}`
-                        }
-                    >
-                        <span className='font-medium'>{t('MISC.VIEW_TRANSACTION_ON_ARKSCAN')}</span>
+                    {isConfirmed && (
+                        <ExternalLink
+                            className='flex w-full items-center justify-center gap-3 text-light-black dark:text-white'
+                            href={
+                                state?.isTestnet
+                                    ? `${constants.ARKSCAN_TESTNET_TRANSACTIONS}/${state?.transaction.id}`
+                                    : `${constants.ARKSCAN_MAINNET_TRANSACTIONS}/${state?.transaction.id}`
+                            }
+                        >
+                            <span className='font-medium'>
+                                {t('MISC.VIEW_TRANSACTION_ON_ARKSCAN')}
+                            </span>
 
-                        <Icon icon='link-external' className='h-5 w-5' />
-                    </ExternalLink>
+                            <Icon icon='link-external' className='h-5 w-5' />
+                        </ExternalLink>
+                    )}
+
+                    {!isConfirmed && (
+                        <div className='flex items-center justify-center gap-2'>
+                            <Loader variant='warning' />
+                            <p className='typeset-heading text-theme-warning-600 dark:text-theme-warning-200'>
+                                This transaction is pending confirmation
+                            </p>
+                        </div>
+                    )}
                 </div>
             </div>
         </div>
