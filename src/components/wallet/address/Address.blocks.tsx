@@ -66,12 +66,12 @@ export const Address = ({
     address,
     length = 10,
     tooltipPlacement = 'top',
-    classNames,
+    className,
 }: {
     address: string;
     length?: number;
     tooltipPlacement?: TippyProps['placement'];
-    classNames?: string;
+    className?: string;
 }) => {
     return (
         <div>
@@ -79,7 +79,7 @@ export const Address = ({
                 <p
                     className={twMerge(
                         'max-w-44 cursor-pointer text-sm font-normal leading-[17.5px] text-theme-secondary-500 underline-offset-2 hover:underline dark:text-theme-secondary-300',
-                        classNames,
+                        className,
                     )}
                 >
                     {trimAddress(address, length)}
@@ -116,14 +116,21 @@ export const AddressBalance = ({
     balance,
     currency,
     maxDigits = 5,
+    className,
 }: {
     balance: number;
     currency: string;
     maxDigits?: number;
+    className?: string;
 }) => {
     return (
         <div className='text-theme-secondary-500 dark:text-theme-primary-300'>
-            <p className='typeset-body cursor-pointer text-theme-secondary-500 dark:text-theme-secondary-300'>
+            <p
+                className={twMerge(
+                    'typeset-body cursor-pointer text-theme-secondary-500 dark:text-theme-secondary-300',
+                    className,
+                )}
+            >
                 <Amount
                     value={balance}
                     ticker={currency}
