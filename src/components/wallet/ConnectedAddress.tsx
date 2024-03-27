@@ -50,13 +50,13 @@ const ConnectedAddress = ({ connectedTo, wallet, logo, onDisconnect }: Propertie
 
 const AddressRow = ({ address, logo }: { address: Contracts.IReadWriteWallet; logo: string }) => {
     return (
-        <div className='flex gap-3 rounded-2xl border border-solid border-theme-primary-600 bg-theme-primary-50 p-4 shadow-light dark:border-theme-primary-650 dark:bg-theme-primary-650/15'>
+        <div className='flex gap-3 rounded-2xl border border-solid border-theme-secondary-200 bg-theme-secondary-50 p-4 shadow-light dark:border-theme-secondary-700 dark:bg-subtle-black'>
             <ConnectionLogoImage
                 appLogo={logo}
                 appName='Connected'
                 roundCorners
                 withBorder
-                className='h-10 w-10 border-theme-primary-200 dark:border-[#296148]'
+                className='h-10 w-10 border-theme-secondary-200 dark:border-theme-secondary-700'
             />
             <div className='flex flex-col gap-1'>
                 <div className='flex items-center gap-1.5'>
@@ -68,11 +68,15 @@ const AddressRow = ({ address, logo }: { address: Contracts.IReadWriteWallet; lo
                 </div>
 
                 <div className='flex items-center gap-1.5 text-theme-secondary-500 dark:text-theme-secondary-300'>
-                    <Address address={address.address()} />
+                    <Address
+                        address={address.address()}
+                        className='hover:text-light-black dark:hover:text-white'
+                    />
                     <div className='leading-[18px]'>•</div>
                     <AddressBalance
                         balance={address.balance()}
                         currency={getNetworkCurrency(address.network())}
+                        className='hover:text-light-black dark:hover:text-white'
                     />
                 </div>
             </div>
