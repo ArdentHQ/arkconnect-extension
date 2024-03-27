@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import {useEffect, useState} from 'react';
 import { useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import constants from '@/constants';
@@ -23,12 +23,47 @@ const TransactionApproved = () => {
         await removeWindowInstance(state?.windowId);
     };
 
-    const showFiat = state.walletNetwork === WalletNetwork.MAINNET;
+    const [isReady, setIsReady] = useState(false);
+    const [isConfirmed, setIsConfirmed] = useState(false);
+
+    const transactionId = state?.transaction.id;
+    const wallet = profile.wallets().findById(state?.walletId);
 
     useEffect(() => {
-        profile.sync();
-        env.persist();
+        const sync = async () => {
+            await profile.sync();
+            await env.persist();
+
+            setIsReady(true)
+        }
+
+        void sync();
     }, []);
+
+    useEffect(() => {
+        if (!isReady) return;
+        const checkConfirmed = async () => {
+            const id = setInterval(() => {
+                try {
+                    const confirm = wallet.transaction().transaction(transactionId).isConfirmed();
+                    console.log("confirm result", confirm)
+                    if (confirm) {
+                        clearInterval(id);
+                    }
+                }catch (e) {
+                    console.log("error", e)
+                }
+            }, 1000)
+
+            console.log(confirm);
+        }
+
+        void checkConfirmed();
+    }, [wallet.id(), transactionId, isReady])
+
+    const showFiat = state.walletNetwork === WalletNetwork.MAINNET;
+
+
 
     return (
         <div className=' fixed left-0 top-0 z-10 flex w-full flex-col items-center justify-center bg-subtle-white dark:bg-light-black'>
@@ -49,7 +84,7 @@ const TransactionApproved = () => {
 
                     <div className='w-full'>
                         <ActionBody
-                            isApproved
+                            isApproved={false}
                             sender={trimAddress(state?.transaction.sender, 'short')}
                             amount={state?.transaction.amount}
                             convertedAmount={state?.transaction.convertedAmount as number}
