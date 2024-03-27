@@ -13,6 +13,7 @@ import { ApproveActionType } from '@/pages/Approve';
 import { Heading, HeadingDescription, Icon, Loader } from '@/shared/components';
 import RequestedBy from '@/shared/components/actions/RequestedBy';
 import { NavButton } from '@/shared/components/nav/NavButton';
+import { useLedgerConnectionStatusMessage } from '@/lib/Ledger';
 
 type Props = {
     actionType: ApproveActionType;
@@ -41,6 +42,8 @@ const ApproveWithLedger = ({
         ApproveActionType.UNVOTE,
         ApproveActionType.SWITCH_VOTE,
     ];
+
+    const statusMessage = useLedgerConnectionStatusMessage();
 
     const getActionMessage = () => {
         switch (actionType) {
@@ -72,9 +75,9 @@ const ApproveWithLedger = ({
     };
 
     return (
-        <div className=' min-h-screen bg-subtle-white dark:bg-light-black'>
+        <div className='flex max-h-screen min-h-screen flex-col overflow-auto bg-subtle-white dark:bg-light-black'>
             <RequestedBy appDomain={formatDomain(appName) || ''} appLogo={appLogo} />
-            <div className='px-4 pt-4'>
+            <div className='flex flex-1 flex-col overflow-auto px-4 pt-4'>
                 <div className='flex items-center justify-between gap-3 bg-subtle-white dark:bg-light-black'>
                     <NavButton onClick={closeLedgerScreen}>
                         <Icon
@@ -91,7 +94,7 @@ const ApproveWithLedger = ({
                 <HeadingDescription>
                     {t('PAGES.IMPORT_WITH_LEDGER.CONNECT_YOUR_LEDGER_DEVICE_DISCLAIMER')}
                 </HeadingDescription>
-                <div className='mt-6'>
+                <div className='mt-6 flex flex-1 flex-col overflow-auto'>
                     {votingActionTypes.includes(actionType) && (
                         <VoteLedgerApprovalBody wallet={wallet} state={state} />
                     )}
@@ -101,25 +104,23 @@ const ApproveWithLedger = ({
                     {actionType === ApproveActionType.SIGNATURE && <SignatureLedgerApprovalBody />}
                 </div>
 
-                <div
-                    className={twMerge(
-                        'mb-6 overflow-hidden rounded-2xl border border-solid border-theme-warning-400',
-                        getTopMarginClass(),
-                    )}
-                >
-                    {!!address && (
-                        <div className='flex justify-center bg-white p-[14px] dark:bg-light-black'>
-                            <p className='typeset-headline text-light-black dark:text-white'>
-                                {trimAddress(address, 'long')}
-                            </p>
-                        </div>
-                    )}
+                <div className={twMerge('mb-6 ', getTopMarginClass())}>
+                    <div className='overflow-hidden rounded-2xl border border-solid border-theme-warning-400'>
+                        {!!address && (
+                            <div className='flex justify-center bg-white p-[14px] dark:bg-light-black'>
+                                <p className='typeset-headline text-light-black dark:text-white'>
+                                    {trimAddress(address, 'long')}
+                                </p>
+                            </div>
+                        )}
 
-                    <div className='flex items-center justify-center rounded-b-2xl bg-theme-warning-50 p-2 dark:bg-theme-warning-500/10'>
-                        <Loader variant='warning' />
-                        <p className='typeset-body font-medium'>
-                            {t('PAGES.IMPORT_WITH_LEDGER.WAITING_FOR_YOUR_SIGNATURE')}
-                        </p>
+                        <div className='flex items-center justify-center space-x-2 rounded-b-2xl bg-theme-warning-50 px-4 py-2 dark:bg-theme-warning-500/10'>
+                            <Loader variant='warning' className='flex-shrink-0' />
+
+                            <span className='typeset-body font-medium text-theme-warning-500'>
+                                {statusMessage}
+                            </span>
+                        </div>
                     </div>
                 </div>
             </div>
