@@ -11,7 +11,6 @@ import { WalletNetwork } from '@/lib/store/wallet';
 import { ActionBody } from '@/components/approve/ActionBody';
 import trimAddress from '@/lib/utils/trimAddress';
 import getActiveCoin from '@/lib/utils/getActiveCoin';
-import { useEffect, useState } from 'react';
 import { useConfirmedTransaction } from '@/lib/hooks/useConfirmedTransaction';
 
 const VoteApproved = () => {
