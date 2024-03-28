@@ -137,6 +137,8 @@ export default {
     TRANSACTION_APPROVED: {
         TRANSACTION_APPROVED: 'Transaction Approved',
     },
+    PENDING_CONFIRMATION: 'Pending Confirmation',
+    PENDING_CONFIRMATION_MESSAGE: 'This transaction is pending confirmation',
     VOTE_APPROVED: {
         VOTE_APPROVED: 'Vote Approved',
         UNVOTE_APPROVED: 'Unvote Approved',

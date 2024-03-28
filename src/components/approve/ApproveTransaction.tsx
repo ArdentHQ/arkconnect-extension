@@ -147,6 +147,7 @@ const ApproveTransaction = ({
             navigate('/transaction/success', {
                 state: {
                     transaction,
+                    walletId: wallet.id(),
                     windowId: location.state?.windowId,
                     walletNetwork: wallet.network().isTest()
                         ? WalletNetwork.DEVNET

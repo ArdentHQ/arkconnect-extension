@@ -6,12 +6,13 @@ import { useEnvironmentContext } from '@/lib/context/Environment';
 import { useProfileContext } from '@/lib/context/Profile';
 import formatDomain from '@/lib/utils/formatDomain';
 import removeWindowInstance from '@/lib/utils/removeWindowInstance';
-import { Button, ExternalLink, Heading, Icon } from '@/shared/components';
+import { Button, ExternalLink, Heading, Icon, Loader } from '@/shared/components';
 import RequestedBy from '@/shared/components/actions/RequestedBy';
 import { WalletNetwork } from '@/lib/store/wallet';
 import { ActionBody } from '@/components/approve/ActionBody';
 import trimAddress from '@/lib/utils/trimAddress';
 import getActiveCoin from '@/lib/utils/getActiveCoin';
+import { useConfirmedTransaction } from '@/lib/hooks/useConfirmedTransaction';
 
 const TransactionApproved = () => {
     const { state } = useLocation();
@@ -22,6 +23,11 @@ const TransactionApproved = () => {
     const onClose = async () => {
         await removeWindowInstance(state?.windowId);
     };
+
+    const transactionId = state?.transaction.id;
+    const wallet = profile.wallets().findById(state?.walletId);
+
+    const isTransactionConfirmed = useConfirmedTransaction({ wallet, transactionId });
 
     const showFiat = state.walletNetwork === WalletNetwork.MAINNET;
 
@@ -37,19 +43,30 @@ const TransactionApproved = () => {
             <div className=' flex w-full flex-col items-center justify-between gap-6 px-4 pt-6'>
                 <div className='flex w-full flex-col items-center gap-6'>
                     <div className='flex flex-col items-center gap-4'>
-                        <Icon
-                            icon='completed'
-                            className='h-16 w-16 text-theme-primary-700 dark:text-theme-primary-650'
-                        />
+                        {isTransactionConfirmed ? (
+                            <Icon
+                                icon='completed'
+                                className='h-16 w-16 text-theme-primary-700 dark:text-theme-primary-650'
+                            />
+                        ) : (
+                            <div className='flex h-16 w-16 items-center justify-center rounded-full bg-theme-primary-700 dark:bg-theme-primary-650'>
+                                <Icon
+                                    icon='pending'
+                                    className='h-10 w-10 text-theme-primary-700 dark:text-theme-primary-650'
+                                />
+                            </div>
+                        )}
 
                         <Heading level={3}>
-                            {t('PAGES.TRANSACTION_APPROVED.TRANSACTION_APPROVED')}
+                            {isTransactionConfirmed
+                                ? t('PAGES.TRANSACTION_APPROVED.TRANSACTION_APPROVED')
+                                : t('PAGES.PENDING_CONFIRMATION')}
                         </Heading>
                     </div>
 
                     <div className='w-full'>
                         <ActionBody
-                            isApproved
+                            isApproved={true}
                             sender={trimAddress(state?.transaction.sender, 'short')}
                             amount={state?.transaction.amount}
                             convertedAmount={state?.transaction.convertedAmount as number}
@@ -62,7 +79,9 @@ const TransactionApproved = () => {
                             totalAmount={state?.transaction.total}
                             convertedTotalAmount={state?.transaction.convertedTotal as number}
                             amountTicker={getActiveCoin(state?.walletNetwork)}
-                            transactionId={state?.transaction.id}
+                            transactionId={
+                                isTransactionConfirmed ? state?.transaction.id : undefined
+                            }
                             maxHeight='229px'
                         />
                     </div>
@@ -73,18 +92,31 @@ const TransactionApproved = () => {
                         {t('ACTION.CLOSE')}
                     </Button>
 
-                    <ExternalLink
-                        className='flex w-full items-center justify-center gap-3 text-light-black dark:text-white'
-                        href={
-                            state?.isTestnet
-                                ? `${constants.ARKSCAN_TESTNET_TRANSACTIONS}/${state?.transaction.id}`
-                                : `${constants.ARKSCAN_MAINNET_TRANSACTIONS}/${state?.transaction.id}`
-                        }
-                    >
-                        <span className='font-medium'>{t('MISC.VIEW_TRANSACTION_ON_ARKSCAN')}</span>
+                    {isTransactionConfirmed && (
+                        <ExternalLink
+                            className='flex w-full items-center justify-center gap-3 text-light-black dark:text-white'
+                            href={
+                                state?.isTestnet
+                                    ? `${constants.ARKSCAN_TESTNET_TRANSACTIONS}/${state?.transaction.id}`
+                                    : `${constants.ARKSCAN_MAINNET_TRANSACTIONS}/${state?.transaction.id}`
+                            }
+                        >
+                            <span className='font-medium'>
+                                {t('MISC.VIEW_TRANSACTION_ON_ARKSCAN')}
+                            </span>
 
-                        <Icon icon='link-external' className='h-5 w-5' />
-                    </ExternalLink>
+                            <Icon icon='link-external' className='h-5 w-5' />
+                        </ExternalLink>
+                    )}
+
+                    {!isTransactionConfirmed && (
+                        <div className='flex items-center justify-center gap-2'>
+                            <Loader variant='warning' />
+                            <p className='typeset-heading text-theme-warning-600 dark:text-theme-warning-200'>
+                                {t('PAGES.PENDING_CONFIRMATION_MESSAGE')}
+                            </p>
+                        </div>
+                    )}
                 </div>
             </div>
         </div>
