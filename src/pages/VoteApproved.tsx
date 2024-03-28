@@ -116,7 +116,7 @@ const VoteApproved = () => {
                         <div className='flex items-center justify-center gap-2'>
                             <Loader variant='warning' />
                             <p className='typeset-heading text-theme-warning-600 dark:text-theme-warning-200'>
-                                This transaction is pending confirmation
+                                {t('PAGES.PENDING_CONFIRMATION_MESSAGE')}
                             </p>
                         </div>
                     )}
