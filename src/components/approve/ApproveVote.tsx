@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { runtime } from 'webextension-polyfill';
 import { Contracts } from '@ardenthq/sdk-profiles';
 import { useTranslation } from 'react-i18next';
+import { HigherFeeBanner } from './HigherCustomFee.blocks';
 import ApproveBody from '@/components/approve/ApproveBody';
 import ApproveFooter from '@/components/approve/ApproveFooter';
 import ApproveHeader from '@/components/approve/ApproveHeader';
@@ -47,13 +48,16 @@ const ApproveVote = ({ abortReference, approveWithLedger, wallet, closeLedgerScr
         ticker: wallet.currency(),
     });
     const { waitUntilLedgerIsConnected } = useWaitForConnectedDevice();
+    const { fee: customFee } = location.state;
+    const [showHigherCustomFeeBanner, setShowHigherCustomFeeBanner] = useState(true);
 
     const {
         resetForm,
         submitForm,
         loading,
-        values: { fee, vote, unvote },
-    } = useVoteForm(wallet, state);
+        values: { fee, vote, unvote, hasHigherCustomFee },
+    } = useVoteForm(wallet, {customFee, ...state});
+
 
     useEffect(() => {
         if (wallet.balance() < fee) {
@@ -185,6 +189,13 @@ const ApproveVote = ({ abortReference, approveWithLedger, wallet, closeLedgerScr
 
     return (
         <HandleLoadingState loading={loading}>
+            {showHigherCustomFeeBanner && hasHigherCustomFee && (
+                <HigherFeeBanner
+                    averageFee={hasHigherCustomFee}
+                    coin={wallet.currency()}
+                    onClose={() => setShowHigherCustomFeeBanner(false)}
+                />
+            )}
             <ApproveHeader
                 actionType={actionType}
                 appName={state.session.domain}
@@ -211,6 +222,7 @@ const ApproveVote = ({ abortReference, approveWithLedger, wallet, closeLedgerScr
                         delegateAddress: vote?.wallet?.address(),
                     }}
                     maxHeight='165px'
+                    hasHigherCustomFee={hasHigherCustomFee}
                 />
             </ApproveBody>
             <ApproveFooter disabled={!!error} onSubmit={onSubmit} onCancel={onCancel} />
