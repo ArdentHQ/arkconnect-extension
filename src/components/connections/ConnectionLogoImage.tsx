@@ -25,26 +25,34 @@ const ConnectionLogoImage = ({
 }: Props) => {
     if (appLogo) {
         return (
-            <Color src={appLogo} crossOrigin="anonymous" format="hex">
+            <Color src={appLogo} crossOrigin='anonymous' format='hex'>
                 {({ loading, data }) => {
-                    
                     const color = loading ? '' : convertHexToRGBA(data ?? '', '0.20');
 
                     return (
-                    <div
-                        className={twMerge(
-                            cn('h-5 w-5 flex-shrink-0 overflow-hidden bg-white dark:bg-light-black', {
-                                'border-[10px] border-solid': withBorder,
-                                'border-white dark:border-light-black': withBorder && loading && !data,
-                                'rounded-full': roundCorners,
-                            }),
-                            className,
-                        )}
-                        style={{ borderColor: color }}
-                    >
-                        <img className='h-full w-full  object-contain' src={appLogo} alt={alt || appName} />
-                    </div>
-                );}}
+                        <div
+                            className={twMerge(
+                                cn(
+                                    'h-5 w-5 flex-shrink-0 overflow-hidden bg-white dark:bg-light-black',
+                                    {
+                                        'border-[10px] border-solid': withBorder,
+                                        'border-white dark:border-light-black':
+                                            withBorder && loading && !data,
+                                        'rounded-full': roundCorners,
+                                    },
+                                ),
+                                className,
+                            )}
+                            style={{ borderColor: color }}
+                        >
+                            <img
+                                className='h-full w-full  object-contain'
+                                src={appLogo}
+                                alt={alt || appName}
+                            />
+                        </div>
+                    );
+                }}
             </Color>
         );
     }
