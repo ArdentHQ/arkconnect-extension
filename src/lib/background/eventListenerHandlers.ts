@@ -43,6 +43,7 @@ export type SignTransactionData = {
 export type SignVoteData = {
     type: 'vote' | 'unvote';
     amount: number;
+    fee?: number;
     receiverAddress: string;
 };
 
