@@ -67,6 +67,7 @@ export const VoteLedgerApprovalBody = ({ wallet, state }: Props) => {
             }}
             maxHeight='165px'
             hasHigherCustomFee={hasHigherCustomFee}
+            amountTicker={wallet.currency()}
         />
     );
 };

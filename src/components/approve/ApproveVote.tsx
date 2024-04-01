@@ -222,6 +222,7 @@ const ApproveVote = ({ abortReference, approveWithLedger, wallet, closeLedgerScr
                     }}
                     maxHeight='165px'
                     hasHigherCustomFee={hasHigherCustomFee}
+                    amountTicker={wallet.currency()}
                 />
             </ApproveBody>
             <ApproveFooter disabled={!!error} onSubmit={onSubmit} onCancel={onCancel} />
