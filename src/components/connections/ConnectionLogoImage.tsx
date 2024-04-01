@@ -27,11 +27,8 @@ const ConnectionLogoImage = ({
         return (
             <Color src={appLogo} crossOrigin="anonymous" format="hex">
                 {({ loading, data }) => {
-                    let color = '';
-
-                    if (loading && data !== undefined) {
-                        color = convertHexToRGBA(data, '0.20');
-                    }
+                    
+                    const color = loading ? '' : convertHexToRGBA(data ?? '', '0.20');
 
                     return (
                     <div
