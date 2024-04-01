@@ -56,8 +56,7 @@ const ApproveVote = ({ abortReference, approveWithLedger, wallet, closeLedgerScr
         submitForm,
         loading,
         values: { fee, vote, unvote, hasHigherCustomFee },
-    } = useVoteForm(wallet, {customFee, ...state});
-
+    } = useVoteForm(wallet, { customFee, ...state });
 
     useEffect(() => {
         if (wallet.balance() < fee) {
