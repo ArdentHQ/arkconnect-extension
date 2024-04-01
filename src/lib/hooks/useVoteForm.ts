@@ -66,7 +66,7 @@ export const useVoteForm = (wallet: Contracts.IReadWriteWallet, request: Approve
     const { env } = useEnvironmentContext();
     const { profile } = useProfileContext();
     const { onError } = useErrorHandlerContext();
-    const { calculate } = useFees();
+    const { calculateAvgFee, calculateMaxFee } = useFees();
     const [loading, setLoading] = useState(true);
     const [formValues, setFormValues] = useState<SendVoteForm>(defaultState);
     const { persist } = useEnvironmentContext();
@@ -179,7 +179,13 @@ export const useVoteForm = (wallet: Contracts.IReadWriteWallet, request: Approve
                 await profile.sync();
                 await persist();
 
-                const averageFee = await calculate({
+                const averageFee = await calculateAvgFee({
+                    coin: wallet.network().coin(),
+                    network: wallet.network().id(),
+                    type: ApproveActionType.VOTE,
+                });
+
+                const maxFee = await calculateMaxFee({
                     coin: wallet.network().coin(),
                     network: wallet.network().id(),
                     type: ApproveActionType.VOTE,
@@ -195,7 +201,7 @@ export const useVoteForm = (wallet: Contracts.IReadWriteWallet, request: Approve
                     remainingBalance: wallet.balance(),
                     fee,
                     hasHigherCustomFee:
-                        request.customFee && request.customFee > averageFee ? averageFee : null,
+                        request.customFee && request.customFee > maxFee ? maxFee : null,
                     vote: vote,
                     unvote: unvote,
                 }));
