@@ -60,6 +60,8 @@ const ConnectionsList = () => {
                                     appLogo={session.logo}
                                     alt={session.domain}
                                     roundCorners
+                                    withBorder
+                                    className='h-10 w-10'
                                 />
                             </div>
 
