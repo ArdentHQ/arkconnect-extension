@@ -17,11 +17,13 @@ import * as SessionStore from '@/lib/store/session';
 interface SendVoteForm {
     senderAddress: string;
     fee: number;
+    hasHigherCustomFee: number | null;
     remainingBalance: number;
     amount: number;
     network?: Networks.Network;
     vote: Contracts.VoteRegistryItem | null;
     unvote: Contracts.VoteRegistryItem | null;
+    customFee?: number;
 }
 
 type VoteDelegateProperties = {
@@ -35,12 +37,14 @@ type ApproveVoteRequest = {
     vote: VoteDelegateProperties;
     unvote: VoteDelegateProperties;
     tabId: number;
+    customFee?: number;
 };
 
 const defaultState = {
     senderAddress: '',
     fee: 0,
     remainingBalance: 0,
+    hasHigherCustomFee: null,
     amount: 0,
     vote: null,
     unvote: null,
@@ -175,11 +179,13 @@ export const useVoteForm = (wallet: Contracts.IReadWriteWallet, request: Approve
                 await profile.sync();
                 await persist();
 
-                const fee = await calculate({
+                const averageFee = await calculate({
                     coin: wallet.network().coin(),
                     network: wallet.network().id(),
                     type: ApproveActionType.VOTE,
                 });
+
+                const fee = request.customFee ?? averageFee;
 
                 const { vote, unvote } = await getVote();
 
@@ -188,6 +194,8 @@ export const useVoteForm = (wallet: Contracts.IReadWriteWallet, request: Approve
                     senderAddress: wallet.address(),
                     remainingBalance: wallet.balance(),
                     fee,
+                    hasHigherCustomFee:
+                        request.customFee && request.customFee > averageFee ? averageFee : null,
                     vote: vote,
                     unvote: unvote,
                 }));
@@ -227,6 +235,7 @@ export const useVoteForm = (wallet: Contracts.IReadWriteWallet, request: Approve
             fee: formValues.fee,
             vote: formValues.vote,
             unvote: formValues.unvote,
+            hasHigherCustomFee: formValues.hasHigherCustomFee,
         },
     };
 };
