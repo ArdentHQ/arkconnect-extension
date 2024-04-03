@@ -104,6 +104,7 @@ type SignVoteRequest = {
         amount: number;
         delegateAddress: string;
     };
+    fee?: number;
 };
 
 type SignVoteResponse = {
@@ -416,6 +417,25 @@ class ArkConnectInPageProvider {
                         domain: window.location.origin,
                         status: 'failed',
                         message: 'Provided arguments does not match type `SignVoteRequest`',
+                    });
+                    return;
+                }
+
+                try {
+                    if (request.fee) {
+                        assertPositiveNonZero(request.fee);
+
+                        if (request.fee > 1) {
+                            throw new Error(
+                                `Fee cannot be greater than 1, received ${request.fee}`,
+                            );
+                        }
+                    }
+                } catch (error: unknown) {
+                    reject({
+                        domain: window.location.origin,
+                        status: 'failed',
+                        message: error instanceof Error ? error.message : '',
                     });
                     return;
                 }

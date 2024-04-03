@@ -127,8 +127,6 @@ export const useLedgerConnection = () => {
     );
     const hasDeviceAvailable = useMemo(() => !!device, [device]);
 
-    console.log({ hasDeviceAvailable, isAwaitingConnection, isConnected });
-
     const resetConnectionState = useCallback(async () => {
         await closeDevices();
         dispatch({ type: 'remove' });
