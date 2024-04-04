@@ -7,6 +7,12 @@ const useThemeMode = () => {
     const currentThemeMode = useAppSelector(selectThemeMode);
 
     useEffect(() => {
+        if (currentThemeMode === undefined) {
+            const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            dispatch(themeModeUpdated(isDarkMode ? ThemeMode.DARK : ThemeMode.LIGHT));
+            return;
+        }
+
         if (currentThemeMode === ThemeMode.DARK) {
             document.documentElement.classList.add('dark');
         } else {

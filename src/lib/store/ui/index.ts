@@ -17,13 +17,13 @@ export type Toast = {
 };
 
 export type UIState = {
-    themeMode: ThemeMode;
+    themeMode?: ThemeMode;
     toasts: Toast[];
     locked: boolean;
 };
 
 const initialState: UIState = {
-    themeMode: ThemeMode.LIGHT,
+    themeMode: undefined,
     toasts: [],
     locked: false,
 };
