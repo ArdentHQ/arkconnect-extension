@@ -36,7 +36,7 @@ const ConnectionLogoImage = ({
                                     {
                                         'border-[10px] border-solid': withBorder,
                                         'border-theme-secondary-50 dark:border-light-black':
-                                            withBorder && (loading && !data || error),
+                                            withBorder && ((loading && !data) || error),
                                         'rounded-full': roundCorners,
                                     },
                                 ),
