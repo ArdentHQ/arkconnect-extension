@@ -1,7 +1,7 @@
 /* eslint-disable quotes */
 export default {
     HOME: {
-        TRY_OUR_DEMO_APP_NOW: 'Try Our Demo App Now!',
+        INSUFFICIENT_FUNDS: 'Insufficient funds to send',
     },
     CONNECT: {
         CONNECT_TO_APP: 'Connect to App',

@@ -6,6 +6,7 @@ import { ExternalLink, Icon, Layout } from '@/shared/components';
 import constants from '@/constants';
 import { useProfileContext } from '@/lib/context/Profile';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
+import { TransactionButtons } from '@/components/home/TransactionButtons';
 const Home = () => {
     const { convertedBalance } = useProfileContext();
 
@@ -68,20 +69,9 @@ const Home = () => {
                         </ExternalLink>
                     </div>
                 </div>
-
-                <ExternalLink
-                    href={constants.ARK_CONNECT_DEMO}
-                    className='block rounded-2xl text-theme-primary-700 dark:text-theme-primary-600'
-                >
-                    <div className='flex flex-row items-center justify-between p-4'>
-                        <Icon icon='speakerphone' className='h-4.5 w-4.5' />
-                        <span className=' text-sm font-medium'>
-                            {t('PAGES.HOME.TRY_OUR_DEMO_APP_NOW')}
-                        </span>
-                        <Icon icon='link-external' className='h-4 w-4' />
-                    </div>
-                </ExternalLink>
             </div>
+
+            <TransactionButtons />
         </Layout>
     );
 };

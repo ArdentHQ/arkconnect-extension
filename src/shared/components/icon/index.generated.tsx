@@ -69,6 +69,8 @@ export type IconDefinition =
     | 'pending'
     | 'plus-circle'
     | 'plus'
+    | 'receive'
+    | 'send'
     | 'settings'
     | 'shield-border'
     | 'shield'
@@ -152,6 +154,8 @@ export const availableIcons: IconDefinition[] = [
     'pending',
     'plus-circle',
     'plus',
+    'receive',
+    'send',
     'settings',
     'shield-border',
     'shield',
@@ -2462,6 +2466,36 @@ export const IconSvg = {
                 strokeWidth='2'
                 d='M9 3.5v12M3 9.5h12'
             />
+        </svg>
+    ),
+    receive: (
+        <svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24'>
+            <g id='Receive' stroke='currentColor' strokeLinecap='round' strokeWidth='2'>
+                <path
+                    id='Vector'
+                    strokeLinejoin='round'
+                    d='m7.802 11.419 4.212 4.212m0 0 4.213-4.212m-4.213 4.212V4.8'
+                />
+                <path
+                    id='Vector 225'
+                    d='M5.996 18.574s3.188 1.505 6.018 1.505 5.716-1.505 5.716-1.505'
+                />
+            </g>
+        </svg>
+    ),
+    send: (
+        <svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 25 24'>
+            <g id='Send' stroke='currentColor' strokeLinecap='round' strokeWidth='2'>
+                <path
+                    id='Vector'
+                    strokeLinejoin='round'
+                    d='M8.302 9.013 12.514 4.8m0 0 4.213 4.213M12.514 4.8v10.832'
+                />
+                <path
+                    id='Vector 225'
+                    d='M6.496 18.574s3.188 1.505 6.018 1.505 5.716-1.505 5.716-1.505'
+                />
+            </g>
         </svg>
     ),
     settings: (

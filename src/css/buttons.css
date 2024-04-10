@@ -35,7 +35,7 @@
         @apply shadow-[0_0_0_4px_shadow-green] outline-none dark:shadow-[0_0_0_4px_#2B3D35];
     }
     .button-secondary:disabled {
-        @apply border-theme-secondary-100 bg-white text-theme-secondary-500 dark:border-theme-secondary-400 dark:bg-light-black dark:text-theme-secondary-300;
+        @apply border-theme-secondary-300 bg-white text-theme-secondary-500 dark:border-theme-secondary-500 dark:bg-light-black dark:text-theme-secondary-300;
     }
 
     /** Button Secondary Black **/
