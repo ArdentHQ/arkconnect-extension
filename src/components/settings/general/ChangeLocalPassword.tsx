@@ -3,8 +3,9 @@ import * as Yup from 'yup';
 import { runtime } from 'webextension-polyfill';
 import { useFormik } from 'formik';
 import { useNavigate } from 'react-router-dom';
-import SubPageLayout from '../SubPageLayout';
-import { Button, PasswordInput } from '@/shared/components';
+import { useTranslation } from 'react-i18next';
+import SubPageLayout from '@/components/settings/SubPageLayout';
+import { Button, HeadingDescription, PasswordInput } from '@/shared/components';
 
 import { ToastPosition } from '@/components/toast/ToastContainer';
 import { isValidPassword } from '@/lib/utils/validations';
@@ -35,8 +36,9 @@ const ChangeLocalPassword = () => {
     const navigate = useNavigate();
     const toast = useToast();
     const { initProfile } = useProfileContext();
+    const { t } = useTranslation();
     const loadingModal = useLoadingModal({
-        loadingMessage: 'Updating your password...',
+        loadingMessage: t('PAGES.SETTINGS.FEEDBACK.UPDATING_YOUR_PASWORD'),
     });
     const formik = useFormik<ChangePasswordFormik>({
         initialValues: {
@@ -48,7 +50,10 @@ const ChangeLocalPassword = () => {
         onSubmit: async (values, formikHelpers) => {
             try {
                 if (!(await isValidPassword(values.oldPassword))) {
-                    formikHelpers.setFieldError('oldPassword', 'Incorrect password');
+                    formikHelpers.setFieldError(
+                        'oldPassword',
+                        t('PAGES.SETTINGS.FEEDBACK.INCORRECT_PASWORD'),
+                    );
                     return;
                 }
 
@@ -63,37 +68,45 @@ const ChangeLocalPassword = () => {
                 });
 
                 if (error) {
-                    formikHelpers.setFieldError('oldPassword', 'Incorrect password');
+                    formikHelpers.setFieldError(
+                        'oldPassword',
+                        t('PAGES.SETTINGS.FEEDBACK.INCORRECT_PASWORD'),
+                    );
                     return;
                 }
 
                 await initProfile();
 
-                toast('success', 'Password changed successfully', ToastPosition.HIGH);
+                toast(
+                    'success',
+                    t('PAGES.SETTINGS.FEEDBACK.PASSWORD_CHANGED_SUCCESSFULLY'),
+                    ToastPosition.HIGH,
+                );
                 navigate('/');
 
                 loadingModal.close();
             } catch (error) {
-                toast('danger', 'Something went wrong!', ToastPosition.HIGH);
+                toast('danger', t('MISC.SOMETHING_WENT_WRONG'), ToastPosition.HIGH);
                 onError(error);
             }
         },
     });
 
     return (
-        <SubPageLayout title='Change Local Password'>
+        <SubPageLayout title={t('PAGES.SETTINGS.CHANGE_LOCAL_PASSWORD')}>
             <div className='flex h-full flex-1 flex-col justify-between'>
-                <p className='typeset-headline mb-6 text-theme-secondary-500 dark:text-theme-secondary-300'>
-                    Change password for your wallet. Your password is only stored locally.
-                </p>
+                <HeadingDescription className='mb-6'>
+                    {t('PAGES.SETTINGS.CHANGE_PASSWORD_FOR_YOUR_WALLET')}
+                </HeadingDescription>
+
                 <div className='h-full'>
                     <div className='mb-4 border-b border-solid border-b-theme-secondary-200 pb-4 dark:border-b-theme-secondary-600'>
                         <PasswordInput
                             name='oldPassword'
                             variant={formik.errors.oldPassword ? 'destructive' : 'primary'}
-                            labelText='Old Password'
+                            labelText={t('PAGES.SETTINGS.FORM.OLD_PASSWORD')}
                             helperText={formik.errors.oldPassword}
-                            placeholder='Enter old password'
+                            placeholder={t('PAGES.SETTINGS.FORM.ENTER_OLD_PASSWORD')}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
                             value={formik.values.oldPassword}
@@ -110,8 +123,8 @@ const ChangeLocalPassword = () => {
                                         : 'errorFree'
                                     : 'primary'
                             }
-                            labelText='New Password'
-                            placeholder='Enter new password'
+                            labelText={t('PAGES.SETTINGS.FORM.NEW_PASSWORD')}
+                            placeholder={t('PAGES.SETTINGS.FORM.ENTER_NEW_PASSWORD')}
                             helperText={formik.errors.newPassword}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
@@ -126,8 +139,8 @@ const ChangeLocalPassword = () => {
                                         : 'errorFree'
                                     : 'primary'
                             }
-                            labelText='Confirm New Password'
-                            placeholder='Enter new password again'
+                            labelText={t('PAGES.SETTINGS.FORM.CONFIRM_NEW_PASSWORD')}
+                            placeholder={t('PAGES.SETTINGS.FORM.ENTER_NEW_PASSWORD_AGAIN')}
                             helperText={formik.errors.confirmNewPassword}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
@@ -141,7 +154,7 @@ const ChangeLocalPassword = () => {
                     onClick={formik.submitForm}
                     className='mt-auto'
                 >
-                    Save New Password
+                    {t('PAGES.SETTINGS.FORM.SAVE_NEW_PASSWORD')}
                 </Button>
             </div>
         </SubPageLayout>

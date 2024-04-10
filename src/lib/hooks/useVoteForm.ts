@@ -2,14 +2,14 @@ import { Networks, Services } from '@ardenthq/sdk';
 import { Contracts } from '@ardenthq/sdk-profiles';
 import { useEffect, useState } from 'react';
 import { runtime } from 'webextension-polyfill';
-import { useEnvironmentContext } from '../context/Environment';
-import { precisionRound } from '../utils/precisionRound';
-import { handleBroadcastError, withAbortPromise } from '../utils/transactionHelpers';
-import { useAppSelector } from '../store';
-import { useProfileContext } from '../context/Profile';
-import { useErrorHandlerContext } from '../context/ErrorHandler';
-import { useLedgerContext } from '../Ledger';
 import { useFees } from './useFees';
+import { useEnvironmentContext } from '@/lib/context/Environment';
+import { precisionRound } from '@/lib/utils/precisionRound';
+import { handleBroadcastError, withAbortPromise } from '@/lib/utils/transactionHelpers';
+import { useAppSelector } from '@/lib/store';
+import { useProfileContext } from '@/lib/context/Profile';
+import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
+import { useLedgerContext } from '@/lib/Ledger';
 import { ApproveActionType } from '@/pages/Approve';
 import * as WalletStore from '@/lib/store/wallet';
 import * as SessionStore from '@/lib/store/session';
@@ -17,11 +17,13 @@ import * as SessionStore from '@/lib/store/session';
 interface SendVoteForm {
     senderAddress: string;
     fee: number;
+    hasHigherCustomFee: number | null;
     remainingBalance: number;
     amount: number;
     network?: Networks.Network;
     vote: Contracts.VoteRegistryItem | null;
     unvote: Contracts.VoteRegistryItem | null;
+    customFee?: number;
 }
 
 type VoteDelegateProperties = {
@@ -35,12 +37,14 @@ type ApproveVoteRequest = {
     vote: VoteDelegateProperties;
     unvote: VoteDelegateProperties;
     tabId: number;
+    customFee?: number;
 };
 
 const defaultState = {
     senderAddress: '',
     fee: 0,
     remainingBalance: 0,
+    hasHigherCustomFee: null,
     amount: 0,
     vote: null,
     unvote: null,
@@ -62,7 +66,7 @@ export const useVoteForm = (wallet: Contracts.IReadWriteWallet, request: Approve
     const { env } = useEnvironmentContext();
     const { profile } = useProfileContext();
     const { onError } = useErrorHandlerContext();
-    const { calculate } = useFees();
+    const { calculateAvgFee, calculateMaxFee } = useFees();
     const [loading, setLoading] = useState(true);
     const [formValues, setFormValues] = useState<SendVoteForm>(defaultState);
     const { persist } = useEnvironmentContext();
@@ -175,11 +179,19 @@ export const useVoteForm = (wallet: Contracts.IReadWriteWallet, request: Approve
                 await profile.sync();
                 await persist();
 
-                const fee = await calculate({
+                const averageFee = await calculateAvgFee({
                     coin: wallet.network().coin(),
                     network: wallet.network().id(),
                     type: ApproveActionType.VOTE,
                 });
+
+                const maxFee = await calculateMaxFee({
+                    coin: wallet.network().coin(),
+                    network: wallet.network().id(),
+                    type: ApproveActionType.VOTE,
+                });
+
+                const fee = request.customFee ?? averageFee;
 
                 const { vote, unvote } = await getVote();
 
@@ -188,6 +200,8 @@ export const useVoteForm = (wallet: Contracts.IReadWriteWallet, request: Approve
                     senderAddress: wallet.address(),
                     remainingBalance: wallet.balance(),
                     fee,
+                    hasHigherCustomFee:
+                        request.customFee && request.customFee > maxFee ? maxFee : null,
                     vote: vote,
                     unvote: unvote,
                 }));
@@ -227,6 +241,7 @@ export const useVoteForm = (wallet: Contracts.IReadWriteWallet, request: Approve
             fee: formValues.fee,
             vote: formValues.vote,
             unvote: formValues.unvote,
+            hasHigherCustomFee: formValues.hasHigherCustomFee,
         },
     };
 };

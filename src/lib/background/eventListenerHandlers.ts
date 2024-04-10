@@ -1,8 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Runtime, runtime, tabs, windows } from 'webextension-polyfill';
 import { Contracts } from '@ardenthq/sdk-profiles';
-import { Session } from '../store/session';
-import { WalletNetwork } from '../store/wallet';
 import {
     assertHasProfile,
     assertHasWallet,
@@ -11,6 +9,7 @@ import {
     assertIsUnlocked,
     getActiveSession,
 } from './assertions';
+import { WalletNetwork } from '@/lib/store/wallet';
 
 export type EventPayload<T> = {
     type: keyof typeof longLivedConnectionHandlers;
@@ -32,21 +31,20 @@ export type ConnectData = {
 export type SignMessageData = {
     type: 'signature';
     message: string;
-    session: Session;
 };
 
 export type SignTransactionData = {
     type: 'transfer';
     amount: number;
+    fee?: number;
     receiverAddress: string;
-    session: Session;
 };
 
 export type SignVoteData = {
     type: 'vote' | 'unvote';
     amount: number;
+    fee?: number;
     receiverAddress: string;
-    session: Session;
 };
 
 let extensionWindowId: number | null = null;

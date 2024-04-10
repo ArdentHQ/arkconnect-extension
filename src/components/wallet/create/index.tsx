@@ -3,9 +3,10 @@ import { useFormik } from 'formik';
 import { Contracts } from '@ardenthq/sdk-profiles';
 import { useNavigate } from 'react-router-dom';
 import { runtime } from 'webextension-polyfill';
-import SetupPassword from '../../settings/SetupPassword';
+import { useTranslation } from 'react-i18next';
 import ConfirmPassphrase from './ConfirmPassphrase';
 import GeneratePassphrase from './GeneratePassphrase';
+import SetupPassword from '@/components/settings/SetupPassword';
 import StepsNavigation, { Step } from '@/components/steps/StepsNavigation';
 import useToast from '@/lib/hooks/useToast';
 import useActiveNetwork from '@/lib/hooks/useActiveNetwork';
@@ -63,10 +64,11 @@ const CreateNewWallet = () => {
     ]);
     const [defaultStep, setDefaultStep] = useState(0);
     const { env } = useEnvironmentContext();
+    const { t } = useTranslation();
 
     const loadingModal = useLoadingModal({
-        completedMessage: 'Your Wallet is Ready!',
-        loadingMessage: 'Setting up the wallet, please wait!',
+        completedMessage: t('PAGES.CREATE_WALLET.FEEDBACK.WALLET_IS_READY'),
+        loadingMessage: t('PAGES.CREATE_WALLET.FEEDBACK.SETTING_UP_THE_WALLET'),
     });
 
     const { events } = useBackgroundEvents();
@@ -139,8 +141,8 @@ const CreateNewWallet = () => {
             loadingModal.setLoading();
 
             if (!values.wallet) {
-                toast('danger', 'Something went wrong while creating your wallet');
-                onError('Failed to generate wallet.');
+                toast('danger', t('PAGES.CREATE_WALLET.FEEDBACK.SOMETHING_WENT_WRONG'));
+                onError(t('PAGES.CREATE_WALLET.FEEDBACK.FAILED_TO_GENERATE_WALLET'));
                 return;
             }
 
@@ -268,6 +270,12 @@ const CreateNewWallet = () => {
             setIsGeneratingWallet(false);
         }
     };
+
+    useEffect(() => {
+        if (isGeneratingWallet) {
+            formik.setFieldValue('confirmPassphrase', ['', '', '']);
+        }
+    }, [isGeneratingWallet]);
 
     return (
         <HandleLoadingState

@@ -1,7 +1,8 @@
 import { useRef } from 'react';
 import { TippyProps } from '@tippyjs/react';
 import cn from 'classnames';
-import Amount from '../Amount';
+import { twMerge } from 'tailwind-merge';
+import Amount from '@/components/wallet/Amount';
 import { Icon, Tooltip } from '@/shared/components';
 import trimAddress from '@/lib/utils/trimAddress';
 import { ToastPosition } from '@/components/toast/ToastContainer';
@@ -65,15 +66,22 @@ export const Address = ({
     address,
     length = 10,
     tooltipPlacement = 'top',
+    className,
 }: {
     address: string;
     length?: number;
     tooltipPlacement?: TippyProps['placement'];
+    className?: string;
 }) => {
     return (
         <div>
             <Tooltip content={address} placement={tooltipPlacement}>
-                <p className='typeset-body max-w-44  font-normal text-theme-secondary-500 underline-offset-2 hover:underline dark:text-theme-secondary-300'>
+                <p
+                    className={twMerge(
+                        'max-w-44 cursor-pointer text-sm font-normal leading-[17.5px] text-theme-secondary-500 underline-offset-2 hover:underline dark:text-theme-secondary-300',
+                        className,
+                    )}
+                >
                     {trimAddress(address, length)}
                 </p>
             </Tooltip>
@@ -108,14 +116,21 @@ export const AddressBalance = ({
     balance,
     currency,
     maxDigits = 5,
+    className,
 }: {
     balance: number;
     currency: string;
     maxDigits?: number;
+    className?: string;
 }) => {
     return (
         <div className='text-theme-secondary-500 dark:text-theme-primary-300'>
-            <p className='typeset-body cursor-pointer text-theme-secondary-500 dark:text-theme-secondary-300'>
+            <p
+                className={twMerge(
+                    'typeset-body cursor-pointer text-theme-secondary-500 dark:text-theme-secondary-300',
+                    className,
+                )}
+            >
                 <Amount
                     value={balance}
                     ticker={currency}

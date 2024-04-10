@@ -1,21 +1,23 @@
 import { runtime } from 'webextension-polyfill';
-import SubPageLayout from '../SubPageLayout';
+import { useTranslation } from 'react-i18next';
+import SubPageLayout from '@/components/settings/SubPageLayout';
 import { Icon, RowLayout } from '@/shared/components';
 import useClipboard from '@/lib/hooks/useClipboard';
 import constants from '@/constants';
 
 const AboutARK = () => {
     const { copy } = useClipboard();
+    const { t } = useTranslation();
 
     const copyEmailToClipboard = (evt: React.MouseEvent<HTMLButtonElement>) => {
         evt.stopPropagation();
         evt.preventDefault();
 
-        copy(constants.SUPPORT_EMAIL, 'Support email');
+        copy(constants.SUPPORT_EMAIL, t('MISC.SUPPORT_EMAIL'));
     };
 
     return (
-        <SubPageLayout title='About ARK Connect'>
+        <SubPageLayout title={t('PAGES.SETTINGS.ABOUT_ARK_CONNECT')}>
             <div className='mb-6 mt-2 flex flex-col items-center gap-4'>
                 <div className='logo flex flex-col items-center gap-4'>
                     <Icon
@@ -28,17 +30,17 @@ const AboutARK = () => {
                     />
                 </div>
                 <p className='typeset-body text-theme-secondary-500 dark:text-theme-secondary-300'>
-                    Version {runtime.getManifest().version}
+                    {t('MISC.VERSION')} {runtime.getManifest().version}
                 </p>
             </div>
 
             <div className='flex flex-col gap-2 text-light-black dark:text-white'>
                 <div className='relative flex items-center'>
                     <RowLayout
-                        title='Support Email'
+                        title={t('MISC.SUPPORT_EMAIL')}
                         iconTrailing='link-external'
                         tabIndex={-1}
-                        href={`mailto:${constants.SUPPORT_EMAIL}?subject=ARK%20Connect`}
+                        href={`mailto:${constants.SUPPORT_EMAIL}?subject=${encodeURIComponent(t('MISC.ARK_CONNECT'))}`}
                         className='flex w-full items-center justify-between rounded-2xl'
                         target='_blank'
                         rel='noopener noreferrer'
@@ -55,7 +57,7 @@ const AboutARK = () => {
 
                 <RowLayout
                     href={constants.ARK_CONNECT}
-                    title='Official Website'
+                    title={t('PAGES.SETTINGS.OFFICIAL_WEBSITE')}
                     iconTrailing='link-external'
                     tabIndex={-1}
                     className='flex w-full items-center justify-between rounded-2xl'
@@ -64,7 +66,7 @@ const AboutARK = () => {
                 />
 
                 <RowLayout
-                    title='Terms of Service'
+                    title={t('MISC.TERMS_OF_SERVICE')}
                     iconTrailing='link-external'
                     tabIndex={-1}
                     href={constants.TERMS_OF_SERVICE}
@@ -74,7 +76,7 @@ const AboutARK = () => {
                 />
 
                 <RowLayout
-                    title='Privacy Policy'
+                    title={t('MISC.PRIVACY_POLICY')}
                     iconTrailing='link-external'
                     tabIndex={-1}
                     className='flex w-full items-center justify-between rounded-2xl'

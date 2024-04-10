@@ -2,7 +2,8 @@ import { NavigateOptions, useLocation, useNavigate } from 'react-router-dom';
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { runtime } from 'webextension-polyfill';
 import { Contracts } from '@ardenthq/sdk-profiles';
-import { ToggleSwitch } from '@/shared/components';
+import { useTranslation } from 'react-i18next';
+import { HeadingDescription, ToggleSwitch } from '@/shared/components';
 import { SettingsOption } from '@/components/settings/SettingsOption';
 import { lockedChanged } from '@/lib/store/ui';
 import { selectWalletsIds } from '@/lib/store/wallet';
@@ -25,6 +26,7 @@ export const SettingsMenu = ({
     onClose: () => void;
     triggerRef: React.RefObject<HTMLElement | null>;
 }) => {
+    const { t } = useTranslation();
     const dispatch = useAppDispatch();
     const walletsIds = useAppSelector(selectWalletsIds);
     const { toggleThemeMode, isDark } = useThemeMode();
@@ -75,7 +77,7 @@ export const SettingsMenu = ({
             <SafeOutlineOverflowContainer className='ml-0 w-full px-0'>
                 <div className='flex w-full flex-col py-2'>
                     <SettingsOption
-                        title='Create & Import Address'
+                        title={t('PAGES.SETTINGS.MENU.CREATE_N_IMPORT_ADDRESS')}
                         iconLeading='plus-circle'
                         onClick={() => {
                             handleNavigation('/create-import-address');
@@ -88,7 +90,7 @@ export const SettingsMenu = ({
                         }
                     />
                     <SettingsOption
-                        title='Connected Apps'
+                        title={t('PAGES.SETTINGS.MENU.CONNECTED_APPS')}
                         iconLeading='app'
                         onClick={() => handleNavigation('/connections')}
                         iconTrailing='arrow-right'
@@ -97,13 +99,13 @@ export const SettingsMenu = ({
                         }
                     />
                     <SettingsOption
-                        title='Lock Extension'
+                        title={t('PAGES.SETTINGS.MENU.LOCK_EXTENSION')}
                         iconLeading='lock'
                         onClick={lockExtension}
                         onKeyDown={(e) => handleSubmitKeyAction(e, lockExtension)}
                     />
                     <SettingsOption
-                        title='Dark Mode'
+                        title={t('PAGES.SETTINGS.MENU.DARK_MODE')}
                         iconLeading='moon'
                         iconClassName='text-light-black'
                         onClick={(evt) => toggleThemeMode(evt)}
@@ -125,7 +127,7 @@ export const SettingsMenu = ({
                         }
                     />
                     <SettingsOption
-                        title='Change Password'
+                        title={t('PAGES.SETTINGS.MENU.CHANGE_PASSWORD')}
                         iconLeading='shield-border'
                         iconTrailing='arrow-right'
                         iconClassName='text-light-black'
@@ -135,14 +137,14 @@ export const SettingsMenu = ({
                         }
                     />
                     <SettingsOption
-                        title='Change Local Currency'
+                        title={t('PAGES.SETTINGS.MENU.CHANGE_LOCAL_CURRENCY')}
                         iconLeading='currency-dollar-circle'
                         rightContent={
-                            <p className='typeset-headline mr-2 text-base font-normal text-theme-secondary-500 dark:text-theme-secondary-300'>
+                            <HeadingDescription className='mr-2 text-base font-normal'>
                                 {`${profile
                                     .settings()
                                     .get(Contracts.ProfileSetting.ExchangeCurrency)}`}
-                            </p>
+                            </HeadingDescription>
                         }
                         iconTrailing='arrow-right'
                         onClick={() => handleNavigation('/local-currency')}
@@ -151,12 +153,12 @@ export const SettingsMenu = ({
                         }
                     />
                     <SettingsOption
-                        title='Auto Lock Timer'
+                        title={t('PAGES.SETTINGS.MENU.AUTO_LOCK_TIMER')}
                         iconLeading='clock'
                         rightContent={
-                            <p className='typeset-headline mr-2 text-base font-normal text-theme-secondary-500 dark:text-theme-secondary-300'>
+                            <HeadingDescription className='mr-2 text-base font-normal'>
                                 {autoLockTimer ? showAutoLockTimerValue(autoLockTimer) : ''}
-                            </p>
+                            </HeadingDescription>
                         }
                         iconTrailing='arrow-right'
                         onClick={() => {
@@ -173,7 +175,7 @@ export const SettingsMenu = ({
                         }
                     />
                     <SettingsOption
-                        title='About ARK Connect'
+                        title={t('PAGES.SETTINGS.MENU.ABOUT_ARK_CONNECT')}
                         iconLeading='support'
                         iconTrailing='arrow-right'
                         onClick={() => handleNavigation('/about')}
@@ -182,7 +184,7 @@ export const SettingsMenu = ({
                         }
                     />
                     <SettingsOption
-                        title='Remove Addresses'
+                        title={t('PAGES.SETTINGS.MENU.REMOVE_ADDRESSES')}
                         iconLeading='trash'
                         iconTrailing='arrow-right'
                         onClick={handleRemoveAddressClick}

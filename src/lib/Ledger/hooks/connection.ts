@@ -1,11 +1,13 @@
 import { Coins } from '@ardenthq/sdk';
 import { Contracts } from '@ardenthq/sdk-profiles';
 import { Options } from 'p-retry';
-import { useCallback, useMemo, useReducer, useRef } from 'react';
+import { useCallback, useEffect, useMemo, useReducer, useRef, useState } from 'react';
 
-import { persistLedgerConnection } from '../utils/connection';
+import { useTranslation } from 'react-i18next';
 import { connectionReducer, defaultConnectionState } from './connection.state';
 import { useLedgerImport } from './import';
+import { useLedgerContext } from '@/lib/Ledger/Ledger';
+import { persistLedgerConnection } from '@/lib/Ledger/utils/connection';
 import { closeDevices, isLedgerTransportSupported, openTransport } from '@/lib/Ledger/transport';
 import { useEnvironmentContext } from '@/lib/context/Environment';
 import useSentryException from '@/lib/hooks/useSentryException';
@@ -163,5 +165,85 @@ export const useLedgerConnection = () => {
         handleLedgerConnectionError,
         removeErrors,
         accessDenied,
+    };
+};
+
+export const useLedgerConnectionStatusMessage = (): string => {
+    const { t } = useTranslation();
+
+    const { hasDeviceAvailable, isConnected } = useLedgerContext();
+
+    if (!hasDeviceAvailable) {
+        return t('PAGES.IMPORT_WITH_LEDGER.STATUS.CLICK_CONNECT');
+    }
+
+    if (!isConnected) {
+        return t('PAGES.IMPORT_WITH_LEDGER.STATUS.OPEN_ARK_APP');
+    }
+
+    return t('PAGES.IMPORT_WITH_LEDGER.STATUS.WAITING_FOR_YOUR_SIGNATURE');
+};
+
+export const useWaitForAvailableDevice = (): {
+    waitUntilLedgerIsAvailable: () => Promise<void>;
+} => {
+    const { hasDeviceAvailable, listenDevice } = useLedgerContext();
+
+    const [ledgerIsAvailableResolver, setDeviceIsAvailableResolver] = useState<() => void>();
+
+    // Resolve the promise that waits for the device to be available once it is
+    useEffect(() => {
+        if (hasDeviceAvailable && ledgerIsAvailableResolver !== undefined) {
+            ledgerIsAvailableResolver();
+
+            setDeviceIsAvailableResolver(undefined);
+        }
+    }, [hasDeviceAvailable, ledgerIsAvailableResolver]);
+
+    const waitUntilLedgerIsAvailable = async () => {
+        return new Promise<void>((resolve) => {
+            if (!hasDeviceAvailable) {
+                listenDevice();
+
+                setDeviceIsAvailableResolver(() => resolve);
+            } else {
+                resolve();
+            }
+        });
+    };
+
+    return {
+        waitUntilLedgerIsAvailable,
+    };
+};
+
+export const useWaitForConnectedDevice = (): {
+    waitUntilLedgerIsConnected: () => Promise<void>;
+} => {
+    const { isConnected } = useLedgerContext();
+
+    const [ledgerIsAvailableResolver, setDeviceIsAvailableResolver] = useState<() => void>();
+
+    // Resolve the promise that waits for the device to be connected once it is
+    useEffect(() => {
+        if (isConnected && ledgerIsAvailableResolver !== undefined) {
+            ledgerIsAvailableResolver();
+
+            setDeviceIsAvailableResolver(undefined);
+        }
+    }, [isConnected, ledgerIsAvailableResolver]);
+
+    const waitUntilLedgerIsConnected = async () => {
+        return new Promise<void>((resolve) => {
+            if (!isConnected) {
+                setDeviceIsAvailableResolver(() => resolve);
+            } else {
+                resolve();
+            }
+        });
+    };
+
+    return {
+        waitUntilLedgerIsConnected,
     };
 };

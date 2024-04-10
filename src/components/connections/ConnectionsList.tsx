@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import cn from 'classnames';
-import { DisconnectSessionModal } from '../wallet/DisconnectSessionModal';
+import { useTranslation } from 'react-i18next';
 import ConnectionLogoImage from './ConnectionLogoImage';
+import { DisconnectSessionModal } from '@/components/wallet/DisconnectSessionModal';
 import { useAppSelector } from '@/lib/store';
 import * as SessionStore from '@/lib/store/session';
 import { Button, Icon, Tooltip } from '@/shared/components';
@@ -19,7 +20,7 @@ const ConnectionsList = () => {
     const { profile } = useProfileContext();
     const primaryWalletId = useAppSelector(selectPrimaryWalletId);
     const [sessionsToRemove, setSessionsToRemove] = useState<SessionStore.Session[]>([]);
-
+    const { t } = useTranslation();
     const getWalletName = (walletId: string) => {
         const wallet = profile.wallets().findById(walletId);
 
@@ -59,6 +60,8 @@ const ConnectionsList = () => {
                                     appLogo={session.logo}
                                     alt={session.domain}
                                     roundCorners
+                                    withBorder
+                                    className='h-10 w-10'
                                 />
                             </div>
 
@@ -79,7 +82,7 @@ const ConnectionsList = () => {
                                 </div>
 
                                 <span className='typeset-body mt-1 text-theme-secondary-500 dark:text-theme-secondary-300'>
-                                    Connected with{' '}
+                                    {t('PAGES.CONNECTIONS.CONNECTED_WITH')}{' '}
                                     <Tooltip
                                         content={profile
                                             .wallets()
@@ -94,7 +97,7 @@ const ConnectionsList = () => {
                                 </span>
                             </div>
 
-                            <Tooltip content='Disconnect' placement='left'>
+                            <Tooltip content={t('ACTION.DISCONNECT')} placement='left'>
                                 <button
                                     type='button'
                                     className={cn(
@@ -125,7 +128,7 @@ const ConnectionsList = () => {
                 }}
                 className='mt-4'
             >
-                Disconnect All
+                {t('ACTION.DISCONNECT_ALL')}
             </Button>
 
             <DisconnectSessionModal

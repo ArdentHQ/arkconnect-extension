@@ -2,15 +2,17 @@ import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { useLayoutEffect } from 'react';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/es/integration/react';
+import { I18nextProvider } from 'react-i18next';
 import { LedgerProvider } from './lib/Ledger';
 import NextPageMiddleware from './components/NextPageMiddleware';
 import { ErrorHandlerProvider, useErrorHandlerContext } from './lib/context/ErrorHandler';
 import { ProfileProvider } from './lib/context/Profile';
 import { EnvironmentProvider, useEnvironmentContext } from './lib/context/Environment';
 import LoadingModal from './shared/components/loader/LoadingModal';
-import ToastContainer from './components/toast/ToastContainer';
 import { initializeEnvironment } from './lib/utils/env';
 import { LoadingFullScreen } from './shared/components/handleStates/LoadingFullScreen';
+import { i18n as index18n } from './i18n';
+import ToastContainer from '@/components/toast/ToastContainer';
 import store, { persistor } from '@/lib/store';
 import routes from '@/routing';
 import { BackgroundEvents } from '@/lib/context/BackgroundEventHandler';
@@ -37,17 +39,23 @@ const AppWrapper = ({ children }: { children?: React.ReactNode }) => {
         <ProfileProvider>
             <NextPageMiddleware>
                 <LedgerProvider>
-                    <div
-                        id={!window.location.href.includes('ledger') ? 'scrollable-container' : ''}
-                        className='custom-scroll bg-subtle-white dark:bg-light-black'
-                    >
-                        <div className='relative min-h-full'>
-                            {children}
+                    <I18nextProvider i18n={index18n}>
+                        <div
+                            id={
+                                !window.location.href.includes('ledger')
+                                    ? 'scrollable-container'
+                                    : ''
+                            }
+                            className='custom-scroll bg-subtle-white dark:bg-light-black'
+                        >
+                            <div className='relative min-h-full'>
+                                {children}
 
-                            <ToastContainer />
-                            <LoadingModal />
+                                <ToastContainer />
+                                <LoadingModal />
+                            </div>
                         </div>
-                    </div>
+                    </I18nextProvider>
                 </LedgerProvider>
             </NextPageMiddleware>
         </ProfileProvider>

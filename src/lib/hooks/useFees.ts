@@ -12,7 +12,7 @@ export const useFees = () => {
     const { profile } = useProfileContext();
     const { env } = useEnvironmentContext();
 
-    const calculate = useCallback(
+    const calculateAvgFee = useCallback(
         async ({ coin, network, type }: CalculateProperties): Promise<number> => {
             await env.fees().sync(profile, coin, network);
             const transactionFees = env.fees().findByType(coin, network, type);
@@ -22,5 +22,15 @@ export const useFees = () => {
         [profile, env],
     );
 
-    return { calculate };
+    const calculateMaxFee = useCallback(
+        async ({ coin, network, type }: CalculateProperties): Promise<number> => {
+            await env.fees().sync(profile, coin, network);
+            const transactionFees = env.fees().findByType(coin, network, type);
+
+            return transactionFees.max.toHuman();
+        },
+        [profile, env],
+    );
+
+    return { calculateAvgFee, calculateMaxFee };
 };

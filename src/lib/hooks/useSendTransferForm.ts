@@ -3,19 +3,19 @@ import { Networks, Services } from '@ardenthq/sdk';
 import { Contracts } from '@ardenthq/sdk-profiles';
 import { useEffect, useState } from 'react';
 import { runtime } from 'webextension-polyfill';
-import { useEnvironmentContext } from '../context/Environment';
-import { precisionRound } from '../utils/precisionRound';
-import { assertWallet } from '../utils/assertions';
+import { useFees } from './useFees';
 import {
     buildTransferData,
     handleBroadcastError,
     withAbortPromise,
-} from '../utils/transactionHelpers';
-import { useAppSelector } from '../store';
-import { useProfileContext } from '../context/Profile';
-import { useErrorHandlerContext } from '../context/ErrorHandler';
-import { useLedgerContext } from '../Ledger';
-import { useFees } from './useFees';
+} from '@/lib/utils/transactionHelpers';
+import { useAppSelector } from '@/lib/store';
+import { useProfileContext } from '@/lib/context/Profile';
+import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
+import { useLedgerContext } from '@/lib/Ledger';
+import { assertWallet } from '@/lib/utils/assertions';
+import { precisionRound } from '@/lib/utils/precisionRound';
+import { useEnvironmentContext } from '@/lib/context/Environment';
 import * as SessionStore from '@/lib/store/session';
 import { ApproveActionType } from '@/pages/Approve';
 import { selectWallets } from '@/lib/store/wallet';
@@ -30,6 +30,7 @@ export interface RecipientItem {
 interface SendTransferForm {
     senderAddress: string;
     fee: number;
+    hasHigherCustomFee: number | null;
     remainingBalance: number;
     amount: number;
     isSendAllSelected: string;
@@ -50,6 +51,7 @@ type ApproveRequest = {
     session: SessionStore.Session;
     amount: number;
     receiverAddress: string;
+    customFee?: number;
 };
 
 const defaultState = {
@@ -58,6 +60,7 @@ const defaultState = {
         avg: 0,
     },
     fee: 0,
+    hasHigherCustomFee: null,
     remainingBalance: 0,
     amount: 0,
     isSendAllSelected: '',
@@ -91,7 +94,7 @@ export const useSendTransferForm = (
 ) => {
     const { profile } = useProfileContext();
     const { onError } = useErrorHandlerContext();
-    const { calculate } = useFees();
+    const { calculateAvgFee, calculateMaxFee } = useFees();
     const [formValues, setFormValues] = useState<SendTransferForm>(defaultState);
     const [formValuesLoaded, setFormValuesLoaded] = useState(false);
     const { persist } = useEnvironmentContext();
@@ -173,11 +176,19 @@ export const useSendTransferForm = (
 
                 const passphrase = walletData?.passphrase;
 
-                const fee = await calculate({
+                const averageFee = await calculateAvgFee({
                     coin: wallet.network().coin(),
                     network: wallet.network().id(),
                     type: ApproveActionType.TRANSACTION,
                 });
+
+                const maxFee = await calculateMaxFee({
+                    coin: wallet.network().coin(),
+                    network: wallet.network().id(),
+                    type: ApproveActionType.TRANSACTION,
+                });
+
+                const fee = request.customFee ?? averageFee;
 
                 setFormValues((prevFormValues) => ({
                     ...prevFormValues,
@@ -185,6 +196,8 @@ export const useSendTransferForm = (
                     remainingBalance: wallet.balance(),
                     network: wallet.network(),
                     fee,
+                    hasHigherCustomFee:
+                        request.customFee && request.customFee > maxFee ? maxFee : null,
                     mnemonic: passphrase?.join(' ') || '',
                     total: BigNumber.make(fee).plus(request.amount).toHuman(),
                     recipients: [
@@ -221,6 +234,7 @@ export const useSendTransferForm = (
             total: formValues.total,
             network: formValues.network,
             senderAddress: formValues.senderAddress,
+            hasHigherCustomFee: formValues.hasHigherCustomFee,
         },
         formValuesLoaded,
     };

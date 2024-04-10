@@ -1,9 +1,10 @@
 import { twMerge } from 'tailwind-merge';
 import cn from 'classnames';
+import Color from 'color-thief-react';
 import { Icon } from '@/shared/components';
-
 import { ThemeMode } from '@/lib/store/ui';
 import useThemeMode from '@/lib/hooks/useThemeMode';
+import { convertHexToRGBA } from '@/lib/utils/convertHexToRgba';
 
 interface Props extends React.HTMLProps<HTMLImageElement> {
     alt?: string;
@@ -23,18 +24,35 @@ const ConnectionLogoImage = ({
 }: Props) => {
     if (appLogo) {
         return (
-            <div
-                className={twMerge(
-                    cn('h-5 w-5 flex-shrink-0 overflow-hidden bg-white dark:bg-light-black', {
-                        'border-[10px] border-solid': withBorder,
-                        'border-white dark:border-light-black': withBorder,
-                        'rounded-full': roundCorners,
-                    }),
-                    className,
-                )}
-            >
-                <img className='h-full w-full  object-contain' src={appLogo} alt={alt || appName} />
-            </div>
+            <Color src={appLogo} crossOrigin='anonymous' format='hex'>
+                {({ loading, data, error }) => {
+                    const color = loading ? '' : convertHexToRGBA(data ?? '', '0.20');
+
+                    return (
+                        <div
+                            className={twMerge(
+                                cn(
+                                    'h-5 w-5 flex-shrink-0 overflow-hidden bg-white dark:bg-light-black',
+                                    {
+                                        'border-[10px] border-solid': withBorder,
+                                        'border-theme-secondary-50 dark:border-light-black':
+                                            withBorder && ((loading && !data) || error),
+                                        'rounded-full': roundCorners,
+                                    },
+                                ),
+                                className,
+                            )}
+                            style={{ borderColor: color }}
+                        >
+                            <img
+                                className='h-full w-full  object-contain'
+                                src={appLogo}
+                                alt={alt || appName}
+                            />
+                        </div>
+                    );
+                }}
+            </Color>
         );
     }
 

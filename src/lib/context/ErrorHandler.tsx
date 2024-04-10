@@ -1,7 +1,7 @@
 import { createContext, ReactNode, useContext, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import useOnError from '../hooks';
-import removeWindowInstance from '../utils/removeWindowInstance';
+import useOnError from '@/lib/hooks';
+import removeWindowInstance from '@/lib/utils/removeWindowInstance';
 import ErrorModal from '@/components/connect/ErrorModal';
 
 interface Context {

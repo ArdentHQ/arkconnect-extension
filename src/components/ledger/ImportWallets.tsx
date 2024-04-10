@@ -3,6 +3,7 @@ import { BIP44 } from '@ardenthq/sdk-cryptography';
 import { Contracts as ProfilesContracts } from '@ardenthq/sdk-profiles';
 import { FormikProps } from 'formik';
 import cn from 'classnames';
+import { useTranslation } from 'react-i18next';
 import { Button, Checkbox, Heading, Tooltip } from '@/shared/components';
 import trimAddress from '@/lib/utils/trimAddress';
 import { useLedgerContext, useLedgerScanner } from '@/lib/Ledger';
@@ -12,8 +13,9 @@ import { ImportWithLedger } from '@/pages/ImportWithLedger';
 import { HandleLoadingState } from '@/shared/components/handleStates/HandleLoadingState';
 import useOnError from '@/lib/hooks';
 import { getNetworkCurrency } from '@/lib/utils/getActiveCoin';
-import { AddressBalance } from '@/components/wallet/address/Address.blocks';
+import { AddressBalance, TestnetIcon } from '@/components/wallet/address/Address.blocks';
 import { handleSubmitKeyAction } from '@/lib/utils/handleKeyAction';
+import { WalletNetwork } from '@/lib/store/wallet';
 
 type Props = {
     goToNextStep: () => void;
@@ -27,6 +29,7 @@ const ImportWallets = ({ goToNextStep, formik }: Props) => {
     const { profile } = useProfileContext();
     const ledgerScanner = useLedgerScanner(network.coin(), network.id());
     const { isBusy, importLedgerWallets } = useLedgerContext();
+    const { t } = useTranslation();
 
     const {
         scan,
@@ -89,9 +92,9 @@ const ImportWallets = ({ goToNextStep, formik }: Props) => {
         let lengthDescriptor: string = '';
 
         if (selectedWallets.length === 1) {
-            lengthDescriptor = `${selectedWallets.length} Address`;
+            lengthDescriptor = `${selectedWallets.length} ${t('COMMON.ADDRESS')}`;
         } else if (selectedWallets.length > 1) {
-            lengthDescriptor = `${selectedWallets.length} Addresses`;
+            lengthDescriptor = `${selectedWallets.length} ${t('COMMON.ADDRESSES')}`;
         }
 
         return lengthDescriptor;
@@ -119,11 +122,14 @@ const ImportWallets = ({ goToNextStep, formik }: Props) => {
 
     return (
         <div>
-            <Heading level={3} className='mb-2 px-6'>
-                Select Addresses to Import
-            </Heading>
+            <div className='mb-2 flex flex-row items-center gap-2 pl-6'>
+                <Heading level={3}>
+                    {t('PAGES.IMPORT_WITH_LEDGER.SELECT_ADDRESSES_TO_IMPORT')}
+                </Heading>
+                {network.name() === WalletNetwork.DEVNET ? <TestnetIcon /> : null}
+            </div>
             <p className='typeset-body mb-6 px-6 text-theme-secondary-500 dark:text-theme-secondary-300'>
-                Multiple addresses can be imported too!
+                {t('PAGES.IMPORT_WITH_LEDGER.MULTIPLE_ADDRESSES_CAN_BE_IMPORTED')}
             </p>
             <div className='custom-scroll h-65 max-h-65 overflow-y-scroll border-b border-t border-solid border-b-theme-secondary-200 border-t-theme-secondary-200 dark:border-b-theme-secondary-700 dark:border-t-theme-secondary-700'>
                 <HandleLoadingState loading={showLoader}>
@@ -133,12 +139,14 @@ const ImportWallets = ({ goToNextStep, formik }: Props) => {
                         return (
                             <div
                                 className={cn(
-                                    'flex cursor-pointer justify-between transition-all duration-500 ease-in-out hover:bg-theme-secondary-50 dark:bg-theme-secondary-700',
+                                    'flex cursor-pointer justify-between transition-all duration-500 ease-in-out hover:bg-theme-secondary-50',
                                     {
-                                        'bg-theme-secondary-100 text-theme-secondary-500 dark:bg-transparent dark:text-theme-secondary-300':
+                                        'bg-theme-secondary-100 text-theme-secondary-500 dark:bg-light-black dark:text-theme-secondary-300':
                                             isImported,
                                         'text-light-black dark:text-white': !isImported,
-                                        'bg-theme-primary-50 dark:bg-theme-primary-950':
+                                        'dark:bg-subtle-black dark:hover:bg-theme-secondary-700':
+                                            !isImported && !isSelected(wallet.path),
+                                        'bg-theme-primary-50 hover:bg-theme-primary-50 dark:bg-theme-primary-650/15 dark:hover:bg-theme-primary-650/15':
                                             !isImported && isSelected(wallet.path),
                                     },
                                 )}
@@ -153,7 +161,7 @@ const ImportWallets = ({ goToNextStep, formik }: Props) => {
                             >
                                 <Tooltip
                                     disabled={!isImported}
-                                    content='Address already imported'
+                                    content={t('PAGES.IMPORT_WITH_LEDGER.ADDRESS_ALREADY_IMPORTED')}
                                     placement='bottom'
                                 >
                                     <div
@@ -202,7 +210,7 @@ const ImportWallets = ({ goToNextStep, formik }: Props) => {
                     disabled={!selectedWallets.length}
                     onClick={submitImportedWallets}
                 >
-                    Import {showImportedWalletsLength()}
+                    {t('ACTION.IMPORT')} {showImportedWalletsLength()}
                 </Button>
             </div>
         </div>

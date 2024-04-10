@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { revertAll } from '../ui';
+import { revertAll } from '@/lib/store/ui';
 import { RootState } from '@/lib/store';
 
 export enum WalletNetwork {

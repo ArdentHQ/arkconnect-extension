@@ -1,6 +1,6 @@
 import { tabs } from 'webextension-polyfill';
 import { Contracts } from '@ardenthq/sdk-profiles';
-import { ProfileData } from '../background/contracts';
+import { ProfileData } from '@/lib/background/contracts';
 
 export enum ExtensionSupportedEvents {
     AddressChanged = 'addressChanged',

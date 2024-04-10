@@ -1,8 +1,9 @@
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { runtime, tabs } from 'webextension-polyfill';
-import SubPageLayout from '../SubPageLayout';
+import { Trans, useTranslation } from 'react-i18next';
 import SelectNetworkTypeModal from './SelectNetworkTypeModal';
+import SubPageLayout from '@/components/settings/SubPageLayout';
 import { Icon, IconDefinition, RowLayout, Tooltip } from '@/shared/components';
 import { isFirefox } from '@/lib/utils/isFirefox';
 
@@ -14,6 +15,7 @@ type NetworkModalState = {
 
 const CreateOrImportAddress = () => {
     const navigate = useNavigate();
+    const { t } = useTranslation();
 
     useEffect(() => {
         // Clear any old data
@@ -72,11 +74,11 @@ const CreateOrImportAddress = () => {
     };
 
     return (
-        <SubPageLayout title='Create & Import Address'>
+        <SubPageLayout title={t('PAGES.SETTINGS.CREATE_N_IMPORT_ADDRESS')}>
             <div>
                 <RowLayout
-                    title='Create New Address'
-                    helperText='By creating a new passphrase'
+                    title={t('PAGES.SETTINGS.CREATE_NEW_ADDRESS')}
+                    helperText={t('PAGES.SETTINGS.BY_CREATING_A_NEW_PASSPHRASE')}
                     iconLeading={<LeadingIcon icon='plus-circle' />}
                     iconTrailing='arrow-right'
                     onClick={handleCreateNewAddress}
@@ -84,8 +86,8 @@ const CreateOrImportAddress = () => {
                 />
 
                 <RowLayout
-                    title='Import an Address'
-                    helperText='By using existing passphrase'
+                    title={t('PAGES.SETTINGS.IMPORT_AN_ADDRESS')}
+                    helperText={t('PAGES.SETTINGS.BY_USING_EXISTING_PASSPHRASE')}
                     iconLeading={<LeadingIcon icon='download' />}
                     iconTrailing='arrow-right'
                     onClick={handleImportAddress}
@@ -96,15 +98,17 @@ const CreateOrImportAddress = () => {
                     disabled={!isFirefox}
                     content={
                         <p>
-                            ARK Connect requires the use of a chromium <br /> based browser when
-                            using a Ledger.
+                            <Trans
+                                i18nKey='PAGES.SETTINGS.ARK_CONNECT_REQUIRES_TO_USE_CHROMIUM'
+                                components={{ strong: <strong /> }}
+                            />
                         </p>
                     }
                     placement='bottom'
                 >
                     <RowLayout
-                        title='Connect a Ledger'
-                        helperText='Import addresses using a Ledger'
+                        title={t('PAGES.SETTINGS.CONNECT_A_LEDGER')}
+                        helperText={t('PAGES.SETTINGS.IMPORT_ADDRESSES_USING_LEDGER')}
                         iconLeading={<LeadingIcon icon='usb-flash-drive' />}
                         iconTrailing='arrow-right'
                         onClick={handleConnectLedger}

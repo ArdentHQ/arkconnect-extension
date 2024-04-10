@@ -1,4 +1,4 @@
-import cn from 'classnames';
+import { twMerge } from 'tailwind-merge';
 import RequestedBy from './RequestedBy';
 import { Heading, Icon, IconDefinition } from '@/shared/components';
 
@@ -19,7 +19,7 @@ const ActionHeader = ({ appDomain, appLogo, icon, actionLabel, iconClassNames }:
                 <div className='flex h-14 w-14 items-center justify-center rounded-2xl border border-solid border-theme-primary-300 bg-theme-primary-100 dark:border-theme-primary-800 dark:bg-theme-primary-650/15'>
                     <Icon
                         icon={icon}
-                        className={cn(
+                        className={twMerge(
                             'h-8 w-8 text-theme-primary-700 dark:text-theme-primary-600',
                             iconClassNames,
                         )}

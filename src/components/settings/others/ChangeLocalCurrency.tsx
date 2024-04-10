@@ -1,7 +1,8 @@
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import { Contracts } from '@ardenthq/sdk-profiles';
-import SubPageLayout, { SettingsRowItem } from '../SubPageLayout';
+import { useTranslation } from 'react-i18next';
+import SubPageLayout, { SettingsRowItem } from '@/components/settings/SubPageLayout';
 import { Icon } from '@/shared/components';
 import { Currency, general } from '@/lib/data/general';
 import useToast from '@/lib/hooks/useToast';
@@ -10,6 +11,7 @@ import { useEnvironmentContext } from '@/lib/context/Environment';
 import { ToastPosition } from '@/components/toast/ToastContainer';
 
 const ChangeLocalCurrency = () => {
+    const { t } = useTranslation();
     const toast = useToast();
     const navigate = useNavigate();
     const { profile } = useProfileContext();
@@ -20,7 +22,11 @@ const ChangeLocalCurrency = () => {
         profile.settings().set(Contracts.ProfileSetting.ExchangeCurrency, currency.value);
         await persist();
 
-        toast('success', 'Currency changed successfully', ToastPosition.HIGH);
+        toast(
+            'success',
+            t('PAGES.SETTINGS.FEEDBACK.CURRENCY_CHANGED_SUCCESSFULLY'),
+            ToastPosition.HIGH,
+        );
 
         navigate('/');
     };
@@ -38,7 +44,7 @@ const ChangeLocalCurrency = () => {
     }, [currency]);
 
     return (
-        <SubPageLayout title='Change Local Currency' withStickyHeader>
+        <SubPageLayout title={t('PAGES.SETTINGS.CHANGE_LOCAL_CURRENCY')} withStickyHeader>
             <div className='rounded-2xl bg-white py-2 dark:bg-subtle-black'>
                 {general.currencies.map((currencyItem) => (
                     <SettingsRowItem

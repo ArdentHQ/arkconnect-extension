@@ -1,11 +1,12 @@
 import { Contracts } from '@ardenthq/sdk-profiles';
 import { useLocation } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Layout } from '@/shared/components';
 import ApproveTransaction from '@/components/approve/ApproveTransaction';
 import ApproveMessage from '@/components/approve/ApproveMessage';
 import ApproveVote from '@/components/approve/ApproveVote';
-import { useLedgerContext } from '@/lib/Ledger';
+import { useLedgerContext, useWaitForAvailableDevice } from '@/lib/Ledger';
 import Modal from '@/shared/components/modal/Modal';
 import ApproveWithLedger from '@/components/ledger/ApproveWithLedger';
 import { isLedgerTransportSupported } from '@/lib/Ledger/transport';
@@ -33,11 +34,14 @@ const Approve = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const { env } = useEnvironmentContext();
     const wallets = useAppSelector(WalletStore.selectWallets);
+    const { waitUntilLedgerIsAvailable } = useWaitForAvailableDevice();
     const { syncAll } = useWalletSync({ env, profile });
+
     const walletData = wallets.find(
         (wallet) => wallet.walletId === location.state.session.walletId,
     )!;
     const wallet = profile.wallets().findById(walletData?.walletId);
+    const { t } = useTranslation();
 
     useEffect(() => {
         (async () => {
@@ -53,9 +57,13 @@ const Approve = () => {
         wallet: Contracts.IReadWriteWallet,
     ) => {
         if (!isLedgerTransportSupported()) {
-            throw new Error('Ledger Transport is not supported!');
+            throw new Error(t('ERROR.LEDGER_TRANSPORT_NOT_SUPPORTED'));
         }
+
         setIsModalOpen(true);
+
+        await waitUntilLedgerIsAvailable();
+
         await connect(profile, wallet.coinId(), wallet.networkId(), undefined);
     };
 
@@ -104,7 +112,7 @@ const Approve = () => {
                 <Modal
                     onClose={() => {}}
                     containerClassName='p-0'
-                    className='m-0 min-h-screen bg-theme-warning-600 dark:bg-theme-warning-400'
+                    className='m-0 max-h-screen min-h-screen overflow-auto bg-theme-warning-600 dark:bg-theme-warning-400'
                     activateFocusTrap={false}
                     hideCloseButton
                 >

@@ -1,5 +1,5 @@
 import cn from 'classnames';
-import { Loader } from '../loader/Loader';
+import { Loader } from '@/shared/components/loader/Loader';
 import useThemeMode from '@/lib/hooks/useThemeMode';
 
 export const LoadingFullScreen = () => {
