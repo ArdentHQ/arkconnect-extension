@@ -94,7 +94,7 @@ export const useSendTransferForm = (
 ) => {
     const { profile } = useProfileContext();
     const { onError } = useErrorHandlerContext();
-    const { calculate } = useFees();
+    const { calculateAvgFee, calculateMaxFee } = useFees();
     const [formValues, setFormValues] = useState<SendTransferForm>(defaultState);
     const [formValuesLoaded, setFormValuesLoaded] = useState(false);
     const { persist } = useEnvironmentContext();
@@ -176,7 +176,13 @@ export const useSendTransferForm = (
 
                 const passphrase = walletData?.passphrase;
 
-                const averageFee = await calculate({
+                const averageFee = await calculateAvgFee({
+                    coin: wallet.network().coin(),
+                    network: wallet.network().id(),
+                    type: ApproveActionType.TRANSACTION,
+                });
+
+                const maxFee = await calculateMaxFee({
                     coin: wallet.network().coin(),
                     network: wallet.network().id(),
                     type: ApproveActionType.TRANSACTION,
@@ -191,7 +197,7 @@ export const useSendTransferForm = (
                     network: wallet.network(),
                     fee,
                     hasHigherCustomFee:
-                        request.customFee && request.customFee > averageFee ? averageFee : null,
+                        request.customFee && request.customFee > maxFee ? maxFee : null,
                     mnemonic: passphrase?.join(' ') || '',
                     total: BigNumber.make(fee).plus(request.amount).toHuman(),
                     recipients: [
