@@ -18,11 +18,13 @@ const cropToMaxDigits = ({
     ticker = '',
     maxDigits = constants.MAX_CURRENCY_DIGITS_ALLOWED,
     withTicker = true,
+    maxDecimals,
 }: {
     value: number;
     ticker?: string;
     maxDigits?: number;
     withTicker?: boolean;
+    maxDecimals?: number;
 }) => {
     // If no ticker is provided "default" withTicker to false
     const addTicker = withTicker && !!ticker;
@@ -71,7 +73,8 @@ const cropToMaxDigits = ({
         decimalsPart = '';
     } else if (decimalsPart) {
         const totalSpotsForDecimals = maxDigits - integersPart.length;
-        decimalsPart = decimalsPart.slice(0, totalSpotsForDecimals).trim();
+        const maxDecimalsToDisplay = maxDecimals !== undefined ? Math.min(maxDecimals, totalSpotsForDecimals) : totalSpotsForDecimals;
+        decimalsPart = decimalsPart.slice(0, maxDecimalsToDisplay).trim();
     }
 
     parts.push(integersPart);

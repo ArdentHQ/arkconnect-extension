@@ -14,6 +14,7 @@ interface AmountProperties {
     maxDigits?: number;
     tooltipPlacement?: TippyProps['placement'];
     underlineOnHover?: boolean;
+    maxDecimals?: number;
 }
 
 const Amount = ({
@@ -25,6 +26,7 @@ const Amount = ({
     maxDigits = constants.MAX_CURRENCY_DIGITS_ALLOWED,
     tooltipPlacement = 'top',
     underlineOnHover = false,
+    maxDecimals
 }: AmountProperties) => {
     const actualFormattedAmount = Helpers.Currency.format(value, ticker, { withTicker });
 
@@ -33,13 +35,16 @@ const Amount = ({
         ticker,
         maxDigits,
         withTicker,
+        maxDecimals,
     });
 
     if (value === 0 && !['ARK', 'DARK'].includes(formattedAmount.split(' ')[1])) {
         const currencySymbol = formattedAmount.match(/[^\d.,]+/);
         formattedAmount = `${currencySymbol}0.00`;
     } else if (showSign) {
-        formattedAmount = `${isNegative ? '-' : '+'} ${formattedAmount}`;
+        if (value !== 0) {
+            formattedAmount = `${isNegative ? '-' : '+'}${formattedAmount}`;
+        }
     }
 
     const tooltipDisabled = formattedAmount === actualFormattedAmount;
