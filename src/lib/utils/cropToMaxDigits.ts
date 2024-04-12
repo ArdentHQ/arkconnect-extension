@@ -73,7 +73,10 @@ const cropToMaxDigits = ({
         decimalsPart = '';
     } else if (decimalsPart) {
         const totalSpotsForDecimals = maxDigits - integersPart.length;
-        const maxDecimalsToDisplay = maxDecimals !== undefined ? Math.min(maxDecimals, totalSpotsForDecimals) : totalSpotsForDecimals;
+        const maxDecimalsToDisplay =
+            maxDecimals !== undefined
+                ? Math.min(maxDecimals, totalSpotsForDecimals)
+                : totalSpotsForDecimals;
         decimalsPart = decimalsPart.slice(0, maxDecimalsToDisplay).trim();
     }
 
