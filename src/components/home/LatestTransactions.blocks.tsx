@@ -149,7 +149,7 @@ const TransactionListItem = ({ transaction }: { transaction: ConfirmedTransactio
         TransactionType.RESIGNATION,
         TransactionType.OTHER,
         TransactionType.SECOND_SIGNATURE,
-        TransactionType.MULTISIGNATURE
+        TransactionType.MULTISIGNATURE,
     ].includes(type as TransactionType);
 
     return (
@@ -159,7 +159,8 @@ const TransactionListItem = ({ transaction }: { transaction: ConfirmedTransactio
                     className={cn({
                         'h-5 w-5': isSpecialTransaction,
                         'h-8 w-8': !isSpecialTransaction && type !== TransactionType.RETURN,
-                        'h-[22px] w-[22px]': !isSpecialTransaction && type === TransactionType.RETURN,
+                        'h-[22px] w-[22px]':
+                            !isSpecialTransaction && type === TransactionType.RETURN,
                     })}
                     icon={type as IconDefinition}
                 />
