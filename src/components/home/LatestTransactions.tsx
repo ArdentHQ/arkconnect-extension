@@ -11,16 +11,21 @@ type TransactionResponse = {
     hasMorePages: boolean;
 };
 
-const fetchTransactions = async (primaryWallet?: IReadWriteWallet): Promise<TransactionResponse>  => {
+const fetchTransactions = async (
+    primaryWallet?: IReadWriteWallet,
+): Promise<TransactionResponse> => {
     try {
         const response = await primaryWallet?.client().transactions({
             limit: 10,
             identifiers: [{ type: 'address', value: primaryWallet?.address() }],
         });
 
-        return {transactions: response?.items() || [], hasMorePages: response?.hasMorePages() || false};
+        return {
+            transactions: response?.items() || [],
+            hasMorePages: response?.hasMorePages() || false,
+        };
     } catch (error) {
-        return {transactions: [], hasMorePages: false};
+        return { transactions: [], hasMorePages: false };
     }
 };
 
@@ -28,16 +33,17 @@ export const LatestTransactions = () => {
     const { t } = useTranslation();
     const primaryWallet = usePrimaryWallet();
 
-    const { data = {transactions: [], hasMorePages: false}, refetch } = useQuery<TransactionResponse>(
-        ['transactions', primaryWallet?.address()],
-        () => fetchTransactions(primaryWallet),
-        { 
-          enabled: !!primaryWallet, 
-          staleTime: 0,
-          initialData: {transactions: [], hasMorePages: false},
-          refetchInterval: 3000 
-        }
-    );
+    const { data = { transactions: [], hasMorePages: false }, refetch } =
+        useQuery<TransactionResponse>(
+            ['transactions', primaryWallet?.address()],
+            () => fetchTransactions(primaryWallet),
+            {
+                enabled: !!primaryWallet,
+                staleTime: 0,
+                initialData: { transactions: [], hasMorePages: false },
+                refetchInterval: 3000,
+            },
+        );
 
     useEffect(() => {
         if (primaryWallet) {
@@ -53,7 +59,10 @@ export const LatestTransactions = () => {
 
             <div className='h-auto w-full'>
                 {data.transactions.length > 0 ? (
-                    <TransactionsList transactions={data.transactions} displayButton={data.hasMorePages} />
+                    <TransactionsList
+                        transactions={data.transactions}
+                        displayButton={data.hasMorePages}
+                    />
                 ) : (
                     <NoTransactions />
                 )}

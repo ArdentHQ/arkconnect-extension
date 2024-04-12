@@ -152,7 +152,7 @@ export const TransactionsList = ({
     displayButton,
 }: {
     transactions: ConfirmedTransactionData[];
-    displayButton: boolean
+    displayButton: boolean;
 }) => {
     const { t } = useTranslation();
 
@@ -162,15 +162,11 @@ export const TransactionsList = ({
                 <TransactionListItem key={index} transaction={transaction} />
             ))}
 
-            {
-                displayButton && (
-                    <div className='p-4'>
-                        <Button variant='secondary'>
-                            {t('COMMON.VIEW_MORE_ON_ARKSCAN')}
-                        </Button>
-                    </div>
-                )
-            }
+            {displayButton && (
+                <div className='p-4'>
+                    <Button variant='secondary'>{t('COMMON.VIEW_MORE_ON_ARKSCAN')}</Button>
+                </div>
+            )}
         </div>
     );
 };
