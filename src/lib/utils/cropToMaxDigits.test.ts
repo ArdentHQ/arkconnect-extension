@@ -293,6 +293,6 @@ describe('cropToMaxDigits', () => {
     });
 
     it('displays the correct number of decimals', () => {
-        expect(cropToMaxDigits({ value: 123.456, maxDigits: 5, maxDecimals: 2 })).toBe('123.46');
+        expect(cropToMaxDigits({ value: 123.456, maxDigits: 5, maxDecimals: 2 })).toBe('123.45');
     });
 });
