@@ -4,7 +4,7 @@ import cn from 'classnames';
 import { ReactNode } from 'react';
 import dayjs from 'dayjs';
 import { getTimeAgo } from '../../lib/utils/getTimeAgo';
-import { EmptyConnectionsIcon, Icon, IconDefinition, Tooltip } from '@/shared/components';
+import { Button, EmptyConnectionsIcon, Icon, IconDefinition, Tooltip } from '@/shared/components';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 import Amount from '@/components/wallet/Amount';
 import trimAddress from '@/lib/utils/trimAddress';
@@ -149,14 +149,28 @@ const TransactionListItem = ({ transaction }: { transaction: ConfirmedTransactio
 
 export const TransactionsList = ({
     transactions,
+    displayButton,
 }: {
     transactions: ConfirmedTransactionData[];
+    displayButton: boolean
 }) => {
+    const { t } = useTranslation();
+
     return (
-        <div className='custom-scroll max-h-65 overflow-auto'>
+        <div className='custom-scroll max-h-[270px] overflow-auto'>
             {transactions.map((transaction, index) => (
                 <TransactionListItem key={index} transaction={transaction} />
             ))}
+
+            {
+                displayButton && (
+                    <div className='p-4'>
+                        <Button variant='secondary'>
+                            {t('COMMON.VIEW_MORE_ON_ARKSCAN')}
+                        </Button>
+                    </div>
+                )
+            }
         </div>
     );
 };
