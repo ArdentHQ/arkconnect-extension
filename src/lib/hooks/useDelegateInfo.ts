@@ -5,7 +5,7 @@ import { useEnvironmentContext } from '@/lib/context/Environment';
 import { useProfileContext } from '@/lib/context/Profile';
 
 
-export const useVoteInfo = (transaction: ConfirmedTransactionData, primaryWallet?: IReadWriteWallet) => {
+export const useDelegateInfo = (transaction: ConfirmedTransactionData, primaryWallet?: IReadWriteWallet) => {
     const { env } = useEnvironmentContext();
     const { profile } = useProfileContext();
     const [delegateName, setDelegateName] = useState<string>('');
