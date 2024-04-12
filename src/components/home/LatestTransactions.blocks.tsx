@@ -64,6 +64,19 @@ const TransactionListItem = ({ transaction }: { transaction: ConfirmedTransactio
         if (transaction.isUnvote()) {
             return TransactionType.UNVOTE;
         }
+        if(transaction.isSecondSignature()) {
+            return TransactionType.SECOND_SIGNATURE;
+        }
+        if(transaction.isMultiSignatureRegistration()) {
+            return TransactionType.MULTISIGNATURE;
+        }
+        if(transaction.isDelegateRegistration()) {
+            return TransactionType.REGISTRATION;
+        }
+        if(transaction.isDelegateResignation()) {
+            return TransactionType.RESIGNATION;
+        }
+        console.log(transaction);
         return TransactionType.OTHER;
     };
 
@@ -83,6 +96,14 @@ const TransactionListItem = ({ transaction }: { transaction: ConfirmedTransactio
                 return t('COMMON.VOTE');
             case TransactionType.UNVOTE:
                 return t('COMMON.UNVOTE');
+            case TransactionType.SECOND_SIGNATURE:
+                return t('COMMON.SECOND_SIGNATURE');
+            case TransactionType.REGISTRATION:
+                return t('COMMON.REGISTRATION');
+            case TransactionType.RESIGNATION:
+                return t('COMMON.RESIGNATION');
+            case TransactionType.MULTISIGNATURE:
+                return t('COMMON.MULTISIGNATURE');
             default:
                 return t('COMMON.OTHER');
         }
@@ -124,13 +145,15 @@ const TransactionListItem = ({ transaction }: { transaction: ConfirmedTransactio
     const timestamp = transaction.timestamp()?.toString() ?? '';
     const formattedTimestamp = dayjs(timestamp).format('DD MMM YYYY HH:mm:ss');
 
+    const isSpecialTransaction = [TransactionType.RETURN, TransactionType.REGISTRATION, TransactionType.RESIGNATION, TransactionType.OTHER, TransactionType.SECOND_SIGNATURE].includes(type as TransactionType);
+
     return (
         <div className='transition-smoothEase flex h-[76px] w-full flex-row items-center justify-center gap-3 p-4 hover:bg-theme-secondary-50 dark:hover:bg-theme-secondary-700'>
             <div className='flex h-11 min-w-11 items-center justify-center rounded-xl border border-theme-secondary-200 bg-white text-theme-secondary-500 dark:border-theme-secondary-600 dark:bg-subtle-black dark:text-theme-secondary-300'>
                 <Icon
                     className={cn({
-                        'h-[22px] w-[22px]': type === TransactionType.RETURN,
-                        'h-8 w-8': type !== TransactionType.RETURN,
+                        'h-[22px] w-[22px]': isSpecialTransaction,
+                        'h-8 w-8': !isSpecialTransaction,
                     })}
                     icon={type as IconDefinition}
                 />
