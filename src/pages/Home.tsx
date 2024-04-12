@@ -7,6 +7,7 @@ import constants from '@/constants';
 import { useProfileContext } from '@/lib/context/Profile';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 import { TransactionButtons } from '@/components/home/TransactionButtons';
+import { LatestTransactions } from '@/components/home/LatestTransactions';
 const Home = () => {
     const { convertedBalance } = useProfileContext();
 
@@ -19,7 +20,7 @@ const Home = () => {
     const { t } = useTranslation();
 
     return (
-        <Layout data-testid='Home'>
+        <Layout data-testid='Home' withPadding={false}>
             <div className='m-4 rounded-b-2xl rounded-t-2.5xl bg-white shadow-light dark:bg-subtle-black'>
                 <div className=' rounded-2.5xl bg-theme-primary-700 text-white dark:bg-theme-primary-650'>
                     <div className='p-4'>
@@ -72,6 +73,7 @@ const Home = () => {
             </div>
 
             <TransactionButtons />
+            <LatestTransactions />
         </Layout>
     );
 };
