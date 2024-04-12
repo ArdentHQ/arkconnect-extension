@@ -121,7 +121,7 @@ const TransactionListItem = ({ transaction }: { transaction: ConfirmedTransactio
                     </p>
                     <span className='text-sm font-normal leading-tight text-theme-secondary-500 dark:text-theme-secondary-300'>
                         {getSecondaryText(transaction, type)}{' '}
-                    </p>
+                    </span>
                 </div>
 
                 <div className='flex flex-col items-end gap-1'>
