@@ -4,33 +4,32 @@ import { useEffect, useState } from 'react';
 import { NoTransactions, TransactionsList } from './LatestTransactions.blocks';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 
-
 export const LatestTransactions = () => {
-  const { t } = useTranslation();
-  const primaryWallet = usePrimaryWallet();
+    const { t } = useTranslation();
+    const primaryWallet = usePrimaryWallet();
 
-  const [transactions, setTransactions] = useState<ConfirmedTransactionData[]>([]);
+    const [transactions, setTransactions] = useState<ConfirmedTransactionData[]>([]);
 
-  const fetchTransactions = async () => {
-      try {
-          const response = await primaryWallet?.client().transactions({ 
-              limit: 10, 
-              identifiers: [{ type: 'address', value: primaryWallet?.address() }] 
-          });
-          return response?.items() || [];
-      } catch (error) {
-          return [];
-      }
-  };
+    const fetchTransactions = async () => {
+        try {
+            const response = await primaryWallet?.client().transactions({
+                limit: 10,
+                identifiers: [{ type: 'address', value: primaryWallet?.address() }],
+            });
+            return response?.items() || [];
+        } catch (error) {
+            return [];
+        }
+    };
 
-  useEffect(() => {
-      const fetchAndSetData = async () => {
-          const transactions = await fetchTransactions();
-          setTransactions(transactions);
-      };
+    useEffect(() => {
+        const fetchAndSetData = async () => {
+            const transactions = await fetchTransactions();
+            setTransactions(transactions);
+        };
 
-      fetchAndSetData();
-  }, []);
+        fetchAndSetData();
+    }, []);
 
     return (
         <div className='mt-4 h-full w-full rounded-t-2xl bg-white dark:bg-subtle-black'>
@@ -38,13 +37,13 @@ export const LatestTransactions = () => {
                 {t('PAGES.HOME.LATEST_TRANSACTIONS')}
             </div>
 
-      <div className="w-full h-auto">
-        {
-          transactions.length > 0 ? <TransactionsList transactions={transactions} />:
-          <NoTransactions />
-        }
-        
-      </div>
-    </div>
-  );
+            <div className='h-auto w-full'>
+                {transactions.length > 0 ? (
+                    <TransactionsList transactions={transactions} />
+                ) : (
+                    <NoTransactions />
+                )}
+            </div>
+        </div>
+    );
 };

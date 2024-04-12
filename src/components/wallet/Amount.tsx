@@ -26,7 +26,7 @@ const Amount = ({
     maxDigits = constants.MAX_CURRENCY_DIGITS_ALLOWED,
     tooltipPlacement = 'top',
     underlineOnHover = false,
-    maxDecimals
+    maxDecimals,
 }: AmountProperties) => {
     const actualFormattedAmount = Helpers.Currency.format(value, ticker, { withTicker });
 
