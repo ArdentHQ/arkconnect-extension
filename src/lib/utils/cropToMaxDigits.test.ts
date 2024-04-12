@@ -291,4 +291,8 @@ describe('cropToMaxDigits', () => {
     ])('respects maxDigits parameter with %d and rounds down', (value, expected) => {
         expect(cropToMaxDigits({ value, maxDigits: 5 })).toBe(expected);
     });
+
+    it('displays the correct number of decimals', () => {
+        expect(cropToMaxDigits({ value: 123.456, maxDigits: 5, maxDecimals: 2 })).toBe('123.46');
+    });
 });
