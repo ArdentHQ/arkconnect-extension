@@ -13,9 +13,9 @@ type TransactionResponse = {
 
 const fetchTransactions = async (primaryWallet?: IReadWriteWallet): Promise<TransactionResponse>  => {
     try {
-        const response = await primaryWallet?.client().transactions({ 
-            limit: 10, 
-            identifiers: [{ type: 'address', value: primaryWallet?.address() }] 
+        const response = await primaryWallet?.client().transactions({
+            limit: 10,
+            identifiers: [{ type: 'address', value: primaryWallet?.address() }],
         });
 
         return {transactions: response?.items() || [], hasMorePages: response?.hasMorePages() || false};
@@ -38,12 +38,12 @@ export const LatestTransactions = () => {
           refetchInterval: 3000 
         }
     );
-    
-      useEffect(() => {
+
+    useEffect(() => {
         if (primaryWallet) {
-          refetch();
+            refetch();
         }
-      }, [primaryWallet, refetch]);
+    }, [primaryWallet, refetch]);
 
     return (
         <div className='mt-4 h-full w-full rounded-t-2xl bg-white dark:bg-subtle-black'>
