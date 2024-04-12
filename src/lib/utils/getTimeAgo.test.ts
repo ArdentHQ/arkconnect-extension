@@ -10,7 +10,7 @@ describe('getTimeAgo', () => {
         expect(getTimeAgo(Date.now() - 60 * 1000)).toBe('a minute ago');
     });
 
-    it('returns a week ago for 1 week ago', () => {
-        expect(getTimeAgo(Date.now() - 7 * 24 * 60 * 60 * 1000)).toBe('a week ago');
+    it('returns "7 days ago" for 1 week', () => {
+        expect(getTimeAgo(Date.now() - 7 * 24 * 60 * 60 * 1000)).toBe('7 days ago');
     });
 });
