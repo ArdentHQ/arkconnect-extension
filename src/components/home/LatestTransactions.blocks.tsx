@@ -119,7 +119,7 @@ const TransactionListItem = ({ transaction }: { transaction: ConfirmedTransactio
                     <p className='text-base font-medium leading-tight text-light-black dark:text-white'>
                         {getTitle(type)}
                     </p>
-                    <p className='text-sm font-normal leading-tight text-theme-secondary-500 dark:text-theme-secondary-300'>
+                    <span className='text-sm font-normal leading-tight text-theme-secondary-500 dark:text-theme-secondary-300'>
                         {getSecondaryText(transaction, type)}{' '}
                     </p>
                 </div>
