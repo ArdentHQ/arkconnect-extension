@@ -8,9 +8,9 @@ import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 
 const fetchTransactions = async (primaryWallet?: IReadWriteWallet) => {
     try {
-        const response = await primaryWallet?.client().transactions({ 
-            limit: 10, 
-            identifiers: [{ type: 'address', value: primaryWallet?.address() }] 
+        const response = await primaryWallet?.client().transactions({
+            limit: 10,
+            identifiers: [{ type: 'address', value: primaryWallet?.address() }],
         });
         return response?.items() || [];
     } catch (error) {
@@ -25,19 +25,19 @@ export const LatestTransactions = () => {
     const { data: transactions = [], refetch } = useQuery<ConfirmedTransactionData[]>(
         ['transactions', primaryWallet?.address()],
         () => fetchTransactions(primaryWallet),
-        { 
-          enabled: !!primaryWallet, 
-          staleTime: 0,
-          initialData: [],
-          refetchInterval: 3000 
-        }
+        {
+            enabled: !!primaryWallet,
+            staleTime: 0,
+            initialData: [],
+            refetchInterval: 3000,
+        },
     );
-    
-      useEffect(() => {
+
+    useEffect(() => {
         if (primaryWallet) {
-          refetch();
+            refetch();
         }
-      }, [primaryWallet, refetch]);
+    }, [primaryWallet, refetch]);
 
     return (
         <div className='mt-4 h-full w-full rounded-t-2xl bg-white dark:bg-subtle-black'>
