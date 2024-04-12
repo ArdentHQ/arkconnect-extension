@@ -26,6 +26,7 @@ export default {
     SENDER: 'Sender',
     SENT: 'Sent',
     SIGNATURE: 'Signature',
+    SWAP_VOTE: 'Swap Vote',
     SWITCH_VOTE: 'Switch Vote',
     TESTNET: 'Testnet',
     TO: 'To',
