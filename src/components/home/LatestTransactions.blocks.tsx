@@ -4,10 +4,11 @@ import cn from 'classnames';
 import { ReactNode } from 'react';
 import dayjs from 'dayjs';
 import { getTimeAgo } from '../../lib/utils/getTimeAgo';
-import { Button, EmptyConnectionsIcon, Icon, IconDefinition, Tooltip } from '@/shared/components';
+import { Button, EmptyConnectionsIcon, ExternalLink, Icon, IconDefinition, Tooltip } from '@/shared/components';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 import Amount from '@/components/wallet/Amount';
 import trimAddress from '@/lib/utils/trimAddress';
+import constants from '@/constants';
 
 export const NoTransactions = () => {
     const { t } = useTranslation();
@@ -154,6 +155,7 @@ export const TransactionsList = ({
     transactions: ConfirmedTransactionData[];
     displayButton: boolean;
 }) => {
+    const primaryWallet = usePrimaryWallet();
     const { t } = useTranslation();
 
     return (
@@ -164,7 +166,18 @@ export const TransactionsList = ({
 
             {displayButton && (
                 <div className='p-4'>
-                    <Button variant='secondary'>{t('COMMON.VIEW_MORE_ON_ARKSCAN')}</Button>
+                    <ExternalLink 
+                        href={
+                            primaryWallet?.network().isLive()
+                                ? `${constants.ARKSCAN_ADDRESSES}/${primaryWallet?.address()}`
+                                : `${
+                                        constants.ARKSCAN_TEST_ADDRESSES
+                                    }/${primaryWallet?.address()}`
+                        }
+                        className='hover:no-underline'
+                    >
+                        <Button variant='secondary'>{t('COMMON.VIEW_MORE_ON_ARKSCAN')}</Button>
+                    </ExternalLink>
                 </div>
             )}
         </div>
