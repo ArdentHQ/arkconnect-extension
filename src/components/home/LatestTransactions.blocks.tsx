@@ -76,7 +76,6 @@ const TransactionListItem = ({ transaction }: { transaction: ConfirmedTransactio
         if(transaction.isDelegateResignation()) {
             return TransactionType.RESIGNATION;
         }
-        console.log(transaction);
         return TransactionType.OTHER;
     };
 
