@@ -4,12 +4,13 @@ import { useEffect, useState } from 'react';
 import { useEnvironmentContext } from '@/lib/context/Environment';
 import { useProfileContext } from '@/lib/context/Profile';
 
-
-export const useDelegateInfo = (transaction: ConfirmedTransactionData, primaryWallet?: IReadWriteWallet) => {
+export const useDelegateInfo = (
+    transaction: ConfirmedTransactionData,
+    primaryWallet?: IReadWriteWallet,
+) => {
     const { env } = useEnvironmentContext();
     const { profile } = useProfileContext();
     const [delegateName, setDelegateName] = useState<string>('');
-
 
     const getDelegateName = async (address: string) => {
         const coin = primaryWallet?.network().coin() ?? 'ARK';
@@ -20,15 +21,11 @@ export const useDelegateInfo = (transaction: ConfirmedTransactionData, primaryWa
             await env.delegates().sync(profile, coin, network);
         }
 
-        const delegateName = env.delegates().findByPublicKey(
-            coin,
-            network,
-            address,
-        )?.username() ?? '';
+        const delegateName =
+            env.delegates().findByPublicKey(coin, network, address)?.username() ?? '';
 
         return delegateName;
     };
-
 
     useEffect(() => {
         (async () => {
@@ -40,5 +37,5 @@ export const useDelegateInfo = (transaction: ConfirmedTransactionData, primaryWa
         })();
     }, [transaction, primaryWallet]);
 
-    return {delegateName};
+    return { delegateName };
 };
