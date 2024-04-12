@@ -55,13 +55,13 @@ const TransactionListItem = ({ transaction }: { transaction: ConfirmedTransactio
                 return TransactionType.RECEIVE;
             }
         }
-        if(transaction.isVoteCombination()) {
+        if (transaction.isVoteCombination()) {
             return TransactionType.SWAP;
         }
-        if(transaction.isVote()) {
+        if (transaction.isVote()) {
             return TransactionType.VOTE;
         }
-        if(transaction.isUnvote()) {
+        if (transaction.isUnvote()) {
             return TransactionType.UNVOTE;
         }
         return TransactionType.OTHER;
