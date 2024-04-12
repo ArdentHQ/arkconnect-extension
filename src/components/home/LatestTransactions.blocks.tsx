@@ -4,7 +4,14 @@ import cn from 'classnames';
 import { ReactNode } from 'react';
 import dayjs from 'dayjs';
 import { getTimeAgo } from '../../lib/utils/getTimeAgo';
-import { Button, EmptyConnectionsIcon, ExternalLink, Icon, IconDefinition, Tooltip } from '@/shared/components';
+import {
+    Button,
+    EmptyConnectionsIcon,
+    ExternalLink,
+    Icon,
+    IconDefinition,
+    Tooltip,
+} from '@/shared/components';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 import Amount from '@/components/wallet/Amount';
 import trimAddress from '@/lib/utils/trimAddress';
@@ -166,13 +173,11 @@ export const TransactionsList = ({
 
             {displayButton && (
                 <div className='p-4'>
-                    <ExternalLink 
+                    <ExternalLink
                         href={
                             primaryWallet?.network().isLive()
                                 ? `${constants.ARKSCAN_ADDRESSES}/${primaryWallet?.address()}`
-                                : `${
-                                        constants.ARKSCAN_TEST_ADDRESSES
-                                    }/${primaryWallet?.address()}`
+                                : `${constants.ARKSCAN_TEST_ADDRESSES}/${primaryWallet?.address()}`
                         }
                         className='hover:no-underline'
                     >
