@@ -8,6 +8,7 @@ import { EmptyConnectionsIcon, Icon, IconDefinition, Tooltip } from '@/shared/co
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 import Amount from '@/components/wallet/Amount';
 import trimAddress from '@/lib/utils/trimAddress';
+import { useDelegateInfo } from '@/lib/hooks/useDelegateInfo';
 
 export const NoTransactions = () => {
   const { t } = useTranslation();
@@ -39,6 +40,7 @@ enum TransactionType {
 const TransactionListItem = ({ transaction }: { transaction: ConfirmedTransactionData }) => {
     const primaryWallet = usePrimaryWallet();
     const { t } = useTranslation();
+    const { delegateName } = useDelegateInfo(transaction, primaryWallet);
 
     const getType = (transaction: ConfirmedTransactionData): string => {
         if (transaction.isTransfer()) {
@@ -53,6 +55,15 @@ const TransactionListItem = ({ transaction }: { transaction: ConfirmedTransactio
                 return TransactionType.RECEIVE;
             }
         }
+        if(transaction.isVoteCombination()) {
+            return TransactionType.SWAP;
+        }
+        if(transaction.isVote()) {
+            return TransactionType.VOTE;
+        }
+        if(transaction.isUnvote()) {
+            return TransactionType.UNVOTE;
+        }
         return TransactionType.OTHER;
     };
 
@@ -66,12 +77,18 @@ const TransactionListItem = ({ transaction }: { transaction: ConfirmedTransactio
                 return t('COMMON.RECEIVED');
             case TransactionType.RETURN:
                 return t('COMMON.RETURN');
+            case TransactionType.SWAP:
+                return t('COMMON.SWAP_VOTE');
+            case TransactionType.VOTE:
+                return t('COMMON.VOTE');
+            case TransactionType.UNVOTE:
+                return t('COMMON.UNVOTE');
             default:
                 return t('COMMON.OTHER');
         }
     };
 
-    const getSecondaryText = (transaction: ConfirmedTransactionData, type: string): string | ReactNode => {
+    const getSecondaryText =  (transaction: ConfirmedTransactionData, type: string): string | ReactNode => {
         switch (type) {
             case TransactionType.SEND:
                 return (
@@ -95,6 +112,11 @@ const TransactionListItem = ({ transaction }: { transaction: ConfirmedTransactio
                 );
             case TransactionType.RETURN:
                 return t('COMMON.TO_SELF');
+            case TransactionType.SWAP:
+                return `${t('COMMON.TO')} ${delegateName}`;
+            case TransactionType.VOTE:
+            case TransactionType.UNVOTE:
+                return delegateName;
             default:
                 return t('COMMON.CONTRACT');
         }
@@ -117,7 +139,7 @@ const TransactionListItem = ({ transaction }: { transaction: ConfirmedTransactio
             <div className='flex flex-row justify-between items-center w-full'>
                 <div className='flex flex-col gap-1'>
                     <p className='text-base font-medium leading-tight text-light-black dark:text-white'>{getTitle(type)}</p>
-                    <p className='text-theme-secondary-500 text-sm font-normal leading-tight dark:text-theme-secondary-300'>{getSecondaryText(transaction, type)} </p>
+                    <span className='text-theme-secondary-500 text-sm font-normal leading-tight dark:text-theme-secondary-300'>{getSecondaryText(transaction, type)} </span>
                 </div>
 
                 <div className='flex flex-col gap-1 items-end'>
