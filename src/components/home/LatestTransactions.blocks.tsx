@@ -64,16 +64,16 @@ const TransactionListItem = ({ transaction }: { transaction: ConfirmedTransactio
         if (transaction.isUnvote()) {
             return TransactionType.UNVOTE;
         }
-        if(transaction.isSecondSignature()) {
+        if (transaction.isSecondSignature()) {
             return TransactionType.SECOND_SIGNATURE;
         }
-        if(transaction.isMultiSignatureRegistration()) {
+        if (transaction.isMultiSignatureRegistration()) {
             return TransactionType.MULTISIGNATURE;
         }
-        if(transaction.isDelegateRegistration()) {
+        if (transaction.isDelegateRegistration()) {
             return TransactionType.REGISTRATION;
         }
-        if(transaction.isDelegateResignation()) {
+        if (transaction.isDelegateResignation()) {
             return TransactionType.RESIGNATION;
         }
         return TransactionType.OTHER;
@@ -144,7 +144,13 @@ const TransactionListItem = ({ transaction }: { transaction: ConfirmedTransactio
     const timestamp = transaction.timestamp()?.toString() ?? '';
     const formattedTimestamp = dayjs(timestamp).format('DD MMM YYYY HH:mm:ss');
 
-    const isSpecialTransaction = [TransactionType.RETURN, TransactionType.REGISTRATION, TransactionType.RESIGNATION, TransactionType.OTHER, TransactionType.SECOND_SIGNATURE].includes(type as TransactionType);
+    const isSpecialTransaction = [
+        TransactionType.RETURN,
+        TransactionType.REGISTRATION,
+        TransactionType.RESIGNATION,
+        TransactionType.OTHER,
+        TransactionType.SECOND_SIGNATURE,
+    ].includes(type as TransactionType);
 
     return (
         <div className='transition-smoothEase flex h-[76px] w-full flex-row items-center justify-center gap-3 p-4 hover:bg-theme-secondary-50 dark:hover:bg-theme-secondary-700'>
