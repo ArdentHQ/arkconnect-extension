@@ -1,5 +1,8 @@
 import { IReadWriteWallet } from '@ardenthq/sdk-profiles/distribution/esm/wallet.contract';
-import { ConfirmedTransactionData, MultiPaymentRecipient } from '@ardenthq/sdk/distribution/esm/confirmed-transaction.dto.contract';
+import {
+    ConfirmedTransactionData,
+    MultiPaymentRecipient,
+} from '@ardenthq/sdk/distribution/esm/confirmed-transaction.dto.contract';
 import { useTranslation } from 'react-i18next';
 import { useDelegateInfo } from '@/lib/hooks/useDelegateInfo';
 import { Tooltip } from '@/shared/components';
@@ -17,10 +20,13 @@ export enum TransactionType {
     REGISTRATION = 'registration',
     RESIGNATION = 'resignation',
     OTHER = 'other',
-    MULTIPAYMENT = 'multipayment'
+    MULTIPAYMENT = 'multipayment',
 }
 
-export const getType = (transaction: ConfirmedTransactionData, primaryWallet?: IReadWriteWallet): string => {
+export const getType = (
+    transaction: ConfirmedTransactionData,
+    primaryWallet?: IReadWriteWallet,
+): string => {
     if (transaction.isTransfer()) {
         const isSender = transaction.sender() === primaryWallet?.address();
         const isRecipient = transaction.recipient() === primaryWallet?.address();
@@ -54,7 +60,7 @@ export const getType = (transaction: ConfirmedTransactionData, primaryWallet?: I
     if (transaction.isDelegateResignation()) {
         return TransactionType.RESIGNATION;
     }
-    if(transaction.isMultiPayment()) {
+    if (transaction.isMultiPayment()) {
         return TransactionType.MULTIPAYMENT;
     }
     return TransactionType.OTHER;
@@ -91,13 +97,19 @@ export const getTitle = (type: string, isSender: boolean = false): string => {
     }
 };
 
-export const getUniqueRecipients = (transaction: ConfirmedTransactionData): MultiPaymentRecipient[] => {
+export const getUniqueRecipients = (
+    transaction: ConfirmedTransactionData,
+): MultiPaymentRecipient[] => {
     const uniqueRecipients: MultiPaymentRecipient[] = [];
 
-    transaction.recipients().forEach(recipient => {
-        const existingRecipientIndex = uniqueRecipients.findIndex(r => r.address === recipient.address);
+    transaction.recipients().forEach((recipient) => {
+        const existingRecipientIndex = uniqueRecipients.findIndex(
+            (r) => r.address === recipient.address,
+        );
         if (existingRecipientIndex !== -1) {
-            uniqueRecipients[existingRecipientIndex].amount = uniqueRecipients[existingRecipientIndex].amount.plus(recipient.amount);
+            uniqueRecipients[existingRecipientIndex].amount = uniqueRecipients[
+                existingRecipientIndex
+            ].amount.plus(recipient.amount);
         } else {
             uniqueRecipients.push({ address: recipient.address, amount: recipient.amount });
         }
@@ -106,7 +118,7 @@ export const getUniqueRecipients = (transaction: ConfirmedTransactionData): Mult
     return uniqueRecipients;
 };
 
-const PaymentInfo = ({ address, isSender } : { address: string, isSender: boolean }) => {
+const PaymentInfo = ({ address, isSender }: { address: string; isSender: boolean }) => {
     const { t } = useTranslation();
 
     return (
@@ -118,22 +130,34 @@ const PaymentInfo = ({ address, isSender } : { address: string, isSender: boolea
     );
 };
 
-export const countUniqueRecipients = (transaction: ConfirmedTransactionData): string | JSX.Element => {
+export const countUniqueRecipients = (
+    transaction: ConfirmedTransactionData,
+): string | JSX.Element => {
     const { t } = useTranslation();
     const uniqueRecipients = getUniqueRecipients(transaction);
     const count = uniqueRecipients.length;
 
-    return count > 1 ? `${uniqueRecipients.length} ${t('COMMON.RECIPIENTS')}` : <PaymentInfo address={uniqueRecipients[0].address} isSender={true} />;
+    return count > 1 ? (
+        `${uniqueRecipients.length} ${t('COMMON.RECIPIENTS')}`
+    ) : (
+        <PaymentInfo address={uniqueRecipients[0].address} isSender={true} />
+    );
 };
 
-export const getAmountByAddress = (recipients: MultiPaymentRecipient[], address?: string): number => {
-    return recipients.find(recipient => recipient.address === address)?.amount.toHuman() ?? 0;
+export const getAmountByAddress = (
+    recipients: MultiPaymentRecipient[],
+    address?: string,
+): number => {
+    return recipients.find((recipient) => recipient.address === address)?.amount.toHuman() ?? 0;
 };
 
-export const getMultipaymentAmounts = (recipients: MultiPaymentRecipient[], address: string = ''): {selfAmount: number, sentAmount: number} => {
+export const getMultipaymentAmounts = (
+    recipients: MultiPaymentRecipient[],
+    address: string = '',
+): { selfAmount: number; sentAmount: number } => {
     const selfAmount = getAmountByAddress(recipients, address);
     let sentAmount = 0;
-    recipients.forEach(recipient => {
+    recipients.forEach((recipient) => {
         sentAmount = sentAmount + recipient.amount.toHuman();
     });
 
@@ -162,7 +186,9 @@ export const getSecondaryText = (
         case TransactionType.UNVOTE:
             return delegateName;
         case TransactionType.MULTIPAYMENT:
-            return transaction.sender() === address ? countUniqueRecipients(transaction) : (
+            return transaction.sender() === address ? (
+                countUniqueRecipients(transaction)
+            ) : (
                 <PaymentInfo address={transaction.sender()} isSender={false} />
             );
         default:
