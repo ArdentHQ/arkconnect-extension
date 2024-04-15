@@ -1,14 +1,12 @@
 import { useTranslation } from 'react-i18next';
 import { ConfirmedTransactionData } from '@ardenthq/sdk/distribution/esm/confirmed-transaction.dto.contract';
 import cn from 'classnames';
-import { ReactNode } from 'react';
 import dayjs from 'dayjs';
-import { getTimeAgo } from '../../lib/utils/getTimeAgo';
+import { getAmountByAddress, getMultipaymentAmounts, getSecondaryText, getTitle, getType, getUniqueRecipients, TransactionType } from './LatestTransactions.utils';
+import { getTimeAgo } from '@/lib/utils/getTimeAgo';
 import { EmptyConnectionsIcon, Icon, IconDefinition, Tooltip } from '@/shared/components';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 import Amount from '@/components/wallet/Amount';
-import trimAddress from '@/lib/utils/trimAddress';
-import { useDelegateInfo } from '@/lib/hooks/useDelegateInfo';
 
 export const NoTransactions = () => {
     const { t } = useTranslation();
@@ -23,123 +21,23 @@ export const NoTransactions = () => {
     );
 };
 
-enum TransactionType {
-    SEND = 'send',
-    RECEIVE = 'receive',
-    RETURN = 'return',
-    SWAP = 'swap',
-    VOTE = 'vote',
-    UNVOTE = 'unvote',
-    SECOND_SIGNATURE = 'second-signature',
-    MULTISIGNATURE = 'multisignature',
-    REGISTRATION = 'registration',
-    RESIGNATION = 'resignation',
-    OTHER = 'other',
-}
+const MultipaymentBadge = () => {
+    const { t } = useTranslation();
+
+    return (
+        <span className='text-xs font-medium leading-[15px] text-theme-secondary-600 px-1.5 py-0.5 rounded bg-theme-secondary-200 dark:bg-theme-secondary-600 dark:text-theme-secondary-200'>
+            {t('COMMON.MULTI')}
+        </span>
+    );
+};
+
 
 const TransactionListItem = ({ transaction }: { transaction: ConfirmedTransactionData }) => {
     const primaryWallet = usePrimaryWallet();
-    const { t } = useTranslation();
-    const { delegateName } = useDelegateInfo(transaction, primaryWallet);
+    
 
-    const getType = (transaction: ConfirmedTransactionData): string => {
-        if (transaction.isTransfer()) {
-            const isSender = transaction.sender() === primaryWallet?.address();
-            const isRecipient = transaction.recipient() === primaryWallet?.address();
+    const type = getType(transaction, primaryWallet);
 
-            if (isSender && isRecipient) {
-                return TransactionType.RETURN;
-            } else if (isSender) {
-                return TransactionType.SEND;
-            } else {
-                return TransactionType.RECEIVE;
-            }
-        }
-        if (transaction.isVoteCombination()) {
-            return TransactionType.SWAP;
-        }
-        if (transaction.isVote()) {
-            return TransactionType.VOTE;
-        }
-        if (transaction.isUnvote()) {
-            return TransactionType.UNVOTE;
-        }
-        if (transaction.isSecondSignature()) {
-            return TransactionType.SECOND_SIGNATURE;
-        }
-        if (transaction.isMultiSignatureRegistration()) {
-            return TransactionType.MULTISIGNATURE;
-        }
-        if (transaction.isDelegateRegistration()) {
-            return TransactionType.REGISTRATION;
-        }
-        if (transaction.isDelegateResignation()) {
-            return TransactionType.RESIGNATION;
-        }
-        return TransactionType.OTHER;
-    };
-
-    const type = getType(transaction);
-
-    const getTitle = (type: string): string => {
-        switch (type) {
-            case TransactionType.SEND:
-                return t('COMMON.SENT');
-            case TransactionType.RECEIVE:
-                return t('COMMON.RECEIVED');
-            case TransactionType.RETURN:
-                return t('COMMON.RETURN');
-            case TransactionType.SWAP:
-                return t('COMMON.SWAP_VOTE');
-            case TransactionType.VOTE:
-                return t('COMMON.VOTE');
-            case TransactionType.UNVOTE:
-                return t('COMMON.UNVOTE');
-            case TransactionType.SECOND_SIGNATURE:
-                return t('COMMON.SECOND_SIGNATURE');
-            case TransactionType.REGISTRATION:
-                return t('COMMON.REGISTRATION');
-            case TransactionType.RESIGNATION:
-                return t('COMMON.RESIGNATION');
-            case TransactionType.MULTISIGNATURE:
-                return t('COMMON.MULTISIGNATURE');
-            default:
-                return t('COMMON.OTHER');
-        }
-    };
-
-    const getSecondaryText = (
-        transaction: ConfirmedTransactionData,
-        type: string,
-    ): string | ReactNode => {
-        switch (type) {
-            case TransactionType.SEND:
-                return (
-                    <Tooltip content={transaction.recipient()}>
-                        <span>
-                            {t('COMMON.TO')} {trimAddress(transaction.recipient(), 'short')}
-                        </span>
-                    </Tooltip>
-                );
-            case TransactionType.RECEIVE:
-                return (
-                    <Tooltip content={transaction.sender()}>
-                        <span>
-                            {t('COMMON.FROM')} {trimAddress(transaction.sender(), 'short')}
-                        </span>
-                    </Tooltip>
-                );
-            case TransactionType.RETURN:
-                return t('COMMON.TO_SELF');
-            case TransactionType.SWAP:
-                return `${t('COMMON.TO')} ${delegateName}`;
-            case TransactionType.VOTE:
-            case TransactionType.UNVOTE:
-                return delegateName;
-            default:
-                return t('COMMON.CONTRACT');
-        }
-    };
 
     const timestamp = transaction.timestamp()?.toString() ?? '';
     const formattedTimestamp = dayjs(timestamp).format('DD MMM YYYY HH:mm:ss');
@@ -152,6 +50,66 @@ const TransactionListItem = ({ transaction }: { transaction: ConfirmedTransactio
         TransactionType.MULTISIGNATURE,
     ].includes(type as TransactionType);
 
+    const getTransactionIcon = (transaction: ConfirmedTransactionData, address?: string): IconDefinition => {
+        const type = getType(transaction);
+
+        if(type === TransactionType.MULTIPAYMENT) {
+            return transaction.sender() === address ? 'send' : 'receive';
+        }
+
+        return type as IconDefinition;
+    };
+
+    const getTransactionAmount = (transaction: ConfirmedTransactionData, address?: string): string | JSX.Element => {
+        const type = getType(transaction);
+        const isMultipayment = type === TransactionType.MULTIPAYMENT;
+        const isSender = transaction.sender() === address;
+        const primaryCurrency = primaryWallet?.currency() ?? 'ARK';
+        const amount = transaction.amount().toHuman();
+
+        const renderAmount = (value: number, isNegative: boolean, showSign: boolean) => (
+            <Amount
+                value={value}
+                ticker={primaryCurrency}
+                tooltipPlacement='bottom-end'
+                withTicker
+                showSign={showSign}
+                isNegative={isNegative}
+                maxDecimals={2}
+            />
+        );
+
+        if (isMultipayment) {
+            const uniqueRecipients = getUniqueRecipients(transaction);
+            
+            if (isSender) {
+                const { selfAmount, sentAmount } = getMultipaymentAmounts(uniqueRecipients, address);
+                const isSenderAndRecipient = uniqueRecipients.some(recipient => recipient.address === address);
+
+                return (
+                    <span className='flex flex-row gap-0.5'>
+                        {renderAmount(sentAmount, true, sentAmount !== 0)}
+
+                        {isSenderAndRecipient && (
+                            <Tooltip
+                                content={`Excluding ${selfAmount} ${primaryCurrency} sent to self`}
+                            >
+                                <div className='rounded-full p-0.5 bg-transparent text-subtle-white hover:bg-theme-secondary-50 dark:text-white dark:hover:bg-theme-secondary-700 w-5 h-5'>
+                                    <Icon icon='information-circle' />
+                                </div>
+                            </Tooltip>
+                        )}
+                    </span>
+                );
+
+            } else {
+                return renderAmount(getAmountByAddress(uniqueRecipients, address), false, true);
+            }
+        }
+
+        return renderAmount(amount, type === TransactionType.SEND, type !== TransactionType.RETURN);
+    };
+
     return (
         <div className='transition-smoothEase flex h-[76px] w-full flex-row items-center justify-center gap-3 p-4 hover:bg-theme-secondary-50 dark:hover:bg-theme-secondary-700'>
             <div className='flex h-11 min-w-11 items-center justify-center rounded-xl border border-theme-secondary-200 bg-white text-theme-secondary-500 dark:border-theme-secondary-600 dark:bg-subtle-black dark:text-theme-secondary-300'>
@@ -162,31 +120,23 @@ const TransactionListItem = ({ transaction }: { transaction: ConfirmedTransactio
                         'h-[22px] w-[22px]':
                             !isSpecialTransaction && type === TransactionType.RETURN,
                     })}
-                    icon={type as IconDefinition}
+                    icon={getTransactionIcon(transaction, primaryWallet?.address())}
                 />
             </div>
 
             <div className='flex w-full flex-row items-center justify-between'>
                 <div className='flex flex-col gap-1'>
-                    <p className='text-base font-medium leading-tight text-light-black dark:text-white'>
-                        {getTitle(type)}
-                    </p>
+                    <span className='text-base font-medium leading-tight text-light-black dark:text-white'>
+                        {getTitle(type, transaction.sender() === primaryWallet?.address())} {type === TransactionType.MULTIPAYMENT && <MultipaymentBadge />}
+                    </span>
                     <span className='text-sm font-normal leading-tight text-theme-secondary-500 dark:text-theme-secondary-300'>
-                        {getSecondaryText(transaction, type)}{' '}
+                        {getSecondaryText(transaction, type, primaryWallet?.address(), primaryWallet)}{' '}
                     </span>
                 </div>
 
                 <div className='flex flex-col items-end gap-1'>
                     <span className='text-base font-medium leading-tight text-light-black dark:text-white'>
-                        <Amount
-                            value={transaction.amount().toHuman()}
-                            ticker={primaryWallet?.currency() ?? 'ARK'}
-                            tooltipPlacement='bottom-end'
-                            withTicker
-                            showSign={type !== TransactionType.RETURN}
-                            isNegative={type === TransactionType.SEND}
-                            maxDecimals={2}
-                        />
+                        {getTransactionAmount(transaction, primaryWallet?.address())}
                     </span>
                     <span className='text-sm font-normal leading-tight text-theme-secondary-500 dark:text-theme-secondary-300'>
                         <Tooltip content={formattedTimestamp}>
