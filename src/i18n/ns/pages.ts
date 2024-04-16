@@ -229,6 +229,6 @@ export default {
         },
     },
     TRANSACTION_DETAILS: {
-        PAGE_TITLE: 'Transaction Details'
+        PAGE_TITLE: 'Transaction Details',
     },
 };
