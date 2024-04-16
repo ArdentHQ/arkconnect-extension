@@ -8,6 +8,7 @@ import { EmptyConnectionsIcon, Icon, IconDefinition, Tooltip } from '@/shared/co
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 import Amount from '@/components/wallet/Amount';
 import trimAddress from '@/lib/utils/trimAddress';
+import { useDelegateInfo } from '@/lib/hooks/useDelegateInfo';
 
 export const NoTransactions = () => {
     const { t } = useTranslation();
@@ -43,6 +44,7 @@ const TransactionListItem = ({
 }) => {
     const primaryWallet = usePrimaryWallet();
     const { t } = useTranslation();
+    const { delegateName } = useDelegateInfo(transaction, primaryWallet);
 
     const getType = (transaction: ExtendedConfirmedTransactionData): string => {
         if (transaction.isTransfer()) {
@@ -53,6 +55,27 @@ const TransactionListItem = ({
             } else if (transaction.isReceived()) {
                 return TransactionType.RECEIVE;
             }
+        }
+        if (transaction.isVoteCombination()) {
+            return TransactionType.SWAP;
+        }
+        if (transaction.isVote()) {
+            return TransactionType.VOTE;
+        }
+        if (transaction.isUnvote()) {
+            return TransactionType.UNVOTE;
+        }
+        if (transaction.isSecondSignature()) {
+            return TransactionType.SECOND_SIGNATURE;
+        }
+        if (transaction.isMultiSignatureRegistration()) {
+            return TransactionType.MULTISIGNATURE;
+        }
+        if (transaction.isDelegateRegistration()) {
+            return TransactionType.REGISTRATION;
+        }
+        if (transaction.isDelegateResignation()) {
+            return TransactionType.RESIGNATION;
         }
         return TransactionType.OTHER;
     };
@@ -67,6 +90,20 @@ const TransactionListItem = ({
                 return t('COMMON.RECEIVED');
             case TransactionType.RETURN:
                 return t('COMMON.RETURN');
+            case TransactionType.SWAP:
+                return t('COMMON.SWAP_VOTE');
+            case TransactionType.VOTE:
+                return t('COMMON.VOTE');
+            case TransactionType.UNVOTE:
+                return t('COMMON.UNVOTE');
+            case TransactionType.SECOND_SIGNATURE:
+                return t('COMMON.SECOND_SIGNATURE');
+            case TransactionType.REGISTRATION:
+                return t('COMMON.REGISTRATION');
+            case TransactionType.RESIGNATION:
+                return t('COMMON.RESIGNATION');
+            case TransactionType.MULTISIGNATURE:
+                return t('COMMON.MULTISIGNATURE');
             default:
                 return t('COMMON.OTHER');
         }
@@ -95,6 +132,11 @@ const TransactionListItem = ({
                 );
             case TransactionType.RETURN:
                 return t('COMMON.TO_SELF');
+            case TransactionType.SWAP:
+                return `${t('COMMON.TO')} ${delegateName}`;
+            case TransactionType.VOTE:
+            case TransactionType.UNVOTE:
+                return delegateName;
             default:
                 return t('COMMON.CONTRACT');
         }
@@ -103,13 +145,23 @@ const TransactionListItem = ({
     const timestamp = transaction.timestamp()?.toString() ?? '';
     const formattedTimestamp = dayjs(timestamp).format('DD MMM YYYY HH:mm:ss');
 
+    const isSpecialTransaction = [
+        TransactionType.REGISTRATION,
+        TransactionType.RESIGNATION,
+        TransactionType.OTHER,
+        TransactionType.SECOND_SIGNATURE,
+        TransactionType.MULTISIGNATURE,
+    ].includes(type as TransactionType);
+
     return (
         <div className='transition-smoothEase flex h-[76px] w-full flex-row items-center justify-center gap-3 p-4 hover:bg-theme-secondary-50 dark:hover:bg-theme-secondary-700'>
             <div className='flex h-11 min-w-11 items-center justify-center rounded-xl border border-theme-secondary-200 bg-white text-theme-secondary-500 dark:border-theme-secondary-600 dark:bg-subtle-black dark:text-theme-secondary-300'>
                 <Icon
                     className={cn({
-                        'h-[22px] w-[22px]': type === TransactionType.RETURN,
-                        'h-8 w-8': type !== TransactionType.RETURN,
+                        'h-5 w-5': isSpecialTransaction,
+                        'h-8 w-8': !isSpecialTransaction && type !== TransactionType.RETURN,
+                        'h-[22px] w-[22px]':
+                            !isSpecialTransaction && type === TransactionType.RETURN,
                     })}
                     icon={type as IconDefinition}
                 />
