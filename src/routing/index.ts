@@ -23,8 +23,8 @@ import TransactionApproved from '@/pages/TransactionApproved';
 import VoteApproved from '@/pages/VoteApproved';
 import WalletNotFound from '@/pages/WalletNotFound';
 import ImportWithLedger from '@/pages/ImportWithLedger';
+import TransactionDetails from '@/pages/TransactionDetails';
 import { AddressSettings } from '@/components/wallet/AddressSettings';
-import { TransactionDetails } from '@/components/transaction/TransactionDetails';
 
 type RouteData = {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
