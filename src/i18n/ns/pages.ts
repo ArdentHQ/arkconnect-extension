@@ -228,4 +228,7 @@ export default {
             CREATE_N_IMPORT_ADDRESS: 'Create & Import Address',
         },
     },
+    TRANSACTION_DETAILS: {
+        PAGE_TITLE: 'Transaction Details'
+    },
 };
