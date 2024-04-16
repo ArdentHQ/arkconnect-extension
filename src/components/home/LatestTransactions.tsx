@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
-import { ConfirmedTransactionData } from '@ardenthq/sdk/distribution/esm/confirmed-transaction.dto.contract';
 import { useEffect, useState } from 'react';
+import { ExtendedConfirmedTransactionData } from '@ardenthq/sdk-profiles/distribution/esm/transaction.dto';
 import { NoTransactions, TransactionsList } from './LatestTransactions.blocks';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 
@@ -8,14 +8,11 @@ export const LatestTransactions = () => {
     const { t } = useTranslation();
     const primaryWallet = usePrimaryWallet();
 
-    const [transactions, setTransactions] = useState<ConfirmedTransactionData[]>([]);
+    const [transactions, setTransactions] = useState<ExtendedConfirmedTransactionData[]>([]);
 
     const fetchTransactions = async () => {
         try {
-            const response = await primaryWallet?.client().transactions({
-                limit: 10,
-                identifiers: [{ type: 'address', value: primaryWallet?.address() }],
-            });
+            const response = await primaryWallet?.transactionIndex().all({ limit: 10 });
             return response?.items() || [];
         } catch (error) {
             return [];
