@@ -1,8 +1,8 @@
 import { useTranslation } from 'react-i18next';
-import { ConfirmedTransactionData } from '@ardenthq/sdk/distribution/esm/confirmed-transaction.dto.contract';
 import cn from 'classnames';
 import { ReactNode } from 'react';
 import dayjs from 'dayjs';
+import { ExtendedConfirmedTransactionData } from '@ardenthq/sdk-profiles/distribution/esm/transaction.dto';
 import { getTimeAgo } from '../../lib/utils/getTimeAgo';
 import { EmptyConnectionsIcon, Icon, IconDefinition, Tooltip } from '@/shared/components';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
@@ -36,20 +36,17 @@ enum TransactionType {
     OTHER = 'other',
 }
 
-const TransactionListItem = ({ transaction }: { transaction: ConfirmedTransactionData }) => {
+const TransactionListItem = ({ transaction }: { transaction: ExtendedConfirmedTransactionData }) => {
     const primaryWallet = usePrimaryWallet();
     const { t } = useTranslation();
 
-    const getType = (transaction: ConfirmedTransactionData): string => {
+    const getType = (transaction: ExtendedConfirmedTransactionData): string => {
         if (transaction.isTransfer()) {
-            const isSender = transaction.sender() === primaryWallet?.address();
-            const isRecipient = transaction.recipient() === primaryWallet?.address();
-
-            if (isSender && isRecipient) {
+            if (transaction.isReturn()) {
                 return TransactionType.RETURN;
-            } else if (isSender) {
+            } else if (transaction.isSent()) {
                 return TransactionType.SEND;
-            } else {
+            } else if (transaction.isReceived()) {
                 return TransactionType.RECEIVE;
             }
         }
@@ -72,7 +69,7 @@ const TransactionListItem = ({ transaction }: { transaction: ConfirmedTransactio
     };
 
     const getSecondaryText = (
-        transaction: ConfirmedTransactionData,
+        transaction: ExtendedConfirmedTransactionData,
         type: string,
     ): string | ReactNode => {
         switch (type) {
@@ -127,7 +124,7 @@ const TransactionListItem = ({ transaction }: { transaction: ConfirmedTransactio
                 <div className='flex flex-col items-end gap-1'>
                     <span className='text-base font-medium leading-tight text-light-black dark:text-white'>
                         <Amount
-                            value={transaction.amount().toHuman()}
+                            value={transaction.amount()}
                             ticker={primaryWallet?.currency() ?? 'ARK'}
                             tooltipPlacement='bottom-end'
                             withTicker
@@ -150,7 +147,7 @@ const TransactionListItem = ({ transaction }: { transaction: ConfirmedTransactio
 export const TransactionsList = ({
     transactions,
 }: {
-    transactions: ConfirmedTransactionData[];
+    transactions: ExtendedConfirmedTransactionData[];
 }) => {
     return (
         <div className='custom-scroll max-h-65 overflow-auto'>
