@@ -36,7 +36,11 @@ enum TransactionType {
     OTHER = 'other',
 }
 
-const TransactionListItem = ({ transaction }: { transaction: ExtendedConfirmedTransactionData }) => {
+const TransactionListItem = ({
+    transaction,
+}: {
+    transaction: ExtendedConfirmedTransactionData;
+}) => {
     const primaryWallet = usePrimaryWallet();
     const { t } = useTranslation();
 
