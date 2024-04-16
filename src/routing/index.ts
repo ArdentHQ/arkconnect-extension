@@ -24,6 +24,7 @@ import VoteApproved from '@/pages/VoteApproved';
 import WalletNotFound from '@/pages/WalletNotFound';
 import ImportWithLedger from '@/pages/ImportWithLedger';
 import { AddressSettings } from '@/components/wallet/AddressSettings';
+import { TransactionDetails } from '@/components/transaction/TransactionDetails';
 
 type RouteData = {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -165,6 +166,11 @@ const routes: RouteData[] = [
         path: '/address/settings',
         title: 'Address Settings',
     },
+    {
+        Component: TransactionDetails,
+        path: '/transaction/:transactionId',
+        title: 'Transaction Details',
+    }
 ];
 
 export default routes;
