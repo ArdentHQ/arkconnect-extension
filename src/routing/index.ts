@@ -170,7 +170,7 @@ const routes: RouteData[] = [
         Component: TransactionDetails,
         path: '/transaction/:transactionId',
         title: 'Transaction Details',
-    }
+    },
 ];
 
 export default routes;
