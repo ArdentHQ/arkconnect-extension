@@ -33,6 +33,7 @@
         "assert": "2.0.0",
         "classnames": "^2.5.1",
         "color-thief-react": "^2.1.0",
+        "dayjs": "^1.11.10",
         "focus-trap-react": "^10.2.3",
         "formik": "^2.4.5",
         "i18next": "^23.11.1",

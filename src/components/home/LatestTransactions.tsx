@@ -1,21 +1,32 @@
 import { useTranslation } from 'react-i18next';
-import { EmptyConnectionsIcon } from '@/shared/components';
-
-const NoTransactions = () => {
-    const { t } = useTranslation();
-
-    return (
-        <div className='mt-12 flex flex-col items-center justify-center gap-6'>
-            <EmptyConnectionsIcon />
-            <div className='max-w-40 text-center text-base font-normal leading-tight dark:text-white'>
-                {t('PAGES.HOME.NO_TRANSACTIONS')}
-            </div>
-        </div>
-    );
-};
+import { useEffect, useState } from 'react';
+import { ExtendedConfirmedTransactionData } from '@ardenthq/sdk-profiles/distribution/esm/transaction.dto';
+import { NoTransactions, TransactionsList } from './LatestTransactions.blocks';
+import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 
 export const LatestTransactions = () => {
     const { t } = useTranslation();
+    const primaryWallet = usePrimaryWallet();
+
+    const [transactions, setTransactions] = useState<ExtendedConfirmedTransactionData[]>([]);
+
+    const fetchTransactions = async () => {
+        try {
+            const response = await primaryWallet?.transactionIndex().all({ limit: 10 });
+            return response?.items() || [];
+        } catch (error) {
+            return [];
+        }
+    };
+
+    useEffect(() => {
+        const fetchAndSetData = async () => {
+            const transactions = await fetchTransactions();
+            setTransactions(transactions);
+        };
+
+        fetchAndSetData();
+    }, []);
 
     return (
         <div className='mt-4 h-full w-full rounded-t-2xl bg-white dark:bg-subtle-black'>
@@ -24,7 +35,11 @@ export const LatestTransactions = () => {
             </div>
 
             <div className='h-auto w-full'>
-                <NoTransactions />
+                {transactions.length > 0 ? (
+                    <TransactionsList transactions={transactions} />
+                ) : (
+                    <NoTransactions />
+                )}
             </div>
         </div>
     );
