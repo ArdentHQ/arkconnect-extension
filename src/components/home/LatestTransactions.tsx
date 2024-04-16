@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { ConfirmedTransactionData } from '@ardenthq/sdk/distribution/esm/confirmed-transaction.dto.contract';
+import { ExtendedConfirmedTransactionData } from '@ardenthq/sdk-profiles/distribution/esm/transaction.dto';
 import { useEffect } from 'react';
 import { IReadWriteWallet } from '@ardenthq/sdk-profiles/distribution/esm/wallet.contract';
 import { useQuery } from 'react-query';
@@ -7,7 +7,7 @@ import { NoTransactions, TransactionsList } from './LatestTransactions.blocks';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 
 type TransactionResponse = {
-    transactions: ConfirmedTransactionData[];
+    transactions: ExtendedConfirmedTransactionData[];
     hasMorePages: boolean;
 };
 
@@ -15,10 +15,7 @@ const fetchTransactions = async (
     primaryWallet?: IReadWriteWallet,
 ): Promise<TransactionResponse> => {
     try {
-        const response = await primaryWallet?.client().transactions({
-            limit: 10,
-            identifiers: [{ type: 'address', value: primaryWallet?.address() }],
-        });
+        const response = await primaryWallet?.transactionIndex().all({ limit: 10 });
 
         return {
             transactions: response?.items() || [],

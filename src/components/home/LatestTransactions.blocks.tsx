@@ -1,8 +1,8 @@
 import { useTranslation } from 'react-i18next';
-import { ConfirmedTransactionData } from '@ardenthq/sdk/distribution/esm/confirmed-transaction.dto.contract';
 import cn from 'classnames';
 import { ReactNode } from 'react';
 import dayjs from 'dayjs';
+import { ExtendedConfirmedTransactionData } from '@ardenthq/sdk-profiles/distribution/esm/transaction.dto';
 import { getTimeAgo } from '../../lib/utils/getTimeAgo';
 import {
     Button,
@@ -16,6 +16,7 @@ import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 import Amount from '@/components/wallet/Amount';
 import trimAddress from '@/lib/utils/trimAddress';
 import constants from '@/constants';
+import { useDelegateInfo } from '@/lib/hooks/useDelegateInfo';
 
 export const NoTransactions = () => {
     const { t } = useTranslation();
@@ -44,22 +45,45 @@ enum TransactionType {
     OTHER = 'other',
 }
 
-const TransactionListItem = ({ transaction }: { transaction: ConfirmedTransactionData }) => {
+const TransactionListItem = ({
+    transaction,
+}: {
+    transaction: ExtendedConfirmedTransactionData;
+}) => {
     const primaryWallet = usePrimaryWallet();
     const { t } = useTranslation();
+    const { delegateName } = useDelegateInfo(transaction, primaryWallet);
 
-    const getType = (transaction: ConfirmedTransactionData): string => {
+    const getType = (transaction: ExtendedConfirmedTransactionData): string => {
         if (transaction.isTransfer()) {
-            const isSender = transaction.sender() === primaryWallet?.address();
-            const isRecipient = transaction.recipient() === primaryWallet?.address();
-
-            if (isSender && isRecipient) {
+            if (transaction.isReturn()) {
                 return TransactionType.RETURN;
-            } else if (isSender) {
+            } else if (transaction.isSent()) {
                 return TransactionType.SEND;
-            } else {
+            } else if (transaction.isReceived()) {
                 return TransactionType.RECEIVE;
             }
+        }
+        if (transaction.isVoteCombination()) {
+            return TransactionType.SWAP;
+        }
+        if (transaction.isVote()) {
+            return TransactionType.VOTE;
+        }
+        if (transaction.isUnvote()) {
+            return TransactionType.UNVOTE;
+        }
+        if (transaction.isSecondSignature()) {
+            return TransactionType.SECOND_SIGNATURE;
+        }
+        if (transaction.isMultiSignatureRegistration()) {
+            return TransactionType.MULTISIGNATURE;
+        }
+        if (transaction.isDelegateRegistration()) {
+            return TransactionType.REGISTRATION;
+        }
+        if (transaction.isDelegateResignation()) {
+            return TransactionType.RESIGNATION;
         }
         return TransactionType.OTHER;
     };
@@ -74,13 +98,27 @@ const TransactionListItem = ({ transaction }: { transaction: ConfirmedTransactio
                 return t('COMMON.RECEIVED');
             case TransactionType.RETURN:
                 return t('COMMON.RETURN');
+            case TransactionType.SWAP:
+                return t('COMMON.SWAP_VOTE');
+            case TransactionType.VOTE:
+                return t('COMMON.VOTE');
+            case TransactionType.UNVOTE:
+                return t('COMMON.UNVOTE');
+            case TransactionType.SECOND_SIGNATURE:
+                return t('COMMON.SECOND_SIGNATURE');
+            case TransactionType.REGISTRATION:
+                return t('COMMON.REGISTRATION');
+            case TransactionType.RESIGNATION:
+                return t('COMMON.RESIGNATION');
+            case TransactionType.MULTISIGNATURE:
+                return t('COMMON.MULTISIGNATURE');
             default:
                 return t('COMMON.OTHER');
         }
     };
 
     const getSecondaryText = (
-        transaction: ConfirmedTransactionData,
+        transaction: ExtendedConfirmedTransactionData,
         type: string,
     ): string | ReactNode => {
         switch (type) {
@@ -102,6 +140,11 @@ const TransactionListItem = ({ transaction }: { transaction: ConfirmedTransactio
                 );
             case TransactionType.RETURN:
                 return t('COMMON.TO_SELF');
+            case TransactionType.SWAP:
+                return `${t('COMMON.TO')} ${delegateName}`;
+            case TransactionType.VOTE:
+            case TransactionType.UNVOTE:
+                return delegateName;
             default:
                 return t('COMMON.CONTRACT');
         }
@@ -110,13 +153,23 @@ const TransactionListItem = ({ transaction }: { transaction: ConfirmedTransactio
     const timestamp = transaction.timestamp()?.toString() ?? '';
     const formattedTimestamp = dayjs(timestamp).format('DD MMM YYYY HH:mm:ss');
 
+    const isSpecialTransaction = [
+        TransactionType.REGISTRATION,
+        TransactionType.RESIGNATION,
+        TransactionType.OTHER,
+        TransactionType.SECOND_SIGNATURE,
+        TransactionType.MULTISIGNATURE,
+    ].includes(type as TransactionType);
+
     return (
         <div className='transition-smoothEase flex h-[76px] w-full flex-row items-center justify-center gap-3 p-4 hover:bg-theme-secondary-50 dark:hover:bg-theme-secondary-700'>
             <div className='flex h-11 min-w-11 items-center justify-center rounded-xl border border-theme-secondary-200 bg-white text-theme-secondary-500 dark:border-theme-secondary-600 dark:bg-subtle-black dark:text-theme-secondary-300'>
                 <Icon
                     className={cn({
-                        'h-[22px] w-[22px]': type === TransactionType.RETURN,
-                        'h-8 w-8': type !== TransactionType.RETURN,
+                        'h-5 w-5': isSpecialTransaction,
+                        'h-8 w-8': !isSpecialTransaction && type !== TransactionType.RETURN,
+                        'h-[22px] w-[22px]':
+                            !isSpecialTransaction && type === TransactionType.RETURN,
                     })}
                     icon={type as IconDefinition}
                 />
@@ -135,7 +188,7 @@ const TransactionListItem = ({ transaction }: { transaction: ConfirmedTransactio
                 <div className='flex flex-col items-end gap-1'>
                     <span className='text-base font-medium leading-tight text-light-black dark:text-white'>
                         <Amount
-                            value={transaction.amount().toHuman()}
+                            value={transaction.amount()}
                             ticker={primaryWallet?.currency() ?? 'ARK'}
                             tooltipPlacement='bottom-end'
                             withTicker
@@ -159,7 +212,7 @@ export const TransactionsList = ({
     transactions,
     displayButton,
 }: {
-    transactions: ConfirmedTransactionData[];
+    transactions: ExtendedConfirmedTransactionData[];
     displayButton: boolean;
 }) => {
     const primaryWallet = usePrimaryWallet();
