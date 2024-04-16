@@ -1,6 +1,9 @@
 import { IReadWriteWallet } from '@ardenthq/sdk-profiles/distribution/esm/wallet.contract';
 import { useTranslation } from 'react-i18next';
-import { ExtendedConfirmedTransactionData, ExtendedTransactionRecipient } from '@ardenthq/sdk-profiles/distribution/esm/transaction.dto';
+import {
+    ExtendedConfirmedTransactionData,
+    ExtendedTransactionRecipient,
+} from '@ardenthq/sdk-profiles/distribution/esm/transaction.dto';
 import { useDelegateInfo } from '@/lib/hooks/useDelegateInfo';
 import { Icon, IconDefinition, Tooltip } from '@/shared/components';
 import trimAddress from '@/lib/utils/trimAddress';
@@ -18,7 +21,7 @@ export enum TransactionType {
     REGISTRATION = 'registration',
     RESIGNATION = 'resignation',
     OTHER = 'other',
-    MULTIPAYMENT = 'multipayment'
+    MULTIPAYMENT = 'multipayment',
 }
 
 export const getType = (transaction: ExtendedConfirmedTransactionData): string => {
@@ -89,13 +92,18 @@ export const getTitle = (type: string, isSender: boolean = false): string => {
     }
 };
 
-export const getUniqueRecipients = (transaction: ExtendedConfirmedTransactionData): ExtendedTransactionRecipient[] => {
+export const getUniqueRecipients = (
+    transaction: ExtendedConfirmedTransactionData,
+): ExtendedTransactionRecipient[] => {
     const uniqueRecipients: ExtendedTransactionRecipient[] = [];
 
-    transaction.recipients().forEach(recipient => {
-        const existingRecipientIndex = uniqueRecipients.findIndex(r => r.address === recipient.address);
+    transaction.recipients().forEach((recipient) => {
+        const existingRecipientIndex = uniqueRecipients.findIndex(
+            (r) => r.address === recipient.address,
+        );
         if (existingRecipientIndex !== -1) {
-            uniqueRecipients[existingRecipientIndex].amount = uniqueRecipients[existingRecipientIndex].amount + recipient.amount;
+            uniqueRecipients[existingRecipientIndex].amount =
+                uniqueRecipients[existingRecipientIndex].amount + recipient.amount;
         } else {
             uniqueRecipients.push({ address: recipient.address, amount: recipient.amount });
         }
@@ -104,7 +112,7 @@ export const getUniqueRecipients = (transaction: ExtendedConfirmedTransactionDat
     return uniqueRecipients;
 };
 
-const PaymentInfo = ({ address, isSent } : { address: string, isSent: boolean }) => {
+const PaymentInfo = ({ address, isSent }: { address: string; isSent: boolean }) => {
     const { t } = useTranslation();
 
     return (
@@ -116,19 +124,31 @@ const PaymentInfo = ({ address, isSent } : { address: string, isSent: boolean })
     );
 };
 
-export const countUniqueRecipients = (transaction: ExtendedConfirmedTransactionData): string | JSX.Element => {
+export const countUniqueRecipients = (
+    transaction: ExtendedConfirmedTransactionData,
+): string | JSX.Element => {
     const { t } = useTranslation();
     const uniqueRecipients = getUniqueRecipients(transaction);
     const count = uniqueRecipients.length;
 
-    return count > 1 ? `${uniqueRecipients.length} ${t('COMMON.RECIPIENTS')}` : <PaymentInfo address={uniqueRecipients[0].address} isSent={true} />;
+    return count > 1 ? (
+        `${uniqueRecipients.length} ${t('COMMON.RECIPIENTS')}`
+    ) : (
+        <PaymentInfo address={uniqueRecipients[0].address} isSent={true} />
+    );
 };
 
-export const getAmountByAddress = (recipients: ExtendedTransactionRecipient[], address?: string): number => {
-    return recipients.find(recipient => recipient.address === address)?.amount ?? 0;
+export const getAmountByAddress = (
+    recipients: ExtendedTransactionRecipient[],
+    address?: string,
+): number => {
+    return recipients.find((recipient) => recipient.address === address)?.amount ?? 0;
 };
 
-export const getMultipaymentAmounts = (recipients: ExtendedTransactionRecipient[], address: string = ''): {selfAmount: number, sentAmount: number} => {
+export const getMultipaymentAmounts = (
+    recipients: ExtendedTransactionRecipient[],
+    address: string = '',
+): { selfAmount: number; sentAmount: number } => {
     const selfAmount = getAmountByAddress(recipients, address);
     const sentAmount = recipients.reduce((total, recipient) => total + recipient.amount, 0);
 
@@ -157,7 +177,9 @@ export const getSecondaryText = (
         case TransactionType.UNVOTE:
             return delegateName;
         case TransactionType.MULTIPAYMENT:
-            return transaction.sender() === address ? countUniqueRecipients(transaction) : (
+            return transaction.sender() === address ? (
+                countUniqueRecipients(transaction)
+            ) : (
                 <PaymentInfo address={transaction.sender()} isSent={false} />
             );
         default:
@@ -165,17 +187,23 @@ export const getSecondaryText = (
     }
 };
 
-export const getTransactionIcon = (transaction: ExtendedConfirmedTransactionData): IconDefinition => {
+export const getTransactionIcon = (
+    transaction: ExtendedConfirmedTransactionData,
+): IconDefinition => {
     const type = getType(transaction);
 
-    if(type === TransactionType.MULTIPAYMENT) {
+    if (type === TransactionType.MULTIPAYMENT) {
         return transaction.isSent() ? 'send' : 'receive';
     }
 
     return type as IconDefinition;
 };
 
-export const getTransactionAmount = (transaction: ExtendedConfirmedTransactionData, primaryCurrency: string, address?: string): string | JSX.Element => {
+export const getTransactionAmount = (
+    transaction: ExtendedConfirmedTransactionData,
+    primaryCurrency: string,
+    address?: string,
+): string | JSX.Element => {
     const type = getType(transaction);
     const isMultipayment = type === TransactionType.MULTIPAYMENT;
     const amount = transaction.amount();
@@ -197,7 +225,9 @@ export const getTransactionAmount = (transaction: ExtendedConfirmedTransactionDa
 
         if (transaction.isSent()) {
             const { selfAmount, sentAmount } = getMultipaymentAmounts(uniqueRecipients, address);
-            const isSenderAndRecipient = uniqueRecipients.some(recipient => recipient.address === address);
+            const isSenderAndRecipient = uniqueRecipients.some(
+                (recipient) => recipient.address === address,
+            );
 
             return (
                 <span className='flex flex-row gap-0.5'>
@@ -207,14 +237,13 @@ export const getTransactionAmount = (transaction: ExtendedConfirmedTransactionDa
                         <Tooltip
                             content={`Excluding ${selfAmount} ${primaryCurrency} sent to self`}
                         >
-                            <div className='rounded-full p-0.5 bg-transparent text-subtle-white hover:bg-theme-secondary-50 dark:text-white dark:hover:bg-theme-secondary-700 w-5 h-5'>
+                            <div className='h-5 w-5 rounded-full bg-transparent p-0.5 text-subtle-white hover:bg-theme-secondary-50 dark:text-white dark:hover:bg-theme-secondary-700'>
                                 <Icon icon='information-circle' />
                             </div>
                         </Tooltip>
                     )}
                 </span>
             );
-
         } else {
             return renderAmount(getAmountByAddress(uniqueRecipients, address), false, true);
         }
