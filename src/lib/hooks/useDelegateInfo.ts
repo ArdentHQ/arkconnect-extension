@@ -1,11 +1,11 @@
 import { IReadWriteWallet } from '@ardenthq/sdk-profiles/distribution/esm/wallet.contract';
-import { ConfirmedTransactionData } from '@ardenthq/sdk/distribution/esm/confirmed-transaction.dto.contract';
 import { useEffect, useState } from 'react';
+import { ExtendedConfirmedTransactionData } from '@ardenthq/sdk-profiles/distribution/esm/transaction.dto';
 import { useEnvironmentContext } from '@/lib/context/Environment';
 import { useProfileContext } from '@/lib/context/Profile';
 
 export const useDelegateInfo = (
-    transaction: ConfirmedTransactionData,
+    transaction: ExtendedConfirmedTransactionData,
     primaryWallet?: IReadWriteWallet,
 ) => {
     const { env } = useEnvironmentContext();
