@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { ConfirmedTransactionData } from '@ardenthq/sdk/distribution/esm/confirmed-transaction.dto.contract';
+import { ExtendedConfirmedTransactionData } from '@ardenthq/sdk-profiles/distribution/esm/transaction.dto';
 import { useEffect } from 'react';
 import { IReadWriteWallet } from '@ardenthq/sdk-profiles/distribution/esm/wallet.contract';
 import { useQuery } from 'react-query';
@@ -8,10 +8,7 @@ import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 
 const fetchTransactions = async (primaryWallet?: IReadWriteWallet) => {
     try {
-        const response = await primaryWallet?.client().transactions({
-            limit: 10,
-            identifiers: [{ type: 'address', value: primaryWallet?.address() }],
-        });
+        const response = await primaryWallet?.transactionIndex().all({ limit: 10 });
         return response?.items() || [];
     } catch (error) {
         return [];
@@ -22,7 +19,7 @@ export const LatestTransactions = () => {
     const { t } = useTranslation();
     const primaryWallet = usePrimaryWallet();
 
-    const { data: transactions = [], refetch } = useQuery<ConfirmedTransactionData[]>(
+    const { data: transactions = [], refetch } = useQuery<ExtendedConfirmedTransactionData[]>(
         ['transactions', primaryWallet?.address()],
         () => fetchTransactions(primaryWallet),
         {
