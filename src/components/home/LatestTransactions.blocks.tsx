@@ -5,7 +5,9 @@ import dayjs from 'dayjs';
 import { ExtendedConfirmedTransactionData } from '@ardenthq/sdk-profiles/distribution/esm/transaction.dto';
 import { getTimeAgo } from '../../lib/utils/getTimeAgo';
 import {
+    Button,
     EmptyConnectionsIcon,
+    ExternalLink,
     Icon,
     IconDefinition,
     InternalLink,
@@ -15,6 +17,7 @@ import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 import Amount from '@/components/wallet/Amount';
 import trimAddress from '@/lib/utils/trimAddress';
 import { useDelegateInfo } from '@/lib/hooks/useDelegateInfo';
+import { getExplorerDomain } from '@/lib/utils/networkUtils';
 
 export const NoTransactions = () => {
     const { t } = useTranslation();
@@ -210,14 +213,33 @@ const TransactionListItem = ({
 
 export const TransactionsList = ({
     transactions,
+    displayButton,
 }: {
     transactions: ExtendedConfirmedTransactionData[];
+    displayButton: boolean;
 }) => {
+    const primaryWallet = usePrimaryWallet();
+    const { t } = useTranslation();
+
     return (
-        <div className='custom-scroll max-h-65 overflow-auto'>
+        <div className='custom-scroll max-h-[270px] overflow-auto'>
             {transactions.map((transaction, index) => (
                 <TransactionListItem key={index} transaction={transaction} />
             ))}
+
+            {displayButton && (
+                <div className='p-4'>
+                    <ExternalLink
+                        href={getExplorerDomain(
+                            primaryWallet?.network().isLive() ?? false,
+                            primaryWallet?.address() ?? '',
+                        )}
+                        className='hover:no-underline'
+                    >
+                        <Button variant='secondary'>{t('COMMON.VIEW_MORE_ON_ARKSCAN')}</Button>
+                    </ExternalLink>
+                </div>
+            )}
         </div>
     );
 };
