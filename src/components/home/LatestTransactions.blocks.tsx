@@ -11,8 +11,9 @@ import {
     getType,
     TransactionType,
 } from './LatestTransactions.utils';
-import { EmptyConnectionsIcon, Icon, InternalLink, Tooltip } from '@/shared/components';
+import { Button, EmptyConnectionsIcon, ExternalLink, Icon, InternalLink, Tooltip } from '@/shared/components';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
+import { getExplorerDomain } from '@/lib/utils/networkUtils';
 
 export const NoTransactions = () => {
     const { t } = useTranslation();
@@ -109,14 +110,33 @@ const TransactionListItem = ({
 
 export const TransactionsList = ({
     transactions,
+    displayButton,
 }: {
     transactions: ExtendedConfirmedTransactionData[];
+    displayButton: boolean;
 }) => {
+    const primaryWallet = usePrimaryWallet();
+    const { t } = useTranslation();
+
     return (
-        <div className='custom-scroll max-h-65 overflow-auto'>
+        <div className='custom-scroll max-h-[270px] overflow-auto'>
             {transactions.map((transaction, index) => (
                 <TransactionListItem key={index} transaction={transaction} />
             ))}
+
+            {displayButton && (
+                <div className='p-4'>
+                    <ExternalLink
+                        href={getExplorerDomain(
+                            primaryWallet?.network().isLive() ?? false,
+                            primaryWallet?.address() ?? '',
+                        )}
+                        className='hover:no-underline'
+                    >
+                        <Button variant='secondary'>{t('COMMON.VIEW_MORE_ON_ARKSCAN')}</Button>
+                    </ExternalLink>
+                </div>
+            )}
         </div>
     );
 };
