@@ -230,9 +230,10 @@ export const TransactionsList = ({
             {displayButton && (
                 <div className='p-4'>
                     <ExternalLink
-                        href={
-                            getExplorerDomain(primaryWallet?.network().isLive() ?? false, primaryWallet?.address() ?? '')
-                        }
+                        href={getExplorerDomain(
+                            primaryWallet?.network().isLive() ?? false,
+                            primaryWallet?.address() ?? '',
+                        )}
                         className='hover:no-underline'
                     >
                         <Button variant='secondary'>{t('COMMON.VIEW_MORE_ON_ARKSCAN')}</Button>
