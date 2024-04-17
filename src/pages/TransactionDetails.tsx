@@ -14,7 +14,7 @@ const TransactionDetails = () => {
     const { transactionId } = useParams<{ transactionId: string }>();
 
     const [transactionData, setTransactionData] = useState<ExtendedConfirmedTransactionData>();
-    
+
     const fetchTransactionData = async () => {
         try {
             const response = await primaryWallet?.transactionIndex().findById(transactionId ?? '');
@@ -23,7 +23,6 @@ const TransactionDetails = () => {
             return [];
         }
     };
-
 
     useEffect(() => {
         const fetchAndSetData = async () => {
@@ -39,9 +38,11 @@ const TransactionDetails = () => {
 
     return (
         <SubPageLayout title={t('PAGES.TRANSACTION_DETAILS.PAGE_TITLE')}>
-            {
-                transactionData ? <TransactionHeader type={getType(transactionData) as TransactionType} /> : <Loader/>
-            }
+            {transactionData ? (
+                <TransactionHeader type={getType(transactionData) as TransactionType} />
+            ) : (
+                <Loader />
+            )}
         </SubPageLayout>
     );
 };

@@ -2,11 +2,7 @@ import cn from 'classnames';
 import { TransactionType } from '../home/LatestTransactions.blocks';
 import { Icon, IconDefinition } from '@/shared/components';
 
-export const TransactionIcon = ({
-    type
-}: {
-    type: TransactionType
-}) => {
+export const TransactionIcon = ({ type }: { type: TransactionType }) => {
     const isSpecialTransaction = [
         TransactionType.REGISTRATION,
         TransactionType.RESIGNATION,
@@ -21,8 +17,7 @@ export const TransactionIcon = ({
                 className={cn({
                     'h-5 w-5': isSpecialTransaction,
                     'h-8 w-8': !isSpecialTransaction && type !== TransactionType.RETURN,
-                    'h-[22px] w-[22px]':
-                        !isSpecialTransaction && type === TransactionType.RETURN,
+                    'h-[22px] w-[22px]': !isSpecialTransaction && type === TransactionType.RETURN,
                 })}
                 icon={type as IconDefinition}
             />
