@@ -11,7 +11,14 @@ import {
     getType,
     TransactionType,
 } from './LatestTransactions.utils';
-import { Button, EmptyConnectionsIcon, ExternalLink, Icon, InternalLink, Tooltip } from '@/shared/components';
+import {
+    Button,
+    EmptyConnectionsIcon,
+    ExternalLink,
+    Icon,
+    InternalLink,
+    Tooltip,
+} from '@/shared/components';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 import { getExplorerDomain } from '@/lib/utils/networkUtils';
 
