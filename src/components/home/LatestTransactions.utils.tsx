@@ -237,7 +237,7 @@ export const getTransactionAmount = (
                         <Tooltip
                             content={`Excluding ${selfAmount} ${primaryCurrency} sent to self`}
                         >
-                            <div className='h-5 w-5 rounded-full bg-transparent p-0.5 text-subtle-white hover:bg-theme-secondary-50 dark:text-white dark:hover:bg-theme-secondary-700'>
+                            <div className='h-5 w-5 rounded-full bg-transparent p-0.5 text-subtle-black hover:bg-theme-secondary-50 dark:text-white dark:hover:bg-theme-secondary-700'>
                                 <Icon icon='information-circle' />
                             </div>
                         </Tooltip>
