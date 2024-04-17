@@ -24,7 +24,7 @@ const MultipaymentBadge = () => {
     const { t } = useTranslation();
 
     return (
-        <span className='text-xs font-medium leading-[15px] text-theme-secondary-600 px-1.5 py-0.5 rounded bg-theme-secondary-200 dark:bg-theme-secondary-600 dark:text-theme-secondary-200'>
+        <span className='rounded bg-theme-secondary-200 px-1.5 py-0.5 text-xs font-medium leading-[15px] text-theme-secondary-600 dark:bg-theme-secondary-600 dark:text-theme-secondary-200'>
             {t('COMMON.MULTI')}
         </span>
     );
