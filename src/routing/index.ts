@@ -23,6 +23,7 @@ import TransactionApproved from '@/pages/TransactionApproved';
 import VoteApproved from '@/pages/VoteApproved';
 import WalletNotFound from '@/pages/WalletNotFound';
 import ImportWithLedger from '@/pages/ImportWithLedger';
+import TransactionDetails from '@/pages/TransactionDetails';
 import { AddressSettings } from '@/components/wallet/AddressSettings';
 
 type RouteData = {
@@ -164,6 +165,11 @@ const routes: RouteData[] = [
         Component: AddressSettings,
         path: '/address/settings',
         title: 'Address Settings',
+    },
+    {
+        Component: TransactionDetails,
+        path: '/transaction/:transactionId',
+        title: 'Transaction Details',
     },
 ];
 
