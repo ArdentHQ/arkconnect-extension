@@ -15,8 +15,8 @@ import {
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 import Amount from '@/components/wallet/Amount';
 import trimAddress from '@/lib/utils/trimAddress';
-import constants from '@/constants';
 import { useDelegateInfo } from '@/lib/hooks/useDelegateInfo';
+import { getExplorerDomain } from '@/lib/utils/networkUtils';
 
 export const NoTransactions = () => {
     const { t } = useTranslation();
@@ -228,9 +228,7 @@ export const TransactionsList = ({
                 <div className='p-4'>
                     <ExternalLink
                         href={
-                            primaryWallet?.network().isLive()
-                                ? `${constants.ARKSCAN_ADDRESSES}/${primaryWallet?.address()}`
-                                : `${constants.ARKSCAN_TEST_ADDRESSES}/${primaryWallet?.address()}`
+                            getExplorerDomain(primaryWallet?.network().isLive() ?? false, primaryWallet?.address() ?? '')
                         }
                         className='hover:no-underline'
                     >
