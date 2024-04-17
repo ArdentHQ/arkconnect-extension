@@ -29,7 +29,70 @@ export const NoTransactions = () => {
     );
 };
 
-enum TransactionType {
+export const getType = (transaction: ExtendedConfirmedTransactionData): string => {
+    if (transaction.isTransfer()) {
+        if (transaction.isReturn()) {
+            return TransactionType.RETURN;
+        } else if (transaction.isSent()) {
+            return TransactionType.SEND;
+        } else if (transaction.isReceived()) {
+            return TransactionType.RECEIVE;
+        }
+    }
+    if (transaction.isVoteCombination()) {
+        return TransactionType.SWAP;
+    }
+    if (transaction.isVote()) {
+        return TransactionType.VOTE;
+    }
+    if (transaction.isUnvote()) {
+        return TransactionType.UNVOTE;
+    }
+    if (transaction.isSecondSignature()) {
+        return TransactionType.SECOND_SIGNATURE;
+    }
+    if (transaction.isMultiSignatureRegistration()) {
+        return TransactionType.MULTISIGNATURE;
+    }
+    if (transaction.isDelegateRegistration()) {
+        return TransactionType.REGISTRATION;
+    }
+    if (transaction.isDelegateResignation()) {
+        return TransactionType.RESIGNATION;
+    }
+    return TransactionType.OTHER;
+};
+
+export const getTitle = (type: string): string => {
+    const { t } = useTranslation();
+
+    switch (type) {
+        case TransactionType.SEND:
+            return t('COMMON.SENT');
+        case TransactionType.RECEIVE:
+            return t('COMMON.RECEIVED');
+        case TransactionType.RETURN:
+            return t('COMMON.RETURN');
+        case TransactionType.SWAP:
+            return t('COMMON.SWAP_VOTE');
+        case TransactionType.VOTE:
+            return t('COMMON.VOTE');
+        case TransactionType.UNVOTE:
+            return t('COMMON.UNVOTE');
+        case TransactionType.SECOND_SIGNATURE:
+            return t('COMMON.SECOND_SIGNATURE');
+        case TransactionType.REGISTRATION:
+            return t('COMMON.REGISTRATION');
+        case TransactionType.RESIGNATION:
+            return t('COMMON.RESIGNATION');
+        case TransactionType.MULTISIGNATURE:
+            return t('COMMON.MULTISIGNATURE');
+        default:
+            return t('COMMON.OTHER');
+    }
+};
+
+export enum TransactionType {
     SEND = 'send',
     RECEIVE = 'receive',
     RETURN = 'return',
@@ -52,68 +115,7 @@ const TransactionListItem = ({
     const { t } = useTranslation();
     const { delegateName } = useDelegateInfo(transaction, primaryWallet);
 
-    const getType = (transaction: ExtendedConfirmedTransactionData): string => {
-        if (transaction.isTransfer()) {
-            if (transaction.isReturn()) {
-                return TransactionType.RETURN;
-            } else if (transaction.isSent()) {
-                return TransactionType.SEND;
-            } else if (transaction.isReceived()) {
-                return TransactionType.RECEIVE;
-            }
-        }
-        if (transaction.isVoteCombination()) {
-            return TransactionType.SWAP;
-        }
-        if (transaction.isVote()) {
-            return TransactionType.VOTE;
-        }
-        if (transaction.isUnvote()) {
-            return TransactionType.UNVOTE;
-        }
-        if (transaction.isSecondSignature()) {
-            return TransactionType.SECOND_SIGNATURE;
-        }
-        if (transaction.isMultiSignatureRegistration()) {
-            return TransactionType.MULTISIGNATURE;
-        }
-        if (transaction.isDelegateRegistration()) {
-            return TransactionType.REGISTRATION;
-        }
-        if (transaction.isDelegateResignation()) {
-            return TransactionType.RESIGNATION;
-        }
-        return TransactionType.OTHER;
-    };
-
     const type = getType(transaction);
-
-    const getTitle = (type: string): string => {
-        switch (type) {
-            case TransactionType.SEND:
-                return t('COMMON.SENT');
-            case TransactionType.RECEIVE:
-                return t('COMMON.RECEIVED');
-            case TransactionType.RETURN:
-                return t('COMMON.RETURN');
-            case TransactionType.SWAP:
-                return t('COMMON.SWAP_VOTE');
-            case TransactionType.VOTE:
-                return t('COMMON.VOTE');
-            case TransactionType.UNVOTE:
-                return t('COMMON.UNVOTE');
-            case TransactionType.SECOND_SIGNATURE:
-                return t('COMMON.SECOND_SIGNATURE');
-            case TransactionType.REGISTRATION:
-                return t('COMMON.REGISTRATION');
-            case TransactionType.RESIGNATION:
-                return t('COMMON.RESIGNATION');
-            case TransactionType.MULTISIGNATURE:
-                return t('COMMON.MULTISIGNATURE');
-            default:
-                return t('COMMON.OTHER');
-        }
-    };
 
     const getSecondaryText = (
         transaction: ExtendedConfirmedTransactionData,
