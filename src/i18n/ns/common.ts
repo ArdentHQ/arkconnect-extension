@@ -47,7 +47,7 @@ export default {
     UNVOTE_DELEGATE_PUBKEY: 'Unvote Delegate Pubkey',
     UNVOTE: 'Unvote',
     VIEW_MORE_ON_ARKSCAN: 'View More on ARK Scan',
-    VIRE_ON_ARKSCAN: 'View on ARK Scan',
+    VIEW_ON_ARKSCAN: 'View on ARK Scan',
     VOTE_DELEGATE_ADDRESS: 'Vote Delegate Address',
     VOTE_DELEGATE_NAME: 'Vote Delegate Name',
     VOTE_DELEGATE_PUBKEY: 'Vote Delegate Pubkey',
