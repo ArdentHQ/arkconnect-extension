@@ -37,7 +37,7 @@ export const useDelegateInfo = (
                 const delegateName = await getDelegateName(
                     transaction.votes()[0] || transaction.unvotes()[0] || '',
                 );
-                
+
                 setDelegateName(delegateName);
             }
         })();
