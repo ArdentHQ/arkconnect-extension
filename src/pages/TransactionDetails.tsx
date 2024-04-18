@@ -7,7 +7,7 @@ const TransactionDetails = () => {
 
     return (
         <SubPageLayout title={t('PAGES.TRANSACTION_DETAILS.PAGE_TITLE')}>
-            <TransactionBody/>
+            <TransactionBody />
         </SubPageLayout>
     );
 };
