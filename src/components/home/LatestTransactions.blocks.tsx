@@ -32,7 +32,7 @@ export const NoTransactions = () => {
     );
 };
 
-enum TransactionType {
+export enum TransactionType {
     SEND = 'send',
     RECEIVE = 'receive',
     RETURN = 'return',
@@ -53,7 +53,6 @@ const TransactionListItem = ({
 }) => {
     const primaryWallet = usePrimaryWallet();
     const { t } = useTranslation();
-    const { delegateName } = useDelegateInfo(transaction, primaryWallet);
 
     const getType = (transaction: ExtendedConfirmedTransactionData): string => {
         if (transaction.isTransfer()) {
@@ -90,6 +89,8 @@ const TransactionListItem = ({
     };
 
     const type = getType(transaction);
+
+    const { delegateName } = useDelegateInfo(transaction, type, primaryWallet);
 
     const getTitle = (type: string): string => {
         switch (type) {
