@@ -126,7 +126,7 @@ export const TransactionsList = ({
     const { t } = useTranslation();
 
     return (
-        <div className='custom-scroll max-h-[270px] overflow-auto'>
+        <div className='custom-scroll max-h-[320px] overflow-auto'>
             {transactions.map((transaction, index) => (
                 <TransactionListItem key={index} transaction={transaction} />
             ))}
