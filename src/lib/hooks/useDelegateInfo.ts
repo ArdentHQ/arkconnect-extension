@@ -30,13 +30,11 @@ export const useDelegateInfo = (
     useEffect(() => {
         (async () => {
             if (transaction.isVote() || transaction.isUnvote() || transaction.isVoteCombination()) {
-                const address =  transaction.votes()[0] || transaction.unvotes()[0] || undefined;
-                
+                const address = transaction.votes()[0] || transaction.unvotes()[0] || undefined;
+
                 if (address) {
-                    const delegateName = await getDelegateName(
-                        address
-                    );
-                    
+                    const delegateName = await getDelegateName(address);
+
                     setDelegateName(delegateName);
                 }
             }
