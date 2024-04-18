@@ -91,7 +91,7 @@ export const TransactionBody = () => {
                     )}
                     className='hover:no-underline'
                 >
-                    <Button variant='secondary'>{t('COMMON.VIRE_ON_ARKSCAN')}</Button>
+                    <Button variant='secondary'>{t('COMMON.VIEW_ON_ARKSCAN')}</Button>
                 </ExternalLink>
             </div>
         </div>
