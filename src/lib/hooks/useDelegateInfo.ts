@@ -3,18 +3,14 @@ import { useEffect, useState } from 'react';
 import { ExtendedConfirmedTransactionData } from '@ardenthq/sdk-profiles/distribution/esm/transaction.dto';
 import { useEnvironmentContext } from '@/lib/context/Environment';
 import { useProfileContext } from '@/lib/context/Profile';
-import { TransactionType } from '@/components/home/LatestTransactions.blocks';
 
 export const useDelegateInfo = (
     transaction: ExtendedConfirmedTransactionData,
-    type: string,
     primaryWallet?: IReadWriteWallet,
 ) => {
     const { env } = useEnvironmentContext();
     const { profile } = useProfileContext();
     const [delegateName, setDelegateName] = useState<string>('');
-
-    const votingTypes = [TransactionType.VOTE, TransactionType.UNVOTE, TransactionType.SWAP];
 
     const getDelegateName = async (address: string) => {
         const coin = primaryWallet?.network().coin() ?? 'ARK';
@@ -33,12 +29,16 @@ export const useDelegateInfo = (
 
     useEffect(() => {
         (async () => {
-            if (votingTypes.includes(type as TransactionType)) {
-                const delegateName = await getDelegateName(
-                    transaction.votes()[0] || transaction.unvotes()[0] || '',
-                );
-
-                setDelegateName(delegateName);
+            if (transaction.isVote() || transaction.isUnvote() || transaction.isVoteCombination()) {
+                const address =  transaction.votes()[0] || transaction.unvotes()[0] || undefined;
+                
+                if (address) {
+                    const delegateName = await getDelegateName(
+                        address
+                    );
+                    
+                    setDelegateName(delegateName);
+                }
             }
         })();
     }, [transaction, primaryWallet]);

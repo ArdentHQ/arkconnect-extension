@@ -119,7 +119,7 @@ const TransactionListItem = ({
 
     const type = getType(transaction);
 
-    const { delegateName } = useDelegateInfo(transaction, type, primaryWallet);
+    const { delegateName } = useDelegateInfo(transaction, primaryWallet);
 
     const getTitle = (type: string): string => {
         switch (type) {
