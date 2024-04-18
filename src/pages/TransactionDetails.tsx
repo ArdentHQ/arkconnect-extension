@@ -50,10 +50,10 @@ const TransactionDetails = () => {
     return (
         <SubPageLayout title={t('PAGES.TRANSACTION_DETAILS.PAGE_TITLE')}>
             {transactionData ? (
-              <>
-                <TransactionHeader type={getType(transactionData) as TransactionType} />
-                <TransactionBody />
-              </>
+                <>
+                    <TransactionHeader type={getType(transactionData) as TransactionType} />
+                    <TransactionBody />
+                </>
             ) : (
                 <Loader />
             )}
