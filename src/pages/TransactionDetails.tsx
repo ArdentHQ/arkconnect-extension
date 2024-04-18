@@ -7,6 +7,7 @@ import { useQuery } from 'react-query';
 import { Loader } from '../shared/components/loader/Loader';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 import SubPageLayout from '@/components/settings/SubPageLayout';
+import { TransactionBody } from '@/components/transaction/details/TransactionBody';
 import { TransactionHeader } from '@/components/transaction/details/TransactionHeader';
 import { getType, TransactionType } from '@/components/home/LatestTransactions.utils';
 
@@ -49,7 +50,10 @@ const TransactionDetails = () => {
     return (
         <SubPageLayout title={t('PAGES.TRANSACTION_DETAILS.PAGE_TITLE')}>
             {transactionData ? (
-                <TransactionHeader type={getType(transactionData) as TransactionType} />
+                <>
+                    <TransactionHeader type={getType(transactionData) as TransactionType} />
+                    <TransactionBody />
+                </>
             ) : (
                 <Loader />
             )}
