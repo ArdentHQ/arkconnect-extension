@@ -2,7 +2,6 @@ import { useTranslation } from 'react-i18next';
 import cn from 'classnames';
 import dayjs from 'dayjs';
 import { ExtendedConfirmedTransactionData } from '@ardenthq/sdk-profiles/distribution/esm/transaction.dto';
-import { getTimeAgo } from '../../lib/utils/getTimeAgo';
 import {
     getSecondaryText,
     getTitle,
@@ -11,6 +10,7 @@ import {
     getType,
     TransactionType,
 } from './LatestTransactions.utils';
+import { getTimeAgo } from '@/lib/utils/getTimeAgo';
 import {
     Button,
     EmptyConnectionsIcon,
