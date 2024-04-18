@@ -1,6 +1,6 @@
 import cn from 'classnames';
-import { TransactionType } from '../home/LatestTransactions.blocks';
 import { Icon, IconDefinition } from '@/shared/components';
+import { TransactionType } from '@/components/home/LatestTransactions.utils';
 
 export const TransactionIcon = ({ type }: { type: TransactionType }) => {
     const isSpecialTransaction = [
