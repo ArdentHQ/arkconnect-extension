@@ -1,4 +1,4 @@
-import { getTitle, TransactionType } from '@/components/home/LatestTransactions.blocks';
+import { getTitle, TransactionType } from '@/components/home/LatestTransactions.utils';
 import { TransactionIcon } from '@/components/transaction/Transaction.blocks';
 
 export const TransactionHeader = ({ type }: { type: TransactionType }) => {

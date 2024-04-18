@@ -9,7 +9,7 @@ import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 import SubPageLayout from '@/components/settings/SubPageLayout';
 import { TransactionBody } from '@/components/transaction/details/TransactionBody';
 import { TransactionHeader } from '@/components/transaction/details/TransactionHeader';
-import { getType, TransactionType } from '@/components/home/LatestTransactions.blocks';
+import { getType, TransactionType } from '@/components/home/LatestTransactions.utils';
 
 type TransactionDetailsResponse = ExtendedConfirmedTransactionData | undefined;
 
