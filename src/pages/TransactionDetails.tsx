@@ -30,16 +30,15 @@ const TransactionDetails = () => {
     const primaryWallet = usePrimaryWallet();
     const { transactionId } = useParams<{ transactionId: string }>();
 
-    const { data: transactionData, refetch } =
-        useQuery<TransactionDetailsResponse>(
-            ['transaction-details', transactionId],
-            () => fetchTransactionDetails(primaryWallet, transactionId),
-            {
-                enabled: !!primaryWallet,
-                staleTime: 0,
-                refetchInterval: 3000,
-            },
-        );
+    const { data: transactionData, refetch } = useQuery<TransactionDetailsResponse>(
+        ['transaction-details', transactionId],
+        () => fetchTransactionDetails(primaryWallet, transactionId),
+        {
+            enabled: !!primaryWallet,
+            staleTime: 0,
+            refetchInterval: 3000,
+        },
+    );
 
     useEffect(() => {
         if (primaryWallet) {
