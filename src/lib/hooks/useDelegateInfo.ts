@@ -29,11 +29,15 @@ export const useDelegateInfo = (
 
     useEffect(() => {
         (async () => {
-            const delegateName = await getDelegateName(
-                transaction.votes()[0] || transaction.unvotes()[0] || '',
-            );
+            if (transaction.isVote() || transaction.isUnvote() || transaction.isVoteCombination()) {
+                const address = transaction.votes()[0] || transaction.unvotes()[0] || undefined;
 
-            setDelegateName(delegateName);
+                if (address) {
+                    const delegateName = await getDelegateName(address);
+
+                    setDelegateName(delegateName);
+                }
+            }
         })();
     }, [transaction, primaryWallet]);
 
