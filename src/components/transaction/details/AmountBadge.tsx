@@ -1,10 +1,11 @@
 import cn from 'classnames';
+import { ReactNode } from 'react';
 
 export const AmountBadge = ({
     amount,
     type = 'default',
 }: {
-    amount: string;
+    amount: ReactNode;
     type?: 'positive' | 'negative' | 'default';
 }) => {
     return (
