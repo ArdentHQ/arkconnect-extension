@@ -199,6 +199,23 @@ export const getTransactionIcon = (
     return type as IconDefinition;
 };
 
+export const renderAmount = ({
+    value,
+    isNegative,
+    showSign,
+    primaryCurrency,
+} : {value: number, isNegative: boolean, showSign: boolean, primaryCurrency: string}) => (
+    <Amount
+        value={value}
+        ticker={primaryCurrency}
+        tooltipPlacement='bottom-end'
+        withTicker
+        showSign={showSign}
+        isNegative={isNegative}
+        maxDigits={20}
+    />
+);
+
 export const getTransactionAmount = (
     transaction: ExtendedConfirmedTransactionData,
     primaryCurrency: string,
@@ -207,18 +224,6 @@ export const getTransactionAmount = (
     const type = getType(transaction);
     const isMultipayment = type === TransactionType.MULTIPAYMENT;
     const amount = transaction.amount();
-
-    const renderAmount = (value: number, isNegative: boolean, showSign: boolean) => (
-        <Amount
-            value={value}
-            ticker={primaryCurrency}
-            tooltipPlacement='bottom-end'
-            withTicker
-            showSign={showSign}
-            isNegative={isNegative}
-            maxDecimals={2}
-        />
-    );
 
     if (isMultipayment) {
         const uniqueRecipients = getUniqueRecipients(transaction);
@@ -231,7 +236,7 @@ export const getTransactionAmount = (
 
             return (
                 <span className='flex flex-row gap-0.5'>
-                    {renderAmount(sentAmount, true, sentAmount !== 0)}
+                    {renderAmount({value: sentAmount, isNegative: true, showSign: sentAmount !== 0, primaryCurrency})}
 
                     {isSenderAndRecipient && (
                         <Tooltip
@@ -245,9 +250,9 @@ export const getTransactionAmount = (
                 </span>
             );
         } else {
-            return renderAmount(getAmountByAddress(uniqueRecipients, address), false, true);
+            return renderAmount({value: getAmountByAddress(uniqueRecipients, address), isNegative: false, showSign: true, primaryCurrency});
         }
     }
 
-    return renderAmount(amount, type === TransactionType.SEND, type !== TransactionType.RETURN);
+    return renderAmount({value: amount, isNegative: type === TransactionType.SEND, showSign: type !== TransactionType.RETURN, primaryCurrency});
 };
