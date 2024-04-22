@@ -162,7 +162,7 @@ export const getSecondaryText = (
     primaryWallet?: IReadWriteWallet,
 ): string | JSX.Element => {
     const { t } = useTranslation();
-    const { voteDelegate } = useDelegateInfo(transaction, primaryWallet);
+    const { voteDelegate, unvoteDelegate } = useDelegateInfo(transaction, primaryWallet);
 
     switch (type) {
         case TransactionType.SEND:
@@ -174,8 +174,9 @@ export const getSecondaryText = (
         case TransactionType.SWAP:
             return `${t('COMMON.TO')} ${voteDelegate}`;
         case TransactionType.VOTE:
-        case TransactionType.UNVOTE:
             return voteDelegate;
+        case TransactionType.UNVOTE:
+            return unvoteDelegate;
         case TransactionType.MULTIPAYMENT:
             return transaction.sender() === address ? (
                 countUniqueRecipients(transaction)

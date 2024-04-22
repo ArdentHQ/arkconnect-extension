@@ -31,7 +31,7 @@ export const useDelegateInfo = (
     useEffect(() => {
         (async () => {
             if (transaction.isVote() || transaction.isUnvote() || transaction.isVoteCombination()) {
-                const voteAddress = transaction.votes()[0] || transaction.unvotes()[0] || undefined;
+                const voteAddress = transaction.votes()[0] || undefined;
                 const unvoteAddress = transaction.unvotes()[0] || undefined;
 
                 if (voteAddress) {
