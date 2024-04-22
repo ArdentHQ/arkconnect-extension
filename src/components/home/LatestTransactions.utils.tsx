@@ -204,7 +204,12 @@ export const renderAmount = ({
     isNegative,
     showSign,
     primaryCurrency,
-} : {value: number, isNegative: boolean, showSign: boolean, primaryCurrency: string}) => (
+}: {
+    value: number;
+    isNegative: boolean;
+    showSign: boolean;
+    primaryCurrency: string;
+}) => (
     <Amount
         value={value}
         ticker={primaryCurrency}
@@ -236,7 +241,12 @@ export const getTransactionAmount = (
 
             return (
                 <span className='flex flex-row gap-0.5'>
-                    {renderAmount({value: sentAmount, isNegative: true, showSign: sentAmount !== 0, primaryCurrency})}
+                    {renderAmount({
+                        value: sentAmount,
+                        isNegative: true,
+                        showSign: sentAmount !== 0,
+                        primaryCurrency,
+                    })}
 
                     {isSenderAndRecipient && (
                         <Tooltip
@@ -250,9 +260,19 @@ export const getTransactionAmount = (
                 </span>
             );
         } else {
-            return renderAmount({value: getAmountByAddress(uniqueRecipients, address), isNegative: false, showSign: true, primaryCurrency});
+            return renderAmount({
+                value: getAmountByAddress(uniqueRecipients, address),
+                isNegative: false,
+                showSign: true,
+                primaryCurrency,
+            });
         }
     }
 
-    return renderAmount({value: amount, isNegative: type === TransactionType.SEND, showSign: type !== TransactionType.RETURN, primaryCurrency});
+    return renderAmount({
+        value: amount,
+        isNegative: type === TransactionType.SEND,
+        showSign: type !== TransactionType.RETURN,
+        primaryCurrency,
+    });
 };

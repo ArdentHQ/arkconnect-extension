@@ -53,7 +53,7 @@ const TransactionDetails = () => {
         <SubPageLayout title={t('PAGES.TRANSACTION_DETAILS.PAGE_TITLE')}>
             {transactionData ? (
                 <>
-                    <TransactionHeader transaction={transactionData} className="mb-4" />
+                    <TransactionHeader transaction={transactionData} className='mb-4' />
                     <TransactionBody transaction={transactionData} />
                 </>
             ) : (

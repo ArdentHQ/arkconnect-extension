@@ -13,7 +13,7 @@ import { useExchangeRate } from '@/lib/hooks/useExchangeRate';
 import { useDelegateInfo } from '@/lib/hooks/useDelegateInfo';
 
 export const TransactionBody = ({
-    transaction
+    transaction,
 }: {
     transaction: ExtendedConfirmedTransactionData;
 }) => {
@@ -22,8 +22,11 @@ export const TransactionBody = ({
     const { copy } = useClipboard();
     const { voteDelegate, unvoteDelegate } = useDelegateInfo(transaction, primaryWallet);
 
-    const badgeType = transaction.isReturn() ? 'default' : 
-    transaction.isReceived() ? 'negative' : 'positive';
+    const badgeType = transaction.isReturn()
+        ? 'default'
+        : transaction.isReceived()
+          ? 'negative'
+          : 'positive';
 
     const { convert } = useExchangeRate({
         exchangeTicker: primaryWallet?.exchangeCurrency(),
@@ -87,7 +90,12 @@ export const TransactionBody = ({
                 }
 
                 <TrasactionItem title={t('COMMON.TRANSACTION_FEE')}>
-                    {renderAmount({value: transaction.fee(), isNegative: false, showSign: false, primaryCurrency: primaryWallet?.currency() ?? 'ARK'})}
+                    {renderAmount({
+                        value: transaction.fee(),
+                        isNegative: false,
+                        showSign: false,
+                        primaryCurrency: primaryWallet?.currency() ?? 'ARK',
+                    })}
                     <span className='text-theme-secondary-500 dark:text-theme-secondary-300'>
                         {convert(transaction.fee())}
                     </span>
@@ -103,9 +111,7 @@ export const TransactionBody = ({
                         <button
                             type='button'
                             className='block'
-                            onClick={() =>
-                                copy(transaction.id(), t('COMMON.TRANSACTION_ID'))
-                            }
+                            onClick={() => copy(transaction.id(), t('COMMON.TRANSACTION_ID'))}
                         >
                             <Icon
                                 icon='copy'

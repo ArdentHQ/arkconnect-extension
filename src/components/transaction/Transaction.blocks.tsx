@@ -37,18 +37,18 @@ const AddressBlock = ({
 }): JSX.Element => {
     return (
         <Tooltip content={address}>
-            <span className={cn({'text-theme-secondary-500 dark:text-theme-secondary-300': isSecondary})}>
+            <span
+                className={cn({
+                    'text-theme-secondary-500 dark:text-theme-secondary-300': isSecondary,
+                })}
+            >
                 {trimAddress(address, 'short')}
             </span>
         </Tooltip>
     );
 };
 
-export const TransactionAddress = ({
-    address
-}: {
-    address: string;
-}) => {
+export const TransactionAddress = ({ address }: { address: string }) => {
     const primaryWallet = usePrimaryWallet();
     const network = primaryWallet?.network().id() ?? 'ark.mainnet';
 
