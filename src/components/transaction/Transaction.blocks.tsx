@@ -1,9 +1,13 @@
 import cn from 'classnames';
+import { useTranslation } from 'react-i18next';
+import { ExtendedConfirmedTransactionData } from '@ardenthq/sdk-profiles/distribution/esm/transaction.dto';
+import { AmountBadge, AmountBadgeType } from './details/AmountBadge';
 import { Icon, IconDefinition, Tooltip } from '@/shared/components';
-import { TransactionType } from '@/components/home/LatestTransactions.utils';
+import { getAmountByAddress, getMultipaymentAmounts, getUniqueRecipients, renderAmount, TransactionType } from '@/components/home/LatestTransactions.utils';
 import { useProfileContext } from '@/lib/context/Profile';
 import trimAddress from '@/lib/utils/trimAddress';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
+import { useExchangeRate } from '@/lib/hooks/useExchangeRate';
 
 export const TransactionIcon = ({ type }: { type: TransactionType }) => {
     const isSpecialTransaction = [
@@ -65,4 +69,69 @@ export const TransactionAddress = ({ address }: { address: string }) => {
             <AddressBlock address={address} />
         </span>
     );
+};
+
+export const TransactionUniqueRecipients = ({transaction}: {transaction: ExtendedConfirmedTransactionData}): JSX.Element | string => {
+    const { t } = useTranslation();
+    const uniqueRecipients = getUniqueRecipients(transaction);
+    const count = uniqueRecipients.length;
+
+    if (count === 1) {
+        return <TransactionAddress address={uniqueRecipients[0].address} />;
+    }
+
+    return `${count} ${t('COMMON.RECIPIENTS')}`;
+};
+
+export const TransactionAmount = ({transaction}: { transaction: ExtendedConfirmedTransactionData; }): JSX.Element => {
+    const primaryWallet = usePrimaryWallet();
+    const { convert } = useExchangeRate({
+        exchangeTicker: primaryWallet?.exchangeCurrency(),
+        ticker: primaryWallet?.currency(),
+    });
+
+    const address = primaryWallet?.address() ?? '';
+    const primaryCurrency = primaryWallet?.currency() ?? 'ARK';
+
+    const renderAmountBadge = ({value, isNegative, showSign, type, selfAmount}: {value: number, isNegative: boolean, showSign: boolean, type: AmountBadgeType, selfAmount?: string}) => (
+        <>
+            <AmountBadge
+                amount={renderAmount({
+                    value,
+                    isNegative,
+                    showSign,
+                    primaryCurrency,
+                })}
+                type={type}
+                selfAmount={selfAmount}
+            />
+            <span className='pl-0.5 text-theme-secondary-500 dark:text-theme-secondary-300'>
+                {convert(value)}
+            </span>
+        </>
+    );
+
+    if (transaction.isMultiPayment()) {
+        const uniqueRecipients = getUniqueRecipients(transaction);
+
+        if (transaction.isSent()) {
+            const { selfAmount, sentAmount } = getMultipaymentAmounts(uniqueRecipients, address);
+            const isSenderAndRecipient = uniqueRecipients.some(
+                (recipient) => recipient.address === address,
+            );
+
+            return renderAmountBadge({value: sentAmount, isNegative: true,showSign: sentAmount !== 0, type: sentAmount !== 0 ? AmountBadgeType.NEGATIVE : AmountBadgeType.DEFAULT, selfAmount: isSenderAndRecipient ? `${selfAmount} ${primaryCurrency}` : undefined});
+        } else {
+            const amount = getAmountByAddress(uniqueRecipients, address);
+            return renderAmountBadge({value: amount, isNegative: false, showSign: false, type: AmountBadgeType.POSITIVE});
+        }
+    }
+
+    const badgeType = transaction.isReturn()
+        ? AmountBadgeType.DEFAULT
+        : transaction.isReceived()
+          ? AmountBadgeType.POSITIVE
+          : AmountBadgeType.NEGATIVE;
+
+    return renderAmountBadge({value: transaction.amount(), isNegative: transaction.isSent(), showSign: !transaction.isReturn(), type: badgeType});
 };
