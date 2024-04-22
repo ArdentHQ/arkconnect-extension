@@ -39,7 +39,7 @@ interface SendTransferForm {
     total: number;
     mnemonic: string;
     secondMnemonic: string;
-    memo: string;
+    memo?: string;
     encryptionPassword: string;
     wif: string;
     privateKey: string;
@@ -52,6 +52,7 @@ type ApproveRequest = {
     amount: number;
     receiverAddress: string;
     customFee?: number;
+    memo?: string;
 };
 
 const defaultState = {
@@ -141,6 +142,7 @@ export const useSendTransferForm = (
             return {
                 ...transaction.toObject(),
                 amount: transaction.amount().toString(),
+                memo: transaction.memo(),
                 fee: transaction.fee(),
                 total: transaction.total(),
             };
@@ -150,6 +152,7 @@ export const useSendTransferForm = (
             type: 'SEND_TRANSACTION',
             data: {
                 recipients,
+                memo,
                 fee: +fee,
             },
         });
@@ -196,6 +199,7 @@ export const useSendTransferForm = (
                     remainingBalance: wallet.balance(),
                     network: wallet.network(),
                     fee,
+                    memo: request.memo,
                     hasHigherCustomFee:
                         request.customFee && request.customFee > maxFee ? maxFee : null,
                     mnemonic: passphrase?.join(' ') || '',

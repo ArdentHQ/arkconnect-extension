@@ -81,6 +81,7 @@ type SignTransactionRequest = {
     amount: number;
     fee?: number;
     receiverAddress: string;
+    memo?: string;
 };
 
 type SignTransactionResponse = {

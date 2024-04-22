@@ -16,6 +16,7 @@ interface BroadcastResponse {
 
 export interface SendTransferInput extends Services.TransferInput {
     recipients: RecipientItem[];
+    memo?: string;
 }
 
 function BroadcastResponse({
@@ -86,6 +87,7 @@ export function Wallet({ wallet }: { wallet: Contracts.IReadWriteWallet }) {
             const transactionInput = {
                 data: await buildTransferData({
                     coin: wallet.coin(),
+                    memo: input.memo,
                     isMultiSignature:
                         signatory.actsWithMultiSignature() || signatory.hasMultiSignature(),
                     recipients: input.recipients,
