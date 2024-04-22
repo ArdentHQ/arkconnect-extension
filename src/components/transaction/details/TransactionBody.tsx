@@ -12,7 +12,7 @@ import { getType, renderAmount, TransactionType } from '@/components/home/Latest
 import { useExchangeRate } from '@/lib/hooks/useExchangeRate';
 
 export const TransactionBody = ({
-    transaction
+    transaction,
 }: {
     transaction: ExtendedConfirmedTransactionData;
 }) => {
@@ -21,8 +21,11 @@ export const TransactionBody = ({
     
     const primaryWallet = usePrimaryWallet();
 
-    const badgeType = transaction.isReturn() ? 'default' : 
-    transaction.isReceived() ? 'negative' : 'positive';
+    const badgeType = transaction.isReturn()
+        ? 'default'
+        : transaction.isReceived()
+          ? 'positive'
+          : 'negative';
 
     const { convert } = useExchangeRate({
         exchangeTicker: primaryWallet?.exchangeCurrency(),
@@ -31,7 +34,7 @@ export const TransactionBody = ({
 
     const type = getType(transaction) as TransactionType;
     const paymentTypes = [TransactionType.SEND, TransactionType.RECEIVE, TransactionType.RETURN];
-    
+
     return (
         <div className='flex flex-col gap-4 pb-4'>
             <div>
@@ -55,16 +58,22 @@ export const TransactionBody = ({
                                 isNegative: transaction.isSent(),
                                 showSign: !transaction.isReturn(),
                                 primaryCurrency: primaryWallet?.currency() ?? 'ARK',
-                            })} type={badgeType} />
-                            <span className='pl-0.5 text-theme-secondary-500 dark:text-theme-secondary-300'>
-                                {convert(transaction.amount())}
-                            </span>
-                        </TrasactionItem>
-                    )
-                }
+                            })}
+                            type={badgeType}
+                        />
+                        <span className='pl-0.5 text-theme-secondary-500 dark:text-theme-secondary-300'>
+                            {convert(transaction.amount())}
+                        </span>
+                    </TrasactionItem>
+                )}
 
                 <TrasactionItem title={t('COMMON.TRANSACTION_FEE')}>
-                    {renderAmount({value: transaction.fee(), isNegative: false, showSign: false, primaryCurrency: primaryWallet?.currency() ?? 'ARK'})}
+                    {renderAmount({
+                        value: transaction.fee(),
+                        isNegative: false,
+                        showSign: false,
+                        primaryCurrency: primaryWallet?.currency() ?? 'ARK',
+                    })}
                     <span className='text-theme-secondary-500 dark:text-theme-secondary-300'>
                         {convert(transaction.fee())}
                     </span>
@@ -104,9 +113,7 @@ export const TransactionBody = ({
                         <button
                             type='button'
                             className='block'
-                            onClick={() =>
-                                copy(transaction.id(), t('COMMON.TRANSACTION_ID'))
-                            }
+                            onClick={() => copy(transaction.id(), t('COMMON.TRANSACTION_ID'))}
                         >
                             <Icon
                                 icon='copy'

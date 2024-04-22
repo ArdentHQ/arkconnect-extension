@@ -3,8 +3,14 @@ import { ExtendedConfirmedTransactionData } from '@ardenthq/sdk-profiles/distrib
 import { getTitle, getType, TransactionType } from '@/components/home/LatestTransactions.utils';
 import { TransactionIcon } from '@/components/transaction/Transaction.blocks';
 
-export const TransactionHeader = ({ transaction, className }: { transaction: ExtendedConfirmedTransactionData, className?: string }) => {
-    const type= getType(transaction);
+export const TransactionHeader = ({
+    transaction,
+    className,
+}: {
+    transaction: ExtendedConfirmedTransactionData;
+    className?: string;
+}) => {
+    const type = getType(transaction);
 
     return (
         <div className={twMerge('flex flex-row items-center gap-3', className)}>
