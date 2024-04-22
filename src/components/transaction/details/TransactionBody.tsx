@@ -6,10 +6,10 @@ import { AmountBadge } from './AmountBadge';
 import { Button, ExternalLink, Icon } from '@/shared/components';
 import useClipboard from '@/lib/hooks/useClipboard';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
-import { getExplorerDomain } from '@/lib/utils/networkUtils';
 import trimAddress from '@/lib/utils/trimAddress';
 import { getType, renderAmount, TransactionType } from '@/components/home/LatestTransactions.utils';
 import { useExchangeRate } from '@/lib/hooks/useExchangeRate';
+import { getTransactionDetailLink } from '@/lib/utils/networkUtils';
 
 export const TransactionBody = ({
     transaction,
@@ -107,10 +107,7 @@ export const TransactionBody = ({
             </div>
             <div>
                 <ExternalLink
-                    href={getExplorerDomain(
-                        primaryWallet?.network().isLive() ?? false,
-                        primaryWallet?.address() ?? '',
-                    )}
+                    href={getTransactionDetailLink(primaryWallet?.network().isLive() ?? false, transaction.id())}
                     className='hover:no-underline'
                 >
                     <Button variant='secondary'>{t('COMMON.VIEW_ON_ARKSCAN')}</Button>
