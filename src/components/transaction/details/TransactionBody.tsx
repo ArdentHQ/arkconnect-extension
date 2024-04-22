@@ -8,7 +8,7 @@ import useClipboard from '@/lib/hooks/useClipboard';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 import { getExplorerDomain } from '@/lib/utils/networkUtils';
 import trimAddress from '@/lib/utils/trimAddress';
-import { renderAmount } from '@/components/home/LatestTransactions.utils';
+import { getType, renderAmount, TransactionType } from '@/components/home/LatestTransactions.utils';
 import { useExchangeRate } from '@/lib/hooks/useExchangeRate';
 
 export const TransactionBody = ({
@@ -18,7 +18,7 @@ export const TransactionBody = ({
 }) => {
     const { t } = useTranslation();
     const { copy } = useClipboard();
-
+    
     const primaryWallet = usePrimaryWallet();
 
     const badgeType = transaction.isReturn() ? 'default' : 
@@ -28,6 +28,9 @@ export const TransactionBody = ({
         exchangeTicker: primaryWallet?.exchangeCurrency(),
         ticker: primaryWallet?.currency(),
     });
+
+    const type = getType(transaction) as TransactionType;
+    const paymentTypes = [TransactionType.SEND, TransactionType.RECEIVE, TransactionType.RETURN];
     
     return (
         <div className='flex flex-col gap-4 pb-4'>
@@ -36,21 +39,29 @@ export const TransactionBody = ({
                     <TransactionAddress address={transaction.sender()} />
                 </TrasactionItem>
 
-                <TrasactionItem title={t('COMMON.RECIPIENT')}>
-                    <TransactionAddress address={transaction.recipient()} />
-                </TrasactionItem>
+                {
+                    paymentTypes.includes(type) && (
+                        <TrasactionItem title={t('COMMON.RECIPIENT')}>
+                            <TransactionAddress address={transaction.recipient()} />
+                        </TrasactionItem>
+                    )
+                }
 
-                <TrasactionItem title={t('COMMON.AMOUNT')}>
-                    <AmountBadge amount={renderAmount({
-                        value: transaction.amount(),
-                        isNegative: transaction.isSent(),
-                        showSign: !transaction.isReturn(),
-                        primaryCurrency: primaryWallet?.currency() ?? 'ARK',
-                    })} type={badgeType} />
-                    <span className='pl-0.5 text-theme-secondary-500 dark:text-theme-secondary-300'>
-                        {convert(transaction.amount())}
-                    </span>
-                </TrasactionItem>
+                {
+                    paymentTypes.includes(type) && (
+                        <TrasactionItem title={t('COMMON.AMOUNT')}>
+                            <AmountBadge amount={renderAmount({
+                                value: transaction.amount(),
+                                isNegative: transaction.isSent(),
+                                showSign: !transaction.isReturn(),
+                                primaryCurrency: primaryWallet?.currency() ?? 'ARK',
+                            })} type={badgeType} />
+                            <span className='pl-0.5 text-theme-secondary-500 dark:text-theme-secondary-300'>
+                                {convert(transaction.amount())}
+                            </span>
+                        </TrasactionItem>
+                    )
+                }
 
                 <TrasactionItem title={t('COMMON.TRANSACTION_FEE')}>
                     {renderAmount({value: transaction.fee(), isNegative: false, showSign: false, primaryCurrency: primaryWallet?.currency() ?? 'ARK'})}
@@ -62,6 +73,30 @@ export const TransactionBody = ({
                 <TrasactionItem title={t('COMMON.TIMESTAMP')}>
                     {transaction.timestamp()?.toString() ?? ''}
                 </TrasactionItem>
+
+                {
+                    type === TransactionType.MULTISIGNATURE && (
+                        <TrasactionItem title={t('COMMON.MULTISIGNATURE_PARTICIPANTS')}>
+                            {t('COMMON.PARTICIPANT', { count: transaction.publicKeys().length })}
+                        </TrasactionItem>
+                    )
+                }
+
+                {
+                    type === TransactionType.MULTISIGNATURE && (
+                        <TrasactionItem title={t('COMMON.MINIMUN_REQUIRED_SIGNATURES')}>
+                            {transaction.min()} / {transaction.publicKeys().length}
+                        </TrasactionItem>
+                    )
+                }
+
+                {
+                    type === TransactionType.MULTISIGNATURE && (
+                        <TrasactionItem title={t('COMMON.MULTISIGNATURE_ADDRESS')}>
+                            {trimAddress(transaction.sender(), 'short')}
+                        </TrasactionItem>
+                    )
+                }
 
                 <TrasactionItem title={t('COMMON.TRANSACTION_ID')}>
                     <div className='flex w-full flex-row items-center justify-between'>
@@ -81,11 +116,15 @@ export const TransactionBody = ({
                     </div>
                 </TrasactionItem>
 
-                <TrasactionItem title={t('COMMON.MEMO')}>
-                    <span className='text-theme-secondary-500 dark:text-theme-secondary-300'>
-                        {transaction.memo() ?? t('COMMON.NOT_AVAILABLE')}
-                    </span>
-                </TrasactionItem>
+                {
+                    paymentTypes.includes(type) && (
+                        <TrasactionItem title={t('COMMON.MEMO')}>
+                            <span className='text-theme-secondary-500 dark:text-theme-secondary-300'>
+                                {transaction.memo() ?? t('COMMON.NOT_AVAILABLE')}
+                            </span>
+                        </TrasactionItem>
+                    )
+                }
             </div>
             <div>
                 <ExternalLink
