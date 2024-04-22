@@ -18,7 +18,7 @@ export const TransactionBody = ({
 }) => {
     const { t } = useTranslation();
     const { copy } = useClipboard();
-    
+
     const primaryWallet = usePrimaryWallet();
 
     const badgeType = transaction.isReturn()
@@ -42,18 +42,16 @@ export const TransactionBody = ({
                     <TransactionAddress address={transaction.sender()} />
                 </TrasactionItem>
 
-                {
-                    paymentTypes.includes(type) && (
-                        <TrasactionItem title={t('COMMON.RECIPIENT')}>
-                            <TransactionAddress address={transaction.recipient()} />
-                        </TrasactionItem>
-                    )
-                }
+                {paymentTypes.includes(type) && (
+                    <TrasactionItem title={t('COMMON.RECIPIENT')}>
+                        <TransactionAddress address={transaction.recipient()} />
+                    </TrasactionItem>
+                )}
 
-                {
-                    paymentTypes.includes(type) && (
-                        <TrasactionItem title={t('COMMON.AMOUNT')}>
-                            <AmountBadge amount={renderAmount({
+                {paymentTypes.includes(type) && (
+                    <TrasactionItem title={t('COMMON.AMOUNT')}>
+                        <AmountBadge
+                            amount={renderAmount({
                                 value: transaction.amount(),
                                 isNegative: transaction.isSent(),
                                 showSign: !transaction.isReturn(),
@@ -83,29 +81,23 @@ export const TransactionBody = ({
                     {transaction.timestamp()?.toString() ?? ''}
                 </TrasactionItem>
 
-                {
-                    type === TransactionType.MULTISIGNATURE && (
-                        <TrasactionItem title={t('COMMON.MULTISIGNATURE_PARTICIPANTS')}>
-                            {t('COMMON.PARTICIPANT', { count: transaction.publicKeys().length })}
-                        </TrasactionItem>
-                    )
-                }
+                {type === TransactionType.MULTISIGNATURE && (
+                    <TrasactionItem title={t('COMMON.MULTISIGNATURE_PARTICIPANTS')}>
+                        {t('COMMON.PARTICIPANT', { count: transaction.publicKeys().length })}
+                    </TrasactionItem>
+                )}
 
-                {
-                    type === TransactionType.MULTISIGNATURE && (
-                        <TrasactionItem title={t('COMMON.MINIMUN_REQUIRED_SIGNATURES')}>
-                            {transaction.min()} / {transaction.publicKeys().length}
-                        </TrasactionItem>
-                    )
-                }
+                {type === TransactionType.MULTISIGNATURE && (
+                    <TrasactionItem title={t('COMMON.MINIMUN_REQUIRED_SIGNATURES')}>
+                        {transaction.min()} / {transaction.publicKeys().length}
+                    </TrasactionItem>
+                )}
 
-                {
-                    type === TransactionType.MULTISIGNATURE && (
-                        <TrasactionItem title={t('COMMON.MULTISIGNATURE_ADDRESS')}>
-                            {trimAddress(transaction.sender(), 'short')}
-                        </TrasactionItem>
-                    )
-                }
+                {type === TransactionType.MULTISIGNATURE && (
+                    <TrasactionItem title={t('COMMON.MULTISIGNATURE_ADDRESS')}>
+                        {trimAddress(transaction.sender(), 'short')}
+                    </TrasactionItem>
+                )}
 
                 <TrasactionItem title={t('COMMON.TRANSACTION_ID')}>
                     <div className='flex w-full flex-row items-center justify-between'>
@@ -123,15 +115,13 @@ export const TransactionBody = ({
                     </div>
                 </TrasactionItem>
 
-                {
-                    paymentTypes.includes(type) && (
-                        <TrasactionItem title={t('COMMON.MEMO')}>
-                            <span className='text-theme-secondary-500 dark:text-theme-secondary-300'>
-                                {transaction.memo() ?? t('COMMON.NOT_AVAILABLE')}
-                            </span>
-                        </TrasactionItem>
-                    )
-                }
+                {paymentTypes.includes(type) && (
+                    <TrasactionItem title={t('COMMON.MEMO')}>
+                        <span className='text-theme-secondary-500 dark:text-theme-secondary-300'>
+                            {transaction.memo() ?? t('COMMON.NOT_AVAILABLE')}
+                        </span>
+                    </TrasactionItem>
+                )}
             </div>
             <div>
                 <ExternalLink
