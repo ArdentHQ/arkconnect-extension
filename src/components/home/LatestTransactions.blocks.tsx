@@ -35,7 +35,7 @@ export const NoTransactions = () => {
     );
 };
 
-const MultipaymentBadge = () => {
+export const MultipaymentBadge = () => {
     const { t } = useTranslation();
 
     return (
