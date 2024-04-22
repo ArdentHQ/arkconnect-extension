@@ -81,6 +81,16 @@ export const TransactionBody = ({
                     {transaction.timestamp()?.toString() ?? ''}
                 </TrasactionItem>
 
+                {
+                    type === TransactionType.OTHER && (
+                        <TrasactionItem title={t('COMMON.IPFS_HASH')}>
+                            <span className='[overflow-wrap:anywhere]'>
+                                {transaction.hash()}
+                            </span>
+                        </TrasactionItem>
+                    )
+                }
+
                 <TrasactionItem title={t('COMMON.TRANSACTION_ID')}>
                     <div className='flex w-full flex-row items-center justify-between'>
                         <span>{trimAddress(transaction.id(), 'longest')}</span>
