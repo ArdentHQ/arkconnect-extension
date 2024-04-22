@@ -1,6 +1,10 @@
 import { useTranslation } from 'react-i18next';
 import { ExtendedConfirmedTransactionData } from '@ardenthq/sdk-profiles/distribution/esm/transaction.dto';
-import { TransactionAddress, TransactionAmount, TransactionUniqueRecipients } from '../Transaction.blocks';
+import {
+    TransactionAddress,
+    TransactionAmount,
+    TransactionUniqueRecipients,
+} from '../Transaction.blocks';
 import { TrasactionItem } from './TrasactionItem';
 import { Button, ExternalLink, Icon } from '@/shared/components';
 import useClipboard from '@/lib/hooks/useClipboard';
@@ -26,7 +30,12 @@ export const TransactionBody = ({
     });
 
     const type = getType(transaction) as TransactionType;
-    const paymentTypes = [TransactionType.SEND, TransactionType.RECEIVE, TransactionType.RETURN, TransactionType.MULTIPAYMENT];
+    const paymentTypes = [
+        TransactionType.SEND,
+        TransactionType.RECEIVE,
+        TransactionType.RETURN,
+        TransactionType.MULTIPAYMENT,
+    ];
 
     return (
         <div className='flex flex-col gap-4 pb-4'>
@@ -34,16 +43,14 @@ export const TransactionBody = ({
                 <TrasactionItem title={t('COMMON.SENDER')}>
                     <TransactionAddress address={transaction.sender()} />
                 </TrasactionItem>
-              
+
                 {paymentTypes.includes(type) && (
                     <TrasactionItem title={t('COMMON.RECIPIENT')}>
-                        {
-                            type === TransactionType.MULTIPAYMENT ? (
-                                <TransactionUniqueRecipients transaction={transaction} />
-                            ) : (
-                                <TransactionAddress address={transaction.recipient()} />
-                            )
-                        }
+                        {type === TransactionType.MULTIPAYMENT ? (
+                            <TransactionUniqueRecipients transaction={transaction} />
+                        ) : (
+                            <TransactionAddress address={transaction.recipient()} />
+                        )}
                     </TrasactionItem>
                 )}
 
@@ -87,13 +94,11 @@ export const TransactionBody = ({
 
                 {paymentTypes.includes(type) && (
                     <TrasactionItem title={t('COMMON.MEMO')}>
-                        {
-                            transaction.memo() ?? (
-                                <span className='text-theme-secondary-500 dark:text-theme-secondary-300'>
-                                    {t('COMMON.NOT_AVAILABLE')}
-                                </span>
-                            )
-                        }
+                        {transaction.memo() ?? (
+                            <span className='text-theme-secondary-500 dark:text-theme-secondary-300'>
+                                {t('COMMON.NOT_AVAILABLE')}
+                            </span>
+                        )}
                     </TrasactionItem>
                 )}
             </div>

@@ -14,15 +14,16 @@ export const TransactionHeader = ({
     let subtype;
     const type = getType(transaction);
 
-    if(type === TransactionType.MULTIPAYMENT) {
+    if (type === TransactionType.MULTIPAYMENT) {
         subtype = transaction.isSent() ? TransactionType.SEND : TransactionType.RECEIVE;
     }
 
     return (
         <div className={twMerge('flex flex-row items-center gap-3', className)}>
-            <TransactionIcon type={subtype || type as TransactionType} />
+            <TransactionIcon type={subtype || (type as TransactionType)} />
             <h4 className='text-base font-medium leading-5 text-light-black dark:text-white'>
-                {getTitle(type, transaction.isSent())} {type === TransactionType.MULTIPAYMENT && <MultipaymentBadge />}
+                {getTitle(type, transaction.isSent())}{' '}
+                {type === TransactionType.MULTIPAYMENT && <MultipaymentBadge />}
             </h4>
         </div>
     );

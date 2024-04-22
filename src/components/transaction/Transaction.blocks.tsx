@@ -3,7 +3,13 @@ import { useTranslation } from 'react-i18next';
 import { ExtendedConfirmedTransactionData } from '@ardenthq/sdk-profiles/distribution/esm/transaction.dto';
 import { AmountBadge, AmountBadgeType } from './details/AmountBadge';
 import { Icon, IconDefinition, Tooltip } from '@/shared/components';
-import { getAmountByAddress, getMultipaymentAmounts, getUniqueRecipients, renderAmount, TransactionType } from '@/components/home/LatestTransactions.utils';
+import {
+    getAmountByAddress,
+    getMultipaymentAmounts,
+    getUniqueRecipients,
+    renderAmount,
+    TransactionType,
+} from '@/components/home/LatestTransactions.utils';
 import { useProfileContext } from '@/lib/context/Profile';
 import trimAddress from '@/lib/utils/trimAddress';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
@@ -71,7 +77,11 @@ export const TransactionAddress = ({ address }: { address: string }) => {
     );
 };
 
-export const TransactionUniqueRecipients = ({transaction}: {transaction: ExtendedConfirmedTransactionData}): JSX.Element | string => {
+export const TransactionUniqueRecipients = ({
+    transaction,
+}: {
+    transaction: ExtendedConfirmedTransactionData;
+}): JSX.Element | string => {
     const { t } = useTranslation();
     const uniqueRecipients = getUniqueRecipients(transaction);
     const count = uniqueRecipients.length;
@@ -83,7 +93,11 @@ export const TransactionUniqueRecipients = ({transaction}: {transaction: Extende
     return `${count} ${t('COMMON.RECIPIENTS')}`;
 };
 
-export const TransactionAmount = ({transaction}: { transaction: ExtendedConfirmedTransactionData; }): JSX.Element => {
+export const TransactionAmount = ({
+    transaction,
+}: {
+    transaction: ExtendedConfirmedTransactionData;
+}): JSX.Element => {
     const primaryWallet = usePrimaryWallet();
     const { convert } = useExchangeRate({
         exchangeTicker: primaryWallet?.exchangeCurrency(),
@@ -93,7 +107,19 @@ export const TransactionAmount = ({transaction}: { transaction: ExtendedConfirme
     const address = primaryWallet?.address() ?? '';
     const primaryCurrency = primaryWallet?.currency() ?? 'ARK';
 
-    const renderAmountBadge = ({value, isNegative, showSign, type, selfAmount}: {value: number, isNegative: boolean, showSign: boolean, type: AmountBadgeType, selfAmount?: string}) => (
+    const renderAmountBadge = ({
+        value,
+        isNegative,
+        showSign,
+        type,
+        selfAmount,
+    }: {
+        value: number;
+        isNegative: boolean;
+        showSign: boolean;
+        type: AmountBadgeType;
+        selfAmount?: string;
+    }) => (
         <>
             <AmountBadge
                 amount={renderAmount({
@@ -120,10 +146,21 @@ export const TransactionAmount = ({transaction}: { transaction: ExtendedConfirme
                 (recipient) => recipient.address === address,
             );
 
-            return renderAmountBadge({value: sentAmount, isNegative: true,showSign: sentAmount !== 0, type: sentAmount !== 0 ? AmountBadgeType.NEGATIVE : AmountBadgeType.DEFAULT, selfAmount: isSenderAndRecipient ? `${selfAmount} ${primaryCurrency}` : undefined});
+            return renderAmountBadge({
+                value: sentAmount,
+                isNegative: true,
+                showSign: sentAmount !== 0,
+                type: sentAmount !== 0 ? AmountBadgeType.NEGATIVE : AmountBadgeType.DEFAULT,
+                selfAmount: isSenderAndRecipient ? `${selfAmount} ${primaryCurrency}` : undefined,
+            });
         } else {
             const amount = getAmountByAddress(uniqueRecipients, address);
-            return renderAmountBadge({value: amount, isNegative: false, showSign: false, type: AmountBadgeType.POSITIVE});
+            return renderAmountBadge({
+                value: amount,
+                isNegative: false,
+                showSign: false,
+                type: AmountBadgeType.POSITIVE,
+            });
         }
     }
 
@@ -133,5 +170,10 @@ export const TransactionAmount = ({transaction}: { transaction: ExtendedConfirme
           ? AmountBadgeType.POSITIVE
           : AmountBadgeType.NEGATIVE;
 
-    return renderAmountBadge({value: transaction.amount(), isNegative: transaction.isSent(), showSign: !transaction.isReturn(), type: badgeType});
+    return renderAmountBadge({
+        value: transaction.amount(),
+        isNegative: transaction.isSent(),
+        showSign: !transaction.isReturn(),
+        type: badgeType,
+    });
 };
