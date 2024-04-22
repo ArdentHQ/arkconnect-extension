@@ -12,11 +12,18 @@ export default {
     FROM: 'From',
     MAINNET: 'Mainnet',
     MEMO: 'Memo',
+    MINIMUN_REQUIRED_SIGNATURES: 'Minimum Required Signatures',
     MESSAGE: 'Message',
     MULTI: 'Multi',
     MULTISIGNATURE: 'Multisignature',
+    MULTISIGNATURE_ADDRESS: 'Multisignature Address',
+    MULTISIGNATURE_PARTICIPANTS: 'Multisignature Participants',
     NOT_AVAILABLE: 'N/A',
     OTHER: 'Other',
+    // eslint-disable-next-line camelcase
+    PARTICIPANT_one: '{{count}} Participant',
+    // eslint-disable-next-line camelcase
+    PARTICIPANT_other: '{{count}} Participants',
     PASSPHRASE: 'Passphrase',
     PRIVATE_KEY: 'Private Key',
     RECEIVE: 'Receive',
