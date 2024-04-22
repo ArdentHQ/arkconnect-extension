@@ -1,12 +1,21 @@
 import cn from 'classnames';
 import { ReactNode } from 'react';
+import { Icon, Tooltip } from '@/shared/components';
+
+export enum AmountBadgeType {
+    DEFAULT = 'default',
+    POSITIVE = 'positive',
+    NEGATIVE = 'negative',
+}
 
 export const AmountBadge = ({
     amount,
-    type = 'default',
+    type = AmountBadgeType.DEFAULT,
+    selfAmount,
 }: {
     amount: ReactNode;
-    type?: 'positive' | 'negative' | 'default';
+    type?: AmountBadgeType;
+    selfAmount?: string;
 }) => {
     return (
         <div
@@ -20,6 +29,24 @@ export const AmountBadge = ({
             })}
         >
             {amount}
+
+
+            {selfAmount && (
+                <Tooltip
+                    content={`Excluding ${selfAmount} sent to self`}
+                >
+                    <div className={cn('h-5 w-5 rounded-full bg-transparent p-0.5 ml-0.5', {
+                        'text-light-black dark:text-white':
+                            type === 'default',
+                        'text-theme-primary-700  dark:text-theme-primary-600':
+                            type === 'positive',
+                        'text-theme-error-600 dark:text-theme-error-500':
+                            type === 'negative',
+                    })}>
+                        <Icon icon='information-circle' />
+                    </div>
+                </Tooltip>
+            )}
         </div>
     );
 };
