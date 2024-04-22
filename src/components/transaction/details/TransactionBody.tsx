@@ -107,7 +107,10 @@ export const TransactionBody = ({
             </div>
             <div>
                 <ExternalLink
-                    href={getTransactionDetailLink(primaryWallet?.network().isLive() ?? false, transaction.id())}
+                    href={getTransactionDetailLink(
+                        primaryWallet?.network().isLive() ?? false,
+                        transaction.id(),
+                    )}
                     className='hover:no-underline'
                 >
                     <Button variant='secondary'>{t('COMMON.VIEW_ON_ARKSCAN')}</Button>

@@ -16,5 +16,7 @@ export const getExplorerDomain = (isLiveNetwork: boolean, address: string) => {
 };
 
 export const getTransactionDetailLink = (isLiveNetwork: boolean, transactionId: string) => {
-    return isLiveNetwork ? `${constants.ARKSCAN_MAINNET_TRANSACTIONS}/${transactionId}` : `${constants.ARKSCAN_TESTNET_TRANSACTIONS}/${transactionId}`;
+    return isLiveNetwork
+        ? `${constants.ARKSCAN_MAINNET_TRANSACTIONS}/${transactionId}`
+        : `${constants.ARKSCAN_TESTNET_TRANSACTIONS}/${transactionId}`;
 };
