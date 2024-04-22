@@ -24,8 +24,8 @@ export const TransactionBody = ({
     const badgeType = transaction.isReturn()
         ? 'default'
         : transaction.isReceived()
-          ? 'negative'
-          : 'positive';
+          ? 'positive'
+          : 'negative';
 
     const { convert } = useExchangeRate({
         exchangeTicker: primaryWallet?.exchangeCurrency(),
