@@ -35,7 +35,7 @@ export const TransactionBody = ({
 
     const type = getType(transaction) as TransactionType;
     const paymentTypes = [TransactionType.SEND, TransactionType.RECEIVE, TransactionType.RETURN];
-    
+
     return (
         <div className='flex flex-col gap-4 pb-4'>
             <div>
@@ -43,51 +43,46 @@ export const TransactionBody = ({
                     <TransactionAddress address={transaction.sender()} />
                 </TrasactionItem>
 
-                {
-                    paymentTypes.includes(type) && (
-                        <TrasactionItem title={t('COMMON.RECIPIENT')}>
-                            <TransactionAddress address={transaction.recipient()} />
-                        </TrasactionItem>
-                    )
-                }
+                {paymentTypes.includes(type) && (
+                    <TrasactionItem title={t('COMMON.RECIPIENT')}>
+                        <TransactionAddress address={transaction.recipient()} />
+                    </TrasactionItem>
+                )}
 
-                {
-                    paymentTypes.includes(type) && (
-                        <TrasactionItem title={t('COMMON.AMOUNT')}>
-                            <AmountBadge amount={renderAmount({
+                {paymentTypes.includes(type) && (
+                    <TrasactionItem title={t('COMMON.AMOUNT')}>
+                        <AmountBadge
+                            amount={renderAmount({
                                 value: transaction.amount(),
                                 isNegative: transaction.isSent(),
                                 showSign: !transaction.isReturn(),
                                 primaryCurrency: primaryWallet?.currency() ?? 'ARK',
-                            })} type={badgeType} />
-                            <span className='pl-0.5 text-theme-secondary-500 dark:text-theme-secondary-300'>
-                                {convert(transaction.amount())}
-                            </span>
-                        </TrasactionItem>
-                    )
-                }
+                            })}
+                            type={badgeType}
+                        />
+                        <span className='pl-0.5 text-theme-secondary-500 dark:text-theme-secondary-300'>
+                            {convert(transaction.amount())}
+                        </span>
+                    </TrasactionItem>
+                )}
 
-                {
-                    ([TransactionType.VOTE, TransactionType.SWAP].includes(type)) && (
-                        <TrasactionItem title={t('COMMON.VOTE')}>
-                            {voteDelegate}
-                            <span className='text-theme-secondary-500 dark:text-theme-secondary-300'>
-                                {trimAddress(transaction.votes()[0], 'short')}
-                            </span>
-                        </TrasactionItem>
-                    )
-                }
+                {[TransactionType.VOTE, TransactionType.SWAP].includes(type) && (
+                    <TrasactionItem title={t('COMMON.VOTE')}>
+                        {voteDelegate}
+                        <span className='text-theme-secondary-500 dark:text-theme-secondary-300'>
+                            {trimAddress(transaction.votes()[0], 'short')}
+                        </span>
+                    </TrasactionItem>
+                )}
 
-                {
-                    ([TransactionType.UNVOTE, TransactionType.SWAP].includes(type)) && (
-                        <TrasactionItem title={t('COMMON.UNVOTE')}>
-                            {unvoteDelegate}
-                            <span className='text-theme-secondary-500 dark:text-theme-secondary-300'>
-                                {trimAddress(transaction.unvotes()[0], 'short')}
-                            </span>
-                        </TrasactionItem>
-                    )
-                }
+                {[TransactionType.UNVOTE, TransactionType.SWAP].includes(type) && (
+                    <TrasactionItem title={t('COMMON.UNVOTE')}>
+                        {unvoteDelegate}
+                        <span className='text-theme-secondary-500 dark:text-theme-secondary-300'>
+                            {trimAddress(transaction.unvotes()[0], 'short')}
+                        </span>
+                    </TrasactionItem>
+                )}
 
                 <TrasactionItem title={t('COMMON.TRANSACTION_FEE')}>
                     {renderAmount({
@@ -121,15 +116,13 @@ export const TransactionBody = ({
                     </div>
                 </TrasactionItem>
 
-                {
-                    paymentTypes.includes(type) && (
-                        <TrasactionItem title={t('COMMON.MEMO')}>
-                            <span className='text-theme-secondary-500 dark:text-theme-secondary-300'>
-                                {transaction.memo() ?? t('COMMON.NOT_AVAILABLE')}
-                            </span>
-                        </TrasactionItem>
-                    )
-                }
+                {paymentTypes.includes(type) && (
+                    <TrasactionItem title={t('COMMON.MEMO')}>
+                        <span className='text-theme-secondary-500 dark:text-theme-secondary-300'>
+                            {transaction.memo() ?? t('COMMON.NOT_AVAILABLE')}
+                        </span>
+                    </TrasactionItem>
+                )}
             </div>
             <div>
                 <ExternalLink

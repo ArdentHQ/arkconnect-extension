@@ -40,7 +40,7 @@ export const useDelegateInfo = (
                     setVoteDelegate(voteDelegateName);
                 }
 
-                if(unvoteAddress) {
+                if (unvoteAddress) {
                     const unvoteDelegateName = await getDelegateName(unvoteAddress);
 
                     setUnvoteDelegate(unvoteDelegateName);
