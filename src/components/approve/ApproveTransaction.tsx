@@ -42,7 +42,15 @@ const ApproveTransaction = ({
 }: Props) => {
     const navigate = useNavigate();
     const location = useLocation();
-    const { domain, tabId, session, amount, receiverAddress, fee: customFee, memo } = location.state;
+    const {
+        domain,
+        tabId,
+        session,
+        amount,
+        receiverAddress,
+        fee: customFee,
+        memo,
+    } = location.state;
     const { profile } = useProfileContext();
     const { env } = useEnvironmentContext();
     const { syncAll } = useWalletSync({ env, profile });
