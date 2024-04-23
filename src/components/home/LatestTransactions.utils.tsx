@@ -61,7 +61,13 @@ export const getType = (transaction: ExtendedConfirmedTransactionData): string =
     return TransactionType.OTHER;
 };
 
-export const TransactionTitle = ({type, isSender = false}:{type: string, isSender: boolean}): string => {
+export const TransactionTitle = ({
+    type,
+    isSender = false,
+}: {
+    type: string;
+    isSender: boolean;
+}): string => {
     const { t } = useTranslation();
 
     switch (type) {
@@ -124,8 +130,10 @@ const PaymentInfo = ({ address, isSent }: { address: string; isSent: boolean }) 
     );
 };
 
-export const MultipaymentUniqueRecipients = ({transaction}: {
-    transaction: ExtendedConfirmedTransactionData,
+export const MultipaymentUniqueRecipients = ({
+    transaction,
+}: {
+    transaction: ExtendedConfirmedTransactionData;
 }): string | JSX.Element => {
     const { t } = useTranslation();
     const uniqueRecipients = getUniqueRecipients(transaction);
@@ -155,11 +163,16 @@ export const getMultipaymentAmounts = (
     return { selfAmount, sentAmount: sentAmount - selfAmount };
 };
 
-export const TransactionSecondaryText = ({transaction, type, address, primaryWallet}: {
-    transaction: ExtendedConfirmedTransactionData,
-    type: string,
-    address?: string,
-    primaryWallet?: IReadWriteWallet,
+export const TransactionSecondaryText = ({
+    transaction,
+    type,
+    address,
+    primaryWallet,
+}: {
+    transaction: ExtendedConfirmedTransactionData;
+    type: string;
+    address?: string;
+    primaryWallet?: IReadWriteWallet;
 }): string | JSX.Element => {
     const { t } = useTranslation();
     const { delegateName } = useDelegateInfo(transaction, primaryWallet);
@@ -221,10 +234,14 @@ export const renderAmount = ({
     />
 );
 
-export const LatestTransactionAmount = ({transaction, primaryCurrency, address}:{
-    transaction: ExtendedConfirmedTransactionData,
-    primaryCurrency: string,
-    address?: string,
+export const LatestTransactionAmount = ({
+    transaction,
+    primaryCurrency,
+    address,
+}: {
+    transaction: ExtendedConfirmedTransactionData;
+    primaryCurrency: string;
+    address?: string;
 }): JSX.Element => {
     const { t } = useTranslation();
     const type = getType(transaction);
@@ -251,7 +268,9 @@ export const LatestTransactionAmount = ({transaction, primaryCurrency, address}:
 
                     {isSenderAndRecipient && (
                         <Tooltip
-                            content={t('COMMON.EXCLUDING_AMOUNT_TO_SELF', {amount: `${selfAmount} ${primaryCurrency}`})}
+                            content={t('COMMON.EXCLUDING_AMOUNT_TO_SELF', {
+                                amount: `${selfAmount} ${primaryCurrency}`,
+                            })}
                         >
                             <div className='h-5 w-5 rounded-full bg-transparent p-0.5 text-subtle-black hover:bg-theme-secondary-50 dark:text-white dark:hover:bg-theme-secondary-700'>
                                 <Icon icon='information-circle' />
