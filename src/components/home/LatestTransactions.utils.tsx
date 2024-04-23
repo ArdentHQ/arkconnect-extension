@@ -61,7 +61,7 @@ export const getType = (transaction: ExtendedConfirmedTransactionData): string =
     return TransactionType.OTHER;
 };
 
-export const getTitle = (type: string, isSender: boolean = false): string => {
+export const TransactionTitle = ({type, isSender = false}:{type: string, isSender: boolean}): string => {
     const { t } = useTranslation();
 
     switch (type) {
@@ -124,9 +124,9 @@ const PaymentInfo = ({ address, isSent }: { address: string; isSent: boolean }) 
     );
 };
 
-export const countUniqueRecipients = (
+export const MultipaymentUniqueRecipients = ({transaction}: {
     transaction: ExtendedConfirmedTransactionData,
-): string | JSX.Element => {
+}): string | JSX.Element => {
     const { t } = useTranslation();
     const uniqueRecipients = getUniqueRecipients(transaction);
     const count = uniqueRecipients.length;
@@ -155,12 +155,12 @@ export const getMultipaymentAmounts = (
     return { selfAmount, sentAmount: sentAmount - selfAmount };
 };
 
-export const getSecondaryText = (
+export const TransactionSecondaryText = ({transaction, type, address, primaryWallet}: {
     transaction: ExtendedConfirmedTransactionData,
     type: string,
     address?: string,
     primaryWallet?: IReadWriteWallet,
-): string | JSX.Element => {
+}): string | JSX.Element => {
     const { t } = useTranslation();
     const { delegateName } = useDelegateInfo(transaction, primaryWallet);
 
@@ -178,7 +178,7 @@ export const getSecondaryText = (
             return delegateName;
         case TransactionType.MULTIPAYMENT:
             return transaction.sender() === address ? (
-                countUniqueRecipients(transaction)
+                <MultipaymentUniqueRecipients transaction={transaction} />
             ) : (
                 <PaymentInfo address={transaction.sender()} isSent={false} />
             );
@@ -221,11 +221,11 @@ export const renderAmount = ({
     />
 );
 
-export const getTransactionAmount = (
+export const LatestTransactionAmount = ({transaction, primaryCurrency, address}:{
     transaction: ExtendedConfirmedTransactionData,
     primaryCurrency: string,
     address?: string,
-): string | JSX.Element => {
+}): JSX.Element => {
     const { t } = useTranslation();
     const type = getType(transaction);
     const isMultipayment = type === TransactionType.MULTIPAYMENT;
