@@ -42,7 +42,15 @@ const ApproveTransaction = ({
 }: Props) => {
     const navigate = useNavigate();
     const location = useLocation();
-    const { domain, tabId, session, amount, receiverAddress, fee: customFee } = location.state;
+    const {
+        domain,
+        tabId,
+        session,
+        amount,
+        receiverAddress,
+        fee: customFee,
+        memo,
+    } = location.state;
     const { profile } = useProfileContext();
     const { env } = useEnvironmentContext();
     const { syncAll } = useWalletSync({ env, profile });
@@ -71,6 +79,7 @@ const ApproveTransaction = ({
         amount,
         receiverAddress,
         customFee,
+        memo,
     });
 
     const [showHigherCustomFeeBanner, setShowHigherCustomFeeBanner] = useState(true);
@@ -117,6 +126,7 @@ const ApproveTransaction = ({
                 exchangeCurrency: wallet.exchangeCurrency() ?? 'USD',
                 sender: response.sender as string,
                 receiver: response.recipient as string,
+                memo: response.data?.vendorField as string,
                 amount: response.amount as number,
                 convertedAmount: convert(response.amount),
                 fee: response.fee as number,
@@ -196,6 +206,7 @@ const ApproveTransaction = ({
                     isApproved={false}
                     showFiat={withFiat}
                     amount={amount}
+                    memo={memo}
                     amountTicker={coin}
                     convertedAmount={convert(amount)}
                     exchangeCurrency={exchangeCurrency}
