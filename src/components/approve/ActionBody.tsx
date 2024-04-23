@@ -79,7 +79,7 @@ export const ActionBody = ({
             )}
 
             {receiver && <ActionAddressRow label={t('COMMON.RECEIVER')} address={receiver} />}
-            {memo && <ActionBodyRow label={t('COMMON.MEMO')} value={memo} />}
+            {memo && <ActionBodyRow label={t('COMMON.MEMO')} value={memo} className='pl-20 truncate' tooltipContent={memo} />}
 
             <ActionAmountRow
                 label={
