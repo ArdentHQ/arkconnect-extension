@@ -93,6 +93,24 @@ export const TransactionBody = ({
                     {transaction.timestamp()?.toString() ?? ''}
                 </TrasactionItem>
 
+                {type === TransactionType.MULTISIGNATURE && (
+                    <TrasactionItem title={t('COMMON.MULTISIGNATURE_PARTICIPANTS')}>
+                        {t('COMMON.PARTICIPANT', { count: transaction.publicKeys().length })}
+                    </TrasactionItem>
+                )}
+
+                {type === TransactionType.MULTISIGNATURE && (
+                    <TrasactionItem title={t('COMMON.MINIMUN_REQUIRED_SIGNATURES')}>
+                        {transaction.min()} / {transaction.publicKeys().length}
+                    </TrasactionItem>
+                )}
+
+                {type === TransactionType.MULTISIGNATURE && (
+                    <TrasactionItem title={t('COMMON.MULTISIGNATURE_ADDRESS')}>
+                        {trimAddress(transaction.sender(), 'short')}
+                    </TrasactionItem>
+                )}
+
                 <TrasactionItem title={t('COMMON.TRANSACTION_ID')}>
                     <div className='flex w-full flex-row items-center justify-between'>
                         <span>{trimAddress(transaction.id(), 'longest')}</span>
