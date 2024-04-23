@@ -9,7 +9,6 @@ import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 import SubPageLayout from '@/components/settings/SubPageLayout';
 import { TransactionBody } from '@/components/transaction/details/TransactionBody';
 import { TransactionHeader } from '@/components/transaction/details/TransactionHeader';
-import { getType, TransactionType } from '@/components/home/LatestTransactions.utils';
 
 type TransactionDetailsResponse = ExtendedConfirmedTransactionData | undefined;
 
@@ -18,9 +17,12 @@ const fetchTransactionDetails = async (
     transactionId?: string,
 ): Promise<TransactionDetailsResponse> => {
     try {
-        const response = await primaryWallet?.transactionIndex().findById(transactionId ?? '');
-
-        return response;
+        const transaction = await primaryWallet?.transactionIndex().findById(transactionId ?? '');
+        if (transaction) {
+            transaction.setMeta('address', primaryWallet?.address());
+            transaction.setMeta('publicKey', primaryWallet?.publicKey());
+        }
+        return transaction;
     } catch (error) {
         return undefined;
     }
@@ -51,8 +53,8 @@ const TransactionDetails = () => {
         <SubPageLayout title={t('PAGES.TRANSACTION_DETAILS.PAGE_TITLE')}>
             {transactionData ? (
                 <>
-                    <TransactionHeader type={getType(transactionData) as TransactionType} />
-                    <TransactionBody />
+                    <TransactionHeader transaction={transactionData} className='mb-4' />
+                    <TransactionBody transaction={transactionData} />
                 </>
             ) : (
                 <Loader />
