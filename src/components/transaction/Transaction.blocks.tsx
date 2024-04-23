@@ -113,12 +113,14 @@ export const TransactionAmount = ({
         showSign,
         type,
         selfAmount,
+        isDevnet,
     }: {
         value: number;
         isNegative: boolean;
         showSign: boolean;
         type: AmountBadgeType;
         selfAmount?: string;
+        isDevnet?: boolean;
     }) => (
         <>
             <AmountBadge
@@ -131,9 +133,11 @@ export const TransactionAmount = ({
                 type={type}
                 selfAmount={selfAmount}
             />
-            <span className='pl-0.5 text-theme-secondary-500 dark:text-theme-secondary-300'>
-                {convert(value)}
-            </span>
+            {!isDevnet && (
+                <span className='pl-0.5 text-theme-secondary-500 dark:text-theme-secondary-300'>
+                    {convert(value)}
+                </span>
+            )}
         </>
     );
 
@@ -152,6 +156,7 @@ export const TransactionAmount = ({
                 showSign: sentAmount !== 0,
                 type: sentAmount !== 0 ? AmountBadgeType.NEGATIVE : AmountBadgeType.DEFAULT,
                 selfAmount: isSenderAndRecipient ? `${selfAmount} ${primaryCurrency}` : undefined,
+                isDevnet: primaryWallet?.network().isTest(),
             });
         } else {
             const amount = getAmountByAddress(uniqueRecipients, address);
@@ -160,6 +165,7 @@ export const TransactionAmount = ({
                 isNegative: false,
                 showSign: false,
                 type: AmountBadgeType.POSITIVE,
+                isDevnet: primaryWallet?.network().isTest(),
             });
         }
     }
@@ -175,5 +181,6 @@ export const TransactionAmount = ({
         isNegative: transaction.isSent(),
         showSign: !transaction.isReturn(),
         type: badgeType,
+        isDevnet: primaryWallet?.network().isTest(),
     });
 };
