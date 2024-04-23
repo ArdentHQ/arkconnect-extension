@@ -10,7 +10,8 @@ export const useDelegateInfo = (
 ) => {
     const { env } = useEnvironmentContext();
     const { profile } = useProfileContext();
-    const [delegateName, setDelegateName] = useState<string>('');
+    const [voteDelegate, setVoteDelegate] = useState<string>('');
+    const [unvoteDelegate, setUnvoteDelegate] = useState<string>('');
 
     const getDelegateName = async (address: string) => {
         const coin = primaryWallet?.network().coin() ?? 'ARK';
@@ -30,16 +31,23 @@ export const useDelegateInfo = (
     useEffect(() => {
         (async () => {
             if (transaction.isVote() || transaction.isUnvote() || transaction.isVoteCombination()) {
-                const address = transaction.votes()[0] || transaction.unvotes()[0] || undefined;
+                const voteAddress = transaction.votes()[0] || undefined;
+                const unvoteAddress = transaction.unvotes()[0] || undefined;
 
-                if (address) {
-                    const delegateName = await getDelegateName(address);
+                if (voteAddress) {
+                    const voteDelegateName = await getDelegateName(voteAddress);
 
-                    setDelegateName(delegateName);
+                    setVoteDelegate(voteDelegateName);
+                }
+
+                if (unvoteAddress) {
+                    const unvoteDelegateName = await getDelegateName(unvoteAddress);
+
+                    setUnvoteDelegate(unvoteDelegateName);
                 }
             }
         })();
     }, [transaction, primaryWallet]);
 
-    return { delegateName };
+    return { voteDelegate, unvoteDelegate };
 };

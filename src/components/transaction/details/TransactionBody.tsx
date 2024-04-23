@@ -9,6 +9,7 @@ import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 import trimAddress from '@/lib/utils/trimAddress';
 import { getType, renderAmount, TransactionType } from '@/components/home/LatestTransactions.utils';
 import { useExchangeRate } from '@/lib/hooks/useExchangeRate';
+import { useDelegateInfo } from '@/lib/hooks/useDelegateInfo';
 import { getTransactionDetailLink } from '@/lib/utils/networkUtils';
 
 export const TransactionBody = ({
@@ -16,16 +17,16 @@ export const TransactionBody = ({
 }: {
     transaction: ExtendedConfirmedTransactionData;
 }) => {
+    const primaryWallet = usePrimaryWallet();
     const { t } = useTranslation();
     const { copy } = useClipboard();
-
-    const primaryWallet = usePrimaryWallet();
+    const { voteDelegate, unvoteDelegate } = useDelegateInfo(transaction, primaryWallet);
 
     const badgeType = transaction.isReturn()
         ? 'default'
         : transaction.isReceived()
-          ? 'positive'
-          : 'negative';
+          ? 'negative'
+          : 'positive';
 
     const { convert } = useExchangeRate({
         exchangeTicker: primaryWallet?.exchangeCurrency(),
@@ -61,6 +62,24 @@ export const TransactionBody = ({
                         />
                         <span className='pl-0.5 text-theme-secondary-500 dark:text-theme-secondary-300'>
                             {convert(transaction.amount())}
+                        </span>
+                    </TrasactionItem>
+                )}
+
+                {[TransactionType.VOTE, TransactionType.SWAP].includes(type) && (
+                    <TrasactionItem title={t('COMMON.VOTE')}>
+                        {voteDelegate}
+                        <span className='text-theme-secondary-500 dark:text-theme-secondary-300'>
+                            {trimAddress(transaction.votes()[0], 'short')}
+                        </span>
+                    </TrasactionItem>
+                )}
+
+                {[TransactionType.UNVOTE, TransactionType.SWAP].includes(type) && (
+                    <TrasactionItem title={t('COMMON.UNVOTE')}>
+                        {unvoteDelegate}
+                        <span className='text-theme-secondary-500 dark:text-theme-secondary-300'>
+                            {trimAddress(transaction.unvotes()[0], 'short')}
                         </span>
                     </TrasactionItem>
                 )}
