@@ -12,16 +12,23 @@ interface ActionBodyRowProps {
     value?: React.ReactNode;
     below?: React.ReactNode;
     tooltipContent?: React.ReactNode;
+    className?: string;
 }
 
-export const ActionBodyRow = ({ label, below, value, tooltipContent }: ActionBodyRowProps) => (
+export const ActionBodyRow = ({
+    label,
+    below,
+    value,
+    tooltipContent,
+    className,
+}: ActionBodyRowProps) => (
     <ActionDetailsRow label={label} below={below}>
         {tooltipContent ? (
             <Tooltip content={tooltipContent} placement='bottom-end'>
-                <ActionDetailsValue>{value}</ActionDetailsValue>
+                <ActionDetailsValue className={className}>{value}</ActionDetailsValue>
             </Tooltip>
         ) : (
-            <ActionDetailsValue>{value}</ActionDetailsValue>
+            <ActionDetailsValue className={className}>{value}</ActionDetailsValue>
         )}
     </ActionDetailsRow>
 );
