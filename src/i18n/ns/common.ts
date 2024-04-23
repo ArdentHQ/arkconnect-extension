@@ -11,6 +11,7 @@ export default {
     EXPLORER: 'Explorer',
     FAUCET: 'Faucet',
     FROM: 'From',
+    IPFS_HASH: 'IPFS Hash',
     MAINNET: 'Mainnet',
     MEMO: 'Memo',
     MINIMUN_REQUIRED_SIGNATURES: 'Minimum Required Signatures',
