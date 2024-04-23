@@ -1,59 +1,93 @@
 import { useTranslation } from 'react-i18next';
+import { ExtendedConfirmedTransactionData } from '@ardenthq/sdk-profiles/distribution/esm/transaction.dto';
+import { TransactionAddress } from '../Transaction.blocks';
 import { TrasactionItem } from './TrasactionItem';
 import { AmountBadge } from './AmountBadge';
 import { Button, ExternalLink, Icon } from '@/shared/components';
 import useClipboard from '@/lib/hooks/useClipboard';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 import { getExplorerDomain } from '@/lib/utils/networkUtils';
+import trimAddress from '@/lib/utils/trimAddress';
+import { getType, renderAmount, TransactionType } from '@/components/home/LatestTransactions.utils';
+import { useExchangeRate } from '@/lib/hooks/useExchangeRate';
 
-export const TransactionBody = () => {
+export const TransactionBody = ({
+    transaction,
+}: {
+    transaction: ExtendedConfirmedTransactionData;
+}) => {
     const { t } = useTranslation();
     const { copy } = useClipboard();
 
     const primaryWallet = usePrimaryWallet();
 
+    const badgeType = transaction.isReturn()
+        ? 'default'
+        : transaction.isReceived()
+          ? 'positive'
+          : 'negative';
+
+    const { convert } = useExchangeRate({
+        exchangeTicker: primaryWallet?.exchangeCurrency(),
+        ticker: primaryWallet?.currency(),
+    });
+
+    const type = getType(transaction) as TransactionType;
+    const paymentTypes = [TransactionType.SEND, TransactionType.RECEIVE, TransactionType.RETURN];
+
     return (
         <div className='flex flex-col gap-4 pb-4'>
             <div>
                 <TrasactionItem title={t('COMMON.SENDER')}>
-                    ARK #1{' '}
-                    <span className='text-theme-secondary-500 dark:text-theme-secondary-300'>
-                        ARoka...uRKma
-                    </span>
+                    <TransactionAddress address={transaction.sender()} />
                 </TrasactionItem>
 
-                <TrasactionItem title={t('COMMON.RECIPIENT')}>
-                    ARK #1{' '}
-                    <span className='text-theme-secondary-500 dark:text-theme-secondary-300'>
-                        ARoka...uRKma
-                    </span>
-                </TrasactionItem>
+                {paymentTypes.includes(type) && (
+                    <TrasactionItem title={t('COMMON.RECIPIENT')}>
+                        <TransactionAddress address={transaction.recipient()} />
+                    </TrasactionItem>
+                )}
 
-                <TrasactionItem title={t('COMMON.AMOUNT')}>
-                    <AmountBadge amount={'+14.56128396 ARK'} type='positive' />
-                    <span className='pl-0.5 text-theme-secondary-500 dark:text-theme-secondary-300'>
-                        $0.50
-                    </span>
-                </TrasactionItem>
+                {paymentTypes.includes(type) && (
+                    <TrasactionItem title={t('COMMON.AMOUNT')}>
+                        <AmountBadge
+                            amount={renderAmount({
+                                value: transaction.amount(),
+                                isNegative: transaction.isSent(),
+                                showSign: !transaction.isReturn(),
+                                primaryCurrency: primaryWallet?.currency() ?? 'ARK',
+                            })}
+                            type={badgeType}
+                        />
+                        <span className='pl-0.5 text-theme-secondary-500 dark:text-theme-secondary-300'>
+                            {convert(transaction.amount())}
+                        </span>
+                    </TrasactionItem>
+                )}
 
                 <TrasactionItem title={t('COMMON.TRANSACTION_FEE')}>
-                    0.75 ARK{' '}
+                    {renderAmount({
+                        value: transaction.fee(),
+                        isNegative: false,
+                        showSign: false,
+                        primaryCurrency: primaryWallet?.currency() ?? 'ARK',
+                    })}
                     <span className='text-theme-secondary-500 dark:text-theme-secondary-300'>
-                        $0.50
+                        {convert(transaction.fee())}
                     </span>
                 </TrasactionItem>
 
-                <TrasactionItem title={t('COMMON.TIMESTAMP')}>27 Mar 2024, 15:01:04</TrasactionItem>
+                <TrasactionItem title={t('COMMON.TIMESTAMP')}>
+                    {transaction.timestamp()?.toString() ?? ''}
+                </TrasactionItem>
 
                 <TrasactionItem title={t('COMMON.TRANSACTION_ID')}>
                     <div className='flex w-full flex-row items-center justify-between'>
-                        <span>231d80d0c255a...fc4a6019815773f0</span>
+                        <span>{trimAddress(transaction.id(), 'longest')}</span>
                         <button
                             type='button'
                             className='block'
-                            onClick={() =>
-                                copy('231d80d0c255afc4a6019815773f0', t('COMMON.TRANSACTION_ID'))
-                            }
+                            onClick={() => copy(transaction.id(), t('COMMON.TRANSACTION_ID'))}
                         >
                             <Icon
                                 icon='copy'
@@ -63,25 +97,13 @@ export const TransactionBody = () => {
                     </div>
                 </TrasactionItem>
 
-                <TrasactionItem title={t('COMMON.MEMO')}>
-                    <span className='text-theme-secondary-500 dark:text-theme-secondary-300'>
-                        N/A
-                    </span>
-                </TrasactionItem>
-
-                <TrasactionItem title={t('COMMON.VOTE')}>
-                    boldninja{' '}
-                    <span className='text-theme-secondary-500 dark:text-theme-secondary-300'>
-                        DKrAC...fXYqu
-                    </span>
-                </TrasactionItem>
-
-                <TrasactionItem title={t('COMMON.UNVOTE')}>
-                    genesis_31{' '}
-                    <span className='text-theme-secondary-500 dark:text-theme-secondary-300'>
-                        DJmvh...K3yLt
-                    </span>
-                </TrasactionItem>
+                {paymentTypes.includes(type) && (
+                    <TrasactionItem title={t('COMMON.MEMO')}>
+                        <span className='text-theme-secondary-500 dark:text-theme-secondary-300'>
+                            {transaction.memo() ?? t('COMMON.NOT_AVAILABLE')}
+                        </span>
+                    </TrasactionItem>
+                )}
             </div>
             <div>
                 <ExternalLink
