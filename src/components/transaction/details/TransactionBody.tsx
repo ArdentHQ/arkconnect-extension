@@ -36,20 +36,6 @@ export const TransactionBody = ({
     const type = getType(transaction) as TransactionType;
     const paymentTypes = [TransactionType.SEND, TransactionType.RECEIVE, TransactionType.RETURN];
 
-    const badgeType = transaction.isReturn()
-        ? 'default'
-        : transaction.isReceived()
-          ? 'positive'
-          : 'negative';
-
-    const { convert } = useExchangeRate({
-        exchangeTicker: primaryWallet?.exchangeCurrency(),
-        ticker: primaryWallet?.currency(),
-    });
-
-    const type = getType(transaction) as TransactionType;
-    const paymentTypes = [TransactionType.SEND, TransactionType.RECEIVE, TransactionType.RETURN];
-
     return (
         <div className='flex flex-col gap-4 pb-4'>
             <div>
