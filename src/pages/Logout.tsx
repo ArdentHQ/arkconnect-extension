@@ -31,7 +31,7 @@ const Logout = () => {
     const walletId: string | undefined =
         walletsToLogout && walletsToLogout.length === 1 ? walletsToLogout[0] : walletsIds[0];
 
-    const wallet = walletId !== undefined ? profile.wallets().findById(walletId) : undefined;
+    const wallet = walletId !== undefined && profile.wallets().has(walletId) ? profile.wallets().findById(walletId) : undefined;
 
     const logoutWallet = async () => {
         try {
@@ -100,10 +100,12 @@ const Logout = () => {
 
         walletsToLogout.some((walletId: string) => {
             const wallet = profile.wallets().findById(walletId);
-            if (wallet.isLedger()) {
-                hasLedger = true;
-            } else {
-                hasPassphrase = true;
+            if(wallet) {
+                if (wallet.isLedger()) {
+                    hasLedger = true;
+                } else {
+                    hasPassphrase = true;
+                }   
             }
 
             return hasLedger && hasPassphrase;
