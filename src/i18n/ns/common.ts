@@ -12,6 +12,7 @@ export default {
     EXCLUDING_AMOUNT_TO_SELF: 'Excluding {{amount}} sent to self',
     FAUCET: 'Faucet',
     FROM: 'From',
+    IPFS_HASH: 'IPFS Hash',
     MAINNET: 'Mainnet',
     MEMO: 'Memo',
     MINIMUN_REQUIRED_SIGNATURES: 'Minimum Required Signatures',
