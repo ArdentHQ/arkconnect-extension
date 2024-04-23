@@ -19,7 +19,7 @@ export const AmountBadge = ({
     selfAmount?: string;
 }) => {
     const { t } = useTranslation();
-    
+
     return (
         <div
             className={cn('flex items-center justify-center rounded-md border p-1.5', {
@@ -34,7 +34,7 @@ export const AmountBadge = ({
             {amount}
 
             {selfAmount && (
-                <Tooltip content={t('COMMON.EXCLUDING_AMOUNT_TO_SELF', {amount: selfAmount})}>
+                <Tooltip content={t('COMMON.EXCLUDING_AMOUNT_TO_SELF', { amount: selfAmount })}>
                     <div
                         className={cn('ml-0.5 h-5 w-5 rounded-full bg-transparent p-0.5', {
                             'text-light-black dark:text-white': type === 'default',
