@@ -226,6 +226,7 @@ export const getTransactionAmount = (
     primaryCurrency: string,
     address?: string,
 ): string | JSX.Element => {
+    const { t } = useTranslation();
     const type = getType(transaction);
     const isMultipayment = type === TransactionType.MULTIPAYMENT;
     const amount = transaction.amount();
@@ -250,7 +251,7 @@ export const getTransactionAmount = (
 
                     {isSenderAndRecipient && (
                         <Tooltip
-                            content={`Excluding ${selfAmount} ${primaryCurrency} sent to self`}
+                            content={t('EXCLUDING_AMOUNT_TO_SELF', {amount: `${selfAmount} ${primaryCurrency}`})}
                         >
                             <div className='h-5 w-5 rounded-full bg-transparent p-0.5 text-subtle-black hover:bg-theme-secondary-50 dark:text-white dark:hover:bg-theme-secondary-700'>
                                 <Icon icon='information-circle' />
