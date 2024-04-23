@@ -3,11 +3,11 @@ import cn from 'classnames';
 import dayjs from 'dayjs';
 import { ExtendedConfirmedTransactionData } from '@ardenthq/sdk-profiles/distribution/esm/transaction.dto';
 import {
-    getSecondaryText,
-    getTitle,
-    getTransactionAmount,
     getTransactionIcon,
     getType,
+    LatestTransactionAmount,
+    TransactionSecondaryText,
+    TransactionTitle,
     TransactionType,
 } from './LatestTransactions.utils';
 import { getTimeAgo } from '@/lib/utils/getTimeAgo';
@@ -82,26 +82,26 @@ const TransactionListItem = ({
                 <div className='flex w-full flex-row items-center justify-between'>
                     <div className='flex flex-col gap-1'>
                         <span className='text-base font-medium leading-tight text-light-black dark:text-white'>
-                            {getTitle(type, transaction.isSent())}{' '}
+                            <TransactionTitle type={type} isSender={transaction.isSent()} />
                             {type === TransactionType.MULTIPAYMENT && <MultipaymentBadge />}
                         </span>
                         <span className='text-sm font-normal leading-tight text-theme-secondary-500 dark:text-theme-secondary-300'>
-                            {getSecondaryText(
-                                transaction,
-                                type,
-                                primaryWallet?.address(),
-                                primaryWallet,
-                            )}{' '}
+                            <TransactionSecondaryText
+                                transaction={transaction}
+                                type={type}
+                                primaryWallet={primaryWallet}
+                                address={primaryWallet?.address()}
+                            />
                         </span>
                     </div>
 
                     <div className='flex flex-col items-end gap-1'>
                         <span className='text-base font-medium leading-tight text-light-black dark:text-white'>
-                            {getTransactionAmount(
-                                transaction,
-                                primaryWallet?.currency() ?? 'ARK',
-                                primaryWallet?.address(),
-                            )}
+                            <LatestTransactionAmount
+                                transaction={transaction}
+                                primaryCurrency={primaryWallet?.currency() ?? 'ARK'}
+                                address={primaryWallet?.address()}
+                            />
                         </span>
                         <span className='text-sm font-normal leading-tight text-theme-secondary-500 dark:text-theme-secondary-300'>
                             <Tooltip content={formattedTimestamp}>
