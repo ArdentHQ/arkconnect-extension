@@ -16,7 +16,6 @@ export default {
     MINIMUN_REQUIRED_SIGNATURES: 'Minimum Required Signatures',
     MESSAGE: 'Message',
     MULTI: 'Multi',
-    MULTISIGNATURE: 'Multisignature',
     MULTISIGNATURE_ADDRESS: 'Multisignature Address',
     MULTISIGNATURE_PARTICIPANTS: 'Multisignature Participants',
     NOT_AVAILABLE: 'N/A',
