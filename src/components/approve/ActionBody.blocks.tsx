@@ -15,7 +15,13 @@ interface ActionBodyRowProps {
     className?: string;
 }
 
-export const ActionBodyRow = ({ label, below, value, tooltipContent, className }: ActionBodyRowProps) => (
+export const ActionBodyRow = ({
+    label,
+    below,
+    value,
+    tooltipContent,
+    className,
+}: ActionBodyRowProps) => (
     <ActionDetailsRow label={label} below={below}>
         {tooltipContent ? (
             <Tooltip content={tooltipContent} placement='bottom-end'>
