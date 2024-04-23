@@ -23,7 +23,6 @@ export const TransactionBody = ({
     const { copy } = useClipboard();
 
     const primaryWallet = usePrimaryWallet();
-
     const { convert } = useExchangeRate({
         exchangeTicker: primaryWallet?.exchangeCurrency(),
         ticker: primaryWallet?.currency(),
