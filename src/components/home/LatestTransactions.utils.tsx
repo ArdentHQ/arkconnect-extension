@@ -61,7 +61,13 @@ export const getType = (transaction: ExtendedConfirmedTransactionData): string =
     return TransactionType.OTHER;
 };
 
-export const getTitle = (type: string, isSender: boolean = false): string => {
+export const TransactionTitle = ({
+    type,
+    isSender = false,
+}: {
+    type: string;
+    isSender: boolean;
+}): string => {
     const { t } = useTranslation();
 
     switch (type) {
@@ -124,9 +130,11 @@ const PaymentInfo = ({ address, isSent }: { address: string; isSent: boolean }) 
     );
 };
 
-export const countUniqueRecipients = (
-    transaction: ExtendedConfirmedTransactionData,
-): string | JSX.Element => {
+export const MultipaymentUniqueRecipients = ({
+    transaction,
+}: {
+    transaction: ExtendedConfirmedTransactionData;
+}): string | JSX.Element => {
     const { t } = useTranslation();
     const uniqueRecipients = getUniqueRecipients(transaction);
     const count = uniqueRecipients.length;
@@ -155,12 +163,17 @@ export const getMultipaymentAmounts = (
     return { selfAmount, sentAmount: sentAmount - selfAmount };
 };
 
-export const getSecondaryText = (
-    transaction: ExtendedConfirmedTransactionData,
-    type: string,
-    address?: string,
-    primaryWallet?: IReadWriteWallet,
-): string | JSX.Element => {
+export const TransactionSecondaryText = ({
+    transaction,
+    type,
+    address,
+    primaryWallet,
+}: {
+    transaction: ExtendedConfirmedTransactionData;
+    type: string;
+    address?: string;
+    primaryWallet?: IReadWriteWallet;
+}): string | JSX.Element => {
     const { t } = useTranslation();
     const { voteDelegate, unvoteDelegate } = useDelegateInfo(transaction, primaryWallet);
 
@@ -179,7 +192,7 @@ export const getSecondaryText = (
             return unvoteDelegate;
         case TransactionType.MULTIPAYMENT:
             return transaction.sender() === address ? (
-                countUniqueRecipients(transaction)
+                <MultipaymentUniqueRecipients transaction={transaction} />
             ) : (
                 <PaymentInfo address={transaction.sender()} isSent={false} />
             );
@@ -222,11 +235,16 @@ export const renderAmount = ({
     />
 );
 
-export const getTransactionAmount = (
-    transaction: ExtendedConfirmedTransactionData,
-    primaryCurrency: string,
-    address?: string,
-): string | JSX.Element => {
+export const LatestTransactionAmount = ({
+    transaction,
+    primaryCurrency,
+    address,
+}: {
+    transaction: ExtendedConfirmedTransactionData;
+    primaryCurrency: string;
+    address?: string;
+}): JSX.Element => {
+    const { t } = useTranslation();
     const type = getType(transaction);
     const isMultipayment = type === TransactionType.MULTIPAYMENT;
     const amount = transaction.amount();
@@ -251,7 +269,9 @@ export const getTransactionAmount = (
 
                     {isSenderAndRecipient && (
                         <Tooltip
-                            content={`Excluding ${selfAmount} ${primaryCurrency} sent to self`}
+                            content={t('COMMON.EXCLUDING_AMOUNT_TO_SELF', {
+                                amount: `${selfAmount} ${primaryCurrency}`,
+                            })}
                         >
                             <div className='h-5 w-5 rounded-full bg-transparent p-0.5 text-subtle-black hover:bg-theme-secondary-50 dark:text-white dark:hover:bg-theme-secondary-700'>
                                 <Icon icon='information-circle' />

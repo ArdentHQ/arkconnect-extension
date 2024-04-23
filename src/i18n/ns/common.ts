@@ -9,6 +9,7 @@ export default {
     DETAILS: 'Details',
     EXCHANGES: 'Exchanges',
     EXPLORER: 'Explorer',
+    EXCLUDING_AMOUNT_TO_SELF: 'Excluding {{amount}} sent to self',
     FAUCET: 'Faucet',
     FROM: 'From',
     IPFS_HASH: 'IPFS Hash',
