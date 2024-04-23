@@ -65,6 +65,18 @@ export const TransactionBody = ({
                     </TrasactionItem>
                 )}
 
+                {type === TransactionType.REGISTRATION && (
+                    <TrasactionItem title={t('COMMON.DELEGATE_NAME')}>
+                        {transaction.username() ?? ''}
+                    </TrasactionItem>
+                )}
+
+                {type === TransactionType.RESIGNATION && (
+                    <TrasactionItem title={t('COMMON.DELEGATE_NAME')}>
+                        {transaction.wallet().username() ?? ''}
+                    </TrasactionItem>
+                )}
+
                 <TrasactionItem title={t('COMMON.TRANSACTION_FEE')}>
                     {renderAmount({
                         value: transaction.fee(),

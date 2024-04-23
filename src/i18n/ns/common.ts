@@ -5,6 +5,7 @@ export default {
     AMOUNT: 'Amount',
     BALANCE: 'Balance',
     CONTRACT: 'Contract',
+    DELEGATE_NAME: 'Delegate Name',
     DETAILS: 'Details',
     EXCHANGES: 'Exchanges',
     EXPLORER: 'Explorer',
