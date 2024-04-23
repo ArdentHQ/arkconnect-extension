@@ -98,9 +98,13 @@ export const TransactionBody = ({
                         showSign: false,
                         primaryCurrency: primaryWallet?.currency() ?? 'ARK',
                     })}
-                    <span className='text-theme-secondary-500 dark:text-theme-secondary-300'>
-                        {convert(transaction.fee())}
-                    </span>
+                    {
+                        !primaryWallet?.network().isTest() && (
+                            <span className='text-theme-secondary-500 dark:text-theme-secondary-300'>
+                                {convert(transaction.fee())}
+                            </span>
+                        )
+                    }
                 </TrasactionItem>
 
                 <TrasactionItem title={t('COMMON.TIMESTAMP')}>
