@@ -6,10 +6,10 @@ import { AmountBadge } from './AmountBadge';
 import { Button, ExternalLink, Icon } from '@/shared/components';
 import useClipboard from '@/lib/hooks/useClipboard';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
-import { getExplorerDomain } from '@/lib/utils/networkUtils';
 import trimAddress from '@/lib/utils/trimAddress';
 import { getType, renderAmount, TransactionType } from '@/components/home/LatestTransactions.utils';
 import { useExchangeRate } from '@/lib/hooks/useExchangeRate';
+import { getTransactionDetailLink } from '@/lib/utils/networkUtils';
 
 export const TransactionBody = ({
     transaction,
@@ -65,6 +65,18 @@ export const TransactionBody = ({
                     </TrasactionItem>
                 )}
 
+                {type === TransactionType.REGISTRATION && (
+                    <TrasactionItem title={t('COMMON.DELEGATE_NAME')}>
+                        {transaction.username() ?? ''}
+                    </TrasactionItem>
+                )}
+
+                {type === TransactionType.RESIGNATION && (
+                    <TrasactionItem title={t('COMMON.DELEGATE_NAME')}>
+                        {transaction.wallet().username() ?? ''}
+                    </TrasactionItem>
+                )}
+
                 <TrasactionItem title={t('COMMON.TRANSACTION_FEE')}>
                     {renderAmount({
                         value: transaction.fee(),
@@ -76,14 +88,32 @@ export const TransactionBody = ({
                         {convert(transaction.fee())}
                     </span>
                 </TrasactionItem>
+              
+                {type === TransactionType.OTHER && (
+                    <TrasactionItem title={t('COMMON.IPFS_HASH')}>
+                        <span className='[overflow-wrap:anywhere]'>{transaction.hash()}</span>
+                    </TrasactionItem>
+                )}
 
                 <TrasactionItem title={t('COMMON.TIMESTAMP')}>
                     {transaction.timestamp()?.toString() ?? ''}
                 </TrasactionItem>
 
-                {type === TransactionType.OTHER && (
-                    <TrasactionItem title={t('COMMON.IPFS_HASH')}>
-                        <span className='[overflow-wrap:anywhere]'>{transaction.hash()}</span>
+                {type === TransactionType.MULTISIGNATURE && (
+                    <TrasactionItem title={t('COMMON.MULTISIGNATURE_PARTICIPANTS')}>
+                        {t('COMMON.PARTICIPANT', { count: transaction.publicKeys().length })}
+                    </TrasactionItem>
+                )}
+
+                {type === TransactionType.MULTISIGNATURE && (
+                    <TrasactionItem title={t('COMMON.MINIMUN_REQUIRED_SIGNATURES')}>
+                        {transaction.min()} / {transaction.publicKeys().length}
+                    </TrasactionItem>
+                )}
+
+                {type === TransactionType.MULTISIGNATURE && (
+                    <TrasactionItem title={t('COMMON.MULTISIGNATURE_ADDRESS')}>
+                        {trimAddress(transaction.sender(), 'short')}
                     </TrasactionItem>
                 )}
 
@@ -113,9 +143,9 @@ export const TransactionBody = ({
             </div>
             <div>
                 <ExternalLink
-                    href={getExplorerDomain(
+                    href={getTransactionDetailLink(
                         primaryWallet?.network().isLive() ?? false,
-                        primaryWallet?.address() ?? '',
+                        transaction.id(),
                     )}
                     className='hover:no-underline'
                 >
