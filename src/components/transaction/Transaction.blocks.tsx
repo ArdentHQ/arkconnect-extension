@@ -133,13 +133,11 @@ export const TransactionAmount = ({
                 type={type}
                 selfAmount={selfAmount}
             />
-            {
-                !isDevnet && (
-                    <span className='pl-0.5 text-theme-secondary-500 dark:text-theme-secondary-300'>
-                        {convert(value)}
-                    </span>
-                )
-            }
+            {!isDevnet && (
+                <span className='pl-0.5 text-theme-secondary-500 dark:text-theme-secondary-300'>
+                    {convert(value)}
+                </span>
+            )}
         </>
     );
 
