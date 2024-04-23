@@ -100,13 +100,11 @@ const Logout = () => {
 
         walletsToLogout.some((walletId: string) => {
             const wallet = profile.wallets().findById(walletId);
-            if(wallet) {
-                if (wallet.isLedger()) {
-                    hasLedger = true;
-                } else {
-                    hasPassphrase = true;
-                }   
-            }
+            if (wallet.isLedger()) {
+                hasLedger = true;
+            } else {
+                hasPassphrase = true;
+            }   
 
             return hasLedger && hasPassphrase;
         });
