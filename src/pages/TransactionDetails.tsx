@@ -39,7 +39,7 @@ const TransactionDetails = () => {
         {
             enabled: !!primaryWallet,
             staleTime: 0,
-            refetchInterval: 3000,
+            refetchInterval: false,
         },
     );
 
