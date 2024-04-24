@@ -5,6 +5,7 @@ import { IReadWriteWallet } from '@ardenthq/sdk-profiles/distribution/esm/wallet
 import { useQuery } from 'react-query';
 import { NoTransactions, TransactionsList } from './LatestTransactions.blocks';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
+import { Loader } from '@/shared/components';
 
 type TransactionResponse = {
     transactions: ExtendedConfirmedTransactionData[];
@@ -30,14 +31,13 @@ export const LatestTransactions = () => {
     const { t } = useTranslation();
     const primaryWallet = usePrimaryWallet();
 
-    const { data = { transactions: [], hasMorePages: false }, refetch } =
+    const { data, refetch, isLoading, isFetching } =
         useQuery<TransactionResponse>(
             ['transactions', primaryWallet?.address()],
             () => fetchTransactions(primaryWallet),
             {
                 enabled: !!primaryWallet,
                 staleTime: 0,
-                initialData: { transactions: [], hasMorePages: false },
                 refetchInterval: 3000,
             },
         );
@@ -47,23 +47,32 @@ export const LatestTransactions = () => {
             refetch();
         }
     }, [primaryWallet, refetch]);
-
+    console.log(isLoading, isFetching, !data)
     return (
         <div className='mt-4 h-full w-full rounded-t-2xl bg-white dark:bg-subtle-black'>
             <div className='border-b border-b-theme-secondary-200 p-4 text-lg font-medium leading-tight text-light-black dark:border-b-theme-secondary-600 dark:text-white'>
                 {t('PAGES.HOME.LATEST_TRANSACTIONS')}
             </div>
-
-            <div className='h-auto w-full'>
-                {data.transactions.length > 0 ? (
-                    <TransactionsList
-                        transactions={data.transactions}
-                        displayButton={data.hasMorePages}
-                    />
+            
+            {
+                !isLoading && data ? (
+                    <div className='h-auto w-full'>
+                        {data.transactions.length > 0 ? (
+                            <TransactionsList
+                                transactions={data.transactions}
+                                displayButton={data.hasMorePages}
+                            />
+                        ) : (
+                            <NoTransactions />
+                        )}
+                    </div>
                 ) : (
-                    <NoTransactions />
-                )}
-            </div>
+                    <div className='h-[320px] w-full flex items-center justify-center'>
+                        <Loader variant='big' className='dark:border-light-black dark:border-t-theme-primary-650' />
+                    </div>
+                )
+            }
+
         </div>
     );
 };
