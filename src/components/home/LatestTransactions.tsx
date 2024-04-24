@@ -31,7 +31,7 @@ export const LatestTransactions = () => {
     const { t } = useTranslation();
     const primaryWallet = usePrimaryWallet();
 
-    const { data, refetch, isLoading, isFetching } =
+    const { data, refetch, isLoading } =
         useQuery<TransactionResponse>(
             ['transactions', primaryWallet?.address()],
             () => fetchTransactions(primaryWallet),
@@ -47,7 +47,7 @@ export const LatestTransactions = () => {
             refetch();
         }
     }, [primaryWallet, refetch]);
-    console.log(isLoading, isFetching, !data)
+
     return (
         <div className='mt-4 h-full w-full rounded-t-2xl bg-white dark:bg-subtle-black'>
             <div className='border-b border-b-theme-secondary-200 p-4 text-lg font-medium leading-tight text-light-black dark:border-b-theme-secondary-600 dark:text-white'>
