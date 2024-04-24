@@ -19,11 +19,14 @@ export const useDelegateInfo = (
         delegateAddress: string;
     }>({ delegateName: '', delegateAddress: '' });
 
-    const getDelegateInfo = async (address: string): Promise<{
+    const getDelegateInfo = async (
+        address: string,
+    ): Promise<{
         delegateName: string;
         delegateAddress: string;
     }> => {
-        let delegateName = '', delegateAddress = '';
+        let delegateName = '',
+            delegateAddress = '';
         const coin = primaryWallet?.network().coin() ?? 'ARK';
         const network = primaryWallet?.network().id() ?? 'ark.mainnet';
         try {
@@ -32,8 +35,7 @@ export const useDelegateInfo = (
             await env.delegates().sync(profile, coin, network);
         }
 
-        const delegate =
-            env.delegates().findByPublicKey(coin, network, address) || undefined;
+        const delegate = env.delegates().findByPublicKey(coin, network, address) || undefined;
 
         if (delegate) {
             delegateName = delegate.username() || '';
