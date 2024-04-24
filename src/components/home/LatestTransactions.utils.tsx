@@ -185,11 +185,11 @@ export const TransactionSecondaryText = ({
         case TransactionType.RETURN:
             return t('COMMON.TO_SELF');
         case TransactionType.SWAP:
-            return `${t('COMMON.TO')} ${voteDelegate}`;
+            return `${t('COMMON.TO')} ${voteDelegate.delegateName}`;
         case TransactionType.VOTE:
-            return voteDelegate;
+            return voteDelegate.delegateName;
         case TransactionType.UNVOTE:
-            return unvoteDelegate;
+            return unvoteDelegate.delegateName;
         case TransactionType.MULTIPAYMENT:
             return transaction.sender() === address ? (
                 <MultipaymentUniqueRecipients transaction={transaction} />
