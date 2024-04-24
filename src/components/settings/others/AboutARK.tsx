@@ -35,6 +35,16 @@ const AboutARK = () => {
             </div>
 
             <div className='flex flex-col gap-2 text-light-black dark:text-white'>
+                <RowLayout
+                    href={constants.ARK_CONNECT_DEMO}
+                    title={t('MISC.DEMO_APP')}
+                    iconTrailing='link-external'
+                    tabIndex={-1}
+                    className='flex w-full items-center justify-between rounded-2xl'
+                    target='_blank'
+                    rel='noopener noreferrer'
+                />
+
                 <div className='relative flex items-center'>
                     <RowLayout
                         title={t('MISC.SUPPORT_EMAIL')}
