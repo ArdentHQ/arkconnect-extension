@@ -129,6 +129,7 @@ export const TransactionAmount = ({
                     isNegative,
                     showSign,
                     primaryCurrency,
+                    displayTooltip: false,
                 })}
                 type={type}
                 selfAmount={selfAmount}

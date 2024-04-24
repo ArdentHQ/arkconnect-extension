@@ -218,11 +218,13 @@ export const renderAmount = ({
     isNegative,
     showSign,
     primaryCurrency,
+    displayTooltip = true,
 }: {
     value: number;
     isNegative: boolean;
     showSign: boolean;
     primaryCurrency: string;
+    displayTooltip?: boolean;
 }) => (
     <Amount
         value={value}
@@ -232,6 +234,7 @@ export const renderAmount = ({
         showSign={showSign}
         isNegative={isNegative}
         maxDigits={20}
+        displayTooltip={displayTooltip}
     />
 );
 
