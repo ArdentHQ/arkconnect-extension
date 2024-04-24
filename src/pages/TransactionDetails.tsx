@@ -33,7 +33,11 @@ const TransactionDetails = () => {
     const primaryWallet = usePrimaryWallet();
     const { transactionId } = useParams<{ transactionId: string }>();
 
-    const { data: transactionData, refetch, isLoading } = useQuery<TransactionDetailsResponse>(
+    const {
+        data: transactionData,
+        refetch,
+        isLoading,
+    } = useQuery<TransactionDetailsResponse>(
         ['transaction-details', transactionId],
         () => fetchTransactionDetails(primaryWallet, transactionId),
         {
@@ -57,7 +61,7 @@ const TransactionDetails = () => {
                     <TransactionBody transaction={transactionData} />
                 </>
             ) : (
-                <div className='h-full w-full flex justify-center items-center'>
+                <div className='flex h-full w-full items-center justify-center'>
                     <Loader variant='big' />
                 </div>
             )}
