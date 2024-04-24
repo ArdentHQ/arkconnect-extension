@@ -1,59 +1,145 @@
 import { useTranslation } from 'react-i18next';
+import { ExtendedConfirmedTransactionData } from '@ardenthq/sdk-profiles/distribution/esm/transaction.dto';
+import {
+    TransactionAddress,
+    TransactionAmount,
+    TransactionUniqueRecipients,
+} from '../Transaction.blocks';
 import { TrasactionItem } from './TrasactionItem';
-import { AmountBadge } from './AmountBadge';
 import { Button, ExternalLink, Icon } from '@/shared/components';
 import useClipboard from '@/lib/hooks/useClipboard';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
-import { getExplorerDomain } from '@/lib/utils/networkUtils';
+import trimAddress from '@/lib/utils/trimAddress';
+import { getType, renderAmount, TransactionType } from '@/components/home/LatestTransactions.utils';
+import { useExchangeRate } from '@/lib/hooks/useExchangeRate';
+import { useDelegateInfo } from '@/lib/hooks/useDelegateInfo';
+import { getTransactionDetailLink } from '@/lib/utils/networkUtils';
 
-export const TransactionBody = () => {
+export const TransactionBody = ({
+    transaction,
+}: {
+    transaction: ExtendedConfirmedTransactionData;
+}) => {
+    const primaryWallet = usePrimaryWallet();
     const { t } = useTranslation();
     const { copy } = useClipboard();
+    const { voteDelegate, unvoteDelegate } = useDelegateInfo(transaction, primaryWallet);
 
-    const primaryWallet = usePrimaryWallet();
+    const { convert } = useExchangeRate({
+        exchangeTicker: primaryWallet?.exchangeCurrency(),
+        ticker: primaryWallet?.currency(),
+    });
+
+    const type = getType(transaction) as TransactionType;
+    const paymentTypes = [
+        TransactionType.SEND,
+        TransactionType.RECEIVE,
+        TransactionType.RETURN,
+        TransactionType.MULTIPAYMENT,
+    ];
 
     return (
         <div className='flex flex-col gap-4 pb-4'>
             <div>
                 <TrasactionItem title={t('COMMON.SENDER')}>
-                    ARK #1{' '}
-                    <span className='text-theme-secondary-500 dark:text-theme-secondary-300'>
-                        ARoka...uRKma
-                    </span>
+                    <TransactionAddress address={transaction.sender()} />
                 </TrasactionItem>
 
-                <TrasactionItem title={t('COMMON.RECIPIENT')}>
-                    ARK #1{' '}
-                    <span className='text-theme-secondary-500 dark:text-theme-secondary-300'>
-                        ARoka...uRKma
-                    </span>
-                </TrasactionItem>
+                {paymentTypes.includes(type) && (
+                    <TrasactionItem title={t('COMMON.RECIPIENT')}>
+                        {type === TransactionType.MULTIPAYMENT ? (
+                            <TransactionUniqueRecipients transaction={transaction} />
+                        ) : (
+                            <TransactionAddress address={transaction.recipient()} />
+                        )}
+                    </TrasactionItem>
+                )}
 
-                <TrasactionItem title={t('COMMON.AMOUNT')}>
-                    <AmountBadge amount={'+14.56128396 ARK'} type='positive' />
-                    <span className='pl-0.5 text-theme-secondary-500 dark:text-theme-secondary-300'>
-                        $0.50
-                    </span>
-                </TrasactionItem>
+                {paymentTypes.includes(type) && (
+                    <TrasactionItem title={t('COMMON.AMOUNT')}>
+                        <TransactionAmount transaction={transaction} />
+                    </TrasactionItem>
+                )}
+
+                {[TransactionType.VOTE, TransactionType.SWAP].includes(type) && (
+                    <TrasactionItem title={t('COMMON.VOTE')}>
+                        {voteDelegate}
+                        <span className='text-theme-secondary-500 dark:text-theme-secondary-300'>
+                            {trimAddress(transaction.votes()[0], 'short')}
+                        </span>
+                    </TrasactionItem>
+                )}
+
+                {[TransactionType.UNVOTE, TransactionType.SWAP].includes(type) && (
+                    <TrasactionItem title={t('COMMON.UNVOTE')}>
+                        {unvoteDelegate}
+                        <span className='text-theme-secondary-500 dark:text-theme-secondary-300'>
+                            {trimAddress(transaction.unvotes()[0], 'short')}
+                        </span>
+                    </TrasactionItem>
+                )}
+
+                {type === TransactionType.REGISTRATION && (
+                    <TrasactionItem title={t('COMMON.DELEGATE_NAME')}>
+                        {transaction.username() ?? ''}
+                    </TrasactionItem>
+                )}
+
+                {type === TransactionType.RESIGNATION && (
+                    <TrasactionItem title={t('COMMON.DELEGATE_NAME')}>
+                        {transaction.wallet().username() ?? ''}
+                    </TrasactionItem>
+                )}
 
                 <TrasactionItem title={t('COMMON.TRANSACTION_FEE')}>
-                    0.75 ARK{' '}
-                    <span className='text-theme-secondary-500 dark:text-theme-secondary-300'>
-                        $0.50
-                    </span>
+                    {renderAmount({
+                        value: transaction.fee(),
+                        isNegative: false,
+                        showSign: false,
+                        primaryCurrency: primaryWallet?.currency() ?? 'ARK',
+                    })}
+                    {!primaryWallet?.network().isTest() && (
+                        <span className='text-theme-secondary-500 dark:text-theme-secondary-300'>
+                            {convert(transaction.fee())}
+                        </span>
+                    )}
                 </TrasactionItem>
 
-                <TrasactionItem title={t('COMMON.TIMESTAMP')}>27 Mar 2024, 15:01:04</TrasactionItem>
+                {type === TransactionType.OTHER && (
+                    <TrasactionItem title={t('COMMON.IPFS_HASH')}>
+                        <span className='[overflow-wrap:anywhere]'>{transaction.hash()}</span>
+                    </TrasactionItem>
+                )}
+
+                <TrasactionItem title={t('COMMON.TIMESTAMP')}>
+                    {transaction.timestamp()?.toString() ?? ''}
+                </TrasactionItem>
+
+                {type === TransactionType.MULTISIGNATURE && (
+                    <TrasactionItem title={t('COMMON.MULTISIGNATURE_PARTICIPANTS')}>
+                        {t('COMMON.PARTICIPANT', { count: transaction.publicKeys().length })}
+                    </TrasactionItem>
+                )}
+
+                {type === TransactionType.MULTISIGNATURE && (
+                    <TrasactionItem title={t('COMMON.MINIMUN_REQUIRED_SIGNATURES')}>
+                        {transaction.min()} / {transaction.publicKeys().length}
+                    </TrasactionItem>
+                )}
+
+                {type === TransactionType.MULTISIGNATURE && (
+                    <TrasactionItem title={t('COMMON.MULTISIGNATURE_ADDRESS')}>
+                        {trimAddress(transaction.sender(), 'short')}
+                    </TrasactionItem>
+                )}
 
                 <TrasactionItem title={t('COMMON.TRANSACTION_ID')}>
                     <div className='flex w-full flex-row items-center justify-between'>
-                        <span>231d80d0c255a...fc4a6019815773f0</span>
+                        <span>{trimAddress(transaction.id(), 'longest')}</span>
                         <button
                             type='button'
                             className='block'
-                            onClick={() =>
-                                copy('231d80d0c255afc4a6019815773f0', t('COMMON.TRANSACTION_ID'))
-                            }
+                            onClick={() => copy(transaction.id(), t('COMMON.TRANSACTION_ID'))}
                         >
                             <Icon
                                 icon='copy'
@@ -63,31 +149,21 @@ export const TransactionBody = () => {
                     </div>
                 </TrasactionItem>
 
-                <TrasactionItem title={t('COMMON.MEMO')}>
-                    <span className='text-theme-secondary-500 dark:text-theme-secondary-300'>
-                        N/A
-                    </span>
-                </TrasactionItem>
-
-                <TrasactionItem title={t('COMMON.VOTE')}>
-                    boldninja{' '}
-                    <span className='text-theme-secondary-500 dark:text-theme-secondary-300'>
-                        DKrAC...fXYqu
-                    </span>
-                </TrasactionItem>
-
-                <TrasactionItem title={t('COMMON.UNVOTE')}>
-                    genesis_31{' '}
-                    <span className='text-theme-secondary-500 dark:text-theme-secondary-300'>
-                        DJmvh...K3yLt
-                    </span>
-                </TrasactionItem>
+                {paymentTypes.includes(type) && (
+                    <TrasactionItem title={t('COMMON.MEMO')}>
+                        {transaction.memo() ?? (
+                            <span className='text-theme-secondary-500 dark:text-theme-secondary-300'>
+                                {t('COMMON.NOT_AVAILABLE')}
+                            </span>
+                        )}
+                    </TrasactionItem>
+                )}
             </div>
             <div>
                 <ExternalLink
-                    href={getExplorerDomain(
+                    href={getTransactionDetailLink(
                         primaryWallet?.network().isLive() ?? false,
-                        primaryWallet?.address() ?? '',
+                        transaction.id(),
                     )}
                     className='hover:no-underline'
                 >

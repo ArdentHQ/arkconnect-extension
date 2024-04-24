@@ -61,7 +61,13 @@ export const getType = (transaction: ExtendedConfirmedTransactionData): string =
     return TransactionType.OTHER;
 };
 
-export const getTitle = (type: string, isSender: boolean = false): string => {
+export const TransactionTitle = ({
+    type,
+    isSender = false,
+}: {
+    type: string;
+    isSender: boolean;
+}): string => {
     const { t } = useTranslation();
 
     switch (type) {
@@ -124,9 +130,11 @@ const PaymentInfo = ({ address, isSent }: { address: string; isSent: boolean }) 
     );
 };
 
-export const countUniqueRecipients = (
-    transaction: ExtendedConfirmedTransactionData,
-): string | JSX.Element => {
+export const MultipaymentUniqueRecipients = ({
+    transaction,
+}: {
+    transaction: ExtendedConfirmedTransactionData;
+}): string | JSX.Element => {
     const { t } = useTranslation();
     const uniqueRecipients = getUniqueRecipients(transaction);
     const count = uniqueRecipients.length;
@@ -155,14 +163,19 @@ export const getMultipaymentAmounts = (
     return { selfAmount, sentAmount: sentAmount - selfAmount };
 };
 
-export const getSecondaryText = (
-    transaction: ExtendedConfirmedTransactionData,
-    type: string,
-    address?: string,
-    primaryWallet?: IReadWriteWallet,
-): string | JSX.Element => {
+export const TransactionSecondaryText = ({
+    transaction,
+    type,
+    address,
+    primaryWallet,
+}: {
+    transaction: ExtendedConfirmedTransactionData;
+    type: string;
+    address?: string;
+    primaryWallet?: IReadWriteWallet;
+}): string | JSX.Element => {
     const { t } = useTranslation();
-    const { delegateName } = useDelegateInfo(transaction, primaryWallet);
+    const { voteDelegate, unvoteDelegate } = useDelegateInfo(transaction, primaryWallet);
 
     switch (type) {
         case TransactionType.SEND:
@@ -172,13 +185,14 @@ export const getSecondaryText = (
         case TransactionType.RETURN:
             return t('COMMON.TO_SELF');
         case TransactionType.SWAP:
-            return `${t('COMMON.TO')} ${delegateName}`;
+            return `${t('COMMON.TO')} ${voteDelegate}`;
         case TransactionType.VOTE:
+            return voteDelegate;
         case TransactionType.UNVOTE:
-            return delegateName;
+            return unvoteDelegate;
         case TransactionType.MULTIPAYMENT:
             return transaction.sender() === address ? (
-                countUniqueRecipients(transaction)
+                <MultipaymentUniqueRecipients transaction={transaction} />
             ) : (
                 <PaymentInfo address={transaction.sender()} isSent={false} />
             );
@@ -199,26 +213,41 @@ export const getTransactionIcon = (
     return type as IconDefinition;
 };
 
-export const getTransactionAmount = (
-    transaction: ExtendedConfirmedTransactionData,
-    primaryCurrency: string,
-    address?: string,
-): string | JSX.Element => {
+export const renderAmount = ({
+    value,
+    isNegative,
+    showSign,
+    primaryCurrency,
+}: {
+    value: number;
+    isNegative: boolean;
+    showSign: boolean;
+    primaryCurrency: string;
+}) => (
+    <Amount
+        value={value}
+        ticker={primaryCurrency}
+        tooltipPlacement='bottom-end'
+        withTicker
+        showSign={showSign}
+        isNegative={isNegative}
+        maxDigits={20}
+    />
+);
+
+export const LatestTransactionAmount = ({
+    transaction,
+    primaryCurrency,
+    address,
+}: {
+    transaction: ExtendedConfirmedTransactionData;
+    primaryCurrency: string;
+    address?: string;
+}): JSX.Element => {
+    const { t } = useTranslation();
     const type = getType(transaction);
     const isMultipayment = type === TransactionType.MULTIPAYMENT;
     const amount = transaction.amount();
-
-    const renderAmount = (value: number, isNegative: boolean, showSign: boolean) => (
-        <Amount
-            value={value}
-            ticker={primaryCurrency}
-            tooltipPlacement='bottom-end'
-            withTicker
-            showSign={showSign}
-            isNegative={isNegative}
-            maxDecimals={2}
-        />
-    );
 
     if (isMultipayment) {
         const uniqueRecipients = getUniqueRecipients(transaction);
@@ -231,11 +260,18 @@ export const getTransactionAmount = (
 
             return (
                 <span className='flex flex-row gap-0.5'>
-                    {renderAmount(sentAmount, true, sentAmount !== 0)}
+                    {renderAmount({
+                        value: sentAmount,
+                        isNegative: true,
+                        showSign: sentAmount !== 0,
+                        primaryCurrency,
+                    })}
 
                     {isSenderAndRecipient && (
                         <Tooltip
-                            content={`Excluding ${selfAmount} ${primaryCurrency} sent to self`}
+                            content={t('COMMON.EXCLUDING_AMOUNT_TO_SELF', {
+                                amount: `${selfAmount} ${primaryCurrency}`,
+                            })}
                         >
                             <div className='h-5 w-5 rounded-full bg-transparent p-0.5 text-subtle-black hover:bg-theme-secondary-50 dark:text-white dark:hover:bg-theme-secondary-700'>
                                 <Icon icon='information-circle' />
@@ -245,9 +281,19 @@ export const getTransactionAmount = (
                 </span>
             );
         } else {
-            return renderAmount(getAmountByAddress(uniqueRecipients, address), false, true);
+            return renderAmount({
+                value: getAmountByAddress(uniqueRecipients, address),
+                isNegative: false,
+                showSign: true,
+                primaryCurrency,
+            });
         }
     }
 
-    return renderAmount(amount, type === TransactionType.SEND, type !== TransactionType.RETURN);
+    return renderAmount({
+        value: amount,
+        isNegative: type === TransactionType.SEND,
+        showSign: type !== TransactionType.RETURN,
+        primaryCurrency,
+    });
 };
