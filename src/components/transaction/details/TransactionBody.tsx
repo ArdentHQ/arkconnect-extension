@@ -14,6 +14,7 @@ import { getType, renderAmount, TransactionType } from '@/components/home/Latest
 import { useExchangeRate } from '@/lib/hooks/useExchangeRate';
 import { useDelegateInfo } from '@/lib/hooks/useDelegateInfo';
 import { getTransactionDetailLink } from '@/lib/utils/networkUtils';
+import Amount from '@/components/wallet/Amount';
 
 export const TransactionBody = ({
     transaction,
@@ -24,7 +25,6 @@ export const TransactionBody = ({
     const { t } = useTranslation();
     const { copy } = useClipboard();
     const { voteDelegate, unvoteDelegate } = useDelegateInfo(transaction, primaryWallet);
-
     const { convert } = useExchangeRate({
         exchangeTicker: primaryWallet?.exchangeCurrency(),
         ticker: primaryWallet?.currency(),
@@ -100,7 +100,11 @@ export const TransactionBody = ({
                     })}
                     {!primaryWallet?.network().isTest() && (
                         <span className='text-theme-secondary-500 dark:text-theme-secondary-300'>
-                            {convert(transaction.fee())}
+                            <Amount
+                                value={convert(transaction.fee())}
+                                ticker={primaryWallet?.exchangeCurrency() ?? 'USD'}
+                                underlineOnHover={true}
+                            />
                         </span>
                     )}
                 </TrasactionItem>
