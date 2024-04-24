@@ -1,9 +1,6 @@
 import { twMerge } from 'tailwind-merge';
 import { ExtendedConfirmedTransactionData } from '@ardenthq/sdk-profiles/distribution/esm/transaction.dto';
-import {
-    getType,
-    TransactionType,
-} from '@/components/home/LatestTransactions.utils';
+import { getType, TransactionType } from '@/components/home/LatestTransactions.utils';
 import { TransactionIcon } from '@/components/transaction/Transaction.blocks';
 import { MultipaymentBadge, TransactionTitle } from '@/components/home/LatestTransactions.blocks';
 

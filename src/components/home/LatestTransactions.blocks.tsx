@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next';
 import cn from 'classnames';
 import dayjs from 'dayjs';
 import { ExtendedConfirmedTransactionData } from '@ardenthq/sdk-profiles/distribution/esm/transaction.dto';
+import { IReadWriteWallet } from '@ardenthq/sdk-profiles/distribution/esm/wallet.contract';
 import {
     getAmountByAddress,
     getMultipaymentAmounts,
@@ -22,7 +23,6 @@ import {
 } from '@/shared/components';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 import { getExplorerDomain } from '@/lib/utils/networkUtils';
-import { IReadWriteWallet } from '@ardenthq/sdk-profiles/distribution/esm/wallet.contract';
 import { useDelegateInfo } from '@/lib/hooks/useDelegateInfo';
 import trimAddress from '@/lib/utils/trimAddress';
 
