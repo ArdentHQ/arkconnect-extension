@@ -10,10 +10,20 @@ export const useDelegateInfo = (
 ) => {
     const { env } = useEnvironmentContext();
     const { profile } = useProfileContext();
-    const [voteDelegate, setVoteDelegate] = useState<string>('');
-    const [unvoteDelegate, setUnvoteDelegate] = useState<string>('');
+    const [voteDelegate, setVoteDelegate] = useState<{
+        delegateName: string;
+        delegateAddress: string;
+    }>({ delegateName: '', delegateAddress: '' });
+    const [unvoteDelegate, setUnvoteDelegate] = useState<{
+        delegateName: string;
+        delegateAddress: string;
+    }>({ delegateName: '', delegateAddress: '' });
 
-    const getDelegateName = async (address: string) => {
+    const getDelegateInfo = async (address: string): Promise<{
+        delegateName: string;
+        delegateAddress: string;
+    }> => {
+        let delegateName = '', delegateAddress = '';
         const coin = primaryWallet?.network().coin() ?? 'ARK';
         const network = primaryWallet?.network().id() ?? 'ark.mainnet';
         try {
@@ -22,10 +32,15 @@ export const useDelegateInfo = (
             await env.delegates().sync(profile, coin, network);
         }
 
-        const delegateName =
-            env.delegates().findByPublicKey(coin, network, address)?.username() ?? '';
+        const delegate =
+            env.delegates().findByPublicKey(coin, network, address) || undefined;
 
-        return delegateName;
+        if (delegate) {
+            delegateName = delegate.username() || '';
+            delegateAddress = delegate.address();
+        }
+
+        return { delegateName, delegateAddress };
     };
 
     useEffect(() => {
@@ -35,15 +50,15 @@ export const useDelegateInfo = (
                 const unvoteAddress = transaction.unvotes()[0] || undefined;
 
                 if (voteAddress) {
-                    const voteDelegateName = await getDelegateName(voteAddress);
+                    const voteDelegate = await getDelegateInfo(voteAddress);
 
-                    setVoteDelegate(voteDelegateName);
+                    setVoteDelegate(voteDelegate);
                 }
 
                 if (unvoteAddress) {
-                    const unvoteDelegateName = await getDelegateName(unvoteAddress);
+                    const unvoteDelegate = await getDelegateInfo(unvoteAddress);
 
-                    setUnvoteDelegate(unvoteDelegateName);
+                    setUnvoteDelegate(unvoteDelegate);
                 }
             }
         })();
