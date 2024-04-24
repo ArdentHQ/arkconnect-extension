@@ -30,7 +30,7 @@ export default {
                 'action-details': 'inset 0 0 0 1px  var(--theme-color-secondary-200)',
                 'action-details-dark': 'inset 0 0 0 1px  var(--theme-color-secondary-700)',
                 'secondary-dark': '0 1px 2px 0 rgba(16, 24, 40, 0.05)',
-                'dropdown-dark': '0px 4px 24px 0px rgba(0, 0, 0, 0.50)'
+                'dropdown-dark': '0px 4px 24px 0px rgba(0, 0, 0, 0.50)',
             },
             dropShadow: {
                 dark: '0 1px 3px  rgba(16, 24, 40, 0.10)',
