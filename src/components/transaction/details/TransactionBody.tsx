@@ -135,7 +135,7 @@ export const TransactionBody = ({
 
                 <TrasactionItem title={t('COMMON.TRANSACTION_ID')}>
                     <div className='flex w-full flex-row items-center justify-between'>
-                        <Tooltip content={transaction.id()} className='break-words' >
+                        <Tooltip content={transaction.id()} className='break-words'>
                             <span>{trimAddress(transaction.id(), 'longest')}</span>
                         </Tooltip>
                         <button
