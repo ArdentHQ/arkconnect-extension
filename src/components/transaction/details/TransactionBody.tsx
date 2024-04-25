@@ -6,7 +6,7 @@ import {
     TransactionUniqueRecipients,
 } from '../Transaction.blocks';
 import { TrasactionItem } from './TrasactionItem';
-import { Button, ExternalLink, Icon } from '@/shared/components';
+import { Button, ExternalLink, Icon, Tooltip } from '@/shared/components';
 import useClipboard from '@/lib/hooks/useClipboard';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 import trimAddress from '@/lib/utils/trimAddress';
@@ -139,7 +139,9 @@ export const TransactionBody = ({
 
                 <TrasactionItem title={t('COMMON.TRANSACTION_ID')}>
                     <div className='flex w-full flex-row items-center justify-between'>
-                        <span>{trimAddress(transaction.id(), 'longest')}</span>
+                        <Tooltip content={transaction.id()} className='break-words'>
+                            <span>{trimAddress(transaction.id(), 'longest')}</span>
+                        </Tooltip>
                         <button
                             type='button'
                             className='block'
