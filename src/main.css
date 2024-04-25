@@ -3,6 +3,7 @@
 @import './css/general.css';
 @import './css/inputs.css';
 @import './css/buttons.css';
+@import './css/skeletons.css';
 
 @tailwind base;
 @tailwind components;
