@@ -2,6 +2,7 @@ import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
 import { ExtendedConfirmedTransactionData } from '@ardenthq/sdk-profiles/distribution/esm/transaction.dto';
 import { AmountBadge, AmountBadgeType } from './details/AmountBadge';
+import Amount from '@/components/wallet/Amount';
 import { Icon, IconDefinition, Tooltip } from '@/shared/components';
 import {
     getAmountByAddress,
@@ -136,7 +137,11 @@ export const TransactionAmount = ({
             />
             {!isDevnet && (
                 <span className='pl-0.5 text-theme-secondary-500 dark:text-theme-secondary-300'>
-                    {convert(value)}
+                    <Amount
+                        value={convert(value)}
+                        ticker={primaryWallet?.exchangeCurrency() ?? 'USD'}
+                        underlineOnHover={true}
+                    />
                 </span>
             )}
         </>
