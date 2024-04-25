@@ -11,6 +11,6 @@ describe('formatUnixTimestsamp', () => {
     it('should correctly format a Unix timestamp at a specific date', () => {
         const timestamp = 1672444800;
         const result = formatUnixTimestamp(timestamp);
-        expect(result).toBe('01 Jan 2023, 00:00:00');
+        expect(result).toBe('31 Dec 2022, 00:00:00');
     });
 });
