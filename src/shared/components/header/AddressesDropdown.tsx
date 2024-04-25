@@ -76,7 +76,7 @@ export const AddressesDropdown = ({
 
     return (
         <div
-            className='mx-4 w-full rounded-xl bg-white shadow-dropdown dark:bg-subtle-black'
+            className='mx-4 w-full rounded-xl bg-white shadow-dropdown dark:bg-subtle-black dark:shadow-dropdown-dark'
             ref={dropdownRef}
         >
             <div className='border-b border-solid border-b-theme-secondary-200 dark:border-b-theme-secondary-600'>
