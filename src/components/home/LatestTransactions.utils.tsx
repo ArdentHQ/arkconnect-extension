@@ -8,6 +8,7 @@ import { useDelegateInfo } from '@/lib/hooks/useDelegateInfo';
 import { Icon, IconDefinition, Tooltip } from '@/shared/components';
 import trimAddress from '@/lib/utils/trimAddress';
 import Amount from '@/components/wallet/Amount';
+import { Skeleton } from '@/shared/components/utils/Skeleton';
 
 export enum TransactionType {
     SEND = 'send',
@@ -185,11 +186,17 @@ export const TransactionSecondaryText = ({
         case TransactionType.RETURN:
             return t('COMMON.TO_SELF');
         case TransactionType.SWAP:
-            return `${t('COMMON.TO')} ${voteDelegate}`;
+            return voteDelegate ? `${t('COMMON.TO')} ${voteDelegate}` : (
+                <Skeleton width={90} height={18} />
+            );
         case TransactionType.VOTE:
-            return voteDelegate;
+            return voteDelegate ? voteDelegate : (
+                <Skeleton width={90} height={18} />
+            );
         case TransactionType.UNVOTE:
-            return unvoteDelegate;
+            return unvoteDelegate ? unvoteDelegate : (
+                <Skeleton width={90} height={18} />
+            );
         case TransactionType.MULTIPAYMENT:
             return transaction.sender() === address ? (
                 <MultipaymentUniqueRecipients transaction={transaction} />
