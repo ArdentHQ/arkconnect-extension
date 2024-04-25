@@ -21,7 +21,7 @@ const ChangeLocalCurrency = () => {
     const changeCurrency = async (currency: Currency) => {
         profile.settings().set(Contracts.ProfileSetting.ExchangeCurrency, currency.value);
         await persist();
-        await env.exchangeRates().syncAll(newProfile, 'ARK');
+        await env.exchangeRates().syncAll(profile, 'ARK');
 
         toast(
             'success',
