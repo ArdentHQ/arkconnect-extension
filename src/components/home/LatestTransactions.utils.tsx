@@ -194,7 +194,11 @@ export const TransactionSecondaryText = ({
         case TransactionType.VOTE:
             return voteDelegate ? voteDelegate.delegateName : <Skeleton width={90} height={18} />;
         case TransactionType.UNVOTE:
-            return unvoteDelegate ? unvoteDelegate.delegateName : <Skeleton width={90} height={18} />;
+            return unvoteDelegate ? (
+                unvoteDelegate.delegateName
+            ) : (
+                <Skeleton width={90} height={18} />
+            );
         case TransactionType.MULTIPAYMENT:
             return transaction.sender() === address ? (
                 <MultipaymentUniqueRecipients transaction={transaction} />
