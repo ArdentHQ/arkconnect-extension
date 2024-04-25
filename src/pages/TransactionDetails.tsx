@@ -33,7 +33,11 @@ const TransactionDetails = () => {
     const primaryWallet = usePrimaryWallet();
     const { transactionId } = useParams<{ transactionId: string }>();
 
-    const { data: transactionData, refetch } = useQuery<TransactionDetailsResponse>(
+    const {
+        data: transactionData,
+        refetch,
+        isLoading,
+    } = useQuery<TransactionDetailsResponse>(
         ['transaction-details', transactionId],
         () => fetchTransactionDetails(primaryWallet, transactionId),
         {
@@ -51,13 +55,15 @@ const TransactionDetails = () => {
 
     return (
         <SubPageLayout title={t('PAGES.TRANSACTION_DETAILS.PAGE_TITLE')}>
-            {transactionData ? (
+            {transactionData && !isLoading ? (
                 <>
                     <TransactionHeader transaction={transactionData} className='mb-4' />
                     <TransactionBody transaction={transactionData} />
                 </>
             ) : (
-                <Loader />
+                <div className='flex h-full w-full items-center justify-center'>
+                    <Loader variant='big' />
+                </div>
             )}
         </SubPageLayout>
     );
