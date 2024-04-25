@@ -255,7 +255,11 @@ export const LatestTransactionAmount = ({
         TransactionType.MULTIPAYMENT,
     ];
     if (!paymentTypes.includes(type as TransactionType)) {
-        return <span className='flex items-center justify-center h-5'><hr className='w-2 h-0.5 bg-theme-secondary-300 dark:bg-theme-secondary-500' /></span>;
+        return (
+            <span className='flex h-5 items-center justify-center'>
+                <hr className='h-0.5 w-2 bg-theme-secondary-300 dark:bg-theme-secondary-500' />
+            </span>
+        );
     }
 
     if (isMultipayment) {
