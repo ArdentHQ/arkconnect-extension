@@ -113,11 +113,11 @@ export const TransactionSecondaryText = ({
         case TransactionType.RETURN:
             return t('COMMON.TO_SELF');
         case TransactionType.SWAP:
-            return `${t('COMMON.TO')} ${voteDelegate}`;
+            return `${t('COMMON.TO')} ${voteDelegate.delegateName}`;
         case TransactionType.VOTE:
-            return voteDelegate;
+            return voteDelegate.delegateName;
         case TransactionType.UNVOTE:
-            return unvoteDelegate;
+            return unvoteDelegate.delegateName;
         case TransactionType.MULTIPAYMENT:
             return transaction.sender() === address ? (
                 <MultipaymentUniqueRecipients transaction={transaction} />
@@ -190,7 +190,11 @@ const TransactionListItem = ({
                     <div className='flex flex-col gap-1'>
                         <span className='text-base font-medium leading-tight text-light-black dark:text-white'>
                             <TransactionTitle type={type} isSender={transaction.isSent()} />
-                            {type === TransactionType.MULTIPAYMENT && <MultipaymentBadge />}
+                            {type === TransactionType.MULTIPAYMENT && (
+                                <span className='ml-1.5'>
+                                    <MultipaymentBadge />
+                                </span>
+                            )}
                         </span>
                         <span className='text-sm font-normal leading-tight text-theme-secondary-500 dark:text-theme-secondary-300'>
                             <TransactionSecondaryText
@@ -268,6 +272,19 @@ export const LatestTransactionAmount = ({
     const type = getType(transaction);
     const isMultipayment = type === TransactionType.MULTIPAYMENT;
     const amount = transaction.amount();
+    const paymentTypes = [
+        TransactionType.SEND,
+        TransactionType.RECEIVE,
+        TransactionType.RETURN,
+        TransactionType.MULTIPAYMENT,
+    ];
+    if (!paymentTypes.includes(type as TransactionType)) {
+        return (
+            <span className='flex h-5 items-center justify-center'>
+                <hr className='h-0.5 w-2 bg-theme-secondary-300 dark:bg-theme-secondary-500' />
+            </span>
+        );
+    }
 
     if (isMultipayment) {
         const uniqueRecipients = getUniqueRecipients(transaction);

@@ -5,6 +5,7 @@ import { IReadWriteWallet } from '@ardenthq/sdk-profiles/distribution/esm/wallet
 import { useQuery } from 'react-query';
 import { NoTransactions, TransactionsList } from './LatestTransactions.blocks';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
+import { Loader } from '@/shared/components';
 
 type TransactionResponse = {
     transactions: ExtendedConfirmedTransactionData[];
@@ -30,17 +31,15 @@ export const LatestTransactions = () => {
     const { t } = useTranslation();
     const primaryWallet = usePrimaryWallet();
 
-    const { data = { transactions: [], hasMorePages: false }, refetch } =
-        useQuery<TransactionResponse>(
-            ['transactions', primaryWallet?.address()],
-            () => fetchTransactions(primaryWallet),
-            {
-                enabled: !!primaryWallet,
-                staleTime: 0,
-                initialData: { transactions: [], hasMorePages: false },
-                refetchInterval: 3000,
-            },
-        );
+    const { data, refetch, isLoading } = useQuery<TransactionResponse>(
+        ['transactions', primaryWallet?.address()],
+        () => fetchTransactions(primaryWallet),
+        {
+            enabled: !!primaryWallet,
+            staleTime: 0,
+            refetchInterval: 3000,
+        },
+    );
 
     useEffect(() => {
         if (primaryWallet) {
@@ -54,16 +53,25 @@ export const LatestTransactions = () => {
                 {t('PAGES.HOME.LATEST_TRANSACTIONS')}
             </div>
 
-            <div className='h-auto w-full'>
-                {data.transactions.length > 0 ? (
-                    <TransactionsList
-                        transactions={data.transactions}
-                        displayButton={data.hasMorePages}
+            {!isLoading && data ? (
+                <div className='h-auto w-full'>
+                    {data.transactions.length > 0 ? (
+                        <TransactionsList
+                            transactions={data.transactions}
+                            displayButton={data.hasMorePages}
+                        />
+                    ) : (
+                        <NoTransactions />
+                    )}
+                </div>
+            ) : (
+                <div className='flex h-[320px] w-full items-center justify-center'>
+                    <Loader
+                        variant='big'
+                        className='dark:border-theme-secondary-700 dark:border-t-theme-primary-650'
                     />
-                ) : (
-                    <NoTransactions />
-                )}
-            </div>
+                </div>
+            )}
         </div>
     );
 };

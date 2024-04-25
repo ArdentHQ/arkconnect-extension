@@ -1,6 +1,7 @@
 export default {
     ARK_CONNECT_SUPPORT_LEDGER: 'ARK Connect Support Ledger',
     ARK_CONNECT_SUPPORT: 'ARK Connect Support',
+    DEMO_APP: 'Demo App',
     INCORRECT_PASSWORD: 'Incorrect password',
     REACH_OUT_TO_SUPPORT_TEAM: 'Reach out to support team',
     SOMETHING_WENT_WRONG: 'Something went wrong!',

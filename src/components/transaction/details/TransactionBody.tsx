@@ -6,7 +6,7 @@ import {
     TransactionUniqueRecipients,
 } from '../Transaction.blocks';
 import { TrasactionItem } from './TrasactionItem';
-import { Button, ExternalLink, Icon } from '@/shared/components';
+import { Button, ExternalLink, Icon, Tooltip } from '@/shared/components';
 import useClipboard from '@/lib/hooks/useClipboard';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 import trimAddress from '@/lib/utils/trimAddress';
@@ -14,6 +14,7 @@ import { getType, renderAmount, TransactionType } from '@/components/home/Latest
 import { useExchangeRate } from '@/lib/hooks/useExchangeRate';
 import { useDelegateInfo } from '@/lib/hooks/useDelegateInfo';
 import { getTransactionDetailLink } from '@/lib/utils/networkUtils';
+import Amount from '@/components/wallet/Amount';
 
 export const TransactionBody = ({
     transaction,
@@ -24,7 +25,6 @@ export const TransactionBody = ({
     const { t } = useTranslation();
     const { copy } = useClipboard();
     const { voteDelegate, unvoteDelegate } = useDelegateInfo(transaction, primaryWallet);
-
     const { convert } = useExchangeRate({
         exchangeTicker: primaryWallet?.exchangeCurrency(),
         ticker: primaryWallet?.currency(),
@@ -63,18 +63,18 @@ export const TransactionBody = ({
 
                 {[TransactionType.VOTE, TransactionType.SWAP].includes(type) && (
                     <TrasactionItem title={t('COMMON.VOTE')}>
-                        {voteDelegate}
+                        {voteDelegate.delegateName}
                         <span className='text-theme-secondary-500 dark:text-theme-secondary-300'>
-                            {trimAddress(transaction.votes()[0], 'short')}
+                            {trimAddress(voteDelegate.delegateAddress, 'short')}
                         </span>
                     </TrasactionItem>
                 )}
 
                 {[TransactionType.UNVOTE, TransactionType.SWAP].includes(type) && (
                     <TrasactionItem title={t('COMMON.UNVOTE')}>
-                        {unvoteDelegate}
+                        {unvoteDelegate.delegateName}
                         <span className='text-theme-secondary-500 dark:text-theme-secondary-300'>
-                            {trimAddress(transaction.unvotes()[0], 'short')}
+                            {trimAddress(unvoteDelegate.delegateAddress, 'short')}
                         </span>
                     </TrasactionItem>
                 )}
@@ -100,7 +100,11 @@ export const TransactionBody = ({
                     })}
                     {!primaryWallet?.network().isTest() && (
                         <span className='text-theme-secondary-500 dark:text-theme-secondary-300'>
-                            {convert(transaction.fee())}
+                            <Amount
+                                value={convert(transaction.fee())}
+                                ticker={primaryWallet?.exchangeCurrency() ?? 'USD'}
+                                underlineOnHover={true}
+                            />
                         </span>
                     )}
                 </TrasactionItem>
@@ -135,7 +139,9 @@ export const TransactionBody = ({
 
                 <TrasactionItem title={t('COMMON.TRANSACTION_ID')}>
                     <div className='flex w-full flex-row items-center justify-between'>
-                        <span>{trimAddress(transaction.id(), 'longest')}</span>
+                        <Tooltip content={transaction.id()} className='break-words'>
+                            <span>{trimAddress(transaction.id(), 'longest')}</span>
+                        </Tooltip>
                         <button
                             type='button'
                             className='block'
