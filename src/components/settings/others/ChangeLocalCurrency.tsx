@@ -15,12 +15,13 @@ const ChangeLocalCurrency = () => {
     const toast = useToast();
     const navigate = useNavigate();
     const { profile } = useProfileContext();
-    const { persist } = useEnvironmentContext();
+    const { persist, env } = useEnvironmentContext();
     const currency = profile.settings().get<string>(Contracts.ProfileSetting.ExchangeCurrency);
 
     const changeCurrency = async (currency: Currency) => {
         profile.settings().set(Contracts.ProfileSetting.ExchangeCurrency, currency.value);
         await persist();
+        await env.exchangeRates().syncAll(newProfile, 'ARK');
 
         toast(
             'success',
