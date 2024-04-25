@@ -15,6 +15,7 @@ interface AmountProperties {
     tooltipPlacement?: TippyProps['placement'];
     underlineOnHover?: boolean;
     maxDecimals?: number;
+    displayTooltip?: boolean;
 }
 
 const Amount = ({
@@ -27,6 +28,7 @@ const Amount = ({
     tooltipPlacement = 'top',
     underlineOnHover = false,
     maxDecimals,
+    displayTooltip = true,
 }: AmountProperties) => {
     const actualFormattedAmount = Helpers.Currency.format(value, ticker, { withTicker });
 
@@ -47,7 +49,7 @@ const Amount = ({
         }
     }
 
-    const tooltipDisabled = formattedAmount === actualFormattedAmount;
+    const tooltipDisabled = formattedAmount === actualFormattedAmount || !displayTooltip;
 
     return (
         <Tooltip

@@ -185,11 +185,11 @@ export const TransactionSecondaryText = ({
         case TransactionType.RETURN:
             return t('COMMON.TO_SELF');
         case TransactionType.SWAP:
-            return `${t('COMMON.TO')} ${voteDelegate}`;
+            return `${t('COMMON.TO')} ${voteDelegate.delegateName}`;
         case TransactionType.VOTE:
-            return voteDelegate;
+            return voteDelegate.delegateName;
         case TransactionType.UNVOTE:
-            return unvoteDelegate;
+            return unvoteDelegate.delegateName;
         case TransactionType.MULTIPAYMENT:
             return transaction.sender() === address ? (
                 <MultipaymentUniqueRecipients transaction={transaction} />
@@ -218,11 +218,13 @@ export const renderAmount = ({
     isNegative,
     showSign,
     primaryCurrency,
+    displayTooltip = true,
 }: {
     value: number;
     isNegative: boolean;
     showSign: boolean;
     primaryCurrency: string;
+    displayTooltip?: boolean;
 }) => (
     <Amount
         value={value}
@@ -232,6 +234,7 @@ export const renderAmount = ({
         showSign={showSign}
         isNegative={isNegative}
         maxDigits={20}
+        displayTooltip={displayTooltip}
     />
 );
 
@@ -248,6 +251,19 @@ export const LatestTransactionAmount = ({
     const type = getType(transaction);
     const isMultipayment = type === TransactionType.MULTIPAYMENT;
     const amount = transaction.amount();
+    const paymentTypes = [
+        TransactionType.SEND,
+        TransactionType.RECEIVE,
+        TransactionType.RETURN,
+        TransactionType.MULTIPAYMENT,
+    ];
+    if (!paymentTypes.includes(type as TransactionType)) {
+        return (
+            <span className='flex h-5 items-center justify-center'>
+                <hr className='h-0.5 w-2 bg-theme-secondary-300 dark:bg-theme-secondary-500' />
+            </span>
+        );
+    }
 
     if (isMultipayment) {
         const uniqueRecipients = getUniqueRecipients(transaction);
