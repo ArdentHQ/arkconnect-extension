@@ -186,17 +186,15 @@ export const TransactionSecondaryText = ({
         case TransactionType.RETURN:
             return t('COMMON.TO_SELF');
         case TransactionType.SWAP:
-            return voteDelegate ? `${t('COMMON.TO')} ${voteDelegate}` : (
+            return voteDelegate ? (
+                `${t('COMMON.TO')} ${voteDelegate}`
+            ) : (
                 <Skeleton width={90} height={18} />
             );
         case TransactionType.VOTE:
-            return voteDelegate ? voteDelegate : (
-                <Skeleton width={90} height={18} />
-            );
+            return voteDelegate ? voteDelegate : <Skeleton width={90} height={18} />;
         case TransactionType.UNVOTE:
-            return unvoteDelegate ? unvoteDelegate : (
-                <Skeleton width={90} height={18} />
-            );
+            return unvoteDelegate ? unvoteDelegate : <Skeleton width={90} height={18} />;
         case TransactionType.MULTIPAYMENT:
             return transaction.sender() === address ? (
                 <MultipaymentUniqueRecipients transaction={transaction} />
