@@ -251,6 +251,19 @@ export const LatestTransactionAmount = ({
     const type = getType(transaction);
     const isMultipayment = type === TransactionType.MULTIPAYMENT;
     const amount = transaction.amount();
+    const paymentTypes = [
+        TransactionType.SEND,
+        TransactionType.RECEIVE,
+        TransactionType.RETURN,
+        TransactionType.MULTIPAYMENT,
+    ];
+    if (!paymentTypes.includes(type as TransactionType)) {
+        return (
+            <span className='flex h-5 items-center justify-center'>
+                <hr className='h-0.5 w-2 bg-theme-secondary-300 dark:bg-theme-secondary-500' />
+            </span>
+        );
+    }
 
     if (isMultipayment) {
         const uniqueRecipients = getUniqueRecipients(transaction);
