@@ -25,6 +25,7 @@ import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 import { getExplorerDomain } from '@/lib/utils/networkUtils';
 import { useDelegateInfo } from '@/lib/hooks/useDelegateInfo';
 import trimAddress from '@/lib/utils/trimAddress';
+import { Skeleton } from '@/shared/components/utils/Skeleton';
 
 export const TransactionTitle = ({
     type,
