@@ -14,6 +14,7 @@ import { getType, renderAmount, TransactionType } from '@/components/home/Latest
 import { useExchangeRate } from '@/lib/hooks/useExchangeRate';
 import { useDelegateInfo } from '@/lib/hooks/useDelegateInfo';
 import { getTransactionDetailLink } from '@/lib/utils/networkUtils';
+import { formatUnixTimestamp } from '@/lib/utils/formatUnixTimestsamp';
 import Amount from '@/components/wallet/Amount';
 
 export const TransactionBody = ({
@@ -116,7 +117,7 @@ export const TransactionBody = ({
                 )}
 
                 <TrasactionItem title={t('COMMON.TIMESTAMP')}>
-                    {transaction.timestamp()?.toString() ?? ''}
+                    {formatUnixTimestamp(transaction.timestamp()?.toUNIX() ?? 0)}
                 </TrasactionItem>
 
                 {type === TransactionType.MULTISIGNATURE && (
