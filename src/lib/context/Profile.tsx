@@ -121,6 +121,7 @@ export const ProfileProvider = ({ children }: Properties) => {
         await newProfile.sync();
 
         await env.wallets().syncByProfile(newProfile);
+        await env.exchangeRates().syncAll(newProfile, 'ARK');
 
         setProfile(newProfile);
 
