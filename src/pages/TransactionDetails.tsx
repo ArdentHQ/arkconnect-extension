@@ -38,7 +38,7 @@ const TransactionDetails = () => {
         data: transactionData,
         refetch,
         isLoading,
-        isError
+        isError,
     } = useQuery<TransactionDetailsResponse>(
         ['transaction-details', transactionId],
         () => fetchTransactionDetails(primaryWallet, transactionId),
@@ -56,7 +56,7 @@ const TransactionDetails = () => {
     }, [primaryWallet, refetch]);
 
     useEffect(() => {
-        if(isError) {
+        if (isError) {
             return navigate('/');
         }
     }, [isError]);
