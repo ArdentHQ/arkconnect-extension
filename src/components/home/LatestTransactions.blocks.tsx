@@ -25,6 +25,7 @@ import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 import { getExplorerDomain } from '@/lib/utils/networkUtils';
 import { useDelegateInfo } from '@/lib/hooks/useDelegateInfo';
 import trimAddress from '@/lib/utils/trimAddress';
+import { Skeleton } from '@/shared/components/utils/Skeleton';
 
 export const TransactionTitle = ({
     type,
@@ -113,11 +114,19 @@ export const TransactionSecondaryText = ({
         case TransactionType.RETURN:
             return t('COMMON.TO_SELF');
         case TransactionType.SWAP:
-            return `${t('COMMON.TO')} ${voteDelegate.delegateName}`;
+            return voteDelegate ? (
+                `${t('COMMON.TO')} ${voteDelegate.delegateName}`
+            ) : (
+                <Skeleton width={90} height={18} />
+            );
         case TransactionType.VOTE:
-            return voteDelegate.delegateName;
+            return voteDelegate ? voteDelegate.delegateName : <Skeleton width={90} height={18} />;
         case TransactionType.UNVOTE:
-            return unvoteDelegate.delegateName;
+            return unvoteDelegate ? (
+                unvoteDelegate.delegateName
+            ) : (
+                <Skeleton width={90} height={18} />
+            );
         case TransactionType.MULTIPAYMENT:
             return transaction.sender() === address ? (
                 <MultipaymentUniqueRecipients transaction={transaction} />
