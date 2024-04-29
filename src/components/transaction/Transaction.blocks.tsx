@@ -53,7 +53,7 @@ const AddressBlock = ({
                     'text-theme-secondary-500 dark:text-theme-secondary-300': isSecondary,
                 })}
             >
-                {trimAddress(address, 'short')}
+                {trimAddress(address, 10)}
             </span>
         </Tooltip>
     );
