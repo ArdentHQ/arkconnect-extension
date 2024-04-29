@@ -182,7 +182,7 @@ const routes: RouteData[] = [
         Component: Receive,
         path: '/transaction/receive',
         title: 'Receive',
-    }
+    },
 ];
 
 export default routes;

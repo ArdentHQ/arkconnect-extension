@@ -17,12 +17,21 @@ export const TransactionButtons = () => {
                 placement='top'
             >
                 <div>
-                    <Button iconLeading='send' variant='secondary' disabled={walletBalance === 0} onClick={() => navigate('/transaction/send')}>
+                    <Button
+                        iconLeading='send'
+                        variant='secondary'
+                        disabled={walletBalance === 0}
+                        onClick={() => navigate('/transaction/send')}
+                    >
                         {t('COMMON.SEND')}
                     </Button>
                 </div>
             </Tooltip>
-            <Button iconLeading='receive' variant='secondary' onClick={() => navigate('/transaction/receive')}>
+            <Button
+                iconLeading='receive'
+                variant='secondary'
+                onClick={() => navigate('/transaction/receive')}
+            >
                 {t('COMMON.RECEIVE')}
             </Button>
         </div>
