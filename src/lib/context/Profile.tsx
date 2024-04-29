@@ -1,15 +1,16 @@
+import * as SessionStore from '@/lib/store/session';
+import * as WalletStore from '@/lib/store/wallet';
+
 import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
+
 import { Contracts } from '@ardenthq/sdk-profiles';
+import { LoadingFullScreen } from '@/shared/components/handleStates/LoadingFullScreen';
+import { ProfileData } from '@/lib/background/contracts';
 import { runtime } from 'webextension-polyfill';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useAppDispatch } from '@/lib/store';
 import { useEnvironmentContext } from './Environment';
 import { useErrorHandlerContext } from './ErrorHandler';
 import { useWalletBalance } from '@/lib/hooks/useWalletBalance';
-import { ProfileData } from '@/lib/background/contracts';
-import { useAppDispatch } from '@/lib/store';
-import * as WalletStore from '@/lib/store/wallet';
-import * as SessionStore from '@/lib/store/session';
-import { LoadingFullScreen } from '@/shared/components/handleStates/LoadingFullScreen';
 
 interface Context {
     profile: Contracts.IProfile;
@@ -26,8 +27,6 @@ interface Properties {
 const ProfileContext = createContext<Context | undefined>(undefined);
 
 export const ProfileProvider = ({ children }: Properties) => {
-    const navigate = useNavigate();
-    const location = useLocation();
     const dispatch = useAppDispatch();
     const { onError } = useErrorHandlerContext();
     const { env } = useEnvironmentContext();
@@ -115,9 +114,6 @@ export const ProfileProvider = ({ children }: Properties) => {
     };
 
     const importProfile = async (profileDump: string): Promise<Contracts.IProfile> => {
-        if (location.pathname.includes('/transaction/')) {
-            navigate('/');
-        }
         env.profiles().flush();
 
         const newProfile = await env.profiles().import(profileDump);
