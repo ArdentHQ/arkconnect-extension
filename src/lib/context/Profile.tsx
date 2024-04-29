@@ -1,7 +1,7 @@
 import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
 import { Contracts } from '@ardenthq/sdk-profiles';
 import { runtime } from 'webextension-polyfill';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useEnvironmentContext } from './Environment';
 import { useErrorHandlerContext } from './ErrorHandler';
 import { useWalletBalance } from '@/lib/hooks/useWalletBalance';
@@ -27,6 +27,7 @@ const ProfileContext = createContext<Context | undefined>(undefined);
 
 export const ProfileProvider = ({ children }: Properties) => {
     const navigate = useNavigate();
+    const location = useLocation();
     const dispatch = useAppDispatch();
     const { onError } = useErrorHandlerContext();
     const { env } = useEnvironmentContext();
@@ -114,7 +115,9 @@ export const ProfileProvider = ({ children }: Properties) => {
     };
 
     const importProfile = async (profileDump: string): Promise<Contracts.IProfile> => {
-        navigate('/');
+        if(location.pathname.includes('/transaction/')){
+            navigate('/');
+        }
         env.profiles().flush();
 
         const newProfile = await env.profiles().import(profileDump);
