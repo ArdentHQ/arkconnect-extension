@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useEffect } from 'react';
 import { ExtendedConfirmedTransactionData } from '@ardenthq/sdk-profiles/distribution/esm/transaction.dto';
 import { IReadWriteWallet } from '@ardenthq/sdk-profiles/distribution/esm/wallet.contract';
@@ -30,7 +30,6 @@ const fetchTransactionDetails = async (
 
 const TransactionDetails = () => {
     const { t } = useTranslation();
-    const navigate = useNavigate();
     const primaryWallet = usePrimaryWallet();
     const { transactionId } = useParams<{ transactionId: string }>();
 
@@ -38,7 +37,6 @@ const TransactionDetails = () => {
         data: transactionData,
         refetch,
         isLoading,
-        isError,
     } = useQuery<TransactionDetailsResponse>(
         ['transaction-details', transactionId],
         () => fetchTransactionDetails(primaryWallet, transactionId),
@@ -54,12 +52,6 @@ const TransactionDetails = () => {
             refetch();
         }
     }, [primaryWallet, refetch]);
-
-    useEffect(() => {
-        if (isError) {
-            return navigate('/');
-        }
-    }, [isError]);
 
     return (
         <SubPageLayout title={t('PAGES.TRANSACTION_DETAILS.PAGE_TITLE')}>
