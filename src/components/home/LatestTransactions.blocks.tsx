@@ -120,7 +120,11 @@ export const TransactionSecondaryText = ({
                 <Skeleton width={90} height={18} />
             );
         case TransactionType.VOTE:
-            return voteDelegate.delegateName ? voteDelegate.delegateName : <Skeleton width={90} height={18} />;
+            return voteDelegate.delegateName ? (
+                voteDelegate.delegateName
+            ) : (
+                <Skeleton width={90} height={18} />
+            );
         case TransactionType.UNVOTE:
             return unvoteDelegate.delegateName ? (
                 unvoteDelegate.delegateName
