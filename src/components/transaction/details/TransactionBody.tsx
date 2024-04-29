@@ -66,7 +66,7 @@ export const TransactionBody = ({
                     <TrasactionItem title={t('COMMON.VOTE')}>
                         {voteDelegate.delegateName}
                         <span className='text-theme-secondary-500 dark:text-theme-secondary-300'>
-                            {trimAddress(voteDelegate.delegateAddress, 'short')}
+                            {trimAddress(voteDelegate.delegateAddress, 10)}
                         </span>
                     </TrasactionItem>
                 )}
@@ -75,7 +75,7 @@ export const TransactionBody = ({
                     <TrasactionItem title={t('COMMON.UNVOTE')}>
                         {unvoteDelegate.delegateName}
                         <span className='text-theme-secondary-500 dark:text-theme-secondary-300'>
-                            {trimAddress(unvoteDelegate.delegateAddress, 'short')}
+                            {trimAddress(unvoteDelegate.delegateAddress, 10)}
                         </span>
                     </TrasactionItem>
                 )}
