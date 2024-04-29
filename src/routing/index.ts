@@ -25,6 +25,8 @@ import WalletNotFound from '@/pages/WalletNotFound';
 import ImportWithLedger from '@/pages/ImportWithLedger';
 import TransactionDetails from '@/pages/TransactionDetails';
 import { AddressSettings } from '@/components/wallet/AddressSettings';
+import Send from '@/pages/Send';
+import Receive from '@/pages/Receive';
 
 type RouteData = {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -171,6 +173,16 @@ const routes: RouteData[] = [
         path: '/transaction/:transactionId',
         title: 'Transaction Details',
     },
+    {
+        Component: Send,
+        path: '/transaction/send',
+        title: 'Send',
+    },
+    {
+        Component: Receive,
+        path: '/transaction/receive',
+        title: 'Receive',
+    }
 ];
 
 export default routes;
