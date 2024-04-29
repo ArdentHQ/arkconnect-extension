@@ -1,13 +1,14 @@
 import { Link, useLocation } from 'react-router-dom';
 import { useRef, useState } from 'react';
 
-import { AddressesDropdown } from '@/shared/components/header/AddressesDropdown';
 import cn from 'classnames';
-import { ConnectionStatus } from '@/components/wallet/ConnectionStatus';
-import { CopyAddress } from '@/components/wallet/CopyAddress';
 import FocusTrap from 'focus-trap-react';
+import { useTranslation } from 'react-i18next';
 import { HeaderButton } from './HeaderButton';
 import { HeaderWrapper } from './HeaderWrapper';
+import { AddressesDropdown } from '@/shared/components/header/AddressesDropdown';
+import { ConnectionStatus } from '@/components/wallet/ConnectionStatus';
+import { CopyAddress } from '@/components/wallet/CopyAddress';
 import { Icon } from '@/shared/components';
 import { LogoIcon } from '@/components/Logo';
 import { selectLocked } from '@/lib/store/ui';
@@ -16,7 +17,6 @@ import trimAddress from '@/lib/utils/trimAddress';
 import { useAppSelector } from '@/lib/store';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 import { useProfileContext } from '@/lib/context/Profile';
-import { useTranslation } from 'react-i18next';
 
 interface HeaderProps {
     hideNavbar?: boolean;

@@ -1,15 +1,14 @@
+import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
+import { Contracts } from '@ardenthq/sdk-profiles';
+import { runtime } from 'webextension-polyfill';
+import { useEnvironmentContext } from './Environment';
+import { useErrorHandlerContext } from './ErrorHandler';
 import * as SessionStore from '@/lib/store/session';
 import * as WalletStore from '@/lib/store/wallet';
 
-import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
-
-import { Contracts } from '@ardenthq/sdk-profiles';
 import { LoadingFullScreen } from '@/shared/components/handleStates/LoadingFullScreen';
 import { ProfileData } from '@/lib/background/contracts';
-import { runtime } from 'webextension-polyfill';
 import { useAppDispatch } from '@/lib/store';
-import { useEnvironmentContext } from './Environment';
-import { useErrorHandlerContext } from './ErrorHandler';
 import { useWalletBalance } from '@/lib/hooks/useWalletBalance';
 
 interface Context {
