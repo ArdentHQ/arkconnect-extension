@@ -70,7 +70,7 @@ const PaymentInfo = ({ address, isSent }: { address: string; isSent: boolean }) 
     return (
         <Tooltip content={address}>
             <span>
-                {isSent ? t('COMMON.TO') : t('COMMON.FROM')} {trimAddress(address, 'short')}
+                {isSent ? t('COMMON.TO') : t('COMMON.FROM')} {trimAddress(address, 10)}
             </span>
         </Tooltip>
     );
