@@ -52,6 +52,7 @@ export const AddressesDropdown = ({
     const setPrimaryAddress = async (newPrimaryAddress: Contracts.IReadWriteWallet) => {
         if (newPrimaryAddress.id() === primaryAddressId) return;
 
+        // Redirect to home page if the user is on the transaction page
         if (pathname.includes('/transaction/')) {
             navigate('/');
         }

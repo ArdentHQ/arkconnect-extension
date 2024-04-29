@@ -54,7 +54,6 @@ export const getType = (transaction: ExtendedConfirmedTransactionData): string =
     if (transaction.isDelegateResignation()) {
         return TransactionType.RESIGNATION;
     }
-    console.log(transaction.toObject());
     return TransactionType.OTHER;
 };
 
