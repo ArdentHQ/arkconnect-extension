@@ -115,7 +115,7 @@ export const ProfileProvider = ({ children }: Properties) => {
     };
 
     const importProfile = async (profileDump: string): Promise<Contracts.IProfile> => {
-        if(location.pathname.includes('/transaction/')){
+        if (location.pathname.includes('/transaction/')) {
             navigate('/');
         }
         env.profiles().flush();
