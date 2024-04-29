@@ -30,7 +30,7 @@ const Amount = ({
     maxDecimals,
     displayTooltip = true,
 }: AmountProperties) => {
-    const actualFormattedAmount = Helpers.Currency.format(value, ticker, { withTicker });
+    let actualFormattedAmount = Helpers.Currency.format(value, ticker, { withTicker });
 
     let formattedAmount = cropToMaxDigits({
         value,
@@ -46,6 +46,7 @@ const Amount = ({
     } else if (showSign) {
         if (value !== 0) {
             formattedAmount = `${isNegative ? '-' : '+'}${formattedAmount}`;
+            actualFormattedAmount = `${isNegative ? '-' : '+'}${actualFormattedAmount}`;
         }
     }
 
