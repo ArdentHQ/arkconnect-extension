@@ -62,20 +62,20 @@ export const TransactionBody = ({
                     </TrasactionItem>
                 )}
 
-                {[TransactionType.VOTE, TransactionType.SWAP].includes(type) && (
-                    <TrasactionItem title={t('COMMON.VOTE')}>
-                        {voteDelegate.delegateName}
-                        <span className='text-theme-secondary-500 dark:text-theme-secondary-300'>
-                            {trimAddress(voteDelegate.delegateAddress, 'short')}
-                        </span>
-                    </TrasactionItem>
-                )}
-
                 {[TransactionType.UNVOTE, TransactionType.SWAP].includes(type) && (
                     <TrasactionItem title={t('COMMON.UNVOTE')}>
                         {unvoteDelegate.delegateName}
                         <span className='text-theme-secondary-500 dark:text-theme-secondary-300'>
                             {trimAddress(unvoteDelegate.delegateAddress, 'short')}
+                        </span>
+                    </TrasactionItem>
+                )}
+
+                {[TransactionType.VOTE, TransactionType.SWAP].includes(type) && (
+                    <TrasactionItem title={t('COMMON.VOTE')}>
+                        {voteDelegate.delegateName}
+                        <span className='text-theme-secondary-500 dark:text-theme-secondary-300'>
+                            {trimAddress(voteDelegate.delegateAddress, 'short')}
                         </span>
                     </TrasactionItem>
                 )}
