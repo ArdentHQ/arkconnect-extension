@@ -1,8 +1,3 @@
-import { useLocation, useNavigate } from 'react-router-dom';
-import cn from 'classnames';
-import { Contracts } from '@ardenthq/sdk-profiles';
-import { useRef } from 'react';
-import { useTranslation } from 'react-i18next';
 import {
     AddressAlias,
     AddressBalance,
@@ -11,7 +6,10 @@ import {
     TestnetIcon,
 } from '@/components/wallet/address/Address.blocks';
 import { Icon, RadioButton } from '@/shared/components';
+import { useLocation, useNavigate } from 'react-router-dom';
 
+import cn from 'classnames';
+import { Contracts } from '@ardenthq/sdk-profiles';
 import { ExtensionEvents } from '@/lib/events';
 import { getNetworkCurrency } from '@/lib/utils/getActiveCoin';
 import { primaryWalletIdChanged } from '@/lib/store/wallet';
@@ -19,7 +17,9 @@ import { useAppDispatch } from '@/lib/store';
 import { useEnvironmentContext } from '@/lib/context/Environment';
 import useOnClickOutside from '@/lib/hooks/useOnClickOutside';
 import { useProfileContext } from '@/lib/context/Profile';
+import { useRef } from 'react';
 import useToast from '@/lib/hooks/useToast';
+import { useTranslation } from 'react-i18next';
 
 export const AddressesDropdown = ({
     addresses,
@@ -52,7 +52,8 @@ export const AddressesDropdown = ({
     const setPrimaryAddress = async (newPrimaryAddress: Contracts.IReadWriteWallet) => {
         if (newPrimaryAddress.id() === primaryAddressId) return;
 
-        // Redirect to home page if the user is on the transaction page
+        // Redirect to home page if the user is on the transaction details page
+        // To avoid errors after switching to another address
         if (pathname.includes('/transaction/')) {
             navigate('/');
         }
