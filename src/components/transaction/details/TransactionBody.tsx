@@ -1,21 +1,22 @@
-import { useTranslation } from 'react-i18next';
-import { ExtendedConfirmedTransactionData } from '@ardenthq/sdk-profiles/distribution/esm/transaction.dto';
+import { Button, ExternalLink, Icon, Tooltip } from '@/shared/components';
+import { getType, renderAmount, TransactionType } from '@/components/home/LatestTransactions.utils';
 import {
     TransactionAddress,
     TransactionAmount,
     TransactionUniqueRecipients,
 } from '../Transaction.blocks';
-import { TrasactionItem } from './TrasactionItem';
-import { Button, ExternalLink, Icon, Tooltip } from '@/shared/components';
-import useClipboard from '@/lib/hooks/useClipboard';
-import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
-import trimAddress from '@/lib/utils/trimAddress';
-import { getType, renderAmount, TransactionType } from '@/components/home/LatestTransactions.utils';
-import { useExchangeRate } from '@/lib/hooks/useExchangeRate';
-import { useDelegateInfo } from '@/lib/hooks/useDelegateInfo';
-import { getTransactionDetailLink } from '@/lib/utils/networkUtils';
-import { formatUnixTimestamp } from '@/lib/utils/formatUnixTimestsamp';
+
 import Amount from '@/components/wallet/Amount';
+import { ExtendedConfirmedTransactionData } from '@ardenthq/sdk-profiles/distribution/esm/transaction.dto';
+import { formatUnixTimestamp } from '@/lib/utils/formatUnixTimestsamp';
+import { getTransactionDetailLink } from '@/lib/utils/networkUtils';
+import { TrasactionItem } from './TrasactionItem';
+import trimAddress from '@/lib/utils/trimAddress';
+import useClipboard from '@/lib/hooks/useClipboard';
+import { useDelegateInfo } from '@/lib/hooks/useDelegateInfo';
+import { useExchangeRate } from '@/lib/hooks/useExchangeRate';
+import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
+import { useTranslation } from 'react-i18next';
 
 export const TransactionBody = ({
     transaction,
@@ -62,20 +63,20 @@ export const TransactionBody = ({
                     </TrasactionItem>
                 )}
 
-                {[TransactionType.VOTE, TransactionType.SWAP].includes(type) && (
-                    <TrasactionItem title={t('COMMON.VOTE')}>
-                        {voteDelegate.delegateName}
-                        <span className='text-theme-secondary-500 dark:text-theme-secondary-300'>
-                            {trimAddress(voteDelegate.delegateAddress, 10)}
-                        </span>
-                    </TrasactionItem>
-                )}
-
                 {[TransactionType.UNVOTE, TransactionType.SWAP].includes(type) && (
                     <TrasactionItem title={t('COMMON.UNVOTE')}>
                         {unvoteDelegate.delegateName}
                         <span className='text-theme-secondary-500 dark:text-theme-secondary-300'>
                             {trimAddress(unvoteDelegate.delegateAddress, 10)}
+                        </span>
+                    </TrasactionItem>
+                )}
+
+                {[TransactionType.VOTE, TransactionType.SWAP].includes(type) && (
+                    <TrasactionItem title={t('COMMON.VOTE')}>
+                        {voteDelegate.delegateName}
+                        <span className='text-theme-secondary-500 dark:text-theme-secondary-300'>
+                            {trimAddress(voteDelegate.delegateAddress, 10)}
                         </span>
                     </TrasactionItem>
                 )}
