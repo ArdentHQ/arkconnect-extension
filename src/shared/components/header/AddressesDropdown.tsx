@@ -107,7 +107,7 @@ export const AddressesDropdown = ({
                 </div>
             </div>
 
-            <div className='flex max-h-[calc(100vh-150px)] flex-col overflow-y-auto pb-2'>
+            <div className='custom-scroll flex max-h-[calc(100vh-150px)] flex-col overflow-y-auto pb-2'>
                 {addresses.map((address) => (
                     <AddressRow
                         address={address}
