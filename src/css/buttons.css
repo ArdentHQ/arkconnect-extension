@@ -32,7 +32,7 @@
         @apply bg-theme-primary-50 dark:bg-[#263730];
     }
     .button-secondary:focus-visible {
-        @apply shadow-[0_0_0_4px_shadow-green] outline-none dark:shadow-[0_0_0_4px_#2B3D35];
+        @apply shadow-focus outline-none dark:shadow-focus-dark;
     }
     .button-secondary:disabled {
         @apply border-theme-secondary-300 bg-white text-theme-secondary-500 dark:border-theme-secondary-500 dark:bg-light-black dark:text-theme-secondary-300;
