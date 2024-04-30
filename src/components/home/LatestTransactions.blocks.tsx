@@ -1,8 +1,8 @@
-import { useTranslation } from 'react-i18next';
 import cn from 'classnames';
 import dayjs from 'dayjs';
 import { ExtendedConfirmedTransactionData } from '@ardenthq/sdk-profiles/distribution/esm/transaction.dto';
 import { IReadWriteWallet } from '@ardenthq/sdk-profiles/distribution/esm/wallet.contract';
+import { useTranslation } from 'react-i18next';
 import {
     getAmountByAddress,
     getMultipaymentAmounts,
@@ -12,7 +12,6 @@ import {
     renderAmount,
     TransactionType,
 } from './LatestTransactions.utils';
-import { getTimeAgo } from '@/lib/utils/getTimeAgo';
 import {
     Button,
     EmptyConnectionsIcon,
@@ -21,11 +20,13 @@ import {
     InternalLink,
     Tooltip,
 } from '@/shared/components';
-import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
+
 import { getExplorerDomain } from '@/lib/utils/networkUtils';
-import { useDelegateInfo } from '@/lib/hooks/useDelegateInfo';
-import trimAddress from '@/lib/utils/trimAddress';
+import { getTimeAgo } from '@/lib/utils/getTimeAgo';
 import { Skeleton } from '@/shared/components/utils/Skeleton';
+import trimAddress from '@/lib/utils/trimAddress';
+import { useDelegateInfo } from '@/lib/hooks/useDelegateInfo';
+import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 
 export const TransactionTitle = ({
     type,

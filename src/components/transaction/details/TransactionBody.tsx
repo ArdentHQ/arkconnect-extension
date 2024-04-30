@@ -1,5 +1,5 @@
-import { useTranslation } from 'react-i18next';
 import { ExtendedConfirmedTransactionData } from '@ardenthq/sdk-profiles/distribution/esm/transaction.dto';
+import { useTranslation } from 'react-i18next';
 import {
     TransactionAddress,
     TransactionAmount,
@@ -7,15 +7,16 @@ import {
 } from '../Transaction.blocks';
 import { TrasactionItem } from './TrasactionItem';
 import { Button, ExternalLink, Icon, Tooltip } from '@/shared/components';
-import useClipboard from '@/lib/hooks/useClipboard';
-import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
-import trimAddress from '@/lib/utils/trimAddress';
 import { getType, renderAmount, TransactionType } from '@/components/home/LatestTransactions.utils';
-import { useExchangeRate } from '@/lib/hooks/useExchangeRate';
-import { useDelegateInfo } from '@/lib/hooks/useDelegateInfo';
-import { getTransactionDetailLink } from '@/lib/utils/networkUtils';
-import { formatUnixTimestamp } from '@/lib/utils/formatUnixTimestsamp';
+
 import Amount from '@/components/wallet/Amount';
+import { formatUnixTimestamp } from '@/lib/utils/formatUnixTimestsamp';
+import { getTransactionDetailLink } from '@/lib/utils/networkUtils';
+import trimAddress from '@/lib/utils/trimAddress';
+import useClipboard from '@/lib/hooks/useClipboard';
+import { useDelegateInfo } from '@/lib/hooks/useDelegateInfo';
+import { useExchangeRate } from '@/lib/hooks/useExchangeRate';
+import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 
 export const TransactionBody = ({
     transaction,
@@ -66,7 +67,7 @@ export const TransactionBody = ({
                     <TrasactionItem title={t('COMMON.UNVOTE')}>
                         {unvoteDelegate.delegateName}
                         <span className='text-theme-secondary-500 dark:text-theme-secondary-300'>
-                            {trimAddress(unvoteDelegate.delegateAddress, 'short')}
+                            {trimAddress(unvoteDelegate.delegateAddress, 10)}
                         </span>
                     </TrasactionItem>
                 )}
@@ -75,7 +76,7 @@ export const TransactionBody = ({
                     <TrasactionItem title={t('COMMON.VOTE')}>
                         {voteDelegate.delegateName}
                         <span className='text-theme-secondary-500 dark:text-theme-secondary-300'>
-                            {trimAddress(voteDelegate.delegateAddress, 'short')}
+                            {trimAddress(voteDelegate.delegateAddress, 10)}
                         </span>
                     </TrasactionItem>
                 )}
