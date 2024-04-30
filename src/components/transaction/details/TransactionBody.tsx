@@ -173,9 +173,9 @@ export const TransactionBody = ({
                         primaryWallet?.network().isLive() ?? false,
                         transaction.id(),
                     )}
-                    className='hover:no-underline'
+                    className='hover:no-underline group'
                 >
-                    <Button variant='secondary'>{t('COMMON.VIEW_ON_ARKSCAN')}</Button>
+                    <Button variant='secondary' className='group-focus-visible:shadow-focus dark:group-focus-visible:shadow-focus-dark'>{t('COMMON.VIEW_ON_ARKSCAN')}</Button>
                 </ExternalLink>
             </div>
         </div>
