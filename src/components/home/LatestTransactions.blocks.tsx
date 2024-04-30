@@ -186,7 +186,10 @@ const TransactionListItem = ({
     ].includes(type as TransactionType);
 
     return (
-        <InternalLink to={`/transaction/${transaction.id()}`} className='hover:no-underline outline-none'>
+        <InternalLink
+            to={`/transaction/${transaction.id()}`}
+            className='outline-none hover:no-underline'
+        >
             <div className='transition-smoothEase flex h-[76px] w-full flex-row items-center justify-center gap-3 p-4 hover:bg-theme-secondary-50 dark:hover:bg-theme-secondary-700'>
                 <div className='flex h-11 min-w-11 items-center justify-center rounded-xl border border-theme-secondary-200 bg-white text-theme-secondary-500 dark:border-theme-secondary-600 dark:bg-subtle-black dark:text-theme-secondary-300'>
                     <Icon
