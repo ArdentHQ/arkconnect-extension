@@ -187,8 +187,8 @@ const TransactionListItem = ({
     ].includes(type as TransactionType);
 
     return (
-        <InternalLink to={`/transaction/${transaction.id()}`} className={cn('hover:no-underline group', {'outline-none': isFirefox})} tabIndex={0}>
-            <div className='transition-smoothEase flex h-[76px] w-full flex-row items-center justify-center gap-3 p-4 hover:bg-theme-secondary-50 dark:hover:bg-theme-secondary-700 group-focus-visible:outline-2 group-focus-visible:outline group-focus-visible:outline-theme-primary-600'>
+        <InternalLink to={`/transaction/${transaction.id()}`} className={cn('hover:no-underline group -outline-offset-2 w-full inline-block', {'outline-none': isFirefox})} tabIndex={0}>
+            <div className='transition-smoothEase flex h-[76px] w-full flex-row items-center justify-center gap-3 p-4 hover:bg-theme-secondary-50 dark:hover:bg-theme-secondary-700'>
                 <div className='flex h-11 min-w-11 items-center justify-center rounded-xl border border-theme-secondary-200 bg-white text-theme-secondary-500 dark:border-theme-secondary-600 dark:bg-subtle-black dark:text-theme-secondary-300'>
                     <Icon
                         className={cn({
