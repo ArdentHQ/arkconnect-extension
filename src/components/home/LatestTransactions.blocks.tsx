@@ -264,10 +264,15 @@ export const TransactionsList = ({
                             primaryWallet?.network().isLive() ?? false,
                             primaryWallet?.address() ?? '',
                         )}
-                        className='hover:no-underline group'
+                        className='group hover:no-underline'
                         tabIndex={0}
                     >
-                        <Button variant='secondary' className='group-focus-visible:shadow-focus dark:group-focus-visible:shadow-focus-dark'>{t('COMMON.VIEW_MORE_ON_ARKSCAN')}</Button>
+                        <Button
+                            variant='secondary'
+                            className='group-focus-visible:shadow-focus dark:group-focus-visible:shadow-focus-dark'
+                        >
+                            {t('COMMON.VIEW_MORE_ON_ARKSCAN')}
+                        </Button>
                     </ExternalLink>
                 </div>
             )}
