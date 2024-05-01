@@ -94,22 +94,22 @@ export const TransactionBody = ({
                 )}
 
                 <TrasactionItem title={t('COMMON.TRANSACTION_FEE')}>
-                    <div className='w-full flex justify-between items-center'>
-                    {renderAmount({
-                        value: transaction.fee(),
-                        isNegative: false,
-                        showSign: false,
-                        primaryCurrency: primaryWallet?.currency() ?? 'ARK',
-                    })}
-                    {!primaryWallet?.network().isTest() && (
-                        <span className='text-theme-secondary-500 dark:text-theme-secondary-300'>
-                            <Amount
-                                value={convert(transaction.fee())}
-                                ticker={primaryWallet?.exchangeCurrency() ?? 'USD'}
-                                underlineOnHover={true}
+                    <div className='flex w-full items-center justify-between'>
+                        {renderAmount({
+                            value: transaction.fee(),
+                            isNegative: false,
+                            showSign: false,
+                            primaryCurrency: primaryWallet?.currency() ?? 'ARK',
+                        })}
+                        {!primaryWallet?.network().isTest() && (
+                            <span className='text-theme-secondary-500 dark:text-theme-secondary-300'>
+                                <Amount
+                                    value={convert(transaction.fee())}
+                                    ticker={primaryWallet?.exchangeCurrency() ?? 'USD'}
+                                    underlineOnHover={true}
                                 />
-                        </span>
-                    )}
+                            </span>
+                        )}
                     </div>
                 </TrasactionItem>
 

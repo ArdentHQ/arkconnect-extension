@@ -123,7 +123,7 @@ export const TransactionAmount = ({
         selfAmount?: string;
         isDevnet?: boolean;
     }) => (
-        <div className='w-full flex justify-between items-center'>
+        <div className='flex w-full items-center justify-between'>
             <AmountBadge
                 amount={renderAmount({
                     value,
