@@ -94,6 +94,7 @@ export const TransactionBody = ({
                 )}
 
                 <TrasactionItem title={t('COMMON.TRANSACTION_FEE')}>
+                    <div className='w-full flex justify-between items-center'>
                     {renderAmount({
                         value: transaction.fee(),
                         isNegative: false,
@@ -106,9 +107,10 @@ export const TransactionBody = ({
                                 value={convert(transaction.fee())}
                                 ticker={primaryWallet?.exchangeCurrency() ?? 'USD'}
                                 underlineOnHover={true}
-                            />
+                                />
                         </span>
                     )}
+                    </div>
                 </TrasactionItem>
 
                 {type === TransactionType.OTHER && (
