@@ -140,7 +140,7 @@ export const TransactionSecondaryText = ({
             );
         case TransactionType.REGISTRATION:
         case TransactionType.RESIGNATION:
-            return transaction.wallet().username();
+            return transaction.wallet().username() ?? '';
         default:
             return t('COMMON.CONTRACT');
     }
