@@ -33,7 +33,7 @@ const Amount = ({
     hideSmallValues = false,
 }: AmountProperties) => {
     let actualFormattedAmount = Helpers.Currency.format(value, ticker, { withTicker });
-    const valueToFormat = (hideSmallValues && value !== 0 && value < 0.01) ? 0.01 : value;
+    const valueToFormat = hideSmallValues && value !== 0 && value < 0.01 ? 0.01 : value;
 
     let formattedAmount = cropToMaxDigits({
         value: valueToFormat,
@@ -43,7 +43,7 @@ const Amount = ({
         maxDecimals,
     });
 
-    if(valueToFormat !== value) {
+    if (valueToFormat !== value) {
         formattedAmount = `< ${formattedAmount}`;
     }
 
