@@ -298,7 +298,7 @@ export const LatestTransactionAmount = ({
     if (!paymentTypes.includes(type as TransactionType)) {
         return (
             <span className='flex h-5 items-center justify-center'>
-                <div className='h-0.5 w-2 bg-theme-secondary-300 dark:bg-theme-secondary-500' />
+                <span className='h-0.5 w-2 bg-theme-secondary-300 dark:bg-theme-secondary-500' />
             </span>
         );
     }
