@@ -123,7 +123,7 @@ export const TransactionAmount = ({
         selfAmount?: string;
         isDevnet?: boolean;
     }) => (
-        <>
+        <div className='flex w-full items-center justify-between'>
             <AmountBadge
                 amount={renderAmount({
                     value,
@@ -144,7 +144,7 @@ export const TransactionAmount = ({
                     />
                 </span>
             )}
-        </>
+        </div>
     );
 
     if (transaction.isMultiPayment()) {
