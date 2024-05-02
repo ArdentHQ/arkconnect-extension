@@ -16,6 +16,7 @@ interface AmountProperties {
     underlineOnHover?: boolean;
     maxDecimals?: number;
     displayTooltip?: boolean;
+    hideSmallValues?: boolean;
 }
 
 const Amount = ({
@@ -29,16 +30,22 @@ const Amount = ({
     underlineOnHover = false,
     maxDecimals,
     displayTooltip = true,
+    hideSmallValues = false,
 }: AmountProperties) => {
     let actualFormattedAmount = Helpers.Currency.format(value, ticker, { withTicker });
+    const valueToFormat = hideSmallValues && value !== 0 && value < 0.01 ? 0.01 : value;
 
     let formattedAmount = cropToMaxDigits({
-        value,
+        value: valueToFormat,
         ticker,
         maxDigits,
         withTicker,
         maxDecimals,
     });
+
+    if (valueToFormat !== value) {
+        formattedAmount = `< ${formattedAmount}`;
+    }
 
     if (value === 0 && !['ARK', 'DARK'].includes(formattedAmount.split(' ')[1])) {
         const currencySymbol = formattedAmount.match(/[^\d.,]+/);
