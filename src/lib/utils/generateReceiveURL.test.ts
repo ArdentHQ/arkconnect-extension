@@ -23,7 +23,7 @@ describe('generateReceiveURL', () => {
             address: ADDRESS,
         });
 
-        expect(url).toBe(`${constants.ARKVAULT_BASE_URL}/?coin=ARK-DEV&nethash=${NET_HASH}&method=transfer&recipient=${ADDRESS}`);
+        expect(url).toBe(`${constants.ARKVAULT_BASE_URL}/?coin=DARK&nethash=${NET_HASH}&method=transfer&recipient=${ADDRESS}`);
     });
 
     it('generates URL with amount', () => {
