@@ -143,7 +143,7 @@ export const ActionBody = ({
             {unvote?.delegateAddress && !wallet?.isLedger() && (
                 <ActionAddressRow
                     label={t('COMMON.UNVOTE_DELEGATE_ADDRESS')}
-                    address={trimAddress(unvote.delegateAddress ?? '', 10)}
+                    address={unvote.delegateAddress}
                 />
             )}
 
@@ -170,7 +170,7 @@ export const ActionBody = ({
             {vote?.delegateAddress && !wallet?.isLedger() && (
                 <ActionAddressRow
                     label={t('COMMON.VOTE_DELEGATE_ADDRESS')}
-                    address={trimAddress(vote.delegateAddress ?? '', 10)}
+                    address={vote.delegateAddress}
                 />
             )}
 
