@@ -27,6 +27,7 @@ import { Skeleton } from '@/shared/components/utils/Skeleton';
 import trimAddress from '@/lib/utils/trimAddress';
 import { useDelegateInfo } from '@/lib/hooks/useDelegateInfo';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
+import { isFirefox } from '@/lib/utils/isFirefox';
 
 export const TransactionTitle = ({
     type,
@@ -188,7 +189,10 @@ const TransactionListItem = ({
     return (
         <InternalLink
             to={`/transaction/${transaction.id()}`}
-            className='outline-none hover:no-underline'
+            className={cn('group inline-block w-full -outline-offset-2 hover:no-underline', {
+                'outline-none': isFirefox,
+            })}
+            tabIndex={0}
         >
             <div className='transition-smoothEase flex h-[76px] w-full flex-row items-center justify-center gap-3 p-4 hover:bg-theme-secondary-50 dark:hover:bg-theme-secondary-700'>
                 <div className='flex h-11 min-w-11 items-center justify-center rounded-xl border border-theme-secondary-200 bg-white text-theme-secondary-500 dark:border-theme-secondary-600 dark:bg-subtle-black dark:text-theme-secondary-300'>
@@ -266,9 +270,15 @@ export const TransactionsList = ({
                             primaryWallet?.network().isLive() ?? false,
                             primaryWallet?.address() ?? '',
                         )}
-                        className='hover:no-underline'
+                        className='group hover:no-underline'
+                        tabIndex={0}
                     >
-                        <Button variant='secondary'>{t('COMMON.VIEW_MORE_ON_ARKSCAN')}</Button>
+                        <Button
+                            variant='secondary'
+                            className='group-focus-visible:shadow-focus dark:group-focus-visible:shadow-focus-dark'
+                        >
+                            {t('COMMON.VIEW_MORE_ON_ARKSCAN')}
+                        </Button>
                     </ExternalLink>
                 </div>
             )}
