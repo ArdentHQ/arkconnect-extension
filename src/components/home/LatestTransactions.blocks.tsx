@@ -139,6 +139,9 @@ export const TransactionSecondaryText = ({
             ) : (
                 <PaymentInfo address={transaction.sender()} isSent={false} />
             );
+        case TransactionType.REGISTRATION:
+        case TransactionType.RESIGNATION:
+            return transaction.wallet().username() ?? '';
         default:
             return t('COMMON.CONTRACT');
     }
