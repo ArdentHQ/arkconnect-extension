@@ -42,9 +42,11 @@ export const TransactionIcon = ({ type }: { type: TransactionType }) => {
 const AddressBlock = ({
     address,
     isSecondary = false,
+    displayParenthesis = false,
 }: {
     address: string;
     isSecondary?: boolean;
+    displayParenthesis?: boolean;
 }): JSX.Element => {
     return (
         <Tooltip content={address}>
@@ -53,13 +55,13 @@ const AddressBlock = ({
                     'text-theme-secondary-500 dark:text-theme-secondary-300': isSecondary,
                 })}
             >
-                {trimAddress(address, 'short')}
+                {' '}{displayParenthesis ? `(${trimAddress(address, 'short')})` : trimAddress(address, 'short')}
             </span>
         </Tooltip>
     );
 };
 
-export const TransactionAddress = ({ address }: { address: string }) => {
+export const TransactionAddress = ({ address, displayParenthesis = false }: { address: string, displayParenthesis?: boolean }) => {
     const primaryWallet = usePrimaryWallet();
     const network = primaryWallet?.network().id() ?? 'ark.mainnet';
 
@@ -69,7 +71,10 @@ export const TransactionAddress = ({ address }: { address: string }) => {
 
     return displayName ? (
         <span>
-            {displayName} <AddressBlock address={address} isSecondary />
+            {displayName} 
+            <span className='text-theme-secondary-500 dark:text-theme-secondary-300'>
+                <AddressBlock address={address} displayParenthesis={displayParenthesis} isSecondary />
+            </span>
         </span>
     ) : (
         <span>
