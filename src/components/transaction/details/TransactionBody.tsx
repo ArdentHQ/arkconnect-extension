@@ -94,21 +94,23 @@ export const TransactionBody = ({
                 )}
 
                 <TrasactionItem title={t('COMMON.TRANSACTION_FEE')}>
-                    {renderAmount({
-                        value: transaction.fee(),
-                        isNegative: false,
-                        showSign: false,
-                        primaryCurrency: primaryWallet?.currency() ?? 'ARK',
-                    })}
-                    {!primaryWallet?.network().isTest() && (
-                        <span className='text-theme-secondary-500 dark:text-theme-secondary-300'>
-                            <Amount
-                                value={convert(transaction.fee())}
-                                ticker={primaryWallet?.exchangeCurrency() ?? 'USD'}
-                                underlineOnHover={true}
-                            />
-                        </span>
-                    )}
+                    <div className='flex w-full items-center justify-between'>
+                        {renderAmount({
+                            value: transaction.fee(),
+                            isNegative: false,
+                            showSign: false,
+                            primaryCurrency: primaryWallet?.currency() ?? 'ARK',
+                        })}
+                        {!primaryWallet?.network().isTest() && (
+                            <span className='text-theme-secondary-500 dark:text-theme-secondary-300'>
+                                <Amount
+                                    value={convert(transaction.fee())}
+                                    ticker={primaryWallet?.exchangeCurrency() ?? 'USD'}
+                                    underlineOnHover={true}
+                                />
+                            </span>
+                        )}
+                    </div>
                 </TrasactionItem>
 
                 {type === TransactionType.OTHER && (
@@ -173,9 +175,14 @@ export const TransactionBody = ({
                         primaryWallet?.network().isLive() ?? false,
                         transaction.id(),
                     )}
-                    className='hover:no-underline'
+                    className='group hover:no-underline'
                 >
-                    <Button variant='secondary'>{t('COMMON.VIEW_ON_ARKSCAN')}</Button>
+                    <Button
+                        variant='secondary'
+                        className='group-focus-visible:shadow-focus dark:group-focus-visible:shadow-focus-dark'
+                    >
+                        {t('COMMON.VIEW_ON_ARKSCAN')}
+                    </Button>
                 </ExternalLink>
             </div>
         </div>
