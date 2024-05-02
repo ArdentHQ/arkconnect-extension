@@ -231,4 +231,7 @@ export default {
     TRANSACTION_DETAILS: {
         PAGE_TITLE: 'Transaction Details',
     },
+    RECEIVE: {
+        QR_CODE_WILL_BE_UPDATED_AUTOMATICALLY: 'The QR-code will be updated automatically.',
+    },
 };
