@@ -55,13 +55,22 @@ const AddressBlock = ({
                     'text-theme-secondary-500 dark:text-theme-secondary-300': isSecondary,
                 })}
             >
-                {' '}{displayParenthesis ? `(${trimAddress(address, 'short')})` : trimAddress(address, 'short')}
+                {' '}
+                {displayParenthesis
+                    ? `(${trimAddress(address, 'short')})`
+                    : trimAddress(address, 'short')}
             </span>
         </Tooltip>
     );
 };
 
-export const TransactionAddress = ({ address, displayParenthesis = false }: { address: string, displayParenthesis?: boolean }) => {
+export const TransactionAddress = ({
+    address,
+    displayParenthesis = false,
+}: {
+    address: string;
+    displayParenthesis?: boolean;
+}) => {
     const primaryWallet = usePrimaryWallet();
     const network = primaryWallet?.network().id() ?? 'ark.mainnet';
 
@@ -71,9 +80,13 @@ export const TransactionAddress = ({ address, displayParenthesis = false }: { ad
 
     return displayName ? (
         <span>
-            {displayName} 
+            {displayName}
             <span className='text-theme-secondary-500 dark:text-theme-secondary-300'>
-                <AddressBlock address={address} displayParenthesis={displayParenthesis} isSecondary />
+                <AddressBlock
+                    address={address}
+                    displayParenthesis={displayParenthesis}
+                    isSecondary
+                />
             </span>
         </span>
     ) : (

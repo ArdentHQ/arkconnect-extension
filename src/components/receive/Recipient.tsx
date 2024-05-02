@@ -5,7 +5,6 @@ import useClipboard from '@/lib/hooks/useClipboard';
 import trimAddress from '@/lib/utils/trimAddress';
 import { Icon } from '@/shared/components';
 
-
 export const Recipient = () => {
     const primaryWallet = usePrimaryWallet();
     const address = primaryWallet?.address() ?? '';
@@ -14,8 +13,10 @@ export const Recipient = () => {
 
     return (
         <div className='flex flex-col gap-1.5'>
-            <span className='text-theme-secondary-500 text-sm font-medium dark:text-theme-secondary-200'>{t('COMMON.RECIPIENT')}</span>
-            <div className='bg-white border rounded-lg border-theme-secondary-200 px-3 py-4 flex justify-between w-full items-center dark:shadow-secondary-dark dark:border-theme-secondary-600 dark:bg-theme-secondary-800 dark:text-theme-secondary-400'>
+            <span className='text-sm font-medium text-theme-secondary-500 dark:text-theme-secondary-200'>
+                {t('COMMON.RECIPIENT')}
+            </span>
+            <div className='flex w-full items-center justify-between rounded-lg border border-theme-secondary-200 bg-white px-3 py-4 dark:border-theme-secondary-600 dark:bg-theme-secondary-800 dark:text-theme-secondary-400 dark:shadow-secondary-dark'>
                 <TransactionAddress address={address} displayParenthesis />
                 <button
                     type='button'
