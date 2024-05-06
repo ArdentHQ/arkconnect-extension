@@ -9,6 +9,7 @@ type Props = {
     hideCloseButton?: boolean;
     noPaddingBottom?: boolean;
     onBack?: 'goHome' | 'goBack';
+    className?: string;
 };
 
 const SubPageLayout = ({
@@ -18,6 +19,7 @@ const SubPageLayout = ({
     hideCloseButton = true,
     onBack,
     noPaddingBottom = false,
+    className
 }: Props) => {
     if (!onBack) {
         onBack = hideCloseButton ? 'goHome' : 'goBack';
@@ -44,7 +46,7 @@ const SubPageLayout = ({
             <div
                 className={cn('h-full px-4', {
                     'pb-4': !noPaddingBottom,
-                })}
+                }, className)}
             >
                 {children}
             </div>
