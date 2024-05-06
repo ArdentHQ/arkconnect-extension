@@ -2,7 +2,6 @@ import { useTranslation } from 'react-i18next';
 import SubPageLayout from '@/components/settings/SubPageLayout';
 import { AddContactButton, NoContacts } from '@/components/address-book';
 
-
 const AddressBook = () => {
     const { t } = useTranslation();
 

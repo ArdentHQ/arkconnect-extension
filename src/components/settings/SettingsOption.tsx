@@ -60,7 +60,12 @@ export const SettingsOption = forwardRef(function RowLayout(
             {...rest}
         >
             <span className='flex w-full items-center gap-3'>
-                <span className={twMerge('flex items-start justify-center overflow-hidden', iconContainerClassName)}>
+                <span
+                    className={twMerge(
+                        'flex items-start justify-center overflow-hidden',
+                        iconContainerClassName,
+                    )}
+                >
                     <span
                         className={cn(
                             'h-5 w-5 text-theme-secondary-500 dark:text-theme-secondary-300',

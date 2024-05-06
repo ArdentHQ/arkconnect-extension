@@ -19,7 +19,7 @@ const SubPageLayout = ({
     hideCloseButton = true,
     onBack,
     noPaddingBottom = false,
-    className
+    className,
 }: Props) => {
     if (!onBack) {
         onBack = hideCloseButton ? 'goHome' : 'goBack';
@@ -44,9 +44,13 @@ const SubPageLayout = ({
                 </div>
             </div>
             <div
-                className={cn('h-full px-4', {
-                    'pb-4': !noPaddingBottom,
-                }, className)}
+                className={cn(
+                    'h-full px-4',
+                    {
+                        'pb-4': !noPaddingBottom,
+                    },
+                    className,
+                )}
             >
                 {children}
             </div>

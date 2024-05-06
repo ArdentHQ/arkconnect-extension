@@ -188,7 +188,7 @@ const routes: RouteData[] = [
         Component: AddressBook,
         path: '/address-book',
         title: 'Address Book',
-    }
+    },
 ];
 
 export default routes;
