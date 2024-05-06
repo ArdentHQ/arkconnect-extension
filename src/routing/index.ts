@@ -27,6 +27,7 @@ import TransactionDetails from '@/pages/TransactionDetails';
 import { AddressSettings } from '@/components/wallet/AddressSettings';
 import Send from '@/pages/Send';
 import Receive from '@/pages/Receive';
+import AddressBook from '@/pages/AddressBook';
 
 type RouteData = {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -183,6 +184,11 @@ const routes: RouteData[] = [
         path: '/transaction/receive',
         title: 'Receive',
     },
+    {
+        Component: AddressBook,
+        path: '/address-book',
+        title: 'Address Book',
+    }
 ];
 
 export default routes;
