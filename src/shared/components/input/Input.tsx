@@ -9,6 +9,7 @@ type InputProps = React.ComponentPropsWithRef<'input'> & {
     innerRef?: MutableRefObject<HTMLInputElement | null>;
     variant?: 'primary' | 'destructive' | 'errorFree';
     className?: string;
+    secondaryText?: string;
 };
 
 export const Input = ({
@@ -19,18 +20,29 @@ export const Input = ({
     id,
     innerRef,
     className,
+    secondaryText,
     ...rest
 }: InputProps) => {
     return (
         <div className='flex flex-col gap-1.5'>
-            {labelText && (
-                <label
-                    htmlFor={id}
-                    className='text-sm font-medium leading-tight text-theme-secondary-500 dark:text-theme-secondary-200'
-                >
-                    {labelText}
-                </label>
-            )}
+            <div className='flex justify-between items-center'>
+                {labelText && (
+                    <label
+                        htmlFor={id}
+                        className='text-sm font-medium leading-tight text-theme-secondary-500 dark:text-theme-secondary-200'
+                    >
+                        {labelText}
+                    </label>
+                )}
+
+                {
+                    secondaryText && (
+                        <span className='text-sm font-medium text-theme-secondary-500 dark:text-theme-secondary-200'>
+                            {secondaryText}
+                        </span>
+                    )
+                }
+            </div>
 
             <div className='relative flex w-full items-center'>
                 <input
