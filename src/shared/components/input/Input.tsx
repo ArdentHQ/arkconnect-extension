@@ -25,7 +25,7 @@ export const Input = ({
 }: InputProps) => {
     return (
         <div className='flex flex-col gap-1.5'>
-            <div className='flex justify-between items-center'>
+            <div className='flex items-center justify-between'>
                 {labelText && (
                     <label
                         htmlFor={id}
@@ -35,13 +35,11 @@ export const Input = ({
                     </label>
                 )}
 
-                {
-                    secondaryText && (
-                        <span className='text-sm font-medium text-theme-secondary-500 dark:text-theme-secondary-200'>
-                            {secondaryText}
-                        </span>
-                    )
-                }
+                {secondaryText && (
+                    <span className='text-sm font-medium text-theme-secondary-500 dark:text-theme-secondary-200'>
+                        {secondaryText}
+                    </span>
+                )}
             </div>
 
             <div className='relative flex w-full items-center'>

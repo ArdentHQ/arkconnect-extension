@@ -11,7 +11,7 @@ import { Accordion, Input } from '@/shared/components';
 export type SendFormik = {
     amount?: string;
     memo?: string;
-}
+};
 
 export const QRCodeContainer = () => {
     const primaryWallet = usePrimaryWallet();
@@ -21,14 +21,16 @@ export const QRCodeContainer = () => {
     const [isOpen, setIsOpen] = useState(false);
 
     const validationSchema = object().shape({
-        amount: string().matches(/^[0-9]+(\.[0-9]{1,8})?$/, {
-            message: t('ERROR.AMOUNT_INVALID'),
-        }).test('max-integer', t('ERROR.AMOUNT_TOO_HIGH'), (value) => {
-            if(!value) return true;
-            const integerPart = Math.floor(Number(value));
-            return integerPart < 100_000_000;
-        }),
-        memo: string().max(255, t('ERROR.MEMO_TOO_LONG'))
+        amount: string()
+            .matches(/^[0-9]+(\.[0-9]{1,8})?$/, {
+                message: t('ERROR.AMOUNT_INVALID'),
+            })
+            .test('max-integer', t('ERROR.AMOUNT_TOO_HIGH'), (value) => {
+                if (!value) return true;
+                const integerPart = Math.floor(Number(value));
+                return integerPart < 100_000_000;
+            }),
+        memo: string().max(255, t('ERROR.MEMO_TOO_LONG')),
     });
 
     const formik = useFormik<SendFormik>({
@@ -52,8 +54,14 @@ export const QRCodeContainer = () => {
                             coinName: primaryWallet?.network().coinName() ?? 'ARK',
                             netHash: primaryWallet?.network().meta().nethash,
                             address: primaryWallet?.address() ?? '',
-                            amount: !formik.errors.amount && formik.values.amount !== undefined ? formik.values.amount : undefined,
-                            memo: !formik.errors.memo && formik.values.memo !== undefined ? formik.values.memo : undefined,
+                            amount:
+                                !formik.errors.amount && formik.values.amount !== undefined
+                                    ? formik.values.amount
+                                    : undefined,
+                            memo:
+                                !formik.errors.memo && formik.values.memo !== undefined
+                                    ? formik.values.memo
+                                    : undefined,
                         })}
                         size={200}
                         bgColor={isDark() ? '#292929' : '#fff'}
@@ -67,7 +75,19 @@ export const QRCodeContainer = () => {
 
             <hr className='text-theme-secondary-200 dark:text-theme-secondary-700' />
 
-            <Accordion className='mb-4' title={<h3 className='text-light-black text-base font-normal dark:text-white'>{t('PAGES.RECEIVE.SPECIFY_AMOUNT')} <span className='text-theme-secondary-500 dark:text-theme-secondary-300'>({t('COMMON.OPTIONAL')})</span></h3>} isOpen={isOpen} setIsOpen={setIsOpen}>
+            <Accordion
+                className='mb-4'
+                title={
+                    <h3 className='text-base font-normal text-light-black dark:text-white'>
+                        {t('PAGES.RECEIVE.SPECIFY_AMOUNT')}{' '}
+                        <span className='text-theme-secondary-500 dark:text-theme-secondary-300'>
+                            ({t('COMMON.OPTIONAL')})
+                        </span>
+                    </h3>
+                }
+                isOpen={isOpen}
+                setIsOpen={setIsOpen}
+            >
                 <div className='flex flex-col gap-4'>
                     <Input
                         type='text'
