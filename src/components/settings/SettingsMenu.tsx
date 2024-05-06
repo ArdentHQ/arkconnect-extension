@@ -99,6 +99,16 @@ export const SettingsMenu = ({
                         }
                     />
                     <SettingsOption
+                        title={t('PAGES.SETTINGS.MENU.ADDRESS_BOOK')}
+                        iconLeading='users'
+                        iconContainerClassName='overflow-visible'
+                        iconTrailing='arrow-right'
+                        onClick={() => handleNavigation('/address-book')}
+                        onKeyDown={(e) =>
+                            handleSubmitKeyAction(e, () => handleNavigation('/address-book'))
+                        }
+                    />
+                    <SettingsOption
                         title={t('PAGES.SETTINGS.MENU.LOCK_EXTENSION')}
                         iconLeading='lock'
                         onClick={lockExtension}
