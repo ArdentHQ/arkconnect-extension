@@ -22,3 +22,4 @@ export * from './input/PasswordInput';
 export * from './button/RowLayout';
 export * from './input/PassphraseInput';
 export * from './tooltip/Tooltip';
+export * from './utils/Accordion';
