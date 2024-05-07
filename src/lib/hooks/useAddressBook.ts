@@ -30,8 +30,8 @@ const useAddressBook = () => {
     };
 
     const updateContact = (ownerAddress: string, name: string, updatedContact: Contact) => {
-        const updatedContacts = addressBooks[ownerAddress].map(contact =>
-            contact.name === name ? updatedContact : contact
+        const updatedContacts = addressBooks[ownerAddress].map((contact) =>
+            contact.name === name ? updatedContact : contact,
         );
         const updatedAddressBooks = {
             ...addressBooks,
@@ -42,7 +42,9 @@ const useAddressBook = () => {
     };
 
     const removeContact = (ownerAddress: string, name: string) => {
-        const updatedContacts = addressBooks[ownerAddress].filter(contact => contact.name !== name);
+        const updatedContacts = addressBooks[ownerAddress].filter(
+            (contact) => contact.name !== name,
+        );
         const updatedAddressBooks = {
             ...addressBooks,
             [ownerAddress]: updatedContacts,

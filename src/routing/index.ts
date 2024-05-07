@@ -194,7 +194,7 @@ const routes: RouteData[] = [
         Component: CreateContact,
         path: '/address-book/create',
         title: 'Add New Contact',
-    }
+    },
 ];
 
 export default routes;

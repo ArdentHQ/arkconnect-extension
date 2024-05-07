@@ -8,7 +8,9 @@ export const AddContactButton = () => {
 
     return (
         <div className='h-[84px] w-full bg-white p-4 shadow-button-container dark:bg-subtle-black dark:shadow-button-container-dark'>
-            <Button onClick={() => navigate('/address-book/create')} variant='secondary'>{t('PAGES.ADDRESS_BOOK.ADD_NEW_CONTACT')}</Button>
+            <Button onClick={() => navigate('/address-book/create')} variant='secondary'>
+                {t('PAGES.ADDRESS_BOOK.ADD_NEW_CONTACT')}
+            </Button>
         </div>
     );
 };
