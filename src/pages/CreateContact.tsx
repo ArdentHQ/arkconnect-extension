@@ -1,23 +1,56 @@
 import { useTranslation } from 'react-i18next';
 import { object, string } from 'yup';
-import { Coins } from '@ardenthq/sdk';
 import { useFormik } from 'formik';
 import { AddNewContactForm, SaveContactButton } from '@/components/address-book/create';
 import SubPageLayout from '@/components/settings/SubPageLayout';
-import { useProfileContext } from '@/lib/context/Profile';
 import useAddressBook from '@/lib/hooks/useAddressBook';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 import useToast from '@/lib/hooks/useToast';
+import { WalletNetwork } from '@/lib/store/wallet';
+import constants from '@/constants';
 
 export type AddContactFormik = {
     name: string;
     address: string;
 };
 
+type ValidateAddressResponse = {
+    isValid: boolean;
+    network?: WalletNetwork;
+}
+
+const fetchValidateAddress = async (address: string): Promise<ValidateAddressResponse> => {
+    try {
+        const mainnetResponse = await fetch(`${constants.ARKVAULT_BASE_URL}api/wallets/${address}`);
+
+        if (mainnetResponse.status === 200) {
+            return {
+                isValid: true,
+                network: WalletNetwork.MAINNET,
+            };
+        }
+
+        const devnetResponse = await fetch(`${constants.ARKVAULT_DEVNET_BASE_URL}api/wallets/${address}`, {
+            headers: {
+                'ark-network': 'devnet',
+            },
+        });
+
+        if (devnetResponse.status === 200) {
+            return {
+                isValid: true,
+                network: WalletNetwork.DEVNET,
+            };
+        }
+        return { isValid: false };
+    } catch (error) {
+        return { isValid: false };
+    }
+};
+
 const CreateContact = () => {
     const primaryWallet = usePrimaryWallet();
     const toast = useToast();
-    const { profile } = useProfileContext();
     const { t } = useTranslation();
     const { addContact, addressBooks } = useAddressBook();
 
@@ -32,11 +65,10 @@ const CreateContact = () => {
             }),
         address: string()
             .required(t('ERROR.IS_REQUIRED', { name: 'Address' }))
+            .min(34, t('ERROR.IS_INVALID'))
             .test('valid-address', t('ERROR.IS_INVALID', { name: 'Address' }), async (address) => {
-                const instance: Coins.Coin = profile.coins().set(primaryWallet?.coinId() ?? 'ARK', primaryWallet?.networkId() ?? '0');
-                await instance.__construct();
-                const isValidAddress: boolean = await instance.address().validate(address);
-                return isValidAddress;
+                const response = await fetchValidateAddress(address);
+                return response.isValid;
             }),
     });
 
