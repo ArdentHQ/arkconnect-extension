@@ -4,7 +4,7 @@ import { WalletNetwork } from '@/lib/store/wallet';
 export type Contact = {
     name: string;
     address: string;
-    type: WalletNetwork
+    type: WalletNetwork;
 };
 
 const useAddressBook = () => {
