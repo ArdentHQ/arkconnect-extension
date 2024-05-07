@@ -31,6 +31,9 @@ export default {
                 'action-details-dark': 'inset 0 0 0 1px  var(--theme-color-secondary-700)',
                 'secondary-dark': '0 1px 2px 0 rgba(16, 24, 40, 0.05)',
                 'dropdown-dark': '0px 4px 24px 0px rgba(0, 0, 0, 0.50)',
+                'button-container':
+                    '0px 0px 16px -4px rgba(16, 24, 40, 0.08), 0px 0px 6px -2px rgba(16, 24, 40, 0.03)',
+                'button-container-dark': '0px -9px 16px -4px rgba(16, 24, 40, 0.15)',
             },
             dropShadow: {
                 dark: '0 1px 3px  rgba(16, 24, 40, 0.10)',

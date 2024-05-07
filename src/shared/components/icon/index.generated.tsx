@@ -40,6 +40,8 @@ export type IconDefinition =
     | 'default-favicon-light'
     | 'divider'
     | 'download'
+    | 'empty-address-book-dark'
+    | 'empty-address-book'
     | 'eye-off'
     | 'eye'
     | 'fingerprint-dark'
@@ -92,6 +94,7 @@ export type IconDefinition =
     | 'trash'
     | 'unvote'
     | 'usb-flash-drive'
+    | 'users'
     | 'view-grid'
     | 'vote'
     | 'warning-dark'
@@ -134,6 +137,8 @@ export const availableIcons: IconDefinition[] = [
     'default-favicon-light',
     'divider',
     'download',
+    'empty-address-book-dark',
+    'empty-address-book',
     'eye-off',
     'eye',
     'fingerprint-dark',
@@ -186,6 +191,7 @@ export const availableIcons: IconDefinition[] = [
     'trash',
     'unvote',
     'usb-flash-drive',
+    'users',
     'view-grid',
     'vote',
     'warning-dark',
@@ -997,6 +1003,129 @@ export const IconSvg = {
                 strokeWidth='2'
                 d='M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3'
             />
+        </svg>
+    ),
+    'empty-address-book-dark': (
+        <svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 113 109'>
+            <path
+                fill='#4A4A4A'
+                d='M109 .25H4A3.75 3.75 0 0 0 .25 4v90A3.75 3.75 0 0 0 4 97.75h105a3.75 3.75 0 0 0 3.75-3.75V4A3.75 3.75 0 0 0 109 .25'
+            />
+            <path
+                fill='#737373'
+                d='M109 .25H4A3.75 3.75 0 0 0 .25 4v18.75h112.5V4A3.75 3.75 0 0 0 109 .25'
+            />
+            <path
+                fill='#424242'
+                d='M30 9.875a2.5 2.5 0 1 1 5 0 2.5 2.5 0 0 1-5 0m-10 0a2.5 2.5 0 1 1 5 0 2.5 2.5 0 0 1-5 0m-10 0a2.5 2.5 0 1 1 5 0 2.5 2.5 0 0 1-5 0'
+            />
+            <path
+                fill='url(#paint0_linear_9912_31090)'
+                d='M56.5 108.25c16.569 0 30-13.431 30-30 0-16.568-13.431-30-30-30-16.568 0-30 13.432-30 30 0 16.569 13.432 30 30 30'
+            />
+            <path
+                fill='url(#paint1_linear_9912_31090)'
+                d='M56.5 101.335c12.886 0 23.333-10.447 23.333-23.334 0-12.886-10.446-23.333-23.333-23.333S33.167 65.115 33.167 78.001c0 12.887 10.446 23.334 23.333 23.334'
+            />
+            <path
+                stroke='#059459'
+                strokeLinecap='round'
+                strokeLinejoin='round'
+                strokeWidth='4.674'
+                d='M56.542 65v12.542m0 0v12.541m0-12.541h12.541m-12.541 0H44'
+            />
+            <defs>
+                <linearGradient
+                    id='paint0_linear_9912_31090'
+                    x1='76.879'
+                    x2='26.297'
+                    y1='116.454'
+                    y2='60.626'
+                    gradientUnits='userSpaceOnUse'
+                >
+                    <stop stopColor='#01B86C' />
+                    <stop offset='.323' stopColor='#058751' />
+                    <stop offset='1' stopColor='#01B86C' />
+                </linearGradient>
+                <linearGradient
+                    id='paint1_linear_9912_31090'
+                    x1='30.794'
+                    x2='66.151'
+                    y1='116.533'
+                    y2='51.04'
+                    gradientUnits='userSpaceOnUse'
+                >
+                    <stop stopColor='#B2FFDD' />
+                    <stop offset='1' stopColor='#EEFFF7' />
+                </linearGradient>
+            </defs>
+        </svg>
+    ),
+    'empty-address-book': (
+        <svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 113 109'>
+            <path
+                fill='url(#paint0_linear_9912_27166)'
+                d='M109 .25H4A3.75 3.75 0 0 0 .25 4v90A3.75 3.75 0 0 0 4 97.75h105a3.75 3.75 0 0 0 3.75-3.75V4A3.75 3.75 0 0 0 109 .25'
+            />
+            <path
+                fill='#B2FFDD'
+                d='M109 .25H4A3.75 3.75 0 0 0 .25 4v18.75h112.5V4A3.75 3.75 0 0 0 109 .25'
+            />
+            <path
+                fill='#34F4A2'
+                d='M30 9.875a2.5 2.5 0 1 1 5 0 2.5 2.5 0 0 1-5 0m-10 0a2.5 2.5 0 1 1 5 0 2.5 2.5 0 0 1-5 0m-10 0a2.5 2.5 0 1 1 5 0 2.5 2.5 0 0 1-5 0'
+            />
+            <path
+                fill='url(#paint1_linear_9912_27166)'
+                d='M56.5 108.25c16.569 0 30-13.431 30-30 0-16.568-13.431-30-30-30-16.568 0-30 13.432-30 30 0 16.569 13.432 30 30 30'
+            />
+            <path
+                fill='url(#paint2_linear_9912_27166)'
+                d='M56.5 101.335c12.886 0 23.333-10.447 23.333-23.334 0-12.886-10.446-23.333-23.333-23.333S33.167 65.115 33.167 78.001c0 12.887 10.446 23.334 23.333 23.334'
+            />
+            <path
+                stroke='#059459'
+                strokeLinecap='round'
+                strokeLinejoin='round'
+                strokeWidth='4.674'
+                d='M56.5 65.458V78m0 0V90.54M56.5 78h12.542M56.5 78H43.958'
+            />
+            <defs>
+                <linearGradient
+                    id='paint0_linear_9912_27166'
+                    x1='-5.47'
+                    x2='62.361'
+                    y1='129.503'
+                    y2='-15.474'
+                    gradientUnits='userSpaceOnUse'
+                >
+                    <stop stopColor='#B2FFDD' />
+                    <stop offset='1' stopColor='#EEFFF7' />
+                </linearGradient>
+                <linearGradient
+                    id='paint1_linear_9912_27166'
+                    x1='76.879'
+                    x2='26.297'
+                    y1='116.454'
+                    y2='60.626'
+                    gradientUnits='userSpaceOnUse'
+                >
+                    <stop stopColor='#01B86C' />
+                    <stop offset='.323' stopColor='#058751' />
+                    <stop offset='1' stopColor='#01B86C' />
+                </linearGradient>
+                <linearGradient
+                    id='paint2_linear_9912_27166'
+                    x1='30.794'
+                    x2='66.151'
+                    y1='116.533'
+                    y2='51.04'
+                    gradientUnits='userSpaceOnUse'
+                >
+                    <stop stopColor='#B2FFDD' />
+                    <stop offset='1' stopColor='#EEFFF7' />
+                </linearGradient>
+            </defs>
         </svg>
     ),
     'eye-off': (
@@ -3273,6 +3402,28 @@ export const IconSvg = {
                 strokeWidth='2'
                 d='M18 9V3.6c0-.56 0-.84-.109-1.054a1 1 0 0 0-.437-.437C17.24 2 16.96 2 16.4 2H7.6c-.56 0-.84 0-1.054.109a1 1 0 0 0-.437.437C6 2.76 6 3.04 6 3.6V9m4-3V5m4 1V5M8.8 22h6.4c1.68 0 2.52 0 3.162-.327a3 3 0 0 0 1.311-1.311C20 19.72 20 18.88 20 17.2v-5c0-1.12 0-1.68-.218-2.108a2 2 0 0 0-.874-.874C18.48 9 17.92 9 16.8 9H7.2c-1.12 0-1.68 0-2.108.218a2 2 0 0 0-.874.874C4 10.52 4 11.08 4 12.2v5c0 1.68 0 2.52.327 3.162a3 3 0 0 0 1.311 1.311C6.28 22 7.12 22 8.8 22'
             />
+        </svg>
+    ),
+    users: (
+        <svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'>
+            <g
+                id='users'
+                stroke='currentColor'
+                strokeLinecap='round'
+                strokeLinejoin='round'
+                strokeWidth='1.5'
+            >
+                <path
+                    id='Vector'
+                    d='M14.167 17.5v-1.667a3.333 3.333 0 0 0-3.334-3.333H4.167a3.333 3.333 0 0 0-3.334 3.333V17.5'
+                />
+                <path
+                    id='Vector_2'
+                    d='M7.5 9.167a3.333 3.333 0 1 0 0-6.667 3.333 3.333 0 0 0 0 6.667'
+                />
+                <path id='Vector_3' d='M19.167 17.5v-1.667a3.33 3.33 0 0 0-2.5-3.225' />
+                <path id='Vector_4' d='M13.333 2.608a3.334 3.334 0 0 1 0 6.459' />
+            </g>
         </svg>
     ),
     'view-grid': (
