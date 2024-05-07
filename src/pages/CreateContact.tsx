@@ -6,7 +6,6 @@ import { useQuery } from 'react-query';
 import { AddNewContactForm, SaveContactButton } from '@/components/address-book/create';
 import SubPageLayout from '@/components/settings/SubPageLayout';
 import useAddressBook from '@/lib/hooks/useAddressBook';
-import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 import useToast from '@/lib/hooks/useToast';
 import { WalletNetwork } from '@/lib/store/wallet';
 import constants from '@/constants';
@@ -53,10 +52,9 @@ const fetchValidateAddress = async (address?: string): Promise<ValidateAddressRe
 };
 
 const CreateContact = () => {
-    const primaryWallet = usePrimaryWallet();
     const toast = useToast();
     const { t } = useTranslation();
-    const { addContact, addressBooks } = useAddressBook();
+    const { addContact, addressBook } = useAddressBook();
     const [address, setAddress] = useState<string | undefined>();
 
     const { data, isLoading } = useQuery<ValidateAddressResponse>(
@@ -73,7 +71,7 @@ const CreateContact = () => {
             .required(t('ERROR.IS_REQUIRED', { name: 'Name' }))
             .max(20, t('ERROR.MAX_CHARACTERS', { count: 20 }))
             .test('unique-name', t('ERROR.IS_DUPLICATED', { name: 'contact name' }), (name) => {
-                return !addressBooks[primaryWallet?.address() ?? '']?.find(
+                return !addressBook?.find(
                     (contact) => contact.name === name,
                 );
             }),
@@ -94,7 +92,7 @@ const CreateContact = () => {
         },
         validationSchema: validationSchema,
         onSubmit: () => {
-            addContact(primaryWallet?.address() ?? '', {
+            addContact({
                 name: formik.values.name,
                 address: formik.values.address,
             });

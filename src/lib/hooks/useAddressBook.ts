@@ -5,68 +5,47 @@ export type Contact = {
     address: string;
 };
 
-export type AddressBooks = Record<string, Contact[]>;
-
 const useAddressBook = () => {
-    const [addressBooks, setAddressBooks] = useState<AddressBooks>({});
+    const [addressBook, setAddressBook] = useState<Contact[]>([]);
 
     useEffect(() => {
-        const storedAddressBooks = JSON.parse(localStorage.getItem('addressBooks') || '{}');
-        setAddressBooks(storedAddressBooks);
+        const storedAddressBooks = JSON.parse(localStorage.getItem('addressBook') || '[]');
+        setAddressBook(storedAddressBooks);
     }, []);
 
-    const saveAddressBooksToLocalStorage = (updatedAddressBooks: AddressBooks) => {
+    const saveAddressBooksToLocalStorage = (updatedAddressBooks: Contact[]) => {
         localStorage.setItem('addressBooks', JSON.stringify(updatedAddressBooks));
     };
 
-    const addContact = (ownerAddress: string, { name, address }: Contact) => {
-        const newContact = { name, address };
-        const updatedAddressBooks = {
-            ...addressBooks,
-            [ownerAddress]: [...(addressBooks[ownerAddress] || []), newContact],
-        };
-        setAddressBooks(updatedAddressBooks);
+    const addContact = ({ name, address }: Contact) => {
+        const updatedAddressBooks = [...addressBook, { name, address }];
+        setAddressBook(updatedAddressBooks);
         saveAddressBooksToLocalStorage(updatedAddressBooks);
     };
 
-    const updateContact = (ownerAddress: string, name: string, updatedContact: Contact) => {
-        const updatedContacts = addressBooks[ownerAddress].map((contact) =>
+    const updateContact = (name: string, updatedContact: Contact) => {
+        const updatedAddressBooks = addressBook.map((contact) =>
             contact.name === name ? updatedContact : contact,
         );
-        const updatedAddressBooks = {
-            ...addressBooks,
-            [ownerAddress]: updatedContacts,
-        };
-        setAddressBooks(updatedAddressBooks);
+        setAddressBook(updatedAddressBooks);
         saveAddressBooksToLocalStorage(updatedAddressBooks);
     };
 
-    const removeContact = (ownerAddress: string, name: string) => {
-        const updatedContacts = addressBooks[ownerAddress].filter(
+    const removeContact = (name: string) => {
+        const updatedAddressBooks = addressBook.filter(
             (contact) => contact.name !== name,
         );
-        const updatedAddressBooks = {
-            ...addressBooks,
-            [ownerAddress]: updatedContacts,
-        };
-        setAddressBooks(updatedAddressBooks);
+        setAddressBook(updatedAddressBooks);
         saveAddressBooksToLocalStorage(updatedAddressBooks);
     };
 
-    const removeAddressBook = (ownerAddress: string) => {
-        const { [ownerAddress]: _, ...remainingBooks } = addressBooks;
-        setAddressBooks(remainingBooks);
-        saveAddressBooksToLocalStorage(remainingBooks);
-    };
-
-    const getAddressBook = (ownerAddress: string) => addressBooks[ownerAddress] || [];
+    const getAddressBook = () => addressBook;
 
     return {
-        addressBooks,
+        addressBook,
         addContact,
         updateContact,
         removeContact,
-        removeAddressBook,
         getAddressBook,
     };
 };

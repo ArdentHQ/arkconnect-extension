@@ -33,13 +33,11 @@ const AddressBookItem = ({ name, address }: { name: string; address: string }) =
 };
 
 export const AddressBookList = () => {
-    const { getAddressBook } = useAddressBook();
-    const primaryWallet = usePrimaryWallet();
-    const currentAddressBook = getAddressBook(primaryWallet?.address() || '');
+    const { addressBook } = useAddressBook();
 
     return (
         <div className='flex w-full flex-col overflow-hidden rounded-2xl bg-white py-2 shadow-address-book dark:bg-subtle-black'>
-            {currentAddressBook.map((contact, index) => (
+            {addressBook.map((contact, index) => (
                 <AddressBookItem key={index} name={contact.name} address={contact.address} />
             ))}
         </div>
