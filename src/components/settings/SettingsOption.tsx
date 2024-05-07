@@ -13,6 +13,7 @@ type SettingsOptionProps = React.ComponentPropsWithRef<'div'> & {
     iconClassName?: string;
     variant?: 'primary' | 'error';
     className?: string;
+    iconContainerClassName?: string;
 };
 
 export const SettingsOption = forwardRef(function RowLayout(
@@ -25,6 +26,7 @@ export const SettingsOption = forwardRef(function RowLayout(
         disabled,
         onClick,
         iconClassName,
+        iconContainerClassName,
         className,
         ...rest
     }: SettingsOptionProps,
@@ -58,7 +60,12 @@ export const SettingsOption = forwardRef(function RowLayout(
             {...rest}
         >
             <span className='flex w-full items-center gap-3'>
-                <span className='flex items-start justify-center overflow-hidden'>
+                <span
+                    className={twMerge(
+                        'flex items-start justify-center overflow-hidden',
+                        iconContainerClassName,
+                    )}
+                >
                     <span
                         className={cn(
                             'h-5 w-5 text-theme-secondary-500 dark:text-theme-secondary-300',

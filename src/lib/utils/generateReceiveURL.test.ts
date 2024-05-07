@@ -69,4 +69,17 @@ describe('generateReceiveURL', () => {
             `${constants.ARKVAULT_BASE_URL}/?coin=ARK&nethash=${NET_HASH}&method=transfer&recipient=${ADDRESS}&amount=100&memo=hello`,
         );
     });
+
+    it('generates URL with memo with spaces and encodes them', () => {
+        const url = generateReceiveUrl({
+            coinName: 'ARK',
+            netHash: NET_HASH,
+            address: ADDRESS,
+            memo: 'this is a test',
+        });
+
+        expect(url).toBe(
+            `${constants.ARKVAULT_BASE_URL}/?coin=ARK&nethash=${NET_HASH}&method=transfer&recipient=${ADDRESS}&memo=this%20is%20a%20test`,
+        );
+    });
 });

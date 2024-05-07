@@ -1,4 +1,5 @@
 export default {
+    ADD_NOTE_TO_TRANSACTION: 'Add a note to transaction',
     ADDRESS: 'Address',
     ADDRESSES_DROPDOWN: 'Addresses Dropdown',
     ADDRESSES: 'Addresses',
@@ -7,6 +8,7 @@ export default {
     CONTRACT: 'Contract',
     DELEGATE_NAME: 'Delegate Name',
     DETAILS: 'Details',
+    ENTER_AMOUNT: 'Enter Amount',
     EXCHANGES: 'Exchanges',
     EXPLORER: 'Explorer',
     EXCLUDING_AMOUNT_TO_SELF: 'Excluding {{amount}} sent to self',
@@ -22,6 +24,7 @@ export default {
     MULTISIGNATURE_ADDRESS: 'Multisignature Address',
     MULTISIGNATURE_PARTICIPANTS: 'Multisignature Participants',
     NOT_AVAILABLE: 'N/A',
+    OPTIONAL: 'Optional',
     OTHER: 'Other',
     // eslint-disable-next-line camelcase
     PARTICIPANT_one: '{{count}} Participant',

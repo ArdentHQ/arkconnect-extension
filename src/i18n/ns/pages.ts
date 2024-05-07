@@ -217,6 +217,7 @@ export default {
             ENTER_PASSWORD_TO_ACCESS: 'Enter Password to Access',
         },
         MENU: {
+            ADDRESS_BOOK: 'Address Book',
             LOCK_EXTENSION: 'Lock Extension',
             DARK_MODE: 'Dark Mode',
             CHANGE_PASSWORD: 'Change Password',
@@ -233,5 +234,12 @@ export default {
     },
     RECEIVE: {
         QR_CODE_WILL_BE_UPDATED_AUTOMATICALLY: 'The QR-code will be updated automatically.',
+        SPECIFY_AMOUNT: 'Specify Amount',
+    },
+    ADDRESS_BOOK: {
+        TITLE: 'Address Book',
+        NO_CONTACTS: 'No contacts added yet.',
+        ADD_NEW_CONTACT: 'Add New Contact',
+        ADD_NEW_CONTACTS_AT_ANYTIME: 'Add a new contact at any time.',
     },
 };
