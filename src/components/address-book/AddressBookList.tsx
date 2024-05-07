@@ -1,12 +1,10 @@
 import { TestnetIcon } from '@/components/wallet/address/Address.blocks';
 import useAddressBook from '@/lib/hooks/useAddressBook';
-import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
+import { WalletNetwork } from '@/lib/store/wallet';
 import trimAddress from '@/lib/utils/trimAddress';
 import { IconButton, Tooltip } from '@/shared/components';
 
-const AddressBookItem = ({ name, address }: { name: string; address: string }) => {
-    const primaryWallet = usePrimaryWallet();
-    const testnetIndicator = primaryWallet?.network().isTest();
+const AddressBookItem = ({ name, address, network }: { name: string; address: string, network: WalletNetwork }) => {
 
     return (
         <div className='transition-smoothEase flex w-full flex-row items-center justify-between px-4 py-3 hover:bg-theme-secondary-50 dark:hover:bg-theme-secondary-700'>
@@ -15,7 +13,7 @@ const AddressBookItem = ({ name, address }: { name: string; address: string }) =
                     <span className='text-base font-medium leading-5 text-light-black dark:text-white'>
                         {name}
                     </span>
-                    {testnetIndicator && <TestnetIcon />}
+                    {network === WalletNetwork.DEVNET && <TestnetIcon />}
                 </div>
                 <Tooltip content={<span>{address}</span>}>
                     <span className='cursor-default text-sm font-normal text-theme-secondary-500 dark:text-theme-secondary-300'>
@@ -38,7 +36,7 @@ export const AddressBookList = () => {
     return (
         <div className='flex w-full flex-col overflow-hidden rounded-2xl bg-white py-2 shadow-address-book dark:bg-subtle-black'>
             {addressBook.map((contact, index) => (
-                <AddressBookItem key={index} name={contact.name} address={contact.address} />
+                <AddressBookItem key={index} name={contact.name} address={contact.address} network={contact.type} />
             ))}
         </div>
     );

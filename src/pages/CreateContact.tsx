@@ -100,6 +100,7 @@ const CreateContact = () => {
             addContact({
                 name: formik.values.name,
                 address: formik.values.address,
+                type: data?.network || WalletNetwork.MAINNET,
             });
             formik.resetForm();
 

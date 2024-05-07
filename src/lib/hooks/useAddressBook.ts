@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
+import { WalletNetwork } from '@/lib/store/wallet';
 
 export type Contact = {
     name: string;
     address: string;
+    type: WalletNetwork
 };
 
 const useAddressBook = () => {
@@ -17,8 +19,8 @@ const useAddressBook = () => {
         localStorage.setItem('addressBooks', JSON.stringify(updatedAddressBooks));
     };
 
-    const addContact = ({ name, address }: Contact) => {
-        const updatedAddressBooks = [...addressBook, { name, address }];
+    const addContact = ({ name, address, type }: Contact) => {
+        const updatedAddressBooks = [...addressBook, { name, address, type }];
         setAddressBook(updatedAddressBooks);
         saveAddressBooksToLocalStorage(updatedAddressBooks);
     };
