@@ -19,12 +19,14 @@ export type AddContactFormik = {
 type ValidateAddressResponse = {
     isValid: boolean;
     network?: WalletNetwork;
-}
+};
 
 const fetchValidateAddress = async (address?: string): Promise<ValidateAddressResponse> => {
     try {
         if (address) {
-            const mainnetResponse = await fetch(`${constants.ARKVAULT_BASE_URL}api/wallets/${address}`);
+            const mainnetResponse = await fetch(
+                `${constants.ARKVAULT_BASE_URL}api/wallets/${address}`,
+            );
 
             if (mainnetResponse.status === 200) {
                 return {
@@ -33,11 +35,14 @@ const fetchValidateAddress = async (address?: string): Promise<ValidateAddressRe
                 };
             }
 
-            const devnetResponse = await fetch(`${constants.ARKVAULT_DEVNET_BASE_URL}api/wallets/${address}`, {
-                headers: {
-                    'ark-network': 'devnet',
+            const devnetResponse = await fetch(
+                `${constants.ARKVAULT_DEVNET_BASE_URL}api/wallets/${address}`,
+                {
+                    headers: {
+                        'ark-network': 'devnet',
+                    },
                 },
-            });
+            );
 
             if (devnetResponse.status === 200) {
                 return {
@@ -64,7 +69,7 @@ const CreateContact = () => {
         () => fetchValidateAddress(address),
         {
             enabled: !!address,
-            staleTime: Infinity
+            staleTime: Infinity,
         },
     );
 
@@ -81,7 +86,7 @@ const CreateContact = () => {
             .required(t('ERROR.IS_REQUIRED', { name: 'Address' }))
             .min(34, t('ERROR.IS_INVALID', { name: 'Address' }))
             .test('valid-address', t('ERROR.IS_INVALID', { name: 'Address' }), () => {
-                if(data) {
+                if (data) {
                     return data.isValid;
                 }
             }),
