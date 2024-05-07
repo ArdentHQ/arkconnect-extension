@@ -32,9 +32,7 @@ const useAddressBook = () => {
     };
 
     const removeContact = (name: string) => {
-        const updatedAddressBooks = addressBook.filter(
-            (contact) => contact.name !== name,
-        );
+        const updatedAddressBooks = addressBook.filter((contact) => contact.name !== name);
         setAddressBook(updatedAddressBooks);
         saveAddressBooksToLocalStorage(updatedAddressBooks);
     };
