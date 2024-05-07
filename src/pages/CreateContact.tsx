@@ -33,7 +33,9 @@ const CreateContact = () => {
         address: string()
             .required(t('ERROR.IS_REQUIRED', { name: 'Address' }))
             .test('valid-address', t('ERROR.IS_INVALID', { name: 'Address' }), async (address) => {
-                const instance: Coins.Coin = profile.coins().set(primaryWallet?.coinId() ?? 'ARK', primaryWallet?.networkId() ?? '0');
+                const instance: Coins.Coin = profile
+                    .coins()
+                    .set(primaryWallet?.coinId() ?? 'ARK', primaryWallet?.networkId() ?? '0');
                 await instance.__construct();
                 const isValidAddress: boolean = await instance.address().validate(address);
                 return isValidAddress;
