@@ -28,6 +28,7 @@ import { AddressSettings } from '@/components/wallet/AddressSettings';
 import Send from '@/pages/Send';
 import Receive from '@/pages/Receive';
 import AddressBook from '@/pages/AddressBook';
+import CreateContact from '@/pages/CreateContact';
 
 type RouteData = {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -189,6 +190,11 @@ const routes: RouteData[] = [
         path: '/address-book',
         title: 'Address Book',
     },
+    {
+        Component: CreateContact,
+        path: '/address-book/create',
+        title: 'Add New Contact',
+    }
 ];
 
 export default routes;
