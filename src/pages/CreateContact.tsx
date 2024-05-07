@@ -8,6 +8,7 @@ import { useProfileContext } from '@/lib/context/Profile';
 import useActiveNetwork from '@/lib/hooks/useActiveNetwork';
 import useAddressBook from '@/lib/hooks/useAddressBook';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
+import useToast from '@/lib/hooks/useToast';
 
 export type AddContactFormik = {
     name: string;
@@ -17,6 +18,7 @@ export type AddContactFormik = {
 const CreateContact = () => {
     const network = useActiveNetwork();
     const primaryWallet = usePrimaryWallet();
+    const toast = useToast();
     const { profile } = useProfileContext();
     const { t } = useTranslation();
     const { addContact, addressBooks } = useAddressBook();
@@ -41,6 +43,9 @@ const CreateContact = () => {
         validationSchema: validationSchema,
         onSubmit: () => {
             addContact(primaryWallet?.address() ?? '', { name: formik.values.name, address: formik.values.address });
+            formik.resetForm();
+
+            toast('success', t('PAGES.ADDRESS_BOOK.CONTACT_ADDED'));
         },
     });
 
