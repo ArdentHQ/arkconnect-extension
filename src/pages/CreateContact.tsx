@@ -5,7 +5,6 @@ import { useFormik } from 'formik';
 import { AddNewContactForm, SaveContactButton } from '@/components/address-book/create';
 import SubPageLayout from '@/components/settings/SubPageLayout';
 import { useProfileContext } from '@/lib/context/Profile';
-import useActiveNetwork from '@/lib/hooks/useActiveNetwork';
 import useAddressBook from '@/lib/hooks/useAddressBook';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 import useToast from '@/lib/hooks/useToast';
@@ -16,7 +15,6 @@ export type AddContactFormik = {
 };
 
 const CreateContact = () => {
-    const network = useActiveNetwork();
     const primaryWallet = usePrimaryWallet();
     const toast = useToast();
     const { profile } = useProfileContext();
@@ -35,7 +33,7 @@ const CreateContact = () => {
         address: string()
             .required(t('ERROR.IS_REQUIRED', { name: 'Address' }))
             .test('valid-address', t('ERROR.IS_INVALID', { name: 'Address' }), async (address) => {
-                const instance: Coins.Coin = profile.coins().set(network.coin(), network.id());
+                const instance: Coins.Coin = profile.coins().set(primaryWallet?.coinId() ?? 'ARK', primaryWallet?.networkId() ?? '0');
                 await instance.__construct();
                 const isValidAddress: boolean = await instance.address().validate(address);
                 return isValidAddress;
