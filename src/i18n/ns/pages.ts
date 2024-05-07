@@ -234,6 +234,7 @@ export default {
     },
     RECEIVE: {
         QR_CODE_WILL_BE_UPDATED_AUTOMATICALLY: 'The QR-code will be updated automatically.',
+        SPECIFY_AMOUNT: 'Specify Amount',
     },
     ADDRESS_BOOK: {
         TITLE: 'Address Book',

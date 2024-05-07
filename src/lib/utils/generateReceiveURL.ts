@@ -20,7 +20,8 @@ export const generateReceiveUrl = ({
     }
 
     if (memo) {
-        url += `&memo=${memo}`;
+        const encodedMemo = encodeURIComponent(memo);
+        url += `&memo=${encodedMemo}`;
     }
 
     return url;
