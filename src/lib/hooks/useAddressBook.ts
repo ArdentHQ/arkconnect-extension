@@ -59,12 +59,15 @@ const useAddressBook = () => {
         saveAddressBooksToLocalStorage(remainingBooks);
     };
 
+    const getAddressBook = (ownerAddress: string) => addressBooks[ownerAddress] || [];
+
     return {
         addressBooks,
         addContact,
         updateContact,
         removeContact,
         removeAddressBook,
+        getAddressBook,
     };
 };
 
