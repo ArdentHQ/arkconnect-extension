@@ -39,14 +39,11 @@ const useAddressBook = () => {
         saveAddressBooksToLocalStorage(updatedAddressBooks);
     };
 
-    const getAddressBook = () => addressBook;
-
     return {
         addressBook,
         addContact,
         updateContact,
         removeContact,
-        getAddressBook,
     };
 };
 
