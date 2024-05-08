@@ -1,6 +1,6 @@
+import cn from 'classnames';
 import { Helpers } from '@ardenthq/sdk-profiles';
 import { TippyProps } from '@tippyjs/react';
-import cn from 'classnames';
 import constants from '@/constants';
 import cropToMaxDigits from '@/lib/utils/cropToMaxDigits';
 import { Tooltip } from '@/shared/components';
@@ -32,6 +32,7 @@ const Amount = ({
     displayTooltip = true,
     hideSmallValues = false,
 }: AmountProperties) => {
+    value = value / 100000;
     let actualFormattedAmount = Helpers.Currency.format(value, ticker, { withTicker });
     const valueToFormat = hideSmallValues && value !== 0 && value < 0.01 ? 0.01 : value;
 
@@ -44,7 +45,7 @@ const Amount = ({
     });
 
     if (valueToFormat !== value) {
-        formattedAmount = `< ${formattedAmount}`;
+        formattedAmount = ` <${formattedAmount}`; // Note: has a space before it to avoid "+<0.01"
     }
 
     if (value === 0 && !['ARK', 'DARK'].includes(formattedAmount.split(' ')[1])) {
