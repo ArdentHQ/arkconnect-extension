@@ -35,6 +35,7 @@ interface ActionBodyProps {
     vote?: VoteData;
     wallet?: Contracts.IReadWriteWallet;
     hasHigherCustomFee?: number | null;
+    memo?: string | null;
 }
 
 export const ActionBody = ({
@@ -57,6 +58,7 @@ export const ActionBody = ({
     totalAmount,
     convertedTotalAmount,
     hasHigherCustomFee = null,
+    memo = null,
 }: ActionBodyProps) => {
     const { t } = useTranslation();
 
@@ -77,6 +79,14 @@ export const ActionBody = ({
             )}
 
             {receiver && <ActionAddressRow label={t('COMMON.RECEIVER')} address={receiver} />}
+            {memo && (
+                <ActionBodyRow
+                    label={t('COMMON.MEMO')}
+                    value={memo}
+                    className='truncate pl-20'
+                    tooltipContent={memo}
+                />
+            )}
 
             <ActionAmountRow
                 label={
@@ -133,7 +143,7 @@ export const ActionBody = ({
             {unvote?.delegateAddress && !wallet?.isLedger() && (
                 <ActionAddressRow
                     label={t('COMMON.UNVOTE_DELEGATE_ADDRESS')}
-                    address={trimAddress(unvote.delegateAddress ?? '', 10)}
+                    address={unvote.delegateAddress}
                 />
             )}
 
@@ -160,7 +170,7 @@ export const ActionBody = ({
             {vote?.delegateAddress && !wallet?.isLedger() && (
                 <ActionAddressRow
                     label={t('COMMON.VOTE_DELEGATE_ADDRESS')}
-                    address={trimAddress(vote.delegateAddress ?? '', 10)}
+                    address={vote.delegateAddress}
                 />
             )}
 

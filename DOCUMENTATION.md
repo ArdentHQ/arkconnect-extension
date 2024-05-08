@@ -44,6 +44,14 @@ try {
 }
 ```
 
+### `version(): string`
+
+> Returns the version of the ARK Connect extension
+
+```javascript
+const version = window.arkconnect.version();
+```
+
 ---
 
 ### `getNetwork(): Promise<string>`
@@ -119,6 +127,7 @@ try {
 type SignTransactionRequest = {
   amount: number;
   receiverAddress: string;
+  memo?: string;
 };
 
 type SignTransactionResponse = {

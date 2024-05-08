@@ -64,11 +64,19 @@ export type IconDefinition =
     | 'mail'
     | 'moon'
     | 'more-vertical'
+    | 'multisignature'
     | 'opensea'
+    | 'other'
     | 'pencil'
     | 'pending'
     | 'plus-circle'
     | 'plus'
+    | 'receive'
+    | 'registration'
+    | 'resignation'
+    | 'return'
+    | 'second-signature'
+    | 'send'
     | 'settings'
     | 'shield-border'
     | 'shield'
@@ -77,12 +85,15 @@ export type IconDefinition =
     | 'speakerphone'
     | 'success'
     | 'support'
+    | 'swap'
     | 'transactions-passphrase-dark'
     | 'transactions-passphrase-light'
     | 'transparent-settings'
     | 'trash'
+    | 'unvote'
     | 'usb-flash-drive'
     | 'view-grid'
+    | 'vote'
     | 'warning-dark'
     | 'warning-light'
     | 'warning-small-dark'
@@ -147,11 +158,19 @@ export const availableIcons: IconDefinition[] = [
     'mail',
     'moon',
     'more-vertical',
+    'multisignature',
     'opensea',
+    'other',
     'pencil',
     'pending',
     'plus-circle',
     'plus',
+    'receive',
+    'registration',
+    'resignation',
+    'return',
+    'second-signature',
+    'send',
     'settings',
     'shield-border',
     'shield',
@@ -160,12 +179,15 @@ export const availableIcons: IconDefinition[] = [
     'speakerphone',
     'success',
     'support',
+    'swap',
     'transactions-passphrase-dark',
     'transactions-passphrase-light',
     'transparent-settings',
     'trash',
+    'unvote',
     'usb-flash-drive',
     'view-grid',
+    'vote',
     'warning-dark',
     'warning-light',
     'warning-small-dark',
@@ -2414,6 +2436,34 @@ export const IconSvg = {
             />
         </svg>
     ),
+    multisignature: (
+        <svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'>
+            <g
+                id='users'
+                stroke='currentColor'
+                strokeLinecap='round'
+                strokeLinejoin='round'
+                strokeWidth='2'
+                clipPath='url(#clip0_9868_36243)'
+            >
+                <path
+                    id='Vector'
+                    d='M14.167 17.5v-1.667a3.333 3.333 0 0 0-3.333-3.333H4.167a3.333 3.333 0 0 0-3.333 3.333V17.5'
+                />
+                <path
+                    id='Vector_2'
+                    d='M7.5 9.167a3.333 3.333 0 1 0 0-6.667 3.333 3.333 0 0 0 0 6.667'
+                />
+                <path id='Vector_3' d='M19.166 17.5v-1.667a3.33 3.33 0 0 0-2.5-3.225' />
+                <path id='Vector_4' d='M13.334 2.608a3.334 3.334 0 0 1 0 6.459' />
+            </g>
+            <defs>
+                <clipPath id='clip0_9868_36243'>
+                    <path fill='#fff' d='M0 0H20V20H0z' />
+                </clipPath>
+            </defs>
+        </svg>
+    ),
     opensea: (
         <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'>
             <circle cx='50' cy='50' r='50' fill='#2081e2' />
@@ -2421,6 +2471,27 @@ export const IconSvg = {
                 <path d='m24.668 51.68.216-.339L37.89 30.993a.445.445 0 0 1 .78.057c2.173 4.87 4.048 10.926 3.17 14.697-.375 1.551-1.402 3.652-2.558 5.594q-.226.425-.488.827a.44.44 0 0 1-.37.195H25.048c-.36 0-.57-.39-.38-.683' />
                 <path d='M82.644 55.461v3.22c0 .186-.113.35-.277.422-1.007.432-4.454 2.014-5.887 4.007-3.658 5.09-6.452 12.37-12.699 12.37h-26.06C28.485 75.48 21 67.97 21 58.702v-.297c0-.247.2-.447.447-.447h14.528c.287 0 .498.267.472.55a4.96 4.96 0 0 0 .519 2.789 5.11 5.11 0 0 0 4.582 2.846h7.192v-5.615h-7.11a.458.458 0 0 1-.37-.72c.078-.118.165-.24.257-.38a52 52 0 0 0 2.59-4.13c.652-1.14 1.284-2.358 1.792-3.58.103-.221.185-.447.267-.668.139-.39.283-.755.386-1.12.102-.308.185-.632.267-.935.241-1.038.344-2.137.344-3.277 0-.447-.02-.915-.062-1.362-.02-.488-.082-.976-.144-1.464a15 15 0 0 0-.2-1.305 22 22 0 0 0-.41-1.952l-.057-.246c-.124-.447-.226-.873-.37-1.32a50 50 0 0 0-1.367-4.048c-.18-.509-.385-.997-.59-1.485-.303-.735-.612-1.402-.894-2.034-.144-.288-.267-.55-.39-.817a29 29 0 0 0-.427-.894c-.103-.22-.221-.426-.303-.632l-.879-1.623a.286.286 0 0 1 .324-.416l5.497 1.49h.015c.01 0 .016.005.02.005l.725.2.796.226.293.082v-3.267c0-1.577 1.264-2.856 2.825-2.856.781 0 1.49.318 1.999.837.508.52.827 1.228.827 2.02v4.849l.585.164a.5.5 0 0 1 .134.067c.144.108.35.267.611.462.206.164.427.365.694.57.529.427 1.16.976 1.854 1.608.185.16.365.324.53.488a42 42 0 0 1 2.85 2.887c.268.303.53.611.797.935.267.329.55.652.796.976.324.432.673.879.976 1.346.144.221.308.447.447.668.39.59.734 1.202 1.063 1.813.139.283.283.591.406.894.365.817.652 1.65.837 2.481.057.18.098.375.118.55v.041c.062.247.083.509.103.776a8.3 8.3 0 0 1-.144 2.563 9 9 0 0 1-.303 1.074c-.123.35-.246.714-.406 1.058a14.4 14.4 0 0 1-1.104 2.096c-.139.246-.303.508-.468.755-.18.262-.364.509-.529.75-.226.308-.467.632-.714.92-.22.303-.447.606-.693.873a34 34 0 0 1-1.017 1.16c-.206.242-.427.489-.653.71-.22.246-.447.467-.652.673-.344.344-.632.611-.873.832l-.565.519a.46.46 0 0 1-.303.113H54.39v5.615h5.507a5.15 5.15 0 0 0 3.349-1.239c.324-.282 1.736-1.505 3.406-3.349a.43.43 0 0 1 .21-.128l15.211-4.398a.45.45 0 0 1 .57.432z' />
             </g>
+        </svg>
+    ),
+    other: (
+        <svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'>
+            <g
+                id='layers'
+                stroke='currentColor'
+                strokeLinecap='round'
+                strokeLinejoin='round'
+                strokeWidth='2'
+                clipPath='url(#clip0_9868_36253)'
+            >
+                <path id='Vector' d='M10 1.667 1.665 5.834 9.999 10l8.334-4.166z' />
+                <path id='Vector_2' d='m1.666 14.167 8.333 4.167 8.334-4.167' />
+                <path id='Vector_3' d='m1.666 10 8.333 4.167L18.333 10' />
+            </g>
+            <defs>
+                <clipPath id='clip0_9868_36253'>
+                    <path fill='#fff' d='M0 0H20V20H0z' />
+                </clipPath>
+            </defs>
         </svg>
     ),
     pencil: (
@@ -2462,6 +2533,129 @@ export const IconSvg = {
                 strokeWidth='2'
                 d='M9 3.5v12M3 9.5h12'
             />
+        </svg>
+    ),
+    receive: (
+        <svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24'>
+            <g id='Receive' stroke='currentColor' strokeLinecap='round' strokeWidth='2'>
+                <path
+                    id='Vector'
+                    strokeLinejoin='round'
+                    d='m7.802 11.419 4.212 4.212m0 0 4.213-4.212m-4.213 4.212V4.8'
+                />
+                <path
+                    id='Vector 225'
+                    d='M5.996 18.574s3.188 1.505 6.018 1.505 5.716-1.505 5.716-1.505'
+                />
+            </g>
+        </svg>
+    ),
+    registration: (
+        <svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'>
+            <g
+                id='user-plus'
+                stroke='currentColor'
+                strokeLinecap='round'
+                strokeLinejoin='round'
+                strokeWidth='2'
+                clipPath='url(#clip0_9868_36223)'
+            >
+                <path
+                    id='Vector'
+                    d='M13.334 17.5v-1.667a3.333 3.333 0 0 0-3.333-3.333H4.167a3.333 3.333 0 0 0-3.333 3.333V17.5'
+                />
+                <path
+                    id='Vector_2'
+                    d='M7.083 9.167a3.333 3.333 0 1 0 0-6.667 3.333 3.333 0 0 0 0 6.667'
+                />
+                <path id='Vector_3' d='M16.666 6.667v5' />
+                <path id='Vector_4' d='M19.166 9.167h-5' />
+            </g>
+            <defs>
+                <clipPath id='clip0_9868_36223'>
+                    <path fill='#fff' d='M0 0H20V20H0z' />
+                </clipPath>
+            </defs>
+        </svg>
+    ),
+    resignation: (
+        <svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'>
+            <g
+                id='user-minus'
+                stroke='currentColor'
+                strokeLinecap='round'
+                strokeLinejoin='round'
+                strokeWidth='2'
+                clipPath='url(#clip0_9868_36233)'
+            >
+                <path
+                    id='Vector'
+                    d='M13.334 17.5v-1.667a3.333 3.333 0 0 0-3.333-3.333H4.167a3.333 3.333 0 0 0-3.333 3.333V17.5'
+                />
+                <path
+                    id='Vector_2'
+                    d='M7.083 9.167a3.333 3.333 0 1 0 0-6.667 3.333 3.333 0 0 0 0 6.667'
+                />
+                <path id='Vector_3' d='M19.166 9.167h-5' />
+            </g>
+            <defs>
+                <clipPath id='clip0_9868_36233'>
+                    <path fill='#fff' d='M0 0H20V20H0z' />
+                </clipPath>
+            </defs>
+        </svg>
+    ),
+    return: (
+        <svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 22 22'>
+            <g
+                id='refresh-cw'
+                stroke='currentColor'
+                strokeLinecap='round'
+                strokeLinejoin='round'
+                strokeWidth='2'
+                clipPath='url(#clip0_9969_37489)'
+            >
+                <path id='Vector' d='M21.084 3.667v5.5h-5.5' />
+                <path id='Vector_2' d='M.916 18.333v-5.5h5.5' />
+                <path
+                    id='Vector_3'
+                    d='M3.217 8.25a8.25 8.25 0 0 1 13.612-3.08l4.254 3.996M.916 12.833l4.253 3.997a8.25 8.25 0 0 0 13.613-3.08'
+                />
+            </g>
+            <defs>
+                <clipPath id='clip0_9969_37489'>
+                    <path fill='#fff' d='M0 0H22V22H0z' />
+                </clipPath>
+            </defs>
+        </svg>
+    ),
+    'second-signature': (
+        <svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'>
+            <g id='pencil'>
+                <path
+                    id='Vector'
+                    stroke='currentColor'
+                    strokeLinecap='round'
+                    strokeLinejoin='round'
+                    strokeWidth='2'
+                    d='m12.693 4.36 2.947 2.947M13.943 3.11a2.084 2.084 0 0 1 2.947 2.947L5.417 17.53H2.5v-2.976z'
+                />
+            </g>
+        </svg>
+    ),
+    send: (
+        <svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 25 24'>
+            <g id='Send' stroke='currentColor' strokeLinecap='round' strokeWidth='2'>
+                <path
+                    id='Vector'
+                    strokeLinejoin='round'
+                    d='M8.302 9.013 12.514 4.8m0 0 4.213 4.213M12.514 4.8v10.832'
+                />
+                <path
+                    id='Vector 225'
+                    d='M6.496 18.574s3.188 1.505 6.018 1.505 5.716-1.505 5.716-1.505'
+                />
+            </g>
         </svg>
     ),
     settings: (
@@ -2574,6 +2768,31 @@ export const IconSvg = {
                     strokeLinejoin='round'
                     strokeWidth='1.5'
                     d='m15.303 4.697-2.946 2.946m2.946-2.946a7.5 7.5 0 0 0-10.606 0m10.606 0a7.5 7.5 0 0 1 0 10.606m-2.946-7.66a3.333 3.333 0 0 0-4.714 0m4.714 0a3.333 3.333 0 0 1 0 4.714m0 0 2.946 2.946m-2.946-2.946a3.333 3.333 0 0 1-4.714 0m7.66 2.946a7.5 7.5 0 0 1-10.606 0m2.946-7.66L4.697 4.697m2.946 2.946a3.333 3.333 0 0 0 0 4.714m-2.946-7.66a7.5 7.5 0 0 0 0 10.606m2.946-2.946-2.946 2.946'
+                />
+            </g>
+        </svg>
+    ),
+    swap: (
+        <svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 32 32'>
+            <g id='revote-svgrepo-com 1' stroke='currentColor'>
+                <path
+                    id='Vector 224'
+                    strokeWidth='2.094'
+                    d='M4 16v-3.75c0-2.093 0-3.14.258-3.992a6 6 0 0 1 4-4C9.11 4 10.157 4 12.25 4H16c5.657 0 8.485 0 10.243 1.757C28 7.515 28 10.343 28 16s0 8.485-1.757 10.243C24.485 28 21.657 28 16 28s-8.485 0-10.243-1.757C4 24.485 4 21.657 4 16Z'
+                />
+                <path
+                    id='Icon'
+                    strokeLinecap='round'
+                    strokeLinejoin='round'
+                    strokeWidth='2'
+                    d='M13 13h8m0 0-2-2m2 2-2 2'
+                />
+                <path
+                    id='Icon_2'
+                    strokeLinecap='round'
+                    strokeLinejoin='round'
+                    strokeWidth='2'
+                    d='M19 19h-8m0 0 2-2m-2 2 2 2'
                 />
             </g>
         </svg>
@@ -3033,6 +3252,18 @@ export const IconSvg = {
             </g>
         </svg>
     ),
+    unvote: (
+        <svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 32 32'>
+            <g id='revote-svgrepo-com 1' stroke='currentColor' strokeWidth='2'>
+                <path
+                    id='Vector 224'
+                    d='M4 16v-3.75c0-2.093 0-3.14.258-3.992a6 6 0 0 1 4-4C9.11 4 10.157 4 12.25 4H16c5.657 0 8.485 0 10.243 1.757C28 7.515 28 10.343 28 16s0 8.485-1.757 10.243C24.485 28 21.657 28 16 28s-8.485 0-10.243-1.757C4 24.485 4 21.657 4 16Z'
+                />
+                <path id='Vector' strokeLinecap='round' strokeLinejoin='round' d='m20 12-8 8' />
+                <path id='Vector_2' strokeLinecap='round' strokeLinejoin='round' d='m12 12 8 8' />
+            </g>
+        </svg>
+    ),
     'usb-flash-drive': (
         <svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24'>
             <path
@@ -3053,6 +3284,22 @@ export const IconSvg = {
                 strokeWidth='2'
                 d='M4.586 4.586A2 2 0 0 0 4 6v2a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2H6a2 2 0 0 0-1.414.586M14.586 4.586A2 2 0 0 0 14 6v2a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-2a2 2 0 0 0-1.414.586M4.586 14.586A2 2 0 0 0 4 16v2a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2v-2a2 2 0 0 0-2-2H6a2 2 0 0 0-1.414.586M14.586 14.586A2 2 0 0 0 14 16v2a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2v-2a2 2 0 0 0-2-2h-2a2 2 0 0 0-1.414.586'
             />
+        </svg>
+    ),
+    vote: (
+        <svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 32 32'>
+            <g id='revote-svgrepo-com 1' stroke='currentColor' strokeWidth='2'>
+                <path
+                    id='Vector'
+                    strokeLinecap='round'
+                    strokeLinejoin='round'
+                    d='m11 16.212 2.857 2.6 7.143-6.5'
+                />
+                <path
+                    id='Vector 224'
+                    d='M4 16v-3.75c0-2.093 0-3.14.258-3.992a6 6 0 0 1 4-4C9.11 4 10.157 4 12.25 4H16c5.657 0 8.485 0 10.243 1.757C28 7.515 28 10.343 28 16s0 8.485-1.757 10.243C24.485 28 21.657 28 16 28s-8.485 0-10.243-1.757C4 24.485 4 21.657 4 16Z'
+                />
+            </g>
         </svg>
     ),
     'warning-dark': (

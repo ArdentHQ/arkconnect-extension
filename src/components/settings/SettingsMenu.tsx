@@ -71,7 +71,7 @@ export const SettingsMenu = ({
 
     return (
         <div
-            className='mx-4 w-full rounded-xl bg-white shadow-dropdown dark:bg-subtle-black'
+            className='mx-4 w-full rounded-xl bg-white shadow-dropdown dark:bg-subtle-black dark:shadow-dropdown-dark'
             ref={dropdownRef}
         >
             <SafeOutlineOverflowContainer className='ml-0 w-full px-0'>

@@ -26,10 +26,13 @@ export default {
                 light: '0 1px 4px 0 rgba(0, 0, 0, 0.05)',
                 dark: '0 1px 4px 0 rgba(165, 165, 165, 0.08)',
                 dropdown:
-                    '0 4px 6px -2px rgba(16, 24, 40, 0.03), 0 12px 16px -4px rgba(16, 24, 40, 0.08)',
+                    '0px 12px 16px -4px rgba(16, 24, 40, 0.08), 0px 4px 6px -2px rgba(16, 24, 40, 0.03)',
                 'action-details': 'inset 0 0 0 1px  var(--theme-color-secondary-200)',
                 'action-details-dark': 'inset 0 0 0 1px  var(--theme-color-secondary-700)',
                 'secondary-dark': '0 1px 2px 0 rgba(16, 24, 40, 0.05)',
+                'dropdown-dark': '0px 4px 24px 0px rgba(0, 0, 0, 0.50)',
+                focus: '0 0 0 4px rgb(var(--theme-color-shadow-green))',
+                'focus-dark': '0 0 0 4px rgb(var(--theme-color-shadow-green-dark))',
             },
             dropShadow: {
                 dark: '0 1px 3px  rgba(16, 24, 40, 0.10)',
@@ -143,6 +146,7 @@ export default {
             // shadow
             'light-green': 'rgb(var(--theme-color-light-green) / <alpha-value>)',
             'shadow-green': 'rgb(var(--theme-color-shadow-green) / <alpha-value>)',
+            'shadow-green-dark': 'rgb(var(--theme-color-shadow-green-dark) / <alpha-value>)',
         },
     },
     plugins: [],

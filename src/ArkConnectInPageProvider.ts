@@ -1,3 +1,4 @@
+import packageData from '../package.json';
 import { ExtensionSupportedEvents } from '@/lib/events';
 import { assertPositiveNonZero, getLogoOrFaviconUrl, isValidObjectByType } from '@/inpage.helpers';
 
@@ -80,6 +81,7 @@ type SignTransactionRequest = {
     amount: number;
     fee?: number;
     receiverAddress: string;
+    memo?: string;
 };
 
 type SignTransactionResponse = {
@@ -461,6 +463,10 @@ class ArkConnectInPageProvider {
         );
     }
 
+    version() {
+        return packageData.version;
+    }
+
     private _sendMessage(type: Messages, data: object = {}) {
         window.postMessage(
             {
@@ -506,6 +512,7 @@ interface ArkConnect {
         request: SignTransactionRequest,
     ) => Promise<SignTransactionResponse | ErrorResponse>;
     signVote: (request: SignVoteRequest) => Promise<SignVoteResponse | ErrorResponse>;
+    version: () => string;
 }
 
 export const initializeInPageHandler = (): ArkConnect => {

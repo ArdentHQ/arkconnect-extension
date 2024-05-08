@@ -23,6 +23,7 @@ interface Props {
         vote: VoteDelegateProperties;
         unvote: VoteDelegateProperties;
         tabId: number;
+        memo?: string;
     };
 }
 
@@ -73,7 +74,7 @@ export const VoteLedgerApprovalBody = ({ wallet, state }: Props) => {
 };
 
 export const TransactionLedgerApprovalBody = ({ wallet, state }: Props) => {
-    const { session, amount, receiverAddress } = state;
+    const { session, amount, receiverAddress, memo } = state;
     const { convert } = useExchangeRate({
         exchangeTicker: wallet.exchangeCurrency(),
         ticker: wallet.currency(),
@@ -88,6 +89,7 @@ export const TransactionLedgerApprovalBody = ({ wallet, state }: Props) => {
         session,
         amount,
         receiverAddress,
+        memo,
     });
 
     return (
@@ -104,6 +106,7 @@ export const TransactionLedgerApprovalBody = ({ wallet, state }: Props) => {
             receiver={trimAddress(receiverAddress as string, 10)}
             totalAmount={total}
             convertedTotalAmount={convert(total)}
+            memo={memo}
         />
     );
 };

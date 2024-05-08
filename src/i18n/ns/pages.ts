@@ -1,7 +1,9 @@
 /* eslint-disable quotes */
 export default {
     HOME: {
-        TRY_OUR_DEMO_APP_NOW: 'Try Our Demo App Now!',
+        INSUFFICIENT_FUNDS: 'Insufficient funds to send',
+        LATEST_TRANSACTIONS: 'Latest Transactions',
+        NO_TRANSACTIONS: 'You don’t have any transactions',
     },
     CONNECT: {
         CONNECT_TO_APP: 'Connect to App',
@@ -225,5 +227,8 @@ export default {
             CONNECTED_APPS: 'Connected Apps',
             CREATE_N_IMPORT_ADDRESS: 'Create & Import Address',
         },
+    },
+    TRANSACTION_DETAILS: {
+        PAGE_TITLE: 'Transaction Details',
     },
 };

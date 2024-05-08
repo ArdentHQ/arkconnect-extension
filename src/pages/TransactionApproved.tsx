@@ -69,6 +69,7 @@ const TransactionApproved = () => {
                             isApproved={true}
                             sender={trimAddress(state?.transaction.sender, 'short')}
                             amount={state?.transaction.amount}
+                            memo={state?.transaction.memo}
                             convertedAmount={state?.transaction.convertedAmount as number}
                             exchangeCurrency={state?.transaction.exchangeCurrency as string}
                             network={getActiveCoin(state?.walletNetwork)}

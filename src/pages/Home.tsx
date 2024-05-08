@@ -6,6 +6,7 @@ import { ExternalLink, Icon, Layout } from '@/shared/components';
 import constants from '@/constants';
 import { useProfileContext } from '@/lib/context/Profile';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
+import { LatestTransactions } from '@/components/home/LatestTransactions';
 const Home = () => {
     const { convertedBalance } = useProfileContext();
 
@@ -18,9 +19,9 @@ const Home = () => {
     const { t } = useTranslation();
 
     return (
-        <Layout data-testid='Home'>
-            <div className='m-4 rounded-b-2xl rounded-t-2.5xl bg-white shadow-light dark:bg-subtle-black'>
-                <div className=' rounded-2.5xl bg-theme-primary-700 text-white dark:bg-theme-primary-650'>
+        <Layout data-testid='Home' withPadding={false}>
+            <div className='m-4 rounded-2xl bg-white shadow-light dark:bg-subtle-black'>
+                <div className='rounded-2.5xl bg-theme-primary-700 text-white dark:bg-theme-primary-650'>
                     <div className='p-4'>
                         <Balance
                             balance={primaryWallet?.balance() ?? 0}
@@ -68,20 +69,9 @@ const Home = () => {
                         </ExternalLink>
                     </div>
                 </div>
-
-                <ExternalLink
-                    href={constants.ARK_CONNECT_DEMO}
-                    className='block rounded-2xl text-theme-primary-700 dark:text-theme-primary-600'
-                >
-                    <div className='flex flex-row items-center justify-between p-4'>
-                        <Icon icon='speakerphone' className='h-4.5 w-4.5' />
-                        <span className=' text-sm font-medium'>
-                            {t('PAGES.HOME.TRY_OUR_DEMO_APP_NOW')}
-                        </span>
-                        <Icon icon='link-external' className='h-4 w-4' />
-                    </div>
-                </ExternalLink>
             </div>
+
+            <LatestTransactions />
         </Layout>
     );
 };
