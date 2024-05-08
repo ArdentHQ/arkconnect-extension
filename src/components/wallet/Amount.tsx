@@ -32,7 +32,6 @@ const Amount = ({
     displayTooltip = true,
     hideSmallValues = false,
 }: AmountProperties) => {
-    value = value / 100000;
     let actualFormattedAmount = Helpers.Currency.format(value, ticker, { withTicker });
     const valueToFormat = hideSmallValues && value !== 0 && value < 0.01 ? 0.01 : value;
 
