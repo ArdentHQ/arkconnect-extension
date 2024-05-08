@@ -24,7 +24,7 @@ const fetchValidateAddress = async (address?: string): Promise<ValidateAddressRe
     try {
         if (address) {
             const mainnetResponse = await fetch(
-                `${constants.ARKVAULT_BASE_URL}api/wallets/${address}`,
+                `${constants.ARKVAULT_API_MAINNET_BASE_URL}api/wallets/${address}`,
             );
 
             if (mainnetResponse.status === 200) {
@@ -35,7 +35,7 @@ const fetchValidateAddress = async (address?: string): Promise<ValidateAddressRe
             }
 
             const devnetResponse = await fetch(
-                `${constants.ARKVAULT_DEVNET_BASE_URL}api/wallets/${address}`,
+                `${constants.ARKVAULT_API_DEVNET_BASE_URL}api/wallets/${address}`,
                 {
                     headers: {
                         'ark-network': 'devnet',
@@ -82,6 +82,7 @@ const CreateContact = () => {
             .required(t('ERROR.IS_REQUIRED', { name: 'Address' }))
             .min(34, t('ERROR.IS_INVALID', { name: 'Address' }))
             .test('valid-address', t('ERROR.IS_INVALID', { name: 'Address' }), () => {
+                if (isLoading) return true;
                 if (data) {
                     return data.isValid;
                 }
