@@ -37,7 +37,7 @@ export const LatestTransactions = () => {
         {
             enabled: !!primaryWallet,
             staleTime: 0,
-            refetchInterval: 3000,
+            refetchInterval: 60000,
         },
     );
 

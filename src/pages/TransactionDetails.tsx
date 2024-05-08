@@ -24,7 +24,7 @@ const fetchTransactionDetails = async (
         }
         return transaction;
     } catch (error) {
-        return undefined;
+        throw new Error('Error fetching transaction details');
     }
 };
 
