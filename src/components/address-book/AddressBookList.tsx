@@ -4,8 +4,15 @@ import { WalletNetwork } from '@/lib/store/wallet';
 import trimAddress from '@/lib/utils/trimAddress';
 import { IconButton, Tooltip } from '@/shared/components';
 
-const AddressBookItem = ({ name, address, network }: { name: string; address: string, network: WalletNetwork }) => {
-
+const AddressBookItem = ({
+    name,
+    address,
+    network,
+}: {
+    name: string;
+    address: string;
+    network: WalletNetwork;
+}) => {
     return (
         <div className='transition-smoothEase flex w-full flex-row items-center justify-between px-4 py-3 hover:bg-theme-secondary-50 dark:hover:bg-theme-secondary-700'>
             <div className='flex flex-col gap-1 '>
@@ -36,7 +43,12 @@ export const AddressBookList = () => {
     return (
         <div className='flex w-full flex-col overflow-hidden rounded-2xl bg-white py-2 shadow-address-book dark:bg-subtle-black'>
             {addressBook.map((contact, index) => (
-                <AddressBookItem key={index} name={contact.name} address={contact.address} network={contact.type} />
+                <AddressBookItem
+                    key={index}
+                    name={contact.name}
+                    address={contact.address}
+                    network={contact.type}
+                />
             ))}
         </div>
     );
