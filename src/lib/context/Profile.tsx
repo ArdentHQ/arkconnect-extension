@@ -3,12 +3,13 @@ import { Contracts } from '@ardenthq/sdk-profiles';
 import { runtime } from 'webextension-polyfill';
 import { useEnvironmentContext } from './Environment';
 import { useErrorHandlerContext } from './ErrorHandler';
-import { useWalletBalance } from '@/lib/hooks/useWalletBalance';
+import * as SessionStore from '@/lib/store/session';
+import * as WalletStore from '@/lib/store/wallet';
+
+import { LoadingFullScreen } from '@/shared/components/handleStates/LoadingFullScreen';
 import { ProfileData } from '@/lib/background/contracts';
 import { useAppDispatch } from '@/lib/store';
-import * as WalletStore from '@/lib/store/wallet';
-import * as SessionStore from '@/lib/store/session';
-import { LoadingFullScreen } from '@/shared/components/handleStates/LoadingFullScreen';
+import { useWalletBalance } from '@/lib/hooks/useWalletBalance';
 
 interface Context {
     profile: Contracts.IProfile;

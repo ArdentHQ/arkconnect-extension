@@ -1,9 +1,4 @@
-import cn from 'classnames';
-import { useTranslation } from 'react-i18next';
-import { ExtendedConfirmedTransactionData } from '@ardenthq/sdk-profiles/distribution/esm/transaction.dto';
 import { AmountBadge, AmountBadgeType } from './details/AmountBadge';
-import Amount from '@/components/wallet/Amount';
-import { Icon, IconDefinition, Tooltip } from '@/shared/components';
 import {
     getAmountByAddress,
     getMultipaymentAmounts,
@@ -11,10 +6,16 @@ import {
     renderAmount,
     TransactionType,
 } from '@/components/home/LatestTransactions.utils';
-import { useProfileContext } from '@/lib/context/Profile';
+import { Icon, IconDefinition, Tooltip } from '@/shared/components';
+
+import Amount from '@/components/wallet/Amount';
+import cn from 'classnames';
+import { ExtendedConfirmedTransactionData } from '@ardenthq/sdk-profiles/distribution/esm/transaction.dto';
 import trimAddress from '@/lib/utils/trimAddress';
-import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 import { useExchangeRate } from '@/lib/hooks/useExchangeRate';
+import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
+import { useProfileContext } from '@/lib/context/Profile';
+import { useTranslation } from 'react-i18next';
 
 export const TransactionIcon = ({ type }: { type: TransactionType }) => {
     const isSpecialTransaction = [
@@ -56,9 +57,7 @@ const AddressBlock = ({
                 })}
             >
                 {' '}
-                {displayParenthesis
-                    ? `(${trimAddress(address, 'short')})`
-                    : trimAddress(address, 'short')}
+                {displayParenthesis ? `(${trimAddress(address, 10)})` : trimAddress(address, 10)}
             </span>
         </Tooltip>
     );
@@ -141,7 +140,7 @@ export const TransactionAmount = ({
         selfAmount?: string;
         isDevnet?: boolean;
     }) => (
-        <>
+        <div className='flex w-full items-center justify-between'>
             <AmountBadge
                 amount={renderAmount({
                     value,
@@ -162,7 +161,7 @@ export const TransactionAmount = ({
                     />
                 </span>
             )}
-        </>
+        </div>
     );
 
     if (transaction.isMultiPayment()) {

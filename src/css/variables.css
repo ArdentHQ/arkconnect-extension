@@ -72,4 +72,5 @@
     /* light green */
     --theme-color-light-green: 229 255 244; /* #E5FFF4 */
     --theme-color-shadow-green: 229 243 237; /* #E5F3ED */
+    --theme-color-shadow-green-dark: 43 61 53; /* #2B3D35 */
 }

@@ -1,6 +1,6 @@
+import cn from 'classnames';
 import { Helpers } from '@ardenthq/sdk-profiles';
 import { TippyProps } from '@tippyjs/react';
-import cn from 'classnames';
 import constants from '@/constants';
 import cropToMaxDigits from '@/lib/utils/cropToMaxDigits';
 import { Tooltip } from '@/shared/components';
@@ -16,6 +16,7 @@ interface AmountProperties {
     underlineOnHover?: boolean;
     maxDecimals?: number;
     displayTooltip?: boolean;
+    hideSmallValues?: boolean;
 }
 
 const Amount = ({
@@ -29,16 +30,22 @@ const Amount = ({
     underlineOnHover = false,
     maxDecimals,
     displayTooltip = true,
+    hideSmallValues = false,
 }: AmountProperties) => {
-    const actualFormattedAmount = Helpers.Currency.format(value, ticker, { withTicker });
+    let actualFormattedAmount = Helpers.Currency.format(value, ticker, { withTicker });
+    const valueToFormat = hideSmallValues && value !== 0 && value < 0.01 ? 0.01 : value;
 
     let formattedAmount = cropToMaxDigits({
-        value,
+        value: valueToFormat,
         ticker,
         maxDigits,
         withTicker,
         maxDecimals,
     });
+
+    if (valueToFormat !== value) {
+        formattedAmount = ` <${formattedAmount}`; // Note: has a space before it to avoid "+<0.01"
+    }
 
     if (value === 0 && !['ARK', 'DARK'].includes(formattedAmount.split(' ')[1])) {
         const currencySymbol = formattedAmount.match(/[^\d.,]+/);
@@ -46,6 +53,7 @@ const Amount = ({
     } else if (showSign) {
         if (value !== 0) {
             formattedAmount = `${isNegative ? '-' : '+'}${formattedAmount}`;
+            actualFormattedAmount = `${isNegative ? '-' : '+'}${actualFormattedAmount}`;
         }
     }
 
