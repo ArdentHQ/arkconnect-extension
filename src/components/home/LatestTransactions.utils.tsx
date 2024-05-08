@@ -128,5 +128,7 @@ export const renderAmount = ({
         isNegative={isNegative}
         maxDigits={20}
         displayTooltip={displayTooltip}
+        maxDecimals={2}
+        hideSmallValues
     />
 );

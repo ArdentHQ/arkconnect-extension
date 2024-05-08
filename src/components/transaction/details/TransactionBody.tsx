@@ -1,5 +1,5 @@
-import { useTranslation } from 'react-i18next';
 import { ExtendedConfirmedTransactionData } from '@ardenthq/sdk-profiles/distribution/esm/transaction.dto';
+import { useTranslation } from 'react-i18next';
 import {
     TransactionAddress,
     TransactionAmount,
@@ -7,15 +7,16 @@ import {
 } from '../Transaction.blocks';
 import { TrasactionItem } from './TrasactionItem';
 import { Button, ExternalLink, Icon, Tooltip } from '@/shared/components';
-import useClipboard from '@/lib/hooks/useClipboard';
-import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
-import trimAddress from '@/lib/utils/trimAddress';
 import { getType, renderAmount, TransactionType } from '@/components/home/LatestTransactions.utils';
-import { useExchangeRate } from '@/lib/hooks/useExchangeRate';
-import { useDelegateInfo } from '@/lib/hooks/useDelegateInfo';
-import { getTransactionDetailLink } from '@/lib/utils/networkUtils';
-import { formatUnixTimestamp } from '@/lib/utils/formatUnixTimestsamp';
+
 import Amount from '@/components/wallet/Amount';
+import { formatUnixTimestamp } from '@/lib/utils/formatUnixTimestsamp';
+import { getTransactionDetailLink } from '@/lib/utils/networkUtils';
+import trimAddress from '@/lib/utils/trimAddress';
+import useClipboard from '@/lib/hooks/useClipboard';
+import { useDelegateInfo } from '@/lib/hooks/useDelegateInfo';
+import { useExchangeRate } from '@/lib/hooks/useExchangeRate';
+import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 
 export const TransactionBody = ({
     transaction,
@@ -62,21 +63,25 @@ export const TransactionBody = ({
                     </TrasactionItem>
                 )}
 
-                {[TransactionType.VOTE, TransactionType.SWAP].includes(type) && (
-                    <TrasactionItem title={t('COMMON.VOTE')}>
-                        {voteDelegate.delegateName}
-                        <span className='text-theme-secondary-500 dark:text-theme-secondary-300'>
-                            {trimAddress(voteDelegate.delegateAddress, 'short')}
-                        </span>
-                    </TrasactionItem>
-                )}
-
                 {[TransactionType.UNVOTE, TransactionType.SWAP].includes(type) && (
                     <TrasactionItem title={t('COMMON.UNVOTE')}>
                         {unvoteDelegate.delegateName}
-                        <span className='text-theme-secondary-500 dark:text-theme-secondary-300'>
-                            {trimAddress(unvoteDelegate.delegateAddress, 'short')}
-                        </span>
+                        <Tooltip content={unvoteDelegate.delegateAddress} className='break-words'>
+                            <span className='text-theme-secondary-500 dark:text-theme-secondary-300'>
+                                {trimAddress(unvoteDelegate.delegateAddress, 10)}
+                            </span>
+                        </Tooltip>
+                    </TrasactionItem>
+                )}
+
+                {[TransactionType.VOTE, TransactionType.SWAP].includes(type) && (
+                    <TrasactionItem title={t('COMMON.VOTE')}>
+                        {voteDelegate.delegateName}
+                        <Tooltip content={voteDelegate.delegateAddress} className='break-words'>
+                            <span className='text-theme-secondary-500 dark:text-theme-secondary-300'>
+                                {trimAddress(voteDelegate.delegateAddress, 10)}
+                            </span>
+                        </Tooltip>
                     </TrasactionItem>
                 )}
 
@@ -93,21 +98,23 @@ export const TransactionBody = ({
                 )}
 
                 <TrasactionItem title={t('COMMON.TRANSACTION_FEE')}>
-                    {renderAmount({
-                        value: transaction.fee(),
-                        isNegative: false,
-                        showSign: false,
-                        primaryCurrency: primaryWallet?.currency() ?? 'ARK',
-                    })}
-                    {!primaryWallet?.network().isTest() && (
-                        <span className='text-theme-secondary-500 dark:text-theme-secondary-300'>
-                            <Amount
-                                value={convert(transaction.fee())}
-                                ticker={primaryWallet?.exchangeCurrency() ?? 'USD'}
-                                underlineOnHover={true}
-                            />
-                        </span>
-                    )}
+                    <div className='flex w-full items-center justify-between'>
+                        {renderAmount({
+                            value: transaction.fee(),
+                            isNegative: false,
+                            showSign: false,
+                            primaryCurrency: primaryWallet?.currency() ?? 'ARK',
+                        })}
+                        {!primaryWallet?.network().isTest() && (
+                            <span className='text-theme-secondary-500 dark:text-theme-secondary-300'>
+                                <Amount
+                                    value={convert(transaction.fee())}
+                                    ticker={primaryWallet?.exchangeCurrency() ?? 'USD'}
+                                    underlineOnHover={true}
+                                />
+                            </span>
+                        )}
+                    </div>
                 </TrasactionItem>
 
                 {type === TransactionType.OTHER && (
@@ -172,9 +179,14 @@ export const TransactionBody = ({
                         primaryWallet?.network().isLive() ?? false,
                         transaction.id(),
                     )}
-                    className='hover:no-underline'
+                    className='group hover:no-underline'
                 >
-                    <Button variant='secondary'>{t('COMMON.VIEW_ON_ARKSCAN')}</Button>
+                    <Button
+                        variant='secondary'
+                        className='group-focus-visible:shadow-focus dark:group-focus-visible:shadow-focus-dark'
+                    >
+                        {t('COMMON.VIEW_ON_ARKSCAN')}
+                    </Button>
                 </ExternalLink>
             </div>
         </div>
