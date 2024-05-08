@@ -1,3 +1,6 @@
+import cn from 'classnames';
+import { ExtendedConfirmedTransactionData } from '@ardenthq/sdk-profiles/distribution/esm/transaction.dto';
+import { useTranslation } from 'react-i18next';
 import { AmountBadge, AmountBadgeType } from './details/AmountBadge';
 import {
     getAmountByAddress,
@@ -9,13 +12,10 @@ import {
 import { Icon, IconDefinition, Tooltip } from '@/shared/components';
 
 import Amount from '@/components/wallet/Amount';
-import cn from 'classnames';
-import { ExtendedConfirmedTransactionData } from '@ardenthq/sdk-profiles/distribution/esm/transaction.dto';
 import trimAddress from '@/lib/utils/trimAddress';
 import { useExchangeRate } from '@/lib/hooks/useExchangeRate';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 import { useProfileContext } from '@/lib/context/Profile';
-import { useTranslation } from 'react-i18next';
 
 export const TransactionIcon = ({ type }: { type: TransactionType }) => {
     const isSpecialTransaction = [
