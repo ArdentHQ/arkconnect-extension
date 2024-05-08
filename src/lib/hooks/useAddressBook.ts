@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { WalletNetwork } from '@/lib/store/wallet';
 
 export type Contact = {
@@ -16,28 +16,28 @@ const useAddressBook = () => {
     }, []);
 
     const saveAddressBooksToLocalStorage = (updatedAddressBooks: Contact[]) => {
-        localStorage.setItem('addressBooks', JSON.stringify(updatedAddressBooks));
+        localStorage.setItem('addressBook', JSON.stringify(updatedAddressBooks));
     };
 
-    const addContact = ({ name, address, type }: Contact) => {
+    const addContact = useCallback(({ name, address, type }: Contact) => {
         const updatedAddressBooks = [...addressBook, { name, address, type }];
         setAddressBook(updatedAddressBooks);
         saveAddressBooksToLocalStorage(updatedAddressBooks);
-    };
+    }, [addressBook]);
 
-    const updateContact = (name: string, updatedContact: Contact) => {
+    const updateContact = useCallback((name: string, updatedContact: Contact) => {
         const updatedAddressBooks = addressBook.map((contact) =>
             contact.name === name ? updatedContact : contact,
         );
-        setAddressBook(updatedAddressBooks);
         saveAddressBooksToLocalStorage(updatedAddressBooks);
-    };
+        setAddressBook(updatedAddressBooks);
+    }, [addressBook]);
 
-    const removeContact = (name: string) => {
+    const removeContact = useCallback((name: string) => {
         const updatedAddressBooks = addressBook.filter((contact) => contact.name !== name);
-        setAddressBook(updatedAddressBooks);
         saveAddressBooksToLocalStorage(updatedAddressBooks);
-    };
+        setAddressBook(updatedAddressBooks);
+    }, [addressBook]);
 
     return {
         addressBook,
