@@ -125,7 +125,7 @@ const CreateContact = () => {
             hideCloseButton={false}
             className='relative'
         >
-            <AddNewContactForm formik={formik} />
+            <AddNewContactForm formik={formik} isLoading={isLoading} />
             <div className='absolute -bottom-4 left-0 w-full'>
                 <SaveContactButton
                     disabled={!(formik.isValid && formik.dirty) || isLoading}
