@@ -11,7 +11,7 @@ const AddressBook = () => {
     const { addressBook, removeContact } = useAddressBook();
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
     const [selectedContactName, setSelectedContactName] = useState<string>('');
-    
+
     const handleRemoveContact = (name: string) => {
         setSelectedContactName(name);
         setIsDeleteModalOpen(true);
@@ -30,7 +30,10 @@ const AddressBook = () => {
         <SubPageLayout title={t('PAGES.ADDRESS_BOOK.TITLE')} className='relative p-0'>
             {addressBook.length > 0 ? (
                 <div className='mx-4 min-h-[calc(100%-68px)]'>
-                    <AddressBookList handleRemoveContact={handleRemoveContact} addressBook={addressBook} />
+                    <AddressBookList
+                        handleRemoveContact={handleRemoveContact}
+                        addressBook={addressBook}
+                    />
                 </div>
             ) : (
                 <NoContacts className='min-h-[calc(100%-68px)]' />
@@ -39,24 +42,21 @@ const AddressBook = () => {
                 <AddContactButton />
             </div>
 
-            {
-                isDeleteModalOpen && (
-                    <Modal 
-                        variant='danger'
-                        onClose={handleCancel}
-                        onCancel={handleCancel}
-                        onResolve={handleResolve}
-                        hideCloseButton
-                        focusTrapOptions={{
-                            initialFocus: false,
-                        }}
-                        icon='alert-octagon'
-                    >
-                        <RemoveAddress name={selectedContactName} />
-                    </Modal>
-                )
-            }
-            
+            {isDeleteModalOpen && (
+                <Modal
+                    variant='danger'
+                    onClose={handleCancel}
+                    onCancel={handleCancel}
+                    onResolve={handleResolve}
+                    hideCloseButton
+                    focusTrapOptions={{
+                        initialFocus: false,
+                    }}
+                    icon='alert-octagon'
+                >
+                    <RemoveAddress name={selectedContactName} />
+                </Modal>
+            )}
         </SubPageLayout>
     );
 };
