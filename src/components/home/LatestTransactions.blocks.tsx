@@ -3,6 +3,7 @@ import dayjs from 'dayjs';
 import { ExtendedConfirmedTransactionData } from '@ardenthq/sdk-profiles/distribution/esm/transaction.dto';
 import { IReadWriteWallet } from '@ardenthq/sdk-profiles/distribution/esm/wallet.contract';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import {
     getAmountByAddress,
     getMultipaymentAmounts,
@@ -17,7 +18,6 @@ import {
     EmptyConnectionsIcon,
     ExternalLink,
     Icon,
-    InternalLink,
     Tooltip,
 } from '@/shared/components';
 
@@ -175,6 +175,7 @@ const TransactionListItem = ({
 }: {
     transaction: ExtendedConfirmedTransactionData;
 }) => {
+    const navigate = useNavigate();
     const primaryWallet = usePrimaryWallet();
     const type = getType(transaction);
 
@@ -190,8 +191,8 @@ const TransactionListItem = ({
     ].includes(type as TransactionType);
 
     return (
-        <InternalLink
-            to={`/transaction/${transaction.id()}`}
+        <button
+            onClick={() => navigate(`/transaction/${transaction.id()}`)}
             className={cn('group inline-block w-full -outline-offset-2 hover:no-underline', {
                 'outline-none': isFirefox,
             })}
@@ -246,7 +247,7 @@ const TransactionListItem = ({
                     </div>
                 </div>
             </div>
-        </InternalLink>
+        </button>
     );
 };
 
