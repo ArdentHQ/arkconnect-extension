@@ -5,6 +5,10 @@ import { AddContactFormik } from '@/pages/CreateContact';
 
 export const AddNewContactForm = ({ formik }: { formik: FormikProps<AddContactFormik> }) => {
     const { t } = useTranslation();
+    const handleAddressChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+        event.target.value = event.target.value.trim();
+        formik.handleChange(event);
+      };
 
     return (
         <div className='flex flex-col gap-4'>
@@ -26,7 +30,7 @@ export const AddNewContactForm = ({ formik }: { formik: FormikProps<AddContactFo
                 className='h-[72px]'
                 name='address'
                 value={formik.values.address}
-                onChange={formik.handleChange}
+                onChange={handleAddressChange}
                 onBlur={formik.handleBlur}
                 variant={formik.errors.address ? 'destructive' : 'primary'}
                 helperText={formik.errors.address}
