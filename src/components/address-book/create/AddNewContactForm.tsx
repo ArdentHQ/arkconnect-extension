@@ -3,12 +3,18 @@ import { FormikProps } from 'formik';
 import { Input, TextArea } from '@/shared/components';
 import { AddContactFormik } from '@/pages/CreateContact';
 
-export const AddNewContactForm = ({ formik, isLoading }: { formik: FormikProps<AddContactFormik>, isLoading: boolean }) => {
+export const AddNewContactForm = ({
+    formik,
+    isLoading,
+}: {
+    formik: FormikProps<AddContactFormik>;
+    isLoading: boolean;
+}) => {
     const { t } = useTranslation();
     const handleAddressChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
         event.target.value = event.target.value.trim();
         formik.handleChange(event);
-      };
+    };
 
     return (
         <div className='flex flex-col gap-4'>
