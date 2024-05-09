@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import { TestnetIcon } from '@/components/wallet/address/Address.blocks';
 import { Contact } from '@/lib/hooks/useAddressBook';
 import { WalletNetwork } from '@/lib/store/wallet';
@@ -5,6 +6,8 @@ import trimAddress from '@/lib/utils/trimAddress';
 import { IconButton, Tooltip } from '@/shared/components';
 
 const AddressBookItem = ({ name, address, network, handleRemoveContact }: { name: string; address: string, network: WalletNetwork, handleRemoveContact: (name: string) => void }) => {
+    const navigate = useNavigate();
+    
     return (
         <div className='transition-smoothEase flex w-full flex-row items-center justify-between px-4 py-3 hover:bg-theme-secondary-50 dark:hover:bg-theme-secondary-700'>
             <div className='flex flex-col gap-1 '>
@@ -22,7 +25,7 @@ const AddressBookItem = ({ name, address, network, handleRemoveContact }: { name
             </div>
 
             <div className='flex h-full flex-row items-end justify-center gap-0.5'>
-                <IconButton icon='pencil' />
+                <IconButton onClick={() => navigate(`/address-book/edit/${name}`)} icon='pencil' />
                 <IconButton onClick={() => handleRemoveContact(name)} icon='trash' variant='danger' />
             </div>
         </div>
