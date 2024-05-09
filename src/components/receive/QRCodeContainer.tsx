@@ -110,7 +110,7 @@ export const QRCodeContainer = () => {
                         onBlur={formik.handleBlur}
                         variant={formik.errors.memo ? 'destructive' : 'primary'}
                         helperText={formik.errors.memo}
-                        secondaryText={`${!formik.errors.memo && formik.values.memo !== undefined ? formik.values.memo.length : 0}/255`}
+                        secondaryText={`${formik.values.memo !== undefined ? formik.values.memo.length : 0}/255`}
                     />
                 </div>
             </Accordion>
