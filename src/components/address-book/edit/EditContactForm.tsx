@@ -3,11 +3,7 @@ import { FormikProps } from 'formik';
 import { AddContactFormik } from '@/pages/CreateContact';
 import { Input, TextArea } from '@/shared/components';
 
-export const EditContactForm = ({
-    formik
-}: {
-    formik: FormikProps<AddContactFormik>
-}) => {
+export const EditContactForm = ({ formik }: { formik: FormikProps<AddContactFormik> }) => {
     const { t } = useTranslation();
 
     return (
@@ -38,4 +34,3 @@ export const EditContactForm = ({
         </div>
     );
 };
-

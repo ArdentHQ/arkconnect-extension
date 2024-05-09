@@ -8,7 +8,7 @@ type IconButtonProps = ComponentPropsWithRef<'button'> & {
     className?: string;
     iconClassName?: string;
     variant?: 'default' | 'danger';
-}
+};
 
 export const IconButton = ({
     icon,

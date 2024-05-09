@@ -66,7 +66,7 @@ const EditContact = () => {
 
             toast('success', t('PAGES.ADDRESS_BOOK.CONTACT_ADDED'));
         },
-        enableReinitialize: true
+        enableReinitialize: true,
     });
 
     useEffect(() => {
@@ -75,7 +75,7 @@ const EditContact = () => {
         }
     }, [formik.values.address]);
 
-    if(!contact) {
+    if (!contact) {
         navigate('/address-book');
     }
 
