@@ -15,12 +15,12 @@ export type AddContactFormik = {
     address: string;
 };
 
-type ValidateAddressResponse = {
+export type ValidateAddressResponse = {
     isValid: boolean;
     network?: WalletNetwork;
 };
 
-const fetchValidateAddress = async (address?: string): Promise<ValidateAddressResponse> => {
+export const fetchValidateAddress = async (address?: string): Promise<ValidateAddressResponse> => {
     try {
         if (address) {
             const mainnetResponse = await fetch(
