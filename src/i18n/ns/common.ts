@@ -35,6 +35,7 @@ export default {
     PARTICIPANT_other: '{{count}} Participants',
     PASSPHRASE: 'Passphrase',
     PRIVATE_KEY: 'Private Key',
+    QR_CODE: 'QR Code',
     RECEIVE: 'Receive',
     RECEIVED: 'Received',
     RECEIVER: 'Receiver',
