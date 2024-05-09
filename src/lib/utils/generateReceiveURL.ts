@@ -13,7 +13,7 @@ export const generateReceiveUrl = ({
     amount?: string;
     memo?: string;
 }): string => {
-    let url = `${constants.ARKVAULT_BASE_URL}/?coin=${coinName}&nethash=${netHash}&method=transfer&recipient=${address}`;
+    let url = `${constants.ARKVAULT_BASE_URL}#/?coin=${coinName}&nethash=${netHash}&method=transfer&recipient=${address}`;
 
     if (amount) {
         url += `&amount=${amount}`;
