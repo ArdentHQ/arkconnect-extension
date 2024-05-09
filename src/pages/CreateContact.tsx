@@ -113,6 +113,12 @@ const CreateContact = () => {
         }
     }, [formik.values.address]);
 
+    useEffect(() => {
+        if (data && !isLoading) {
+            formik.validateField('address');
+        }
+    }, [data, isLoading]);
+
     return (
         <SubPageLayout
             title={t('PAGES.ADDRESS_BOOK.ADD_NEW_CONTACT')}

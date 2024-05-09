@@ -35,6 +35,8 @@ export default {
                     '0px 0px 16px -4px rgba(16, 24, 40, 0.08), 0px 0px 6px -2px rgba(16, 24, 40, 0.03)',
                 'button-container-dark': '0px -9px 16px -4px rgba(16, 24, 40, 0.15)',
                 'address-book': '0px 1px 4px 0px rgba(0, 0, 0, 0.05)',
+                focus: '0 0 0 4px rgb(var(--theme-color-shadow-green))',
+                'focus-dark': '0 0 0 4px rgb(var(--theme-color-shadow-green-dark))',
             },
             dropShadow: {
                 dark: '0 1px 3px  rgba(16, 24, 40, 0.10)',
@@ -148,6 +150,7 @@ export default {
             // shadow
             'light-green': 'rgb(var(--theme-color-light-green) / <alpha-value>)',
             'shadow-green': 'rgb(var(--theme-color-shadow-green) / <alpha-value>)',
+            'shadow-green-dark': 'rgb(var(--theme-color-shadow-green-dark) / <alpha-value>)',
         },
     },
     plugins: [],
