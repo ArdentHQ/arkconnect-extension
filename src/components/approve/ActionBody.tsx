@@ -64,7 +64,7 @@ export const ActionBody = ({
 
     return (
         <ActionDetails maxHeight={maxHeight}>
-            {isApproved && <ActionBodyRow label={t('COMMON.SENDER')} value={sender} />}
+            {isApproved && <ActionAddressRow label={t('COMMON.SENDER')} address={sender ?? ''} />}
 
             {amount !== undefined && convertedAmount !== undefined && (
                 <ActionAmountRow
