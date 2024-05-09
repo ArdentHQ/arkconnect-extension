@@ -1,44 +1,91 @@
 import { useTranslation } from 'react-i18next';
 import { object, string } from 'yup';
-import { Coins } from '@ardenthq/sdk';
 import { useFormik } from 'formik';
+import { useEffect, useState } from 'react';
+import { useQuery } from 'react-query';
 import { AddNewContactForm, SaveContactButton } from '@/components/address-book/create';
 import SubPageLayout from '@/components/settings/SubPageLayout';
-import { useProfileContext } from '@/lib/context/Profile';
-import useActiveNetwork from '@/lib/hooks/useActiveNetwork';
 import useAddressBook from '@/lib/hooks/useAddressBook';
-import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 import useToast from '@/lib/hooks/useToast';
+import { WalletNetwork } from '@/lib/store/wallet';
+import constants from '@/constants';
 
 export type AddContactFormik = {
     name: string;
     address: string;
 };
 
+type ValidateAddressResponse = {
+    isValid: boolean;
+    network?: WalletNetwork;
+};
+
+const fetchValidateAddress = async (address?: string): Promise<ValidateAddressResponse> => {
+    try {
+        if (address) {
+            const mainnetResponse = await fetch(
+                `${constants.ARKVAULT_API_MAINNET_BASE_URL}api/wallets/${address}`,
+            );
+
+            if (mainnetResponse.status === 200) {
+                return {
+                    isValid: true,
+                    network: WalletNetwork.MAINNET,
+                };
+            }
+
+            const devnetResponse = await fetch(
+                `${constants.ARKVAULT_API_DEVNET_BASE_URL}api/wallets/${address}`,
+                {
+                    headers: {
+                        'ark-network': 'devnet',
+                    },
+                },
+            );
+
+            if (devnetResponse.status === 200) {
+                return {
+                    isValid: true,
+                    network: WalletNetwork.DEVNET,
+                };
+            }
+        }
+        return { isValid: false };
+    } catch (error) {
+        throw new Error('Failed to validate address');
+    }
+};
+
 const CreateContact = () => {
-    const network = useActiveNetwork();
-    const primaryWallet = usePrimaryWallet();
     const toast = useToast();
-    const { profile } = useProfileContext();
     const { t } = useTranslation();
-    const { addContact, addressBooks } = useAddressBook();
+    const { addContact, addressBook } = useAddressBook();
+    const [address, setAddress] = useState<string | undefined>();
+
+    const { data, isLoading } = useQuery<ValidateAddressResponse>(
+        ['address-validation', address],
+        () => fetchValidateAddress(address),
+        {
+            enabled: !!address,
+            staleTime: Infinity,
+        },
+    );
 
     const validationSchema = object().shape({
         name: string()
             .required(t('ERROR.IS_REQUIRED', { name: 'Name' }))
             .max(20, t('ERROR.MAX_CHARACTERS', { count: 20 }))
             .test('unique-name', t('ERROR.IS_DUPLICATED', { name: 'contact name' }), (name) => {
-                return !addressBooks[primaryWallet?.address() ?? '']?.find(
-                    (contact) => contact.name === name,
-                );
+                return !addressBook?.find((contact) => contact.name === name);
             }),
         address: string()
             .required(t('ERROR.IS_REQUIRED', { name: 'Address' }))
-            .test('valid-address', t('ERROR.IS_INVALID', { name: 'Address' }), async (address) => {
-                const instance: Coins.Coin = profile.coins().set(network.coin(), network.id());
-                await instance.__construct();
-                const isValidAddress: boolean = await instance.address().validate(address);
-                return isValidAddress;
+            .min(34, t('ERROR.IS_INVALID', { name: 'Address' }))
+            .test('valid-address', t('ERROR.IS_INVALID', { name: 'Address' }), () => {
+                if (isLoading) return true;
+                if (data) {
+                    return data.isValid;
+                }
             }),
     });
 
@@ -49,15 +96,28 @@ const CreateContact = () => {
         },
         validationSchema: validationSchema,
         onSubmit: () => {
-            addContact(primaryWallet?.address() ?? '', {
+            addContact({
                 name: formik.values.name,
                 address: formik.values.address,
+                type: data?.network || WalletNetwork.MAINNET,
             });
             formik.resetForm();
 
             toast('success', t('PAGES.ADDRESS_BOOK.CONTACT_ADDED'));
         },
     });
+
+    useEffect(() => {
+        if (formik.values.address) {
+            setAddress(formik.values.address);
+        }
+    }, [formik.values.address]);
+
+    useEffect(() => {
+        if(data && !isLoading) {
+            formik.validateField('address');
+        }
+    }, [data, isLoading]);
 
     return (
         <SubPageLayout
@@ -68,7 +128,7 @@ const CreateContact = () => {
             <AddNewContactForm formik={formik} />
             <div className='absolute -bottom-4 left-0 w-full'>
                 <SaveContactButton
-                    disabled={!(formik.isValid && formik.dirty)}
+                    disabled={!(formik.isValid && formik.dirty) || isLoading}
                     onClick={formik.handleSubmit}
                 />
             </div>
