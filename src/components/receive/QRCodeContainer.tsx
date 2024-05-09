@@ -46,7 +46,7 @@ export const QRCodeContainer = () => {
         <div className='flex flex-col gap-4'>
             <div className='flex flex-col gap-1.5'>
                 <span className='text-sm font-medium text-theme-secondary-500 dark:text-theme-secondary-200'>
-                    {t('COMMON.RECIPIENT')}
+                    {t('COMMON.QR_CODE')}
                 </span>
                 <div className='flex w-full items-center justify-center rounded-lg border border-theme-secondary-200 bg-white px-3 py-4 dark:border-theme-secondary-600 dark:bg-theme-secondary-800 dark:text-theme-secondary-400 dark:shadow-secondary-dark'>
                     <QRCode
