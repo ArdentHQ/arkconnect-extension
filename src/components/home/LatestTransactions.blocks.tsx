@@ -13,13 +13,7 @@ import {
     renderAmount,
     TransactionType,
 } from './LatestTransactions.utils';
-import {
-    Button,
-    EmptyConnectionsIcon,
-    ExternalLink,
-    Icon,
-    Tooltip,
-} from '@/shared/components';
+import { Button, EmptyConnectionsIcon, ExternalLink, Icon, Tooltip } from '@/shared/components';
 
 import { getExplorerDomain } from '@/lib/utils/networkUtils';
 import { getTimeAgo } from '@/lib/utils/getTimeAgo';
