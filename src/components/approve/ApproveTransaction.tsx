@@ -21,7 +21,6 @@ import { useNotifyOnUnload } from '@/lib/hooks/useNotifyOnUnload';
 import useLoadingModal from '@/lib/hooks/useLoadingModal';
 import { useWaitForConnectedDevice } from '@/lib/Ledger';
 import { getNetworkCurrency } from '@/lib/utils/getActiveCoin';
-import trimAddress from '@/lib/utils/trimAddress';
 import { HigherFeeBanner } from '@/components/approve/HigherCustomFee.blocks';
 
 type Props = {
@@ -213,7 +212,7 @@ const ApproveTransaction = ({
                     network={getNetworkCurrency(wallet.network())}
                     fee={fee}
                     convertedFee={convert(fee)}
-                    receiver={trimAddress(receiverAddress as string, 10)}
+                    receiver={receiverAddress}
                     totalAmount={total}
                     convertedTotalAmount={convert(total)}
                     hasHigherCustomFee={hasHigherCustomFee}
