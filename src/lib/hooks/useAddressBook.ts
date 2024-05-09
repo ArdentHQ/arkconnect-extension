@@ -1,70 +1,58 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
+import { WalletNetwork } from '@/lib/store/wallet';
 
 export type Contact = {
     name: string;
     address: string;
+    type: WalletNetwork;
 };
 
-export type AddressBooks = Record<string, Contact[]>;
-
 const useAddressBook = () => {
-    const [addressBooks, setAddressBooks] = useState<AddressBooks>({});
+    const [addressBook, setAddressBook] = useState<Contact[]>([]);
 
     useEffect(() => {
-        const storedAddressBooks = JSON.parse(localStorage.getItem('addressBooks') || '{}');
-        setAddressBooks(storedAddressBooks);
+        const storedAddressBooks = JSON.parse(localStorage.getItem('addressBook') || '[]');
+        setAddressBook(storedAddressBooks);
     }, []);
 
-    const saveAddressBooksToLocalStorage = (updatedAddressBooks: AddressBooks) => {
-        localStorage.setItem('addressBooks', JSON.stringify(updatedAddressBooks));
+    const saveAddressBooksToLocalStorage = (updatedAddressBooks: Contact[]) => {
+        localStorage.setItem('addressBook', JSON.stringify(updatedAddressBooks));
     };
 
-    const addContact = (ownerAddress: string, { name, address }: Contact) => {
-        const newContact = { name, address };
-        const updatedAddressBooks = {
-            ...addressBooks,
-            [ownerAddress]: [...(addressBooks[ownerAddress] || []), newContact],
-        };
-        setAddressBooks(updatedAddressBooks);
-        saveAddressBooksToLocalStorage(updatedAddressBooks);
-    };
+    const addContact = useCallback(
+        ({ name, address, type }: Contact) => {
+            const updatedAddressBooks = [...addressBook, { name, address, type }];
+            setAddressBook(updatedAddressBooks);
+            saveAddressBooksToLocalStorage(updatedAddressBooks);
+        },
+        [addressBook],
+    );
 
-    const updateContact = (ownerAddress: string, name: string, updatedContact: Contact) => {
-        const updatedContacts = addressBooks[ownerAddress].map((contact) =>
-            contact.name === name ? updatedContact : contact,
-        );
-        const updatedAddressBooks = {
-            ...addressBooks,
-            [ownerAddress]: updatedContacts,
-        };
-        setAddressBooks(updatedAddressBooks);
-        saveAddressBooksToLocalStorage(updatedAddressBooks);
-    };
+    const updateContact = useCallback(
+        (name: string, updatedContact: Contact) => {
+            const updatedAddressBooks = addressBook.map((contact) =>
+                contact.name === name ? updatedContact : contact,
+            );
+            saveAddressBooksToLocalStorage(updatedAddressBooks);
+            setAddressBook(updatedAddressBooks);
+        },
+        [addressBook],
+    );
 
-    const removeContact = (ownerAddress: string, name: string) => {
-        const updatedContacts = addressBooks[ownerAddress].filter(
-            (contact) => contact.name !== name,
-        );
-        const updatedAddressBooks = {
-            ...addressBooks,
-            [ownerAddress]: updatedContacts,
-        };
-        setAddressBooks(updatedAddressBooks);
-        saveAddressBooksToLocalStorage(updatedAddressBooks);
-    };
-
-    const removeAddressBook = (ownerAddress: string) => {
-        const { [ownerAddress]: _, ...remainingBooks } = addressBooks;
-        setAddressBooks(remainingBooks);
-        saveAddressBooksToLocalStorage(remainingBooks);
-    };
+    const removeContact = useCallback(
+        (name: string) => {
+            const updatedAddressBooks = addressBook.filter((contact) => contact.name !== name);
+            saveAddressBooksToLocalStorage(updatedAddressBooks);
+            setAddressBook(updatedAddressBooks);
+        },
+        [addressBook],
+    );
 
     return {
-        addressBooks,
+        addressBook,
         addContact,
         updateContact,
         removeContact,
-        removeAddressBook,
     };
 };
 
