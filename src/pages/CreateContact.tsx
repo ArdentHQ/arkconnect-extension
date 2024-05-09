@@ -114,7 +114,7 @@ const CreateContact = () => {
     }, [formik.values.address]);
 
     useEffect(() => {
-        if(data && !isLoading) {
+        if (data && !isLoading) {
             formik.validateField('address');
         }
     }, [data, isLoading]);
