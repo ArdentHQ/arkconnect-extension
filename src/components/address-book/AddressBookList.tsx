@@ -34,7 +34,10 @@ const AddressBookItem = ({
             <div className='flex flex-col gap-1 '>
                 <div className='flex flex-row items-center gap-1.5'>
                     <Tooltip content={<span>{name}</span>} disabled={!displayTooltip}>
-                        <span ref={nameRef} className='text-base font-medium leading-5 text-light-black dark:text-white max-w-50 overflow-hidden text-ellipsis'>
+                        <span
+                            ref={nameRef}
+                            className='max-w-50 overflow-hidden text-ellipsis text-base font-medium leading-5 text-light-black dark:text-white'
+                        >
                             {name}
                         </span>
                     </Tooltip>
