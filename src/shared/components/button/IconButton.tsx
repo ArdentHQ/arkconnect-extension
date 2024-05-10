@@ -22,7 +22,7 @@ export const IconButton = ({
             className={twMerge(
                 'transition-smoothEase group flex h-8 w-8 cursor-pointer items-center justify-center rounded-full',
                 cn({
-                    'hover:bg-theme-secondary-50 dark:hover:bg-theme-secondary-700':
+                    'hover:bg-theme-secondary-200 dark:hover:bg-theme-secondary-700':
                         variant === 'default',
                     'hover:bg-theme-error-50 dark:hover:bg-[#910018]/40': variant === 'danger',
                 }),

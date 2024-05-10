@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from 'react';
 import { TestnetIcon } from '@/components/wallet/address/Address.blocks';
 import { Contact } from '@/lib/hooks/useAddressBook';
 import { WalletNetwork } from '@/lib/store/wallet';
@@ -15,13 +16,33 @@ const AddressBookItem = ({
     network: WalletNetwork;
     handleRemoveContact: (name: string) => void;
 }) => {
+    const nameRef = useRef<HTMLSpanElement>(null);
+    const [displayTooltip, setDisplayTooltip] = useState<boolean>(false);
+
+    useEffect(() => {
+        const textElement = nameRef.current;
+
+        if (textElement) {
+            if (textElement.scrollWidth > textElement.offsetWidth) {
+                setDisplayTooltip(true);
+            } else {
+                setDisplayTooltip(false);
+            }
+        }
+    }, [name]);
+
     return (
         <div className='transition-smoothEase flex w-full flex-row items-center justify-between px-4 py-3 hover:bg-theme-secondary-50 dark:hover:bg-theme-secondary-700'>
             <div className='flex flex-col gap-1 '>
                 <div className='flex flex-row items-center gap-1.5'>
-                    <span className='text-base font-medium leading-5 text-light-black dark:text-white'>
-                        {name}
-                    </span>
+                    <Tooltip content={<span>{name}</span>} disabled={!displayTooltip}>
+                        <span
+                            ref={nameRef}
+                            className='max-w-50 overflow-hidden text-ellipsis text-base font-medium leading-5 text-light-black dark:text-white'
+                        >
+                            {name}
+                        </span>
+                    </Tooltip>
                     {network === WalletNetwork.DEVNET && <TestnetIcon />}
                 </div>
                 <Tooltip content={<span>{address}</span>}>
