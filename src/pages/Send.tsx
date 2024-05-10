@@ -36,12 +36,14 @@ const Send = () => {
         onSubmit: () => {},
     });
 
-    return <SubPageLayout title={t('COMMON.SEND')} className='relative'>
-        <SendForm formik={formik} />
-        <div className='absolute -bottom-4 left-0 w-full'>
-            <SendButton disabled={!(formik.isValid && formik.dirty)} />
-        </div>
-    </SubPageLayout>;
+    return (
+        <SubPageLayout title={t('COMMON.SEND')} className='relative'>
+            <SendForm formik={formik} />
+            <div className='absolute -bottom-4 left-0 w-full'>
+                <SendButton disabled={!(formik.isValid && formik.dirty)} />
+            </div>
+        </SubPageLayout>
+    );
 };
 
 export default Send;

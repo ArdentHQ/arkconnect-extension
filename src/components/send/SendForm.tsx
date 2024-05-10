@@ -5,11 +5,7 @@ import { Input } from '@/shared/components';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 import { SendFormik } from '@/pages/Send';
 
-export const SendForm = ({
-    formik
-}: {
-    formik: FormikProps<SendFormik>
-}) => {
+export const SendForm = ({ formik }: { formik: FormikProps<SendFormik> }) => {
     const primaryWallet = usePrimaryWallet();
     const { t } = useTranslation();
 
@@ -24,27 +20,31 @@ export const SendForm = ({
 
     return (
         <div className='flex flex-col gap-4'>
-            <Input 
+            <Input
                 name='amount'
                 labelText={t('COMMON.AMOUNT')}
-                secondaryText={<span>
-                {`${t('COMMON.AVAILABLE')}:`}
-                <Amount
-                    value={primaryWallet?.balance() || 0}
-                    ticker={primaryWallet?.currency() || 'ARK'}
-                    withTicker
-                    showSign={false}
-                    isNegative={false}
-                    maxDigits={20}
-                    displayTooltip={false}
-                    maxDecimals={2}
-                    hideSmallValues
-                /> 
-                </span>
+                secondaryText={
+                    <span>
+                        {`${t('COMMON.AVAILABLE')}:`}
+                        <Amount
+                            value={primaryWallet?.balance() || 0}
+                            ticker={primaryWallet?.currency() || 'ARK'}
+                            withTicker
+                            showSign={false}
+                            isNegative={false}
+                            maxDigits={20}
+                            displayTooltip={false}
+                            maxDecimals={2}
+                            hideSmallValues
+                        />
+                    </span>
                 }
                 placeholder={t('COMMON.ENTER_AMOUNT')}
                 trailing={
-                    <button onClick={handleMaxClick} className='uppercase p-1 rounded text-theme-primary-700 hover:text-theme-primary-600 hover:bg-theme-secondary-50 dark:text-theme-primary-600     dark:hover:bg-theme-secondary-700 dark:shadow-secondary-dark dark:hover:text-theme-primary-650 transition-smoothEase'>
+                    <button
+                        onClick={handleMaxClick}
+                        className='transition-smoothEase rounded p-1 uppercase text-theme-primary-700 hover:bg-theme-secondary-50 hover:text-theme-primary-600     dark:text-theme-primary-600 dark:shadow-secondary-dark dark:hover:bg-theme-secondary-700 dark:hover:text-theme-primary-650'
+                    >
                         {t('COMMON.MAX')}
                     </button>
                 }

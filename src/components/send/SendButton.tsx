@@ -1,11 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/shared/components';
 
-export const SendButton = ({
-    disabled
-}: {
-    disabled: boolean;
-}) => {
+export const SendButton = ({ disabled }: { disabled: boolean }) => {
     const { t } = useTranslation();
 
     return (
