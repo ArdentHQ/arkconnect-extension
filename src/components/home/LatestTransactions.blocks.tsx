@@ -3,6 +3,7 @@ import dayjs from 'dayjs';
 import { ExtendedConfirmedTransactionData } from '@ardenthq/sdk-profiles/distribution/esm/transaction.dto';
 import { IReadWriteWallet } from '@ardenthq/sdk-profiles/distribution/esm/wallet.contract';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import {
     getAmountByAddress,
     getMultipaymentAmounts,
@@ -12,14 +13,7 @@ import {
     renderAmount,
     TransactionType,
 } from './LatestTransactions.utils';
-import {
-    Button,
-    EmptyConnectionsIcon,
-    ExternalLink,
-    Icon,
-    InternalLink,
-    Tooltip,
-} from '@/shared/components';
+import { Button, EmptyConnectionsIcon, ExternalLink, Icon, Tooltip } from '@/shared/components';
 
 import { getExplorerDomain } from '@/lib/utils/networkUtils';
 import { getTimeAgo } from '@/lib/utils/getTimeAgo';
@@ -175,6 +169,7 @@ const TransactionListItem = ({
 }: {
     transaction: ExtendedConfirmedTransactionData;
 }) => {
+    const navigate = useNavigate();
     const primaryWallet = usePrimaryWallet();
     const type = getType(transaction);
 
@@ -190,8 +185,8 @@ const TransactionListItem = ({
     ].includes(type as TransactionType);
 
     return (
-        <InternalLink
-            to={`/transaction/${transaction.id()}`}
+        <button
+            onClick={() => navigate(`/transaction/${transaction.id()}`)}
             className={cn('group inline-block w-full -outline-offset-2 hover:no-underline', {
                 'outline-none': isFirefox,
             })}
@@ -212,7 +207,7 @@ const TransactionListItem = ({
 
                 <div className='flex w-full flex-row items-center justify-between'>
                     <div className='flex flex-col gap-1'>
-                        <span className='text-base font-medium leading-tight text-light-black dark:text-white'>
+                        <span className='text-left text-base font-medium leading-tight text-light-black dark:text-white'>
                             <TransactionTitle type={type} isSender={transaction.isSent()} />
                             {type === TransactionType.MULTIPAYMENT && (
                                 <span className='ml-1.5'>
@@ -220,7 +215,7 @@ const TransactionListItem = ({
                                 </span>
                             )}
                         </span>
-                        <span className='text-sm font-normal leading-tight text-theme-secondary-500 dark:text-theme-secondary-300'>
+                        <span className='text-left text-sm font-normal leading-tight text-theme-secondary-500 dark:text-theme-secondary-300'>
                             <TransactionSecondaryText
                                 transaction={transaction}
                                 type={type}
@@ -246,7 +241,7 @@ const TransactionListItem = ({
                     </div>
                 </div>
             </div>
-        </InternalLink>
+        </button>
     );
 };
 
