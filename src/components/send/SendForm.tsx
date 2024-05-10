@@ -25,7 +25,7 @@ export const SendForm = ({ formik }: { formik: FormikProps<SendFormik> }) => {
                 labelText={t('COMMON.AMOUNT')}
                 secondaryText={
                     <span>
-                        {`${t('COMMON.AVAILABLE')}:`}
+                        {`${t('COMMON.AVAILABLE')}: `}
                         <Amount
                             value={primaryWallet?.balance() || 0}
                             ticker={primaryWallet?.currency() || 'ARK'}
