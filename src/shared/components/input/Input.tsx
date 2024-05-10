@@ -9,7 +9,7 @@ type InputProps = React.ComponentPropsWithRef<'input'> & {
     innerRef?: MutableRefObject<HTMLInputElement | null>;
     variant?: 'primary' | 'destructive' | 'errorFree';
     className?: string;
-    secondaryText?: string;
+    secondaryText?: string | React.ReactNode;
 };
 
 export const Input = ({
