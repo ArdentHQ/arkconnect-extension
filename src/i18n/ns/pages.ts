@@ -241,5 +241,6 @@ export default {
         NO_CONTACTS: 'No contacts added yet.',
         ADD_NEW_CONTACT: 'Add New Contact',
         ADD_NEW_CONTACTS_AT_ANYTIME: 'Add a new contact at any time.',
+        CONTACT_ADDED: 'Contact added successfully!',
     },
 };

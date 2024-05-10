@@ -9,7 +9,9 @@ const TERMS_OF_SERVICE = 'https://arkconnect.io/terms-of-service';
 const PRIVACY_POLICY = 'https://arkconnect.io/privacy-policy';
 const ARK_CONNECT = 'https://arkconnect.io/';
 const ARK_CONNECT_DEMO = 'https://demo.arkconnect.io';
-const ARKVAULT_BASE_URL = 'https://app.arkvault.io/#';
+const ARKVAULT_BASE_URL = 'https://app.arkvault.io/';
+const ARKVAULT_API_MAINNET_BASE_URL = 'https://api.ark.io/';
+const ARKVAULT_API_DEVNET_BASE_URL = 'https://ark-test.arkvault.io/';
 
 const SHOW_MESSAGE_AFTER_ACTION_DURING_MS = 3000;
 
@@ -28,6 +30,8 @@ const constants = {
     ARKSCAN_EXCHANGES,
     ARKSCAN_FAUCET,
     ARKVAULT_BASE_URL,
+    ARKVAULT_API_MAINNET_BASE_URL,
+    ARKVAULT_API_DEVNET_BASE_URL,
     TERMS_OF_SERVICE,
     PRIVACY_POLICY,
     ARK_CONNECT,

@@ -23,14 +23,14 @@ export const QRCodeContainer = () => {
     const validationSchema = object().shape({
         amount: string()
             .matches(/^[0-9]+(\.[0-9]{1,8})?$/, {
-                message: t('ERROR.AMOUNT_INVALID'),
+                message: t('ERROR.IS_INVALID', { name: 'Amount' }),
             })
-            .test('max-integer', t('ERROR.AMOUNT_TOO_HIGH'), (value) => {
+            .test('max-integer', t('ERROR.IS_TOO_HIGH', { name: 'Amount' }), (value) => {
                 if (!value) return true;
                 const integerPart = Math.floor(Number(value));
                 return integerPart < 100_000_000;
             }),
-        memo: string().max(255, t('ERROR.MEMO_TOO_LONG')),
+        memo: string().max(255, t('ERROR.IS_TOO_LONG', { name: 'Memo' })),
     });
 
     const formik = useFormik<SendFormik>({
