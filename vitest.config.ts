@@ -23,14 +23,6 @@ export default defineConfig((env) => {
                     },
                     include: ['src/lib/utils/**'],
                 },
-                deps: {
-                    optimizer: {
-                        web: {
-                            enabled: true,
-                            include: ['@ardenthq/sdk-cryptography'],
-                        },
-                    },
-                },
             },
         }),
     );
