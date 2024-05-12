@@ -27,10 +27,10 @@ export default defineConfig((env) => {
                     optimizer: {
                         web: {
                             enabled: true,
-                            include: ['@ardenthq/sdk-cryptography']
-                        }
-                    }
-                }
+                            include: ['@ardenthq/sdk-cryptography'],
+                        },
+                    },
+                },
             },
         }),
     );
