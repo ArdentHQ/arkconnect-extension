@@ -242,5 +242,8 @@ export default {
         ADD_NEW_CONTACT: 'Add New Contact',
         ADD_NEW_CONTACTS_AT_ANYTIME: 'Add a new contact at any time.',
         CONTACT_ADDED: 'Contact added successfully!',
+        DELETE_SAVED_CONTACT: 'Delete Saved Contact',
+        ARE_YOU_SURE_YOU_WANT_TO_DELETE: 'Are you sure you want to delete',
+        FROM_YOUR_ADDRESS_BOOK: 'from your address book',
     },
 };
