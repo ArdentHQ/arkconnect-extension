@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { TestnetIcon } from '@/components/wallet/address/Address.blocks';
 import { Contact } from '@/lib/hooks/useAddressBook';
 import { WalletNetwork } from '@/lib/store/wallet';
@@ -16,6 +17,7 @@ const AddressBookItem = ({
     network: WalletNetwork;
     handleRemoveContact: (name: string) => void;
 }) => {
+    const navigate = useNavigate();
     const nameRef = useRef<HTMLSpanElement>(null);
     const [displayTooltip, setDisplayTooltip] = useState<boolean>(false);
 
@@ -53,7 +55,10 @@ const AddressBookItem = ({
             </div>
 
             <div className='flex h-full flex-row items-end justify-center gap-0.5'>
-                <IconButton icon='pencil' />
+                <IconButton
+                    onClick={() => navigate(`/address-book/edit/${name}`)}
+                    icon='pencil' 
+                />
                 <IconButton
                     onClick={() => handleRemoveContact(name)}
                     icon='trash'
