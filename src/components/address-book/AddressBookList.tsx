@@ -54,7 +54,11 @@ const AddressBookItem = ({
 
             <div className='flex h-full flex-row items-end justify-center gap-0.5'>
                 <IconButton icon='pencil' />
-                <IconButton onClick={() => handleRemoveContact(name)} icon='trash' variant='danger' />
+                <IconButton
+                    onClick={() => handleRemoveContact(name)}
+                    icon='trash'
+                    variant='danger'
+                />
             </div>
         </div>
     );
@@ -63,11 +67,10 @@ const AddressBookItem = ({
 export const AddressBookList = ({
     handleRemoveContact,
     addressBook,
-}: {    
+}: {
     handleRemoveContact: (name: string) => void;
     addressBook: Contact[];
 }) => {
-
     return (
         <div className='flex w-full flex-col overflow-hidden rounded-2xl bg-white py-2 shadow-address-book dark:bg-subtle-black'>
             {addressBook.map((contact, index) => (

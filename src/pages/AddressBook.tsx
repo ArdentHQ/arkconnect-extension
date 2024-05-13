@@ -1,7 +1,12 @@
 import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
 import SubPageLayout from '@/components/settings/SubPageLayout';
-import { AddContactButton, AddressBookList, NoContacts, RemoveAddress } from '@/components/address-book';
+import {
+    AddContactButton,
+    AddressBookList,
+    NoContacts,
+    RemoveAddress,
+} from '@/components/address-book';
 import useAddressBook from '@/lib/hooks/useAddressBook';
 import Modal from '@/shared/components/modal/Modal';
 
@@ -30,7 +35,10 @@ const AddressBook = () => {
         <SubPageLayout title={t('PAGES.ADDRESS_BOOK.TITLE')} className='relative p-0'>
             {addressBook.length > 0 ? (
                 <div className='mx-4 min-h-[calc(100%-68px)]'>
-                    <AddressBookList handleRemoveContact={handleRemoveContact} addressBook={addressBook} />
+                    <AddressBookList
+                        handleRemoveContact={handleRemoveContact}
+                        addressBook={addressBook}
+                    />
                 </div>
             ) : (
                 <NoContacts className='min-h-[calc(100%-68px)]' />
