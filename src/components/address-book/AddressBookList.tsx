@@ -55,10 +55,7 @@ const AddressBookItem = ({
             </div>
 
             <div className='flex h-full flex-row items-end justify-center gap-0.5'>
-                <IconButton
-                    onClick={() => navigate(`/address-book/edit/${name}`)}
-                    icon='pencil' 
-                />
+                <IconButton onClick={() => navigate(`/address-book/edit/${name}`)} icon='pencil' />
                 <IconButton
                     onClick={() => handleRemoveContact(name)}
                     icon='trash'
