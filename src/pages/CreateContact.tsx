@@ -3,24 +3,15 @@ import { object, string } from 'yup';
 import { useFormik } from 'formik';
 import { useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
-import { AddNewContactForm, SaveContactButton } from '@/components/address-book/create';
 import SubPageLayout from '@/components/settings/SubPageLayout';
 import useAddressBook from '@/lib/hooks/useAddressBook';
 import useToast from '@/lib/hooks/useToast';
 import { WalletNetwork } from '@/lib/store/wallet';
 import constants from '@/constants';
+import { ContactFormik, ValidateAddressResponse } from '@/components/address-book/types';
+import { AddNewContactForm, SaveContactButton } from '@/components/address-book';
 
-export type AddContactFormik = {
-    name: string;
-    address: string;
-};
-
-type ValidateAddressResponse = {
-    isValid: boolean;
-    network?: WalletNetwork;
-};
-
-const fetchValidateAddress = async (address?: string): Promise<ValidateAddressResponse> => {
+export const fetchValidateAddress = async (address?: string): Promise<ValidateAddressResponse> => {
     try {
         if (address) {
             const mainnetResponse = await fetch(
@@ -89,7 +80,7 @@ const CreateContact = () => {
             }),
     });
 
-    const formik = useFormik<AddContactFormik>({
+    const formik = useFormik<ContactFormik>({
         initialValues: {
             name: '',
             address: '',
