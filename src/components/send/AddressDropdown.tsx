@@ -1,26 +1,39 @@
-import { useEffect, useRef, useState } from 'react';
+import { RefObject, useEffect, useMemo, useRef, useState } from 'react';
 import cn from 'classnames';
 import { Input } from '@/shared/components';
 import useAddressBook from '@/lib/hooks/useAddressBook';
 import trimAddress from '@/lib/utils/trimAddress';
 
+const useClickOutside = <T extends HTMLElement>(ref: RefObject<T>, handler: EventListener) => {
+    useEffect(() => {
+        const handleClickOutside: EventListener = event => {
+            if (ref.current && !ref.current.contains(event.target as Node)) {
+                handler(event);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [ref, handler]);
+};
+
 export const AddressDropdown = () => {
     const wrapperRef = useRef<HTMLDivElement | null>(null);
     const [inputValue, setInputValue] = useState('');
-    const {addressBook} = useAddressBook();
-    const [suggestions, setSuggestions] = useState(addressBook);
+    const { addressBook } = useAddressBook();
     const [showSuggestions, setShowSuggestions] = useState(false);
     const [selectedSuggestionIndex, setSelectedSuggestionIndex] = useState(0);
-
-    useEffect(() => {
+    const suggestions = useMemo(() => {
         if (!inputValue || inputValue.length === 0) {
-            setSuggestions(addressBook);
+            return addressBook;
         } else if (inputValue.length >= 32) {
-            setSuggestions([]);
+            return [];
         } else {
-            setSuggestions(addressBook.filter(contact => contact.name.includes(inputValue) || contact.address.includes(inputValue)));
+            return addressBook.filter(contact => contact.name.includes(inputValue) || contact.address.includes(inputValue));
         }
-    }, [inputValue]);
+    }, [inputValue, addressBook]);
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setInputValue(event.target.value);
@@ -72,10 +85,10 @@ export const AddressDropdown = () => {
         };
     }, [wrapperRef]);
 
-    const isListOpen = (suggestions.length > 0 && showSuggestions);
+    useClickOutside(wrapperRef, () => setShowSuggestions(false));
 
     return (
-        <div className='relative' onBlur={() => setShowSuggestions(true)} ref={wrapperRef}>
+        <div className='relative' ref={wrapperRef}>
             <Input
                 className={cn('w-full py-4 pl-3 rounded-lg resize-none', {
                     'pr-8': suggestions.length > 0,
@@ -85,35 +98,33 @@ export const AddressDropdown = () => {
                 onChange={handleInputChange}
                 onKeyDown={handleKeyDown}
                 placeholder='Enter or choose from saved addresses'
-                onClick={() =>{
-                    setShowSuggestions(true);
-                }}
+                onClick={() => setShowSuggestions(true)}
                 variant='primary'
                 labelText='Recipient Address'
                 displayValue={getDisplayValue(inputValue)}
             />
-            {isListOpen && (
+            {(showSuggestions && suggestions.length > 0) && (
                 <div className={cn('absolute w-full mt-1 overflow-auto max-h-80 bg-white rounded-lg shadow-lg transition-smoothEase z-10 custom-scroll py-2 dark:bg-subtle-black', {
-                    'max-h-80': isListOpen,
-                    'h-0': !isListOpen
+                    'max-h-80': showSuggestions,
+                    'h-0': !showSuggestions
                 })}>
-                { suggestions.map((suggestion, index) => (
-                    <button 
-                        key={index} 
-                        className={cn('py-3 px-4 cursor-pointer hover:bg-theme-secondary-50 dark:hover:bg-theme-secondary-700 flex flex-col gap-1 w-full')}
-                        onClick={() => {
-                            setInputValue(suggestion.address);
-                            setShowSuggestions(false);
-                        }}
-                    >
-                        <span className='text-light-black text-base font-medium dark:text-white'>
-                            {suggestion.name}
-                        </span>
-                        <span className='text-sm font-normal text-theme-secondary-500 dark:text-theme-secondary-300'>
-                            {trimAddress(suggestion.address, 10)}
-                        </span> 
-                    </button>
-                ))}
+                    {suggestions.map((suggestion, index) => (
+                        <button
+                            key={index}
+                            className={cn('py-3 px-4 cursor-pointer hover:bg-theme-secondary-50 dark:hover:bg-theme-secondary-700 flex flex-col gap-1 w-full')}
+                            onClick={() => {
+                                setInputValue(suggestion.address);
+                                setShowSuggestions(false);
+                            }}
+                        >
+                            <span className='text-light-black text-base font-medium dark:text-white'>
+                                {suggestion.name}
+                            </span>
+                            <span className='text-sm font-normal text-theme-secondary-500 dark:text-theme-secondary-300'>
+                                {trimAddress(suggestion.address, 10)}
+                            </span>
+                        </button>
+                    ))}
                 </div>
             )}
         </div>
