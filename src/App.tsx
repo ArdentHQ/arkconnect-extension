@@ -88,7 +88,7 @@ const App = () => {
                 await env.verify();
                 await env.boot();
 
-                if(isDev()) {
+                if (isDev()) {
                     const addressBook = localStorage.getItem('addressBook');
 
                     if (!addressBook) {
