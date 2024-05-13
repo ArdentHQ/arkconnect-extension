@@ -116,18 +116,6 @@ export const AddressDropdown = () => {
                 ))}
                 </div>
             )}
-            {/* {suggestions.length > 0 && (
-                <div 
-                    className="absolute top-0 right-0 mt-4 mr-3 cursor-pointer" 
-                    onClick={() => {
-                        setShowSuggestions((prev) => !prev);
-                    }}
-                >
-                    <Icon icon='arrow-down' className={cn('h-5 w-5 transition-smoothEase dark:text-white', {
-                        'transform rotate-180': isListOpen
-                    })} />
-                </div>
-            )} */}
         </div>
     );
 };
