@@ -25,13 +25,14 @@ export const AddressDropdown = () => {
     const { addressBook } = useAddressBook();
     const [showSuggestions, setShowSuggestions] = useState(false);
     const [selectedSuggestionIndex, setSelectedSuggestionIndex] = useState(0);
+
     const suggestions = useMemo(() => {
         if (!inputValue || inputValue.length === 0) {
             return addressBook;
         } else if (inputValue.length >= 32) {
             return [];
         } else {
-            return addressBook.filter(contact => contact.name.includes(inputValue) || contact.address.includes(inputValue));
+            return addressBook.filter(contact => contact.name.toLowerCase().includes(inputValue.toLowerCase()) || contact.address.toLowerCase().includes(inputValue.toLowerCase()));
         }
     }, [inputValue, addressBook]);
 
