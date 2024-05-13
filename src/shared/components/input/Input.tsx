@@ -1,4 +1,4 @@
-import { MutableRefObject, ReactNode , useState } from 'react';
+import { MutableRefObject, ReactNode, useState } from 'react';
 import cn from 'classnames';
 
 type InputProps = React.ComponentPropsWithRef<'input'> & {
@@ -26,15 +26,15 @@ export const Input = ({
     ...rest
 }: InputProps) => {
     const [focused, setFocused] = useState(false);
-    
+
     const handleInputBlur = (event: React.FocusEvent<HTMLInputElement>) => {
         setFocused(false);
-        if(rest.onBlur) rest.onBlur(event);
+        if (rest.onBlur) rest.onBlur(event);
     };
 
     const handleInputFocus = (event: React.FocusEvent<HTMLInputElement>) => {
         setFocused(true);
-        if(rest.onFocus) rest.onFocus(event);
+        if (rest.onFocus) rest.onFocus(event);
     };
 
     return (
@@ -56,12 +56,19 @@ export const Input = ({
                 )}
             </div>
 
-            <div className='relative flex w-full items-center' onFocus={() => setFocused(true)} onBlur={() => setFocused(false)}>
-                {
-                    (!focused && displayValue) && (
-                        <span className='cursor-text absolute left-3 top-4' onClick={() => setFocused(true)}>{displayValue}</span>
-                    )
-                }
+            <div
+                className='relative flex w-full items-center'
+                onFocus={() => setFocused(true)}
+                onBlur={() => setFocused(false)}
+            >
+                {!focused && displayValue && (
+                    <span
+                        className='absolute left-3 top-4 cursor-text'
+                        onClick={() => setFocused(true)}
+                    >
+                        {displayValue}
+                    </span>
+                )}
                 <input
                     className={cn(
                         'transition-smoothEase text-input max-h-13 w-full rounded-lg border-none px-3 py-4 text-base font-normal outline-none placeholder:text-theme-secondary-400 disabled:pointer-events-none disabled:cursor-not-allowed',

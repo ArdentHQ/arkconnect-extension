@@ -6,7 +6,7 @@ import trimAddress from '@/lib/utils/trimAddress';
 
 const useClickOutside = <T extends HTMLElement>(ref: RefObject<T>, handler: EventListener) => {
     useEffect(() => {
-        const handleClickOutside: EventListener = event => {
+        const handleClickOutside: EventListener = (event) => {
             if (ref.current && !ref.current.contains(event.target as Node)) {
                 handler(event);
             }
@@ -32,7 +32,11 @@ export const AddressDropdown = () => {
         } else if (inputValue.length >= 32) {
             return [];
         } else {
-            return addressBook.filter(contact => contact.name.toLowerCase().includes(inputValue.toLowerCase()) || contact.address.toLowerCase().includes(inputValue.toLowerCase()));
+            return addressBook.filter(
+                (contact) =>
+                    contact.name.toLowerCase().includes(inputValue.toLowerCase()) ||
+                    contact.address.toLowerCase().includes(inputValue.toLowerCase()),
+            );
         }
     }, [inputValue, addressBook]);
 
@@ -57,14 +61,17 @@ export const AddressDropdown = () => {
 
     const getDisplayValue = (inputValue: string) => {
         let displayValue;
-        
-        if(inputValue.length >= 32) {
+
+        if (inputValue.length >= 32) {
             const contact = addressBook.find((contact) => contact.address === inputValue);
 
             if (contact) {
                 displayValue = (
                     <span className='text-base font-normal text-light-black dark:text-white'>
-                        {contact.name} <span className='text-theme-secondary-500 dark:text-theme-secondary-300'>({trimAddress(contact.address, 10)})</span>
+                        {contact.name}{' '}
+                        <span className='text-theme-secondary-500 dark:text-theme-secondary-300'>
+                            ({trimAddress(contact.address, 10)})
+                        </span>
                     </span>
                 );
             }
@@ -91,9 +98,9 @@ export const AddressDropdown = () => {
     return (
         <div className='relative' ref={wrapperRef}>
             <Input
-                className={cn('w-full py-4 pl-3 rounded-lg resize-none', {
+                className={cn('w-full resize-none rounded-lg py-4 pl-3', {
                     'pr-8': suggestions.length > 0,
-                    'pr-3': suggestions.length === 0
+                    'pr-3': suggestions.length === 0,
                 })}
                 value={inputValue}
                 onChange={handleInputChange}
@@ -104,21 +111,28 @@ export const AddressDropdown = () => {
                 labelText='Recipient Address'
                 displayValue={getDisplayValue(inputValue)}
             />
-            {(showSuggestions && suggestions.length > 0) && (
-                <div className={cn('absolute w-full mt-1 overflow-auto max-h-80 bg-white rounded-lg shadow-lg transition-smoothEase z-10 custom-scroll py-2 dark:bg-subtle-black', {
-                    'max-h-80': showSuggestions,
-                    'h-0': !showSuggestions
-                })}>
+            {showSuggestions && suggestions.length > 0 && (
+                <div
+                    className={cn(
+                        'transition-smoothEase custom-scroll absolute z-10 mt-1 max-h-80 w-full overflow-auto rounded-lg bg-white py-2 shadow-lg dark:bg-subtle-black',
+                        {
+                            'max-h-80': showSuggestions,
+                            'h-0': !showSuggestions,
+                        },
+                    )}
+                >
                     {suggestions.map((suggestion, index) => (
                         <button
                             key={index}
-                            className={cn('py-3 px-4 cursor-pointer hover:bg-theme-secondary-50 dark:hover:bg-theme-secondary-700 flex flex-col gap-1 w-full')}
+                            className={cn(
+                                'flex w-full cursor-pointer flex-col gap-1 px-4 py-3 hover:bg-theme-secondary-50 dark:hover:bg-theme-secondary-700',
+                            )}
                             onClick={() => {
                                 setInputValue(suggestion.address);
                                 setShowSuggestions(false);
                             }}
                         >
-                            <span className='text-light-black text-base font-medium dark:text-white'>
+                            <span className='text-base font-medium text-light-black dark:text-white'>
                                 {suggestion.name}
                             </span>
                             <span className='text-sm font-normal text-theme-secondary-500 dark:text-theme-secondary-300'>
