@@ -9,8 +9,10 @@ import {
 } from '@/components/address-book';
 import useAddressBook from '@/lib/hooks/useAddressBook';
 import Modal from '@/shared/components/modal/Modal';
+import useToast from '@/lib/hooks/useToast';
 
 const AddressBook = () => {
+    const toast = useToast();
     const { t } = useTranslation();
     const { addressBook, removeContact } = useAddressBook();
 
@@ -29,6 +31,7 @@ const AddressBook = () => {
     const handleResolve = () => {
         removeContact(selectedContactName);
         setIsDeleteModalOpen(false);
+        toast('success', t('PAGES.ADDRESS_BOOK.CONTACT_REMOVED'));
     };
 
     return (
