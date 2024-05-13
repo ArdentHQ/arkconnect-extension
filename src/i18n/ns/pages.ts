@@ -245,5 +245,6 @@ export default {
         DELETE_SAVED_CONTACT: 'Delete Saved Contact',
         ARE_YOU_SURE_YOU_WANT_TO_DELETE: 'Are you sure you want to delete',
         FROM_YOUR_ADDRESS_BOOK: 'from your address book',
+        EDIT_CONTACT: 'Edit Contact',
     },
 };
