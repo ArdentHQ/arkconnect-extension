@@ -13,6 +13,8 @@ import LoadingModal from './shared/components/loader/LoadingModal';
 import { initializeEnvironment } from './lib/utils/env';
 import { LoadingFullScreen } from './shared/components/handleStates/LoadingFullScreen';
 import { i18n as index18n } from './i18n';
+import { seededAddressBook } from './lib/data/addressBook';
+import { isDev } from './dev/utils/dev';
 import ToastContainer from '@/components/toast/ToastContainer';
 import store, { persistor } from '@/lib/store';
 import routes from '@/routing';
@@ -85,6 +87,14 @@ const App = () => {
             try {
                 await env.verify();
                 await env.boot();
+
+                if (isDev()) {
+                    const addressBook = localStorage.getItem('addressBook');
+
+                    if (!addressBook) {
+                        localStorage.setItem('addressBook', JSON.stringify(seededAddressBook));
+                    }
+                }
 
                 setIsEnvironmentBooted(true);
             } catch (error) {

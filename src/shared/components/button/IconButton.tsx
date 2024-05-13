@@ -1,20 +1,24 @@
 import { twMerge } from 'tailwind-merge';
 import cn from 'classnames';
+import { ComponentPropsWithRef } from 'react';
 import { Icon, IconDefinition } from '@/shared/components';
+
+type IconButtonProps = ComponentPropsWithRef<'button'> & {
+    icon: IconDefinition;
+    className?: string;
+    iconClassName?: string;
+    variant?: 'default' | 'danger';
+};
 
 export const IconButton = ({
     icon,
     className,
     iconClassName,
     variant = 'default',
-}: {
-    icon: IconDefinition;
-    className?: string;
-    iconClassName?: string;
-    variant?: 'default' | 'danger';
-}) => {
+    ...rest
+}: IconButtonProps) => {
     return (
-        <div
+        <button
             className={twMerge(
                 'transition-smoothEase group flex h-8 w-8 cursor-pointer items-center justify-center rounded-full',
                 cn({
@@ -24,6 +28,7 @@ export const IconButton = ({
                 }),
                 className,
             )}
+            {...rest}
         >
             <Icon
                 className={twMerge(
@@ -36,6 +41,6 @@ export const IconButton = ({
                 )}
                 icon={icon}
             />
-        </div>
+        </button>
     );
 };
