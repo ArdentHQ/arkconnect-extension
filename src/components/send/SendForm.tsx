@@ -4,6 +4,7 @@ import Amount from '@/components/wallet/Amount';
 import { Input } from '@/shared/components';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 import { SendFormik } from '@/pages/Send';
+import { AddressDropdown } from '@/components/send/AddressDropdown';
 
 export const SendForm = ({ formik }: { formik: FormikProps<SendFormik> }) => {
     const primaryWallet = usePrimaryWallet();
@@ -20,6 +21,7 @@ export const SendForm = ({ formik }: { formik: FormikProps<SendFormik> }) => {
 
     return (
         <div className='flex flex-col gap-4'>
+            <AddressDropdown />
             <Input
                 name='amount'
                 labelText={t('COMMON.AMOUNT')}
