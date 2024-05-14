@@ -11,6 +11,7 @@ import { AddNewContactForm, SaveContactButton } from '@/components/address-book'
 import { WalletNetwork } from '@/lib/store/wallet';
 import useToast from '@/lib/hooks/useToast';
 import { ContactFormik, ValidateAddressResponse } from '@/components/address-book/types';
+import { useProfileContext } from '@/lib/context/Profile';
 
 const EditContact = () => {
     const toast = useToast();
@@ -18,12 +19,13 @@ const EditContact = () => {
     const { name } = useParams<{ name: string }>();
     const { addressBook, updateContact } = useAddressBook();
     const [address, setAddress] = useState<string | undefined>();
+    const { profile } = useProfileContext();
     const navigate = useNavigate();
     const contact = addressBook.find((contact) => contact.name === name);
 
     const { data, isLoading } = useQuery<ValidateAddressResponse>(
         ['address-validation', contact?.address],
-        () => fetchValidateAddress(contact?.address),
+        () => fetchValidateAddress({address: contact?.address, profile: profile}),
         {
             enabled: !!address,
             staleTime: Infinity,
