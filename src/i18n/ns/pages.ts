@@ -250,5 +250,5 @@ export default {
     SEND: {
         ENTER_OR_CHOOSE_FROM_SAVED_ADDRESSES: 'Enter or choose from saved addresses',
         RECIPIENT_ADDRESS: 'Recipient Address',
-    }
+    },
 };

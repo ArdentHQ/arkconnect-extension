@@ -14,7 +14,7 @@ const AddressBookButton = ({ onClick }: { onClick: () => void }) => {
     return (
         <button
             onClick={onClick}
-            className='text-theme-primary-700 hover:text-theme-primary-600 dark:text-theme-primary-600 dark:hover:text-theme-primary-650 transition-smoothEase'
+            className='transition-smoothEase text-theme-primary-700 hover:text-theme-primary-600 dark:text-theme-primary-600 dark:hover:text-theme-primary-650'
         >
             {t('COMMON.ADDRESS_BOOK')}
         </button>
@@ -128,7 +128,9 @@ export const AddressDropdown = () => {
                 variant='primary'
                 labelText={t('PAGES.SEND.RECIPIENT_ADDRESS')}
                 displayValue={getDisplayValue(inputValue)}
-                secondaryText={addressBook.length > 0 && <AddressBookButton onClick={handleModalOpen} />}
+                secondaryText={
+                    addressBook.length > 0 && <AddressBookButton onClick={handleModalOpen} />
+                }
             />
             {showSuggestions && suggestions.length > 0 && (
                 <div
@@ -171,7 +173,11 @@ export const AddressDropdown = () => {
                     }}
                     title={t('COMMON.ADDRESS_BOOK')}
                 >
-                    <AddressBookModal addressBook={addressBook} selectedAddress={inputValue} handleClick={handleModalSelection} />
+                    <AddressBookModal
+                        addressBook={addressBook}
+                        selectedAddress={inputValue}
+                        handleClick={handleModalSelection}
+                    />
                 </Modal>
             )}
         </div>

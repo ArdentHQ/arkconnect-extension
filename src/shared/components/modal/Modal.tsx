@@ -112,10 +112,12 @@ const Modal = ({
                                 )}
                             >
                                 {(icon || !hideCloseButton) && (
-                                    <div className={cn('flex justify-between', {
-                                        'items-center': title && !hideCloseButton,
-                                        'items-start': !title,
-                                    })}>
+                                    <div
+                                        className={cn('flex justify-between', {
+                                            'items-center': title && !hideCloseButton,
+                                            'items-start': !title,
+                                        })}
+                                    >
                                         {icon && (
                                             <>
                                                 {typeof icon === 'string' ? (
@@ -129,7 +131,7 @@ const Modal = ({
                                             </>
                                         )}
                                         {title && (
-                                            <h2 className='text-light-black text-lg font-medium dark:text-white'>
+                                            <h2 className='text-lg font-medium text-light-black dark:text-white'>
                                                 {title}
                                             </h2>
                                         )}
