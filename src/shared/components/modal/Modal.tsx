@@ -31,6 +31,7 @@ type ModalProps = {
     contentStyles?: React.CSSProperties;
     activateFocusTrap?: boolean;
     focusTrapOptions?: FocusTrap.Props['focusTrapOptions'];
+    title?: string;
 };
 
 const ModalCloseIcon = ({ onClose }: { onClose: () => void }) => {
@@ -83,6 +84,7 @@ const Modal = ({
     containerClassName,
     activateFocusTrap = true,
     focusTrapOptions,
+    title,
 }: ModalProps) => {
     const { t } = useTranslation();
     const ref = useRef<HTMLDivElement | null>(null);
@@ -110,7 +112,10 @@ const Modal = ({
                                 )}
                             >
                                 {(icon || !hideCloseButton) && (
-                                    <div className='flex items-start justify-between'>
+                                    <div className={cn('flex justify-between', {
+                                        'items-center': title && !hideCloseButton,
+                                        'items-start': !title,
+                                    })}>
                                         {icon && (
                                             <>
                                                 {typeof icon === 'string' ? (
@@ -122,6 +127,11 @@ const Modal = ({
                                                     icon
                                                 )}
                                             </>
+                                        )}
+                                        {title && (
+                                            <h2 className='text-light-black text-lg font-medium dark:text-white'>
+                                                {title}
+                                            </h2>
                                         )}
                                         {!hideCloseButton && <ModalCloseIcon onClose={onClose} />}
                                     </div>
