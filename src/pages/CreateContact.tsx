@@ -23,7 +23,13 @@ type ValidateAddressResponse = {
     network?: WalletNetwork;
 };
 
-const fetchValidateAddress = async ({address, profile}: {address?: string, profile: Contracts.IProfile}): Promise<ValidateAddressResponse> => {
+const fetchValidateAddress = async ({
+    address,
+    profile,
+}: {
+    address?: string;
+    profile: Contracts.IProfile;
+}): Promise<ValidateAddressResponse> => {
     const coinId = 'ARK';
 
     try {
@@ -64,7 +70,7 @@ const CreateContact = () => {
 
     const { data, isLoading } = useQuery<ValidateAddressResponse>(
         ['address-validation', address],
-        () => fetchValidateAddress({address, profile}),
+        () => fetchValidateAddress({ address, profile }),
         {
             enabled: !!address,
             staleTime: Infinity,
