@@ -63,7 +63,7 @@ const EditContact = () => {
 
             updateContact(name, {
                 name: formik.values.name,
-                address: formik.values.name,
+                address: formik.values.address,
                 type: data?.network || WalletNetwork.MAINNET,
             });
 
