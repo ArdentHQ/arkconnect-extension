@@ -3,6 +3,8 @@ import { object, string } from 'yup';
 import { useFormik } from 'formik';
 import { useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
+import { useNavigate } from 'react-router-dom';
+import { AddNewContactForm, SaveContactButton } from '@/components/address-book/create';
 import SubPageLayout from '@/components/settings/SubPageLayout';
 import useAddressBook from '@/lib/hooks/useAddressBook';
 import useToast from '@/lib/hooks/useToast';
@@ -49,6 +51,7 @@ export const fetchValidateAddress = async (address?: string): Promise<ValidateAd
 
 const CreateContact = () => {
     const toast = useToast();
+    const navigate = useNavigate();
     const { t } = useTranslation();
     const { addContact, addressBook } = useAddressBook();
     const [address, setAddress] = useState<string | undefined>();
@@ -95,6 +98,7 @@ const CreateContact = () => {
             formik.resetForm();
 
             toast('success', t('PAGES.ADDRESS_BOOK.CONTACT_ADDED'));
+            navigate('/address-book');
         },
     });
 
