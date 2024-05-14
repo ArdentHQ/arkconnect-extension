@@ -1,23 +1,9 @@
-import { RefObject, useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import cn from 'classnames';
 import { Input } from '@/shared/components';
 import useAddressBook from '@/lib/hooks/useAddressBook';
 import trimAddress from '@/lib/utils/trimAddress';
-
-const useClickOutside = <T extends HTMLElement>(ref: RefObject<T>, handler: EventListener) => {
-    useEffect(() => {
-        const handleClickOutside: EventListener = (event) => {
-            if (ref.current && !ref.current.contains(event.target as Node)) {
-                handler(event);
-            }
-        };
-
-        document.addEventListener('mousedown', handleClickOutside);
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
-        };
-    }, [ref, handler]);
-};
+import useOnClickOutside from '@/lib/hooks/useOnClickOutside';
 
 export const AddressDropdown = () => {
     const addressLength = 32;
@@ -95,7 +81,7 @@ export const AddressDropdown = () => {
         };
     }, [wrapperRef]);
 
-    useClickOutside(wrapperRef, () => setShowSuggestions(false));
+    useOnClickOutside(wrapperRef, () => setShowSuggestions(false));
 
     return (
         <div className='relative' ref={wrapperRef}>
