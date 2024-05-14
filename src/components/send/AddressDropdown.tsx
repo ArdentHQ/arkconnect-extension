@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
+import { AddressBookModal } from './AddressBookModal';
 import { Input } from '@/shared/components';
 import useAddressBook from '@/lib/hooks/useAddressBook';
 import trimAddress from '@/lib/utils/trimAddress';
@@ -107,6 +108,11 @@ export const AddressDropdown = () => {
         setOpenModal(false);
     };
 
+    const handleModalSelection = (address: string) => {
+        setInputValue(address);
+        setOpenModal(false);
+    };
+
     return (
         <div className='relative' ref={wrapperRef}>
             <Input
@@ -164,9 +170,8 @@ export const AddressDropdown = () => {
                         initialFocus: false,
                     }}
                     title={t('COMMON.ADDRESS_BOOK')}
-                    className='w-80'
                 >
-                    aa
+                    <AddressBookModal addressBook={addressBook} selectedAddress={inputValue} handleClick={handleModalSelection} />
                 </Modal>
             )}
         </div>
