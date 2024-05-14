@@ -3,39 +3,42 @@ import { object, string } from 'yup';
 import { useFormik } from 'formik';
 import { useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
+import { Coins } from '@ardenthq/sdk';
+import { Contracts } from '@ardenthq/sdk-profiles';
 import { useNavigate } from 'react-router-dom';
 import SubPageLayout from '@/components/settings/SubPageLayout';
 import useAddressBook from '@/lib/hooks/useAddressBook';
 import useToast from '@/lib/hooks/useToast';
-import { WalletNetwork } from '@/lib/store/wallet';
-import constants from '@/constants';
 import { ContactFormik, ValidateAddressResponse } from '@/components/address-book/types';
 import { AddNewContactForm, SaveContactButton } from '@/components/address-book';
+import { Network, WalletNetwork } from '@/lib/store/wallet';
+import { useProfileContext } from '@/lib/context/Profile';
 
-export const fetchValidateAddress = async (address?: string): Promise<ValidateAddressResponse> => {
+export const fetchValidateAddress = async ({
+    address,
+    profile,
+}: {
+    address?: string;
+    profile: Contracts.IProfile;
+}): Promise<ValidateAddressResponse> => {
+    const coinId = 'ARK';
+
     try {
         if (address) {
-            const mainnetResponse = await fetch(
-                `${constants.ARKVAULT_API_MAINNET_BASE_URL}api/wallets/${address}`,
-            );
+            const mainnetCoin: Coins.Coin = profile.coins().set(coinId, Network.MAINNET);
+            const mainnetResponse = await mainnetCoin.address().validate(address);
 
-            if (mainnetResponse.status === 200) {
+            if (mainnetResponse) {
                 return {
                     isValid: true,
                     network: WalletNetwork.MAINNET,
                 };
             }
 
-            const devnetResponse = await fetch(
-                `${constants.ARKVAULT_API_DEVNET_BASE_URL}api/wallets/${address}`,
-                {
-                    headers: {
-                        'ark-network': 'devnet',
-                    },
-                },
-            );
+            const devnetCoin: Coins.Coin = profile.coins().set(coinId, Network.DEVNET);
+            const devnetResponse = await devnetCoin.address().validate(address);
 
-            if (devnetResponse.status === 200) {
+            if (devnetResponse) {
                 return {
                     isValid: true,
                     network: WalletNetwork.DEVNET,
@@ -54,10 +57,11 @@ const CreateContact = () => {
     const { t } = useTranslation();
     const { addContact, addressBook } = useAddressBook();
     const [address, setAddress] = useState<string | undefined>();
+    const { profile } = useProfileContext();
 
     const { data, isLoading } = useQuery<ValidateAddressResponse>(
         ['address-validation', address],
-        () => fetchValidateAddress(address),
+        () => fetchValidateAddress({ address, profile }),
         {
             enabled: !!address,
             staleTime: Infinity,
