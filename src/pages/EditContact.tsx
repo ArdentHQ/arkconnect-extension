@@ -25,7 +25,7 @@ const EditContact = () => {
 
     const { data, isLoading } = useQuery<ValidateAddressResponse>(
         ['address-validation', contact?.address],
-        () => fetchValidateAddress({address: contact?.address, profile: profile}),
+        () => fetchValidateAddress({ address: contact?.address, profile: profile }),
         {
             enabled: !!address,
             staleTime: Infinity,
