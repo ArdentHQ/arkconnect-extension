@@ -32,7 +32,7 @@ const AddressBookItem = ({
             }
         }
     }, [name]);
-    
+
     return (
         <div className='transition-smoothEase flex w-full flex-row items-center justify-between px-4 py-3 hover:bg-theme-secondary-50 dark:hover:bg-theme-secondary-700'>
             <div className='flex flex-col gap-1'>
@@ -55,7 +55,10 @@ const AddressBookItem = ({
             </div>
 
             <div className='flex h-full flex-row items-end justify-center gap-0.5'>
-                <IconButton onClick={() => navigate(`/address-book/edit/${encodeURIComponent(name)}`)} icon='pencil' />
+                <IconButton
+                    onClick={() => navigate(`/address-book/edit/${encodeURIComponent(name)}`)}
+                    icon='pencil'
+                />
                 <IconButton
                     onClick={() => handleRemoveContact(name)}
                     icon='trash'
