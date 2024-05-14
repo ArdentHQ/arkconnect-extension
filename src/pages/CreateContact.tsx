@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
 import { Coins } from '@ardenthq/sdk';
 import { Contracts } from '@ardenthq/sdk-profiles';
+import { useNavigate } from 'react-router-dom';
 import { AddNewContactForm, SaveContactButton } from '@/components/address-book/create';
 import SubPageLayout from '@/components/settings/SubPageLayout';
 import useAddressBook from '@/lib/hooks/useAddressBook';
@@ -55,6 +56,7 @@ const fetchValidateAddress = async ({address, profile}: {address?: string, profi
 
 const CreateContact = () => {
     const toast = useToast();
+    const navigate = useNavigate();
     const { t } = useTranslation();
     const { addContact, addressBook } = useAddressBook();
     const [address, setAddress] = useState<string | undefined>();
@@ -102,6 +104,7 @@ const CreateContact = () => {
             formik.resetForm();
 
             toast('success', t('PAGES.ADDRESS_BOOK.CONTACT_ADDED'));
+            navigate('/address-book');
         },
     });
 
