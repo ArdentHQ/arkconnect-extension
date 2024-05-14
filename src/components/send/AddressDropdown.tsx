@@ -20,6 +20,8 @@ const useClickOutside = <T extends HTMLElement>(ref: RefObject<T>, handler: Even
 };
 
 export const AddressDropdown = () => {
+    const addressLength = 32;
+
     const wrapperRef = useRef<HTMLDivElement | null>(null);
     const [inputValue, setInputValue] = useState('');
     const { addressBook } = useAddressBook();
@@ -29,7 +31,7 @@ export const AddressDropdown = () => {
     const suggestions = useMemo(() => {
         if (!inputValue || inputValue.length === 0) {
             return addressBook;
-        } else if (inputValue.length >= 32) {
+        } else if (inputValue.length >= addressLength) {
             return [];
         } else {
             return addressBook.filter(
@@ -62,7 +64,7 @@ export const AddressDropdown = () => {
     const getDisplayValue = (inputValue: string) => {
         let displayValue;
 
-        if (inputValue.length >= 32) {
+        if (inputValue.length >= addressLength) {
             const contact = addressBook.find((contact) => contact.address === inputValue);
 
             if (contact) {
