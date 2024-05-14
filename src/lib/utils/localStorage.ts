@@ -54,6 +54,5 @@ export const setLocalValue = async (
 };
 
 export const clearLocalStorage = async () => {
-    localStorage.clear();
     await storage.local.remove(KEY);
 };

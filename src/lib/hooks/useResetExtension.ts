@@ -18,6 +18,7 @@ const useResetExtension = () => {
     };
 
     const clearPersistedData = () => {
+        localStorage.removeItem('addressBook');
         localStorage.removeItem('persist:ui');
     };
 
