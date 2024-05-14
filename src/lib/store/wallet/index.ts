@@ -2,6 +2,11 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { revertAll } from '@/lib/store/ui';
 import { RootState } from '@/lib/store';
 
+export enum Network {
+    DEVNET = 'ark.devnet',
+    MAINNET = 'ark.mainnet',
+}
+
 export enum WalletNetwork {
     DEVNET = 'Devnet',
     MAINNET = 'Mainnet',
