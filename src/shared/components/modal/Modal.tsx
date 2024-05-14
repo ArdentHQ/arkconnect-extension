@@ -94,7 +94,7 @@ const Modal = ({
     return (
         <Portal>
             <FocusTrap active={activateFocusTrap} focusTrapOptions={focusTrapOptions}>
-                <div className='fixed bottom-0 left-0 right-0 top-0 z-50 flex items-center justify-center overflow-x-auto overflow-y-hidden outline-none'>
+                <div className='fixed bottom-0 left-0 right-0 top-0 z-50 flex items-center justify-center overflow-hidden outline-none'>
                     <div className={twMerge('relative mx-4 my-auto w-auto max-w-max', className)}>
                         <div
                             className='relative flex w-full flex-col rounded-xl border-none outline-none'
