@@ -3,11 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { ContactFormik } from '@/components/address-book/types';
 import { Input, TextArea } from '@/shared/components';
 
-export const AddNewContactForm = ({
-    formik,
-}: {
-    formik: FormikProps<ContactFormik>;
-}) => {
+export const AddNewContactForm = ({ formik }: { formik: FormikProps<ContactFormik> }) => {
     const { t } = useTranslation();
     const handleAddressChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
         event.target.value = event.target.value.trim();
