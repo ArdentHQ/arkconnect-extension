@@ -29,6 +29,7 @@ import Send from '@/pages/Send';
 import Receive from '@/pages/Receive';
 import AddressBook from '@/pages/AddressBook';
 import CreateContact from '@/pages/CreateContact';
+import EditContact from '@/pages/EditContact';
 
 type RouteData = {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -194,6 +195,11 @@ const routes: RouteData[] = [
         Component: CreateContact,
         path: '/address-book/create',
         title: 'Add New Contact',
+    },
+    {
+        Component: EditContact,
+        path: '/address-book/edit/:name',
+        title: 'Edit Contact',
     },
 ];
 
