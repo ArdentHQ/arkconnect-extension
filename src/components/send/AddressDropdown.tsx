@@ -25,6 +25,7 @@ export const AddressDropdown = () => {
     const addressLength = 32;
     const { t } = useTranslation();
     const wrapperRef = useRef<HTMLDivElement | null>(null);
+    const inputRef = useRef<HTMLInputElement | null>(null);
     const [inputValue, setInputValue] = useState('');
     const { addressBook } = useAddressBook();
     const [showSuggestions, setShowSuggestions] = useState(false);
@@ -32,7 +33,7 @@ export const AddressDropdown = () => {
     const [openModal, setOpenModal] = useState(false);
 
     const suggestions = useMemo(() => {
-        if (!inputValue || inputValue.length === 0) {
+        if (!inputValue || inputValue.length === 0 ||  inputValue.length === 34) {
             return addressBook;
         } else if (inputValue.length >= addressLength) {
             return [];
@@ -131,6 +132,7 @@ export const AddressDropdown = () => {
                 secondaryText={
                     addressBook.length > 0 && <AddressBookButton onClick={handleModalOpen} />
                 }
+                innerRef={inputRef}
             />
             {showSuggestions && suggestions.length > 0 && (
                 <div
