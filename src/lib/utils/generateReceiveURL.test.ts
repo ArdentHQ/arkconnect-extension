@@ -5,7 +5,7 @@ import constants from '@/constants';
 describe('generateReceiveURL', () => {
     const NET_HASH = '6e84d08bd299ed97c212c886c98a57e36545c8f5d645ca7eeae63a8bd62d8988';
     const ADDRESS = 'DFevNTiETrLt9qSD564sztapkofFd1YXQa';
-
+    /* "baseUrl?memo=memo&method=transfer&recipient=recipient&coin=ARK&nethash=6e84d08bd299ed97c212c886c98a57e36545c8f5d645ca7eeae63a8bd62d8988 */
     it('generates basic URL for mainnet', () => {
         const url = generateReceiveUrl({
             coinName: 'ARK',
@@ -14,7 +14,7 @@ describe('generateReceiveURL', () => {
         });
 
         expect(url).toBe(
-            `${constants.ARKVAULT_BASE_URL}#/?coin=ARK&nethash=${NET_HASH}&method=transfer&recipient=${ADDRESS}`,
+            `${constants.ARKVAULT_BASE_URL}#/?recipient=${ADDRESS}&method=transfer&coin=ARK&nethash=${NET_HASH}`,
         );
     });
 
@@ -26,7 +26,7 @@ describe('generateReceiveURL', () => {
         });
 
         expect(url).toBe(
-            `${constants.ARKVAULT_BASE_URL}#/?coin=DARK&nethash=${NET_HASH}&method=transfer&recipient=${ADDRESS}`,
+            `${constants.ARKVAULT_BASE_URL}#/?recipient=${ADDRESS}&method=transfer&coin=DARK&nethash=${NET_HASH}`,
         );
     });
 
@@ -39,7 +39,7 @@ describe('generateReceiveURL', () => {
         });
 
         expect(url).toBe(
-            `${constants.ARKVAULT_BASE_URL}#/?coin=ARK&nethash=${NET_HASH}&method=transfer&recipient=${ADDRESS}&amount=100`,
+            `${constants.ARKVAULT_BASE_URL}#/?amount=100&method=transfer&recipient=${ADDRESS}&coin=ARK&nethash=${NET_HASH}`,
         );
     });
 
@@ -52,7 +52,7 @@ describe('generateReceiveURL', () => {
         });
 
         expect(url).toBe(
-            `${constants.ARKVAULT_BASE_URL}#/?coin=ARK&nethash=${NET_HASH}&method=transfer&recipient=${ADDRESS}&memo=hello`,
+            `${constants.ARKVAULT_BASE_URL}#/?memo=hello&method=transfer&recipient=${ADDRESS}&coin=ARK&nethash=${NET_HASH}`,
         );
     });
 
@@ -66,7 +66,7 @@ describe('generateReceiveURL', () => {
         });
 
         expect(url).toBe(
-            `${constants.ARKVAULT_BASE_URL}#/?coin=ARK&nethash=${NET_HASH}&method=transfer&recipient=${ADDRESS}&amount=100&memo=hello`,
+            `${constants.ARKVAULT_BASE_URL}#/?memo=hello&amount=100&method=transfer&recipient=${ADDRESS}&coin=ARK&nethash=${NET_HASH}`,
         );
     });
 
@@ -79,7 +79,7 @@ describe('generateReceiveURL', () => {
         });
 
         expect(url).toBe(
-            `${constants.ARKVAULT_BASE_URL}#/?coin=ARK&nethash=${NET_HASH}&method=transfer&recipient=${ADDRESS}&memo=this%20is%20a%20test`,
+            `${constants.ARKVAULT_BASE_URL}#/?memo=this+is+a+test&method=transfer&recipient=${ADDRESS}&coin=ARK&nethash=${NET_HASH}`,
         );
     });
 });
