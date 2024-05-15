@@ -1,17 +1,17 @@
-import { useTranslation } from 'react-i18next';
 import { object, string } from 'yup';
-import { useFormik } from 'formik';
 import { useEffect, useState } from 'react';
-import { useQuery } from 'react-query';
+
 import { Coins } from '@ardenthq/sdk';
 import { Contracts } from '@ardenthq/sdk-profiles';
+import { useFormik } from 'formik';
 import { useNavigate } from 'react-router-dom';
-import { AddNewContactForm, SaveContactButton } from '@/components/address-book/create';
+import { useTranslation } from 'react-i18next';
 import SubPageLayout from '@/components/settings/SubPageLayout';
 import useAddressBook from '@/lib/hooks/useAddressBook';
+import { useProfileContext } from '@/lib/context/Profile';
 import useToast from '@/lib/hooks/useToast';
 import { Network, WalletNetwork } from '@/lib/store/wallet';
-import { useProfileContext } from '@/lib/context/Profile';
+import { AddNewContactForm, SaveContactButton } from '@/components/address-book/create';
 
 export type AddContactFormik = {
     name: string;
@@ -20,10 +20,12 @@ export type AddContactFormik = {
 
 type ValidateAddressResponse = {
     isValid: boolean;
-    network?: WalletNetwork;
+    network: WalletNetwork;
 };
 
-const fetchValidateAddress = async ({
+const ADDRESS_LENGTH = 34;
+
+const validateAddress = async ({
     address,
     profile,
 }: {
@@ -54,7 +56,7 @@ const fetchValidateAddress = async ({
                 };
             }
         }
-        return { isValid: false };
+        return { isValid: false, network: WalletNetwork.MAINNET };
     } catch (error) {
         throw new Error('Failed to validate address');
     }
@@ -65,17 +67,11 @@ const CreateContact = () => {
     const navigate = useNavigate();
     const { t } = useTranslation();
     const { addContact, addressBook } = useAddressBook();
-    const [address, setAddress] = useState<string | undefined>();
     const { profile } = useProfileContext();
-
-    const { data, isLoading } = useQuery<ValidateAddressResponse>(
-        ['address-validation', address],
-        () => fetchValidateAddress({ address, profile }),
-        {
-            enabled: !!address,
-            staleTime: Infinity,
-        },
-    );
+    const [addressValidation, setAddressValidation] = useState<ValidateAddressResponse>({
+        isValid: false,
+        network: WalletNetwork.MAINNET,
+    });
 
     const validationSchema = object().shape({
         name: string()
@@ -86,12 +82,9 @@ const CreateContact = () => {
             }),
         address: string()
             .required(t('ERROR.IS_REQUIRED', { name: 'Address' }))
-            .min(34, t('ERROR.IS_INVALID', { name: 'Address' }))
+            .min(ADDRESS_LENGTH, t('ERROR.IS_INVALID', { name: 'Address' }))
             .test('valid-address', t('ERROR.IS_INVALID', { name: 'Address' }), () => {
-                if (isLoading) return true;
-                if (data) {
-                    return data.isValid;
-                }
+                return addressValidation.isValid;
             }),
     });
 
@@ -105,9 +98,11 @@ const CreateContact = () => {
             addContact({
                 name: formik.values.name,
                 address: formik.values.address,
-                type: data?.network || WalletNetwork.MAINNET,
+                type: addressValidation.network,
             });
+            // Reset
             formik.resetForm();
+            setAddressValidation({ isValid: false, network: WalletNetwork.MAINNET });
 
             toast('success', t('PAGES.ADDRESS_BOOK.CONTACT_ADDED'));
             navigate('/address-book');
@@ -115,16 +110,21 @@ const CreateContact = () => {
     });
 
     useEffect(() => {
-        if (formik.values.address) {
-            setAddress(formik.values.address);
+        const handleAddressValidation = async () => {
+            const response = await validateAddress({ address: formik.values.address, profile });
+            setAddressValidation(response);
+        };
+
+        if (formik.values.address && formik.values.address.length === ADDRESS_LENGTH) {
+            handleAddressValidation();
         }
-    }, [formik.values.address]);
+    }, [formik.values.name, formik.values.address]);
 
     useEffect(() => {
-        if (data && !isLoading) {
+        if (formik.values.address) {
             formik.validateField('address');
         }
-    }, [data, isLoading]);
+    }, [addressValidation]);
 
     return (
         <SubPageLayout
@@ -132,10 +132,10 @@ const CreateContact = () => {
             hideCloseButton={false}
             className='relative'
         >
-            <AddNewContactForm formik={formik} isLoading={isLoading} />
+            <AddNewContactForm formik={formik} />
             <div className='absolute -bottom-4 left-0 w-full'>
                 <SaveContactButton
-                    disabled={!(formik.isValid && formik.dirty) || isLoading}
+                    disabled={!(formik.isValid && formik.dirty)}
                     onClick={formik.handleSubmit}
                 />
             </div>

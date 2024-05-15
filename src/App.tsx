@@ -1,24 +1,24 @@
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
-import { useLayoutEffect } from 'react';
-import { Provider } from 'react-redux';
-import { PersistGate } from 'redux-persist/es/integration/react';
-import { I18nextProvider } from 'react-i18next';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import { LedgerProvider } from './lib/Ledger';
-import NextPageMiddleware from './components/NextPageMiddleware';
-import { ErrorHandlerProvider, useErrorHandlerContext } from './lib/context/ErrorHandler';
-import { ProfileProvider } from './lib/context/Profile';
+import { I18nextProvider } from 'react-i18next';
+import { PersistGate } from 'redux-persist/es/integration/react';
+import { Provider } from 'react-redux';
+import { useLayoutEffect } from 'react';
+import { createTestAddressBook, isDev } from './dev/utils/dev';
 import { EnvironmentProvider, useEnvironmentContext } from './lib/context/Environment';
-import LoadingModal from './shared/components/loader/LoadingModal';
-import { initializeEnvironment } from './lib/utils/env';
-import { LoadingFullScreen } from './shared/components/handleStates/LoadingFullScreen';
+import { ErrorHandlerProvider, useErrorHandlerContext } from './lib/context/ErrorHandler';
 import { i18n as index18n } from './i18n';
-import { seededAddressBook } from './lib/data/addressBook';
-import { isDev } from './dev/utils/dev';
-import ToastContainer from '@/components/toast/ToastContainer';
+import { initializeEnvironment } from './lib/utils/env';
+
+import { LedgerProvider } from './lib/Ledger';
+import { LoadingFullScreen } from './shared/components/handleStates/LoadingFullScreen';
+import LoadingModal from './shared/components/loader/LoadingModal';
+import NextPageMiddleware from './components/NextPageMiddleware';
+import { ProfileProvider } from './lib/context/Profile';
+import { BackgroundEvents } from '@/lib/context/BackgroundEventHandler';
 import store, { persistor } from '@/lib/store';
 import routes from '@/routing';
-import { BackgroundEvents } from '@/lib/context/BackgroundEventHandler';
+import ToastContainer from '@/components/toast/ToastContainer';
 import useBackgroundEventHandler from '@/lib/hooks/useBackgroundEventHandler';
 
 const env = initializeEnvironment();
@@ -89,11 +89,7 @@ const App = () => {
                 await env.boot();
 
                 if (isDev()) {
-                    const addressBook = localStorage.getItem('addressBook');
-
-                    if (!addressBook) {
-                        localStorage.setItem('addressBook', JSON.stringify(seededAddressBook));
-                    }
+                    createTestAddressBook();
                 }
 
                 setIsEnvironmentBooted(true);
