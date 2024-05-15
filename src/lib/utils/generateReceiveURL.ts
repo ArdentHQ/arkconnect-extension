@@ -16,7 +16,7 @@ export const generateReceiveUrl = ({
     const urlBuilder = new URLBuilder();
     urlBuilder.setCoin(coinName);
     urlBuilder.setNethash(netHash);
-    
+
     const url = urlBuilder.generateTransfer(address, {
         memo,
         amount: amount ? Number(amount) : undefined,
