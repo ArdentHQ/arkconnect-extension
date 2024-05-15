@@ -1,4 +1,4 @@
-import constants from '@/constants';
+import { URLBuilder } from '@ardenthq/arkvault-url';
 
 export const generateReceiveUrl = ({
     coinName,
@@ -13,16 +13,14 @@ export const generateReceiveUrl = ({
     amount?: string;
     memo?: string;
 }): string => {
-    let url = `${constants.ARKVAULT_BASE_URL}#/?coin=${coinName}&nethash=${netHash}&method=transfer&recipient=${address}`;
-
-    if (amount) {
-        url += `&amount=${amount}`;
-    }
-
-    if (memo) {
-        const encodedMemo = encodeURIComponent(memo);
-        url += `&memo=${encodedMemo}`;
-    }
+    const urlBuilder = new URLBuilder();
+    urlBuilder.setCoin(coinName);
+    urlBuilder.setNethash(netHash);
+    
+    const url = urlBuilder.generateTransfer(address, {
+        memo,
+        amount: amount ? Number(amount) : undefined,
+    });
 
     return url;
 };
