@@ -1,17 +1,17 @@
+import { AddNewContactForm, SaveContactButton } from '@/components/address-book/create';
+import { Network, WalletNetwork } from '@/lib/store/wallet';
 import { object, string } from 'yup';
 import { useEffect, useState } from 'react';
 
 import { Coins } from '@ardenthq/sdk';
 import { Contracts } from '@ardenthq/sdk-profiles';
-import { useFormik } from 'formik';
-import { useNavigate } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
 import SubPageLayout from '@/components/settings/SubPageLayout';
 import useAddressBook from '@/lib/hooks/useAddressBook';
+import { useFormik } from 'formik';
+import { useNavigate } from 'react-router-dom';
 import { useProfileContext } from '@/lib/context/Profile';
 import useToast from '@/lib/hooks/useToast';
-import { Network, WalletNetwork } from '@/lib/store/wallet';
-import { AddNewContactForm, SaveContactButton } from '@/components/address-book/create';
+import { useTranslation } from 'react-i18next';
 
 export type AddContactFormik = {
     name: string;
@@ -36,20 +36,26 @@ const validateAddress = async ({
 
     try {
         if (address) {
-            const mainnetCoin: Coins.Coin = profile.coins().set(coinId, Network.MAINNET);
-            const mainnetResponse = await mainnetCoin.address().validate(address);
+            const isValidMainnetAddress = await profile
+                .coins()
+                .set(coinId, Network.MAINNET)
+                .address()
+                .validate(address);
 
-            if (mainnetResponse) {
+            if (isValidMainnetAddress) {
                 return {
                     isValid: true,
                     network: WalletNetwork.MAINNET,
                 };
             }
 
-            const devnetCoin: Coins.Coin = profile.coins().set(coinId, Network.DEVNET);
-            const devnetResponse = await devnetCoin.address().validate(address);
+            const isValidDevnetAddress = await profile
+                .coins()
+                .set(coinId, Network.DEVNET)
+                .address()
+                .validate(address);
 
-            if (devnetResponse) {
+            if (isValidDevnetAddress) {
                 return {
                     isValid: true,
                     network: WalletNetwork.DEVNET,
@@ -58,6 +64,7 @@ const validateAddress = async ({
         }
         return { isValid: false, network: WalletNetwork.MAINNET };
     } catch (error) {
+        console.error(error);
         throw new Error('Failed to validate address');
     }
 };
