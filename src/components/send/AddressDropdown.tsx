@@ -33,7 +33,7 @@ export const AddressDropdown = () => {
     const [openModal, setOpenModal] = useState(false);
 
     const suggestions = useMemo(() => {
-        if (!inputValue || inputValue.length === 0 ||  inputValue.length === 34) {
+        if (!inputValue || inputValue.length === 0 || inputValue.length === 34) {
             return addressBook;
         } else if (inputValue.length >= addressLength) {
             return [];
