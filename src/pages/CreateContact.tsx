@@ -13,10 +13,10 @@ import { useProfileContext } from '@/lib/context/Profile';
 import useToast from '@/lib/hooks/useToast';
 
 
-const ADDRESS_LENGTH = 34;
+export const ADDRESS_LENGTH = 34;
 const COIN_ID = 'ARK';
 
-const validateAddress = async ({
+export const validateAddress = async ({
     address,
     profile,
 }: {
