@@ -248,4 +248,8 @@ export default {
         FROM_YOUR_ADDRESS_BOOK: 'from your address book',
         EDIT_CONTACT: 'Edit Contact',
     },
+    SEND: {
+        ENTER_OR_CHOOSE_FROM_SAVED_ADDRESSES: 'Enter or choose from saved addresses',
+        RECIPIENT_ADDRESS: 'Recipient Address',
+    },
 };

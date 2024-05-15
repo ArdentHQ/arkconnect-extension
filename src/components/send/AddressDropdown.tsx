@@ -1,18 +1,35 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import cn from 'classnames';
+import { useTranslation } from 'react-i18next';
+import { AddressBookModal } from './AddressBookModal';
 import { Input } from '@/shared/components';
 import useAddressBook from '@/lib/hooks/useAddressBook';
 import trimAddress from '@/lib/utils/trimAddress';
 import useOnClickOutside from '@/lib/hooks/useOnClickOutside';
+import Modal from '@/shared/components/modal/Modal';
+
+const AddressBookButton = ({ onClick }: { onClick: () => void }) => {
+    const { t } = useTranslation();
+
+    return (
+        <button
+            onClick={onClick}
+            className='transition-smoothEase text-theme-primary-700 hover:text-theme-primary-600 dark:text-theme-primary-600 dark:hover:text-theme-primary-650'
+        >
+            {t('COMMON.ADDRESS_BOOK')}
+        </button>
+    );
+};
 
 export const AddressDropdown = () => {
     const addressLength = 32;
-
+    const { t } = useTranslation();
     const wrapperRef = useRef<HTMLDivElement | null>(null);
     const [inputValue, setInputValue] = useState('');
     const { addressBook } = useAddressBook();
     const [showSuggestions, setShowSuggestions] = useState(false);
     const [selectedSuggestionIndex, setSelectedSuggestionIndex] = useState(0);
+    const [openModal, setOpenModal] = useState(false);
 
     const suggestions = useMemo(() => {
         if (!inputValue || inputValue.length === 0) {
@@ -83,6 +100,19 @@ export const AddressDropdown = () => {
 
     useOnClickOutside(wrapperRef, () => setShowSuggestions(false));
 
+    const handleModalOpen = () => {
+        setOpenModal(true);
+    };
+
+    const handleModalClose = () => {
+        setOpenModal(false);
+    };
+
+    const handleModalSelection = (address: string) => {
+        setInputValue(address);
+        setOpenModal(false);
+    };
+
     return (
         <div className='relative' ref={wrapperRef}>
             <Input
@@ -93,11 +123,14 @@ export const AddressDropdown = () => {
                 value={inputValue}
                 onChange={handleInputChange}
                 onKeyDown={handleKeyDown}
-                placeholder='Enter or choose from saved addresses'
+                placeholder={t('PAGES.SEND.ENTER_OR_CHOOSE_FROM_SAVED_ADDRESSES')}
                 onClick={() => setShowSuggestions(true)}
                 variant='primary'
-                labelText='Recipient Address'
+                labelText={t('PAGES.SEND.RECIPIENT_ADDRESS')}
                 displayValue={getDisplayValue(inputValue)}
+                secondaryText={
+                    addressBook.length > 0 && <AddressBookButton onClick={handleModalOpen} />
+                }
             />
             {showSuggestions && suggestions.length > 0 && (
                 <div
@@ -129,6 +162,23 @@ export const AddressDropdown = () => {
                         </button>
                     ))}
                 </div>
+            )}
+
+            {openModal && (
+                <Modal
+                    variant='danger'
+                    onClose={handleModalClose}
+                    focusTrapOptions={{
+                        initialFocus: false,
+                    }}
+                    title={t('COMMON.ADDRESS_BOOK')}
+                >
+                    <AddressBookModal
+                        addressBook={addressBook}
+                        selectedAddress={inputValue}
+                        handleClick={handleModalSelection}
+                    />
+                </Modal>
             )}
         </div>
     );
