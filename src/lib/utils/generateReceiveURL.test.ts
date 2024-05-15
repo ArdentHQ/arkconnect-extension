@@ -5,7 +5,7 @@ import constants from '@/constants';
 describe('generateReceiveURL', () => {
     const NET_HASH = '6e84d08bd299ed97c212c886c98a57e36545c8f5d645ca7eeae63a8bd62d8988';
     const ADDRESS = 'DFevNTiETrLt9qSD564sztapkofFd1YXQa';
-    
+
     it('generates basic URL for mainnet', () => {
         const url = generateReceiveUrl({
             coinName: 'ARK',
