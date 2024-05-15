@@ -12,7 +12,6 @@ import useAddressBook from '@/lib/hooks/useAddressBook';
 import { useProfileContext } from '@/lib/context/Profile';
 import useToast from '@/lib/hooks/useToast';
 
-
 const ADDRESS_LENGTH = 34;
 const COIN_ID = 'ARK';
 
