@@ -1,16 +1,16 @@
-import { AddNewContactForm, SaveContactButton } from '@/components/address-book/create';
-import { Network, WalletNetwork } from '@/lib/store/wallet';
 import { object, string } from 'yup';
 import { useEffect, useState } from 'react';
-
 import { Contracts } from '@ardenthq/sdk-profiles';
-import SubPageLayout from '@/components/settings/SubPageLayout';
-import useAddressBook from '@/lib/hooks/useAddressBook';
 import { useFormik } from 'formik';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import { AddNewContactForm, SaveContactButton } from '@/components/address-book/create';
+import { Network, WalletNetwork } from '@/lib/store/wallet';
+
+import SubPageLayout from '@/components/settings/SubPageLayout';
+import useAddressBook from '@/lib/hooks/useAddressBook';
 import { useProfileContext } from '@/lib/context/Profile';
 import useToast from '@/lib/hooks/useToast';
-import { useTranslation } from 'react-i18next';
 
 export type AddContactFormik = {
     name: string;
