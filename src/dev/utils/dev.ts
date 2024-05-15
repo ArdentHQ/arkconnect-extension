@@ -1,6 +1,8 @@
 import { Contracts, Environment } from '@ardenthq/sdk-profiles';
-import { getDefaultAlias } from '@/lib/utils/getDefaultAlias';
+
 import { EnvironmentData } from '@/lib/background/contracts';
+import { getDefaultAlias } from '@/lib/utils/getDefaultAlias';
+import { seededAddressBook } from '@/lib/data/addressBook';
 
 type TestingAddress = {
     coin: string;
@@ -26,6 +28,14 @@ const getTestingAddresses = (): TestingAddress[] => {
         addresses.push({ coin: 'ARK', network: 'ark.devnet', mnemonic: passphrase });
     }
     return addresses;
+};
+
+export const createTestAddressBook = (): void => {
+    const addressBook = localStorage.getItem('addressBook');
+
+    if (!addressBook) {
+        localStorage.setItem('addressBook', JSON.stringify(seededAddressBook));
+    }
 };
 
 export const createTestProfile = async ({ env }: { env: Environment }): Promise<void> => {
