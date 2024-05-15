@@ -64,7 +64,7 @@ export const Input = ({
                 {!focused && displayValue && (
                     <span
                         className='absolute left-3 top-4 cursor-text'
-                        onClick={() => setFocused(true)}
+                        onClick={() => {innerRef?.current?.click(); innerRef?.current?.focus()}}
                     >
                         {displayValue}
                     </span>
