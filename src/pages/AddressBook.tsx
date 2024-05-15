@@ -36,17 +36,19 @@ const AddressBook = () => {
 
     return (
         <SubPageLayout title={t('PAGES.ADDRESS_BOOK.TITLE')} className='relative p-0'>
-            {addressBook.length > 0 ? (
-                <div className='mx-4 min-h-[calc(100%-68px)]'>
-                    <AddressBookList
-                        handleRemoveContact={handleRemoveContact}
-                        addressBook={addressBook}
-                    />
-                </div>
-            ) : (
-                <NoContacts className='min-h-[calc(100%-68px)]' />
-            )}
-            <div className='sticky bottom-0 left-0 w-full'>
+            <div className='custom-scroll h-[393px] w-full overflow-y-auto'>
+                {addressBook.length > 0 ? (
+                    <div className='mx-4'>
+                        <AddressBookList
+                            handleRemoveContact={handleRemoveContact}
+                            addressBook={addressBook}
+                        />
+                    </div>
+                ) : (
+                    <NoContacts className='mt-24' />
+                )}
+            </div>
+            <div className='w-full'>
                 <AddContactButton />
             </div>
 
