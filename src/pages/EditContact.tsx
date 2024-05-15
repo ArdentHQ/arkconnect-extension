@@ -1,58 +1,25 @@
-import { object, string } from 'yup';
-import { useEffect, useState } from 'react';
-import { Contracts } from '@ardenthq/sdk-profiles';
-import { useFormik } from 'formik';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { ContactFormik, ValidateAddressResponse } from '@/components/address-book/types';
-import { AddNewContactForm, SaveContactButton } from '@/components/address-book';
-import { Network, WalletNetwork } from '@/lib/store/wallet';
-import SubPageLayout from '@/components/settings/SubPageLayout';
+import { object, string } from 'yup';
+import { useFormik } from 'formik';
+import { useEffect, useState } from 'react';
+import { ADDRESS_LENGTH, validateAddress } from './CreateContact';
 import useAddressBook from '@/lib/hooks/useAddressBook';
-import { useProfileContext } from '@/lib/context/Profile';
+import SubPageLayout from '@/components/settings/SubPageLayout';
+import { AddNewContactForm, SaveContactButton } from '@/components/address-book';
+import { WalletNetwork } from '@/lib/store/wallet';
 import useToast from '@/lib/hooks/useToast';
+import { ContactFormik, ValidateAddressResponse } from '@/components/address-book/types';
+import { useProfileContext } from '@/lib/context/Profile';
 
-export const ADDRESS_LENGTH = 34;
-const COIN_ID = 'ARK';
-
-export const validateAddress = async ({
-    address,
-    profile,
-}: {
-    address?: string;
-    profile: Contracts.IProfile;
-}): Promise<ValidateAddressResponse> => {
-    try {
-        if (address) {
-            for (const network of [Network.MAINNET, Network.DEVNET]) {
-                try {
-                    await profile.walletFactory().fromAddress({ address, coin: COIN_ID, network });
-
-                    return {
-                        isValid: true,
-                        network:
-                            network === Network.MAINNET
-                                ? WalletNetwork.MAINNET
-                                : WalletNetwork.DEVNET,
-                    };
-                } catch {
-                    // Do nothing, it failed validation
-                }
-            }
-        }
-        return { isValid: false, network: WalletNetwork.MAINNET };
-    } catch (error) {
-        console.error(error);
-        throw new Error('Failed to validate address');
-    }
-};
-
-const CreateContact = () => {
+const EditContact = () => {
     const toast = useToast();
-    const navigate = useNavigate();
     const { t } = useTranslation();
-    const { addContact, addressBook } = useAddressBook();
     const { profile } = useProfileContext();
+    const { name } = useParams<{ name: string }>();
+    const { addressBook, updateContact } = useAddressBook();
+    const navigate = useNavigate();
+    const contact = addressBook.find((contact) => contact.name === name);
     const [addressValidation, setAddressValidation] = useState<ValidateAddressResponse>({
         isValid: false,
         network: WalletNetwork.MAINNET,
@@ -63,12 +30,13 @@ const CreateContact = () => {
             .required(t('ERROR.IS_REQUIRED', { name: 'Name' }))
             .max(20, t('ERROR.MAX_CHARACTERS', { count: 20 }))
             .test('unique-name', t('ERROR.IS_DUPLICATED', { name: 'contact name' }), (name) => {
+                if (contact?.name === name) return true;
                 return !addressBook?.find((contact) => contact.name === name);
             }),
         address: string()
             .required(t('ERROR.IS_REQUIRED', { name: 'Address' }))
-            .min(ADDRESS_LENGTH, t('ERROR.IS_INVALID', { name: 'Address' }))
-            .max(ADDRESS_LENGTH, t('ERROR.IS_INVALID', { name: 'Address' }))
+            .min(34, t('ERROR.IS_INVALID', { name: 'Address' }))
+            .max(34, t('ERROR.IS_INVALID', { name: 'Address' }))
             .test('valid-address', t('ERROR.IS_INVALID', { name: 'Address' }), () => {
                 return addressValidation.isValid;
             }),
@@ -76,23 +44,22 @@ const CreateContact = () => {
 
     const formik = useFormik<ContactFormik>({
         initialValues: {
-            name: '',
-            address: '',
+            name: contact?.name || '',
+            address: contact?.address || '',
         },
         validationSchema: validationSchema,
         onSubmit: () => {
-            addContact({
+            if (!name) return;
+
+            updateContact(name, {
                 name: formik.values.name,
                 address: formik.values.address,
                 type: addressValidation.network,
             });
-            // Reset
-            formik.resetForm();
-            setAddressValidation({ isValid: false, network: WalletNetwork.MAINNET });
 
             toast('success', t('PAGES.ADDRESS_BOOK.CONTACT_ADDED'));
-            navigate('/address-book');
         },
+        enableReinitialize: true,
     });
 
     useEffect(() => {
@@ -112,9 +79,13 @@ const CreateContact = () => {
         }
     }, [addressValidation]);
 
+    if (!contact) {
+        navigate('/address-book');
+    }
+
     return (
         <SubPageLayout
-            title={t('PAGES.ADDRESS_BOOK.ADD_NEW_CONTACT')}
+            title={t('PAGES.ADDRESS_BOOK.EDIT_CONTACT')}
             hideCloseButton={false}
             className='relative'
         >
@@ -129,4 +100,4 @@ const CreateContact = () => {
     );
 };
 
-export default CreateContact;
+export default EditContact;
