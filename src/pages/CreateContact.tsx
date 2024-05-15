@@ -3,7 +3,6 @@ import { Network, WalletNetwork } from '@/lib/store/wallet';
 import { object, string } from 'yup';
 import { useEffect, useState } from 'react';
 
-import { Coins } from '@ardenthq/sdk';
 import { Contracts } from '@ardenthq/sdk-profiles';
 import SubPageLayout from '@/components/settings/SubPageLayout';
 import useAddressBook from '@/lib/hooks/useAddressBook';
