@@ -45,7 +45,9 @@ const validateAddress = async ({
                                 ? WalletNetwork.MAINNET
                                 : WalletNetwork.DEVNET,
                     };
-                } catch {}
+                } catch {
+                    // Do nothing, it failed validation
+                }
             }
         }
         return { isValid: false, network: WalletNetwork.MAINNET };
