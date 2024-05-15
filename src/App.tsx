@@ -1,25 +1,25 @@
-import { MemoryRouter, Route, Routes } from 'react-router-dom';
-import { useLayoutEffect } from 'react';
-import { Provider } from 'react-redux';
-import { PersistGate } from 'redux-persist/es/integration/react';
-import { I18nextProvider } from 'react-i18next';
-import { QueryClient, QueryClientProvider } from 'react-query';
-import { LedgerProvider } from './lib/Ledger';
-import NextPageMiddleware from './components/NextPageMiddleware';
-import { ErrorHandlerProvider, useErrorHandlerContext } from './lib/context/ErrorHandler';
-import { ProfileProvider } from './lib/context/Profile';
+import { createTestAddressBook, isDev } from './dev/utils/dev';
 import { EnvironmentProvider, useEnvironmentContext } from './lib/context/Environment';
-import LoadingModal from './shared/components/loader/LoadingModal';
-import { initializeEnvironment } from './lib/utils/env';
-import { LoadingFullScreen } from './shared/components/handleStates/LoadingFullScreen';
-import { i18n as index18n } from './i18n';
-import { seededAddressBook } from './lib/data/addressBook';
-import { isDev } from './dev/utils/dev';
-import ToastContainer from '@/components/toast/ToastContainer';
+import { ErrorHandlerProvider, useErrorHandlerContext } from './lib/context/ErrorHandler';
+import { MemoryRouter, Route, Routes } from 'react-router-dom';
+import { QueryClient, QueryClientProvider } from 'react-query';
 import store, { persistor } from '@/lib/store';
-import routes from '@/routing';
+
 import { BackgroundEvents } from '@/lib/context/BackgroundEventHandler';
+import { I18nextProvider } from 'react-i18next';
+import { i18n as index18n } from './i18n';
+import { initializeEnvironment } from './lib/utils/env';
+import { LedgerProvider } from './lib/Ledger';
+import { LoadingFullScreen } from './shared/components/handleStates/LoadingFullScreen';
+import LoadingModal from './shared/components/loader/LoadingModal';
+import NextPageMiddleware from './components/NextPageMiddleware';
+import { PersistGate } from 'redux-persist/es/integration/react';
+import { ProfileProvider } from './lib/context/Profile';
+import { Provider } from 'react-redux';
+import routes from '@/routing';
+import ToastContainer from '@/components/toast/ToastContainer';
 import useBackgroundEventHandler from '@/lib/hooks/useBackgroundEventHandler';
+import { useLayoutEffect } from 'react';
 
 const env = initializeEnvironment();
 
@@ -89,11 +89,7 @@ const App = () => {
                 await env.boot();
 
                 if (isDev()) {
-                    const addressBook = localStorage.getItem('addressBook');
-
-                    if (!addressBook) {
-                        localStorage.setItem('addressBook', JSON.stringify(seededAddressBook));
-                    }
+                    createTestAddressBook();
                 }
 
                 setIsEnvironmentBooted(true);
