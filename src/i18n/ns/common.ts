@@ -1,6 +1,7 @@
 export default {
     ADD_NOTE_TO_TRANSACTION: 'Add a note to transaction',
     ADDRESS: 'Address',
+    ADDRESS_BOOK: 'Address Book',
     ADDRESSES_DROPDOWN: 'Addresses Dropdown',
     ADDRESSES: 'Addresses',
     AMOUNT: 'Amount',
