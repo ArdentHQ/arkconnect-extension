@@ -1,16 +1,16 @@
-import { object, string } from 'yup';
-import { useEffect, useState } from 'react';
-import { Contracts } from '@ardenthq/sdk-profiles';
-import { useFormik } from 'formik';
-import { useNavigate } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
 import { AddNewContactForm, SaveContactButton } from '@/components/address-book/create';
 import { Network, WalletNetwork } from '@/lib/store/wallet';
+import { object, string } from 'yup';
+import { useEffect, useState } from 'react';
 
+import { Contracts } from '@ardenthq/sdk-profiles';
 import SubPageLayout from '@/components/settings/SubPageLayout';
 import useAddressBook from '@/lib/hooks/useAddressBook';
+import { useFormik } from 'formik';
+import { useNavigate } from 'react-router-dom';
 import { useProfileContext } from '@/lib/context/Profile';
 import useToast from '@/lib/hooks/useToast';
+import { useTranslation } from 'react-i18next';
 
 export type AddContactFormik = {
     name: string;
@@ -23,6 +23,7 @@ type ValidateAddressResponse = {
 };
 
 const ADDRESS_LENGTH = 34;
+const COIN_ID = 'ARK';
 
 const validateAddress = async ({
     address,
@@ -31,34 +32,20 @@ const validateAddress = async ({
     address?: string;
     profile: Contracts.IProfile;
 }): Promise<ValidateAddressResponse> => {
-    const coinId = 'ARK';
-
     try {
         if (address) {
-            const isValidMainnetAddress = await profile
-                .coins()
-                .get(coinId, Network.MAINNET)
-                .address()
-                .validate(address);
+            for (const network of [Network.MAINNET, Network.DEVNET]) {
+                try {
+                    await profile.walletFactory().fromAddress({ address, coin: COIN_ID, network });
 
-            if (isValidMainnetAddress) {
-                return {
-                    isValid: true,
-                    network: WalletNetwork.MAINNET,
-                };
-            }
-
-            const isValidDevnetAddress = await profile
-                .coins()
-                .get(coinId, Network.DEVNET)
-                .address()
-                .validate(address);
-
-            if (isValidDevnetAddress) {
-                return {
-                    isValid: true,
-                    network: WalletNetwork.DEVNET,
-                };
+                    return {
+                        isValid: true,
+                        network:
+                            network === Network.MAINNET
+                                ? WalletNetwork.MAINNET
+                                : WalletNetwork.DEVNET,
+                    };
+                } catch {}
             }
         }
         return { isValid: false, network: WalletNetwork.MAINNET };
@@ -89,6 +76,7 @@ const CreateContact = () => {
         address: string()
             .required(t('ERROR.IS_REQUIRED', { name: 'Address' }))
             .min(ADDRESS_LENGTH, t('ERROR.IS_INVALID', { name: 'Address' }))
+            .max(ADDRESS_LENGTH, t('ERROR.IS_INVALID', { name: 'Address' }))
             .test('valid-address', t('ERROR.IS_INVALID', { name: 'Address' }), () => {
                 return addressValidation.isValid;
             }),
