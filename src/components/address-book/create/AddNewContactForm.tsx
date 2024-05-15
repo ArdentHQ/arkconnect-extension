@@ -1,8 +1,8 @@
+import { FormikProps } from 'formik';
+import { useTranslation } from 'react-i18next';
 import { Input, TextArea } from '@/shared/components';
 
 import { AddContactFormik } from '@/pages/CreateContact';
-import { FormikProps } from 'formik';
-import { useTranslation } from 'react-i18next';
 
 export const AddNewContactForm = ({ formik }: { formik: FormikProps<AddContactFormik> }) => {
     const { t } = useTranslation();
