@@ -36,7 +36,7 @@ const AddressBook = () => {
 
     return (
         <SubPageLayout title={t('PAGES.ADDRESS_BOOK.TITLE')} className='relative p-0'>
-            <div className='w-full h-[393px] custom-scroll overflow-y-auto'>
+            <div className='custom-scroll h-[393px] w-full overflow-y-auto'>
                 {addressBook.length > 0 ? (
                     <div className='mx-4'>
                         <AddressBookList
