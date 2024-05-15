@@ -14,7 +14,7 @@ describe('generateReceiveURL', () => {
         });
 
         expect(url).toBe(
-            `${constants.ARKVAULT_BASE_URL}#/?recipient=${ADDRESS}&method=transfer&coin=ARK&nethash=${NET_HASH}`,
+            `${constants.ARKVAULT_BASE_URL}#/?method=transfer&recipient=${ADDRESS}&coin=ARK&nethash=${NET_HASH}`,
         );
     });
 
@@ -26,7 +26,7 @@ describe('generateReceiveURL', () => {
         });
 
         expect(url).toBe(
-            `${constants.ARKVAULT_BASE_URL}#/?recipient=${ADDRESS}&method=transfer&coin=DARK&nethash=${NET_HASH}`,
+            `${constants.ARKVAULT_BASE_URL}#/?method=transfer&recipient=${ADDRESS}&coin=DARK&nethash=${NET_HASH}`,
         );
     });
 
