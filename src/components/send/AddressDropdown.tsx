@@ -156,10 +156,10 @@ export const AddressDropdown = () => {
                                 'flex w-full cursor-pointer flex-col gap-1 px-4 py-3 hover:bg-theme-secondary-50 dark:hover:bg-theme-secondary-700',
                             )}
                             onClick={() => {
-                                setInputValue(suggestion.address);
-                                setShowSuggestions(false);
                                 inputRef?.current?.click();
                                 inputRef?.current?.focus();
+                                setInputValue(suggestion.address);
+                                setShowSuggestions(false);
                             }}
                         >
                             <span className='text-base font-medium text-light-black dark:text-white'>
