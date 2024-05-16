@@ -60,6 +60,7 @@ const EditContact = () => {
             });
 
             toast('success', t('PAGES.ADDRESS_BOOK.CONTACT_EDITED'));
+            navigate('/address-book');
         },
         enableReinitialize: true,
     });
