@@ -158,6 +158,8 @@ export const AddressDropdown = () => {
                             onClick={() => {
                                 setInputValue(suggestion.address);
                                 setShowSuggestions(false);
+                                inputRef?.current?.click();
+                                inputRef?.current?.focus();
                             }}
                         >
                             <span className='text-base font-medium text-light-black dark:text-white'>
