@@ -1,18 +1,18 @@
-import { object, string } from 'yup';
-import { useEffect, useState } from 'react';
-import { Contracts } from '@ardenthq/sdk-profiles';
-import { useFormik } from 'formik';
-import { useNavigate } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
 import { AddNewContactForm, SaveContactButton } from '@/components/address-book';
 import { ContactFormik, ValidateAddressResponse } from '@/components/address-book/types';
 import { Network, WalletNetwork } from '@/lib/store/wallet';
+import { object, string } from 'yup';
+import { useEffect, useState } from 'react';
 
 import constants from '@/constants';
+import { Contracts } from '@ardenthq/sdk-profiles';
 import SubPageLayout from '@/components/settings/SubPageLayout';
 import useAddressBook from '@/lib/hooks/useAddressBook';
+import { useFormik } from 'formik';
+import { useNavigate } from 'react-router-dom';
 import { useProfileContext } from '@/lib/context/Profile';
 import useToast from '@/lib/hooks/useToast';
+import { useTranslation } from 'react-i18next';
 
 const COIN_ID = 'ARK';
 
@@ -102,7 +102,7 @@ const CreateContact = () => {
             setAddressValidation(response);
         };
 
-        if (formik.values.address && formik.values.address.length === ADDRESS_LENGTH) {
+        if (formik.values.address && formik.values.address.length === constants.ADDRESS_LENGTH) {
             handleAddressValidation();
         }
     }, [formik.values.name, formik.values.address]);
