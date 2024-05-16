@@ -1,16 +1,18 @@
-import { useNavigate, useParams } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
-import { object, string } from 'yup';
-import { useFormik } from 'formik';
-import { useEffect, useState } from 'react';
-import { ADDRESS_LENGTH, validateAddress } from './CreateContact';
-import useAddressBook from '@/lib/hooks/useAddressBook';
-import SubPageLayout from '@/components/settings/SubPageLayout';
 import { AddNewContactForm, SaveContactButton } from '@/components/address-book';
-import { WalletNetwork } from '@/lib/store/wallet';
-import useToast from '@/lib/hooks/useToast';
 import { ContactFormik, ValidateAddressResponse } from '@/components/address-book/types';
+import { object, string } from 'yup';
+import { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+
+import constants from '@/constants';
+import SubPageLayout from '@/components/settings/SubPageLayout';
+import useAddressBook from '@/lib/hooks/useAddressBook';
+import { useFormik } from 'formik';
 import { useProfileContext } from '@/lib/context/Profile';
+import useToast from '@/lib/hooks/useToast';
+import { useTranslation } from 'react-i18next';
+import { validateAddress } from './CreateContact';
+import { WalletNetwork } from '@/lib/store/wallet';
 
 const EditContact = () => {
     const toast = useToast();
@@ -68,7 +70,7 @@ const EditContact = () => {
             setAddressValidation(response);
         };
 
-        if (formik.values.address && formik.values.address.length === ADDRESS_LENGTH) {
+        if (formik.values.address && formik.values.address.length === constants.ADDRESS_LENGTH) {
             handleAddressValidation();
         }
     }, [formik.values.name, formik.values.address]);

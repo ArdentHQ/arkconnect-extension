@@ -1,12 +1,14 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import cn from 'classnames';
-import { useTranslation } from 'react-i18next';
+
 import { AddressBookModal } from './AddressBookModal';
+import cn from 'classnames';
+import constants from '@/constants';
 import { Input } from '@/shared/components';
-import useAddressBook from '@/lib/hooks/useAddressBook';
-import trimAddress from '@/lib/utils/trimAddress';
-import useOnClickOutside from '@/lib/hooks/useOnClickOutside';
 import Modal from '@/shared/components/modal/Modal';
+import trimAddress from '@/lib/utils/trimAddress';
+import useAddressBook from '@/lib/hooks/useAddressBook';
+import useOnClickOutside from '@/lib/hooks/useOnClickOutside';
+import { useTranslation } from 'react-i18next';
 
 const AddressBookButton = ({ onClick }: { onClick: () => void }) => {
     const { t } = useTranslation();
@@ -22,7 +24,6 @@ const AddressBookButton = ({ onClick }: { onClick: () => void }) => {
 };
 
 export const AddressDropdown = () => {
-    const addressLength = 32;
     const { t } = useTranslation();
     const wrapperRef = useRef<HTMLDivElement | null>(null);
     const inputRef = useRef<HTMLInputElement | null>(null);
@@ -33,9 +34,13 @@ export const AddressDropdown = () => {
     const [openModal, setOpenModal] = useState(false);
 
     const suggestions = useMemo(() => {
-        if (!inputValue || inputValue.length === 0 || inputValue.length === 34) {
+        if (
+            !inputValue ||
+            inputValue.length === 0 ||
+            inputValue.length === constants.ADDRESS_LENGTH
+        ) {
             return addressBook;
-        } else if (inputValue.length >= addressLength) {
+        } else if (inputValue.length > constants.ADDRESS_LENGTH) {
             return [];
         } else {
             return addressBook.filter(
@@ -68,7 +73,7 @@ export const AddressDropdown = () => {
     const getDisplayValue = (inputValue: string) => {
         let displayValue;
 
-        if (inputValue.length >= addressLength) {
+        if (inputValue.length === constants.ADDRESS_LENGTH) {
             const contact = addressBook.find((contact) => contact.address === inputValue);
 
             if (contact) {
