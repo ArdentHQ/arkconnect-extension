@@ -4,15 +4,16 @@ import { Contracts } from '@ardenthq/sdk-profiles';
 import { useFormik } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { ContactFormik, ValidateAddressResponse } from '@/components/address-book/types';
 import { AddNewContactForm, SaveContactButton } from '@/components/address-book';
+import { ContactFormik, ValidateAddressResponse } from '@/components/address-book/types';
 import { Network, WalletNetwork } from '@/lib/store/wallet';
+
+import constants from '@/constants';
 import SubPageLayout from '@/components/settings/SubPageLayout';
 import useAddressBook from '@/lib/hooks/useAddressBook';
 import { useProfileContext } from '@/lib/context/Profile';
 import useToast from '@/lib/hooks/useToast';
 
-export const ADDRESS_LENGTH = 34;
 const COIN_ID = 'ARK';
 
 export const validateAddress = async ({
@@ -67,8 +68,8 @@ const CreateContact = () => {
             }),
         address: string()
             .required(t('ERROR.IS_REQUIRED', { name: 'Address' }))
-            .min(ADDRESS_LENGTH, t('ERROR.IS_INVALID', { name: 'Address' }))
-            .max(ADDRESS_LENGTH, t('ERROR.IS_INVALID', { name: 'Address' }))
+            .min(constants.ADDRESS_LENGTH, t('ERROR.IS_INVALID', { name: 'Address' }))
+            .max(constants.ADDRESS_LENGTH, t('ERROR.IS_INVALID', { name: 'Address' }))
             .test('valid-address', t('ERROR.IS_INVALID', { name: 'Address' }), () => {
                 return addressValidation.isValid;
             }),
@@ -101,7 +102,7 @@ const CreateContact = () => {
             setAddressValidation(response);
         };
 
-        if (formik.values.address && formik.values.address.length === ADDRESS_LENGTH) {
+        if (formik.values.address && formik.values.address.length === constants.ADDRESS_LENGTH) {
             handleAddressValidation();
         }
     }, [formik.values.name, formik.values.address]);
