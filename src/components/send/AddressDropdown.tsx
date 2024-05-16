@@ -1,14 +1,14 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 
-import { AddressBookModal } from './AddressBookModal';
 import cn from 'classnames';
+import { useTranslation } from 'react-i18next';
+import { AddressBookModal } from './AddressBookModal';
 import constants from '@/constants';
 import { Input } from '@/shared/components';
 import Modal from '@/shared/components/modal/Modal';
 import trimAddress from '@/lib/utils/trimAddress';
 import useAddressBook from '@/lib/hooks/useAddressBook';
 import useOnClickOutside from '@/lib/hooks/useOnClickOutside';
-import { useTranslation } from 'react-i18next';
 
 const AddressBookButton = ({ onClick }: { onClick: () => void }) => {
     const { t } = useTranslation();
