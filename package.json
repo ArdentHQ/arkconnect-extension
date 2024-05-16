@@ -20,6 +20,7 @@
         "generate:icons": "node scripts/generate-icons.js"
     },
     "dependencies": {
+        "@ardenthq/arkvault-url": "^1.2.0",
         "@ardenthq/sdk": "1.3.0",
         "@ardenthq/sdk-ark": "1.3.0",
         "@ardenthq/sdk-cryptography": "1.3.0",
