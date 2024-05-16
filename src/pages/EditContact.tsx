@@ -59,7 +59,7 @@ const EditContact = () => {
                 type: addressValidation.network,
             });
 
-            toast('success', t('PAGES.ADDRESS_BOOK.CONTACT_ADDED'));
+            toast('success', t('PAGES.ADDRESS_BOOK.CONTACT_EDITED'));
             navigate('/address-book');
         },
         enableReinitialize: true,
