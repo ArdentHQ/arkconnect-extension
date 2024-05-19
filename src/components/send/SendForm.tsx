@@ -27,11 +27,17 @@ export const SendForm = ({ formik }: { formik: FormikProps<SendFormik> }) => {
 
     return (
         <div className='flex flex-col gap-4'>
-            <AddressDropdown 
+            <AddressDropdown
                 onChange={handleAddressChange}
                 onBlur={formik.handleBlur}
-                variant={formik.values.receiverAddress && formik.errors.receiverAddress ? 'destructive' : 'primary'}
-                helperText={formik.values.receiverAddress ? formik.errors.receiverAddress : undefined}
+                variant={
+                    formik.values.receiverAddress && formik.errors.receiverAddress
+                        ? 'destructive'
+                        : 'primary'
+                }
+                helperText={
+                    formik.values.receiverAddress ? formik.errors.receiverAddress : undefined
+                }
                 value={formik.values.receiverAddress}
                 setValue={(value: string) => formik.setFieldValue('receiverAddress', value)}
             />

@@ -15,7 +15,7 @@ type AddressDropdownProps = ComponentPropsWithRef<'input'> & {
     helperText?: string;
     value?: string;
     setValue: (value: string) => void;
-}
+};
 
 const AddressBookButton = ({ onClick }: { onClick: () => void }) => {
     const { t } = useTranslation();
@@ -30,7 +30,13 @@ const AddressBookButton = ({ onClick }: { onClick: () => void }) => {
     );
 };
 
-export const AddressDropdown = ({variant, helperText, value, setValue, ...rest}: AddressDropdownProps) => {
+export const AddressDropdown = ({
+    variant,
+    helperText,
+    value,
+    setValue,
+    ...rest
+}: AddressDropdownProps) => {
     const { t } = useTranslation();
     const wrapperRef = useRef<HTMLDivElement | null>(null);
     const inputRef = useRef<HTMLInputElement | null>(null);
@@ -40,11 +46,7 @@ export const AddressDropdown = ({variant, helperText, value, setValue, ...rest}:
     const [openModal, setOpenModal] = useState(false);
 
     const suggestions = useMemo(() => {
-        if (
-            !value ||
-            value.length === 0 ||
-            value.length === constants.ADDRESS_LENGTH
-        ) {
+        if (!value || value.length === 0 || value.length === constants.ADDRESS_LENGTH) {
             return addressBook;
         } else if (value.length > constants.ADDRESS_LENGTH) {
             return [];
