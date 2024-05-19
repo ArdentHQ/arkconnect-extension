@@ -1,5 +1,5 @@
 import { createContext, ReactNode, useContext, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import useOnError from '@/lib/hooks';
 import removeWindowInstance from '@/lib/utils/removeWindowInstance';
 import ErrorModal from '@/components/connect/ErrorModal';
@@ -15,6 +15,7 @@ interface Properties {
 const ErrorHandlerContext = createContext<Context | undefined>(undefined);
 
 export const ErrorHandlerProvider = ({ children }: Properties) => {
+    const navigate = useNavigate();
     const { state } = useLocation();
     const [showErrorModal, setShowErrorModal] = useState(false);
     const [error, setError] = useState<string | null>(null);
@@ -30,7 +31,10 @@ export const ErrorHandlerProvider = ({ children }: Properties) => {
 
     const handleClose = async () => {
         setShowErrorModal(false);
-        await removeWindowInstance(state?.windowId);
+        if(state?.windowId) {
+            await removeWindowInstance(state?.windowId);
+        }
+        navigate('/');
     };
 
     return (
