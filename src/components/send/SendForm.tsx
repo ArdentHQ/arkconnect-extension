@@ -20,9 +20,21 @@ export const SendForm = ({ formik }: { formik: FormikProps<SendFormik> }) => {
         formik.handleChange(event);
     };
 
+    const handleAddressChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        event.target.value = event.target.value.trim();
+        formik.handleChange(event);
+    };
+
     return (
         <div className='flex flex-col gap-4'>
-            <AddressDropdown />
+            <AddressDropdown 
+                onChange={handleAddressChange}
+                onBlur={formik.handleBlur}
+                variant={formik.values.receiverAddress && formik.errors.receiverAddress ? 'destructive' : 'primary'}
+                helperText={formik.values.receiverAddress ? formik.errors.receiverAddress : undefined}
+                value={formik.values.receiverAddress}
+                setValue={(value: string) => formik.setFieldValue('receiverAddress', value)}
+            />
             <Input
                 name='amount'
                 labelText={t('COMMON.AMOUNT')}
@@ -56,6 +68,7 @@ export const SendForm = ({ formik }: { formik: FormikProps<SendFormik> }) => {
                 onBlur={formik.handleBlur}
                 variant={formik.errors.amount && formik.values.amount ? 'destructive' : 'primary'}
                 helperText={formik.errors.amount && formik.values.amount && formik.errors.amount}
+                autoComplete='off'
             />
 
             <Input
@@ -68,6 +81,7 @@ export const SendForm = ({ formik }: { formik: FormikProps<SendFormik> }) => {
                 onBlur={formik.handleBlur}
                 variant={formik.errors.memo ? 'destructive' : 'primary'}
                 helperText={formik.errors.memo}
+                autoComplete='off'
             />
 
             <FeeSection formik={formik} />
