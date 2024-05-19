@@ -52,7 +52,13 @@ const useAddressBook = () => {
 
     const filteredAddressBook = useMemo(
         (): Contact[] =>
-            addressBook.filter((contact) => contact.type === (primaryWallet?.network().isTest() ? WalletNetwork.DEVNET : WalletNetwork.MAINNET)),
+            addressBook.filter(
+                (contact) =>
+                    contact.type ===
+                    (primaryWallet?.network().isTest()
+                        ? WalletNetwork.DEVNET
+                        : WalletNetwork.MAINNET),
+            ),
         [addressBook, primaryWallet],
     );
 
