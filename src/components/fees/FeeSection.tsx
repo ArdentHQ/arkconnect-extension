@@ -64,6 +64,7 @@ export const FeeSection = ({ formik }: { formik: FormikProps<{ fee: string }> })
                     variant={formik.errors.fee && formik.values.fee ? 'destructive' : 'primary'}
                     helperText={formik.errors.fee && formik.values.fee && formik.errors.fee}
                     onBlur={formik.handleBlur}
+                    autoComplete='off'
                 />
             ) : (
                 <FeeOptionsList
