@@ -65,10 +65,10 @@ export const TransactionBody = ({
 
                 {[TransactionType.UNVOTE, TransactionType.SWAP].includes(type) && (
                     <TrasactionItem title={t('COMMON.UNVOTE')}>
-                        {unvoteDelegate.delegateName}
-                        <Tooltip content={unvoteDelegate.delegateAddress} className='break-words'>
+                        {unvoteDelegate.name}
+                        <Tooltip content={unvoteDelegate.address} className='break-words'>
                             <span className='text-theme-secondary-500 dark:text-theme-secondary-300'>
-                                {trimAddress(unvoteDelegate.delegateAddress, 10)}
+                                {trimAddress(unvoteDelegate.address, 10)}
                             </span>
                         </Tooltip>
                     </TrasactionItem>
@@ -76,10 +76,10 @@ export const TransactionBody = ({
 
                 {[TransactionType.VOTE, TransactionType.SWAP].includes(type) && (
                     <TrasactionItem title={t('COMMON.VOTE')}>
-                        {voteDelegate.delegateName}
-                        <Tooltip content={voteDelegate.delegateAddress} className='break-words'>
+                        {voteDelegate.name}
+                        <Tooltip content={voteDelegate.address} className='break-words'>
                             <span className='text-theme-secondary-500 dark:text-theme-secondary-300'>
-                                {trimAddress(voteDelegate.delegateAddress, 10)}
+                                {trimAddress(voteDelegate.address, 10)}
                             </span>
                         </Tooltip>
                     </TrasactionItem>

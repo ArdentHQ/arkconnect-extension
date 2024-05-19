@@ -110,20 +110,20 @@ export const TransactionSecondaryText = ({
         case TransactionType.RETURN:
             return t('COMMON.TO_SELF');
         case TransactionType.SWAP:
-            return voteDelegate.delegateName ? (
-                `${t('COMMON.TO')} ${voteDelegate.delegateName}`
+            return voteDelegate.name ? (
+                `${t('COMMON.TO')} ${voteDelegate.name}`
             ) : (
                 <Skeleton width={90} height={18} />
             );
         case TransactionType.VOTE:
-            return voteDelegate.delegateName ? (
-                voteDelegate.delegateName
+            return voteDelegate.name ? (
+                voteDelegate.name
             ) : (
                 <Skeleton width={90} height={18} />
             );
         case TransactionType.UNVOTE:
-            return unvoteDelegate.delegateName ? (
-                unvoteDelegate.delegateName
+            return unvoteDelegate.name ? (
+                unvoteDelegate.name
             ) : (
                 <Skeleton width={90} height={18} />
             );
