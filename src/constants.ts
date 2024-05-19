@@ -12,6 +12,10 @@ const ARK_CONNECT_DEMO = 'https://demo.arkconnect.io';
 const ARKVAULT_BASE_URL = 'https://app.arkvault.io/';
 const ARKVAULT_API_MAINNET_BASE_URL = 'https://api.ark.io/';
 const ARKVAULT_API_DEVNET_BASE_URL = 'https://ark-test.arkvault.io/';
+const ARK_DYNAMIC_DEVNET_FEES_URL = 'https://dwallets.ark.io/api/node/fees';
+const ARK_DYNAMIC_MAINNET_FEES_URL = 'https://wallets.ark.io/api/node/fees';
+const ARK_STATIC_DEVNET_FEE_URL = 'https://dwallets.ark.io/api/transactions/fees';
+const ARK_STATIC_MAINNET_FEE_URL = 'https://wallets.ark.io/api/transactions/fees';
 
 const SHOW_MESSAGE_AFTER_ACTION_DURING_MS = 3000;
 
@@ -42,6 +46,10 @@ const constants = {
     SHOW_MESSAGE_AFTER_ACTION_DURING_MS,
     TRANSACTION_CONFIRMATION_DELAY_MS,
     ADDRESS_LENGTH,
+    ARK_DYNAMIC_DEVNET_FEES_URL,
+    ARK_DYNAMIC_MAINNET_FEES_URL,
+    ARK_STATIC_DEVNET_FEE_URL,
+    ARK_STATIC_MAINNET_FEE_URL,
 };
 
 export default constants;
