@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { FormikProps } from 'formik';
+import { FeeSection } from '@/components/fees';
 import Amount from '@/components/wallet/Amount';
 import { Input } from '@/shared/components';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
@@ -53,8 +54,8 @@ export const SendForm = ({ formik }: { formik: FormikProps<SendFormik> }) => {
                 value={formik.values.amount}
                 onChange={handleAmountChange}
                 onBlur={formik.handleBlur}
-                variant={formik.errors.amount ? 'destructive' : 'primary'}
-                helperText={formik.errors.amount}
+                variant={formik.errors.amount && formik.values.amount ? 'destructive' : 'primary'}
+                helperText={(formik.errors.amount && formik.values.amount) && formik.errors.amount}
             />
 
             <Input
@@ -68,6 +69,8 @@ export const SendForm = ({ formik }: { formik: FormikProps<SendFormik> }) => {
                 variant={formik.errors.memo ? 'destructive' : 'primary'}
                 helperText={formik.errors.memo}
             />
+
+            <FeeSection formik={formik} />
         </div>
     );
 };
