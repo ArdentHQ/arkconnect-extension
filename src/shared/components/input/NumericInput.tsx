@@ -13,7 +13,7 @@ interface InputProperties extends React.InputHTMLAttributes<HTMLInputElement> {
 const ArrowButtons = ({value, step, onValueChange}: {value: string, step: number, onValueChange: (value: string) => void;}) => {
     return (
         <div className='flex flex-col'>
-            <button className='h-5 w-7 rounded hover:bg-theme-secondary-50 text-light-black flex items-center justify-center transition-smoothEase' onClick={() => {
+            <button className='h-5 w-7 rounded hover:bg-theme-secondary-50 text-light-black flex items-center justify-center transition-smoothEase dark:hover:bg-theme-secondary-700' onClick={() => {
                 const nextValue = new BigNumber(
                     value || 0,
                   ).plus(step);
@@ -24,7 +24,7 @@ const ArrowButtons = ({value, step, onValueChange}: {value: string, step: number
             }}>
                 <Icon icon='arrow-down' className='h-5 w-5 rotate-180' />
             </button>
-            <button className='h-5 w-7 rounded hover:bg-theme-secondary-50 text-light-black flex items-center justify-center transition-smoothEase' onClick={() => {
+            <button className='h-5 w-7 rounded hover:bg-theme-secondary-50 text-light-black flex items-center justify-center transition-smoothEase dark:hover:bg-theme-secondary-700' onClick={() => {
                 const nextValue = new BigNumber(
                     value || 0,
                   ).minus(step);
