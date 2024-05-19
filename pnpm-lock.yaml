@@ -44,6 +44,9 @@ importers:
       assert:
         specifier: 2.0.0
         version: 2.0.0
+      bignumber.js:
+        specifier: ^9.1.2
+        version: 9.1.2
       classnames:
         specifier: ^2.5.1
         version: 2.5.1
@@ -1340,6 +1343,9 @@ packages:
 
   bigi@1.4.2:
     resolution: {integrity: sha512-ddkU+dFIuEIW8lE7ZwdIAf2UPoM90eaprg5m3YXAVVTmKlqV/9BX4A2M8BOK2yOq6/VgZFVhK6QAxJebhlbhzw==}
+
+  bignumber.js@9.1.2:
+    resolution: {integrity: sha512-2/mKyZH9K85bzOEfhXDBFZTGd1CTs+5IHpeFQo9luiBG7hghdC851Pj2WAhb6E3R6b9tZj/XKhbg4fum+Kepug==}
 
   binary-extensions@2.2.0:
     resolution: {integrity: sha512-jDctJ/IVQbZoJykoeHbhXpOlNBqGNcwXJKJog42E5HDPUwQTSdjCHdihjj0DlnheQ7blbT6dHOafNAiS8ooQKA==}
@@ -5859,6 +5865,8 @@ snapshots:
   big.js@6.2.1: {}
 
   bigi@1.4.2: {}
+
+  bignumber.js@9.1.2: {}
 
   binary-extensions@2.2.0: {}
 
