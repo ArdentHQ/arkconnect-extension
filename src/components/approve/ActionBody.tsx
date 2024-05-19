@@ -118,10 +118,7 @@ export const ActionBody = ({
             )}
 
             {unvote?.name && (
-                <ActionBodyRow
-                    label={t('COMMON.UNVOTE_DELEGATE_NAME')}
-                    value={unvote.name}
-                />
+                <ActionBodyRow label={t('COMMON.UNVOTE_DELEGATE_NAME')} value={unvote.name} />
             )}
 
             {unvote?.publicKey && wallet?.isLedger() && (
