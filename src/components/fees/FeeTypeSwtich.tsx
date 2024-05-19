@@ -7,18 +7,17 @@ interface FeeTypeSwitchProps {
     setAdvancedFeeView: (value: boolean) => void;
 }
 
-export const FeeTypeSwtich = ({
-    advancedFee,
-    setAdvancedFeeView,
-}: FeeTypeSwitchProps) => {
+export const FeeTypeSwtich = ({ advancedFee, setAdvancedFeeView }: FeeTypeSwitchProps) => {
     const { t } = useTranslation();
 
     return (
         <div className='flex flex-row items-center gap-2'>
-            <span className={cn('text-sm font-normal', {
-                'text-theme-secondary-500 dark:text-theme-secondary-300': advancedFee,
-                'text-light-black dark:text-white': !advancedFee,
-            })}>
+            <span
+                className={cn('text-sm font-normal', {
+                    'text-theme-secondary-500 dark:text-theme-secondary-300': advancedFee,
+                    'text-light-black dark:text-white': !advancedFee,
+                })}
+            >
                 {t('COMMON.SIMPLE')}
             </span>
             <ToggleSwitch
@@ -27,10 +26,12 @@ export const FeeTypeSwtich = ({
                 id='set-advanced-fee'
                 variant='always-active'
             />
-            <span className={cn('text-sm font-normal', {
-                'text-theme-secondary-500 dark:text-theme-secondary-300': !advancedFee,
-                'text-light-black dark:text-white': advancedFee,
-            })}>
+            <span
+                className={cn('text-sm font-normal', {
+                    'text-theme-secondary-500 dark:text-theme-secondary-300': !advancedFee,
+                    'text-light-black dark:text-white': advancedFee,
+                })}
+            >
                 {t('COMMON.ADVANCED')}
             </span>
         </div>

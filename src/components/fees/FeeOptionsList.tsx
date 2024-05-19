@@ -8,7 +8,7 @@ export const FeeOptionsList = ({
     fees,
     isLoading = false,
 }: {
-    fee: string,
+    fee: string;
     setFee: (fee: string) => void;
     fees: NetworkFee['fees'];
     isLoading?: boolean;
@@ -21,7 +21,7 @@ export const FeeOptionsList = ({
 
     if (!fees || isLoading) {
         return (
-            <div className='w-full grid grid-cols-3 gap-1.5'>
+            <div className='grid w-full grid-cols-3 gap-1.5'>
                 <FeeOptionSkeleton />
                 <FeeOptionSkeleton />
                 <FeeOptionSkeleton />
@@ -30,10 +30,25 @@ export const FeeOptionsList = ({
     }
 
     return (
-        <div className='w-full grid grid-cols-3 gap-1.5'>
-            <FeeOption name={t('COMMON.SLOW')} value={fees.min.crypto} isSelected={fee == fees.min.crypto} onClick={handleClick} />
-            <FeeOption name={t('COMMON.AVERAGE')} value={fees.avg.crypto} isSelected={fee == fees.avg.crypto} onClick={handleClick} />
-            <FeeOption name={t('COMMON.FAST')} value={fees.max.crypto} isSelected={fee == fees.max.crypto} onClick={handleClick} />
+        <div className='grid w-full grid-cols-3 gap-1.5'>
+            <FeeOption
+                name={t('COMMON.SLOW')}
+                value={fees.min.crypto}
+                isSelected={fee == fees.min.crypto}
+                onClick={handleClick}
+            />
+            <FeeOption
+                name={t('COMMON.AVERAGE')}
+                value={fees.avg.crypto}
+                isSelected={fee == fees.avg.crypto}
+                onClick={handleClick}
+            />
+            <FeeOption
+                name={t('COMMON.FAST')}
+                value={fees.max.crypto}
+                isSelected={fee == fees.max.crypto}
+                onClick={handleClick}
+            />
         </div>
     );
 };

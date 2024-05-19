@@ -4,7 +4,7 @@ import useActiveNetwork from '@/lib/hooks/useActiveNetwork';
 
 export const FeeOptionSkeleton = () => {
     return (
-        <div className='w-full p-3 rounded-lg border shadow-secondary-dark bg-white hover:bg-theme-secondary-50 dark:bg-subtle-black dark:hover:bg-theme-secondary-700 border-theme-secondary-400 dark:border-theme-secondary-500 flex flex-col gap-1 items-center justify-center'>
+        <div className='flex w-full flex-col items-center justify-center gap-1 rounded-lg border border-theme-secondary-400 bg-white p-3 shadow-secondary-dark hover:bg-theme-secondary-50 dark:border-theme-secondary-500 dark:bg-subtle-black dark:hover:bg-theme-secondary-700'>
             <Skeleton width={60} height={24} />
             <Skeleton width={50} height={20} />
         </div>
@@ -28,11 +28,16 @@ export const FeeOption = ({
     };
 
     return (
-        <button onClick={handleClick} className={cn('p-3 rounded-lg w-full border shadow-secondary-dark', {
-            'bg-theme-primary-50 dark:border-theme-primary-700 border-theme-primary-700 dark:bg-theme-primary-800/25 transition-smoothEase': isSelected,
-            'bg-white hover:bg-theme-secondary-50 dark:bg-subtle-black dark:hover:bg-theme-secondary-700 border-theme-secondary-400 dark:border-theme-secondary-500': !isSelected,
-        })}>
-            <span className='flex flex-col gap-1 items-center justify-center'>
+        <button
+            onClick={handleClick}
+            className={cn('w-full rounded-lg border p-3 shadow-secondary-dark', {
+                'transition-smoothEase border-theme-primary-700 bg-theme-primary-50 dark:border-theme-primary-700 dark:bg-theme-primary-800/25':
+                    isSelected,
+                'border-theme-secondary-400 bg-white hover:bg-theme-secondary-50 dark:border-theme-secondary-500 dark:bg-subtle-black dark:hover:bg-theme-secondary-700':
+                    !isSelected,
+            })}
+        >
+            <span className='flex flex-col items-center justify-center gap-1'>
                 <span className='text-base font-normal text-light-black dark:text-white'>
                     {name}
                 </span>

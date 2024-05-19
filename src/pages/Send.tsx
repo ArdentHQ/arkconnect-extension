@@ -26,12 +26,16 @@ const Send = () => {
                 const userBalance = primaryWallet?.balance() || 0;
                 return Number(value) <= userBalance;
             })
-            .test('total-check', t('ERROR.IS_EXCEEDING_BALANCE', {name: 'fee + amount'}), (value) => {
-                if (!value || !formik.values.fee) return true;
-                const userBalance = primaryWallet?.balance() || 0;
-                const sum: number = Number(value) + Number(formik.values.fee);
-                return sum <= userBalance;
-            })
+            .test(
+                'total-check',
+                t('ERROR.IS_EXCEEDING_BALANCE', { name: 'fee + amount' }),
+                (value) => {
+                    if (!value || !formik.values.fee) return true;
+                    const userBalance = primaryWallet?.balance() || 0;
+                    const sum: number = Number(value) + Number(formik.values.fee);
+                    return sum <= userBalance;
+                },
+            )
             .trim(),
         memo: string().max(255, t('ERROR.IS_TOO_LONG', { name: 'Memo' })),
         fee: string()
