@@ -33,10 +33,10 @@ export const FeeOption = ({
             'bg-white hover:bg-theme-secondary-50 dark:bg-subtle-black dark:hover:bg-theme-secondary-700 border-theme-secondary-400 dark:border-theme-secondary-500': !isSelected,
         })}>
             <span className='flex flex-col gap-1 items-center justify-center'>
-                <span className='text-base font-normal text-light-black'>
+                <span className='text-base font-normal text-light-black dark:text-white'>
                     {name}
                 </span>
-                <span className='text-sm font-normal text-theme-secondary-500'>
+                <span className='text-sm font-normal text-theme-secondary-500 dark:text-theme-secondary-300'>
                     {value} {network.coinName()}
                 </span>
             </span>
