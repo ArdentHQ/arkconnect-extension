@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { object, string } from 'yup';
 import { useFormik } from 'formik';
+import { useNavigate } from 'react-router-dom';
 import SubPageLayout from '@/components/settings/SubPageLayout';
 import { SendButton, SendForm } from '@/components/send';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
@@ -12,6 +13,7 @@ export type SendFormik = {
 };
 
 const Send = () => {
+    const navigate = useNavigate();
     const primaryWallet = usePrimaryWallet();
     const { t } = useTranslation();
 
@@ -59,7 +61,20 @@ const Send = () => {
             fee: '',
         },
         validationSchema: validationSchema,
-        onSubmit: () => {},
+        onSubmit: () => {
+            navigate('/approve', {
+                state: {
+                    type: 'transfer',
+                    amount: Number(formik.values.amount),
+                    memo: formik.values.memo,
+                    fee: Number(formik.values.fee),
+                    receiverAddress: 'DFevNTiETrLt9qSD564sztapkofFd1YXQa',
+                    session: {
+                        walletId: primaryWallet?.id(),
+                    }
+                },
+            });
+        },
     });
 
     return (
@@ -68,7 +83,7 @@ const Send = () => {
                 <SendForm formik={formik} />
             </div>
             <div className='w-full'>
-                <SendButton disabled={!(formik.isValid && formik.dirty)} />
+                <SendButton disabled={!(formik.isValid && formik.dirty)} onClick={formik.submitForm} />
             </div>
         </SubPageLayout>
     );
