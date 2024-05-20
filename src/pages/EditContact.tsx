@@ -13,7 +13,6 @@ import useAddressBook from '@/lib/hooks/useAddressBook';
 import { useProfileContext } from '@/lib/context/Profile';
 import useToast from '@/lib/hooks/useToast';
 import { WalletNetwork } from '@/lib/store/wallet';
-import useActiveNetwork from '@/lib/hooks/useActiveNetwork';
 
 const EditContact = () => {
     const toast = useToast();
@@ -27,7 +26,6 @@ const EditContact = () => {
         isValid: false,
         network: WalletNetwork.MAINNET,
     });
-    const network = useActiveNetwork();
 
     const validationSchema = object().shape({
         name: string()
@@ -69,11 +67,7 @@ const EditContact = () => {
 
     useEffect(() => {
         const handleAddressValidation = async () => {
-            const response = await validateAddress({
-                address: formik.values.address,
-                profile,
-                network,
-            });
+            const response = await validateAddress({ address: formik.values.address, profile });
             setAddressValidation(response);
         };
 
