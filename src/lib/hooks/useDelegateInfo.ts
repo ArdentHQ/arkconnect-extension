@@ -11,21 +11,21 @@ export const useDelegateInfo = (
     const { env } = useEnvironmentContext();
     const { profile } = useProfileContext();
     const [voteDelegate, setVoteDelegate] = useState<{
-        delegateName: string;
-        delegateAddress: string;
-    }>({ delegateName: '', delegateAddress: '' });
+        name: string;
+        address: string;
+    }>({ name: '', address: '' });
     const [unvoteDelegate, setUnvoteDelegate] = useState<{
-        delegateName: string;
-        delegateAddress: string;
-    }>({ delegateName: '', delegateAddress: '' });
+        name: string;
+        address: string;
+    }>({ name: '', address: '' });
 
     const getDelegateInfo = async (
         address: string,
     ): Promise<{
-        delegateName: string;
-        delegateAddress: string;
+        name: string;
+        address: string;
     }> => {
-        let delegateName = '',
+        let name = '',
             delegateAddress = '';
         const coin = primaryWallet?.network().coin() ?? 'ARK';
         const network = primaryWallet?.network().id() ?? 'ark.mainnet';
@@ -38,11 +38,11 @@ export const useDelegateInfo = (
         const delegate = env.delegates().findByPublicKey(coin, network, address) || undefined;
 
         if (delegate) {
-            delegateName = delegate.username() || '';
+            name = delegate.username() || '';
             delegateAddress = delegate.address();
         }
 
-        return { delegateName, delegateAddress };
+        return { name, address: delegateAddress };
     };
 
     useEffect(() => {
