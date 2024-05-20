@@ -31,7 +31,7 @@ export const ErrorHandlerProvider = ({ children }: Properties) => {
 
     const handleClose = async () => {
         setShowErrorModal(false);
-        if(state?.windowId) {
+        if (state?.windowId) {
             await removeWindowInstance(state?.windowId);
         }
         navigate('/');

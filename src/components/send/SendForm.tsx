@@ -25,8 +25,14 @@ export const SendForm = ({ formik }: { formik: FormikProps<SendFormik> }) => {
             <AddressDropdown 
                 onChange={handleInputChange}
                 onBlur={formik.handleBlur}
-                variant={formik.values.receiverAddress && formik.errors.receiverAddress ? 'destructive' : 'primary'}
-                helperText={formik.values.receiverAddress ? formik.errors.receiverAddress : undefined}
+                variant={
+                    formik.values.receiverAddress && formik.errors.receiverAddress
+                        ? 'destructive'
+                        : 'primary'
+                }
+                helperText={
+                    formik.values.receiverAddress ? formik.errors.receiverAddress : undefined
+                }
                 value={formik.values.receiverAddress}
                 setValue={(value: string) => formik.setFieldValue('receiverAddress', value)}
             />

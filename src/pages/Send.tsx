@@ -72,9 +72,14 @@ const Send = () => {
                 return addressValidation.isValid;
             })
             .test('same-network-address', t('ERROR.IS_INVALID', { name: 'Address' }), () => {
-                return addressValidation.network === (primaryWallet?.network().isTest() ? WalletNetwork.DEVNET : WalletNetwork.MAINNET);
+                return (
+                    addressValidation.network ===
+                    (primaryWallet?.network().isTest()
+                        ? WalletNetwork.DEVNET
+                        : WalletNetwork.MAINNET)
+                );
             })
-            .trim()
+            .trim(),
     });
 
     const formik = useFormik<SendFormik>({
@@ -97,7 +102,7 @@ const Send = () => {
                     receiverAddress: formik.values.receiverAddress,
                     session: {
                         walletId: primaryWallet?.id(),
-                    }
+                    },
                 },
             });
         },
@@ -105,11 +110,17 @@ const Send = () => {
 
     useEffect(() => {
         const handleAddressValidation = async () => {
-            const response = await validateAddress({ address: formik.values.receiverAddress, profile });
+            const response = await validateAddress({
+                address: formik.values.receiverAddress,
+                profile,
+            });
             setAddressValidation(response);
         };
 
-        if (formik.values.receiverAddress && formik.values.receiverAddress.length === constants.ADDRESS_LENGTH) {
+        if (
+            formik.values.receiverAddress &&
+            formik.values.receiverAddress.length === constants.ADDRESS_LENGTH
+        ) {
             handleAddressValidation();
         }
     }, [formik.values.receiverAddress, profile]);
@@ -120,7 +131,10 @@ const Send = () => {
                 <SendForm formik={formik} />
             </div>
             <div className='w-full'>
-                <SendButton disabled={!(formik.isValid && formik.dirty)} onClick={formik.submitForm} />
+                <SendButton
+                    disabled={!(formik.isValid && formik.dirty)}
+                    onClick={formik.submitForm}
+                />
             </div>
         </SubPageLayout>
     );

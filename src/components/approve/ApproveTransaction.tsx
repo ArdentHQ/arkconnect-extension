@@ -184,7 +184,7 @@ const ApproveTransaction = ({
 
         reject();
 
-        if(location.state.windowId) {
+        if (location.state.windowId) {
             await removeWindowInstance(location.state?.windowId, 100);
         }
 
