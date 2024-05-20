@@ -117,29 +117,43 @@ export const ActionTransactionIdRow = ({ transactionId }: { transactionId: strin
     );
 };
 
-export const ActionAddressRow = ({ label, address, displayAddressBookName = false }: { label: string; address: string, displayAddressBookName?: boolean }) => {
+export const ActionAddressRow = ({
+    label,
+    address,
+    displayAddressBookName = false,
+}: {
+    label: string;
+    address: string;
+    displayAddressBookName?: boolean;
+}) => {
     const { findContact } = useAddressBook();
     const nameRef = useRef<HTMLSpanElement>(null);
-    let contact; 
-    
+    let contact;
+
     if (displayAddressBookName) {
         contact = findContact(address);
     }
-    
+
     if (displayAddressBookName && contact) {
         return (
             <ActionDetailsRow label={label}>
-                <div className={cn('flex', {
-                    'flex-col': !nameRef?.current?.clientWidth || nameRef.current.clientWidth > 100,
-                    'flex-row gap-1': nameRef?.current?.clientWidth && nameRef.current.clientWidth <= 100,
-                })} id='container'>
-                    <span className='text-sm font-medium text-light-black dark:text-white w-fit text-right' ref={nameRef}>{contact.name}</span>
-                    <div className='font-medium text-theme-secondary-500 text-sm dark:text-theme-secondary-300 flex flex-row justify-end'>
-                    (<Address
-                        address={address}
-                        tooltipPlacement='bottom-end'
-                        length={10}
-                        />)
+                <div
+                    className={cn('flex', {
+                        'flex-col':
+                            !nameRef?.current?.clientWidth || nameRef.current.clientWidth > 100,
+                        'flex-row gap-1':
+                            nameRef?.current?.clientWidth && nameRef.current.clientWidth <= 100,
+                    })}
+                    id='container'
+                >
+                    <span
+                        className='w-fit text-right text-sm font-medium text-light-black dark:text-white'
+                        ref={nameRef}
+                    >
+                        {contact.name}
+                    </span>
+                    <div className='flex flex-row justify-end text-sm font-medium text-theme-secondary-500 dark:text-theme-secondary-300'>
+                        (<Address address={address} tooltipPlacement='bottom-end' length={10} />)
                     </div>
                 </div>
             </ActionDetailsRow>
