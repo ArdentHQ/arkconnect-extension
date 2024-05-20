@@ -12,10 +12,14 @@ export const FeeSection = ({ formik }: { formik: FormikProps<{ fee: string }> })
     const { t } = useTranslation();
     const { profile } = useProfileContext();
     const [advancedFeeView, setAdvancedFeeView] = useState<boolean>(false);
-    
-    const activeNetwork = useActiveNetwork();
-    const { isLoadingFee, fees } = useNetworkFees({profile, coin: activeNetwork.coin(), network: activeNetwork.id(), type: 'transfer'});
 
+    const activeNetwork = useActiveNetwork();
+    const { isLoadingFee, fees } = useNetworkFees({
+        profile,
+        coin: activeNetwork.coin(),
+        network: activeNetwork.id(),
+        type: 'transfer',
+    });
 
     const handleFeeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         event.target.value = event.target.value.trim();
