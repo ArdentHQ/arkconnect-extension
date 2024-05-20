@@ -27,7 +27,7 @@ interface SendVoteForm {
 }
 
 type VoteDelegateProperties = {
-    delegateAddress: string;
+    address: string;
     amount: number;
 };
 
@@ -153,7 +153,7 @@ export const useVoteForm = (wallet: Contracts.IReadWriteWallet, request: Approve
                 .findByAddress(
                     wallet.network().coin(),
                     wallet.network().id(),
-                    request.vote?.delegateAddress,
+                    request.vote?.address,
                 ),
         };
         const unvote = request.unvote && {
@@ -163,7 +163,7 @@ export const useVoteForm = (wallet: Contracts.IReadWriteWallet, request: Approve
                 .findByAddress(
                     wallet.network().coin(),
                     wallet.network().id(),
-                    request.unvote?.delegateAddress,
+                    request.unvote?.address,
                 ),
         };
         return { vote, unvote };
