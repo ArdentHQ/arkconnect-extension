@@ -133,7 +133,7 @@ export const ActionAddressRow = ({ label, address, displayAddressBookName = fals
                     'flex-col': !nameRef?.current?.clientWidth || nameRef.current.clientWidth > 100,
                     'flex-row gap-1': nameRef?.current?.clientWidth && nameRef.current.clientWidth <= 100,
                 })} id='container'>
-                    <span className='text-sm font-medium text-light-black dark:text-white w-fit' ref={nameRef}>{contact.name}</span>
+                    <span className='text-sm font-medium text-light-black dark:text-white w-fit text-right' ref={nameRef}>{contact.name}</span>
                     <div className='font-medium text-theme-secondary-500 text-sm dark:text-theme-secondary-300 flex flex-row justify-end'>
                     (<Address
                         address={address}
