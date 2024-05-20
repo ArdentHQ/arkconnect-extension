@@ -55,7 +55,7 @@ export const SendForm = ({ formik }: { formik: FormikProps<SendFormik> }) => {
                 onChange={handleAmountChange}
                 onBlur={formik.handleBlur}
                 variant={formik.errors.amount && formik.values.amount ? 'destructive' : 'primary'}
-                helperText={formik.errors.amount && formik.values.amount && formik.errors.amount}
+                helperText={formik.values.amount ? formik.errors.amount : undefined}
             />
 
             <Input
