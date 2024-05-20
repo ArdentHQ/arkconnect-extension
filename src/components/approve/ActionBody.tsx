@@ -78,7 +78,7 @@ export const ActionBody = ({
                 />
             )}
 
-            {receiver && <ActionAddressRow label={t('COMMON.RECEIVER')} address={receiver} />}
+            {receiver && <ActionAddressRow label={t('COMMON.RECEIVER')} address={receiver} displayAddressBookName />}
             {memo && (
                 <ActionBodyRow
                     label={t('COMMON.MEMO')}
