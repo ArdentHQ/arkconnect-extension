@@ -12,7 +12,9 @@ export const SendForm = ({ formik }: { formik: FormikProps<SendFormik> }) => {
     const { t } = useTranslation();
 
     const handleMaxClick = () => {
-        formik.setFieldValue('amount', primaryWallet?.balance().toString() || '0');
+        const balance = primaryWallet?.balance() || 0;
+        const maxValue = balance !== 0 ? balance - Number(formik.values.fee) : 0;
+        formik.setFieldValue('amount', maxValue);
     };
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -68,8 +70,8 @@ export const SendForm = ({ formik }: { formik: FormikProps<SendFormik> }) => {
                 onChange={handleInputChange}
                 onBlur={formik.handleBlur}
                 variant={formik.errors.amount && formik.values.amount ? 'destructive' : 'primary'}
-                helperText={formik.errors.amount && formik.values.amount && formik.errors.amount}
-                autoComplete='off'
+                autoComplete='off
+                helperText={formik.values.amount ? formik.errors.amount : undefined}
             />
 
             <Input
