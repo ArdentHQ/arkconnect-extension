@@ -68,6 +68,7 @@ const EditContact = () => {
     useEffect(() => {
         const handleAddressValidation = async () => {
             const response = await validateAddress({ address: formik.values.address, profile });
+            console.log({ response });
             setAddressValidation(response);
         };
 
