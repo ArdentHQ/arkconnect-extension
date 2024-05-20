@@ -123,8 +123,8 @@ const Approve = () => {
                         closeLedgerScreen={closeLedgerScreen}
                         address={
                             location.state?.receiverAddress ||
-                            location.state?.vote?.delegateAddress ||
-                            location.state?.unvote?.delegateAddress ||
+                            location.state?.vote?.address ||
+                            location.state?.unvote?.address ||
                             wallet?.address()
                         }
                         wallet={wallet}
