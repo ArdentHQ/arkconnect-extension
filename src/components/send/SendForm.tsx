@@ -15,12 +15,7 @@ export const SendForm = ({ formik }: { formik: FormikProps<SendFormik> }) => {
         formik.setFieldValue('amount', primaryWallet?.balance().toString() || '0');
     };
 
-    const handleAmountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        event.target.value = event.target.value.trim();
-        formik.handleChange(event);
-    };
-
-    const handleAddressChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         event.target.value = event.target.value.trim();
         formik.handleChange(event);
     };
@@ -28,7 +23,7 @@ export const SendForm = ({ formik }: { formik: FormikProps<SendFormik> }) => {
     return (
         <div className='flex flex-col gap-4'>
             <AddressDropdown 
-                onChange={handleAddressChange}
+                onChange={handleInputChange}
                 onBlur={formik.handleBlur}
                 variant={formik.values.receiverAddress && formik.errors.receiverAddress ? 'destructive' : 'primary'}
                 helperText={formik.values.receiverAddress ? formik.errors.receiverAddress : undefined}
@@ -64,7 +59,7 @@ export const SendForm = ({ formik }: { formik: FormikProps<SendFormik> }) => {
                     </button>
                 }
                 value={formik.values.amount}
-                onChange={handleAmountChange}
+                onChange={handleInputChange}
                 onBlur={formik.handleBlur}
                 variant={formik.errors.amount && formik.values.amount ? 'destructive' : 'primary'}
                 helperText={formik.errors.amount && formik.values.amount && formik.errors.amount}
@@ -84,7 +79,14 @@ export const SendForm = ({ formik }: { formik: FormikProps<SendFormik> }) => {
                 autoComplete='off'
             />
 
-            <FeeSection formik={formik} />
+            <FeeSection 
+                onChange={handleInputChange}
+                onBlur={formik.handleBlur}
+                variant={formik.values.fee && formik.errors.fee ? 'destructive' : 'primary'}
+                helperText={formik.values.fee ? formik.errors.fee : undefined}
+                value={formik.values.fee}
+                setValue={(value: string) => formik.setFieldValue('fee', value)}
+            />
         </div>
     );
 };
