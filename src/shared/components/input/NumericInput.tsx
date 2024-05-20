@@ -1,4 +1,4 @@
-import BigNumber from 'bignumber.js';
+import { BigNumber } from '@ardenthq/sdk-helpers';
 import { Icon, Input } from '@/shared/components';
 
 interface InputProperties extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -24,11 +24,11 @@ const ArrowButtons = ({
             <button
                 className='transition-smoothEase flex h-5 w-7 items-center justify-center rounded text-light-black hover:bg-theme-secondary-50 dark:text-white dark:hover:bg-theme-secondary-700'
                 onClick={() => {
-                    const nextValue = new BigNumber(value || 0).plus(step);
+                    const nextValue = BigNumber.make(value || 0).plus(step);
 
                     const formatted = Number(nextValue.toString()).toFixed(8);
 
-                    onValueChange(new BigNumber(formatted).toFixed());
+                    onValueChange(BigNumber.make(formatted).toFixed());
                 }}
             >
                 <Icon icon='arrow-down' className='h-5 w-5 rotate-180' />
@@ -36,14 +36,14 @@ const ArrowButtons = ({
             <button
                 className='transition-smoothEase flex h-5 w-7 items-center justify-center rounded text-light-black hover:bg-theme-secondary-50 dark:text-white dark:hover:bg-theme-secondary-700'
                 onClick={() => {
-                    let nextValue = new BigNumber(value || 0).minus(step);
+                    let nextValue = BigNumber.make(value || 0).minus(step);
                     if (nextValue.isLessThan(0)) {
-                        nextValue = new BigNumber(0);
+                        nextValue = BigNumber.make(0);
                     }
 
                     const formatted = Number(nextValue.toString()).toFixed(8);
 
-                    onValueChange(new BigNumber(formatted).toFixed());
+                    onValueChange(BigNumber.make(formatted).toFixed());
                 }}
             >
                 <Icon icon='arrow-down' className='h-5 w-5' />

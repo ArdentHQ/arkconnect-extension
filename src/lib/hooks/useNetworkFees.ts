@@ -1,4 +1,4 @@
-import { BigNumber } from 'bignumber.js';
+import { BigNumber } from '@ardenthq/sdk-helpers';
 import { useQuery } from 'react-query';
 import { IReadWriteWallet } from '@ardenthq/sdk-profiles/distribution/esm/wallet.contract';
 import { useExchangeRate } from './useExchangeRate';
@@ -43,7 +43,7 @@ interface StaticFeesApiResponse {
 }
 
 const formatFee = (fee: string, convert: (value?: number | undefined) => number) => {
-    const cryptoAmount = BigNumber(fee).multipliedBy(0.000_000_01);
+    const cryptoAmount = BigNumber.make(fee).times(0.000_000_01);
 
     return {
         fiat: convert(cryptoAmount.toNumber()),
@@ -98,7 +98,7 @@ export const useNetworkFees = ({
         const staticFee = staticFeesData.data['1'].transfer;
 
         const avgFee =
-            BigNumber(dynamicFees.avg).comparedTo(staticFee) > 0 ? staticFee : dynamicFees.avg;
+            BigNumber.make(dynamicFees.avg).comparedTo(staticFee) > 0 ? staticFee : dynamicFees.avg;
 
         return {
             isLoading: false,
