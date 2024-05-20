@@ -48,11 +48,19 @@ const useAddressBook = () => {
         [addressBook],
     );
 
+    const findContact = useCallback(
+        (address: string) => {
+            return addressBook.find((contact) => contact.address === address);
+        },
+        [addressBook],
+    );
+
     return {
         addressBook,
         addContact,
         updateContact,
         removeContact,
+        findContact,
     };
 };
 
