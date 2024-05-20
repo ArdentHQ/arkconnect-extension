@@ -70,7 +70,7 @@ export const SendForm = ({ formik }: { formik: FormikProps<SendFormik> }) => {
                 onChange={handleInputChange}
                 onBlur={formik.handleBlur}
                 variant={formik.errors.amount && formik.values.amount ? 'destructive' : 'primary'}
-                autoComplete='off
+                autoComplete='off'
                 helperText={formik.values.amount ? formik.errors.amount : undefined}
             />
 
