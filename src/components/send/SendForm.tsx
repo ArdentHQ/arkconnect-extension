@@ -12,7 +12,9 @@ export const SendForm = ({ formik }: { formik: FormikProps<SendFormik> }) => {
     const { t } = useTranslation();
 
     const handleMaxClick = () => {
-        formik.setFieldValue('amount', primaryWallet?.balance().toString() || '0');
+        const balance = primaryWallet?.balance() || 0;
+        const maxValue = balance !== 0 ? balance - Number(formik.values.fee) : 0;
+        formik.setFieldValue('amount', maxValue);
     };
 
     const handleAmountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
