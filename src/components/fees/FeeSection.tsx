@@ -5,19 +5,17 @@ import { FeeTypeSwtich } from './FeeTypeSwtich';
 import { FeeOptionsList } from './FeeOptionsList';
 import { useNetworkFees } from '@/lib/hooks/useNetworkFees';
 import useActiveNetwork from '@/lib/hooks/useActiveNetwork';
-import { WalletNetwork } from '@/lib/store/wallet';
-import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 import { NumericInput } from '@/shared/components/input/NumericInput';
+import { useProfileContext } from '@/lib/context/Profile';
 
 export const FeeSection = ({ formik }: { formik: FormikProps<{ fee: string }> }) => {
     const { t } = useTranslation();
+    const { profile } = useProfileContext();
     const [advancedFeeView, setAdvancedFeeView] = useState<boolean>(false);
+    
     const activeNetwork = useActiveNetwork();
-    const primaryWallet = usePrimaryWallet();
-    const { fees, isLoading } = useNetworkFees({
-        network: activeNetwork.isTest() ? WalletNetwork.DEVNET : WalletNetwork.MAINNET,
-        primaryWallet,
-    });
+    const { isLoadingFee, fees } = useNetworkFees({profile, coin: activeNetwork.coin(), network: activeNetwork.id(), type: 'transfer'});
+
 
     const handleFeeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         event.target.value = event.target.value.trim();
@@ -26,7 +24,7 @@ export const FeeSection = ({ formik }: { formik: FormikProps<{ fee: string }> })
 
     const handleFeeViewClick = () => {
         if (advancedFeeView && fees) {
-            onFeeChange(fees.avg.crypto);
+            onFeeChange(fees.avg);
         }
         setAdvancedFeeView(!advancedFeeView);
     };
@@ -37,7 +35,7 @@ export const FeeSection = ({ formik }: { formik: FormikProps<{ fee: string }> })
 
     useEffect(() => {
         if (fees && !formik.values.fee && !advancedFeeView) {
-            onFeeChange(fees.avg.crypto);
+            onFeeChange(fees.avg);
         }
     }, [fees, advancedFeeView]);
 
@@ -68,7 +66,7 @@ export const FeeSection = ({ formik }: { formik: FormikProps<{ fee: string }> })
             ) : (
                 <FeeOptionsList
                     fees={fees}
-                    isLoading={isLoading}
+                    isLoading={isLoadingFee}
                     setFee={onFeeChange}
                     fee={formik.values.fee}
                 />
