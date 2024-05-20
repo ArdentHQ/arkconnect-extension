@@ -22,7 +22,7 @@ export const SendForm = ({ formik }: { formik: FormikProps<SendFormik> }) => {
 
     return (
         <div className='flex flex-col gap-4'>
-            <AddressDropdown 
+            <AddressDropdown
                 onChange={handleInputChange}
                 onBlur={formik.handleBlur}
                 variant={
@@ -85,7 +85,7 @@ export const SendForm = ({ formik }: { formik: FormikProps<SendFormik> }) => {
                 autoComplete='off'
             />
 
-            <FeeSection 
+            <FeeSection
                 onChange={handleInputChange}
                 onBlur={formik.handleBlur}
                 variant={formik.values.fee && formik.errors.fee ? 'destructive' : 'primary'}

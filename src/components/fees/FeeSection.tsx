@@ -14,9 +14,16 @@ type AddressDropdownProps = ComponentPropsWithRef<'input'> & {
     value: string;
     setValue: (value: string) => void;
     step?: number;
-}
+};
 
-export const FeeSection = ({ variant, helperText, value, setValue, step = 0.01, ...rest }: AddressDropdownProps) => {
+export const FeeSection = ({
+    variant,
+    helperText,
+    value,
+    setValue,
+    step = 0.01,
+    ...rest
+}: AddressDropdownProps) => {
     const { t } = useTranslation();
     const [advancedFeeView, setAdvancedFeeView] = useState<boolean>(false);
     const activeNetwork = useActiveNetwork();
