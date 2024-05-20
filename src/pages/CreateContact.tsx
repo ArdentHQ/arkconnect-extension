@@ -4,42 +4,41 @@ import { Contracts } from '@ardenthq/sdk-profiles';
 import { useFormik } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Networks } from '@ardenthq/sdk';
 import { AddNewContactForm, SaveContactButton } from '@/components/address-book';
 import { ContactFormik, ValidateAddressResponse } from '@/components/address-book/types';
-import { WalletNetwork } from '@/lib/store/wallet';
+import { Network, WalletNetwork } from '@/lib/store/wallet';
 
 import constants from '@/constants';
 import SubPageLayout from '@/components/settings/SubPageLayout';
 import useAddressBook from '@/lib/hooks/useAddressBook';
 import { useProfileContext } from '@/lib/context/Profile';
 import useToast from '@/lib/hooks/useToast';
-import useActiveNetwork from '@/lib/hooks/useActiveNetwork';
 
 const COIN_ID = 'ARK';
 
 export const validateAddress = async ({
     address,
     profile,
-    network,
 }: {
     address?: string;
     profile: Contracts.IProfile;
-    network: Networks.Network;
 }): Promise<ValidateAddressResponse> => {
     try {
         if (address) {
-            try {
-                await profile
-                    .walletFactory()
-                    .fromAddress({ address, coin: COIN_ID, network: network.id() });
+            for (const network of [Network.MAINNET, Network.DEVNET]) {
+                try {
+                    await profile.walletFactory().fromAddress({ address, coin: COIN_ID, network });
 
-                return {
-                    isValid: true,
-                    network: network.id(),
-                };
-            } catch {
-                return { isValid: false, network: WalletNetwork.MAINNET };
+                    return {
+                        isValid: true,
+                        network:
+                            network === Network.MAINNET
+                                ? WalletNetwork.MAINNET
+                                : WalletNetwork.DEVNET,
+                    };
+                } catch {
+                    // Do nothing, it failed validation
+                }
             }
         }
         return { isValid: false, network: WalletNetwork.MAINNET };
@@ -59,8 +58,6 @@ const CreateContact = () => {
         isValid: false,
         network: WalletNetwork.MAINNET,
     });
-
-    const network = useActiveNetwork();
 
     const validationSchema = object().shape({
         name: string()
@@ -101,11 +98,7 @@ const CreateContact = () => {
 
     useEffect(() => {
         const handleAddressValidation = async () => {
-            const response = await validateAddress({
-                address: formik.values.address,
-                profile,
-                network,
-            });
+            const response = await validateAddress({ address: formik.values.address, profile });
             setAddressValidation(response);
         };
 
