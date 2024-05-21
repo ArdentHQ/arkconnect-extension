@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { FormikProps } from 'formik';
+import { FeeSection } from '@/components/fees';
 import Amount from '@/components/wallet/Amount';
 import { Input } from '@/shared/components';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
@@ -11,7 +12,9 @@ export const SendForm = ({ formik }: { formik: FormikProps<SendFormik> }) => {
     const { t } = useTranslation();
 
     const handleMaxClick = () => {
-        formik.setFieldValue('amount', primaryWallet?.balance().toString() || '0');
+        const balance = primaryWallet?.balance() || 0;
+        const maxValue = balance !== 0 ? balance - Number(formik.values.fee) : 0;
+        formik.setFieldValue('amount', maxValue);
     };
 
     const handleAmountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -53,8 +56,8 @@ export const SendForm = ({ formik }: { formik: FormikProps<SendFormik> }) => {
                 value={formik.values.amount}
                 onChange={handleAmountChange}
                 onBlur={formik.handleBlur}
-                variant={formik.errors.amount ? 'destructive' : 'primary'}
-                helperText={formik.errors.amount}
+                variant={formik.errors.amount && formik.values.amount ? 'destructive' : 'primary'}
+                helperText={formik.values.amount ? formik.errors.amount : undefined}
             />
 
             <Input
@@ -68,6 +71,8 @@ export const SendForm = ({ formik }: { formik: FormikProps<SendFormik> }) => {
                 variant={formik.errors.memo ? 'destructive' : 'primary'}
                 helperText={formik.errors.memo}
             />
+
+            <FeeSection formik={formik} />
         </div>
     );
 };
