@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
+
 import { usePrimaryWallet } from './usePrimaryWallet';
 import { WalletNetwork } from '@/lib/store/wallet';
 
@@ -62,12 +63,20 @@ const useAddressBook = () => {
         [addressBook, primaryWallet],
     );
 
+    const findContact = useCallback(
+        (address: string) => {
+            return addressBook.find((contact) => contact.address === address);
+        },
+        [addressBook],
+    );
+
     return {
         addressBook,
+        filteredAddressBook,
         addContact,
         updateContact,
         removeContact,
-        filteredAddressBook,
+        findContact,
     };
 };
 

@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { AddNewContactForm, SaveContactButton } from '@/components/address-book';
 import { ContactFormik, ValidateAddressResponse } from '@/components/address-book/types';
-import { Network, WalletNetwork } from '@/lib/store/wallet';
+import { WalletNetwork } from '@/lib/store/wallet';
 
 import constants from '@/constants';
 import SubPageLayout from '@/components/settings/SubPageLayout';
@@ -23,27 +23,29 @@ export const validateAddress = async ({
     address?: string;
     profile: Contracts.IProfile;
 }): Promise<ValidateAddressResponse> => {
-    try {
-        if (address) {
-            for (const network of [Network.MAINNET, Network.DEVNET]) {
-                try {
-                    await profile.walletFactory().fromAddress({ address, coin: COIN_ID, network });
+    if (!address) {
+        return { isValid: false, network: WalletNetwork.MAINNET };
+    }
 
-                    return {
-                        isValid: true,
-                        network:
-                            network === Network.MAINNET
-                                ? WalletNetwork.MAINNET
-                                : WalletNetwork.DEVNET,
-                    };
-                } catch {
-                    // Do nothing, it failed validation
-                }
+    try {
+        for (const network of profile.networks().allByCoin(COIN_ID)) {
+            const coin = profile.coins().set(network.coin, network.id);
+            await coin.__construct();
+
+            const isValidAddress: boolean = await coin.address().validate(address);
+
+            if (!isValidAddress) {
+                continue;
             }
+
+            return {
+                isValid: true,
+                network: coin.network().isLive() ? WalletNetwork.MAINNET : WalletNetwork.DEVNET,
+            };
         }
+
         return { isValid: false, network: WalletNetwork.MAINNET };
     } catch (error) {
-        console.error(error);
         throw new Error('Failed to validate address');
     }
 };
