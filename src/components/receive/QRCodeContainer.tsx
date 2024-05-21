@@ -64,8 +64,8 @@ export const QRCodeContainer = () => {
                                     : undefined,
                         })}
                         size={200}
-                        bgColor={isDark() ? '#292929' : '#fff'}
-                        fgColor={isDark() ? '#fff' : '#000'}
+                        bgColor={'#fff'}
+                        fgColor={'#000'}
                         className='dark:rounded-md dark:bg-white dark:p-2'
                     />
                 </div>
