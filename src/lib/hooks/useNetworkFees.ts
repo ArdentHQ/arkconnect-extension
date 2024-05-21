@@ -12,10 +12,9 @@ export interface TransactionFees {
     isDynamic?: boolean;
 }
 
-interface CreateStubTransactionProperties {
+interface CreateTransactionProperties {
     coin: Coins.Coin;
     getData: (wallet: Contracts.IReadWriteWallet) => Record<string, any>;
-    stub: boolean;
     type: string;
 }
 
@@ -49,31 +48,6 @@ export const useNetworkFees = ({
     const [fees, setFees] = useState<TransactionFees>();
     const { env } = useEnvironmentContext();
 
-    const getMuSigData = (senderWallet: Contracts.IReadWriteWallet, data: Record<string, any>) => {
-        const participants = data?.participants ?? [];
-        const minParticipants = data?.minParticipants ?? 2;
-
-        const publicKey = senderWallet.publicKey();
-
-        const publicKeys = participants.map((participant: any) => participant.publicKey);
-
-        // Some coins like ARK, throw error if signatory's public key is not included in musig participants public keys.
-        publicKeys.splice(1, 1, publicKey);
-
-        return {
-            // LSK
-            mandatoryKeys: publicKeys,
-
-            // ARK
-            min: +minParticipants,
-
-            numberOfSignatures: +minParticipants,
-            optionalKeys: [],
-            publicKeys,
-            senderPublicKey: publicKey,
-        };
-    };
-
     const roundAndFormat = (value: BigNumber): string => {
         return parseFloat(value.toHuman().toFixed(4)).toString();
     };
@@ -85,15 +59,13 @@ export const useNetworkFees = ({
     );
 
     const createStubTransaction = useCallback(
-        async ({ coin, type, getData, stub }: CreateStubTransactionProperties) => {
+        async ({ coin, type, getData }: CreateTransactionProperties) => {
             const { mnemonic, wallet } = await getWallet(
                 coin.network().coin(),
                 coin.network().id(),
             );
 
-            const signatory = stub
-                ? await wallet.signatory().stub(mnemonic)
-                : await wallet.signatory().mnemonic(mnemonic);
+            const signatory = await wallet.signatory().mnemonic(mnemonic);
 
             return (coin.transaction() as any)[type]({
                 data: getData(wallet),
@@ -104,19 +76,14 @@ export const useNetworkFees = ({
         [getWallet],
     );
 
-    const calculateBySize = useCallback(
+    const calculateFees = useCallback(
         async ({ coin, data, type }: CalculateBySizeProperties): Promise<TransactionFees> => {
             try {
                 const transaction = await createStubTransaction({
                     coin,
-                    getData: (senderWallet) => {
-                        if (type === 'multiSignature') {
-                            return getMuSigData(senderWallet, data);
-                        }
-
+                    getData: () => {
                         return data;
                     },
-                    stub: type === 'multiSignature',
                     type,
                 });
 
@@ -158,14 +125,11 @@ export const useNetworkFees = ({
                 transactionFees = env.fees().findByType(coin, network, type);
             }
 
-            if (
-                !!data &&
-                (coinInstance.network().feeType() === 'size' || type === 'multiSignature')
-            ) {
-                const feesBySize = await calculateBySize({ coin: coinInstance, data, type });
+            if (data) {
+                const fees = await calculateFees({ coin: coinInstance, data, type });
 
                 return {
-                    ...feesBySize,
+                    ...fees,
                     isDynamic: transactionFees?.isDynamic,
                 };
             }
@@ -178,7 +142,7 @@ export const useNetworkFees = ({
                 static: roundAndFormat(transactionFees.static),
             };
         },
-        [profile, calculateBySize, env],
+        [profile, calculateFees, env],
     );
 
     useEffect(() => {
