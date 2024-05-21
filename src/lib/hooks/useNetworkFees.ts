@@ -58,7 +58,7 @@ export const useNetworkFees = ({
         [profile],
     );
 
-    const createStubTransaction = useCallback(
+    const createTransaction = useCallback(
         async ({ coin, type, getData }: CreateTransactionProperties) => {
             const { mnemonic, wallet } = await getWallet(
                 coin.network().coin(),
@@ -79,7 +79,7 @@ export const useNetworkFees = ({
     const calculateFees = useCallback(
         async ({ coin, data, type }: CalculateBySizeProperties): Promise<TransactionFees> => {
             try {
-                const transaction = await createStubTransaction({
+                const transaction = await createTransaction({
                     coin,
                     getData: () => {
                         return data;
@@ -108,7 +108,7 @@ export const useNetworkFees = ({
                 };
             }
         },
-        [createStubTransaction],
+        [createTransaction],
     );
 
     const calculate = useCallback(
