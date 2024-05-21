@@ -1,4 +1,6 @@
 import { useTranslation } from 'react-i18next';
+import { useRef } from 'react';
+import cn from 'classnames';
 import { Address } from '../wallet/address/Address.blocks';
 import { ActionDetailsFiatValue, ActionDetailsRow } from './ActionDetails';
 import { ActionDetailsValue } from './ActionDetailsValue';
@@ -6,6 +8,7 @@ import { Icon, Tooltip } from '@/shared/components';
 import trimAddress from '@/lib/utils/trimAddress';
 import useClipboard from '@/lib/hooks/useClipboard';
 import Amount from '@/components/wallet/Amount';
+import useAddressBook from '@/lib/hooks/useAddressBook';
 
 interface ActionBodyRowProps {
     label: React.ReactNode;
@@ -114,7 +117,49 @@ export const ActionTransactionIdRow = ({ transactionId }: { transactionId: strin
     );
 };
 
-export const ActionAddressRow = ({ label, address }: { label: string; address: string }) => {
+export const ActionAddressRow = ({
+    label,
+    address,
+    displayAddressBookName = false,
+}: {
+    label: string;
+    address: string;
+    displayAddressBookName?: boolean;
+}) => {
+    const { findContact } = useAddressBook();
+    const nameRef = useRef<HTMLSpanElement>(null);
+    let contact;
+
+    if (displayAddressBookName) {
+        contact = findContact(address);
+    }
+
+    if (displayAddressBookName && contact) {
+        return (
+            <ActionDetailsRow label={label}>
+                <div
+                    className={cn('flex', {
+                        'flex-col':
+                            !nameRef?.current?.clientWidth || nameRef.current.clientWidth > 100,
+                        'flex-row gap-1':
+                            nameRef?.current?.clientWidth && nameRef.current.clientWidth <= 100,
+                    })}
+                    id='container'
+                >
+                    <span
+                        className='w-fit text-right text-sm font-medium text-light-black dark:text-white'
+                        ref={nameRef}
+                    >
+                        {contact.name}
+                    </span>
+                    <div className='flex flex-row justify-end text-sm font-medium text-theme-secondary-500 dark:text-theme-secondary-300'>
+                        (<Address address={address} tooltipPlacement='bottom-end' length={10} />)
+                    </div>
+                </div>
+            </ActionDetailsRow>
+        );
+    }
+
     return (
         <ActionDetailsRow label={label}>
             <Address

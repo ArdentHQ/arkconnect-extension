@@ -29,7 +29,7 @@
         "@ardenthq/sdk-ledger": "1.3.0",
         "@ardenthq/sdk-profiles": "1.3.0",
         "@reduxjs/toolkit": "^1.9.7",
-        "@sentry/react": "^7.114.0",
+        "@sentry/react": "^7.116.0",
         "@tippyjs/react": "^4.2.6",
         "assert": "2.0.0",
         "classnames": "^2.5.1",
@@ -46,7 +46,7 @@
         "react-i18next": "^14.1.1",
         "react-idle-timer": "^5.7.2",
         "react-loading-skeleton": "^3.4.0",
-        "react-qr-code": "^2.0.12",
+        "react-qr-code": "^2.0.13",
         "react-query": "^3.39.3",
         "react-redux": "^8.1.3",
         "react-router-dom": "^6.23.1",
@@ -69,8 +69,8 @@
         "@types/string-hash": "^1.1.3",
         "@types/uuid": "^9.0.8",
         "@types/webextension-polyfill": "^0.10.7",
-        "@typescript-eslint/eslint-plugin": "^7.8.0",
-        "@typescript-eslint/parser": "^7.8.0",
+        "@typescript-eslint/eslint-plugin": "^7.9.0",
+        "@typescript-eslint/parser": "^7.9.0",
         "@vitejs/plugin-react": "^4.2.1",
         "@vitest/coverage-v8": "^1.6.0",
         "autoprefixer": "^10.4.19",
@@ -90,6 +90,6 @@
         "vite": "^5.2.11",
         "vite-plugin-web-extension": "^4.1.3",
         "vitest": "^1.6.0",
-        "webextension-polyfill": "^0.11.0"
+        "webextension-polyfill": "^0.12.0"
     }
 }
