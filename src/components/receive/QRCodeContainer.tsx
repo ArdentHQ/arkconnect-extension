@@ -3,7 +3,6 @@ import QRCode from 'react-qr-code';
 import { useState } from 'react';
 import { useFormik } from 'formik';
 import { object, string } from 'yup';
-import useThemeMode from '@/lib/hooks/useThemeMode';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 import { generateReceiveUrl } from '@/lib/utils/generateReceiveURL';
 import { Accordion, Input } from '@/shared/components';
@@ -17,7 +16,6 @@ export type SendFormik = {
 export const QRCodeContainer = () => {
     const primaryWallet = usePrimaryWallet();
     const { t } = useTranslation();
-    const { isDark } = useThemeMode();
 
     const [isOpen, setIsOpen] = useState(false);
 
@@ -65,8 +63,9 @@ export const QRCodeContainer = () => {
                                     : undefined,
                         })}
                         size={200}
-                        bgColor={isDark() ? '#292929' : '#fff'}
-                        fgColor={isDark() ? '#fff' : '#000'}
+                        bgColor={'#fff'}
+                        fgColor={'#000'}
+                        className='dark:rounded-md dark:bg-white dark:p-2'
                     />
                 </div>
                 <span className='text-sm font-normal text-theme-secondary-500 dark:text-theme-secondary-300'>
