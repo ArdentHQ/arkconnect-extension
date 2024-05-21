@@ -17,7 +17,9 @@ const SHOW_MESSAGE_AFTER_ACTION_DURING_MS = 3000;
 
 const TRANSACTION_CONFIRMATION_DELAY_MS = 3000;
 
+// Validation constants
 const ADDRESS_LENGTH = 34;
+const AMOUNT_REGEX = /^[0-9]+(\.[0-9]{1,8})?$/;
 
 // Using 9 considering that the minimum amount of ARK is 0.00000001 which
 // is 8 digits in total.
@@ -42,6 +44,7 @@ const constants = {
     SHOW_MESSAGE_AFTER_ACTION_DURING_MS,
     TRANSACTION_CONFIRMATION_DELAY_MS,
     ADDRESS_LENGTH,
+    AMOUNT_REGEX,
 };
 
 export default constants;

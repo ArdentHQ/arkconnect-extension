@@ -7,6 +7,7 @@ import useThemeMode from '@/lib/hooks/useThemeMode';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 import { generateReceiveUrl } from '@/lib/utils/generateReceiveURL';
 import { Accordion, Input } from '@/shared/components';
+import constants from '@/constants';
 
 export type SendFormik = {
     amount?: string;
@@ -22,7 +23,7 @@ export const QRCodeContainer = () => {
 
     const validationSchema = object().shape({
         amount: string()
-            .matches(/^[0-9]+(\.[0-9]{1,8})?$/, {
+            .matches(constants.AMOUNT_REGEX, {
                 message: t('ERROR.IS_INVALID', { name: 'Amount' }),
             })
             .test('max-integer', t('ERROR.IS_TOO_HIGH', { name: 'Amount' }), (value) => {

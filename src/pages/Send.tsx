@@ -4,6 +4,7 @@ import { useFormik } from 'formik';
 import SubPageLayout from '@/components/settings/SubPageLayout';
 import { SendButton, SendForm } from '@/components/send';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
+import constants from '@/constants';
 
 export type SendFormik = {
     amount?: string;
@@ -18,7 +19,7 @@ const Send = () => {
     const validationSchema = object().shape({
         amount: string()
             .required(t('ERROR.IS_REQUIRED', { name: 'Amount' }))
-            .matches(/^[0-9]+(\.[0-9]{1,8})?$/, {
+            .matches(constants.AMOUNT_REGEX, {
                 message: t('ERROR.IS_INVALID', { name: 'Amount' }),
             })
             .test('max-balance', t('ERROR.BALANCE_TOO_LOW'), (value) => {
@@ -40,7 +41,7 @@ const Send = () => {
         memo: string().max(255, t('ERROR.IS_TOO_LONG', { name: 'Memo' })),
         fee: string()
             .required(t('ERROR.IS_REQUIRED', { name: 'Fee' }))
-            .matches(/^[0-9]+(\.[0-9]{1,8})?$/, {
+            .matches(constants.AMOUNT_REGEX, {
                 message: t('ERROR.IS_INVALID', { name: 'Fee' }),
             })
             .test('min-value', t('ERROR.IS_REQUIRED', { name: 'Fee' }), (value) => {
