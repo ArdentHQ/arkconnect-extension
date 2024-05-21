@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { FeeOption, FeeOptionSkeleton } from './FeeOption';
-import { NetworkFee } from '@/lib/hooks/useNetworkFees';
+import { TransactionFees } from '@/lib/hooks/useNetworkFees';
 
 export const FeeOptionsList = ({
     fee,
@@ -10,7 +10,7 @@ export const FeeOptionsList = ({
 }: {
     fee: string;
     setFee: (fee: string) => void;
-    fees: NetworkFee['fees'];
+    fees?: TransactionFees;
     isLoading?: boolean;
 }) => {
     const { t } = useTranslation();
@@ -33,20 +33,20 @@ export const FeeOptionsList = ({
         <div className='grid w-full grid-cols-3 gap-1.5'>
             <FeeOption
                 name={t('COMMON.SLOW')}
-                value={fees.min.crypto}
-                isSelected={fee == fees.min.crypto}
+                value={fees.min}
+                isSelected={fee == fees.min}
                 onClick={handleClick}
             />
             <FeeOption
                 name={t('COMMON.AVERAGE')}
-                value={fees.avg.crypto}
-                isSelected={fee == fees.avg.crypto}
+                value={fees.avg}
+                isSelected={fee == fees.avg}
                 onClick={handleClick}
             />
             <FeeOption
                 name={t('COMMON.FAST')}
-                value={fees.max.crypto}
-                isSelected={fee == fees.max.crypto}
+                value={fees.max}
+                isSelected={fee == fees.max}
                 onClick={handleClick}
             />
         </div>

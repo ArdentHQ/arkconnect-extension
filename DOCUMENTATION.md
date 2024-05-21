@@ -163,22 +163,22 @@ try {
 type SignVoteRequest = {
   vote?: {
     amount: number;
-    delegateAddress: string;
+    address: string;
   };
   unvote?: {
     amount: number;
-    delegateAddress: string;
+    address: string;
   };
 };
 
 type SignVoteResponse = {
   id: string;
   sender: string;
-  voteDelegateAddress?: string;
-  voteDelegateName?: string;
+  voteAddress?: string;
+  voteName?: string;
   votePublicKey?: string;
-  unvoteDelegateAddress?: string;
-  unvoteDelegateName?: string;
+  unvoteAddress?: string;
+  unvoteName?: string;
   unvotePublicKey?: string;
   exchangeCurrency: string;
   exchangeCurrency: string;
@@ -189,7 +189,7 @@ type SignVoteResponse = {
 const voteRequest = {
   vote: {
     amount: 100,
-    delegateAddress: 'DJmvhhiQFSrEQCq9FUxvcLcpcBjx7K3yLt',
+    address: 'DJmvhhiQFSrEQCq9FUxvcLcpcBjx7K3yLt',
   },
 };
 

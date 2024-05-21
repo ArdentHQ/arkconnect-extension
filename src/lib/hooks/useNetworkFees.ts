@@ -1,117 +1,162 @@
+import { Coins, Services } from '@ardenthq/sdk';
+import { Contracts } from '@ardenthq/sdk-profiles';
+import { useCallback, useEffect, useState } from 'react';
 import { BigNumber } from '@ardenthq/sdk-helpers';
-import { useQuery } from 'react-query';
-import { IReadWriteWallet } from '@ardenthq/sdk-profiles/distribution/esm/wallet.contract';
-import { useExchangeRate } from './useExchangeRate';
-import constants from '@/constants';
-import { WalletNetwork } from '@/lib/store/wallet';
+import { useEnvironmentContext } from '@/lib/context/Environment';
 
-type FormattedFee = {
-    fiat: number;
-    crypto: string;
-};
-
-export interface NetworkFee {
-    isLoading: boolean;
-    fees?: {
-        min: FormattedFee;
-        avg: FormattedFee;
-        max: FormattedFee;
-    };
-}
-
-type Fees = {
-    avg: string;
+export interface TransactionFees {
+    static: string;
     max: string;
     min: string;
-};
-
-interface DynamicFeesApiResponse {
-    data: {
-        '1': {
-            transfer: Fees;
-            vote: Fees;
-        };
-    };
-}
-interface StaticFeesApiResponse {
-    data: {
-        '1': {
-            transfer: string;
-            vote: string;
-        };
-    };
+    avg: string;
+    isDynamic?: boolean;
 }
 
-const formatFee = (fee: string, convert: (value?: number | undefined) => number) => {
-    const cryptoAmount = BigNumber.make(fee).times(0.000_000_01);
+interface CreateTransactionProperties {
+    coin: Coins.Coin;
+    getData: (wallet: Contracts.IReadWriteWallet) => Record<string, any>;
+    type: string;
+}
 
-    return {
-        fiat: convert(cryptoAmount.toNumber()),
-        crypto: Number.parseFloat(cryptoAmount.decimalPlaces(4).toFixed(4)).toString(),
-    };
-};
+interface CalculateBySizeProperties {
+    coin: Coins.Coin;
+    data: Record<string, any>;
+    type: string;
+}
+
+interface CalculateProperties {
+    coin: string;
+    data?: Record<string, any>;
+    network: string;
+    type: string;
+}
 
 export const useNetworkFees = ({
+    profile,
+    coin,
     network,
-    primaryWallet,
+    type,
+    data,
 }: {
-    network: WalletNetwork;
-    primaryWallet?: IReadWriteWallet;
-}): NetworkFee => {
-    const dynamicFeeNetworkUrls = {
-        [WalletNetwork.DEVNET]: constants.ARK_DYNAMIC_DEVNET_FEES_URL,
-        [WalletNetwork.MAINNET]: constants.ARK_DYNAMIC_MAINNET_FEES_URL,
+    profile: Contracts.IProfile;
+    coin: string;
+    network: string;
+    type: string;
+    data?: Record<string, any>;
+}) => {
+    const [isLoadingFee, setIsLoadingFee] = useState<boolean>(false);
+    const [fees, setFees] = useState<TransactionFees>();
+    const { env } = useEnvironmentContext();
+
+    const roundAndFormat = (value: BigNumber): string => {
+        return parseFloat(value.toHuman().toFixed(4)).toString();
     };
 
-    const staticFeeNetworksUrls = {
-        [WalletNetwork.DEVNET]: constants.ARK_STATIC_DEVNET_FEE_URL,
-        [WalletNetwork.MAINNET]: constants.ARK_STATIC_MAINNET_FEE_URL,
-    };
+    const getWallet = useCallback(
+        async (coin: string, network: string) =>
+            profile.walletFactory().generate({ coin, network }),
+        [profile],
+    );
 
-    const { data: dynamicFeesData } = useQuery({
-        queryKey: ['dynamic-network-fees', network],
-        staleTime: 0,
-        refetchInterval: 3 * 60 * 1000,
-        queryFn: async () => {
-            const jsonResponse = await fetch(dynamicFeeNetworkUrls[network]);
-            return (await jsonResponse.json()) as DynamicFeesApiResponse;
+    const createTransaction = useCallback(
+        async ({ coin, type, getData }: CreateTransactionProperties) => {
+            const { mnemonic, wallet } = await getWallet(
+                coin.network().coin(),
+                coin.network().id(),
+            );
+
+            const signatory = await wallet.signatory().mnemonic(mnemonic);
+
+            return (coin.transaction() as any)[type]({
+                data: getData(wallet),
+                nonce: '1',
+                signatory,
+            });
         },
-    });
+        [getWallet],
+    );
 
-    const { data: staticFeesData } = useQuery({
-        queryKey: ['static-network-fees', network],
-        staleTime: 0,
-        refetchInterval: 3 * 60 * 1000,
-        queryFn: async () => {
-            const jsonResponse = await fetch(staticFeeNetworksUrls[network]);
-            return (await jsonResponse.json()) as StaticFeesApiResponse;
+    const calculateFees = useCallback(
+        async ({ coin, data, type }: CalculateBySizeProperties): Promise<TransactionFees> => {
+            try {
+                const transaction = await createTransaction({
+                    coin,
+                    getData: () => {
+                        return data;
+                    },
+                    type,
+                });
+
+                const [min, avg, max] = await Promise.all([
+                    coin.fee().calculate(transaction, { priority: 'slow' }),
+                    coin.fee().calculate(transaction, { priority: 'average' }),
+                    coin.fee().calculate(transaction, { priority: 'fast' }),
+                ]);
+
+                return {
+                    avg: roundAndFormat(avg),
+                    max: roundAndFormat(max),
+                    min: roundAndFormat(min),
+                    static: roundAndFormat(min),
+                };
+            } catch {
+                return {
+                    avg: '0',
+                    max: '0',
+                    min: '0',
+                    static: '0',
+                };
+            }
         },
-    });
+        [createTransaction],
+    );
 
-    const { convert } = useExchangeRate({
-        exchangeTicker: primaryWallet?.exchangeCurrency(),
-        ticker: primaryWallet?.currency(),
-    });
+    const calculate = useCallback(
+        async ({ coin, network, type, data }: CalculateProperties): Promise<TransactionFees> => {
+            let transactionFees: Services.TransactionFee;
 
-    if (dynamicFeesData && staticFeesData) {
-        const dynamicFees = dynamicFeesData.data['1'].transfer;
-        const staticFee = staticFeesData.data['1'].transfer;
+            const coinInstance = profile.coins().get(coin, network);
 
-        const avgFee =
-            BigNumber.make(dynamicFees.avg).comparedTo(staticFee) > 0 ? staticFee : dynamicFees.avg;
+            try {
+                transactionFees = env.fees().findByType(coin, network, type);
+            } catch {
+                await env.fees().syncAll(profile);
 
-        return {
-            isLoading: false,
-            fees: {
-                min: formatFee(dynamicFees.min, convert),
-                avg: formatFee(avgFee, convert),
-                max: formatFee(staticFee, convert),
-            },
+                transactionFees = env.fees().findByType(coin, network, type);
+            }
+
+            if (data) {
+                const fees = await calculateFees({ coin: coinInstance, data, type });
+
+                return {
+                    ...fees,
+                    isDynamic: transactionFees?.isDynamic,
+                };
+            }
+
+            return {
+                avg: roundAndFormat(transactionFees.avg),
+                isDynamic: transactionFees.isDynamic,
+                max: roundAndFormat(transactionFees.max),
+                min: roundAndFormat(transactionFees.min),
+                static: roundAndFormat(transactionFees.static),
+            };
+        },
+        [profile, calculateFees, env],
+    );
+
+    useEffect(() => {
+        const fetchFees = async () => {
+            setIsLoadingFee(true);
+
+            const fees = await calculate({ coin, network, type, data });
+
+            setFees(fees);
+            setIsLoadingFee(false);
         };
-    }
 
-    return {
-        isLoading: true,
-        fees: undefined,
-    };
+        fetchFees();
+    }, [calculate, coin, network, type, data]);
+
+    return { isLoadingFee, fees };
 };

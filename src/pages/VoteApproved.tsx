@@ -75,14 +75,14 @@ const VoteApproved = () => {
                         exchangeCurrency={state?.vote.exchangeCurrency as string}
                         network={getActiveCoin(state?.walletNetwork)}
                         unvote={{
-                            delegateName: state?.vote.unvoteDelegateName,
+                            name: state?.vote.unvoteName,
                             publicKey: state?.vote.unvotePublicKey,
-                            delegateAddress: state?.vote.unvoteDelegateAddress,
+                            address: state?.vote.unvoteAddress,
                         }}
                         vote={{
-                            delegateName: state?.vote.voteDelegateName,
+                            name: state?.vote.voteName,
                             publicKey: state?.vote.votePublicKey,
-                            delegateAddress: state?.vote.voteDelegateAddress,
+                            address: state?.vote.voteAddress,
                         }}
                         transactionId={isTransactionConfirmed ? vote.id : undefined}
                         maxHeight='229px'

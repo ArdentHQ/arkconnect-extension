@@ -4,9 +4,8 @@ import { FeeTypeSwtich } from './FeeTypeSwtich';
 import { FeeOptionsList } from './FeeOptionsList';
 import { useNetworkFees } from '@/lib/hooks/useNetworkFees';
 import useActiveNetwork from '@/lib/hooks/useActiveNetwork';
-import { WalletNetwork } from '@/lib/store/wallet';
-import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 import { NumericInput } from '@/shared/components/input/NumericInput';
+import { useProfileContext } from '@/lib/context/Profile';
 
 type AddressDropdownProps = ComponentPropsWithRef<'input'> & {
     variant?: 'primary' | 'destructive';
@@ -27,15 +26,17 @@ export const FeeSection = ({
     const { t } = useTranslation();
     const [advancedFeeView, setAdvancedFeeView] = useState<boolean>(false);
     const activeNetwork = useActiveNetwork();
-    const primaryWallet = usePrimaryWallet();
-    const { fees, isLoading } = useNetworkFees({
-        network: activeNetwork.isTest() ? WalletNetwork.DEVNET : WalletNetwork.MAINNET,
-        primaryWallet,
+    const { profile } = useProfileContext();
+    const { isLoadingFee, fees } = useNetworkFees({
+        profile,
+        coin: activeNetwork.coin(),
+        network: activeNetwork.id(),
+        type: 'transfer',
     });
 
     const handleFeeViewClick = () => {
         if (advancedFeeView && fees) {
-            onFeeChange(fees.avg.crypto);
+            onFeeChange(fees.avg);
         }
         setAdvancedFeeView(!advancedFeeView);
     };
@@ -46,7 +47,7 @@ export const FeeSection = ({
 
     useEffect(() => {
         if (fees && !value && !advancedFeeView) {
-            onFeeChange(fees.avg.crypto);
+            onFeeChange(fees.avg);
         }
     }, [fees, advancedFeeView]);
 
@@ -78,7 +79,7 @@ export const FeeSection = ({
             ) : (
                 <FeeOptionsList
                     fees={fees}
-                    isLoading={isLoading}
+                    isLoading={isLoadingFee}
                     setFee={onFeeChange}
                     fee={value}
                 />
