@@ -28,7 +28,7 @@ export const AddressDropdown = () => {
     const wrapperRef = useRef<HTMLDivElement | null>(null);
     const inputRef = useRef<HTMLInputElement | null>(null);
     const [inputValue, setInputValue] = useState('');
-    const { addressBook } = useAddressBook();
+    const { filteredAddressBook: addressBook } = useAddressBook();
     const [showSuggestions, setShowSuggestions] = useState(false);
     const [selectedSuggestionIndex, setSelectedSuggestionIndex] = useState(0);
     const [openModal, setOpenModal] = useState(false);

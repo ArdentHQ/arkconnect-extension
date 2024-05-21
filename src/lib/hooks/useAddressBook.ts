@@ -1,4 +1,6 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+
+import { usePrimaryWallet } from './usePrimaryWallet';
 import { WalletNetwork } from '@/lib/store/wallet';
 
 export type Contact = {
@@ -8,6 +10,7 @@ export type Contact = {
 };
 
 const useAddressBook = () => {
+    const primaryWallet = usePrimaryWallet();
     const [addressBook, setAddressBook] = useState<Contact[]>([]);
 
     useEffect(() => {
@@ -48,6 +51,18 @@ const useAddressBook = () => {
         [addressBook],
     );
 
+    const filteredAddressBook = useMemo(
+        (): Contact[] =>
+            addressBook.filter(
+                (contact) =>
+                    contact.type ===
+                    (primaryWallet?.network().isTest()
+                        ? WalletNetwork.DEVNET
+                        : WalletNetwork.MAINNET),
+            ),
+        [addressBook, primaryWallet],
+    );
+
     const findContact = useCallback(
         (address: string) => {
             return addressBook.find((contact) => contact.address === address);
@@ -57,6 +72,7 @@ const useAddressBook = () => {
 
     return {
         addressBook,
+        filteredAddressBook,
         addContact,
         updateContact,
         removeContact,
