@@ -3,7 +3,6 @@ import QRCode from 'react-qr-code';
 import { useState } from 'react';
 import { useFormik } from 'formik';
 import { object, string } from 'yup';
-import useThemeMode from '@/lib/hooks/useThemeMode';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 import { generateReceiveUrl } from '@/lib/utils/generateReceiveURL';
 import { Accordion, Input } from '@/shared/components';
@@ -16,7 +15,6 @@ export type SendFormik = {
 export const QRCodeContainer = () => {
     const primaryWallet = usePrimaryWallet();
     const { t } = useTranslation();
-    const { isDark } = useThemeMode();
 
     const [isOpen, setIsOpen] = useState(false);
 
