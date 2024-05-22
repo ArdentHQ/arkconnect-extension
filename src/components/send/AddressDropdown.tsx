@@ -15,6 +15,7 @@ type AddressDropdownProps = ComponentPropsWithRef<'input'> & {
     helperText?: string;
     value?: string;
     setValue: (value: string) => void;
+    handleValidation: () => void;
 };
 
 const AddressBookButton = ({ onClick }: { onClick: () => void }) => {
@@ -35,6 +36,7 @@ export const AddressDropdown = ({
     helperText,
     value,
     setValue,
+    handleValidation,
     ...rest
 }: AddressDropdownProps) => {
     const { t } = useTranslation();
@@ -121,11 +123,12 @@ export const AddressDropdown = ({
         setValue(address);
         setOpenModal(false);
     };
-
+    
     const handlePaste = (event: React.ClipboardEvent) => {
         const pastedValue = event.clipboardData.getData('text');
         if (pastedValue.length === constants.ADDRESS_LENGTH) {
             setShowSuggestions(false);
+            handleValidation();
         }
     };
 
