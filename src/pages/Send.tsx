@@ -50,6 +50,13 @@ const Send = () => {
                     return sum <= userBalance;
                 },
             )
+            .test(
+                'min-value',
+                t('ERROR.IS_REQUIRED', { name: 'Amount' }),
+                (value) => {
+                    return Number(value) > 0;
+                },
+            )
             .trim(),
         memo: string().max(255, t('ERROR.IS_TOO_LONG', { name: 'Memo' })),
         fee: string()
