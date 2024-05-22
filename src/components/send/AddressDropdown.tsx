@@ -123,7 +123,7 @@ export const AddressDropdown = ({
         setValue(address);
         setOpenModal(false);
     };
-    
+
     const handlePaste = (event: React.ClipboardEvent) => {
         const pastedValue = event.clipboardData.getData('text');
         if (pastedValue.length === constants.ADDRESS_LENGTH) {

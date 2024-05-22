@@ -84,7 +84,7 @@ const Send = () => {
             })
             .trim(),
     });
-    
+
     const formik = useFormik<SendFormik>({
         initialValues: {
             amount: '',
@@ -130,7 +130,7 @@ const Send = () => {
             handleAddressValidation();
         }
     }, [formik.values.receiverAddress, profile]);
-    
+
     return (
         <SubPageLayout title={t('COMMON.SEND')} className='relative p-0'>
             <div className='custom-scroll h-[393px] w-full overflow-y-auto px-4'>
