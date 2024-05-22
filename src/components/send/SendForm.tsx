@@ -6,14 +6,13 @@ import { Input } from '@/shared/components';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 import { SendFormik } from '@/pages/Send';
 import { AddressDropdown } from '@/components/send/AddressDropdown';
-import { formatDecimalNumber } from '@/lib/utils/formatDecimalNumber';
 
 export const SendForm = ({ formik }: { formik: FormikProps<SendFormik> }) => {
     const primaryWallet = usePrimaryWallet();
     const { t } = useTranslation();
 
     const handleMaxClick = () => {
-        const balance = formatDecimalNumber(primaryWallet?.balance() || 0);
+        const balance = primaryWallet?.balance() || 0;
         const maxValue = balance !== 0 ? Number(balance.toFixed(8).replace(/\.?0+$/, '')) - Number(formik.values.fee) : 0;
         formik.setFieldValue('amount', maxValue);
     };
