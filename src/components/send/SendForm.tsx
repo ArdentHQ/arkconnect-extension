@@ -13,7 +13,10 @@ export const SendForm = ({ formik }: { formik: FormikProps<SendFormik> }) => {
 
     const handleMaxClick = () => {
         const balance = primaryWallet?.balance() || 0;
-        const maxValue = balance !== 0 ? Number(balance.toFixed(8).replace(/\.?0+$/, '')) - Number(formik.values.fee) : 0;
+        const maxValue =
+            balance !== 0
+                ? Number(balance.toFixed(8).replace(/\.?0+$/, '')) - Number(formik.values.fee)
+                : 0;
         formik.setFieldValue('amount', maxValue);
     };
 
