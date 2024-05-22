@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { ComponentPropsWithRef, useEffect, useMemo, useRef, useState } from 'react';
 
 import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
@@ -9,6 +9,13 @@ import Modal from '@/shared/components/modal/Modal';
 import trimAddress from '@/lib/utils/trimAddress';
 import useAddressBook from '@/lib/hooks/useAddressBook';
 import useOnClickOutside from '@/lib/hooks/useOnClickOutside';
+
+type AddressDropdownProps = ComponentPropsWithRef<'input'> & {
+    variant: 'primary' | 'destructive';
+    helperText?: string;
+    value?: string;
+    setValue: (value: string) => void;
+};
 
 const AddressBookButton = ({ onClick }: { onClick: () => void }) => {
     const { t } = useTranslation();
@@ -23,38 +30,34 @@ const AddressBookButton = ({ onClick }: { onClick: () => void }) => {
     );
 };
 
-export const AddressDropdown = () => {
+export const AddressDropdown = ({
+    variant,
+    helperText,
+    value,
+    setValue,
+    ...rest
+}: AddressDropdownProps) => {
     const { t } = useTranslation();
     const wrapperRef = useRef<HTMLDivElement | null>(null);
     const inputRef = useRef<HTMLInputElement | null>(null);
-    const [inputValue, setInputValue] = useState('');
     const { filteredAddressBook: addressBook } = useAddressBook();
     const [showSuggestions, setShowSuggestions] = useState(false);
     const [selectedSuggestionIndex, setSelectedSuggestionIndex] = useState(0);
     const [openModal, setOpenModal] = useState(false);
 
     const suggestions = useMemo(() => {
-        if (
-            !inputValue ||
-            inputValue.length === 0 ||
-            inputValue.length === constants.ADDRESS_LENGTH
-        ) {
+        if (!value || value.length === 0 || value.length === constants.ADDRESS_LENGTH) {
             return addressBook;
-        } else if (inputValue.length > constants.ADDRESS_LENGTH) {
+        } else if (value.length > constants.ADDRESS_LENGTH) {
             return [];
         } else {
             return addressBook.filter(
                 (contact) =>
-                    contact.name.toLowerCase().includes(inputValue.toLowerCase()) ||
-                    contact.address.toLowerCase().includes(inputValue.toLowerCase()),
+                    contact.name.toLowerCase().includes(value.toLowerCase()) ||
+                    contact.address.toLowerCase().includes(value.toLowerCase()),
             );
         }
-    }, [inputValue, addressBook]);
-
-    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setInputValue(event.target.value);
-        setShowSuggestions(true);
-    };
+    }, [value, addressBook]);
 
     const handleKeyDown = (event: React.KeyboardEvent) => {
         if (event.key === 'ArrowDown') {
@@ -65,15 +68,15 @@ export const AddressDropdown = () => {
             setSelectedSuggestionIndex((prev) => (prev > 0 ? prev - 1 : prev));
         } else if (event.key === ' ' && suggestions[selectedSuggestionIndex]) {
             event.preventDefault();
-            setInputValue(suggestions[selectedSuggestionIndex].address);
+            setValue(suggestions[selectedSuggestionIndex].address);
             setShowSuggestions(false);
         }
     };
 
-    const getDisplayValue = (inputValue: string) => {
+    const getDisplayValue = (inputValue?: string) => {
         let displayValue;
 
-        if (inputValue.length === constants.ADDRESS_LENGTH) {
+        if (inputValue && inputValue.length === constants.ADDRESS_LENGTH) {
             const contact = addressBook.find((contact) => contact.address === inputValue);
 
             if (contact) {
@@ -115,36 +118,39 @@ export const AddressDropdown = () => {
     };
 
     const handleModalSelection = (address: string) => {
-        setInputValue(address);
+        setValue(address);
         setOpenModal(false);
     };
 
     return (
         <div className='relative' ref={wrapperRef}>
             <Input
+                id='receiverAddress'
                 className={cn('w-full resize-none rounded-lg py-4 pl-3', {
                     'pr-8': suggestions.length > 0,
                     'pr-3': suggestions.length === 0,
                 })}
-                value={inputValue}
-                onChange={handleInputChange}
+                value={value}
                 onKeyDown={handleKeyDown}
                 placeholder={t('PAGES.SEND.ENTER_OR_CHOOSE_FROM_SAVED_ADDRESSES')}
                 onClick={() => setShowSuggestions(true)}
-                variant='primary'
                 labelText={t('PAGES.SEND.RECIPIENT_ADDRESS')}
-                displayValue={getDisplayValue(inputValue)}
+                displayValue={getDisplayValue(value)}
                 secondaryText={
                     addressBook.length > 0 && <AddressBookButton onClick={handleModalOpen} />
                 }
                 innerRef={inputRef}
+                variant={variant}
+                helperText={helperText}
+                autoComplete='off'
+                {...rest}
             />
             {showSuggestions && suggestions.length > 0 && (
                 <div
                     className={cn(
                         'transition-smoothEase custom-scroll absolute z-10 mt-1 max-h-80 w-full overflow-auto rounded-lg bg-white py-2 shadow-lg dark:bg-subtle-black',
                         {
-                            'max-h-80': showSuggestions,
+                            'max-h-72': showSuggestions,
                             'h-0': !showSuggestions,
                         },
                     )}
@@ -158,7 +164,7 @@ export const AddressDropdown = () => {
                             onClick={() => {
                                 inputRef?.current?.click();
                                 inputRef?.current?.focus();
-                                setInputValue(suggestion.address);
+                                setValue(suggestion.address);
                                 setShowSuggestions(false);
                             }}
                         >
@@ -184,7 +190,7 @@ export const AddressDropdown = () => {
                 >
                     <AddressBookModal
                         addressBook={addressBook}
-                        selectedAddress={inputValue}
+                        selectedAddress={value}
                         handleClick={handleModalSelection}
                     />
                 </Modal>

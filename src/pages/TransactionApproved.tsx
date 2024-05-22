@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import constants from '@/constants';
 import { useEnvironmentContext } from '@/lib/context/Environment';
@@ -14,13 +14,17 @@ import getActiveCoin from '@/lib/utils/getActiveCoin';
 import { useConfirmedTransaction } from '@/lib/hooks/useConfirmedTransaction';
 
 const TransactionApproved = () => {
+    const navigate = useNavigate();
     const { state } = useLocation();
     const { profile } = useProfileContext();
     const { env } = useEnvironmentContext();
     const { session } = state;
     const { t } = useTranslation();
     const onClose = async () => {
-        await removeWindowInstance(state?.windowId);
+        if (state?.windowId) {
+            await removeWindowInstance(state?.windowId);
+        }
+        navigate('/');
     };
 
     const transactionId = state?.transaction.id;

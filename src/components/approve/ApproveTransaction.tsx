@@ -173,6 +173,7 @@ const ApproveTransaction = ({
             reject(error.message);
 
             onError(error);
+            loadingModal.close();
         }
     };
 
@@ -183,7 +184,11 @@ const ApproveTransaction = ({
 
         reject();
 
-        await removeWindowInstance(location.state?.windowId, 100);
+        if (location.state.windowId) {
+            await removeWindowInstance(location.state?.windowId, 100);
+        }
+
+        navigate('/');
     };
 
     return (

@@ -1,6 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { useEffect, useState } from 'react';
-import { FormikProps } from 'formik';
+import { ComponentPropsWithRef, useEffect, useState } from 'react';
 import { FeeTypeSwtich } from './FeeTypeSwtich';
 import { FeeOptionsList } from './FeeOptionsList';
 import { useNetworkFees } from '@/lib/hooks/useNetworkFees';
@@ -8,23 +7,32 @@ import useActiveNetwork from '@/lib/hooks/useActiveNetwork';
 import { NumericInput } from '@/shared/components/input/NumericInput';
 import { useProfileContext } from '@/lib/context/Profile';
 
-export const FeeSection = ({ formik }: { formik: FormikProps<{ fee: string }> }) => {
-    const { t } = useTranslation();
-    const { profile } = useProfileContext();
-    const [advancedFeeView, setAdvancedFeeView] = useState<boolean>(false);
+type AddressDropdownProps = ComponentPropsWithRef<'input'> & {
+    variant?: 'primary' | 'destructive';
+    helperText?: string;
+    value: string;
+    setValue: (value: string) => void;
+    step?: number;
+};
 
+export const FeeSection = ({
+    variant,
+    helperText,
+    value,
+    setValue,
+    step = 0.01,
+    ...rest
+}: AddressDropdownProps) => {
+    const { t } = useTranslation();
+    const [advancedFeeView, setAdvancedFeeView] = useState<boolean>(false);
     const activeNetwork = useActiveNetwork();
+    const { profile } = useProfileContext();
     const { isLoadingFee, fees } = useNetworkFees({
         profile,
         coin: activeNetwork.coin(),
         network: activeNetwork.id(),
         type: 'transfer',
     });
-
-    const handleFeeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        event.target.value = event.target.value.trim();
-        formik.handleChange(event);
-    };
 
     const handleFeeViewClick = () => {
         if (advancedFeeView && fees) {
@@ -34,11 +42,11 @@ export const FeeSection = ({ formik }: { formik: FormikProps<{ fee: string }> })
     };
 
     const onFeeChange = (value: string) => {
-        formik.setFieldValue('fee', value);
+        setValue(value);
     };
 
     useEffect(() => {
-        if (fees && !formik.values.fee && !advancedFeeView) {
+        if (fees && !value && !advancedFeeView) {
             onFeeChange(fees.avg);
         }
     }, [fees, advancedFeeView]);
@@ -60,19 +68,20 @@ export const FeeSection = ({ formik }: { formik: FormikProps<{ fee: string }> })
                 <NumericInput
                     id='fee'
                     placeholder='0.00'
-                    onChange={handleFeeChange}
                     onValueChange={onFeeChange}
-                    value={formik.values.fee}
-                    variant={formik.errors.fee && formik.values.fee ? 'destructive' : 'primary'}
-                    helperText={formik.errors.fee && formik.values.fee && formik.errors.fee}
-                    onBlur={formik.handleBlur}
+                    helperText={helperText}
+                    value={value}
+                    variant={variant}
+                    autoComplete='off'
+                    step={step}
+                    {...rest}
                 />
             ) : (
                 <FeeOptionsList
                     fees={fees}
                     isLoading={isLoadingFee}
                     setFee={onFeeChange}
-                    fee={formik.values.fee}
+                    fee={value}
                 />
             )}
         </div>
