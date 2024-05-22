@@ -44,17 +44,17 @@ export const SendForm = ({ formik }: { formik: FormikProps<SendFormik> }) => {
                 secondaryText={
                     <span>
                         {`${t('COMMON.AVAILABLE')}: `}
-                            <Amount
-                                value={primaryWallet?.balance() ?? 0}
-                                ticker={primaryWallet?.currency() || 'ARK'}
-                                withTicker
-                                showSign={false}
-                                isNegative={false}
-                                maxDigits={20}
-                                displayTooltip={primaryWallet && primaryWallet.balance() > 0.1}
-                                maxDecimals={2}
-                                hideSmallValues
-                            />
+                        <Amount
+                            value={primaryWallet?.balance() ?? 0}
+                            ticker={primaryWallet?.currency() || 'ARK'}
+                            withTicker
+                            showSign={false}
+                            isNegative={false}
+                            maxDigits={20}
+                            displayTooltip={primaryWallet && primaryWallet.balance() > 0.1}
+                            maxDecimals={2}
+                            hideSmallValues
+                        />
                     </span>
                 }
                 placeholder={t('COMMON.ENTER_AMOUNT')}
