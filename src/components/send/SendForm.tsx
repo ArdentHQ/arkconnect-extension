@@ -12,8 +12,9 @@ export const SendForm = ({ formik }: { formik: FormikProps<SendFormik> }) => {
     const { t } = useTranslation();
 
     const handleMaxClick = () => {
-        const balance = primaryWallet?.balance() || 0;
-        const maxValue = balance !== 0 ? balance - Number(formik.values.fee) : 0;
+        const balance = primaryWallet?.balance() ?? 0;
+        const fee = Number(formik.values.fee);
+        const maxValue = Math.max(0, balance - fee);
         formik.setFieldValue('amount', maxValue);
     };
 
