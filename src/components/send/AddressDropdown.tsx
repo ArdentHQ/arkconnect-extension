@@ -122,6 +122,13 @@ export const AddressDropdown = ({
         setOpenModal(false);
     };
 
+    const handlePaste = (event: React.ClipboardEvent) => {
+        const pastedValue = event.clipboardData.getData('text');
+        if (pastedValue.length === constants.ADDRESS_LENGTH) {
+            setShowSuggestions(false);
+        }
+    };
+
     return (
         <div className='relative' ref={wrapperRef}>
             <Input
@@ -143,6 +150,7 @@ export const AddressDropdown = ({
                 variant={variant}
                 helperText={helperText}
                 autoComplete='off'
+                onPaste={handlePaste}
                 {...rest}
             />
             {showSuggestions && suggestions.length > 0 && (
