@@ -20,8 +20,8 @@ type Props = {
     appName: string;
     appLogo: string;
     address?: string;
-    closeLedgerScreen: () => void;
     wallet: Contracts.IReadWriteWallet;
+    handleBackButtonClick: () => void;
 };
 
 const ApproveWithLedger = ({
@@ -29,8 +29,8 @@ const ApproveWithLedger = ({
     appName,
     appLogo,
     address,
-    closeLedgerScreen,
     wallet,
+    handleBackButtonClick,
 }: Props) => {
     const location = useLocation();
     const { state } = location;
@@ -79,7 +79,7 @@ const ApproveWithLedger = ({
             <RequestedBy appDomain={formatDomain(appName) || ''} appLogo={appLogo} />
             <div className='flex flex-1 flex-col overflow-auto px-4 pt-4'>
                 <div className='flex items-center justify-between gap-3 bg-subtle-white dark:bg-light-black'>
-                    <NavButton onClick={closeLedgerScreen}>
+                    <NavButton onClick={handleBackButtonClick}>
                         <Icon
                             icon='arrow-left'
                             className='h-4.5 w-4.5 text-theme-primary-700 dark:text-theme-primary-650'
