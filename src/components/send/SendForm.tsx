@@ -30,6 +30,10 @@ export const SendForm = ({ formik }: { formik: FormikProps<SendFormik> }) => {
         formik.validateField('amount');
     };
 
+    const handleValidation = () => {
+        formik.validateField('receiverAddress');
+    };
+
     return (
         <div className='flex flex-col gap-4'>
             <AddressDropdown
@@ -45,6 +49,7 @@ export const SendForm = ({ formik }: { formik: FormikProps<SendFormik> }) => {
                 }
                 value={formik.values.receiverAddress}
                 setValue={(value: string) => formik.setFieldValue('receiverAddress', value)}
+                handleValidation={handleValidation}
             />
             <Input
                 name='amount'

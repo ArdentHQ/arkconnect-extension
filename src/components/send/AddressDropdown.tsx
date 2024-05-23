@@ -15,6 +15,7 @@ type AddressDropdownProps = ComponentPropsWithRef<'input'> & {
     helperText?: string;
     value?: string;
     setValue: (value: string) => void;
+    handleValidation: () => void;
 };
 
 const AddressBookButton = ({ onClick }: { onClick: () => void }) => {
@@ -35,6 +36,7 @@ export const AddressDropdown = ({
     helperText,
     value,
     setValue,
+    handleValidation,
     ...rest
 }: AddressDropdownProps) => {
     const { t } = useTranslation();
@@ -122,6 +124,14 @@ export const AddressDropdown = ({
         setOpenModal(false);
     };
 
+    const handlePaste = (event: React.ClipboardEvent) => {
+        const pastedValue = event.clipboardData.getData('text');
+        if (pastedValue.length === constants.ADDRESS_LENGTH) {
+            setShowSuggestions(false);
+            handleValidation();
+        }
+    };
+
     return (
         <div className='relative' ref={wrapperRef}>
             <Input
@@ -130,6 +140,7 @@ export const AddressDropdown = ({
                     'pr-8': suggestions.length > 0,
                     'pr-3': suggestions.length === 0,
                 })}
+                hasFocus={showSuggestions}
                 value={value}
                 onKeyDown={handleKeyDown}
                 placeholder={t('PAGES.SEND.ENTER_OR_CHOOSE_FROM_SAVED_ADDRESSES')}
@@ -143,12 +154,13 @@ export const AddressDropdown = ({
                 variant={variant}
                 helperText={helperText}
                 autoComplete='off'
+                onPaste={handlePaste}
                 {...rest}
             />
             {showSuggestions && suggestions.length > 0 && (
                 <div
                     className={cn(
-                        'transition-smoothEase custom-scroll absolute z-10 mt-1 max-h-80 w-full overflow-auto rounded-lg bg-white py-2 shadow-lg dark:bg-subtle-black',
+                        'transition-smoothEase custom-scroll absolute z-10 mt-1 w-full overflow-auto rounded-lg bg-white py-2 shadow-lg dark:bg-subtle-black',
                         {
                             'max-h-72': showSuggestions,
                             'h-0': !showSuggestions,
