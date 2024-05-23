@@ -1,11 +1,11 @@
-import { useTranslation } from 'react-i18next';
 import { FormikProps } from 'formik';
-import { FeeSection } from '@/components/fees';
-import Amount from '@/components/wallet/Amount';
-import { Input } from '@/shared/components';
-import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
-import { SendFormik } from '@/pages/Send';
+import { useTranslation } from 'react-i18next';
 import { AddressDropdown } from '@/components/send/AddressDropdown';
+import Amount from '@/components/wallet/Amount';
+import { FeeSection } from '@/components/fees';
+import { Input } from '@/shared/components';
+import { SendFormik } from '@/pages/Send';
+import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 
 export const SendForm = ({ formik }: { formik: FormikProps<SendFormik> }) => {
     const primaryWallet = usePrimaryWallet();
@@ -47,13 +47,13 @@ export const SendForm = ({ formik }: { formik: FormikProps<SendFormik> }) => {
                     <span>
                         {`${t('COMMON.AVAILABLE')}: `}
                         <Amount
-                            value={primaryWallet?.balance() || 0}
+                            value={primaryWallet?.balance() ?? 0}
                             ticker={primaryWallet?.currency() || 'ARK'}
                             withTicker
                             showSign={false}
                             isNegative={false}
                             maxDigits={20}
-                            displayTooltip={false}
+                            displayTooltip={primaryWallet && primaryWallet.balance() > 0}
                             maxDecimals={2}
                             hideSmallValues
                         />
