@@ -91,7 +91,7 @@ export const TransactionLedgerApprovalBody = ({ wallet, state }: Props) => {
         amount,
         receiverAddress,
         memo,
-        customFee
+        customFee,
     });
 
     return (
