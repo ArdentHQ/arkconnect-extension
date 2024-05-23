@@ -140,6 +140,7 @@ export const AddressDropdown = ({
                     'pr-8': suggestions.length > 0,
                     'pr-3': suggestions.length === 0,
                 })}
+                hasFocus={showSuggestions}
                 value={value}
                 onKeyDown={handleKeyDown}
                 placeholder={t('PAGES.SEND.ENTER_OR_CHOOSE_FROM_SAVED_ADDRESSES')}
