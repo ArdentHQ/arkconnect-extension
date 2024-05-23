@@ -1,7 +1,8 @@
-import { useTranslation } from 'react-i18next';
+import { Button, Tooltip } from '@/shared/components';
+
 import { useNavigate } from 'react-router-dom';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
-import { Button, Tooltip } from '@/shared/components';
+import { useTranslation } from 'react-i18next';
 
 export const TransactionButtons = () => {
     const { t } = useTranslation();
@@ -19,6 +20,7 @@ export const TransactionButtons = () => {
                 <div>
                     <Button
                         iconLeading='send'
+                        iconClass='h-6 w-6'
                         variant='secondary'
                         disabled={walletBalance === 0}
                         onClick={() => navigate('/transaction/send')}
@@ -29,6 +31,7 @@ export const TransactionButtons = () => {
             </Tooltip>
             <Button
                 iconLeading='receive'
+                iconClass='h-6 w-6'
                 variant='secondary'
                 onClick={() => navigate('/transaction/receive')}
             >
