@@ -148,7 +148,7 @@ export const AddressDropdown = ({
             {showSuggestions && suggestions.length > 0 && (
                 <div
                     className={cn(
-                        'transition-smoothEase custom-scroll absolute z-10 mt-1 max-h-80 w-full overflow-auto rounded-lg bg-white py-2 shadow-lg dark:bg-subtle-black',
+                        'transition-smoothEase custom-scroll absolute z-10 mt-1 w-full overflow-auto rounded-lg bg-white py-2 shadow-lg dark:bg-subtle-black',
                         {
                             'max-h-72': showSuggestions,
                             'h-0': !showSuggestions,
