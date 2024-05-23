@@ -24,6 +24,7 @@ interface Props {
         unvote: VoteDelegateProperties;
         tabId: number;
         memo?: string;
+        fee?: number;
     };
 }
 
@@ -74,7 +75,7 @@ export const VoteLedgerApprovalBody = ({ wallet, state }: Props) => {
 };
 
 export const TransactionLedgerApprovalBody = ({ wallet, state }: Props) => {
-    const { session, amount, receiverAddress, memo } = state;
+    const { session, amount, receiverAddress, memo, fee: customFee } = state;
     const { convert } = useExchangeRate({
         exchangeTicker: wallet.exchangeCurrency(),
         ticker: wallet.currency(),
@@ -90,6 +91,7 @@ export const TransactionLedgerApprovalBody = ({ wallet, state }: Props) => {
         amount,
         receiverAddress,
         memo,
+        customFee
     });
 
     return (
