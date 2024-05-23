@@ -31,7 +31,7 @@ const Approve = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const { profile } = useProfileContext();
-    const { connect } = useLedgerContext();
+    const { connect, resetConnectionState } = useLedgerContext();
     const abortReference = useRef(new AbortController());
     const [isModalOpen, setIsModalOpen] = useState(false);
     const { env } = useEnvironmentContext();
@@ -79,6 +79,8 @@ const Approve = () => {
     const handleBackButtonClick = () => {
         setIsModalOpen(false);
         if(!location.state.windowId) {
+            resetConnectionState();
+            abortReference.current.abort();
             loadingModal.close();
             navigate('/');
         }
