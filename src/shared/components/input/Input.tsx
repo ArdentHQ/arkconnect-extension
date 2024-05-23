@@ -1,4 +1,5 @@
 import { MutableRefObject, ReactNode, useState } from 'react';
+
 import cn from 'classnames';
 
 type InputProps = React.ComponentPropsWithRef<'input'> & {
@@ -9,6 +10,7 @@ type InputProps = React.ComponentPropsWithRef<'input'> & {
     innerRef?: MutableRefObject<HTMLInputElement | null>;
     variant?: 'primary' | 'destructive' | 'errorFree';
     className?: string;
+    hasFocus?: boolean;
     secondaryText?: string | React.ReactNode;
     displayValue?: ReactNode;
 };
@@ -23,12 +25,13 @@ export const Input = ({
     className,
     secondaryText,
     displayValue,
+    hasFocus,
     ...rest
 }: InputProps) => {
     const [focused, setFocused] = useState(false);
 
     const handleInputBlur = (event: React.FocusEvent<HTMLInputElement>) => {
-        setFocused(false);
+        setFocused(hasFocus !== undefined ? hasFocus : false);
         if (rest.onBlur) rest.onBlur(event);
     };
 
@@ -59,7 +62,7 @@ export const Input = ({
             <div
                 className='relative flex w-full items-center'
                 onFocus={() => setFocused(true)}
-                onBlur={() => setFocused(false)}
+                onBlur={() => setFocused(hasFocus !== undefined ? hasFocus : false)}
             >
                 {!focused && displayValue && (
                     <span
