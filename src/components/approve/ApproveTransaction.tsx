@@ -31,6 +31,7 @@ type Props = {
     ) => Promise<void>;
     wallet: Contracts.IReadWriteWallet;
     closeLedgerScreen: () => void;
+    loadingModal: ReturnType<typeof useLoadingModal>;
 };
 
 const ApproveTransaction = ({
@@ -38,6 +39,7 @@ const ApproveTransaction = ({
     approveWithLedger,
     wallet,
     closeLedgerScreen,
+    loadingModal,
 }: Props) => {
     const navigate = useNavigate();
     const location = useLocation();
@@ -56,9 +58,6 @@ const ApproveTransaction = ({
     const { onError } = useErrorHandlerContext();
     const [error, setError] = useState<string | undefined>();
     const { t } = useTranslation();
-    const loadingModal = useLoadingModal({
-        loadingMessage: t('PAGES.APPROVE.FEEDBACK.PROCESSING_TRANSACTION'),
-    });
     const { convert } = useExchangeRate({
         exchangeTicker: wallet.exchangeCurrency(),
         ticker: wallet.currency(),
@@ -187,7 +186,7 @@ const ApproveTransaction = ({
         if (location.state.windowId) {
             await removeWindowInstance(location.state?.windowId, 100);
         }
-
+        loadingModal.close();
         navigate('/');
     };
 
