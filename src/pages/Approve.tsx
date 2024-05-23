@@ -78,7 +78,7 @@ const Approve = () => {
 
     const handleBackButtonClick = () => {
         setIsModalOpen(false);
-        if(!location.state.windowId) {
+        if (!location.state.windowId) {
             loadingModal.close();
             navigate('/');
         }
