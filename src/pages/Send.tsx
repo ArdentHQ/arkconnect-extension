@@ -119,6 +119,8 @@ const Send = () => {
                     receiverAddress: formik.values.receiverAddress,
                     session: {
                         walletId: primaryWallet?.id(),
+                        logo: 'icon/128.png',
+                        domain: 'Arkconnect',
                     },
                 },
             });
