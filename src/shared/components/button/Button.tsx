@@ -1,8 +1,8 @@
+import cn from 'classnames';
+import { twMerge } from 'tailwind-merge';
 import { Icon, IconDefinition, Loader } from '@/shared/components';
 
-import cn from 'classnames';
 import { isFirefox } from '@/lib/utils/isFirefox';
-import { twMerge } from 'tailwind-merge';
 
 type ButtonVariant =
     | 'primary'

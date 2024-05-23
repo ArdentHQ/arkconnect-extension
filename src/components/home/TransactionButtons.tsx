@@ -1,8 +1,8 @@
+import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { Button, Tooltip } from '@/shared/components';
 
-import { useNavigate } from 'react-router-dom';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
-import { useTranslation } from 'react-i18next';
 
 export const TransactionButtons = () => {
     const { t } = useTranslation();
