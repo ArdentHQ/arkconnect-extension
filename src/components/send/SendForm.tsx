@@ -1,11 +1,11 @@
-import { useTranslation } from 'react-i18next';
-import { FormikProps } from 'formik';
-import { FeeSection } from '@/components/fees';
-import Amount from '@/components/wallet/Amount';
-import { Input } from '@/shared/components';
-import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
-import { SendFormik } from '@/pages/Send';
 import { AddressDropdown } from '@/components/send/AddressDropdown';
+import Amount from '@/components/wallet/Amount';
+import { FeeSection } from '@/components/fees';
+import { FormikProps } from 'formik';
+import { Input } from '@/shared/components';
+import { SendFormik } from '@/pages/Send';
+import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
+import { useTranslation } from 'react-i18next';
 
 export const SendForm = ({ formik }: { formik: FormikProps<SendFormik> }) => {
     const primaryWallet = usePrimaryWallet();
@@ -51,7 +51,7 @@ export const SendForm = ({ formik }: { formik: FormikProps<SendFormik> }) => {
                             showSign={false}
                             isNegative={false}
                             maxDigits={20}
-                            displayTooltip={primaryWallet && primaryWallet.balance() > 0.1}
+                            displayTooltip={primaryWallet && primaryWallet.balance() <= 0.01}
                             maxDecimals={2}
                             hideSmallValues
                         />
