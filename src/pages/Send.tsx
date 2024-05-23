@@ -1,16 +1,16 @@
 import { object, string } from 'yup';
+import { SendButton, SendForm } from '@/components/send';
 import { useEffect, useState } from 'react';
 
 import { BigNumber } from '@ardenthq/sdk-helpers';
-import { useFormik } from 'formik';
-import { useNavigate } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
-import { validateAddress } from './CreateContact';
 import constants from '@/constants';
 import SubPageLayout from '@/components/settings/SubPageLayout';
+import { useFormik } from 'formik';
+import { useNavigate } from 'react-router-dom';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 import { useProfileContext } from '@/lib/context/Profile';
-import { SendButton, SendForm } from '@/components/send';
+import { useTranslation } from 'react-i18next';
+import { validateAddress } from './CreateContact';
 import { ValidateAddressResponse } from '@/components/address-book/types';
 import { WalletNetwork } from '@/lib/store/wallet';
 
@@ -71,21 +71,31 @@ const Send = () => {
             .trim(),
         receiverAddress: string()
             .required(t('ERROR.IS_REQUIRED', { name: 'Address' }))
-            .min(constants.ADDRESS_LENGTH, t('ERROR.IS_INVALID' + 'a3', { name: 'Address' }))
-            .max(constants.ADDRESS_LENGTH, t('ERROR.IS_INVALID' + 'a4', { name: 'Address' }))
-            .test('valid-address', t('ERROR.IS_INVALID' + 'a1', { name: 'Address' }), () => {
+            .min(
+                constants.ADDRESS_LENGTH,
+                t('ERROR.IS_INVALID_ADDRESS_LENGTH', { name: 'Address' }),
+            )
+            .max(
+                constants.ADDRESS_LENGTH,
+                t('ERROR.IS_INVALID_ADDRESS_LENGTH', { name: 'Address' }),
+            )
+            .test('valid-address', t('ERROR.IS_INVALID', { name: 'Address' }), () => {
                 if (isLoading) return true;
                 return addressValidation.isValid;
             })
-            .test('same-network-address', t('ERROR.IS_INVALID' + 'a2', { name: 'Address' }), () => {
-                if (isLoading) return true;
-                return (
-                    addressValidation.network ===
-                    (primaryWallet?.network().isTest()
-                        ? WalletNetwork.DEVNET
-                        : WalletNetwork.MAINNET)
-                );
-            })
+            .test(
+                'same-network-address',
+                t('ERROR.IS_INVALID_NETWORK', { name: 'Address' }),
+                () => {
+                    if (isLoading) return true;
+                    return (
+                        addressValidation.network ===
+                        (primaryWallet?.network().isTest()
+                            ? WalletNetwork.DEVNET
+                            : WalletNetwork.MAINNET)
+                    );
+                },
+            )
             .trim(),
     });
 
