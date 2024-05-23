@@ -1,16 +1,18 @@
-import { useTranslation } from 'react-i18next';
 import { object, string } from 'yup';
+import { useEffect, useState } from 'react';
+
+import { BigNumber } from '@ardenthq/sdk-helpers';
 import { useFormik } from 'formik';
 import { useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { validateAddress } from './CreateContact';
-import SubPageLayout from '@/components/settings/SubPageLayout';
-import { SendButton, SendForm } from '@/components/send';
-import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 import constants from '@/constants';
+import SubPageLayout from '@/components/settings/SubPageLayout';
+import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
+import { useProfileContext } from '@/lib/context/Profile';
+import { SendButton, SendForm } from '@/components/send';
 import { ValidateAddressResponse } from '@/components/address-book/types';
 import { WalletNetwork } from '@/lib/store/wallet';
-import { useProfileContext } from '@/lib/context/Profile';
 
 export type SendFormik = {
     amount?: string;
@@ -45,8 +47,10 @@ const Send = () => {
                 t('ERROR.IS_EXCEEDING_BALANCE', { name: 'fee + amount' }),
                 (value) => {
                     if (!value || !formik.values.fee) return true;
-                    const userBalance = primaryWallet?.balance() || 0;
-                    const sum: number = Number(value) + Number(formik.values.fee);
+                    const userBalance = BigNumber.make(primaryWallet?.balance() || 0);
+                    const sum: BigNumber = BigNumber.make(value).plus(
+                        BigNumber.make(formik.values.fee),
+                    );
                     return sum <= userBalance;
                 },
             )
