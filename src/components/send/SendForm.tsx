@@ -21,7 +21,7 @@ export const SendForm = ({ formik }: { formik: FormikProps<SendFormik> }) => {
         }
 
         const maxValue = Math.max(0, balance - fee);
-        formik.setFieldValue('amount', maxValue);
+        formik.setFieldValue('amount', Number(maxValue.toFixed(8).replace(/\.?0+$/, '')));
     };
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
