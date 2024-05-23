@@ -1,14 +1,14 @@
 import { ComponentPropsWithRef, useEffect, useMemo, useRef, useState } from 'react';
 
-import cn from 'classnames';
-import { useTranslation } from 'react-i18next';
 import { AddressBookModal } from './AddressBookModal';
+import cn from 'classnames';
 import constants from '@/constants';
 import { Input } from '@/shared/components';
 import Modal from '@/shared/components/modal/Modal';
 import trimAddress from '@/lib/utils/trimAddress';
 import useAddressBook from '@/lib/hooks/useAddressBook';
 import useOnClickOutside from '@/lib/hooks/useOnClickOutside';
+import { useTranslation } from 'react-i18next';
 
 type AddressDropdownProps = ComponentPropsWithRef<'input'> & {
     variant: 'primary' | 'destructive';
@@ -148,7 +148,7 @@ export const AddressDropdown = ({
             {showSuggestions && suggestions.length > 0 && (
                 <div
                     className={cn(
-                        'transition-smoothEase custom-scroll absolute z-10 mt-1 max-h-80 w-full overflow-auto rounded-lg bg-white py-2 shadow-lg dark:bg-subtle-black',
+                        'transition-smoothEase custom-scroll absolute z-10 mt-1 w-full overflow-auto rounded-lg bg-white py-2 shadow-lg dark:bg-subtle-black',
                         {
                             'max-h-72': showSuggestions,
                             'h-0': !showSuggestions,
