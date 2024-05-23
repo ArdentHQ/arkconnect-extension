@@ -51,7 +51,7 @@ export const SendForm = ({ formik }: { formik: FormikProps<SendFormik> }) => {
                             showSign={false}
                             isNegative={false}
                             maxDigits={20}
-                            displayTooltip={primaryWallet && primaryWallet.balance() <= 0.01}
+                            displayTooltip={primaryWallet && primaryWallet.balance() > 0}
                             maxDecimals={2}
                             hideSmallValues
                         />
