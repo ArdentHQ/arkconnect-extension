@@ -1,14 +1,14 @@
 import { ComponentPropsWithRef, useEffect, useMemo, useRef, useState } from 'react';
 
-import cn from 'classnames';
-import { useTranslation } from 'react-i18next';
 import { AddressBookModal } from './AddressBookModal';
+import cn from 'classnames';
 import constants from '@/constants';
 import { Input } from '@/shared/components';
 import Modal from '@/shared/components/modal/Modal';
 import trimAddress from '@/lib/utils/trimAddress';
 import useAddressBook from '@/lib/hooks/useAddressBook';
 import useOnClickOutside from '@/lib/hooks/useOnClickOutside';
+import { useTranslation } from 'react-i18next';
 
 type AddressDropdownProps = ComponentPropsWithRef<'input'> & {
     variant: 'primary' | 'destructive';
@@ -130,6 +130,7 @@ export const AddressDropdown = ({
                     'pr-8': suggestions.length > 0,
                     'pr-3': suggestions.length === 0,
                 })}
+                hasFocus={showSuggestions}
                 value={value}
                 onKeyDown={handleKeyDown}
                 placeholder={t('PAGES.SEND.ENTER_OR_CHOOSE_FROM_SAVED_ADDRESSES')}
