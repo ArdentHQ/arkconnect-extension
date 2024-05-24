@@ -52,12 +52,13 @@ const AddressBookItem = ({
                     {network === WalletNetwork.DEVNET && <TestnetIcon />}
                 </div>
                 <Tooltip content={<span>{address}</span>}>
-                    <span className='cursor-default text-sm font-normal text-theme-secondary-500 dark:text-theme-secondary-300 flex flex-row gap-0.5'>
+                    <span className='flex cursor-default flex-row gap-0.5 text-sm font-normal text-theme-secondary-500 dark:text-theme-secondary-300'>
                         {trimmedAddress}
-                        <span className='h-5 w-5 flex items-center justify-center cursor-pointer' 
-                        onClick={() => {
-                            copy(address, trimmedAddress, ToastPosition.LOWER);
-                        }}
+                        <span
+                            className='flex h-5 w-5 cursor-pointer items-center justify-center'
+                            onClick={() => {
+                                copy(address, trimmedAddress, ToastPosition.LOWER);
+                            }}
                         >
                             <Icon icon='copy' className='h-[13px] w-[13px]' />
                         </span>
