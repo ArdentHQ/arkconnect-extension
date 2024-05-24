@@ -1,10 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { ToastPosition } from '../toast/ToastContainer';
 import { TestnetIcon } from '@/components/wallet/address/Address.blocks';
 import { Contact } from '@/lib/hooks/useAddressBook';
 import { WalletNetwork } from '@/lib/store/wallet';
 import trimAddress from '@/lib/utils/trimAddress';
-import { IconButton, Tooltip } from '@/shared/components';
+import { Icon, IconButton, Tooltip } from '@/shared/components';
+import useClipboard from '@/lib/hooks/useClipboard';
 
 const AddressBookItem = ({
     name,
@@ -19,6 +21,7 @@ const AddressBookItem = ({
 }) => {
     const navigate = useNavigate();
     const nameRef = useRef<HTMLSpanElement>(null);
+    const { copy } = useClipboard();
     const [displayTooltip, setDisplayTooltip] = useState<boolean>(false);
 
     useEffect(() => {
@@ -33,6 +36,7 @@ const AddressBookItem = ({
         }
     }, [name]);
 
+    const trimmedAddress = trimAddress(address, 10);
     return (
         <div className='transition-smoothEase flex w-full flex-row items-center justify-between px-4 py-3 hover:bg-theme-secondary-50 dark:hover:bg-theme-secondary-700'>
             <div className='flex flex-col gap-1'>
@@ -48,8 +52,15 @@ const AddressBookItem = ({
                     {network === WalletNetwork.DEVNET && <TestnetIcon />}
                 </div>
                 <Tooltip content={<span>{address}</span>}>
-                    <span className='cursor-default text-sm font-normal text-theme-secondary-500 dark:text-theme-secondary-300'>
-                        {trimAddress(address, 10)}
+                    <span className='cursor-default text-sm font-normal text-theme-secondary-500 dark:text-theme-secondary-300 flex flex-row gap-0.5'>
+                        {trimmedAddress}
+                        <span className='h-5 w-5 flex items-center justify-center cursor-pointer' 
+                        onClick={() => {
+                            copy(address, trimmedAddress, ToastPosition.LOWER);
+                        }}
+                        >
+                            <Icon icon='copy' className='h-[13px] w-[13px]' />
+                        </span>
                     </span>
                 </Tooltip>
             </div>
