@@ -139,7 +139,7 @@ const CreateContact = () => {
             <AddNewContactForm formik={formik} />
             <div className='absolute -bottom-4 left-0 w-full'>
                 <SaveContactButton
-                    disabled={!(formik.isValid && (formik.values.name && formik.values.address))}
+                    disabled={!(formik.isValid && formik.values.name && formik.values.address)}
                     onClick={formik.handleSubmit}
                 />
             </div>
