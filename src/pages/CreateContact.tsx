@@ -86,14 +86,16 @@ const CreateContact = () => {
             address: lastVisitedPage?.data?.address || '',
         },
         validationSchema: validationSchema,
-        onSubmit: () => {
+        onSubmit: async() => {
             addContact({
                 name: formik.values.name,
                 address: formik.values.address,
                 type: addressValidation.network,
             });
-            runtime.sendMessage({ type: 'CLEAR_LAST_SCREEN' });
+            
             // Reset
+            runtime.sendMessage({type: 'CLEAR_LAST_SCREEN'});
+            profile.settings().forget('LAST_VISITED_PAGE');
             formik.resetForm();
             setAddressValidation({ isValid: false, network: WalletNetwork.MAINNET });
             toast('success', t('PAGES.ADDRESS_BOOK.CONTACT_ADDED'));
@@ -119,14 +121,7 @@ const CreateContact = () => {
     }, [addressValidation]);
 
     useEffect(() => {
-        runtime.sendMessage({
-            type: 'SET_LAST_SCREEN',
-            path: ScreenName.AddContact,
-            data: {
-                name: formik.values.name,
-                address: formik.values.address,
-            },
-        });
+        runtime.sendMessage({type: 'SET_LAST_SCREEN', path: ScreenName.AddContact, data: formik.values});
     }, [formik.values]);
 
     return (
@@ -138,7 +133,7 @@ const CreateContact = () => {
             <AddNewContactForm formik={formik} />
             <div className='absolute -bottom-4 left-0 w-full'>
                 <SaveContactButton
-                    disabled={!(formik.isValid && formik.dirty)}
+                    disabled={!formik.isValid}
                     onClick={formik.handleSubmit}
                 />
             </div>
