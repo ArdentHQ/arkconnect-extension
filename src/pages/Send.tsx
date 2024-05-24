@@ -168,10 +168,7 @@ const Send = () => {
                 <SendForm formik={formik} />
             </div>
             <div className='w-full'>
-                <SendButton
-                    disabled={!(formik.isValid && hasValues)}
-                    onClick={formik.submitForm}
-                />
+                <SendButton disabled={!(formik.isValid && hasValues)} onClick={formik.submitForm} />
             </div>
         </SubPageLayout>
     );
