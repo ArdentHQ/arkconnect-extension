@@ -5,6 +5,7 @@ import { BigNumber } from '@ardenthq/sdk-helpers';
 import { useFormik } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { runtime } from 'webextension-polyfill';
 import { validateAddress } from './CreateContact';
 import constants from '@/constants';
 import SubPageLayout from '@/components/settings/SubPageLayout';
@@ -13,6 +14,7 @@ import { useProfileContext } from '@/lib/context/Profile';
 import { SendButton, SendForm } from '@/components/send';
 import { ValidateAddressResponse } from '@/components/address-book/types';
 import { WalletNetwork } from '@/lib/store/wallet';
+import { ScreenName } from '@/lib/background/contracts';
 
 export type SendFormik = {
     amount?: string;
@@ -26,6 +28,7 @@ const Send = () => {
     const primaryWallet = usePrimaryWallet();
     const { t } = useTranslation();
     const { profile } = useProfileContext();
+    const lastVisitedPage = profile.settings().get('LAST_VISITED_PAGE') as { data: SendFormik };
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [addressValidation, setAddressValidation] = useState<ValidateAddressResponse>({
         isValid: false,
@@ -101,13 +104,14 @@ const Send = () => {
 
     const formik = useFormik<SendFormik>({
         initialValues: {
-            amount: '',
-            memo: '',
-            fee: '',
-            receiverAddress: '',
+            amount: lastVisitedPage?.data?.amount || '',
+            memo: lastVisitedPage?.data?.memo || '',
+            fee: lastVisitedPage?.data?.fee || '',
+            receiverAddress: lastVisitedPage?.data?.receiverAddress || '',
         },
         validationSchema: validationSchema,
         onSubmit: () => {
+            runtime.sendMessage({ type: 'CLEAR_LAST_SCREEN' });
             formik.resetForm();
             setAddressValidation({ isValid: false, network: WalletNetwork.MAINNET });
             navigate('/approve', {
@@ -146,6 +150,19 @@ const Send = () => {
             handleAddressValidation();
         }
     }, [formik.values.receiverAddress, profile]);
+
+    useEffect(() => {
+        runtime.sendMessage({
+            type: 'SET_LAST_SCREEN',
+            path: ScreenName.SendTransfer,
+            data: {
+                amount: formik.values.amount,
+                memo: formik.values.memo,
+                fee: formik.values.fee,
+                receiverAddress: formik.values.receiverAddress,
+            },
+        });
+    }, [formik.values]);
 
     return (
         <SubPageLayout title={t('COMMON.SEND')} className='relative p-0'>
