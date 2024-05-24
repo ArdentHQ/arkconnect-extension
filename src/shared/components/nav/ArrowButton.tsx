@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import cn from 'classnames';
+import { runtime } from 'webextension-polyfill';
 import { NavButton } from './NavButton';
 import { Icon } from '@/shared/components';
 
@@ -21,6 +22,8 @@ export const ArrowButton = ({
             onClick();
             return;
         }
+
+        runtime.sendMessage({type: 'CLEAR_LAST_SCREEN'});
 
         if (action === 'goBack') {
             navigate(-1);
