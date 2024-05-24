@@ -160,6 +160,8 @@ const Send = () => {
         });
     }, [formik.values]);
 
+    const hasValues = formik.values.amount && formik.values.receiverAddress && formik.values.fee;
+
     return (
         <SubPageLayout title={t('COMMON.SEND')} className='relative p-0'>
             <div className='custom-scroll h-[393px] w-full overflow-y-auto px-4'>
@@ -167,7 +169,7 @@ const Send = () => {
             </div>
             <div className='w-full'>
                 <SendButton
-                    disabled={!(formik.isValid && formik.dirty)}
+                    disabled={!(formik.isValid && hasValues)}
                     onClick={formik.submitForm}
                 />
             </div>
