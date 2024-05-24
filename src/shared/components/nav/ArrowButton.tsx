@@ -23,7 +23,7 @@ export const ArrowButton = ({
             return;
         }
 
-        runtime.sendMessage({type: 'CLEAR_LAST_SCREEN'});
+        runtime.sendMessage({ type: 'CLEAR_LAST_SCREEN' });
 
         if (action === 'goBack') {
             navigate(-1);
