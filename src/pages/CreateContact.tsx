@@ -58,7 +58,9 @@ const CreateContact = () => {
     const { t } = useTranslation();
     const { addContact, addressBook } = useAddressBook();
     const { profile } = useProfileContext();
-    const lastVisitedPage = profile.settings().get('LAST_VISITED_PAGE') as { data: { name: string; address: string }};
+    const lastVisitedPage = profile.settings().get('LAST_VISITED_PAGE') as {
+        data: { name: string; address: string };
+    };
     const [addressValidation, setAddressValidation] = useState<ValidateAddressResponse>({
         isValid: false,
         network: WalletNetwork.MAINNET,
@@ -86,15 +88,15 @@ const CreateContact = () => {
             address: lastVisitedPage?.data?.address || '',
         },
         validationSchema: validationSchema,
-        onSubmit: async() => {
+        onSubmit: async () => {
             addContact({
                 name: formik.values.name,
                 address: formik.values.address,
                 type: addressValidation.network,
             });
-            
+
             // Reset
-            runtime.sendMessage({type: 'CLEAR_LAST_SCREEN'});
+            runtime.sendMessage({ type: 'CLEAR_LAST_SCREEN' });
             profile.settings().forget('LAST_VISITED_PAGE');
             formik.resetForm();
             setAddressValidation({ isValid: false, network: WalletNetwork.MAINNET });
@@ -121,7 +123,11 @@ const CreateContact = () => {
     }, [addressValidation]);
 
     useEffect(() => {
-        runtime.sendMessage({type: 'SET_LAST_SCREEN', path: ScreenName.AddContact, data: formik.values});
+        runtime.sendMessage({
+            type: 'SET_LAST_SCREEN',
+            path: ScreenName.AddContact,
+            data: formik.values,
+        });
     }, [formik.values]);
 
     return (
@@ -132,10 +138,7 @@ const CreateContact = () => {
         >
             <AddNewContactForm formik={formik} />
             <div className='absolute -bottom-4 left-0 w-full'>
-                <SaveContactButton
-                    disabled={!formik.isValid}
-                    onClick={formik.handleSubmit}
-                />
+                <SaveContactButton disabled={!formik.isValid} onClick={formik.handleSubmit} />
             </div>
         </SubPageLayout>
     );

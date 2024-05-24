@@ -111,7 +111,7 @@ const Send = () => {
         },
         validationSchema: validationSchema,
         onSubmit: () => {
-            runtime.sendMessage({type: 'CLEAR_LAST_SCREEN'});
+            runtime.sendMessage({ type: 'CLEAR_LAST_SCREEN' });
             profile.settings().forget('LAST_VISITED_PAGE');
             formik.resetForm();
             setAddressValidation({ isValid: false, network: WalletNetwork.MAINNET });
@@ -153,7 +153,11 @@ const Send = () => {
     }, [formik.values.receiverAddress, profile]);
 
     useEffect(() => {
-        runtime.sendMessage({type: 'SET_LAST_SCREEN', path: ScreenName.SendTransfer, data: formik.values});
+        runtime.sendMessage({
+            type: 'SET_LAST_SCREEN',
+            path: ScreenName.SendTransfer,
+            data: formik.values,
+        });
     }, [formik.values]);
 
     return (
