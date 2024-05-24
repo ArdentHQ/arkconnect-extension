@@ -4,6 +4,7 @@ import { Contracts } from '@ardenthq/sdk-profiles';
 import { useFormik } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { runtime } from 'webextension-polyfill';
 import { AddNewContactForm, SaveContactButton } from '@/components/address-book';
 import { ContactFormik, ValidateAddressResponse } from '@/components/address-book/types';
 import { WalletNetwork } from '@/lib/store/wallet';
@@ -13,6 +14,7 @@ import SubPageLayout from '@/components/settings/SubPageLayout';
 import useAddressBook from '@/lib/hooks/useAddressBook';
 import { useProfileContext } from '@/lib/context/Profile';
 import useToast from '@/lib/hooks/useToast';
+import { ScreenName } from '@/lib/background/contracts';
 
 const COIN_ID = 'ARK';
 
@@ -56,6 +58,7 @@ const CreateContact = () => {
     const { t } = useTranslation();
     const { addContact, addressBook } = useAddressBook();
     const { profile } = useProfileContext();
+    const lastVisitedPage = profile.settings().get('LAST_VISITED_PAGE') as { data: { name: string; address: string }};
     const [addressValidation, setAddressValidation] = useState<ValidateAddressResponse>({
         isValid: false,
         network: WalletNetwork.MAINNET,
@@ -79,8 +82,8 @@ const CreateContact = () => {
 
     const formik = useFormik<ContactFormik>({
         initialValues: {
-            name: '',
-            address: '',
+            name: lastVisitedPage?.data?.name || '',
+            address: lastVisitedPage?.data?.address || '',
         },
         validationSchema: validationSchema,
         onSubmit: () => {
@@ -89,10 +92,10 @@ const CreateContact = () => {
                 address: formik.values.address,
                 type: addressValidation.network,
             });
+            runtime.sendMessage({ type: 'CLEAR_LAST_SCREEN' });
             // Reset
             formik.resetForm();
             setAddressValidation({ isValid: false, network: WalletNetwork.MAINNET });
-
             toast('success', t('PAGES.ADDRESS_BOOK.CONTACT_ADDED'));
             navigate('/address-book');
         },
@@ -114,6 +117,17 @@ const CreateContact = () => {
             formik.validateField('address');
         }
     }, [addressValidation]);
+
+    useEffect(() => {
+        runtime.sendMessage({
+            type: 'SET_LAST_SCREEN',
+            path: ScreenName.AddContact,
+            data: {
+                name: formik.values.name,
+                address: formik.values.address,
+            },
+        });
+    }, [formik.values]);
 
     return (
         <SubPageLayout
