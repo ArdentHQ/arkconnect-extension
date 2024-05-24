@@ -35,7 +35,7 @@ export const SendForm = ({ formik }: { formik: FormikProps<SendFormik> }) => {
     };
 
     return (
-        <div className='flex flex-col gap-4'>
+        <div className='flex flex-col gap-4 w-[338px]'>
             <AddressDropdown
                 onChange={handleInputChange}
                 onBlur={formik.handleBlur}
