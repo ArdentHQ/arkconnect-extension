@@ -158,6 +158,11 @@ const Send = () => {
             path: ScreenName.SendTransfer,
             data: formik.values,
         });
+
+        return () => {
+            runtime.sendMessage({ type: 'CLEAR_LAST_SCREEN' });
+            profile.settings().forget('LAST_VISITED_PAGE');
+        };
     }, [formik.values]);
 
     const hasValues = formik.values.amount && formik.values.receiverAddress && formik.values.fee;

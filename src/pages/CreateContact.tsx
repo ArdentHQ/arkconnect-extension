@@ -128,6 +128,11 @@ const CreateContact = () => {
             path: ScreenName.AddContact,
             data: formik.values,
         });
+
+        return () => {
+            runtime.sendMessage({ type: 'CLEAR_LAST_SCREEN' });
+            profile.settings().forget('LAST_VISITED_PAGE');
+        };
     }, [formik.values]);
 
     return (
