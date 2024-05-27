@@ -98,7 +98,7 @@ const Approve = () => {
     };
 
     useEffect(() => {
-        if(location.state?.type === ApproveActionType.TRANSACTION) {
+        if (location.state?.type === ApproveActionType.TRANSACTION) {
             profile.settings().set('LAST_VISITED_PAGE', {
                 path: ScreenName.SendTransfer,
                 data: location.state,
