@@ -39,7 +39,7 @@ const Send = () => {
     const { profile } = useProfileContext();
     const lastVisitedPage = profile.settings().get('LAST_VISITED_PAGE') as { data: PageData };
     
-    if (lastVisitedPage?.data && lastVisitedPage.data.type === 'transfer') {
+    if (lastVisitedPage?.data && lastVisitedPage.data.type === 'transfer' && lastVisitedPage.data.session) {
         navigate('/approve', {
             state: {
                 type: 'transfer',
