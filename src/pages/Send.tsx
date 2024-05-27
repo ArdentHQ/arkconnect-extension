@@ -149,7 +149,7 @@ const Send = () => {
 
     return (
         <SubPageLayout title={t('COMMON.SEND')} className='relative p-0'>
-            <div className='custom-scroll h-[393px] w-full overflow-y-auto px-4'>
+            <div className='custom-scroll h-[393px] w-full overflow-y-auto overflow-x-hidden px-4'>
                 <SendForm formik={formik} />
             </div>
             <div className='w-full'>
