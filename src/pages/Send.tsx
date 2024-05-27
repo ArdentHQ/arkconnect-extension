@@ -25,11 +25,11 @@ export type SendFormik = {
 
 interface PageData extends SendFormik {
     type?: string;
-    session?:  {
+    session?: {
         walletId: string;
         logo: string;
         domain: string;
-    } 
+    };
 }
 
 const Send = () => {
@@ -38,7 +38,7 @@ const Send = () => {
     const { t } = useTranslation();
     const { profile } = useProfileContext();
     const lastVisitedPage = profile.settings().get('LAST_VISITED_PAGE') as { data: PageData };
-    
+
     if (lastVisitedPage?.data && lastVisitedPage.data.type === 'transfer') {
         navigate('/approve', {
             state: {
