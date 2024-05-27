@@ -41,6 +41,9 @@ const EditContact = () => {
             .max(34, t('ERROR.IS_INVALID', { name: 'Address' }))
             .test('valid-address', t('ERROR.IS_INVALID', { name: 'Address' }), () => {
                 return addressValidation.isValid;
+            })
+            .test('unique-address', t('ERROR.IS_DUPLICATED', { name: 'contact address' }), (address) => {
+                return !addressBook?.find((contact) => contact.address === address);
             }),
     });
 
