@@ -23,12 +23,35 @@ export type SendFormik = {
     receiverAddress: string;
 };
 
+interface PageData extends SendFormik {
+    type?: string;
+    session?:  {
+        walletId: string;
+        logo: string;
+        domain: string;
+    } 
+}
+
 const Send = () => {
     const navigate = useNavigate();
     const primaryWallet = usePrimaryWallet();
     const { t } = useTranslation();
     const { profile } = useProfileContext();
-    const lastVisitedPage = profile.settings().get('LAST_VISITED_PAGE') as { data: SendFormik };
+    const lastVisitedPage = profile.settings().get('LAST_VISITED_PAGE') as { data: PageData };
+    
+    if (lastVisitedPage?.data && lastVisitedPage.data.type === 'transfer') {
+        navigate('/approve', {
+            state: {
+                type: 'transfer',
+                amount: Number(lastVisitedPage.data.amount),
+                memo: lastVisitedPage.data.memo,
+                fee: Number(lastVisitedPage.data.fee),
+                receiverAddress: lastVisitedPage.data.receiverAddress,
+                session: lastVisitedPage.data.session,
+            },
+        });
+    }
+
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [addressValidation, setAddressValidation] = useState<ValidateAddressResponse>({
         isValid: false,

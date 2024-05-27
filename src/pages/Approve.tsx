@@ -18,6 +18,7 @@ import { assertIsUnlocked } from '@/lib/background/assertions';
 import useWalletSync from '@/lib/hooks/useWalletSync';
 import { useEnvironmentContext } from '@/lib/context/Environment';
 import useLoadingModal from '@/lib/hooks/useLoadingModal';
+import { ScreenName } from '@/lib/background/contracts';
 
 export enum ApproveActionType {
     SIGNATURE = 'signature',
@@ -95,6 +96,19 @@ const Approve = () => {
                 return actionType;
         }
     };
+
+    useEffect(() => {
+        if(location.state?.type === ApproveActionType.TRANSACTION) {
+            profile.settings().set('LAST_VISITED_PAGE', {
+                path: ScreenName.SendTransfer,
+                data: location.state,
+            });
+        }
+
+        return () => {
+            profile.settings().forget('LAST_VISITED_PAGE');
+        };
+    }, [location]);
 
     return (
         <Layout withHeader={false}>
