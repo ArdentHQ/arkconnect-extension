@@ -4,6 +4,8 @@ import Modal from '@/shared/components/modal/Modal';
 import { useAppDispatch } from '@/lib/store';
 import * as SessionStore from '@/lib/store/session';
 import { useProfileContext } from '@/lib/context/Profile';
+import { ProfileData } from '@/lib/background/contracts';
+import { useEnvironmentContext } from '@/lib/context/Environment';
 
 interface Properties {
     onCancel?: () => void;
@@ -14,6 +16,7 @@ interface Properties {
 export const DisconnectSessionModal = ({ isOpen, onCancel, onConfirm, sessions }: Properties) => {
     const dispatch = useAppDispatch();
     const { profile } = useProfileContext();
+    const { persist } = useEnvironmentContext();
 
     const handleDisconnect = async () => {
         await dispatch(SessionStore.sessionRemoved(sessions.map((session) => session.id)));
@@ -30,14 +33,14 @@ export const DisconnectSessionModal = ({ isOpen, onCancel, onConfirm, sessions }
 
             const profileSessions = profile
                 .settings()
-                .get('SESSIONS') as SessionStore.SessionEntries;
-            const updatedSessions = Object.keys(profileSessions)
-                .filter((id) => !sessions.map((session) => session.id).includes(id))
-                .reduce<Record<string, SessionStore.Session>>((obj, key) => {
-                    obj[key] = profileSessions[key];
-                    return obj;
-                }, {});
-            profile.settings().set('SESSIONS', updatedSessions);
+                .get(ProfileData.Sessions);
+            if (profileSessions) {
+                const updatedSessions = Object.keys(profileSessions).filter(
+                    (id) => !sessions.map((session) => session.id).includes(id),
+                );
+                profile.settings().set(ProfileData.Sessions, updatedSessions);
+                await persist();
+            }
         }
 
         onConfirm?.();
