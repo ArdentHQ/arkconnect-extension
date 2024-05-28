@@ -31,9 +31,7 @@ export const DisconnectSessionModal = ({ isOpen, onCancel, onConfirm, sessions }
                 },
             });
 
-            const profileSessions = profile
-                .settings()
-                .get(ProfileData.Sessions);
+            const profileSessions = profile.settings().get(ProfileData.Sessions);
             if (profileSessions) {
                 const updatedSessions = Object.keys(profileSessions).filter(
                     (id) => !sessions.map((session) => session.id).includes(id),
