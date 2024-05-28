@@ -171,7 +171,7 @@ export const AddressDropdown = ({
                         <button
                             key={index}
                             className={cn(
-                                'flex w-full cursor-pointer flex-col gap-1 px-4 py-3 hover:bg-theme-secondary-50 dark:hover:bg-theme-secondary-700',
+                                'flex w-full cursor-pointer flex-col items-start gap-1 px-4 py-3 hover:bg-theme-secondary-50 dark:hover:bg-theme-secondary-700',
                             )}
                             onClick={() => {
                                 inputRef?.current?.click();

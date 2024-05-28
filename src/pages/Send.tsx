@@ -5,6 +5,7 @@ import { BigNumber } from '@ardenthq/sdk-helpers';
 import { useFormik } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { runtime } from 'webextension-polyfill';
 import { validateAddress } from './CreateContact';
 import constants from '@/constants';
 import SubPageLayout from '@/components/settings/SubPageLayout';
@@ -13,6 +14,7 @@ import { useProfileContext } from '@/lib/context/Profile';
 import { SendButton, SendForm } from '@/components/send';
 import { ValidateAddressResponse } from '@/components/address-book/types';
 import { WalletNetwork } from '@/lib/store/wallet';
+import { ScreenName } from '@/lib/background/contracts';
 
 export type SendFormik = {
     amount?: string;
@@ -21,11 +23,35 @@ export type SendFormik = {
     receiverAddress: string;
 };
 
+interface PageData extends SendFormik {
+    type?: string;
+    session?: {
+        walletId: string;
+        logo: string;
+        domain: string;
+    };
+}
+
 const Send = () => {
     const navigate = useNavigate();
     const primaryWallet = usePrimaryWallet();
     const { t } = useTranslation();
     const { profile } = useProfileContext();
+    const lastVisitedPage = profile.settings().get('LAST_VISITED_PAGE') as { data: PageData };
+
+    if (lastVisitedPage?.data && lastVisitedPage.data.type === 'transfer') {
+        navigate('/approve', {
+            state: {
+                type: 'transfer',
+                amount: Number(lastVisitedPage.data.amount),
+                memo: lastVisitedPage.data.memo,
+                fee: Number(lastVisitedPage.data.fee),
+                receiverAddress: lastVisitedPage.data.receiverAddress,
+                session: lastVisitedPage.data.session,
+            },
+        });
+    }
+
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [addressValidation, setAddressValidation] = useState<ValidateAddressResponse>({
         isValid: false,
@@ -101,13 +127,15 @@ const Send = () => {
 
     const formik = useFormik<SendFormik>({
         initialValues: {
-            amount: '',
-            memo: '',
-            fee: '',
-            receiverAddress: '',
+            amount: lastVisitedPage?.data?.amount || '',
+            memo: lastVisitedPage?.data?.memo || '',
+            fee: lastVisitedPage?.data?.fee || '',
+            receiverAddress: lastVisitedPage?.data?.receiverAddress || '',
         },
         validationSchema: validationSchema,
         onSubmit: () => {
+            runtime.sendMessage({ type: 'CLEAR_LAST_SCREEN' });
+            profile.settings().forget('LAST_VISITED_PAGE');
             formik.resetForm();
             setAddressValidation({ isValid: false, network: WalletNetwork.MAINNET });
             navigate('/approve', {
@@ -147,16 +175,28 @@ const Send = () => {
         }
     }, [formik.values.receiverAddress, profile]);
 
+    useEffect(() => {
+        runtime.sendMessage({
+            type: 'SET_LAST_SCREEN',
+            path: ScreenName.SendTransfer,
+            data: formik.values,
+        });
+
+        return () => {
+            runtime.sendMessage({ type: 'CLEAR_LAST_SCREEN' });
+            profile.settings().forget('LAST_VISITED_PAGE');
+        };
+    }, [formik.values]);
+
+    const hasValues = formik.values.amount && formik.values.receiverAddress && formik.values.fee;
+
     return (
         <SubPageLayout title={t('COMMON.SEND')} className='relative p-0'>
-            <div className='custom-scroll h-[393px] w-full overflow-y-auto px-4'>
+            <div className='custom-scroll h-[393px] w-full overflow-y-auto overflow-x-hidden px-4'>
                 <SendForm formik={formik} />
             </div>
             <div className='w-full'>
-                <SendButton
-                    disabled={!(formik.isValid && formik.dirty)}
-                    onClick={formik.submitForm}
-                />
+                <SendButton disabled={!(formik.isValid && hasValues)} onClick={formik.submitForm} />
             </div>
         </SubPageLayout>
     );
