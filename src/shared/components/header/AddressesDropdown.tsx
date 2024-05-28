@@ -12,7 +12,6 @@ import {
 } from '@/components/wallet/address/Address.blocks';
 import { Icon, RadioButton } from '@/shared/components';
 
-import { ExtensionEvents } from '@/lib/events';
 import { getNetworkCurrency } from '@/lib/utils/getActiveCoin';
 import { primaryWalletIdChanged } from '@/lib/store/wallet';
 import { useAppDispatch } from '@/lib/store';

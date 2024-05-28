@@ -7,7 +7,6 @@ import { importWallets } from '@/background.helpers';
 import { EnvironmentData, ProfileData } from '@/lib/background/contracts';
 import { SendTransferInput } from '@/lib/background/extension.wallet';
 import { SessionEntries } from '@/lib/store/session';
-import { PrimaryWallet } from './lib/background/extension.wallet.primary';
 
 export enum OneTimeEvents {
     SEND_VOTE = 'SEND_VOTE',
