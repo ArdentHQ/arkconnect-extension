@@ -71,14 +71,6 @@ export const AddressesDropdown = ({
         await persist();
         await initProfile();
 
-        void ExtensionEvents({ profile }).changeAddress({
-            wallet: {
-                network: newPrimaryAddress.network().name(),
-                address: newPrimaryAddress.address(),
-                coin: newPrimaryAddress.network().coin(),
-            },
-        });
-
         const switchNetworkToast: string = 'Primary address changed';
         toast('success', switchNetworkToast);
     };

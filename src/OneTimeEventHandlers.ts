@@ -7,6 +7,7 @@ import { importWallets } from '@/background.helpers';
 import { EnvironmentData, ProfileData } from '@/lib/background/contracts';
 import { SendTransferInput } from '@/lib/background/extension.wallet';
 import { SessionEntries } from '@/lib/store/session';
+import { PrimaryWallet } from './lib/background/extension.wallet.primary';
 
 export enum OneTimeEvents {
     SEND_VOTE = 'SEND_VOTE',
@@ -127,7 +128,20 @@ export function OneTimeEventHandlers(extension: ReturnType<typeof Extension>) {
         },
 
         [OneTimeEvents.PERSIST]: async (request: any) => {
-            return await handleSetData(request, extension);
+            const existingPrimaryWalletId = extension.primaryWallet().id();
+            const dump = await handleSetData(request, extension);
+
+            if (existingPrimaryWalletId !== extension.primaryWallet().id()) {
+                void ExtensionEvents({ profile: extension.profile() }).changeAddress({
+                    wallet: {
+                        network: extension.primaryWallet().wallet().network().name(),
+                        address: extension.primaryWallet().wallet().address(),
+                        coin: extension.primaryWallet().wallet().network().coin(),
+                    },
+                });
+            }
+
+            return dump;
         },
 
         [OneTimeEvents.PERSIST_ENV_DATA]: async (request: any) => {

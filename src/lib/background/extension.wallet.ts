@@ -1,5 +1,5 @@
 import { Contracts } from '@ardenthq/sdk-profiles';
-import { Contracts as SDKContracts, Services } from '@ardenthq/sdk';
+import { Networks, Contracts as SDKContracts, Services } from '@ardenthq/sdk';
 import { buildTransferData } from '@/lib/utils/transactionHelpers';
 
 interface RecipientItem {
@@ -116,6 +116,22 @@ export function Wallet({ wallet }: { wallet: Contracts.IReadWriteWallet }) {
                 message,
                 signatory: await wallet.signatory().mnemonic(mnemonic),
             });
+        },
+        /**
+         * Returns the address for the wallet.
+         *
+         * @returns {string}
+         */
+        address(): string {
+            return wallet.address();
+        },
+        /**
+         * Returns the network of a wallet.
+         *
+         * @returns {Networks.Network}
+         */
+        network(): Networks.Network {
+            return wallet.coin().network();
         },
     };
 }
