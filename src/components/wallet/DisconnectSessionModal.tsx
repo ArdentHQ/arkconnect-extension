@@ -28,13 +28,15 @@ export const DisconnectSessionModal = ({ isOpen, onCancel, onConfirm, sessions }
                 },
             });
 
-            const profileSessions = profile.settings().get('SESSIONS') as SessionStore.SessionEntries;
+            const profileSessions = profile
+                .settings()
+                .get('SESSIONS') as SessionStore.SessionEntries;
             const updatedSessions = Object.keys(profileSessions)
                 .filter((id) => !sessions.map((session) => session.id).includes(id))
                 .reduce<Record<string, SessionStore.Session>>((obj, key) => {
                     obj[key] = profileSessions[key];
                     return obj;
-            }, {});
+                }, {});
             profile.settings().set('SESSIONS', updatedSessions);
         }
 
