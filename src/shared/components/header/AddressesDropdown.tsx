@@ -12,7 +12,6 @@ import {
 } from '@/components/wallet/address/Address.blocks';
 import { Icon, RadioButton } from '@/shared/components';
 
-import { ExtensionEvents } from '@/lib/events';
 import { getNetworkCurrency } from '@/lib/utils/getActiveCoin';
 import { primaryWalletIdChanged } from '@/lib/store/wallet';
 import { useAppDispatch } from '@/lib/store';
@@ -70,14 +69,6 @@ export const AddressesDropdown = ({
 
         await persist();
         await initProfile();
-
-        void ExtensionEvents({ profile }).changeAddress({
-            wallet: {
-                network: newPrimaryAddress.network().name(),
-                address: newPrimaryAddress.address(),
-                coin: newPrimaryAddress.network().coin(),
-            },
-        });
 
         const switchNetworkToast: string = 'Primary address changed';
         toast('success', switchNetworkToast);
