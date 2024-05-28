@@ -46,7 +46,7 @@ const EditContact = () => {
                 'unique-address',
                 t('ERROR.IS_DUPLICATED', { name: 'contact address' }),
                 (address) => {
-                    if(contact?.address === address) return true;
+                    if (contact?.address === address) return true;
                     return !addressBook?.find((contact) => contact.address === address);
                 },
             ),
