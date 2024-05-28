@@ -3,6 +3,7 @@ import RemoveConnections from '@/components/connections/RemoveConnections';
 import Modal from '@/shared/components/modal/Modal';
 import { useAppDispatch } from '@/lib/store';
 import * as SessionStore from '@/lib/store/session';
+import { useProfileContext } from '@/lib/context/Profile';
 
 interface Properties {
     onCancel?: () => void;
@@ -12,6 +13,7 @@ interface Properties {
 }
 export const DisconnectSessionModal = ({ isOpen, onCancel, onConfirm, sessions }: Properties) => {
     const dispatch = useAppDispatch();
+    const { profile } = useProfileContext();
 
     const handleDisconnect = async () => {
         await dispatch(SessionStore.sessionRemoved(sessions.map((session) => session.id)));
@@ -25,6 +27,15 @@ export const DisconnectSessionModal = ({ isOpen, onCancel, onConfirm, sessions }
                     disconnected: false,
                 },
             });
+
+            const profileSessions = profile.settings().get('SESSIONS') as SessionStore.SessionEntries;
+            const updatedSessions = Object.keys(profileSessions)
+                .filter((id) => !sessions.map((session) => session.id).includes(id))
+                .reduce<Record<string, SessionStore.Session>>((obj, key) => {
+                    obj[key] = profileSessions[key];
+                    return obj;
+            }, {});
+            profile.settings().set('SESSIONS', updatedSessions);
         }
 
         onConfirm?.();
