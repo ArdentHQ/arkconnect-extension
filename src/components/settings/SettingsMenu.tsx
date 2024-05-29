@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import classNames from 'classnames';
 import { HeadingDescription, ToggleSwitch } from '@/shared/components';
 import { SettingsOption } from '@/components/settings/SettingsOption';
-import { lockedChanged } from '@/lib/store/ui';
+import { lockedChanged, ThemeAccent } from '@/lib/store/ui';
 import { selectWalletsIds } from '@/lib/store/wallet';
 import { useProfileContext } from '@/lib/context/Profile';
 import { AutoLockTimer as AutoLockTimerEnum, getLocalValues } from '@/lib/utils/localStorage';
@@ -30,7 +30,7 @@ export const SettingsMenu = ({
     const { t } = useTranslation();
     const dispatch = useAppDispatch();
     const walletsIds = useAppSelector(selectWalletsIds);
-    const { toggleThemeMode, isDark } = useThemeMode();
+    const { toggleThemeMode, isDark, toggleThemeAccent, currentThemeAccent } = useThemeMode();
     const navigate = useNavigate();
     const { pathname } = useLocation();
     const { profile } = useProfileContext();
@@ -119,7 +119,7 @@ export const SettingsMenu = ({
                         title={t('PAGES.SETTINGS.MENU.THEME')}
                         iconLeading='sparkles'
                         iconClassName='text-light-black'
-                        onClick={(evt) => toggleThemeMode(evt)}
+                        onClick={(evt) => toggleThemeAccent(evt)}
                         rightContent={
                             <div className='flex items-center space-x-2'>
                                 <button
@@ -127,9 +127,10 @@ export const SettingsMenu = ({
                                     className={classNames(
                                         'flex h-5 w-5 items-center justify-center rounded-full',
                                         {
-                                            'outline-theme-navy-600 bg-theme-navy-100 outline outline-1':
-                                                false,
-                                            'bg-theme-secondary-200': true,
+                                            'outline-theme-navy-600 bg-theme-navy-100 dark:bg-theme-navy-900 outline outline-1':
+                                                currentThemeAccent === ThemeAccent.NAVY,
+                                            'bg-theme-secondary-200 dark:bg-theme-secondary-700':
+                                                currentThemeAccent !== ThemeAccent.NAVY,
                                         },
                                     )}
                                 >
@@ -141,9 +142,10 @@ export const SettingsMenu = ({
                                     className={classNames(
                                         'flex h-5 w-5 items-center justify-center rounded-full',
                                         {
-                                            'outline-theme-green-600 bg-theme-green-100 outline outline-1':
-                                                true,
-                                            'bg-theme-secondary-200': false,
+                                            'outline-theme-green-600 bg-theme-green-100 dark:bg-theme-green-900 outline outline-1':
+                                                currentThemeAccent === ThemeAccent.GREEN,
+                                            'bg-theme-secondary-200 dark:bg-theme-secondary-700':
+                                                currentThemeAccent !== ThemeAccent.GREEN,
                                         },
                                     )}
                                 >
@@ -154,7 +156,7 @@ export const SettingsMenu = ({
                         onKeyDown={(e) =>
                             handleInputKeyAction(
                                 e,
-                                toggleThemeMode,
+                                toggleThemeAccent,
                                 e as unknown as ChangeEvent<HTMLInputElement>,
                             )
                         }
