@@ -4,6 +4,7 @@ import { Contracts } from '@ardenthq/sdk-profiles';
 import { useFormik } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { runtime } from 'webextension-polyfill';
 import { AddNewContactForm, SaveContactButton } from '@/components/address-book';
 import { ContactFormik, ValidateAddressResponse } from '@/components/address-book/types';
 import { WalletNetwork } from '@/lib/store/wallet';
@@ -13,6 +14,7 @@ import SubPageLayout from '@/components/settings/SubPageLayout';
 import useAddressBook from '@/lib/hooks/useAddressBook';
 import { useProfileContext } from '@/lib/context/Profile';
 import useToast from '@/lib/hooks/useToast';
+import { ScreenName } from '@/lib/background/contracts';
 
 const COIN_ID = 'ARK';
 
@@ -56,6 +58,9 @@ const CreateContact = () => {
     const { t } = useTranslation();
     const { addContact, addressBook } = useAddressBook();
     const { profile } = useProfileContext();
+    const lastVisitedPage = profile.settings().get('LAST_VISITED_PAGE') as {
+        data: { name: string; address: string };
+    };
     const [addressValidation, setAddressValidation] = useState<ValidateAddressResponse>({
         isValid: false,
         network: WalletNetwork.MAINNET,
@@ -74,25 +79,34 @@ const CreateContact = () => {
             .max(constants.ADDRESS_LENGTH, t('ERROR.IS_INVALID', { name: 'Address' }))
             .test('valid-address', t('ERROR.IS_INVALID', { name: 'Address' }), () => {
                 return addressValidation.isValid;
-            }),
+            })
+            .test(
+                'unique-address',
+                t('ERROR.IS_DUPLICATED', { name: 'contact address' }),
+                (address) => {
+                    return !addressBook?.find((contact) => contact.address === address);
+                },
+            ),
     });
 
     const formik = useFormik<ContactFormik>({
         initialValues: {
-            name: '',
-            address: '',
+            name: lastVisitedPage?.data?.name || '',
+            address: lastVisitedPage?.data?.address || '',
         },
         validationSchema: validationSchema,
-        onSubmit: () => {
+        onSubmit: async () => {
             addContact({
                 name: formik.values.name,
                 address: formik.values.address,
                 type: addressValidation.network,
             });
+
             // Reset
+            runtime.sendMessage({ type: 'CLEAR_LAST_SCREEN' });
+            profile.settings().forget('LAST_VISITED_PAGE');
             formik.resetForm();
             setAddressValidation({ isValid: false, network: WalletNetwork.MAINNET });
-
             toast('success', t('PAGES.ADDRESS_BOOK.CONTACT_ADDED'));
             navigate('/address-book');
         },
@@ -115,6 +129,19 @@ const CreateContact = () => {
         }
     }, [addressValidation]);
 
+    useEffect(() => {
+        runtime.sendMessage({
+            type: 'SET_LAST_SCREEN',
+            path: ScreenName.AddContact,
+            data: formik.values,
+        });
+
+        return () => {
+            runtime.sendMessage({ type: 'CLEAR_LAST_SCREEN' });
+            profile.settings().forget('LAST_VISITED_PAGE');
+        };
+    }, [formik.values]);
+
     return (
         <SubPageLayout
             title={t('PAGES.ADDRESS_BOOK.ADD_NEW_CONTACT')}
@@ -124,7 +151,7 @@ const CreateContact = () => {
             <AddNewContactForm formik={formik} />
             <div className='absolute -bottom-4 left-0 w-full'>
                 <SaveContactButton
-                    disabled={!(formik.isValid && formik.dirty)}
+                    disabled={!(formik.isValid && formik.values.name && formik.values.address)}
                     onClick={formik.handleSubmit}
                 />
             </div>

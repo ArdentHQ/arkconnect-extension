@@ -127,7 +127,20 @@ export function OneTimeEventHandlers(extension: ReturnType<typeof Extension>) {
         },
 
         [OneTimeEvents.PERSIST]: async (request: any) => {
-            return await handleSetData(request, extension);
+            const existingPrimaryWalletId = extension.primaryWallet().id();
+            const dump = await handleSetData(request, extension);
+
+            if (existingPrimaryWalletId !== extension.primaryWallet().id()) {
+                void ExtensionEvents({ profile: extension.profile() }).changeAddress({
+                    wallet: {
+                        network: extension.primaryWallet().wallet().network().name(),
+                        address: extension.primaryWallet().wallet().address(),
+                        coin: extension.primaryWallet().wallet().network().coin(),
+                    },
+                });
+            }
+
+            return dump;
         },
 
         [OneTimeEvents.PERSIST_ENV_DATA]: async (request: any) => {
