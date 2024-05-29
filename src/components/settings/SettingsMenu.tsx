@@ -3,6 +3,7 @@ import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { runtime } from 'webextension-polyfill';
 import { Contracts } from '@ardenthq/sdk-profiles';
 import { useTranslation } from 'react-i18next';
+import classNames from 'classnames';
 import { HeadingDescription, ToggleSwitch } from '@/shared/components';
 import { SettingsOption } from '@/components/settings/SettingsOption';
 import { lockedChanged } from '@/lib/store/ui';
@@ -120,12 +121,34 @@ export const SettingsMenu = ({
                         iconClassName='text-light-black'
                         onClick={(evt) => toggleThemeMode(evt)}
                         rightContent={
-                            <div>
-                                <ToggleSwitch
-                                    checked={isDark()}
-                                    onChange={(evt) => toggleThemeMode(evt)}
-                                    id='toggle-theme'
-                                />
+                            <div className='flex items-center space-x-2'>
+                                <button
+                                    type='button'
+                                    className={classNames(
+                                        'flex h-5 w-5 items-center justify-center rounded-full',
+                                        {
+                                            'outline-theme-navy-600 bg-theme-navy-100 outline outline-1':
+                                                false,
+                                            'bg-theme-secondary-200': true,
+                                        },
+                                    )}
+                                >
+                                    <span className='bg-theme-navy-600 block h-4 w-4 rounded-full'></span>
+                                </button>
+
+                                <button
+                                    type='button'
+                                    className={classNames(
+                                        'flex h-5 w-5 items-center justify-center rounded-full',
+                                        {
+                                            'outline-theme-green-600 bg-theme-green-100 outline outline-1':
+                                                true,
+                                            'bg-theme-secondary-200': false,
+                                        },
+                                    )}
+                                >
+                                    <span className='bg-theme-green-700 dark:bg-theme-green-600 block h-4 w-4 rounded-full'></span>
+                                </button>
                             </div>
                         }
                         onKeyDown={(e) =>
