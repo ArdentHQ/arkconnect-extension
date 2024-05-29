@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 export default {
     ADD_NOTE_TO_TRANSACTION: 'Add a note to transaction',
     ADDRESS: 'Address',
@@ -11,6 +12,7 @@ export default {
     BALANCE: 'Balance',
     CONTINUE: 'Continue',
     CONTRACT: 'Contract',
+    COPY_with_name: 'Copy {{name}}',
     DELEGATE_NAME: 'Delegate Name',
     DETAILS: 'Details',
     ENTER_AMOUNT: 'Enter Amount',
@@ -22,6 +24,7 @@ export default {
     FAST: 'Fast',
     FAUCET: 'Faucet',
     FROM: 'From',
+    HAS_BEEN_SAVED_SUCCESSFULLY: '{{name}} has been saved successfully',
     IPFS_HASH: 'IPFS Hash',
     MAINNET: 'Mainnet',
     MAX: 'Max',
@@ -36,9 +39,7 @@ export default {
     NOT_AVAILABLE: 'N/A',
     OPTIONAL: 'Optional',
     OTHER: 'Other',
-    // eslint-disable-next-line camelcase
     PARTICIPANT_one: '{{count}} Participant',
-    // eslint-disable-next-line camelcase
     PARTICIPANT_other: '{{count}} Participants',
     PASSPHRASE: 'Passphrase',
     PRIVATE_KEY: 'Private Key',
@@ -55,6 +56,7 @@ export default {
     RESIGNATION: 'Resignation',
     RETURN: 'Return',
     SAVE: 'Save',
+    SAVE_with_name: 'Save {{name}}',
     SECOND_SIGNATURE: 'Second Signature',
     SEND: 'Send',
     SENDER: 'Sender',
