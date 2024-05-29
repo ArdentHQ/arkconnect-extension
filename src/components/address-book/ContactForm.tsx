@@ -32,7 +32,9 @@ export const AddNewContactForm = ({ formik }: { formik: FormikProps<ContactFormi
                 value={formik.values.address}
                 onChange={handleAddressChange}
                 onBlur={formik.handleBlur}
-                variant={formik.touched.address && formik.errors.address ? 'destructive' : 'primary'}
+                variant={
+                    formik.touched.address && formik.errors.address ? 'destructive' : 'primary'
+                }
                 helperText={formik.touched.address ? formik.errors.address : undefined}
             />
         </div>
