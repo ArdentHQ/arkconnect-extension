@@ -115,6 +115,28 @@ export const SettingsMenu = ({
                         onKeyDown={(e) => handleSubmitKeyAction(e, lockExtension)}
                     />
                     <SettingsOption
+                        title={t('PAGES.SETTINGS.MENU.THEME')}
+                        iconLeading='sparkles'
+                        iconClassName='text-light-black'
+                        onClick={(evt) => toggleThemeMode(evt)}
+                        rightContent={
+                            <div>
+                                <ToggleSwitch
+                                    checked={isDark()}
+                                    onChange={(evt) => toggleThemeMode(evt)}
+                                    id='toggle-theme'
+                                />
+                            </div>
+                        }
+                        onKeyDown={(e) =>
+                            handleInputKeyAction(
+                                e,
+                                toggleThemeMode,
+                                e as unknown as ChangeEvent<HTMLInputElement>,
+                            )
+                        }
+                    />
+                    <SettingsOption
                         title={t('PAGES.SETTINGS.MENU.DARK_MODE')}
                         iconLeading='moon'
                         iconClassName='text-light-black'
