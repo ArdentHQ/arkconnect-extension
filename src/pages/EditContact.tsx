@@ -34,7 +34,7 @@ const EditContact = () => {
             .test('unique-name', t('ERROR.IS_DUPLICATED', { name: 'contact name' }), (name) => {
                 if (contact?.name === name) return true;
                 return !addressBook?.find((contact) => contact.name === name);
-            }),
+            }).trim(),
         address: string()
             .required(t('ERROR.IS_REQUIRED', { name: 'Address' }))
             .min(34, t('ERROR.IS_INVALID', { name: 'Address' }))
