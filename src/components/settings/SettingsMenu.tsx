@@ -127,14 +127,14 @@ export const SettingsMenu = ({
                                     className={classNames(
                                         'flex h-5 w-5 items-center justify-center rounded-full',
                                         {
-                                            'outline-theme-navy-600 bg-theme-navy-100 dark:bg-theme-navy-900 outline outline-1':
+                                            'bg-theme-navy-100 outline outline-1 outline-theme-navy-600 dark:bg-theme-navy-900':
                                                 currentThemeAccent === ThemeAccent.NAVY,
                                             'bg-theme-secondary-200 dark:bg-theme-secondary-700':
                                                 currentThemeAccent !== ThemeAccent.NAVY,
                                         },
                                     )}
                                 >
-                                    <span className='bg-theme-navy-600 block h-4 w-4 rounded-full'></span>
+                                    <span className='block h-4 w-4 rounded-full bg-theme-navy-600'></span>
                                 </button>
 
                                 <button
@@ -142,14 +142,14 @@ export const SettingsMenu = ({
                                     className={classNames(
                                         'flex h-5 w-5 items-center justify-center rounded-full',
                                         {
-                                            'outline-theme-green-600 bg-theme-green-100 dark:bg-theme-green-900 outline outline-1':
+                                            'bg-theme-green-100 outline outline-1 outline-theme-green-600 dark:bg-theme-green-900':
                                                 currentThemeAccent === ThemeAccent.GREEN,
                                             'bg-theme-secondary-200 dark:bg-theme-secondary-700':
                                                 currentThemeAccent !== ThemeAccent.GREEN,
                                         },
                                     )}
                                 >
-                                    <span className='bg-theme-green-700 dark:bg-theme-green-600 block h-4 w-4 rounded-full'></span>
+                                    <span className='block h-4 w-4 rounded-full bg-theme-green-700 dark:bg-theme-green-600'></span>
                                 </button>
                             </div>
                         }
