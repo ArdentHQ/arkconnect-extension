@@ -20,8 +20,8 @@ export const AddNewContactForm = ({ formik }: { formik: FormikProps<ContactFormi
                 value={formik.values.name}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                variant={formik.values.name && formik.errors.name ? 'destructive' : 'primary'}
-                helperText={formik.values.name && formik.errors.name}
+                variant={formik.touched.name && formik.errors.name ? 'destructive' : 'primary'}
+                helperText={formik.touched.name ? formik.errors.name : undefined}
             />
             <TextArea
                 labelText={t('COMMON.ADDRESS')}
@@ -32,8 +32,8 @@ export const AddNewContactForm = ({ formik }: { formik: FormikProps<ContactFormi
                 value={formik.values.address}
                 onChange={handleAddressChange}
                 onBlur={formik.handleBlur}
-                variant={formik.values.address && formik.errors.address ? 'destructive' : 'primary'}
-                helperText={formik.values.address && formik.errors.address}
+                variant={formik.touched.address && formik.errors.address ? 'destructive' : 'primary'}
+                helperText={formik.touched.address ? formik.errors.address : undefined}
             />
         </div>
     );
