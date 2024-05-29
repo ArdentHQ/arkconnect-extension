@@ -32,6 +32,8 @@ interface WalletImportScreenData {
 export enum ScreenName {
     CreateWallet = '/wallet/create',
     ImportWallet = '/wallet/import',
+    AddContact = '/address-book/create',
+    SendTransfer = '/transaction/send',
 }
 
 interface WalletCreate {

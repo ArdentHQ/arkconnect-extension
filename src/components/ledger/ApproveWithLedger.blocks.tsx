@@ -10,7 +10,7 @@ import { useVoteForm } from '@/lib/hooks/useVoteForm';
 import * as SessionStore from '@/lib/store/session';
 
 type VoteDelegateProperties = {
-    delegateAddress: string;
+    address: string;
     amount: number;
 };
 interface Props {
@@ -24,6 +24,7 @@ interface Props {
         unvote: VoteDelegateProperties;
         tabId: number;
         memo?: string;
+        fee?: number;
     };
 }
 
@@ -57,14 +58,14 @@ export const VoteLedgerApprovalBody = ({ wallet, state }: Props) => {
             exchangeCurrency={wallet.exchangeCurrency() ?? 'USD'}
             network={getNetworkCurrency(wallet.network())}
             unvote={{
-                delegateName: unvote?.wallet?.username(),
+                name: unvote?.wallet?.username(),
                 publicKey: unvote?.wallet?.publicKey(),
-                delegateAddress: unvote?.wallet?.address(),
+                address: unvote?.wallet?.address(),
             }}
             vote={{
-                delegateName: vote?.wallet?.username(),
+                name: vote?.wallet?.username(),
                 publicKey: vote?.wallet?.publicKey(),
-                delegateAddress: vote?.wallet?.address(),
+                address: vote?.wallet?.address(),
             }}
             maxHeight='165px'
             hasHigherCustomFee={hasHigherCustomFee}
@@ -74,7 +75,7 @@ export const VoteLedgerApprovalBody = ({ wallet, state }: Props) => {
 };
 
 export const TransactionLedgerApprovalBody = ({ wallet, state }: Props) => {
-    const { session, amount, receiverAddress, memo } = state;
+    const { session, amount, receiverAddress, memo, fee: customFee } = state;
     const { convert } = useExchangeRate({
         exchangeTicker: wallet.exchangeCurrency(),
         ticker: wallet.currency(),
@@ -90,6 +91,7 @@ export const TransactionLedgerApprovalBody = ({ wallet, state }: Props) => {
         amount,
         receiverAddress,
         memo,
+        customFee,
     });
 
     return (

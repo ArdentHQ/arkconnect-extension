@@ -1,10 +1,13 @@
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 import { Button, Tooltip } from '@/shared/components';
+
+import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 
 export const TransactionButtons = () => {
     const { t } = useTranslation();
     const primaryWallet = usePrimaryWallet();
+    const navigate = useNavigate();
     const walletBalance = primaryWallet?.balance() ?? 0;
 
     return (
@@ -15,12 +18,23 @@ export const TransactionButtons = () => {
                 placement='top'
             >
                 <div>
-                    <Button iconLeading='send' variant='secondary' disabled={walletBalance === 0}>
+                    <Button
+                        iconLeading='send'
+                        iconClass='h-6 w-6'
+                        variant='secondary'
+                        disabled={walletBalance === 0}
+                        onClick={() => navigate('/transaction/send')}
+                    >
                         {t('COMMON.SEND')}
                     </Button>
                 </div>
             </Tooltip>
-            <Button iconLeading='receive' variant='secondary'>
+            <Button
+                iconLeading='receive'
+                iconClass='h-6 w-6'
+                variant='secondary'
+                onClick={() => navigate('/transaction/receive')}
+            >
                 {t('COMMON.RECEIVE')}
             </Button>
         </div>

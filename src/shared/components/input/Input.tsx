@@ -1,4 +1,5 @@
-import { MutableRefObject } from 'react';
+import { MutableRefObject, ReactNode, useState } from 'react';
+
 import cn from 'classnames';
 
 type InputProps = React.ComponentPropsWithRef<'input'> & {
@@ -9,6 +10,9 @@ type InputProps = React.ComponentPropsWithRef<'input'> & {
     innerRef?: MutableRefObject<HTMLInputElement | null>;
     variant?: 'primary' | 'destructive' | 'errorFree';
     className?: string;
+    hasFocus?: boolean;
+    secondaryText?: string | React.ReactNode;
+    displayValue?: ReactNode;
 };
 
 export const Input = ({
@@ -19,20 +23,58 @@ export const Input = ({
     id,
     innerRef,
     className,
+    secondaryText,
+    displayValue,
+    hasFocus,
     ...rest
 }: InputProps) => {
+    const [focused, setFocused] = useState(false);
+
+    const handleInputBlur = (event: React.FocusEvent<HTMLInputElement>) => {
+        setFocused(hasFocus !== undefined ? hasFocus : false);
+        if (rest.onBlur) rest.onBlur(event);
+    };
+
+    const handleInputFocus = (event: React.FocusEvent<HTMLInputElement>) => {
+        setFocused(true);
+        if (rest.onFocus) rest.onFocus(event);
+    };
+
     return (
         <div className='flex flex-col gap-1.5'>
-            {labelText && (
-                <label
-                    htmlFor={id}
-                    className='text-sm font-medium leading-tight text-theme-secondary-500 dark:text-theme-secondary-200'
-                >
-                    {labelText}
-                </label>
-            )}
+            <div className='flex items-center justify-between'>
+                {labelText && (
+                    <label
+                        htmlFor={id}
+                        className='text-sm font-medium leading-tight text-theme-secondary-500 dark:text-theme-secondary-200'
+                    >
+                        {labelText}
+                    </label>
+                )}
 
-            <div className='relative flex w-full items-center'>
+                {secondaryText && (
+                    <span className='text-sm font-medium text-theme-secondary-500 dark:text-theme-secondary-200'>
+                        {secondaryText}
+                    </span>
+                )}
+            </div>
+
+            <div
+                className='relative flex w-full items-center'
+                onFocus={() => setFocused(true)}
+                onBlur={() => setFocused(hasFocus !== undefined ? hasFocus : false)}
+            >
+                {!focused && displayValue && (
+                    <span
+                        className='absolute left-3 top-3.5 cursor-text'
+                        onClick={() => {
+                            innerRef?.current?.click();
+                            innerRef?.current?.focus();
+                        }}
+                    >
+                        {displayValue}
+                    </span>
+                )}
                 <input
                     className={cn(
                         'transition-smoothEase text-input max-h-13 w-full rounded-lg border-none px-3 py-4 text-base font-normal outline-none placeholder:text-theme-secondary-400 disabled:pointer-events-none disabled:cursor-not-allowed',
@@ -40,11 +82,14 @@ export const Input = ({
                             'text-input-primary': variant === 'primary',
                             'text-input-destructive': variant === 'destructive',
                             'text-input-errorFree': variant === 'errorFree',
+                            '!text-transparent': !focused && displayValue,
                         },
                         className,
                     )}
                     id={id}
                     ref={innerRef}
+                    onFocus={(e) => handleInputFocus(e)}
+                    onBlur={(e) => handleInputBlur(e)}
                     {...rest}
                 />
 

@@ -9,10 +9,17 @@ const TERMS_OF_SERVICE = 'https://arkconnect.io/terms-of-service';
 const PRIVACY_POLICY = 'https://arkconnect.io/privacy-policy';
 const ARK_CONNECT = 'https://arkconnect.io/';
 const ARK_CONNECT_DEMO = 'https://demo.arkconnect.io';
+const ARKVAULT_BASE_URL = 'https://app.arkvault.io/';
+const ARKVAULT_API_MAINNET_BASE_URL = 'https://api.ark.io/';
+const ARKVAULT_API_DEVNET_BASE_URL = 'https://ark-test.arkvault.io/';
 
 const SHOW_MESSAGE_AFTER_ACTION_DURING_MS = 3000;
 
 const TRANSACTION_CONFIRMATION_DELAY_MS = 3000;
+
+// Validation constants
+const ADDRESS_LENGTH = 34;
+const AMOUNT_REGEX = /^[0-9]+(\.[0-9]{1,8})?$/;
 
 // Using 9 considering that the minimum amount of ARK is 0.00000001 which
 // is 8 digits in total.
@@ -26,6 +33,9 @@ const constants = {
     ARKSCAN_TEST_ADDRESSES,
     ARKSCAN_EXCHANGES,
     ARKSCAN_FAUCET,
+    ARKVAULT_BASE_URL,
+    ARKVAULT_API_MAINNET_BASE_URL,
+    ARKVAULT_API_DEVNET_BASE_URL,
     TERMS_OF_SERVICE,
     PRIVACY_POLICY,
     ARK_CONNECT,
@@ -33,6 +43,8 @@ const constants = {
     ARK_CONNECT_DEMO,
     SHOW_MESSAGE_AFTER_ACTION_DURING_MS,
     TRANSACTION_CONFIRMATION_DELAY_MS,
+    ADDRESS_LENGTH,
+    AMOUNT_REGEX,
 };
 
 export default constants;

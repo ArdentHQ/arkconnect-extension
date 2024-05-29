@@ -25,6 +25,11 @@ import WalletNotFound from '@/pages/WalletNotFound';
 import ImportWithLedger from '@/pages/ImportWithLedger';
 import TransactionDetails from '@/pages/TransactionDetails';
 import { AddressSettings } from '@/components/wallet/AddressSettings';
+import Send from '@/pages/Send';
+import Receive from '@/pages/Receive';
+import AddressBook from '@/pages/AddressBook';
+import CreateContact from '@/pages/CreateContact';
+import EditContact from '@/pages/EditContact';
 
 type RouteData = {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -170,6 +175,31 @@ const routes: RouteData[] = [
         Component: TransactionDetails,
         path: '/transaction/:transactionId',
         title: 'Transaction Details',
+    },
+    {
+        Component: Send,
+        path: '/transaction/send',
+        title: 'Send',
+    },
+    {
+        Component: Receive,
+        path: '/transaction/receive',
+        title: 'Receive',
+    },
+    {
+        Component: AddressBook,
+        path: '/address-book',
+        title: 'Address Book',
+    },
+    {
+        Component: CreateContact,
+        path: '/address-book/create',
+        title: 'Add New Contact',
+    },
+    {
+        Component: EditContact,
+        path: '/address-book/edit/:name',
+        title: 'Edit Contact',
     },
 ];
 

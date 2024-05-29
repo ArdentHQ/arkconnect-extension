@@ -1,6 +1,7 @@
 import cn from 'classnames';
 import { twMerge } from 'tailwind-merge';
 import { Icon, IconDefinition, Loader } from '@/shared/components';
+
 import { isFirefox } from '@/lib/utils/isFirefox';
 
 type ButtonVariant =
@@ -17,6 +18,7 @@ type ButtonVariant =
 type ButtonProps = React.ComponentPropsWithRef<'button'> & {
     iconLeading?: IconDefinition;
     iconTrailing?: IconDefinition;
+    iconClass?: string;
     isLoading?: boolean;
     disabled?: boolean;
     className?: string;
@@ -40,6 +42,7 @@ const getButtonClass = (variant?: ButtonVariant) => (variant ? buttonClass[varia
 export const Button = ({
     iconLeading,
     iconTrailing,
+    iconClass = 'h-5 w-5',
     children,
     isLoading,
     className,
@@ -77,9 +80,9 @@ export const Button = ({
             )}
             {...rest}
         >
-            {iconLeading && <Icon className='h-5 w-5' icon={iconLeading} />}
+            {iconLeading && <Icon className={iconClass} icon={iconLeading} />}
             {children}
-            {iconTrailing && <Icon className='h-5 w-5' icon={iconTrailing} />}
+            {iconTrailing && <Icon className={iconClass} icon={iconTrailing} />}
         </button>
     );
 };

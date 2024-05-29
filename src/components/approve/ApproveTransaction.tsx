@@ -21,7 +21,6 @@ import { useNotifyOnUnload } from '@/lib/hooks/useNotifyOnUnload';
 import useLoadingModal from '@/lib/hooks/useLoadingModal';
 import { useWaitForConnectedDevice } from '@/lib/Ledger';
 import { getNetworkCurrency } from '@/lib/utils/getActiveCoin';
-import trimAddress from '@/lib/utils/trimAddress';
 import { HigherFeeBanner } from '@/components/approve/HigherCustomFee.blocks';
 
 type Props = {
@@ -32,6 +31,7 @@ type Props = {
     ) => Promise<void>;
     wallet: Contracts.IReadWriteWallet;
     closeLedgerScreen: () => void;
+    loadingModal: ReturnType<typeof useLoadingModal>;
 };
 
 const ApproveTransaction = ({
@@ -39,6 +39,7 @@ const ApproveTransaction = ({
     approveWithLedger,
     wallet,
     closeLedgerScreen,
+    loadingModal,
 }: Props) => {
     const navigate = useNavigate();
     const location = useLocation();
@@ -57,9 +58,6 @@ const ApproveTransaction = ({
     const { onError } = useErrorHandlerContext();
     const [error, setError] = useState<string | undefined>();
     const { t } = useTranslation();
-    const loadingModal = useLoadingModal({
-        loadingMessage: t('PAGES.APPROVE.FEEDBACK.PROCESSING_TRANSACTION'),
-    });
     const { convert } = useExchangeRate({
         exchangeTicker: wallet.exchangeCurrency(),
         ticker: wallet.currency(),
@@ -174,6 +172,7 @@ const ApproveTransaction = ({
             reject(error.message);
 
             onError(error);
+            loadingModal.close();
         }
     };
 
@@ -184,7 +183,11 @@ const ApproveTransaction = ({
 
         reject();
 
-        await removeWindowInstance(location.state?.windowId, 100);
+        if (location.state.windowId) {
+            await removeWindowInstance(location.state?.windowId, 100);
+        }
+        loadingModal.close();
+        navigate('/');
     };
 
     return (
@@ -213,7 +216,7 @@ const ApproveTransaction = ({
                     network={getNetworkCurrency(wallet.network())}
                     fee={fee}
                     convertedFee={convert(fee)}
-                    receiver={trimAddress(receiverAddress as string, 10)}
+                    receiver={receiverAddress}
                     totalAmount={total}
                     convertedTotalAmount={convert(total)}
                     hasHigherCustomFee={hasHigherCustomFee}

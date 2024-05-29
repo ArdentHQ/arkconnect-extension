@@ -124,6 +124,10 @@
         @apply bottom-0 left-0 right-0 z-1 cursor-pointer rounded-xl bg-theme-secondary-200 duration-[0.4s] hover:bg-theme-primary-700 group-hover:bg-theme-primary-50 dark:bg-theme-secondary-600 dark:hover:bg-theme-primary-650 dark:group-hover:bg-theme-primary-900;
     }
 
+    .toggle-switch-slider.toggle-always-active {
+        @apply bg-theme-primary-700 hover:bg-theme-primary-700 dark:bg-theme-primary-650 dark:hover:bg-theme-primary-600;
+    }
+
     .toggle-switch-slider::before {
         @apply absolute bottom-0.5 left-[3px] h-4 w-4 rounded-full bg-white fill-white drop-shadow-dark duration-[0.4s] content-[""];
     }

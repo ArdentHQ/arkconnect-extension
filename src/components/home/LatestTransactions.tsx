@@ -65,7 +65,7 @@ export const LatestTransactions = () => {
                     )}
                 </div>
             ) : (
-                <div className='flex h-[320px] w-full items-center justify-center'>
+                <div className='flex h-[270px] w-full items-center justify-center'>
                     <Loader
                         variant='big'
                         className='dark:border-theme-secondary-700 dark:border-t-theme-primary-650'

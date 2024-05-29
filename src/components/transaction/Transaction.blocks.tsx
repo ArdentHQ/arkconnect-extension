@@ -1,9 +1,7 @@
 import cn from 'classnames';
-import { useTranslation } from 'react-i18next';
 import { ExtendedConfirmedTransactionData } from '@ardenthq/sdk-profiles/distribution/esm/transaction.dto';
+import { useTranslation } from 'react-i18next';
 import { AmountBadge, AmountBadgeType } from './details/AmountBadge';
-import Amount from '@/components/wallet/Amount';
-import { Icon, IconDefinition, Tooltip } from '@/shared/components';
 import {
     getAmountByAddress,
     getMultipaymentAmounts,
@@ -11,10 +9,13 @@ import {
     renderAmount,
     TransactionType,
 } from '@/components/home/LatestTransactions.utils';
-import { useProfileContext } from '@/lib/context/Profile';
+import { Icon, IconDefinition, Tooltip } from '@/shared/components';
+
+import Amount from '@/components/wallet/Amount';
 import trimAddress from '@/lib/utils/trimAddress';
-import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 import { useExchangeRate } from '@/lib/hooks/useExchangeRate';
+import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
+import { useProfileContext } from '@/lib/context/Profile';
 
 export const TransactionIcon = ({ type }: { type: TransactionType }) => {
     const isSpecialTransaction = [
@@ -42,9 +43,11 @@ export const TransactionIcon = ({ type }: { type: TransactionType }) => {
 const AddressBlock = ({
     address,
     isSecondary = false,
+    displayParenthesis = false,
 }: {
     address: string;
     isSecondary?: boolean;
+    displayParenthesis?: boolean;
 }): JSX.Element => {
     return (
         <Tooltip content={address}>
@@ -53,13 +56,20 @@ const AddressBlock = ({
                     'text-theme-secondary-500 dark:text-theme-secondary-300': isSecondary,
                 })}
             >
-                {trimAddress(address, 10)}
+                {' '}
+                {displayParenthesis ? `(${trimAddress(address, 10)})` : trimAddress(address, 10)}
             </span>
         </Tooltip>
     );
 };
 
-export const TransactionAddress = ({ address }: { address: string }) => {
+export const TransactionAddress = ({
+    address,
+    displayParenthesis = false,
+}: {
+    address: string;
+    displayParenthesis?: boolean;
+}) => {
     const primaryWallet = usePrimaryWallet();
     const network = primaryWallet?.network().id() ?? 'ark.mainnet';
 
@@ -69,7 +79,14 @@ export const TransactionAddress = ({ address }: { address: string }) => {
 
     return displayName ? (
         <span>
-            {displayName} <AddressBlock address={address} isSecondary />
+            {displayName}
+            <span className='text-theme-secondary-500 dark:text-theme-secondary-300'>
+                <AddressBlock
+                    address={address}
+                    displayParenthesis={displayParenthesis}
+                    isSecondary
+                />
+            </span>
         </span>
     ) : (
         <span>

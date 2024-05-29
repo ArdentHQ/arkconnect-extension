@@ -11,8 +11,8 @@ import { HigherFeeWarning } from './HigherCustomFee.blocks';
 import trimAddress from '@/lib/utils/trimAddress';
 
 type VoteData = {
-    delegateAddress?: string;
-    delegateName?: string;
+    address?: string;
+    name?: string;
     publicKey?: string;
 };
 interface ActionBodyProps {
@@ -64,7 +64,7 @@ export const ActionBody = ({
 
     return (
         <ActionDetails maxHeight={maxHeight}>
-            {isApproved && <ActionBodyRow label={t('COMMON.SENDER')} value={sender} />}
+            {isApproved && <ActionAddressRow label={t('COMMON.SENDER')} address={sender ?? ''} />}
 
             {amount !== undefined && convertedAmount !== undefined && (
                 <ActionAmountRow
@@ -78,7 +78,13 @@ export const ActionBody = ({
                 />
             )}
 
-            {receiver && <ActionAddressRow label={t('COMMON.RECEIVER')} address={receiver} />}
+            {receiver && (
+                <ActionAddressRow
+                    label={t('COMMON.RECEIVER')}
+                    address={receiver}
+                    displayAddressBookName
+                />
+            )}
             {memo && (
                 <ActionBodyRow
                     label={t('COMMON.MEMO')}
@@ -117,11 +123,8 @@ export const ActionBody = ({
                 />
             )}
 
-            {unvote?.delegateName && (
-                <ActionBodyRow
-                    label={t('COMMON.UNVOTE_DELEGATE_NAME')}
-                    value={unvote.delegateName}
-                />
+            {unvote?.name && (
+                <ActionBodyRow label={t('COMMON.UNVOTE_DELEGATE_NAME')} value={unvote.name} />
             )}
 
             {unvote?.publicKey && wallet?.isLedger() && (
@@ -140,15 +143,15 @@ export const ActionBody = ({
                 />
             )}
 
-            {unvote?.delegateAddress && !wallet?.isLedger() && (
+            {unvote?.address && !wallet?.isLedger() && (
                 <ActionAddressRow
                     label={t('COMMON.UNVOTE_DELEGATE_ADDRESS')}
-                    address={unvote.delegateAddress}
+                    address={unvote.address}
                 />
             )}
 
-            {vote?.delegateAddress && (
-                <ActionBodyRow label={t('COMMON.VOTE_DELEGATE_NAME')} value={vote.delegateName} />
+            {vote?.address && (
+                <ActionBodyRow label={t('COMMON.VOTE_DELEGATE_NAME')} value={vote.name} />
             )}
 
             {vote?.publicKey && wallet?.isLedger() && (
@@ -167,10 +170,10 @@ export const ActionBody = ({
                 />
             )}
 
-            {vote?.delegateAddress && !wallet?.isLedger() && (
+            {vote?.address && !wallet?.isLedger() && (
                 <ActionAddressRow
                     label={t('COMMON.VOTE_DELEGATE_ADDRESS')}
-                    address={vote.delegateAddress}
+                    address={vote.address}
                 />
             )}
 

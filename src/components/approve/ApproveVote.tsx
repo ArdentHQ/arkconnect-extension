@@ -131,11 +131,11 @@ const ApproveVote = ({ abortReference, approveWithLedger, wallet, closeLedgerScr
             const voteInfo = {
                 id: res.id as string,
                 sender: res.sender as string,
-                voteDelegateAddress: vote?.wallet?.address(),
-                voteDelegateName: vote?.wallet?.username(),
+                voteAddress: vote?.wallet?.address(),
+                voteName: vote?.wallet?.username(),
                 votePublicKey: vote?.wallet?.publicKey(),
-                unvoteDelegateAddress: unvote?.wallet?.address(),
-                unvoteDelegateName: unvote?.wallet?.username(),
+                unvoteAddress: unvote?.wallet?.address(),
+                unvoteName: unvote?.wallet?.username(),
                 unvotePublicKey: unvote?.wallet?.publicKey(),
                 exchangeCurrency: wallet.exchangeCurrency() ?? 'USD',
                 fee: res.fee as number,
@@ -211,14 +211,14 @@ const ApproveVote = ({ abortReference, approveWithLedger, wallet, closeLedgerScr
                     exchangeCurrency={wallet.exchangeCurrency() ?? 'USD'}
                     network={getNetworkCurrency(wallet.network())}
                     unvote={{
-                        delegateName: unvote?.wallet?.username(),
+                        name: unvote?.wallet?.username(),
                         publicKey: unvote?.wallet?.publicKey(),
-                        delegateAddress: unvote?.wallet?.address(),
+                        address: unvote?.wallet?.address(),
                     }}
                     vote={{
-                        delegateName: vote?.wallet?.username(),
+                        name: vote?.wallet?.username(),
                         publicKey: vote?.wallet?.publicKey(),
-                        delegateAddress: vote?.wallet?.address(),
+                        address: vote?.wallet?.address(),
                     }}
                     maxHeight='165px'
                     hasHigherCustomFee={hasHigherCustomFee}

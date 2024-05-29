@@ -1,5 +1,5 @@
 import { Contracts } from '@ardenthq/sdk-profiles';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Layout } from '@/shared/components';
@@ -17,6 +17,8 @@ import * as UIStore from '@/lib/store/ui';
 import { assertIsUnlocked } from '@/lib/background/assertions';
 import useWalletSync from '@/lib/hooks/useWalletSync';
 import { useEnvironmentContext } from '@/lib/context/Environment';
+import useLoadingModal from '@/lib/hooks/useLoadingModal';
+import { ScreenName } from '@/lib/background/contracts';
 
 export enum ApproveActionType {
     SIGNATURE = 'signature',
@@ -27,21 +29,25 @@ export enum ApproveActionType {
 }
 
 const Approve = () => {
+    const navigate = useNavigate();
     const location = useLocation();
     const { profile } = useProfileContext();
-    const { connect } = useLedgerContext();
+    const { connect, resetConnectionState } = useLedgerContext();
     const abortReference = useRef(new AbortController());
     const [isModalOpen, setIsModalOpen] = useState(false);
     const { env } = useEnvironmentContext();
     const wallets = useAppSelector(WalletStore.selectWallets);
     const { waitUntilLedgerIsAvailable } = useWaitForAvailableDevice();
     const { syncAll } = useWalletSync({ env, profile });
+    const { t } = useTranslation();
+    const loadingModal = useLoadingModal({
+        loadingMessage: t('PAGES.APPROVE.FEEDBACK.PROCESSING_TRANSACTION'),
+    });
 
     const walletData = wallets.find(
         (wallet) => wallet.walletId === location.state.session.walletId,
     )!;
     const wallet = profile.wallets().findById(walletData?.walletId);
-    const { t } = useTranslation();
 
     useEffect(() => {
         (async () => {
@@ -71,6 +77,16 @@ const Approve = () => {
         setIsModalOpen(false);
     };
 
+    const handleBackButtonClick = () => {
+        setIsModalOpen(false);
+        if (!location.state.windowId) {
+            resetConnectionState();
+            abortReference.current.abort();
+            loadingModal.close();
+            navigate('/');
+        }
+    };
+
     const hasVoted = wallet.voting().current().length > 0;
     const getActionType = (actionType: ApproveActionType): ApproveActionType => {
         switch (actionType) {
@@ -80,6 +96,19 @@ const Approve = () => {
                 return actionType;
         }
     };
+
+    useEffect(() => {
+        if (location.state?.type === ApproveActionType.TRANSACTION) {
+            profile.settings().set('LAST_VISITED_PAGE', {
+                path: ScreenName.SendTransfer,
+                data: location.state,
+            });
+        }
+
+        return () => {
+            profile.settings().forget('LAST_VISITED_PAGE');
+        };
+    }, [location]);
 
     return (
         <Layout withHeader={false}>
@@ -97,6 +126,7 @@ const Approve = () => {
                     approveWithLedger={approveWithLedger}
                     wallet={wallet}
                     closeLedgerScreen={closeLedgerScreen}
+                    loadingModal={loadingModal}
                 />
             )}
             {(location.state?.type === ApproveActionType.VOTE ||
@@ -120,11 +150,11 @@ const Approve = () => {
                         actionType={getActionType(location.state?.type)}
                         appName={location.state?.session?.domain}
                         appLogo={location.state?.session?.logo}
-                        closeLedgerScreen={closeLedgerScreen}
+                        handleBackButtonClick={handleBackButtonClick}
                         address={
                             location.state?.receiverAddress ||
-                            location.state?.vote?.delegateAddress ||
-                            location.state?.unvote?.delegateAddress ||
+                            location.state?.vote?.address ||
+                            location.state?.unvote?.address ||
                             wallet?.address()
                         }
                         wallet={wallet}

@@ -7,6 +7,7 @@ import constants from '@/constants';
 import { useProfileContext } from '@/lib/context/Profile';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 import { LatestTransactions } from '@/components/home/LatestTransactions';
+import { TransactionButtons } from '@/components/home/TransactionButtons';
 const Home = () => {
     const { convertedBalance } = useProfileContext();
 
@@ -70,7 +71,7 @@ const Home = () => {
                     </div>
                 </div>
             </div>
-
+            <TransactionButtons />
             <LatestTransactions />
         </Layout>
     );

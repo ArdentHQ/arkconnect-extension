@@ -10,6 +10,7 @@ type ToggleSwitchProps = {
     disabled?: boolean;
     title?: string;
     helperText?: string;
+    variant?: 'default' | 'always-active';
 };
 
 export const ToggleSwitch: FC<ToggleSwitchProps> = ({
@@ -19,6 +20,7 @@ export const ToggleSwitch: FC<ToggleSwitchProps> = ({
     disabled,
     title,
     helperText,
+    variant = 'default',
 }) => {
     return (
         <label
@@ -60,6 +62,7 @@ export const ToggleSwitch: FC<ToggleSwitchProps> = ({
                     'transition-firefoxSmoothEase focus-visible:outline focus-visible:outline-2':
                         isFirefox,
                     'transition-smoothEase': !isFirefox,
+                    'toggle-always-active': variant === 'always-active',
                 })}
             />
         </label>
