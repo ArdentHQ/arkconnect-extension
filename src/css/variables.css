@@ -101,16 +101,17 @@
     --theme-shadow-opacity-inner: 0.06;
 
     --theme-color-navy-rgb: 67, 129, 192;
-    --theme-color-navy-50: #f2f6fa;
-    --theme-color-navy-100: #e6eff9;
-    --theme-color-navy-200: #b6d7f8;
-    --theme-color-navy-300: #8ac0f6;
-    --theme-color-navy-400: #5ca4ec;
-    --theme-color-navy-500: #4381c0;
-    --theme-color-navy-600: #235b95;
-    --theme-color-navy-700: #154a82;
-    --theme-color-navy-800: #073769;
-    --theme-color-navy-900: #062a50;
+
+    --theme-color-navy-50: 242 246 250; /* #F2F6FA */
+    --theme-color-navy-100: 230 239 249; /* #E6EFF9 */
+    --theme-color-navy-200: 182 215 248; /* #B6D7F8 */
+    --theme-color-navy-300: 138 192 246; /* #8AC0F6 */
+    --theme-color-navy-400: 92 164 236; /* #5CA4EC */
+    --theme-color-navy-500: 67 129 192; /* #4381C0 */
+    --theme-color-navy-600: 35 91 149; /* #235B95 */
+    --theme-color-navy-700: 21 74 130; /* #154A82 */
+    --theme-color-navy-800: 7 55 105; /* #073769 */
+    --theme-color-navy-900: 6 42 80; /* #062A50 */
 }
 
 .dark {
@@ -139,16 +140,17 @@
     --theme-shadow-opacity-inner: 0.6;
 
     --theme-color-navy-rgb: 35, 145, 231;
-    --theme-color-navy-50: #e0f1ff;
-    --theme-color-navy-100: #c5e5ff;
-    --theme-color-navy-200: #9bd0fb;
-    --theme-color-navy-300: #72bffb;
-    --theme-color-navy-400: #45a2eb;
-    --theme-color-navy-500: #2391e7;
-    --theme-color-navy-600: #0d7ed6;
-    --theme-color-navy-700: #0e6cb5;
-    --theme-color-navy-800: #0e5790;
-    --theme-color-navy-900: #1a486b;
+
+    --theme-color-navy-50: 224 241 255 /* #e0f1ff */;
+    --theme-color-navy-100: 197 229 255 /* #c5e5ff */;
+    --theme-color-navy-200: 155 208 251 /* #9bd0fb */;
+    --theme-color-navy-300: 114 191 251 /* #72bffb */;
+    --theme-color-navy-400: 69 162 235 /* #45a2eb */;
+    --theme-color-navy-500: 35 145 231 /* #2391e7 */;
+    --theme-color-navy-600: 13 126 214 /* #0d7ed6 */;
+    --theme-color-navy-700: 14 108 181 /* #0e6cb5 */;
+    --theme-color-navy-800: 14 87 144 /* #0e5790 */;
+    --theme-color-navy-900: 26 72 107 /* #1a486b */;
 }
 
 .accent-navy {
