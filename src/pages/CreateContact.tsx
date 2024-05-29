@@ -72,7 +72,7 @@ const CreateContact = () => {
             .max(20, t('ERROR.MAX_CHARACTERS', { count: 20 }))
             .test('unique-name', t('ERROR.IS_DUPLICATED', { name: 'contact name' }), (name) => {
                 return !addressBook?.find((contact) => contact.name === name);
-            }),
+            }).trim(),
         address: string()
             .required(t('ERROR.IS_REQUIRED', { name: 'Address' }))
             .min(constants.ADDRESS_LENGTH, t('ERROR.IS_INVALID', { name: 'Address' }))
