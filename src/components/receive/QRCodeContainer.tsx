@@ -96,7 +96,7 @@ export const QRCodeContainer = () => {
                     <div className='flex flex-row items-center justify-center gap-2'>
                         <QRActionButtons
                             icon='download'
-                            text={t('COMMON.SAVE_with_name', { name: 'QR' })}
+                            text={t('COMMON.SAVE_WITH_NAME', { name: 'QR' })}
                             onClick={handleDownload}
                         />
                         <hr className='h-5 w-px bg-theme-secondary-200 dark:bg-theme-secondary-600' />

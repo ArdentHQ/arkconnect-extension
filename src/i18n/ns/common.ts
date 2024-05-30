@@ -56,7 +56,7 @@ export default {
     RESIGNATION: 'Resignation',
     RETURN: 'Return',
     SAVE: 'Save',
-    SAVE_with_name: 'Save {{name}}',
+    SAVE_WITH_NAME: 'Save {{name}}',
     SECOND_SIGNATURE: 'Second Signature',
     SEND: 'Send',
     SENDER: 'Sender',
