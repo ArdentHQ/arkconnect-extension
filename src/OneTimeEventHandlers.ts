@@ -239,12 +239,12 @@ export function OneTimeEventHandlers(extension: ReturnType<typeof Extension>) {
 
         [OneTimeEvents.REMOVE_SESSIONS]: async (request: any) => {
             const sessionsIds = request.data.sessionsIds;
-            
+
             const sessions = extension
                 .profile()
                 .settings()
                 .get<SessionEntries>(ProfileData.Sessions);
-            
+
             if (sessions) {
                 for (const id of sessionsIds) {
                     delete sessions[id];
