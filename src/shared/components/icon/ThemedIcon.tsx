@@ -10,8 +10,6 @@ const ThemedIcon = ({ icon, ...props }: Props) => {
 
     const iconName = `${icon}-${currentThemeMode}-${currentThemeAccent}` as IconDefinition;
 
-    console.log({ iconName });
-
     return <Icon icon={iconName} {...props} />;
 };
 
