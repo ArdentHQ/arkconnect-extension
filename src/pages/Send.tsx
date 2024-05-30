@@ -133,6 +133,7 @@ const Send = () => {
             receiverAddress: lastVisitedPage?.data?.receiverAddress || '',
         },
         validationSchema: validationSchema,
+        validateOnMount: true,
         onSubmit: () => {
             runtime.sendMessage({ type: 'CLEAR_LAST_SCREEN' });
             profile.settings().forget('LAST_VISITED_PAGE');
