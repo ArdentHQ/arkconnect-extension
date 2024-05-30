@@ -29,10 +29,10 @@ const useThemeMode = () => {
     }, [currentThemeMode]);
 
     useEffect(() => {
-        if (currentThemeAccent === ThemeAccent.NAVY) {
-            document.documentElement.classList.add('accent-navy');
+        if (currentThemeAccent === ThemeAccent.GREEN) {
+            document.documentElement.classList.add('accent-green');
         } else {
-            document.documentElement.classList.remove('accent-navy');
+            document.documentElement.classList.remove('accent-green');
         }
     }, [currentThemeAccent]);
 
