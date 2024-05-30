@@ -45,7 +45,7 @@ const TransactionApproved = () => {
 
             <div className=' flex w-full flex-col items-center justify-between gap-6 px-4 pt-6'>
                 <div className='flex w-full flex-col items-center gap-4'>
-                    <div className='flex flex-row justify-center items-center gap-3'>
+                    <div className='flex flex-row items-center justify-center gap-3'>
                         {isTransactionConfirmed ? (
                             <Icon
                                 icon='completed'

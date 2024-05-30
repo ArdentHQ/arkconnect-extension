@@ -47,7 +47,7 @@ const VoteApproved = () => {
             <RequestedBy appDomain={formatDomain(session.domain) || ''} appLogo={session.logo} />
             <div className='flex w-full flex-col items-center justify-between gap-[37px] px-4 py-6'>
                 <div className='flex w-full flex-col items-center gap-6'>
-                    <div className='flex flex-row justify-center items-center gap-3'>
+                    <div className='flex flex-row items-center justify-center gap-3'>
                         {isTransactionConfirmed ? (
                             <Icon
                                 icon='completed'
