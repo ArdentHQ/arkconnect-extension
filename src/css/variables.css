@@ -73,4 +73,44 @@
     --theme-color-light-green: 229 255 244; /* #E5FFF4 */
     --theme-color-shadow-green: 229 243 237; /* #E5F3ED */
     --theme-color-shadow-green-dark: 43 61 53; /* #2B3D35 */
+
+    --theme-color-navy-50: 242 246 250; /* #F2F6FA */
+    --theme-color-navy-100: 230 239 249; /* #E6EFF9 */
+    --theme-color-navy-200: 182 215 248; /* #B6D7F8 */
+    --theme-color-navy-300: 138 192 246; /* #8AC0F6 */
+    --theme-color-navy-400: 92 164 236; /* #5CA4EC */
+    --theme-color-navy-500: 67 129 192; /* #4381C0 */
+    --theme-color-navy-600: 35 91 149; /* #235B95 */
+    --theme-color-navy-700: 21 74 130; /* #154A82 */
+    --theme-color-navy-800: 7 55 105; /* #073769 */
+    --theme-color-navy-900: 6 42 80; /* #062A50 */
+}
+
+.dark {
+    --theme-color-navy-50: 224 241 255 /* #e0f1ff */;
+    --theme-color-navy-100: 197 229 255 /* #c5e5ff */;
+    --theme-color-navy-200: 155 208 251 /* #9bd0fb */;
+    --theme-color-navy-300: 114 191 251 /* #72bffb */;
+    --theme-color-navy-400: 69 162 235 /* #45a2eb */;
+    --theme-color-navy-500: 35 145 231 /* #2391e7 */;
+    --theme-color-navy-600: 13 126 214 /* #0d7ed6 */;
+    --theme-color-navy-700: 14 108 181 /* #0e6cb5 */;
+    --theme-color-navy-800: 14 87 144 /* #0e5790 */;
+    --theme-color-navy-900: 26 72 107 /* #1a486b */;
+}
+
+.accent-navy {
+    --theme-color-primary-rgb: var(--theme-color-navy-rgb);
+    --theme-color-primary-50: var(--theme-color-navy-50);
+    --theme-color-primary-100: var(--theme-color-navy-100);
+    --theme-color-primary-200: var(--theme-color-navy-200);
+    --theme-color-primary-300: var(--theme-color-navy-300);
+    --theme-color-primary-400: var(--theme-color-navy-400);
+    --theme-color-primary-500: var(--theme-color-navy-500);
+    /* @TODO: This color does not exist on navy, need to be replaced according to design */
+    --theme-color-primary-650: var(--theme-color-navy-600);
+    --theme-color-primary-600: var(--theme-color-navy-600);
+    --theme-color-primary-700: var(--theme-color-navy-700);
+    --theme-color-primary-800: var(--theme-color-navy-800);
+    --theme-color-primary-900: var(--theme-color-navy-900);
 }
