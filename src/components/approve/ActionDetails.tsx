@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next';
+import cn from 'classnames';
 
 export const ActionDetailsRow = ({
     label,
@@ -38,10 +39,10 @@ export const ActionDetailsFiatValue = ({ children }: { children: React.ReactNode
 
 const ActionDetails = ({
     children,
-    maxHeight,
+    className,
 }: {
     children: React.ReactNode;
-    maxHeight?: string;
+    className?: string;
 }) => {
     const { t } = useTranslation();
     return (
@@ -51,10 +52,7 @@ const ActionDetails = ({
             </div>
 
             <div
-                className='custom-scroll w-full overflow-auto rounded-lg bg-white shadow-action-details dark:bg-subtle-black dark:shadow-action-details-dark'
-                style={{
-                    maxHeight: maxHeight,
-                }}
+                className={cn('custom-scroll w-full overflow-auto rounded-lg bg-white shadow-action-details dark:bg-subtle-black dark:shadow-action-details-dark', className)}
             >
                 {children}
             </div>
