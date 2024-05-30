@@ -69,11 +69,10 @@ export const QRCodeContainer = () => {
 
     const handleDownload = () => {
         if (qrRef.current) {
-            toPng(qrRef.current)
-              .then((dataUrl) => {
+            toPng(qrRef.current).then((dataUrl) => {
                 saveAs(dataUrl, 'qr-code.png');
-              });
-              toast('success', t('COMMON.HAS_BEEN_SAVED_SUCCESSFULLY', { name: 'QR Code' }));
+            });
+            toast('success', t('COMMON.HAS_BEEN_SAVED_SUCCESSFULLY', { name: 'QR Code' }));
         }
     };
 
@@ -83,7 +82,7 @@ export const QRCodeContainer = () => {
                 <span className='text-sm font-medium text-theme-secondary-500 dark:text-theme-secondary-200'>
                     {t('COMMON.QR_CODE')}
                 </span>
-                <div className='flex w-full items-center justify-center rounded-lg border border-theme-secondary-200 bg-white px-3 py-4 dark:border-theme-secondary-600 dark:bg-theme-secondary-800 dark:text-theme-secondary-400 dark:shadow-secondary-dark flex-col gap-4'>
+                <div className='flex w-full flex-col items-center justify-center gap-4 rounded-lg border border-theme-secondary-200 bg-white px-3 py-4 dark:border-theme-secondary-600 dark:bg-theme-secondary-800 dark:text-theme-secondary-400 dark:shadow-secondary-dark'>
                     <div ref={qrRef}>
                         <QRCode
                             value={generatedUrl}
@@ -94,10 +93,18 @@ export const QRCodeContainer = () => {
                         />
                     </div>
 
-                    <div className='flex flex-row gap-2 items-center justify-center'>
-                        <QRActionButtons icon='download' text={t('COMMON.SAVE_with_name', { name: 'QR' })} onClick={handleDownload} />
+                    <div className='flex flex-row items-center justify-center gap-2'>
+                        <QRActionButtons
+                            icon='download'
+                            text={t('COMMON.SAVE_with_name', { name: 'QR' })}
+                            onClick={handleDownload}
+                        />
                         <hr className='h-5 w-px bg-theme-secondary-200 dark:bg-theme-secondary-600' />
-                        <QRActionButtons icon='copy' text={t('COMMON.COPY_with_name', { name: 'QR' })} onClick={handleCopy} />
+                        <QRActionButtons
+                            icon='copy'
+                            text={t('COMMON.COPY_with_name', { name: 'QR' })}
+                            onClick={handleCopy}
+                        />
                     </div>
                 </div>
                 <span className='text-sm font-normal text-theme-secondary-500 dark:text-theme-secondary-300'>
