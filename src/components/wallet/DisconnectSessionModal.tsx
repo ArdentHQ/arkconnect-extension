@@ -4,6 +4,7 @@ import Modal from '@/shared/components/modal/Modal';
 import { useAppDispatch } from '@/lib/store';
 import * as SessionStore from '@/lib/store/session';
 import { useProfileContext } from '@/lib/context/Profile';
+import { OneTimeEvents } from '@/OneTimeEventHandlers';
 
 interface Properties {
     onCancel?: () => void;
@@ -18,13 +19,16 @@ export const DisconnectSessionModal = ({ isOpen, onCancel, onConfirm, sessions }
     const handleDisconnect = async () => {
         await dispatch(SessionStore.sessionRemoved(sessions.map((session) => session.id)));
 
-        // Might remove this after checking what's going on with the profile
-        const sessionsIds = sessions.map((session) => session.id);
-
-        await runtime.sendMessage({
-            type: 'REMOVE_SESSIONS',
-            data: { sessionsIds },
-        });
+        for (const session of sessions) {
+            await runtime.sendMessage({
+                type: OneTimeEvents.DISCONNECT_RESOLVE,
+                data: {
+                    domain: session.domain,
+                    status: 'success',
+                    disconnected: false,
+                },
+            });
+        }
 
         await initProfile();
 
