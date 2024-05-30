@@ -24,8 +24,7 @@ export const generateAddressBookValidationSchema = ({
                 if (isEdit && contact?.name === name) return true;
                 return !addressBook?.find((contact) => contact.name === name);
             })
-            .matches(/^\S.*$/, t('ERROR.NO_LEADING_WHITESPACE', { name: 'Name' }))
-            .matches(/^.*\S$/, t('ERROR.NO_TRAILING_WHITESPACE', { name: 'Name' })),
+            .trim(),
         address: string()
             .required(t('ERROR.IS_REQUIRED', { name: 'Address' }))
             .min(34, t('ERROR.IS_INVALID', { name: 'Address' }))
