@@ -1,4 +1,3 @@
-import { object, string } from 'yup';
 import { useEffect, useState } from 'react';
 import { Contracts } from '@ardenthq/sdk-profiles';
 import { useFormik } from 'formik';
@@ -15,6 +14,7 @@ import useAddressBook from '@/lib/hooks/useAddressBook';
 import { useProfileContext } from '@/lib/context/Profile';
 import useToast from '@/lib/hooks/useToast';
 import { ScreenName } from '@/lib/background/contracts';
+import { generateAddressBookValidationSchema } from '@/lib/validation/addressBook';
 
 const COIN_ID = 'ARK';
 
@@ -66,36 +66,18 @@ const CreateContact = () => {
         network: WalletNetwork.MAINNET,
     });
 
-    const validationSchema = object().shape({
-        name: string()
-            .required(t('ERROR.IS_REQUIRED', { name: 'Name' }))
-            .max(20, t('ERROR.MAX_CHARACTERS', { count: 20 }))
-            .test('unique-name', t('ERROR.IS_DUPLICATED', { name: 'contact name' }), (name) => {
-                return !addressBook?.find((contact) => contact.name === name);
-            })
-            .trim(),
-        address: string()
-            .required(t('ERROR.IS_REQUIRED', { name: 'Address' }))
-            .min(constants.ADDRESS_LENGTH, t('ERROR.IS_INVALID', { name: 'Address' }))
-            .max(constants.ADDRESS_LENGTH, t('ERROR.IS_INVALID', { name: 'Address' }))
-            .test('valid-address', t('ERROR.IS_INVALID', { name: 'Address' }), () => {
-                return addressValidation.isValid;
-            })
-            .test(
-                'unique-address',
-                t('ERROR.IS_DUPLICATED', { name: 'contact address' }),
-                (address) => {
-                    return !addressBook?.find((contact) => contact.address === address);
-                },
-            ),
-    });
-
     const formik = useFormik<ContactFormik>({
         initialValues: {
             name: lastVisitedPage?.data?.name || '',
             address: lastVisitedPage?.data?.address || '',
         },
-        validationSchema: validationSchema,
+        validationSchema: generateAddressBookValidationSchema({
+            isEdit: false,
+            contact: undefined,
+            addressBook,
+            addressValidation,
+            t,
+        }),
         onSubmit: async () => {
             addContact({
                 name: formik.values.name,
