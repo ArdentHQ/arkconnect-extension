@@ -164,7 +164,7 @@ export default {
             'theme-navy-800': 'rgb(var(--theme-color-navy-800) / <alpha-value>)',
             'theme-navy-900': 'rgb(var(--theme-color-navy-900) / <alpha-value>)',
 
-            // navy
+            // green
             'theme-green-50': 'rgb(var(--theme-color-green-50) / <alpha-value>)',
             'theme-green-100': 'rgb(var(--theme-color-green-100) / <alpha-value>)',
             'theme-green-200': 'rgb(var(--theme-color-green-200) / <alpha-value>)',
