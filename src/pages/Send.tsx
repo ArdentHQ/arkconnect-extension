@@ -148,7 +148,7 @@ const Send = () => {
                     session: {
                         walletId: primaryWallet?.id(),
                         logo: 'icon/128.png',
-                        domain: 'Arkconnect',
+                        domain: 'ARK Connect',
                     },
                 },
             });
