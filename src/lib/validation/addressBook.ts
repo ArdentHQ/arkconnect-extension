@@ -4,17 +4,17 @@ import { ValidateAddressResponse } from '@/components/address-book/types';
 import { Contact } from '@/lib/hooks/useAddressBook';
 
 export const generateAddressBookValidationSchema = ({
-    isEdit = false, 
-    contact, 
-    addressBook = [], 
+    isEdit = false,
+    contact,
+    addressBook = [],
     addressValidation,
-    t
+    t,
 }: {
-    isEdit: boolean,
-    contact?: Contact,
-    addressBook: Contact[],
-    addressValidation: ValidateAddressResponse,
-    t: TFunction<'translation', undefined>
+    isEdit: boolean;
+    contact?: Contact;
+    addressBook: Contact[];
+    addressValidation: ValidateAddressResponse;
+    t: TFunction<'translation', undefined>;
 }) => {
     return object().shape({
         name: string()
