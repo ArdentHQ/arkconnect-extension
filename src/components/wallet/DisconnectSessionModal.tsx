@@ -3,9 +3,6 @@ import RemoveConnections from '@/components/connections/RemoveConnections';
 import Modal from '@/shared/components/modal/Modal';
 import { useAppDispatch } from '@/lib/store';
 import * as SessionStore from '@/lib/store/session';
-import { useProfileContext } from '@/lib/context/Profile';
-import { ProfileData } from '@/lib/background/contracts';
-import { useEnvironmentContext } from '@/lib/context/Environment';
 
 interface Properties {
     onCancel?: () => void;
@@ -15,31 +12,17 @@ interface Properties {
 }
 export const DisconnectSessionModal = ({ isOpen, onCancel, onConfirm, sessions }: Properties) => {
     const dispatch = useAppDispatch();
-    const { profile } = useProfileContext();
-    const { persist } = useEnvironmentContext();
 
     const handleDisconnect = async () => {
         await dispatch(SessionStore.sessionRemoved(sessions.map((session) => session.id)));
 
-        for (const session of sessions) {
-            await runtime.sendMessage({
-                type: 'DISCONNECT_RESOLVE',
-                data: {
-                    domain: session.domain,
-                    status: 'success',
-                    disconnected: false,
-                },
-            });
+        // Might remove this after checking what's going on with the profile
+        const sessionsIds = sessions.map((session) => session.id);
 
-            const profileSessions = profile.settings().get(ProfileData.Sessions);
-            if (profileSessions) {
-                const updatedSessions = Object.keys(profileSessions).filter(
-                    (id) => !sessions.map((session) => session.id).includes(id),
-                );
-                profile.settings().set(ProfileData.Sessions, updatedSessions);
-                await persist();
-            }
-        }
+        await runtime.sendMessage({
+            type: 'REMOVE_SESSIONS',
+            data: { sessionsIds },
+        });
 
         onConfirm?.();
     };

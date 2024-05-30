@@ -31,6 +31,7 @@ export enum OneTimeEvents {
     CONNECT_RESOLVE = 'CONNECT_RESOLVE',
     SET_LAST_SCREEN = 'SET_LAST_SCREEN',
     CLEAR_LAST_SCREEN = 'CLEAR_LAST_SCREEN',
+    REMOVE_SESSIONS = 'REMOVE_SESSIONS',
 }
 
 export function OneTimeEventHandlers(extension: ReturnType<typeof Extension>) {
@@ -233,6 +234,26 @@ export function OneTimeEventHandlers(extension: ReturnType<typeof Extension>) {
         [OneTimeEvents.CLEAR_LAST_SCREEN]: async (_request: any) => {
             extension.profile().settings().forget(ProfileData.LastVisitedPage);
             await extension.persist();
+            return;
+        },
+
+        [OneTimeEvents.REMOVE_SESSIONS]: async (request: any) => {
+            const sessionsIds = request.data.sessionsIds;
+            
+            const sessions = extension
+                .profile()
+                .settings()
+                .get<SessionEntries>(ProfileData.Sessions);
+            
+            if (sessions) {
+                for (const id of sessionsIds) {
+                    delete sessions[id];
+                }
+
+                extension.profile().settings().set(ProfileData.Sessions, sessions);
+                await extension.persist();
+            }
+
             return;
         },
     };
