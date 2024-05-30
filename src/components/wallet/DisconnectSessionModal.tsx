@@ -3,6 +3,7 @@ import RemoveConnections from '@/components/connections/RemoveConnections';
 import Modal from '@/shared/components/modal/Modal';
 import { useAppDispatch } from '@/lib/store';
 import * as SessionStore from '@/lib/store/session';
+import { useProfileContext } from '@/lib/context/Profile';
 
 interface Properties {
     onCancel?: () => void;
@@ -12,6 +13,7 @@ interface Properties {
 }
 export const DisconnectSessionModal = ({ isOpen, onCancel, onConfirm, sessions }: Properties) => {
     const dispatch = useAppDispatch();
+    const { initProfile } = useProfileContext();
 
     const handleDisconnect = async () => {
         await dispatch(SessionStore.sessionRemoved(sessions.map((session) => session.id)));
@@ -23,6 +25,8 @@ export const DisconnectSessionModal = ({ isOpen, onCancel, onConfirm, sessions }
             type: 'REMOVE_SESSIONS',
             data: { sessionsIds },
         });
+
+        await initProfile();
 
         onConfirm?.();
     };
