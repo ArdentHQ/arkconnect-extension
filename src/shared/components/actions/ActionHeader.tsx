@@ -15,8 +15,8 @@ const ActionHeader = ({ appDomain, appLogo, icon, actionLabel, iconClassNames }:
         <div className='mb-4 flex flex-col items-center gap-6'>
             <RequestedBy appDomain={appDomain} appLogo={appLogo} />
 
-            <div className='flex flex-row items-center gap-3 justify-center'>
-                <div className='flex items-center justify-center rounded-lg border border-solid border-theme-primary-300 bg-theme-primary-100 dark:border-theme-primary-800 dark:bg-theme-primary-650/15 p-1'>
+            <div className='flex flex-row items-center justify-center gap-3'>
+                <div className='flex items-center justify-center rounded-lg border border-solid border-theme-primary-300 bg-theme-primary-100 p-1 dark:border-theme-primary-800 dark:bg-theme-primary-650/15'>
                     <Icon
                         icon={icon}
                         className={twMerge(
