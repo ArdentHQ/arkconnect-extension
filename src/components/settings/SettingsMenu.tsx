@@ -1,14 +1,15 @@
-import { AutoLockTimer as AutoLockTimerEnum, getLocalValues } from '@/lib/utils/localStorage';
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
-import { handleInputKeyAction, handleSubmitKeyAction } from '@/lib/utils/handleKeyAction';
-import { HeadingDescription, ToggleSwitch } from '@/shared/components';
-import { lockedChanged, ThemeAccent } from '@/lib/store/ui';
 import { NavigateOptions, useLocation, useNavigate } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '@/lib/store';
-
 import classNames from 'classnames';
 import { Contracts } from '@ardenthq/sdk-profiles';
 import { runtime } from 'webextension-polyfill';
+import { useTranslation } from 'react-i18next';
+import { AutoLockTimer as AutoLockTimerEnum, getLocalValues } from '@/lib/utils/localStorage';
+import { handleInputKeyAction, handleSubmitKeyAction } from '@/lib/utils/handleKeyAction';
+import { HeadingDescription, ToggleSwitch } from '@/shared/components';
+import { lockedChanged, ThemeAccent } from '@/lib/store/ui';
+import { useAppDispatch, useAppSelector } from '@/lib/store';
+
 import SafeOutlineOverflowContainer from '@/shared/components/layout/SafeOutlineOverflowContainer';
 import { selectWalletsIds } from '@/lib/store/wallet';
 import { SettingsOption } from '@/components/settings/SettingsOption';
@@ -16,7 +17,6 @@ import showAutoLockTimerValue from '@/lib/utils/showAutoLockTimerValue';
 import useOnClickOutside from '@/lib/hooks/useOnClickOutside';
 import { useProfileContext } from '@/lib/context/Profile';
 import useThemeMode from '@/lib/hooks/useThemeMode';
-import { useTranslation } from 'react-i18next';
 
 export interface DropdownMenuContainerProps {
     selected?: boolean;
@@ -129,14 +129,14 @@ export const SettingsMenu = ({
                                     className={classNames(
                                         'flex h-5 w-5 items-center justify-center rounded-full',
                                         {
-                                            'bg-theme-navy-100 outline-theme-navy-600 dark:bg-theme-navy-900 outline outline-1':
+                                            'bg-theme-navy-100 outline outline-1 outline-theme-navy-600 dark:bg-theme-navy-900':
                                                 currentThemeAccent === ThemeAccent.NAVY,
                                             'bg-theme-secondary-200 dark:bg-theme-secondary-700':
                                                 currentThemeAccent !== ThemeAccent.NAVY,
                                         },
                                     )}
                                 >
-                                    <span className='bg-theme-navy-600 block h-4 w-4 rounded-full'></span>
+                                    <span className='block h-4 w-4 rounded-full bg-theme-navy-600'></span>
                                 </button>
 
                                 <button
@@ -144,14 +144,14 @@ export const SettingsMenu = ({
                                     className={classNames(
                                         'flex h-5 w-5 items-center justify-center rounded-full',
                                         {
-                                            'bg-theme-green-100 outline-theme-green-600 dark:bg-theme-green-900 outline outline-1':
+                                            'bg-theme-green-100 outline outline-1 outline-theme-green-600 dark:bg-theme-green-900':
                                                 currentThemeAccent === ThemeAccent.GREEN,
                                             'bg-theme-secondary-200 dark:bg-theme-secondary-700':
                                                 currentThemeAccent !== ThemeAccent.GREEN,
                                         },
                                     )}
                                 >
-                                    <span className='bg-theme-green-700 dark:bg-theme-green-600 block h-4 w-4 rounded-full'></span>
+                                    <span className='block h-4 w-4 rounded-full bg-theme-green-700 dark:bg-theme-green-600'></span>
                                 </button>
                             </div>
                         }
