@@ -8,6 +8,8 @@ export default {
     IS_TOO_LONG: '{{name}} is too long',
     IS_REQUIRED: '{{name}} is required',
     IS_EXCEEDING_BALANCE: 'The {{name}} is exceeding the balance',
-    MAX_CHARACTERS: '{{count}} characters maximum',
     LEDGER_TRANSPORT_NOT_SUPPORTED: 'Ledger Transport is not supported!',
+    MAX_CHARACTERS: '{{count}} characters maximum',
+    NO_LEADING_WHITESPACE: '{{name}} should not contain leading whitespaces',
+    NO_TRAILING_WHITESPACE: '{{name}} should not contain trailing whitespaces',
 };

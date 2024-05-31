@@ -10,6 +10,11 @@ export const AddNewContactForm = ({ formik }: { formik: FormikProps<ContactFormi
         formik.handleChange(event);
     };
 
+    const handleBlur = (event: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        formik.setFieldValue(event.target.name, event.target.value.trim());
+        formik.handleBlur(event);
+    };
+
     return (
         <div className='flex flex-col gap-4'>
             <Input
@@ -19,7 +24,7 @@ export const AddNewContactForm = ({ formik }: { formik: FormikProps<ContactFormi
                 name='name'
                 value={formik.values.name}
                 onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
+                onBlur={handleBlur}
                 variant={formik.touched.name && formik.errors.name ? 'destructive' : 'primary'}
                 helperText={formik.touched.name ? formik.errors.name : undefined}
             />
