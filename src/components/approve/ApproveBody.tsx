@@ -38,7 +38,7 @@ const ApproveBody = ({ wallet, header, children, error }: Props) => {
                 </div>
             )}
 
-            <div className=' custom-scroll my-6 h-full w-full overflow-auto'>{children}</div>
+            <div className='custom-scroll mt-6 h-full w-full overflow-auto'>{children}</div>
         </div>
     );
 };
