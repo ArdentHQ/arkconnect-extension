@@ -125,14 +125,16 @@ const ApproveMessage = ({
 
     return (
         <>
-            <ApproveHeader
-                actionType={ApproveActionType.SIGNATURE}
-                appName={session.domain}
-                appLogo={session.logo}
-            />
-            <ApproveBody header={t('PAGES.APPROVE.SIGNING_WITH')} wallet={wallet}>
-                <RequestedSignatureMessage data={{ message }} />
-            </ApproveBody>
+            <div className='overflow-y-auto h-[calc(100vh-84px)] min-h-[calc(100vh-84px)] custom-scroll'>
+                <ApproveHeader
+                    actionType={ApproveActionType.SIGNATURE}
+                    appName={session.domain}
+                    appLogo={session.logo}
+                    />
+                <ApproveBody header={t('PAGES.APPROVE.SIGNING_WITH')} wallet={wallet}>
+                    <RequestedSignatureMessage data={{ message }} />
+                </ApproveBody>
+            </div>
             <ApproveFooter onSubmit={onSubmit} onCancel={onCancel} />
         </>
     );
