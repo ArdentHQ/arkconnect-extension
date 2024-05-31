@@ -26,7 +26,7 @@ interface ActionBodyProps {
     convertedAmount?: number;
     convertedTotalAmount?: number;
     isApproved?: boolean;
-    maxHeight?: string;
+    actionDetailsClassName?: string;
     receiver?: string;
     sender?: string;
     totalAmount?: number;
@@ -50,7 +50,7 @@ export const ActionBody = ({
     showFiat,
     exchangeCurrency,
     network,
-    maxHeight,
+    actionDetailsClassName,
     amount,
     convertedAmount,
     receiver,
@@ -63,7 +63,7 @@ export const ActionBody = ({
     const { t } = useTranslation();
 
     return (
-        <ActionDetails maxHeight={maxHeight}>
+        <ActionDetails className={actionDetailsClassName}>
             {isApproved && <ActionAddressRow label={t('COMMON.SENDER')} address={sender ?? ''} />}
 
             {amount !== undefined && convertedAmount !== undefined && (

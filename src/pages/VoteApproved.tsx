@@ -47,17 +47,17 @@ const VoteApproved = () => {
             <RequestedBy appDomain={formatDomain(session.domain) || ''} appLogo={session.logo} />
             <div className='flex w-full flex-col items-center justify-between gap-[37px] px-4 py-6'>
                 <div className='flex w-full flex-col items-center gap-6'>
-                    <div className='flex flex-col items-center gap-4'>
+                    <div className='flex flex-row items-center justify-center gap-3'>
                         {isTransactionConfirmed ? (
                             <Icon
                                 icon='completed'
-                                className='h-16 w-16 text-theme-primary-700 dark:text-theme-primary-650'
+                                className='h-6 w-6 text-theme-primary-700 dark:text-theme-primary-650'
                             />
                         ) : (
-                            <div className='flex h-16 w-16 items-center justify-center rounded-full bg-theme-primary-700 dark:bg-theme-primary-650'>
+                            <div className='flex h-6 w-6 items-center justify-center rounded-full bg-theme-primary-700 dark:bg-theme-primary-650'>
                                 <Icon
                                     icon='pending'
-                                    className='h-10 w-10 text-theme-primary-700 dark:text-theme-primary-650'
+                                    className='h-4 w-4 text-theme-primary-700 dark:text-theme-primary-650'
                                 />
                             </div>
                         )}
@@ -85,7 +85,7 @@ const VoteApproved = () => {
                             address: state?.vote.voteAddress,
                         }}
                         transactionId={isTransactionConfirmed ? vote.id : undefined}
-                        maxHeight='229px'
+                        actionDetailsClassName='max-h-81.5'
                     />
                 </div>
 

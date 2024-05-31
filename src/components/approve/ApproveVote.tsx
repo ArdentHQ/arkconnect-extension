@@ -220,7 +220,7 @@ const ApproveVote = ({ abortReference, approveWithLedger, wallet, closeLedgerScr
                         publicKey: vote?.wallet?.publicKey(),
                         address: vote?.wallet?.address(),
                     }}
-                    maxHeight='165px'
+                    actionDetailsClassName='max-h-81.5'
                     hasHigherCustomFee={hasHigherCustomFee}
                     amountTicker={wallet.currency()}
                 />
