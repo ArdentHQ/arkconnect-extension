@@ -22,7 +22,7 @@ const Home = () => {
     return (
         <Layout data-testid='Home' withPadding={false}>
             <div className='m-4 rounded-2xl bg-white shadow-light dark:bg-subtle-black'>
-                <div className='green:bg-theme-primary-700 green:dark:bg-theme-primary-650 rounded-2.5xl bg-theme-primary-600 text-white'>
+                <div className='rounded-2.5xl bg-theme-primary-600 text-white green:bg-theme-primary-700 green:dark:bg-theme-primary-650'>
                     <div className='p-4'>
                         <Balance
                             balance={primaryWallet?.balance() ?? 0}
@@ -32,7 +32,7 @@ const Home = () => {
                         />
                     </div>
 
-                    <div className='green:border-t-theme-primary-650 green:dark:border-t-theme-primary-600 flex justify-between border-t border-solid border-t-theme-primary-500 p-4'>
+                    <div className='flex justify-between border-t border-solid border-t-theme-primary-500 p-4 green:border-t-theme-primary-650 green:dark:border-t-theme-primary-600'>
                         <ExternalLink
                             className='flex items-center gap-2'
                             href={
@@ -50,7 +50,7 @@ const Home = () => {
 
                         <Icon
                             icon='divider'
-                            className='green:text-theme-primary-650 green:dark:text-theme-primary-600 h-4.5 w-0.5 text-theme-primary-500'
+                            className='h-4.5 w-0.5 text-theme-primary-500 green:text-theme-primary-650 green:dark:text-theme-primary-600'
                         />
 
                         <ExternalLink
