@@ -8,6 +8,7 @@ import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
 import { useLedgerContext } from '@/lib/Ledger';
 import useActiveNetwork from '@/lib/hooks/useActiveNetwork';
 import { useProfileContext } from '@/lib/context/Profile';
+import ThemedIcon from '@/shared/components/icon/ThemedIcon';
 
 const ConnectionStep = ({ children, ready }: { children: React.ReactNode; ready: boolean }) => {
     return (
@@ -119,7 +120,7 @@ export const LedgerConnectionStep = ({
             </div>
 
             <div className='my-6 flex justify-center'>
-                <Icon icon='ledger-device' className='h-30 w-[13.75rem]' />
+                <ThemedIcon icon='ledger-device' className='h-30 w-[13.75rem]' />
             </div>
 
             <div className='mb-6'>

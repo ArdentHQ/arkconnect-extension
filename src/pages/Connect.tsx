@@ -115,7 +115,7 @@ const Connect = () => {
                 appLogo={location.state?.favicon}
                 icon='action-connect'
                 actionLabel={t('PAGES.CONNECT.CONNECT_TO_APP')}
-                iconClassNames='w-[22px] h-[31px]'
+                iconClassNames='w-[11px] h-4 mx-[2.5px]'
             />
 
             <ConnectWithWallet wallet={primaryWallet} />

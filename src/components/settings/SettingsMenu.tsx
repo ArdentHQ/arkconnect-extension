@@ -1,20 +1,23 @@
-import { NavigateOptions, useLocation, useNavigate } from 'react-router-dom';
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
-import { runtime } from 'webextension-polyfill';
+import { NavigateOptions, useLocation, useNavigate } from 'react-router-dom';
+import classNames from 'classnames';
 import { Contracts } from '@ardenthq/sdk-profiles';
+import { runtime } from 'webextension-polyfill';
 import { useTranslation } from 'react-i18next';
-import { HeadingDescription, ToggleSwitch } from '@/shared/components';
-import { SettingsOption } from '@/components/settings/SettingsOption';
-import { lockedChanged } from '@/lib/store/ui';
-import { selectWalletsIds } from '@/lib/store/wallet';
-import { useProfileContext } from '@/lib/context/Profile';
 import { AutoLockTimer as AutoLockTimerEnum, getLocalValues } from '@/lib/utils/localStorage';
-import showAutoLockTimerValue from '@/lib/utils/showAutoLockTimerValue';
-import { useAppDispatch, useAppSelector } from '@/lib/store';
-import useThemeMode from '@/lib/hooks/useThemeMode';
-import useOnClickOutside from '@/lib/hooks/useOnClickOutside';
 import { handleInputKeyAction, handleSubmitKeyAction } from '@/lib/utils/handleKeyAction';
+import { HeadingDescription, ToggleSwitch } from '@/shared/components';
+import { lockedChanged, ThemeAccent } from '@/lib/store/ui';
+import { useAppDispatch, useAppSelector } from '@/lib/store';
+
 import SafeOutlineOverflowContainer from '@/shared/components/layout/SafeOutlineOverflowContainer';
+import { selectWalletsIds } from '@/lib/store/wallet';
+import { SettingsOption } from '@/components/settings/SettingsOption';
+import showAutoLockTimerValue from '@/lib/utils/showAutoLockTimerValue';
+import useOnClickOutside from '@/lib/hooks/useOnClickOutside';
+import { useProfileContext } from '@/lib/context/Profile';
+import useThemeMode from '@/lib/hooks/useThemeMode';
+
 export interface DropdownMenuContainerProps {
     selected?: boolean;
 }
@@ -29,7 +32,7 @@ export const SettingsMenu = ({
     const { t } = useTranslation();
     const dispatch = useAppDispatch();
     const walletsIds = useAppSelector(selectWalletsIds);
-    const { toggleThemeMode, isDark } = useThemeMode();
+    const { toggleThemeMode, isDark, toggleThemeAccent, currentThemeAccent } = useThemeMode();
     const navigate = useNavigate();
     const { pathname } = useLocation();
     const { profile } = useProfileContext();
@@ -74,7 +77,7 @@ export const SettingsMenu = ({
             className='mx-4 w-full rounded-xl bg-white shadow-dropdown dark:bg-subtle-black dark:shadow-dropdown-dark'
             ref={dropdownRef}
         >
-            <SafeOutlineOverflowContainer className='ml-0 w-full px-0'>
+            <SafeOutlineOverflowContainer className='custom-scroll ml-0 max-h-[32rem] w-full overflow-y-auto px-0'>
                 <div className='flex w-full flex-col py-2'>
                     <SettingsOption
                         title={t('PAGES.SETTINGS.MENU.CREATE_N_IMPORT_ADDRESS')}
@@ -113,6 +116,52 @@ export const SettingsMenu = ({
                         iconLeading='lock'
                         onClick={lockExtension}
                         onKeyDown={(e) => handleSubmitKeyAction(e, lockExtension)}
+                    />
+                    <SettingsOption
+                        title={t('PAGES.SETTINGS.MENU.THEME')}
+                        iconLeading='sparkles'
+                        iconClassName='text-light-black'
+                        onClick={(evt) => toggleThemeAccent(evt)}
+                        rightContent={
+                            <div className='flex items-center space-x-2'>
+                                <button
+                                    type='button'
+                                    className={classNames(
+                                        'flex h-5 w-5 items-center justify-center rounded-full',
+                                        {
+                                            'bg-theme-navy-100 outline outline-1 outline-theme-navy-600 dark:bg-theme-navy-900':
+                                                currentThemeAccent === ThemeAccent.NAVY,
+                                            'bg-theme-secondary-200 dark:bg-theme-secondary-700':
+                                                currentThemeAccent !== ThemeAccent.NAVY,
+                                        },
+                                    )}
+                                >
+                                    <span className='block h-4 w-4 rounded-full bg-theme-navy-600'></span>
+                                </button>
+
+                                <button
+                                    type='button'
+                                    className={classNames(
+                                        'flex h-5 w-5 items-center justify-center rounded-full',
+                                        {
+                                            'bg-theme-green-100 outline outline-1 outline-theme-green-600 dark:bg-theme-green-900':
+                                                currentThemeAccent === ThemeAccent.GREEN,
+                                            'bg-theme-secondary-200 dark:bg-theme-secondary-700':
+                                                currentThemeAccent !== ThemeAccent.GREEN,
+                                        },
+                                    )}
+                                >
+                                    <span className='block h-4 w-4 rounded-full bg-theme-green-700 dark:bg-theme-green-600'></span>
+                                </button>
+                            </div>
+                        }
+                        onKeyDown={(e) =>
+                            handleInputKeyAction(
+                                e,
+                                toggleThemeAccent,
+                                e as unknown as ChangeEvent<HTMLInputElement>,
+                            )
+                        }
                     />
                     <SettingsOption
                         title={t('PAGES.SETTINGS.MENU.DARK_MODE')}

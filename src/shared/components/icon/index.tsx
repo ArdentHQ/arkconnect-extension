@@ -3,7 +3,7 @@ import { IconDefinition, IconSvg } from './index.generated';
 
 export * from './index.generated';
 
-type IconProps = {
+export type IconProps = {
     icon: IconDefinition;
     className?: string;
 };

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+
 import { Navigate } from 'react-router-dom';
 import { Icon } from '@/shared/components';
 
@@ -24,7 +25,10 @@ const SplashScreen = () => {
                     className='splash-screen-icon h-[38px] w-[38px] text-white'
                     icon='logo-icon'
                 />
-                <Icon className='splash-screen-icon h-4 w-[170px]' icon='logo-text' />
+                <Icon
+                    className='splash-screen-icon h-4 w-[170px] dark:text-white'
+                    icon='logo-text'
+                />
             </div>
             <div className='absolute bottom-0 flex w-full translate-y-full animate-translateUp flex-col'>
                 <div className='h-[200px] w-full animate-decreaseHeight bg-theme-primary-650' />
