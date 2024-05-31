@@ -1,10 +1,18 @@
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '@/lib/store';
-import { selectThemeMode, ThemeMode, themeModeUpdated } from '@/lib/store/ui';
+import {
+    selectThemeAccent,
+    selectThemeMode,
+    ThemeAccent,
+    themeAccentUpdated,
+    ThemeMode,
+    themeModeUpdated,
+} from '@/lib/store/ui';
 
 const useThemeMode = () => {
     const dispatch = useAppDispatch();
     const currentThemeMode = useAppSelector(selectThemeMode);
+    const currentThemeAccent = useAppSelector(selectThemeAccent);
 
     useEffect(() => {
         if (currentThemeMode === undefined) {
@@ -20,6 +28,14 @@ const useThemeMode = () => {
         }
     }, [currentThemeMode]);
 
+    useEffect(() => {
+        if (currentThemeAccent === ThemeAccent.GREEN) {
+            document.documentElement.classList.add('accent-green');
+        } else {
+            document.documentElement.classList.remove('accent-green');
+        }
+    }, [currentThemeAccent]);
+
     const toggleThemeMode = (
         evt: React.MouseEvent<HTMLElement> | React.ChangeEvent<HTMLElement>,
     ) => {
@@ -32,11 +48,25 @@ const useThemeMode = () => {
         );
     };
 
+    const toggleThemeAccent = (
+        evt: React.MouseEvent<HTMLElement> | React.ChangeEvent<HTMLElement>,
+    ) => {
+        evt.preventDefault();
+        evt.stopPropagation();
+        dispatch(
+            themeAccentUpdated(
+                currentThemeAccent === ThemeAccent.NAVY ? ThemeAccent.GREEN : ThemeAccent.NAVY,
+            ),
+        );
+    };
+
     const isDark = () => currentThemeMode === ThemeMode.DARK;
 
     return {
+        toggleThemeAccent,
         toggleThemeMode,
         currentThemeMode,
+        currentThemeAccent,
         isDark,
     };
 };
