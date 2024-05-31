@@ -67,7 +67,7 @@ export const VoteLedgerApprovalBody = ({ wallet, state }: Props) => {
                 publicKey: vote?.wallet?.publicKey(),
                 address: vote?.wallet?.address(),
             }}
-            maxHeight='165px'
+            actionDetailsClassName='max-h-81.5'
             hasHigherCustomFee={hasHigherCustomFee}
             amountTicker={wallet.currency()}
         />
