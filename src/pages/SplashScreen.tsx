@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
-import { Icon } from '@/shared/components';
 import { Navigate } from 'react-router-dom';
+import { Icon } from '@/shared/components';
 
 const SplashScreen = () => {
     const [animationFinished, setAnimationFinished] = useState<boolean>(false);
