@@ -17,6 +17,7 @@ import { useNotifyOnUnload } from '@/lib/hooks/useNotifyOnUnload';
 import useLoadingModal from '@/lib/hooks/useLoadingModal';
 import constants from '@/constants';
 import { useWaitForConnectedDevice } from '@/lib/Ledger';
+import RequestedBy from '@/shared/components/actions/RequestedBy';
 
 type Props = {
     abortReference: AbortController;
@@ -124,19 +125,20 @@ const ApproveMessage = ({
     };
 
     return (
-        <>
-            <div className='overflow-y-auto h-[calc(100vh-84px)] min-h-[calc(100vh-84px)] custom-scroll'>
-                <ApproveHeader
-                    actionType={ApproveActionType.SIGNATURE}
-                    appName={session.domain}
-                    appLogo={session.logo}
-                    />
+        <div className='flex flex-col h-screen'>
+            <div className='flex-none'>
+                <RequestedBy appDomain={session.domain} appLogo={session.logo} />
+            </div>
+            <div className="flex-1 overflow-y-auto pt-6">
+                <ApproveHeader actionType={ApproveActionType.SIGNATURE} />
                 <ApproveBody header={t('PAGES.APPROVE.SIGNING_WITH')} wallet={wallet}>
                     <RequestedSignatureMessage data={{ message }} />
                 </ApproveBody>
             </div>
-            <ApproveFooter onSubmit={onSubmit} onCancel={onCancel} />
-        </>
+            <div className='flex-none'>
+                <ApproveFooter onSubmit={onSubmit} onCancel={onCancel} />
+            </div>
+        </div>
     );
 };
 
