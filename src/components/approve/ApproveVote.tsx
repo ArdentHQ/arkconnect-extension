@@ -22,6 +22,7 @@ import useLoadingModal from '@/lib/hooks/useLoadingModal';
 import { useWaitForConnectedDevice } from '@/lib/Ledger';
 import { ActionBody } from '@/components/approve/ActionBody';
 import { getNetworkCurrency } from '@/lib/utils/getActiveCoin';
+import RequestedBy from '@/shared/components/actions/RequestedBy';
 
 type Props = {
     abortReference: AbortController;
@@ -188,44 +189,54 @@ const ApproveVote = ({ abortReference, approveWithLedger, wallet, closeLedgerScr
 
     return (
         <HandleLoadingState loading={loading}>
-            {showHigherCustomFeeBanner && hasHigherCustomFee && (
-                <HigherFeeBanner
-                    averageFee={hasHigherCustomFee}
-                    coin={wallet.currency()}
-                    onClose={() => setShowHigherCustomFeeBanner(false)}
-                />
-            )}
-            <ApproveHeader
-                actionType={actionType}
-                appName={state.session.domain}
-                appLogo={state.session.logo}
-            />
+            <div className='flex flex-col h-screen'>
+                {showHigherCustomFeeBanner && hasHigherCustomFee && (
+                    <HigherFeeBanner
+                        averageFee={hasHigherCustomFee}
+                        coin={wallet.currency()}
+                        onClose={() => setShowHigherCustomFeeBanner(false)}
+                    />
+                )}
+                <div className='flex-none'>
+                    <RequestedBy
+                        appDomain={state.session.domain}
+                        appLogo={state.session.logo}
+                    />
+                </div>
+                <div className="flex-1 overflow-y-auto pt-6">
+                    <ApproveHeader
+                        actionType={actionType}
+                    />
 
-            <ApproveBody header={t('PAGES.APPROVE.APPROVING_WITH')} wallet={wallet} error={error}>
-                <ActionBody
-                    isApproved={false}
-                    showFiat={wallet.network().isLive()}
-                    wallet={wallet}
-                    fee={fee}
-                    convertedFee={convert(fee)}
-                    exchangeCurrency={wallet.exchangeCurrency() ?? 'USD'}
-                    network={getNetworkCurrency(wallet.network())}
-                    unvote={{
-                        name: unvote?.wallet?.username(),
-                        publicKey: unvote?.wallet?.publicKey(),
-                        address: unvote?.wallet?.address(),
-                    }}
-                    vote={{
-                        name: vote?.wallet?.username(),
-                        publicKey: vote?.wallet?.publicKey(),
-                        address: vote?.wallet?.address(),
-                    }}
-                    actionDetailsClassName='max-h-81.5'
-                    hasHigherCustomFee={hasHigherCustomFee}
-                    amountTicker={wallet.currency()}
-                />
-            </ApproveBody>
-            <ApproveFooter disabled={!!error} onSubmit={onSubmit} onCancel={onCancel} />
+                    <ApproveBody header={t('PAGES.APPROVE.APPROVING_WITH')} wallet={wallet} error={error}>
+                        <ActionBody
+                            isApproved={false}
+                            showFiat={wallet.network().isLive()}
+                            wallet={wallet}
+                            fee={fee}
+                            convertedFee={convert(fee)}
+                            exchangeCurrency={wallet.exchangeCurrency() ?? 'USD'}
+                            network={getNetworkCurrency(wallet.network())}
+                            unvote={{
+                                name: unvote?.wallet?.username(),
+                                publicKey: unvote?.wallet?.publicKey(),
+                                address: unvote?.wallet?.address(),
+                            }}
+                            vote={{
+                                name: vote?.wallet?.username(),
+                                publicKey: vote?.wallet?.publicKey(),
+                                address: vote?.wallet?.address(),
+                            }}
+                            actionDetailsClassName='max-h-81.5'
+                            hasHigherCustomFee={hasHigherCustomFee}
+                            amountTicker={wallet.currency()}
+                        />
+                    </ApproveBody>
+                </div>
+                <div className='flex-none'>
+                    <ApproveFooter disabled={!!error} onSubmit={onSubmit} onCancel={onCancel} />
+                </div>
+            </div>
         </HandleLoadingState>
     );
 };
