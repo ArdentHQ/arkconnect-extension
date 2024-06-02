@@ -16,7 +16,7 @@ const ApproveFooter = ({ disabled, onSubmit, onCancel }: Props) => {
     };
 
     return (
-        <div className='grid grid-cols-2 gap-2 px-4 w-full h-full items-center dark:bg-subtle-black shadow-button-container dark:shadow-button-container-dark bg-white'>
+        <div className='grid grid-cols-2 gap-2 px-4 w-full h-full items-center dark:bg-subtle-black shadow-button-container dark:shadow-button-container-dark bg-white py-4'>
             <Button variant='secondaryBlack' onClick={onCancel}>
                 {t('ACTION.REFUSE')}
             </Button>
