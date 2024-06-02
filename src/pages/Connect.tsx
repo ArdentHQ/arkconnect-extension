@@ -15,6 +15,7 @@ import { assertIsUnlocked } from '@/lib/background/assertions';
 import ActionHeader from '@/shared/components/actions/ActionHeader';
 import { useNotifyOnUnload } from '@/lib/hooks/useNotifyOnUnload';
 import useLoadingModal from '@/lib/hooks/useLoadingModal';
+import RequestedBy from '@/shared/components/actions/RequestedBy';
 
 const Connect = () => {
     const location = useLocation();
@@ -109,18 +110,28 @@ const Connect = () => {
     };
 
     return (
-        <Layout withHeader={false}>
-            <ActionHeader
-                appDomain={location.state?.domain}
-                appLogo={location.state?.favicon}
-                icon='action-connect'
-                actionLabel={t('PAGES.CONNECT.CONNECT_TO_APP')}
-                iconClassNames='w-[11px] h-4 mx-[2.5px]'
-            />
+        <Layout withHeader={false} className='pb-0'>
+            <div className='flex flex-col h-screen'>
 
-            <ConnectWithWallet wallet={primaryWallet} />
+                <div className='flex-none'>
+                    <RequestedBy 
+                        appDomain={location.state?.domain}
+                        appLogo={location.state?.favicon}
+                    />
+                </div>
+                <div className="flex-1 overflow-y-auto pt-6">
+                    <ActionHeader
+                        icon='action-connect'
+                        actionLabel={t('PAGES.CONNECT.CONNECT_TO_APP')}
+                        iconClassNames='w-[11px] h-4 mx-[2.5px]'
+                    />
 
-            <ConnectFooter onSubmit={onSubmit} onCancel={onCancel} />
+                    <ConnectWithWallet wallet={primaryWallet} />
+                </div>
+                <div className='flex-none'>
+                    <ConnectFooter onSubmit={onSubmit} onCancel={onCancel} />
+                </div>
+            </div>
         </Layout>
     );
 };
