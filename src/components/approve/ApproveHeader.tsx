@@ -4,12 +4,10 @@ import { IconDefinition } from '@/shared/components';
 import ActionHeader from '@/shared/components/actions/ActionHeader';
 
 type Props = {
-    appName: string;
-    appLogo: string;
     actionType: ApproveActionType;
 };
 
-const ApproveHeader = ({ appName, appLogo, actionType }: Props) => {
+const ApproveHeader = ({ actionType }: Props) => {
     const { t } = useTranslation();
     const icons: {
         [key in ApproveActionType]: IconDefinition;
@@ -33,8 +31,6 @@ const ApproveHeader = ({ appName, appLogo, actionType }: Props) => {
     return (
         <ActionHeader
             actionLabel={labels[actionType]}
-            appDomain={appName}
-            appLogo={appLogo}
             icon={icons[actionType]}
         />
     );
