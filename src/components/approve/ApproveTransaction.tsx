@@ -22,6 +22,7 @@ import useLoadingModal from '@/lib/hooks/useLoadingModal';
 import { useWaitForConnectedDevice } from '@/lib/Ledger';
 import { getNetworkCurrency } from '@/lib/utils/getActiveCoin';
 import { HigherFeeBanner } from '@/components/approve/HigherCustomFee.blocks';
+import RequestedBy from '@/shared/components/actions/RequestedBy';
 
 type Props = {
     abortReference: AbortController;
@@ -191,7 +192,7 @@ const ApproveTransaction = ({
     };
 
     return (
-        <>
+        <div className='flex flex-col h-screen'>
             {showHigherCustomFeeBanner && hasHigherCustomFee && (
                 <HigherFeeBanner
                     averageFee={hasHigherCustomFee}
@@ -199,36 +200,40 @@ const ApproveTransaction = ({
                     onClose={() => setShowHigherCustomFeeBanner(false)}
                 />
             )}
-            <ApproveHeader
-                actionType={ApproveActionType.TRANSACTION}
-                appName={session.domain}
-                appLogo={session.logo}
-            />
-            <ApproveBody header={t('PAGES.APPROVE.SENDING_WITH')} wallet={wallet} error={error}>
-                <ActionBody
-                    isApproved={false}
-                    showFiat={withFiat}
-                    amount={amount}
-                    memo={memo}
-                    amountTicker={coin}
-                    convertedAmount={convert(amount)}
-                    exchangeCurrency={exchangeCurrency}
-                    network={getNetworkCurrency(wallet.network())}
-                    fee={fee}
-                    convertedFee={convert(fee)}
-                    receiver={receiverAddress}
-                    totalAmount={total}
-                    convertedTotalAmount={convert(total)}
-                    hasHigherCustomFee={hasHigherCustomFee}
+            <div className='flex-none'>
+                <RequestedBy appDomain={session.domain} appLogo={session.logo} />
+            </div>
+            <div className="flex-1 overflow-y-auto pt-6">
+                <ApproveHeader
+                    actionType={ApproveActionType.TRANSACTION}
                 />
-            </ApproveBody>
-
-            <ApproveFooter
-                disabled={!!error || !formValuesLoaded}
-                onSubmit={onSubmit}
-                onCancel={onCancel}
-            />
-        </>
+                <ApproveBody header={t('PAGES.APPROVE.SENDING_WITH')} wallet={wallet} error={error}>
+                    <ActionBody
+                        isApproved={false}
+                        showFiat={withFiat}
+                        amount={amount}
+                        memo={memo}
+                        amountTicker={coin}
+                        convertedAmount={convert(amount)}
+                        exchangeCurrency={exchangeCurrency}
+                        network={getNetworkCurrency(wallet.network())}
+                        fee={fee}
+                        convertedFee={convert(fee)}
+                        receiver={receiverAddress}
+                        totalAmount={total}
+                        convertedTotalAmount={convert(total)}
+                        hasHigherCustomFee={hasHigherCustomFee}
+                    />
+                </ApproveBody>
+            </div>
+            <div className='flex-none'>
+                <ApproveFooter
+                    disabled={!!error || !formValuesLoaded}
+                    onSubmit={onSubmit}
+                    onCancel={onCancel}
+                />
+            </div>
+        </div>
     );
 };
 
