@@ -1,19 +1,15 @@
 import { twMerge } from 'tailwind-merge';
-import RequestedBy from './RequestedBy';
 import { Heading, Icon, IconDefinition } from '@/shared/components';
 
 type Props = {
-    appLogo?: string;
-    appDomain: string;
     icon: IconDefinition;
     actionLabel: string;
     iconClassNames?: string;
 };
 
-const ActionHeader = ({ appDomain, appLogo, icon, actionLabel, iconClassNames }: Props) => {
+const ActionHeader = ({ icon, actionLabel, iconClassNames }: Props) => {
     return (
         <div className='mb-4 flex flex-col items-center gap-6'>
-            <RequestedBy appDomain={appDomain} appLogo={appLogo} />
 
             <div className='flex flex-row items-center justify-center gap-3'>
                 <div className='flex items-center justify-center rounded-lg border border-solid border-theme-primary-300 bg-theme-primary-100 p-1 dark:border-theme-primary-800 dark:bg-theme-primary-650/15'>
