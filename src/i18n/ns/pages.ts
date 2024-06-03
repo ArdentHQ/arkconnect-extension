@@ -228,6 +228,7 @@ export default {
             REMOVE_ADDRESSES: 'Remove Addresses',
             CONNECTED_APPS: 'Connected Apps',
             CREATE_N_IMPORT_ADDRESS: 'Create & Import Address',
+            VOTE: 'Vote',
         },
     },
     TRANSACTION_DETAILS: {
