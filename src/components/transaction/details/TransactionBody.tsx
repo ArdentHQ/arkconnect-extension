@@ -6,14 +6,14 @@ import {
     TransactionUniqueRecipients,
 } from '../Transaction.blocks';
 import { TrasactionItem } from './TrasactionItem';
-import { Button, ExternalLink, Icon, Tooltip } from '@/shared/components';
+import { CopyTransactionId } from './CopyTransactionId';
+import { Button, ExternalLink, Tooltip } from '@/shared/components';
 import { getType, renderAmount, TransactionType } from '@/components/home/LatestTransactions.utils';
 
 import Amount from '@/components/wallet/Amount';
 import { formatUnixTimestamp } from '@/lib/utils/formatUnixTimestsamp';
 import { getTransactionDetailLink } from '@/lib/utils/networkUtils';
 import trimAddress from '@/lib/utils/trimAddress';
-import useClipboard from '@/lib/hooks/useClipboard';
 import { useDelegateInfo } from '@/lib/hooks/useDelegateInfo';
 import { useExchangeRate } from '@/lib/hooks/useExchangeRate';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
@@ -25,7 +25,6 @@ export const TransactionBody = ({
 }) => {
     const primaryWallet = usePrimaryWallet();
     const { t } = useTranslation();
-    const { copy } = useClipboard();
     const { voteDelegate, unvoteDelegate } = useDelegateInfo(transaction, primaryWallet);
     const { convert } = useExchangeRate({
         exchangeTicker: primaryWallet?.exchangeCurrency(),
@@ -150,16 +149,7 @@ export const TransactionBody = ({
                         <Tooltip content={transaction.id()} className='break-words'>
                             <span>{trimAddress(transaction.id(), 'longest')}</span>
                         </Tooltip>
-                        <button
-                            type='button'
-                            className='block'
-                            onClick={() => copy(transaction.id(), t('COMMON.TRANSACTION_ID'))}
-                        >
-                            <Icon
-                                icon='copy'
-                                className='h-5 w-5 text-theme-primary-700 dark:text-theme-primary-650'
-                            />
-                        </button>
+                        <CopyTransactionId transactionId={transaction.id()} />
                     </div>
                 </TrasactionItem>
 
