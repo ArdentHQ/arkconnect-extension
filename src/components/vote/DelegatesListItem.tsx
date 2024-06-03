@@ -1,49 +1,31 @@
-import classNames from 'classnames';
 import { useTranslation } from 'react-i18next';
 
 import { Contracts } from '@ardenthq/sdk-profiles';
+import { ExternalLink, Icon } from '@/shared/components';
 
 export const DelegatesListItem = ({ delegate }: { delegate: Contracts.IReadOnlyWallet }) => {
     const { t } = useTranslation();
 
     return (
-        <div
-            className={classNames(
-                'flex w-full items-center justify-between rounded-lg border px-4 py-3',
-            )}
-        >
-            <div className='text-md w-8 font-normal leading-[125%] text-black dark:text-white'>
-                {delegate.isResignedDelegate() ? (
-                    <span className='text-theme-gray-400 text-sm font-medium'>-</span>
-                ) : (
-                    delegate.rank()
-                )}
-            </div>
+        <tr>
+            <td className='p-4'>
+                <div className='font-medium'>{delegate.username() || delegate.address()}</div>
+            </td>
 
-            <div className='flex w-2/4 items-center overflow-auto'>
-                <div className='text-md flex-1 overflow-hidden font-normal leading-[125%] text-black dark:text-white'>
-                    {delegate.username()}
-                </div>
-
-                {delegate.isResignedDelegate() && (
-                    <div className='ml-auto flex-shrink-0 text-xs'>{t('RESIGNED')}</div>
-                )}
-            </div>
-
-            <div className='text-center'></div>
-
-            <div className='w-20 text-right'>
-                <a
-                    href='#'
-                    target='_blank'
-                    className={classNames('font-bold', {
-                        'text-theme-error-600 hover:text-theme-error-700 dark:text-theme-error-500':
-                            true,
-                    })}
+            <td className='p-4'>
+                <ExternalLink
+                    href={delegate.explorerLink()}
+                    className='transition-smoothEase text-theme-primary-700 hover:text-theme-primary-600 dark:text-theme-primary-600 dark:hover:text-theme-primary-650'
                 >
-                    Select
-                </a>
-            </div>
-        </div>
+                    <Icon icon='link-external' className='h-4 w-4' />
+                </ExternalLink>
+            </td>
+
+            <td className='p-4'>
+                <button className='transition-smoothEase font-medium text-theme-primary-700 hover:text-theme-primary-600 dark:text-theme-primary-600 dark:hover:text-theme-primary-650'>
+                    {t('PAGES.VOTE.ACTIONS.SELECT')}
+                </button>
+            </td>
+        </tr>
     );
 };
