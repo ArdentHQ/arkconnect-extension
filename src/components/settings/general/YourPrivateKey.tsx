@@ -25,11 +25,7 @@ const YourPrivateKey = ({ privateKey }: Props) => {
             hideCloseButton={false}
             footer={
                 <CommonFooter variant='simple'>
-                    <Button
-                        variant='secondary'
-                        iconLeading='copy'
-                        onClick={handleCopyToClipboard}
-                    >
+                    <Button variant='secondary' iconLeading='copy' onClick={handleCopyToClipboard}>
                         {t('ACTION.COPY_TO_CLIPBOARD')}
                     </Button>
                 </CommonFooter>
