@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/shared/components';
-import { CommonFooter } from '@/shared/components/utils/CommonFooter';
+import { Footer } from '@/shared/components/layout/Footer';
 
 export const SaveContactButton = ({
     disabled,
@@ -11,10 +11,10 @@ export const SaveContactButton = ({
 }) => {
     const { t } = useTranslation();
     return (
-        <CommonFooter className='h-[84px]'>
+        <Footer className='h-[84px]'>
             <Button variant='primary' disabled={disabled} onClick={onClick}>
                 {t('COMMON.SAVE')}
             </Button>
-        </CommonFooter>
+        </Footer>
     );
 };

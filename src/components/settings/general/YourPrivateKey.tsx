@@ -4,7 +4,7 @@ import SubPageLayout from '@/components/settings/SubPageLayout';
 import { Button, HeadingDescription, PassphraseInput, ToggleSwitch } from '@/shared/components';
 import useClipboard from '@/lib/hooks/useClipboard';
 import { ToastPosition } from '@/components/toast/ToastContainer';
-import { CommonFooter } from '@/shared/components/utils/CommonFooter';
+import { Footer } from '@/shared/components/layout/Footer';
 
 type Props = {
     privateKey: string;
@@ -24,11 +24,11 @@ const YourPrivateKey = ({ privateKey }: Props) => {
             title={t('PAGES.SETTINGS.SHOW_PRIVATE_KEY')}
             hideCloseButton={false}
             footer={
-                <CommonFooter variant='simple'>
+                <Footer variant='simple'>
                     <Button variant='secondary' iconLeading='copy' onClick={handleCopyToClipboard}>
                         {t('ACTION.COPY_TO_CLIPBOARD')}
                     </Button>
-                </CommonFooter>
+                </Footer>
             }
         >
             <div className='flex h-full flex-col'>

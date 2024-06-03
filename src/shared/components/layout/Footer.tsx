@@ -1,6 +1,6 @@
 import cn from 'classnames';
 
-export const CommonFooter = ({
+export const Footer = ({
     className,
     children,
     variant = 'default',
