@@ -26,7 +26,7 @@ const SplashScreen = () => {
                     icon='logo-icon'
                 />
                 <Icon
-                    className='splash-screen-icon h-4 w-[170px] dark:text-white'
+                    className='splash-screen-icon h-4 w-[170px] text-theme-primary-200 green:text-theme-primary-300'
                     icon='logo-text'
                 />
             </div>
