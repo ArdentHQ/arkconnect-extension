@@ -10,11 +10,7 @@ const ForgotPassword = () => {
     const { t } = useTranslation();
 
     return (
-        <SubPageLayout
-            title={t('PAGES.FORGOT_PASSWORD.FORGOT_PASSWORD')}
-            onBack='goBack'
-            noPaddingBottom
-        >
+        <SubPageLayout title={t('PAGES.FORGOT_PASSWORD.FORGOT_PASSWORD')} onBack='goBack'>
             <div className='flex h-full flex-col justify-between'>
                 <HeadingDescription>
                     {t('PAGES.FORGOT_PASSWORD.NO_RECOVERY_METHOD_AVAILABLE_DISCLAIMER')}

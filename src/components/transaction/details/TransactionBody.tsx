@@ -12,7 +12,6 @@ import { getType, renderAmount, TransactionType } from '@/components/home/Latest
 
 import Amount from '@/components/wallet/Amount';
 import { formatUnixTimestamp } from '@/lib/utils/formatUnixTimestsamp';
-import { getTransactionDetailLink } from '@/lib/utils/networkUtils';
 import trimAddress from '@/lib/utils/trimAddress';
 import { useDelegateInfo } from '@/lib/hooks/useDelegateInfo';
 import { useExchangeRate } from '@/lib/hooks/useExchangeRate';
@@ -162,22 +161,6 @@ export const TransactionBody = ({
                         )}
                     </TrasactionItem>
                 )}
-            </div>
-            <div>
-                <ExternalLink
-                    href={getTransactionDetailLink(
-                        primaryWallet?.network().isLive() ?? false,
-                        transaction.id(),
-                    )}
-                    className='group hover:no-underline'
-                >
-                    <Button
-                        variant='secondary'
-                        className='group-focus-visible:shadow-focus dark:group-focus-visible:shadow-focus-dark'
-                    >
-                        {t('COMMON.VIEW_ON_ARKSCAN')}
-                    </Button>
-                </ExternalLink>
             </div>
         </div>
     );

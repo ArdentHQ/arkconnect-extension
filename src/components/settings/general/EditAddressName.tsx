@@ -1,13 +1,13 @@
 import { useFormik } from 'formik';
 import { useNavigate, useParams } from 'react-router-dom';
 import { object, string } from 'yup';
-import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
 import SubPageLayout from '@/components/settings/SubPageLayout';
 import { Button, HeadingDescription, Input } from '@/shared/components';
 import useToast from '@/lib/hooks/useToast';
 import { useEnvironmentContext } from '@/lib/context/Environment';
 import { useProfileContext } from '@/lib/context/Profile';
+import { Footer } from '@/shared/components/layout/Footer';
 
 type EditAddressNameFormik = {
     addressName?: string;
@@ -55,18 +55,27 @@ const EditAddressName = () => {
     };
 
     return (
-        <SubPageLayout title={t('PAGES.SETTINGS.EDIT_ADDRESS_NAME')} hideCloseButton={false}>
-            <div className='flex h-full flex-col'>
+        <SubPageLayout
+            title={t('PAGES.SETTINGS.EDIT_ADDRESS_NAME')}
+            hideCloseButton={false}
+            footer={
+                <Footer variant='simple'>
+                    <Button
+                        variant='primary'
+                        onClick={formik.submitForm}
+                        disabled={!formik.isValid || !formik.values.addressName?.length}
+                    >
+                        {t('ACTION.SAVE')}
+                    </Button>
+                </Footer>
+            }
+        >
+            <div className='flex flex-col'>
                 <HeadingDescription className='mb-6'>
                     {t('PAGES.SETTINGS.NAME_YOUR_ADDRESS_SO_YOU_CAN_IDENTIFY')}
                 </HeadingDescription>
 
-                <div
-                    className={cn({
-                        'mb-[270px]': formik.isValid || !formik.values.addressName?.length,
-                        'mb-[246px]': !formik.isValid && formik.values.addressName?.length,
-                    })}
-                >
+                <div>
                     <Input
                         variant={formik.errors.addressName ? 'destructive' : 'primary'}
                         type='text'
@@ -79,13 +88,6 @@ const EditAddressName = () => {
                         helperText={formik.errors.addressName}
                     />
                 </div>
-                <Button
-                    variant='primary'
-                    onClick={formik.submitForm}
-                    disabled={!formik.isValid || !formik.values.addressName?.length}
-                >
-                    {t('ACTION.SAVE')}
-                </Button>
             </div>
         </SubPageLayout>
     );

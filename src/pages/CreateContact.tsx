@@ -130,14 +130,14 @@ const CreateContact = () => {
             title={t('PAGES.ADDRESS_BOOK.ADD_NEW_CONTACT')}
             hideCloseButton={false}
             className='relative'
-        >
-            <AddNewContactForm formik={formik} />
-            <div className='absolute -bottom-4 left-0 w-full'>
+            footer={
                 <SaveContactButton
                     disabled={!(formik.isValid && formik.values.name && formik.values.address)}
                     onClick={formik.handleSubmit}
                 />
-            </div>
+            }
+        >
+            <AddNewContactForm formik={formik} />
         </SubPageLayout>
     );
 };

@@ -3,7 +3,7 @@ import { Layout } from '@/shared/components';
 
 const CreateWallet = () => {
     return (
-        <Layout>
+        <Layout withPadding={false}>
             <div className='flex flex-1 flex-col px-4 py-4'>
                 <CreateNewWallet />
             </div>

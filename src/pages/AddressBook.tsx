@@ -35,21 +35,20 @@ const AddressBook = () => {
     };
 
     return (
-        <SubPageLayout title={t('PAGES.ADDRESS_BOOK.TITLE')} className='relative p-0'>
-            <div className='custom-scroll h-[393px] w-full overflow-y-auto'>
+        <SubPageLayout
+            title={t('PAGES.ADDRESS_BOOK.TITLE')}
+            className='relative p-0'
+            footer={<AddContactButton />}
+        >
+            <div className='custom-scroll w-full overflow-y-auto'>
                 {addressBook.length > 0 ? (
-                    <div className='mx-4'>
-                        <AddressBookList
-                            handleRemoveContact={handleRemoveContact}
-                            addressBook={addressBook}
-                        />
-                    </div>
+                    <AddressBookList
+                        handleRemoveContact={handleRemoveContact}
+                        addressBook={addressBook}
+                    />
                 ) : (
                     <NoContacts className='mt-24' />
                 )}
-            </div>
-            <div className='w-full'>
-                <AddContactButton />
             </div>
 
             {isDeleteModalOpen && (

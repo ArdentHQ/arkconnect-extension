@@ -80,14 +80,14 @@ const EditContact = () => {
             title={t('PAGES.ADDRESS_BOOK.EDIT_CONTACT')}
             hideCloseButton={false}
             className='relative'
-        >
-            <AddNewContactForm formik={formik} />
-            <div className='absolute -bottom-4 left-0 w-full'>
+            footer={
                 <SaveContactButton
                     disabled={!(formik.isValid && formik.dirty)}
                     onClick={formik.handleSubmit}
                 />
-            </div>
+            }
+        >
+            <AddNewContactForm formik={formik} />
         </SubPageLayout>
     );
 };

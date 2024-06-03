@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
+import SubPageLayout from '../settings/SubPageLayout';
 import ConnectionLogoImage from './ConnectionLogoImage';
 import { DisconnectSessionModal } from '@/components/wallet/DisconnectSessionModal';
 import { useAppSelector } from '@/lib/store';
@@ -13,6 +14,7 @@ import trimAddress from '@/lib/utils/trimAddress';
 import { useProfileContext } from '@/lib/context/Profile';
 import { selectPrimaryWalletId } from '@/lib/store/wallet';
 import { isFirefox } from '@/lib/utils/isFirefox';
+import { Footer } from '@/shared/components/layout/Footer';
 
 const ConnectionsList = () => {
     const location = useLocation();
@@ -47,7 +49,21 @@ const ConnectionsList = () => {
     }, [location.state, primaryWalletId, sessions]);
 
     return (
-        <div>
+        <SubPageLayout
+            title={t('PAGES.CONNECTIONS.CONNECTED_APPS')}
+            footer={
+                <Footer>
+                    <Button
+                        variant='destructiveSecondary'
+                        onClick={() => {
+                            setSessionsToRemove(Object.values(sessions));
+                        }}
+                    >
+                        {t('ACTION.DISCONNECT_ALL')}
+                    </Button>
+                </Footer>
+            }
+        >
             <div className='mb-2 flex flex-col gap-2'>
                 {Object.values(sessions).map((session) => {
                     return (
@@ -121,15 +137,6 @@ const ConnectionsList = () => {
                     );
                 })}
             </div>
-            <Button
-                variant='destructiveSecondary'
-                onClick={() => {
-                    setSessionsToRemove(Object.values(sessions));
-                }}
-                className='mt-4'
-            >
-                {t('ACTION.DISCONNECT_ALL')}
-            </Button>
 
             <DisconnectSessionModal
                 sessions={sessionsToRemove}
@@ -149,7 +156,7 @@ const ConnectionsList = () => {
                     setSessionsToRemove([]);
                 }}
             />
-        </div>
+        </SubPageLayout>
     );
 };
 
