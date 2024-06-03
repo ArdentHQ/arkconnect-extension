@@ -145,9 +145,11 @@ const Logout = () => {
                     </Button>
                     <Button
                         onClick={() => navigate(-1)}
-                        className='mb-0 flex w-full bg-transparent py-0 text-light-black dark:text-white'
+                        className='mb-0 flex w-full bg-transparent py-0'
                     >
-                        <span className='typeset-headline font-medium text-light-black dark:text-white'>
+                        <span className='typeset-headline font-medium text-light-black dark:text-white underline decoration-transparent hover:decoration-theme-primary-700 hover:green:decoration-theme-primary-600 hover:text-theme-primary-700 
+                        dark:hover:text-theme-primary-700
+                        hover:green:text-theme-primary-600'>
                             {t('ACTION.CANCEL_AND_GO_BACK')}
                         </span>
                     </Button>
