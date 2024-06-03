@@ -9,16 +9,16 @@ const Connections = () => {
     const sessions = useAppSelector(SessionStore.selectSessions);
     const { t } = useTranslation();
 
-    return (
-        <SubPageLayout title={t('PAGES.CONNECTIONS.CONNECTED_APPS')}>
-            {Object.values(sessions).length === 0 ? (
+    if (Object.values(sessions).length === 0) {
+        return (
+            <SubPageLayout title={t('PAGES.CONNECTIONS.CONNECTED_APPS')}>
                 <EmptyConnections />
-            ) : (
-                <div>
-                    <ConnectionsList />
-                </div>
-            )}
-        </SubPageLayout>
+            </SubPageLayout>
+        );
+    }
+
+    return (
+        <ConnectionsList />
     );
 };
 

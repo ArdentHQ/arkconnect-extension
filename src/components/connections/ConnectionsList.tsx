@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
+import SubPageLayout from '../settings/SubPageLayout';
 import ConnectionLogoImage from './ConnectionLogoImage';
 import { DisconnectSessionModal } from '@/components/wallet/DisconnectSessionModal';
 import { useAppSelector } from '@/lib/store';
@@ -47,7 +48,18 @@ const ConnectionsList = () => {
     }, [location.state, primaryWalletId, sessions]);
 
     return (
-        <div>
+        <SubPageLayout title={t('PAGES.CONNECTIONS.CONNECTED_APPS')} footer={
+            <div className='p-4'>
+                <Button
+                    variant='destructiveSecondary'
+                    onClick={() => {
+                        setSessionsToRemove(Object.values(sessions));
+                    }}
+                >
+                    {t('ACTION.DISCONNECT_ALL')}
+                </Button>
+            </div>
+        }>
             <div className='mb-2 flex flex-col gap-2'>
                 {Object.values(sessions).map((session) => {
                     return (
@@ -121,15 +133,6 @@ const ConnectionsList = () => {
                     );
                 })}
             </div>
-            <Button
-                variant='destructiveSecondary'
-                onClick={() => {
-                    setSessionsToRemove(Object.values(sessions));
-                }}
-                className='mt-4'
-            >
-                {t('ACTION.DISCONNECT_ALL')}
-            </Button>
 
             <DisconnectSessionModal
                 sessions={sessionsToRemove}
@@ -149,7 +152,7 @@ const ConnectionsList = () => {
                     setSessionsToRemove([]);
                 }}
             />
-        </div>
+        </SubPageLayout>
     );
 };
 
