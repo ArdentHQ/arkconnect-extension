@@ -4,6 +4,7 @@ import cn from 'classnames';
 
 type InputProps = React.ComponentPropsWithRef<'input'> & {
     trailing?: React.ReactNode;
+    leading?: React.ReactNode;
     disabled?: boolean;
     labelText?: string;
     helperText?: string;
@@ -17,6 +18,7 @@ type InputProps = React.ComponentPropsWithRef<'input'> & {
 
 export const Input = ({
     trailing,
+    leading,
     labelText,
     helperText,
     variant,
@@ -64,6 +66,8 @@ export const Input = ({
                 onFocus={() => setFocused(true)}
                 onBlur={() => setFocused(hasFocus !== undefined ? hasFocus : false)}
             >
+                {leading && <div className='pointer-events-none absolute left-3'>{leading}</div>}
+
                 {!focused && displayValue && (
                     <span
                         className='absolute left-3 top-3.5 cursor-text'
