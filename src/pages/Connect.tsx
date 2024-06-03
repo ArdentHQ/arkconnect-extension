@@ -15,7 +15,7 @@ import { assertIsUnlocked } from '@/lib/background/assertions';
 import ActionHeader from '@/shared/components/actions/ActionHeader';
 import { useNotifyOnUnload } from '@/lib/hooks/useNotifyOnUnload';
 import useLoadingModal from '@/lib/hooks/useLoadingModal';
-import RequestedBy from '@/shared/components/actions/RequestedBy';
+import { ApproveLayout } from '@/components/approve/ApproveLayout';
 
 const Connect = () => {
     const location = useLocation();
@@ -111,15 +111,13 @@ const Connect = () => {
 
     return (
         <Layout withHeader={false} className='pb-0'>
-            <div className='flex flex-col h-screen'>
-
-                <div className='flex-none'>
-                    <RequestedBy 
-                        appDomain={location.state?.domain}
-                        appLogo={location.state?.favicon}
-                    />
-                </div>
-                <div className="flex-1 overflow-y-auto pt-6">
+            <ApproveLayout
+                appDomain={location.state?.domain}
+                appLogo={location.state?.favicon}
+                footer={<ConnectFooter onSubmit={onSubmit} onCancel={onCancel} />}
+                className='pt-6'
+            >
+                <>
                     <ActionHeader
                         icon='action-connect'
                         actionLabel={t('PAGES.CONNECT.CONNECT_TO_APP')}
@@ -127,11 +125,8 @@ const Connect = () => {
                     />
 
                     <ConnectWithWallet wallet={primaryWallet} />
-                </div>
-                <div className='flex-none'>
-                    <ConnectFooter onSubmit={onSubmit} onCancel={onCancel} />
-                </div>
-            </div>
+                </>
+            </ApproveLayout>
         </Layout>
     );
 };

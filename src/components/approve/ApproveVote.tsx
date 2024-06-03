@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { runtime } from 'webextension-polyfill';
 import { Contracts } from '@ardenthq/sdk-profiles';
 import { useTranslation } from 'react-i18next';
-import { HigherFeeBanner } from './HigherCustomFee.blocks';
+import { ApproveLayout } from './ApproveLayout';
 import ApproveBody from '@/components/approve/ApproveBody';
 import ApproveFooter from '@/components/approve/ApproveFooter';
 import ApproveHeader from '@/components/approve/ApproveHeader';
@@ -22,7 +22,6 @@ import useLoadingModal from '@/lib/hooks/useLoadingModal';
 import { useWaitForConnectedDevice } from '@/lib/Ledger';
 import { ActionBody } from '@/components/approve/ActionBody';
 import { getNetworkCurrency } from '@/lib/utils/getActiveCoin';
-import RequestedBy from '@/shared/components/actions/RequestedBy';
 
 type Props = {
     abortReference: AbortController;
@@ -189,21 +188,19 @@ const ApproveVote = ({ abortReference, approveWithLedger, wallet, closeLedgerScr
 
     return (
         <HandleLoadingState loading={loading}>
-            <div className='flex flex-col h-screen'>
-                {showHigherCustomFeeBanner && hasHigherCustomFee && (
-                    <HigherFeeBanner
-                        averageFee={hasHigherCustomFee}
-                        coin={wallet.currency()}
-                        onClose={() => setShowHigherCustomFeeBanner(false)}
-                    />
-                )}
-                <div className='flex-none'>
-                    <RequestedBy
-                        appDomain={state.session.domain}
-                        appLogo={state.session.logo}
-                    />
-                </div>
-                <div className="flex-1 overflow-y-auto pt-6">
+            <ApproveLayout
+                appDomain={state.session.domain}
+                appLogo={state.session.logo}
+                footer={
+                    <ApproveFooter disabled={!!error} onSubmit={onSubmit} onCancel={onCancel} />
+                }
+                className='pt-6'
+                showHigherCustomFeeBanner={showHigherCustomFeeBanner}
+                setShowHigherCustomFeeBanner={setShowHigherCustomFeeBanner}
+                hasHigherCustomFee={hasHigherCustomFee}
+                wallet={wallet}
+            >
+                <>
                     <ApproveHeader
                         actionType={actionType}
                     />
@@ -232,11 +229,8 @@ const ApproveVote = ({ abortReference, approveWithLedger, wallet, closeLedgerScr
                             amountTicker={wallet.currency()}
                         />
                     </ApproveBody>
-                </div>
-                <div className='flex-none'>
-                    <ApproveFooter disabled={!!error} onSubmit={onSubmit} onCancel={onCancel} />
-                </div>
-            </div>
+                </>
+            </ApproveLayout>
         </HandleLoadingState>
     );
 };
