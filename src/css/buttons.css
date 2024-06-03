@@ -76,14 +76,14 @@
 
     /** Button Secondary Link **/
     .button-secondaryLink {
-        @apply bg-transparent p-0 text-light-black dark:text-white underline decoration-transparent hover:decoration-theme-primary-700 hover:green:decoration-theme-primary-600 hover:text-theme-primary-700
-        hover:green:text-theme-primary-600 
+        @apply bg-transparent p-0 text-light-black underline decoration-transparent hover:text-theme-primary-700 hover:decoration-theme-primary-700 hover:green:text-theme-primary-600 hover:green:decoration-theme-primary-600
+        dark:text-white 
         dark:hover:text-theme-primary-700;
     }
 
     /** Button Primary Link Destructive **/
     .button-primaryLinkDestructive {
-        @apply bg-transparent p-0 font-medium text-theme-error-600 dark:text-theme-error-500 underline decoration-transparent hover:dark:decoration-theme-error-500 hover:decoration-theme-error-600;
+        @apply bg-transparent p-0 font-medium text-theme-error-600 underline decoration-transparent hover:decoration-theme-error-600 dark:text-theme-error-500 hover:dark:decoration-theme-error-500;
     }
     .button-primaryLinkDestructive:focus-visible {
         @apply outline-2 outline-theme-error-700;
