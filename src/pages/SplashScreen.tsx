@@ -19,14 +19,14 @@ const SplashScreen = () => {
     if (animationFinished) return <Navigate to={'/onboarding'} />;
 
     return (
-        <div className='fixed left-0 top-0 flex h-[600px] w-full animate-slideUp flex-col items-center justify-center bg-theme-primary-700'>
+        <div className='fixed left-0 top-0 flex h-[600px] w-full animate-slideUp flex-col items-center justify-center bg-theme-primary-700 green:bg-[#058751]'>
             <div className='flex animate-fadeInTransformAndScale flex-col items-center justify-center gap-4'>
                 <Icon
                     className='splash-screen-icon h-[38px] w-[38px] text-white'
                     icon='logo-icon'
                 />
                 <Icon
-                    className='splash-screen-icon h-4 w-[170px] dark:text-white'
+                    className='splash-screen-icon h-4 w-[170px] text-theme-primary-200 green:text-[#00FF97]'
                     icon='logo-text'
                 />
             </div>
