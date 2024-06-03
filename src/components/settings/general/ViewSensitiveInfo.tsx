@@ -9,6 +9,7 @@ import { Button, Checkbox, HeadingDescription, PasswordInput } from '@/shared/co
 import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
 import { useProfileContext } from '@/lib/context/Profile';
 import YourPassphrase from '@/components/settings/general/YourPassphrase';
+import { CommonFooter } from '@/shared/components/utils/CommonFooter';
 
 type SensitiveInfoFormik = {
     password: string;
@@ -93,7 +94,7 @@ const ViewSensitiveInfo = () => {
             title={texts[infoType].title}
             hideCloseButton={false}
             footer={
-                <div className='bg-white p-4 shadow-button-container dark:bg-subtle-black dark:shadow-button-container-dark'>
+                <CommonFooter>
                     <Checkbox
                         id='doNotShare'
                         name='doNotShare'
@@ -114,7 +115,7 @@ const ViewSensitiveInfo = () => {
                     >
                         {t('ACTION.CONTINUE')}
                     </Button>
-                </div>
+                </CommonFooter>
             }
         >
             <div className='flex h-full flex-col'>

@@ -8,6 +8,7 @@ import { useAppSelector } from '@/lib/store';
 import trimAddress from '@/lib/utils/trimAddress';
 import { generateWalletHelperText } from '@/lib/utils/generateWalletHelperText';
 import { useProfileContext } from '@/lib/context/Profile';
+import { CommonFooter } from '@/shared/components/utils/CommonFooter';
 
 const MultipleWalletLogout = () => {
     const { t } = useTranslation();
@@ -47,7 +48,7 @@ const MultipleWalletLogout = () => {
         <SubPageLayout
             title={t('PAGES.LOGOUT.REMOVE_ADDRESSES')}
             footer={
-                <div className='flex flex-col gap-4 bg-white p-4 shadow-button-container dark:bg-subtle-black dark:shadow-button-container-dark'>
+                <CommonFooter className='flex flex-col gap-4'>
                     <Button
                         variant={!selectedIdsToLogout.length ? 'primary' : 'destructivePrimary'}
                         onClick={() => {
@@ -61,7 +62,7 @@ const MultipleWalletLogout = () => {
                     <Button variant='primaryLinkDestructive' onClick={handleSelectAllWallets}>
                         {t('PAGES.LOGOUT.REMOVE_ALL_ADDRESSES')}
                     </Button>
-                </div>
+                </CommonFooter>
             }
         >
             <div className='flex h-full flex-col'>

@@ -4,6 +4,7 @@ import SubPageLayout from '@/components/settings/SubPageLayout';
 import { Button, HeadingDescription, PassphraseInput, ToggleSwitch } from '@/shared/components';
 import useClipboard from '@/lib/hooks/useClipboard';
 import { ToastPosition } from '@/components/toast/ToastContainer';
+import { CommonFooter } from '@/shared/components/utils/CommonFooter';
 
 type Props = {
     privateKey: string;
@@ -23,7 +24,7 @@ const YourPrivateKey = ({ privateKey }: Props) => {
             title={t('PAGES.SETTINGS.SHOW_PRIVATE_KEY')}
             hideCloseButton={false}
             footer={
-                <div className='bg-white p-4 shadow-button-container dark:bg-subtle-black dark:shadow-button-container-dark'>
+                <CommonFooter>
                     <Button
                         variant='secondary'
                         iconLeading='copy'
@@ -32,7 +33,7 @@ const YourPrivateKey = ({ privateKey }: Props) => {
                     >
                         {t('ACTION.COPY_TO_CLIPBOARD')}
                     </Button>
-                </div>
+                </CommonFooter>
             }
         >
             <div className='flex h-full flex-col'>

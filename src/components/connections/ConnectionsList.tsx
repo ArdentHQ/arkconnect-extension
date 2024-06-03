@@ -14,6 +14,7 @@ import trimAddress from '@/lib/utils/trimAddress';
 import { useProfileContext } from '@/lib/context/Profile';
 import { selectPrimaryWalletId } from '@/lib/store/wallet';
 import { isFirefox } from '@/lib/utils/isFirefox';
+import { CommonFooter } from '@/shared/components/utils/CommonFooter';
 
 const ConnectionsList = () => {
     const location = useLocation();
@@ -51,7 +52,7 @@ const ConnectionsList = () => {
         <SubPageLayout
             title={t('PAGES.CONNECTIONS.CONNECTED_APPS')}
             footer={
-                <div className='bg-white p-4 shadow-button-container dark:bg-subtle-black dark:shadow-button-container-dark'>
+                <CommonFooter>
                     <Button
                         variant='destructiveSecondary'
                         onClick={() => {
@@ -60,7 +61,7 @@ const ConnectionsList = () => {
                     >
                         {t('ACTION.DISCONNECT_ALL')}
                     </Button>
-                </div>
+                </CommonFooter>
             }
         >
             <div className='mb-2 flex flex-col gap-2'>

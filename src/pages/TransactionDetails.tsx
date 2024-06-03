@@ -11,6 +11,7 @@ import { TransactionBody } from '@/components/transaction/details/TransactionBod
 import { TransactionHeader } from '@/components/transaction/details/TransactionHeader';
 import { Button, ExternalLink } from '@/shared/components';
 import { getTransactionDetailLink } from '@/lib/utils/networkUtils';
+import { CommonFooter } from '@/shared/components/utils/CommonFooter';
 
 type TransactionDetailsResponse = ExtendedConfirmedTransactionData | undefined;
 
@@ -60,7 +61,7 @@ const TransactionDetails = () => {
             title={t('PAGES.TRANSACTION_DETAILS.PAGE_TITLE')}
             footer={
                 transactionData && (
-                    <div className='bg-white p-4 shadow-button-container dark:bg-subtle-black dark:shadow-button-container-dark'>
+                    <CommonFooter>
                         <ExternalLink
                             href={getTransactionDetailLink(
                                 primaryWallet?.network().isLive() ?? false,
@@ -75,7 +76,7 @@ const TransactionDetails = () => {
                                 {t('COMMON.VIEW_ON_ARKSCAN')}
                             </Button>
                         </ExternalLink>
-                    </div>
+                    </CommonFooter>
                 )
             }
         >

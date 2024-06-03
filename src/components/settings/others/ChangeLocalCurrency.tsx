@@ -46,7 +46,7 @@ const ChangeLocalCurrency = () => {
 
     return (
         <SubPageLayout title={t('PAGES.SETTINGS.CHANGE_LOCAL_CURRENCY')} withStickyHeader>
-            <div className='overflow-hidden rounded-2xl bg-white py-2 dark:bg-subtle-black'>
+            <div className='overflow-hidden rounded-2xl bg-white py-2 dark:bg-subtle-black w-full'>
                 {general.currencies.map((currencyItem) => (
                     <SettingsRowItem
                         key={currencyItem.value}

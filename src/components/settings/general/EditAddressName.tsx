@@ -8,6 +8,7 @@ import { Button, HeadingDescription, Input } from '@/shared/components';
 import useToast from '@/lib/hooks/useToast';
 import { useEnvironmentContext } from '@/lib/context/Environment';
 import { useProfileContext } from '@/lib/context/Profile';
+import { CommonFooter } from '@/shared/components/utils/CommonFooter';
 
 type EditAddressNameFormik = {
     addressName?: string;
@@ -59,7 +60,7 @@ const EditAddressName = () => {
             title={t('PAGES.SETTINGS.EDIT_ADDRESS_NAME')}
             hideCloseButton={false}
             footer={
-                <div className='bg-white p-4 shadow-button-container dark:bg-subtle-black dark:shadow-button-container-dark'>
+                <CommonFooter>
                     <Button
                         variant='primary'
                         onClick={formik.submitForm}
@@ -67,7 +68,7 @@ const EditAddressName = () => {
                     >
                         {t('ACTION.SAVE')}
                     </Button>
-                </div>
+                </CommonFooter>
             }
         >
             <div className='flex flex-col'>
