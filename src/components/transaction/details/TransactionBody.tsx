@@ -7,7 +7,7 @@ import {
 } from '../Transaction.blocks';
 import { TrasactionItem } from './TrasactionItem';
 import { CopyTransactionId } from './CopyTransactionId';
-import { Button, ExternalLink, Tooltip } from '@/shared/components';
+import { Tooltip } from '@/shared/components';
 import { getType, renderAmount, TransactionType } from '@/components/home/LatestTransactions.utils';
 
 import Amount from '@/components/wallet/Amount';
