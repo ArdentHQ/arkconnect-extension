@@ -4,12 +4,10 @@ import { IconDefinition } from '@/shared/components';
 import ActionHeader from '@/shared/components/actions/ActionHeader';
 
 type Props = {
-    appName: string;
-    appLogo: string;
     actionType: ApproveActionType;
 };
 
-const ApproveHeader = ({ appName, appLogo, actionType }: Props) => {
+const ApproveHeader = ({ actionType }: Props) => {
     const { t } = useTranslation();
     const icons: {
         [key in ApproveActionType]: IconDefinition;
@@ -30,14 +28,7 @@ const ApproveHeader = ({ appName, appLogo, actionType }: Props) => {
         [ApproveActionType.SWITCH_VOTE]: t('COMMON.REQUESTED_TO_SWITCH_VOTE'),
     };
 
-    return (
-        <ActionHeader
-            actionLabel={labels[actionType]}
-            appDomain={appName}
-            appLogo={appLogo}
-            icon={icons[actionType]}
-        />
-    );
+    return <ActionHeader actionLabel={labels[actionType]} icon={icons[actionType]} />;
 };
 
 export default ApproveHeader;

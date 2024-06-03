@@ -111,7 +111,7 @@ const Approve = () => {
     }, [location]);
 
     return (
-        <Layout withHeader={false}>
+        <Layout withHeader={false} className='pb-0'>
             {location.state?.type === ApproveActionType.SIGNATURE && (
                 <ApproveMessage
                     abortReference={abortReference.current}

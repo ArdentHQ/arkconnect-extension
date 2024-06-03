@@ -4,6 +4,7 @@ import { runtime } from 'webextension-polyfill';
 import { Contracts } from '@ardenthq/sdk-profiles';
 import { BigNumber } from '@ardenthq/sdk-helpers';
 import { useTranslation } from 'react-i18next';
+import { ApproveLayout } from './ApproveLayout';
 import { ActionBody } from '@/components/approve/ActionBody';
 import ApproveBody from '@/components/approve/ApproveBody';
 import ApproveFooter from '@/components/approve/ApproveFooter';
@@ -21,7 +22,6 @@ import { useNotifyOnUnload } from '@/lib/hooks/useNotifyOnUnload';
 import useLoadingModal from '@/lib/hooks/useLoadingModal';
 import { useWaitForConnectedDevice } from '@/lib/Ledger';
 import { getNetworkCurrency } from '@/lib/utils/getActiveCoin';
-import { HigherFeeBanner } from '@/components/approve/HigherCustomFee.blocks';
 
 type Props = {
     abortReference: AbortController;
@@ -191,19 +191,23 @@ const ApproveTransaction = ({
     };
 
     return (
-        <>
-            {showHigherCustomFeeBanner && hasHigherCustomFee && (
-                <HigherFeeBanner
-                    averageFee={hasHigherCustomFee}
-                    coin={wallet.currency()}
-                    onClose={() => setShowHigherCustomFeeBanner(false)}
+        <ApproveLayout
+            appDomain={session.domain}
+            appLogo={session.logo}
+            footer={
+                <ApproveFooter
+                    disabled={!!error || !formValuesLoaded}
+                    onSubmit={onSubmit}
+                    onCancel={onCancel}
                 />
-            )}
-            <ApproveHeader
-                actionType={ApproveActionType.TRANSACTION}
-                appName={session.domain}
-                appLogo={session.logo}
-            />
+            }
+            className='pt-6'
+            showHigherCustomFeeBanner={showHigherCustomFeeBanner}
+            setShowHigherCustomFeeBanner={setShowHigherCustomFeeBanner}
+            hasHigherCustomFee={hasHigherCustomFee}
+            wallet={wallet}
+        >
+            <ApproveHeader actionType={ApproveActionType.TRANSACTION} />
             <ApproveBody header={t('PAGES.APPROVE.SENDING_WITH')} wallet={wallet} error={error}>
                 <ActionBody
                     isApproved={false}
@@ -222,13 +226,7 @@ const ApproveTransaction = ({
                     hasHigherCustomFee={hasHigherCustomFee}
                 />
             </ApproveBody>
-
-            <ApproveFooter
-                disabled={!!error || !formValuesLoaded}
-                onSubmit={onSubmit}
-                onCancel={onCancel}
-            />
-        </>
+        </ApproveLayout>
     );
 };
 
