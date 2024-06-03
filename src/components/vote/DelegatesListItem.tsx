@@ -9,7 +9,9 @@ export const DelegatesListItem = ({ delegate }: { delegate: Contracts.IReadOnlyW
     return (
         <tr>
             <td className='p-4'>
-                <div className='font-medium'>{delegate.username() || delegate.address()}</div>
+                <span className='font-medium dark:text-white'>
+                    {delegate.username() || delegate.address()}
+                </span>
             </td>
 
             <td className='p-4'>
