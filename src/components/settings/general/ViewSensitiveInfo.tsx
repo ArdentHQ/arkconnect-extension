@@ -89,30 +89,34 @@ const ViewSensitiveInfo = () => {
     }
 
     return (
-        <SubPageLayout title={texts[infoType].title} hideCloseButton={false} footer={
-            <div className='bg-white p-4 shadow-button-container dark:bg-subtle-black dark:shadow-button-container-dark'>
-                <Checkbox
-                    id='doNotShare'
-                    name='doNotShare'
-                    checked={formik.values.doNotShare}
-                    onChange={formik.handleChange}
-                    title={texts[infoType].footer}
-                />
+        <SubPageLayout
+            title={texts[infoType].title}
+            hideCloseButton={false}
+            footer={
+                <div className='bg-white p-4 shadow-button-container dark:bg-subtle-black dark:shadow-button-container-dark'>
+                    <Checkbox
+                        id='doNotShare'
+                        name='doNotShare'
+                        checked={formik.values.doNotShare}
+                        onChange={formik.handleChange}
+                        title={texts[infoType].footer}
+                    />
 
-                <Button
-                    variant='primary'
-                    onClick={formik.submitForm}
-                    className='mt-6'
-                    disabled={
-                        !formik.isValid ||
-                        !formik.values.password.length ||
-                        !formik.values.doNotShare
-                    }
-                >
-                    {t('ACTION.CONTINUE')}
-                </Button>
-            </div>
-        }>
+                    <Button
+                        variant='primary'
+                        onClick={formik.submitForm}
+                        className='mt-6'
+                        disabled={
+                            !formik.isValid ||
+                            !formik.values.password.length ||
+                            !formik.values.doNotShare
+                        }
+                    >
+                        {t('ACTION.CONTINUE')}
+                    </Button>
+                </div>
+            }
+        >
             <div className='flex h-full flex-col'>
                 <HeadingDescription className='mb-6'>
                     {texts[infoType].description}

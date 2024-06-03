@@ -19,13 +19,17 @@ const YourPassphrase = ({ passphrase }: Props) => {
     };
 
     return (
-        <SubPageLayout title={t('PAGES.SETTINGS.SHOW_PASSPHRASE')} hideCloseButton={false} footer={
-            <div className='bg-white p-4 shadow-button-container dark:bg-subtle-black dark:shadow-button-container-dark'>
-                <Button variant='secondary' iconLeading='copy' onClick={handleCopyToClipboard}>
-                    {t('ACTION.COPY_TO_CLIPBOARD')}
-                </Button>
-            </div>
-        }>
+        <SubPageLayout
+            title={t('PAGES.SETTINGS.SHOW_PASSPHRASE')}
+            hideCloseButton={false}
+            footer={
+                <div className='bg-white p-4 shadow-button-container dark:bg-subtle-black dark:shadow-button-container-dark'>
+                    <Button variant='secondary' iconLeading='copy' onClick={handleCopyToClipboard}>
+                        {t('ACTION.COPY_TO_CLIPBOARD')}
+                    </Button>
+                </div>
+            }
+        >
             <div className='flex h-full flex-col'>
                 <HeadingDescription className='mb-4'>
                     {t('PAGES.SETTINGS.SHOW_PASSPHRASE_DISCLAIMER')}
