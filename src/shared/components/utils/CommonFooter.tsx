@@ -1,4 +1,3 @@
-
 import cn from 'classnames';
 
 export const CommonFooter = ({
@@ -19,4 +18,3 @@ export const CommonFooter = ({
     </div>
   );
 };
-
