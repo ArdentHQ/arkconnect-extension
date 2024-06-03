@@ -48,18 +48,21 @@ const ConnectionsList = () => {
     }, [location.state, primaryWalletId, sessions]);
 
     return (
-        <SubPageLayout title={t('PAGES.CONNECTIONS.CONNECTED_APPS')} footer={
-            <div className='p-4'>
-                <Button
-                    variant='destructiveSecondary'
-                    onClick={() => {
-                        setSessionsToRemove(Object.values(sessions));
-                    }}
-                >
-                    {t('ACTION.DISCONNECT_ALL')}
-                </Button>
-            </div>
-        }>
+        <SubPageLayout
+            title={t('PAGES.CONNECTIONS.CONNECTED_APPS')}
+            footer={
+                <div className='p-4'>
+                    <Button
+                        variant='destructiveSecondary'
+                        onClick={() => {
+                            setSessionsToRemove(Object.values(sessions));
+                        }}
+                    >
+                        {t('ACTION.DISCONNECT_ALL')}
+                    </Button>
+                </div>
+            }
+        >
             <div className='mb-2 flex flex-col gap-2'>
                 {Object.values(sessions).map((session) => {
                     return (

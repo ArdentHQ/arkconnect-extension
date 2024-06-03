@@ -192,7 +192,13 @@ const Send = () => {
     const hasValues = formik.values.amount && formik.values.receiverAddress && formik.values.fee;
 
     return (
-        <SubPageLayout title={t('COMMON.SEND')} className='relative p-0' footer={<SendButton disabled={!(formik.isValid && hasValues)} onClick={formik.submitForm} />}>
+        <SubPageLayout
+            title={t('COMMON.SEND')}
+            className='relative p-0'
+            footer={
+                <SendButton disabled={!(formik.isValid && hasValues)} onClick={formik.submitForm} />
+            }
+        >
             <SendForm formik={formik} />
         </SubPageLayout>
     );

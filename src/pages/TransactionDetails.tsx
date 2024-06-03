@@ -56,24 +56,29 @@ const TransactionDetails = () => {
     }, [primaryWallet, refetch]);
 
     return (
-        <SubPageLayout title={t('PAGES.TRANSACTION_DETAILS.PAGE_TITLE')} footer={transactionData && (
-            <div className='p-4'>
-                <ExternalLink
-                    href={getTransactionDetailLink(
-                        primaryWallet?.network().isLive() ?? false,
-                        transactionData.id(),
-                    )}
-                    className='group hover:no-underline'
-                >
-                    <Button
-                        variant='secondary'
-                        className='group-focus-visible:shadow-focus dark:group-focus-visible:shadow-focus-dark'
-                    >
-                        {t('COMMON.VIEW_ON_ARKSCAN')}
-                    </Button>
-                </ExternalLink>
-            </div>)
-        }>
+        <SubPageLayout
+            title={t('PAGES.TRANSACTION_DETAILS.PAGE_TITLE')}
+            footer={
+                transactionData && (
+                    <div className='p-4'>
+                        <ExternalLink
+                            href={getTransactionDetailLink(
+                                primaryWallet?.network().isLive() ?? false,
+                                transactionData.id(),
+                            )}
+                            className='group hover:no-underline'
+                        >
+                            <Button
+                                variant='secondary'
+                                className='group-focus-visible:shadow-focus dark:group-focus-visible:shadow-focus-dark'
+                            >
+                                {t('COMMON.VIEW_ON_ARKSCAN')}
+                            </Button>
+                        </ExternalLink>
+                    </div>
+                )
+            }
+        >
             {transactionData && !isLoading ? (
                 <>
                     <TransactionHeader transaction={transactionData} className='mb-4' />

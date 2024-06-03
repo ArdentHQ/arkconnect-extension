@@ -44,26 +44,26 @@ const MultipleWalletLogout = () => {
     };
 
     return (
-        <SubPageLayout title={t('PAGES.LOGOUT.REMOVE_ADDRESSES')} footer={
-            <div className='flex flex-col p-4 gap-4'>
-                <Button
-                    variant='destructivePrimary'
-                    onClick={() => {
-                        navigate('/logout', { state: selectedIdsToLogout });
-                    }}
-                    disabled={!selectedIdsToLogout.length}
-                >
-                    {t('ACTION.REMOVE')}{' '}
-                    {selectedIdsToLogout.length > 0 && `(${selectedIdsToLogout.length})`}
-                </Button>
-                <Button
-                    variant='primaryLinkDestructive'
-                    onClick={handleSelectAllWallets}
-                >
-                    {t('PAGES.LOGOUT.REMOVE_ALL_ADDRESSES')}
-                </Button>
-            </div>
-        }>
+        <SubPageLayout
+            title={t('PAGES.LOGOUT.REMOVE_ADDRESSES')}
+            footer={
+                <div className='flex flex-col gap-4 p-4'>
+                    <Button
+                        variant='destructivePrimary'
+                        onClick={() => {
+                            navigate('/logout', { state: selectedIdsToLogout });
+                        }}
+                        disabled={!selectedIdsToLogout.length}
+                    >
+                        {t('ACTION.REMOVE')}{' '}
+                        {selectedIdsToLogout.length > 0 && `(${selectedIdsToLogout.length})`}
+                    </Button>
+                    <Button variant='primaryLinkDestructive' onClick={handleSelectAllWallets}>
+                        {t('PAGES.LOGOUT.REMOVE_ALL_ADDRESSES')}
+                    </Button>
+                </div>
+            }
+        >
             <div className='flex h-full flex-col'>
                 <HeadingDescription className='mb-6'>
                     {t('PAGES.LOGOUT.SELECT_ADDRESSES_TO_REMOVE')}
