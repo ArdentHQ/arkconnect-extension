@@ -40,58 +40,63 @@ const TransactionApproved = () => {
     }, []);
 
     return (
-        <div className=' fixed left-0 top-0 z-10 flex w-full flex-col items-center justify-center bg-subtle-white dark:bg-light-black'>
-            <RequestedBy appDomain={formatDomain(session.domain) || ''} appLogo={session.logo} />
-
-            <div className=' flex w-full flex-col items-center justify-between gap-6 px-4 pt-6'>
-                <div className='flex w-full flex-col items-center gap-4'>
-                    <div className='flex flex-row items-center justify-center gap-3'>
-                        {isTransactionConfirmed ? (
-                            <Icon
-                                icon='completed'
-                                className='h-6 w-6 text-theme-primary-700 dark:text-theme-primary-650'
-                            />
-                        ) : (
-                            <div className='flex h-6 w-6 items-center justify-center rounded-full bg-theme-primary-700 dark:bg-theme-primary-650'>
+        <div className='fixed left-0 top-0 z-10 flex w-full flex-col items-center justify-center bg-subtle-white dark:bg-light-black h-screen'>
+            <div className='flex-none w-full'>
+                <RequestedBy appDomain={formatDomain(session.domain) || ''} appLogo={session.logo} />
+            </div>
+            
+            <div className='flex-1 overflow-y-auto custom-scroll w-full'>
+                <div className='flex w-full flex-col items-center justify-between gap-6 px-4 py-6'>
+                    <div className='flex w-full flex-col items-center gap-4'>
+                        <div className='flex flex-row items-center justify-center gap-3'>
+                            {isTransactionConfirmed ? (
                                 <Icon
-                                    icon='pending'
-                                    className='h-4 w-4 text-theme-primary-700 dark:text-theme-primary-650'
+                                    icon='completed'
+                                    className='h-6 w-6 text-theme-primary-700 dark:text-theme-primary-650'
                                 />
-                            </div>
-                        )}
+                            ) : (
+                                <div className='flex h-6 w-6 items-center justify-center rounded-full bg-theme-primary-700 dark:bg-theme-primary-650'>
+                                    <Icon
+                                        icon='pending'
+                                        className='h-4 w-4 text-theme-primary-700 dark:text-theme-primary-650'
+                                    />
+                                </div>
+                            )}
 
-                        <Heading level={3}>
-                            {isTransactionConfirmed
-                                ? t('PAGES.TRANSACTION_APPROVED.TRANSACTION_APPROVED')
-                                : t('PAGES.PENDING_CONFIRMATION')}
-                        </Heading>
-                    </div>
+                            <Heading level={3}>
+                                {isTransactionConfirmed
+                                    ? t('PAGES.TRANSACTION_APPROVED.TRANSACTION_APPROVED')
+                                    : t('PAGES.PENDING_CONFIRMATION')}
+                            </Heading>
+                        </div>
 
-                    <div className='w-full'>
-                        <ActionBody
-                            isApproved={true}
-                            sender={state?.transaction.sender}
-                            amount={state?.transaction.amount}
-                            memo={state?.transaction.memo}
-                            convertedAmount={state?.transaction.convertedAmount as number}
-                            exchangeCurrency={state?.transaction.exchangeCurrency as string}
-                            network={getActiveCoin(state?.walletNetwork)}
-                            showFiat={showFiat}
-                            receiver={state?.transaction.receiver}
-                            fee={state?.transaction.fee}
-                            convertedFee={state?.transaction.convertedFee as number}
-                            totalAmount={state?.transaction.total}
-                            convertedTotalAmount={state?.transaction.convertedTotal as number}
-                            amountTicker={getActiveCoin(state?.walletNetwork)}
-                            transactionId={
-                                isTransactionConfirmed ? state?.transaction.id : undefined
-                            }
-                            actionDetailsClassName='max-h-81.5'
-                        />
+                        <div className='w-full'>
+                            <ActionBody
+                                isApproved={true}
+                                sender={state?.transaction.sender}
+                                amount={state?.transaction.amount}
+                                memo={state?.transaction.memo}
+                                convertedAmount={state?.transaction.convertedAmount as number}
+                                exchangeCurrency={state?.transaction.exchangeCurrency as string}
+                                network={getActiveCoin(state?.walletNetwork)}
+                                showFiat={showFiat}
+                                receiver={state?.transaction.receiver}
+                                fee={state?.transaction.fee}
+                                convertedFee={state?.transaction.convertedFee as number}
+                                totalAmount={state?.transaction.total}
+                                convertedTotalAmount={state?.transaction.convertedTotal as number}
+                                amountTicker={getActiveCoin(state?.walletNetwork)}
+                                transactionId={
+                                    isTransactionConfirmed ? state?.transaction.id : undefined
+                                }
+                            />
+                        </div>
                     </div>
                 </div>
+            </div>
 
-                <div className='flex w-full flex-col gap-5'>
+            <div className='flex-none w-full'>
+                <div className='flex w-full flex-col gap-5 p-4 dark:bg-subtle-black shadow-button-container dark:shadow-button-container-dark bg-white'>
                     <Button variant='primary' onClick={onClose}>
                         {t('ACTION.CLOSE')}
                     </Button>
