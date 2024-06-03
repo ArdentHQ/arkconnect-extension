@@ -131,7 +131,28 @@ const Logout = () => {
                     : t('PAGES.LOGOUT.REMOVE_ADDRESS')
             }
             hideCloseButton={false}
-            noPaddingBottom
+            footer={
+                <div className='flex flex-col p-4'>
+                    <Button
+                        variant='destructivePrimary'
+                        onClick={logoutWallet}
+                        disabled={!password.length}
+                        className='mb-2'
+                    >
+                        {walletsToLogout.length > 1
+                            ? t('PAGES.LOGOUT.REMOVE_ADDRESSES')
+                            : t('PAGES.LOGOUT.REMOVE_ADDRESS')}
+                    </Button>
+                    <Button
+                        onClick={() => navigate(-1)}
+                        className='mb-0 flex w-full bg-transparent py-0 text-light-black dark:text-white'
+                    >
+                        <span className='typeset-headline font-medium text-light-black dark:text-white'>
+                            {t('ACTION.CANCEL_AND_GO_BACK')}
+                        </span>
+                    </Button>
+                </div>
+            }
         >
             <div className='flex h-full flex-col'>
                 <HeadingDescription>
@@ -172,27 +193,6 @@ const Logout = () => {
                                     : ''
                             }
                         />
-                    </div>
-
-                    <div className='-mb-2 flex flex-col'>
-                        <Button
-                            variant='destructivePrimary'
-                            onClick={logoutWallet}
-                            disabled={!password.length}
-                            className='mb-2'
-                        >
-                            {walletsToLogout.length > 1
-                                ? t('PAGES.LOGOUT.REMOVE_ADDRESSES')
-                                : t('PAGES.LOGOUT.REMOVE_ADDRESS')}
-                        </Button>
-                        <Button
-                            onClick={() => navigate(-1)}
-                            className='mb-0 flex w-full bg-transparent py-0 text-light-black dark:text-white'
-                        >
-                            <span className='typeset-headline font-medium text-light-black dark:text-white'>
-                                {t('ACTION.CANCEL_AND_GO_BACK')}
-                            </span>
-                        </Button>
                     </div>
                 </div>
             </div>

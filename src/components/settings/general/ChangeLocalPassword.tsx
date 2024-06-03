@@ -93,7 +93,21 @@ const ChangeLocalPassword = () => {
     });
 
     return (
-        <SubPageLayout title={t('PAGES.SETTINGS.CHANGE_LOCAL_PASSWORD')}>
+        <SubPageLayout
+            title={t('PAGES.SETTINGS.CHANGE_LOCAL_PASSWORD')}
+            footer={
+                <div className='p-4'>
+                    <Button
+                        variant='primary'
+                        disabled={!formik.isValid || !formik.values.oldPassword.length}
+                        onClick={formik.submitForm}
+                        className='mt-auto'
+                    >
+                        {t('PAGES.SETTINGS.FORM.SAVE_NEW_PASSWORD')}
+                    </Button>
+                </div>
+            }
+        >
             <div className='flex h-full flex-1 flex-col justify-between'>
                 <HeadingDescription className='mb-6'>
                     {t('PAGES.SETTINGS.CHANGE_PASSWORD_FOR_YOUR_WALLET')}
@@ -148,14 +162,6 @@ const ChangeLocalPassword = () => {
                         />
                     </div>
                 </div>
-                <Button
-                    variant='primary'
-                    disabled={!formik.isValid || !formik.values.oldPassword.length}
-                    onClick={formik.submitForm}
-                    className='mt-auto'
-                >
-                    {t('PAGES.SETTINGS.FORM.SAVE_NEW_PASSWORD')}
-                </Button>
             </div>
         </SubPageLayout>
     );

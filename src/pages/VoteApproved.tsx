@@ -12,6 +12,7 @@ import trimAddress from '@/lib/utils/trimAddress';
 import getActiveCoin from '@/lib/utils/getActiveCoin';
 import { useConfirmedTransaction } from '@/lib/hooks/useConfirmedTransaction';
 import { ApproveLayout } from '@/components/approve/ApproveLayout';
+import { Footer } from '@/shared/components/layout/Footer';
 
 const VoteApprovedFooter = ({
     onClose,
@@ -25,7 +26,7 @@ const VoteApprovedFooter = ({
     const { t } = useTranslation();
 
     return (
-        <div className='flex w-full flex-col gap-5 bg-white p-4 shadow-button-container dark:bg-subtle-black dark:shadow-button-container-dark'>
+        <Footer className='flex w-full flex-col gap-5'>
             <Button variant='primary' onClick={onClose}>
                 {t('ACTION.CLOSE')}
             </Button>
@@ -55,7 +56,7 @@ const VoteApprovedFooter = ({
                     </p>
                 </div>
             )}
-        </div>
+        </Footer>
     );
 };
 
