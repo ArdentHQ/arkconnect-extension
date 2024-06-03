@@ -7,9 +7,10 @@ type Props = {
     title: string;
     withStickyHeader?: boolean;
     hideCloseButton?: boolean;
-    noPaddingBottom?: boolean;
+    withPaddingBottom?: boolean;
     onBack?: 'goHome' | 'goBack';
     className?: string;
+    footer?: React.ReactNode;
 };
 
 const SubPageLayout = ({
@@ -18,43 +19,57 @@ const SubPageLayout = ({
     withStickyHeader = false,
     hideCloseButton = true,
     onBack,
-    noPaddingBottom = false,
+    withPaddingBottom = false,
     className,
+    footer,
 }: Props) => {
     if (!onBack) {
         onBack = hideCloseButton ? 'goHome' : 'goBack';
     }
     return (
-        <Layout>
-            <div
-                className={cn(
-                    'flex items-center justify-between bg-subtle-white p-4 dark:bg-light-black',
-                    {
-                        'sticky top-12.5': withStickyHeader,
-                    },
-                )}
-            >
-                <div className='flex w-full items-center justify-between'>
-                    <div className='flex items-center gap-3'>
-                        <ArrowButton action={onBack} />
-                        <Heading level={4}>{title}</Heading>
-                    </div>
-
-                    {!hideCloseButton && <CloseButton />}
-                </div>
-            </div>
+        <Layout withPadding={false}>
             <div
                 className={twMerge(
                     cn(
-                        'h-full px-4',
+                        'h-[calc(100vh-59px)] flex flex-col',
                         {
-                            'pb-4': !noPaddingBottom,
+                            'pb-4': withPaddingBottom,
                         },
                         className,
                     ),
                 )}
             >
-                {children}
+                <div className='flex-1 w-full overflow-y-auto custom-scroll overflow-x-hidden'>
+                    <div
+                        className={cn(
+                            'flex items-center justify-between bg-subtle-white p-4 dark:bg-light-black',
+                            {
+                                'sticky top-0': withStickyHeader,
+                            },
+                        )}
+                    >
+                        <div className='flex w-full items-center justify-between'>
+                            <div className='flex items-center gap-3'>
+                                <ArrowButton action={onBack} />
+                                <Heading level={4}>{title}</Heading>
+                            </div>
+
+                            {!hideCloseButton && <CloseButton />}
+                        </div>
+                    </div>
+
+                    <div className='px-4'>
+                        {children}
+                    </div>
+                </div>
+
+                {
+                    footer && (
+                        <div className='w-full flex-none'>
+                            {footer}
+                        </div>
+                    )
+                }
             </div>
         </Layout>
     );
