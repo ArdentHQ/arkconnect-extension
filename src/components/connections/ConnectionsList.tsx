@@ -49,7 +49,7 @@ const ConnectionsList = () => {
 
     return (
         <SubPageLayout title={t('PAGES.CONNECTIONS.CONNECTED_APPS')} footer={
-            <div className='p-4'>
+            <div className='bg-white p-4 shadow-button-container dark:bg-subtle-black dark:shadow-button-container-dark'>
                 <Button
                     variant='destructiveSecondary'
                     onClick={() => {

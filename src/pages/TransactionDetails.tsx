@@ -57,7 +57,7 @@ const TransactionDetails = () => {
 
     return (
         <SubPageLayout title={t('PAGES.TRANSACTION_DETAILS.PAGE_TITLE')} footer={transactionData && (
-            <div className='p-4'>
+            <div className='bg-white p-4 shadow-button-container dark:bg-subtle-black dark:shadow-button-container-dark'>
                 <ExternalLink
                     href={getTransactionDetailLink(
                         primaryWallet?.network().isLive() ?? false,
