@@ -55,8 +55,18 @@ const EditAddressName = () => {
     };
 
     return (
-        <SubPageLayout title={t('PAGES.SETTINGS.EDIT_ADDRESS_NAME')} hideCloseButton={false}>
-            <div className='flex h-full flex-col'>
+        <SubPageLayout title={t('PAGES.SETTINGS.EDIT_ADDRESS_NAME')} hideCloseButton={false} footer={
+            <div className='bg-white p-4 shadow-button-container dark:bg-subtle-black dark:shadow-button-container-dark'>
+                <Button
+                    variant='primary'
+                    onClick={formik.submitForm}
+                    disabled={!formik.isValid || !formik.values.addressName?.length}
+                >
+                    {t('ACTION.SAVE')}
+                </Button>
+            </div>
+        }>
+            <div className='flex flex-col'>
                 <HeadingDescription className='mb-6'>
                     {t('PAGES.SETTINGS.NAME_YOUR_ADDRESS_SO_YOU_CAN_IDENTIFY')}
                 </HeadingDescription>
@@ -79,13 +89,6 @@ const EditAddressName = () => {
                         helperText={formik.errors.addressName}
                     />
                 </div>
-                <Button
-                    variant='primary'
-                    onClick={formik.submitForm}
-                    disabled={!formik.isValid || !formik.values.addressName?.length}
-                >
-                    {t('ACTION.SAVE')}
-                </Button>
             </div>
         </SubPageLayout>
     );
