@@ -1,4 +1,5 @@
 import { Dispatch, SetStateAction } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Icon, Input } from '@/shared/components';
 
 export const DelegatesSearchInput = ({
@@ -8,6 +9,7 @@ export const DelegatesSearchInput = ({
     searchQuery: string;
     setSearchQuery: Dispatch<SetStateAction<string>>;
 }) => {
+    const { t } = useTranslation();
     return (
         <div className='-mt-1.5 mb-2'>
             <Input
@@ -27,7 +29,7 @@ export const DelegatesSearchInput = ({
                         </button>
                     )
                 }
-                placeholder='Find a delegate (add i18n)'
+                placeholder={t('PAGES.VOTE.FIND_A_DELEGATE')}
             />
         </div>
     );
