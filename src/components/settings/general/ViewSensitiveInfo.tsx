@@ -94,7 +94,7 @@ const ViewSensitiveInfo = () => {
             title={texts[infoType].title}
             hideCloseButton={false}
             footer={
-                <CommonFooter>
+                <CommonFooter variant='simple'>
                     <Checkbox
                         id='doNotShare'
                         name='doNotShare'

@@ -24,7 +24,7 @@ const YourPassphrase = ({ passphrase }: Props) => {
             title={t('PAGES.SETTINGS.SHOW_PASSPHRASE')}
             hideCloseButton={false}
             footer={
-                <CommonFooter>
+                <CommonFooter variant='simple'>
                     <Button variant='secondary' iconLeading='copy' onClick={handleCopyToClipboard}>
                         {t('ACTION.COPY_TO_CLIPBOARD')}
                     </Button>

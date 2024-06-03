@@ -1,7 +1,6 @@
 import { useFormik } from 'formik';
 import { useNavigate, useParams } from 'react-router-dom';
 import { object, string } from 'yup';
-import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
 import SubPageLayout from '@/components/settings/SubPageLayout';
 import { Button, HeadingDescription, Input } from '@/shared/components';
@@ -60,7 +59,7 @@ const EditAddressName = () => {
             title={t('PAGES.SETTINGS.EDIT_ADDRESS_NAME')}
             hideCloseButton={false}
             footer={
-                <CommonFooter>
+                <CommonFooter variant='simple'>
                     <Button
                         variant='primary'
                         onClick={formik.submitForm}
@@ -76,12 +75,7 @@ const EditAddressName = () => {
                     {t('PAGES.SETTINGS.NAME_YOUR_ADDRESS_SO_YOU_CAN_IDENTIFY')}
                 </HeadingDescription>
 
-                <div
-                    className={cn({
-                        'mb-[270px]': formik.isValid || !formik.values.addressName?.length,
-                        'mb-[246px]': !formik.isValid && formik.values.addressName?.length,
-                    })}
-                >
+                <div>
                     <Input
                         variant={formik.errors.addressName ? 'destructive' : 'primary'}
                         type='text'
