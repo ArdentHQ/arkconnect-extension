@@ -9,6 +9,8 @@ import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 import SubPageLayout from '@/components/settings/SubPageLayout';
 import { TransactionBody } from '@/components/transaction/details/TransactionBody';
 import { TransactionHeader } from '@/components/transaction/details/TransactionHeader';
+import { Button, ExternalLink } from '@/shared/components';
+import { getTransactionDetailLink } from '@/lib/utils/networkUtils';
 
 type TransactionDetailsResponse = ExtendedConfirmedTransactionData | undefined;
 
@@ -54,7 +56,24 @@ const TransactionDetails = () => {
     }, [primaryWallet, refetch]);
 
     return (
-        <SubPageLayout title={t('PAGES.TRANSACTION_DETAILS.PAGE_TITLE')}>
+        <SubPageLayout title={t('PAGES.TRANSACTION_DETAILS.PAGE_TITLE')} footer={transactionData && (
+            <div className='p-4'>
+                <ExternalLink
+                    href={getTransactionDetailLink(
+                        primaryWallet?.network().isLive() ?? false,
+                        transactionData.id(),
+                    )}
+                    className='group hover:no-underline'
+                >
+                    <Button
+                        variant='secondary'
+                        className='group-focus-visible:shadow-focus dark:group-focus-visible:shadow-focus-dark'
+                    >
+                        {t('COMMON.VIEW_ON_ARKSCAN')}
+                    </Button>
+                </ExternalLink>
+            </div>)
+        }>
             {transactionData && !isLoading ? (
                 <>
                     <TransactionHeader transaction={transactionData} className='mb-4' />
