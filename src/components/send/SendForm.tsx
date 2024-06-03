@@ -1,6 +1,5 @@
 import { FormikProps } from 'formik';
 import { useTranslation } from 'react-i18next';
-import cn from 'classnames';
 import { AddressDropdown } from '@/components/send/AddressDropdown';
 import Amount from '@/components/wallet/Amount';
 import { FeeSection } from '@/components/fees';
@@ -36,7 +35,7 @@ export const SendForm = ({ formik }: { formik: FormikProps<SendFormik> }) => {
     };
 
     return (
-        <div className={cn('flex w-[338px] flex-col gap-4 pb-2')}>
+        <div className={'flex w-[338px] flex-col gap-4 pb-2'}>
             <AddressDropdown
                 onChange={handleInputChange}
                 onBlur={formik.handleBlur}
