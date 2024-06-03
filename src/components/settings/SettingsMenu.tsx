@@ -103,12 +103,10 @@ export const SettingsMenu = ({
                     />
                     <SettingsOption
                         title={t('PAGES.SETTINGS.MENU.VOTE')}
-                        iconLeading='arrow-right'
-                        onClick={() => handleNavigation('/connections')}
-                        iconTrailing='vote'
-                        onKeyDown={(e) =>
-                            handleSubmitKeyAction(e, () => handleNavigation('/connections'))
-                        }
+                        iconLeading='vote'
+                        onClick={() => handleNavigation('/vote')}
+                        iconTrailing='arrow-right'
+                        onKeyDown={(e) => handleSubmitKeyAction(e, () => handleNavigation('/vote'))}
                     />
                     <SettingsOption
                         title={t('PAGES.SETTINGS.MENU.ADDRESS_BOOK')}
