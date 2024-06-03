@@ -45,9 +45,9 @@ const MultipleWalletLogout = () => {
 
     return (
         <SubPageLayout title={t('PAGES.LOGOUT.REMOVE_ADDRESSES')} footer={
-            <div className='flex flex-col p-4 gap-4'>
+            <div className='flex flex-col bg-white p-4 shadow-button-container dark:bg-subtle-black dark:shadow-button-container-dark gap-4'>
                 <Button
-                    variant='destructivePrimary'
+                    variant={!selectedIdsToLogout.length ? 'primary': 'destructivePrimary'}
                     onClick={() => {
                         navigate('/logout', { state: selectedIdsToLogout });
                     }}

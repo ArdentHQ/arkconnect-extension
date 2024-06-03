@@ -76,7 +76,7 @@
 
     /** Button Primary Link Destructive **/
     .button-primaryLinkDestructive {
-        @apply bg-subtle-white p-0 font-medium text-theme-error-600 dark:bg-light-black dark:text-theme-error-500;
+        @apply bg-transparent p-0 font-medium text-theme-error-600 dark:text-theme-error-500;
     }
     .button-primaryLinkDestructive:focus-visible {
         @apply outline-2 outline-theme-error-700;
