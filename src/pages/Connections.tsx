@@ -17,9 +17,7 @@ const Connections = () => {
         );
     }
 
-    return (
-        <ConnectionsList />
-    );
+    return <ConnectionsList />;
 };
 
 export default Connections;

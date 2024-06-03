@@ -35,8 +35,11 @@ const AddressBook = () => {
     };
 
     return (
-        <SubPageLayout title={t('PAGES.ADDRESS_BOOK.TITLE')} className='relative p-0' footer={
-            <AddContactButton />}>
+        <SubPageLayout
+            title={t('PAGES.ADDRESS_BOOK.TITLE')}
+            className='relative p-0'
+            footer={<AddContactButton />}
+        >
             <div className='custom-scroll w-full overflow-y-auto'>
                 {addressBook.length > 0 ? (
                     <AddressBookList

@@ -19,10 +19,7 @@ const YourPassphrase = ({ passphrase }: Props) => {
     };
 
     return (
-        <SubPageLayout
-            title={t('PAGES.SETTINGS.SHOW_PASSPHRASE')}
-            hideCloseButton={false}
-        >
+        <SubPageLayout title={t('PAGES.SETTINGS.SHOW_PASSPHRASE')} hideCloseButton={false}>
             <div className='flex h-full flex-col'>
                 <HeadingDescription className='mb-4'>
                     {t('PAGES.SETTINGS.SHOW_PASSPHRASE_DISCLAIMER')}

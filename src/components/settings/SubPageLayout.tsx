@@ -31,7 +31,7 @@ const SubPageLayout = ({
             <div
                 className={twMerge(
                     cn(
-                        'h-[calc(100vh-59px)] flex flex-col',
+                        'flex h-[calc(100vh-59px)] flex-col',
                         {
                             'pb-4': withPaddingBottom,
                         },
@@ -39,7 +39,7 @@ const SubPageLayout = ({
                     ),
                 )}
             >
-                <div className='flex-1 w-full overflow-y-auto custom-scroll overflow-x-hidden'>
+                <div className='custom-scroll w-full flex-1 overflow-y-auto overflow-x-hidden'>
                     <div
                         className={cn(
                             'flex items-center justify-between bg-subtle-white p-4 dark:bg-light-black',
@@ -58,18 +58,10 @@ const SubPageLayout = ({
                         </div>
                     </div>
 
-                    <div className='px-4'>
-                        {children}
-                    </div>
+                    <div className='px-4'>{children}</div>
                 </div>
 
-                {
-                    footer && (
-                        <div className='w-full flex-none'>
-                            {footer}
-                        </div>
-                    )
-                }
+                {footer && <div className='w-full flex-none'>{footer}</div>}
             </div>
         </Layout>
     );

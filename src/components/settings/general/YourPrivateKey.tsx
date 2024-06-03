@@ -19,10 +19,7 @@ const YourPrivateKey = ({ privateKey }: Props) => {
     };
 
     return (
-        <SubPageLayout
-            title={t('PAGES.SETTINGS.SHOW_PRIVATE_KEY')}
-            hideCloseButton={false}
-        >
+        <SubPageLayout title={t('PAGES.SETTINGS.SHOW_PRIVATE_KEY')} hideCloseButton={false}>
             <div className='flex h-full flex-col'>
                 <HeadingDescription className='mb-4'>
                     {t('PAGES.SETTINGS.SHOW_PRIVATE_KEY_DISCLAIMER')}
