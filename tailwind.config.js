@@ -1,4 +1,5 @@
 const defaultTheme = require('tailwindcss/defaultTheme');
+const plugin = require('tailwindcss/plugin');
 
 /** @type {import('tailwindcss').Config} */
 export default {
@@ -178,5 +179,9 @@ export default {
             'theme-green-900': 'rgb(var(--theme-color-green-900) / <alpha-value>)',
         },
     },
-    plugins: [],
+    plugins: [
+        plugin(function ({ addVariant }) {
+            addVariant('green', '.accent-green &');
+        }),
+    ],
 };

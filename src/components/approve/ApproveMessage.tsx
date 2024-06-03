@@ -2,6 +2,7 @@ import { useLocation } from 'react-router-dom';
 import { runtime } from 'webextension-polyfill';
 import { Contracts } from '@ardenthq/sdk-profiles';
 import { useTranslation } from 'react-i18next';
+import { ApproveLayout } from './ApproveLayout';
 import ApproveBody from '@/components/approve/ApproveBody';
 import ApproveFooter from '@/components/approve/ApproveFooter';
 import ApproveHeader from '@/components/approve/ApproveHeader';
@@ -124,17 +125,19 @@ const ApproveMessage = ({
     };
 
     return (
-        <>
-            <ApproveHeader
-                actionType={ApproveActionType.SIGNATURE}
-                appName={session.domain}
-                appLogo={session.logo}
-            />
-            <ApproveBody header={t('PAGES.APPROVE.SIGNING_WITH')} wallet={wallet}>
-                <RequestedSignatureMessage data={{ message }} />
-            </ApproveBody>
-            <ApproveFooter onSubmit={onSubmit} onCancel={onCancel} />
-        </>
+        <ApproveLayout
+            appDomain={session.domain}
+            appLogo={session.logo}
+            footer={<ApproveFooter onSubmit={onSubmit} onCancel={onCancel} />}
+            className='pt-6'
+        >
+            <>
+                <ApproveHeader actionType={ApproveActionType.SIGNATURE} />
+                <ApproveBody header={t('PAGES.APPROVE.SIGNING_WITH')} wallet={wallet}>
+                    <RequestedSignatureMessage data={{ message }} />
+                </ApproveBody>
+            </>
+        </ApproveLayout>
     );
 };
 
