@@ -13,15 +13,19 @@ import getActiveCoin from '@/lib/utils/getActiveCoin';
 import { useConfirmedTransaction } from '@/lib/hooks/useConfirmedTransaction';
 import { ApproveLayout } from '@/components/approve/ApproveLayout';
 
-const VoteApprovedFooter = ({ onClose, isTransactionConfirmed, state }: {
-    onClose: () => void,
-    isTransactionConfirmed: boolean,
-    state: any
+const VoteApprovedFooter = ({
+    onClose,
+    isTransactionConfirmed,
+    state,
+}: {
+    onClose: () => void;
+    isTransactionConfirmed: boolean;
+    state: any;
 }) => {
     const { t } = useTranslation();
-    
+
     return (
-        <div className='flex w-full flex-col gap-5 p-4 dark:bg-subtle-black shadow-button-container dark:shadow-button-container-dark bg-white'>
+        <div className='flex w-full flex-col gap-5 bg-white p-4 shadow-button-container dark:bg-subtle-black dark:shadow-button-container-dark'>
             <Button variant='primary' onClick={onClose}>
                 {t('ACTION.CLOSE')}
             </Button>
@@ -89,7 +93,13 @@ const VoteApproved = () => {
             containerClassName='left-0 top-0 z-10 w-full items-center justify-center bg-subtle-white dark:bg-light-black'
             appDomain={formatDomain(session.domain) || ''}
             appLogo={session.logo}
-            footer={<VoteApprovedFooter onClose={onClose} isTransactionConfirmed={isTransactionConfirmed} state={state} />}
+            footer={
+                <VoteApprovedFooter
+                    onClose={onClose}
+                    isTransactionConfirmed={isTransactionConfirmed}
+                    state={state}
+                />
+            }
         >
             <div className='flex w-full flex-col items-center justify-between gap-[37px] px-4 py-6'>
                 <div className='flex w-full flex-col items-center gap-4'>

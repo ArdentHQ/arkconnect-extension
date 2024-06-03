@@ -207,27 +207,25 @@ const ApproveTransaction = ({
             hasHigherCustomFee={hasHigherCustomFee}
             wallet={wallet}
         >
-            <ApproveHeader
-                    actionType={ApproveActionType.TRANSACTION}
+            <ApproveHeader actionType={ApproveActionType.TRANSACTION} />
+            <ApproveBody header={t('PAGES.APPROVE.SENDING_WITH')} wallet={wallet} error={error}>
+                <ActionBody
+                    isApproved={false}
+                    showFiat={withFiat}
+                    amount={amount}
+                    memo={memo}
+                    amountTicker={coin}
+                    convertedAmount={convert(amount)}
+                    exchangeCurrency={exchangeCurrency}
+                    network={getNetworkCurrency(wallet.network())}
+                    fee={fee}
+                    convertedFee={convert(fee)}
+                    receiver={receiverAddress}
+                    totalAmount={total}
+                    convertedTotalAmount={convert(total)}
+                    hasHigherCustomFee={hasHigherCustomFee}
                 />
-                <ApproveBody header={t('PAGES.APPROVE.SENDING_WITH')} wallet={wallet} error={error}>
-                    <ActionBody
-                        isApproved={false}
-                        showFiat={withFiat}
-                        amount={amount}
-                        memo={memo}
-                        amountTicker={coin}
-                        convertedAmount={convert(amount)}
-                        exchangeCurrency={exchangeCurrency}
-                        network={getNetworkCurrency(wallet.network())}
-                        fee={fee}
-                        convertedFee={convert(fee)}
-                        receiver={receiverAddress}
-                        totalAmount={total}
-                        convertedTotalAmount={convert(total)}
-                        hasHigherCustomFee={hasHigherCustomFee}
-                    />
-                </ApproveBody>
+            </ApproveBody>
         </ApproveLayout>
     );
 };

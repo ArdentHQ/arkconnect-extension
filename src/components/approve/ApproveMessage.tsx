@@ -125,7 +125,7 @@ const ApproveMessage = ({
     };
 
     return (
-        <ApproveLayout 
+        <ApproveLayout
             appDomain={session.domain}
             appLogo={session.logo}
             footer={<ApproveFooter onSubmit={onSubmit} onCancel={onCancel} />}

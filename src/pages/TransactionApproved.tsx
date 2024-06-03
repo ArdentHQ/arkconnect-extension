@@ -13,15 +13,19 @@ import getActiveCoin from '@/lib/utils/getActiveCoin';
 import { useConfirmedTransaction } from '@/lib/hooks/useConfirmedTransaction';
 import { ApproveLayout } from '@/components/approve/ApproveLayout';
 
-const TransactionFooter = ({ onClose, isTransactionConfirmed, state }: { 
-    isTransactionConfirmed: boolean,
-    state: any
-    onClose: () => void
+const TransactionFooter = ({
+    onClose,
+    isTransactionConfirmed,
+    state,
+}: {
+    isTransactionConfirmed: boolean;
+    state: any;
+    onClose: () => void;
 }) => {
     const { t } = useTranslation();
 
     return (
-        <div className='flex w-full flex-col gap-5 p-4 dark:bg-subtle-black shadow-button-container dark:shadow-button-container-dark bg-white'>
+        <div className='flex w-full flex-col gap-5 bg-white p-4 shadow-button-container dark:bg-subtle-black dark:shadow-button-container-dark'>
             <Button variant='primary' onClick={onClose}>
                 {t('ACTION.CLOSE')}
             </Button>
@@ -35,9 +39,7 @@ const TransactionFooter = ({ onClose, isTransactionConfirmed, state }: {
                             : `${constants.ARKSCAN_MAINNET_TRANSACTIONS}/${state?.transaction.id}`
                     }
                 >
-                    <span className='font-medium'>
-                        {t('MISC.VIEW_TRANSACTION_ON_ARKSCAN')}
-                    </span>
+                    <span className='font-medium'>{t('MISC.VIEW_TRANSACTION_ON_ARKSCAN')}</span>
 
                     <Icon icon='link-external' className='h-5 w-5' />
                 </ExternalLink>
@@ -87,8 +89,8 @@ const TransactionApproved = () => {
             appDomain={formatDomain(session.domain) || ''}
             appLogo={session.logo}
             footer={
-                <TransactionFooter 
-                    onClose={onClose} 
+                <TransactionFooter
+                    onClose={onClose}
                     isTransactionConfirmed={isTransactionConfirmed}
                     state={state}
                 />

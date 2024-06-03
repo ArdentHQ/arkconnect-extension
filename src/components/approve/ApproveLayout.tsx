@@ -3,7 +3,6 @@ import { Contracts } from '@ardenthq/sdk-profiles';
 import { HigherFeeBanner } from './HigherCustomFee.blocks';
 import RequestedBy from '@/shared/components/actions/RequestedBy';
 
-
 export const ApproveLayout = ({
     children,
     footer,
@@ -27,25 +26,25 @@ export const ApproveLayout = ({
     wallet?: Contracts.IReadWriteWallet;
     containerClassName?: string;
 }) => {
-  return (
-    <div className={cn('flex flex-col h-screen', containerClassName)}>
-        {showHigherCustomFeeBanner && hasHigherCustomFee && wallet && setShowHigherCustomFeeBanner && (
-            <HigherFeeBanner
-                averageFee={hasHigherCustomFee}
-                coin={wallet.currency()}
-                onClose={() => setShowHigherCustomFeeBanner(false)}
-            />
-        )}
-        <div className='flex-none w-full'>
-            <RequestedBy appDomain={appDomain} appLogo={appLogo} />
+    return (
+        <div className={cn('flex h-screen flex-col', containerClassName)}>
+            {showHigherCustomFeeBanner &&
+                hasHigherCustomFee &&
+                wallet &&
+                setShowHigherCustomFeeBanner && (
+                    <HigherFeeBanner
+                        averageFee={hasHigherCustomFee}
+                        coin={wallet.currency()}
+                        onClose={() => setShowHigherCustomFeeBanner(false)}
+                    />
+                )}
+            <div className='w-full flex-none'>
+                <RequestedBy appDomain={appDomain} appLogo={appLogo} />
+            </div>
+            <div className={cn('custom-scroll w-full flex-1 overflow-y-auto', className)}>
+                {children}
+            </div>
+            <div className='w-full flex-none'>{footer}</div>
         </div>
-        <div className={cn('flex-1 overflow-y-auto custom-scroll w-full', className)}>
-            {children}
-        </div>
-        <div className='flex-none w-full'>
-            {footer}
-        </div>
-    </div>
-  );
+    );
 };
-

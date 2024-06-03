@@ -201,11 +201,13 @@ const ApproveVote = ({ abortReference, approveWithLedger, wallet, closeLedgerScr
                 wallet={wallet}
             >
                 <>
-                    <ApproveHeader
-                        actionType={actionType}
-                    />
+                    <ApproveHeader actionType={actionType} />
 
-                    <ApproveBody header={t('PAGES.APPROVE.APPROVING_WITH')} wallet={wallet} error={error}>
+                    <ApproveBody
+                        header={t('PAGES.APPROVE.APPROVING_WITH')}
+                        wallet={wallet}
+                        error={error}
+                    >
                         <ActionBody
                             isApproved={false}
                             showFiat={wallet.network().isLive()}
