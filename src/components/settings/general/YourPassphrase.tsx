@@ -22,7 +22,6 @@ const YourPassphrase = ({ passphrase }: Props) => {
         <SubPageLayout
             title={t('PAGES.SETTINGS.SHOW_PASSPHRASE')}
             hideCloseButton={false}
-            noPaddingBottom
         >
             <div className='flex h-full flex-col'>
                 <HeadingDescription className='mb-4'>

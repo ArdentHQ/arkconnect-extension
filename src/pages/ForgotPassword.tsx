@@ -13,7 +13,6 @@ const ForgotPassword = () => {
         <SubPageLayout
             title={t('PAGES.FORGOT_PASSWORD.FORGOT_PASSWORD')}
             onBack='goBack'
-            noPaddingBottom
         >
             <div className='flex h-full flex-col justify-between'>
                 <HeadingDescription>

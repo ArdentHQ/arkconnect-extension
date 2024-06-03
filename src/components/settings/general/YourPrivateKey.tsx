@@ -22,7 +22,6 @@ const YourPrivateKey = ({ privateKey }: Props) => {
         <SubPageLayout
             title={t('PAGES.SETTINGS.SHOW_PRIVATE_KEY')}
             hideCloseButton={false}
-            noPaddingBottom
         >
             <div className='flex h-full flex-col'>
                 <HeadingDescription className='mb-4'>
