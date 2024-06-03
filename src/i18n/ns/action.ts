@@ -12,9 +12,7 @@ export default {
     DISCONNECT: 'Disconnect',
     IMPORT: 'Import',
     REFUSE: 'Refuse',
-    REMOVE: 'Remove',
-    // eslint-disable-next-line camelcase
-    REMOVE_name: 'Remove {{name}}',
+    REMOVE: 'Remove {{name}}',
     SAVE: 'Save',
     SHOW_PASSPHRASE: 'Show Passphrase',
 };

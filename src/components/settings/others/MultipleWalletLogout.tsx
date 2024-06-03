@@ -56,7 +56,7 @@ const MultipleWalletLogout = () => {
                         }}
                         disabled={!selectedIdsToLogout.length}
                     >
-                        {t('ACTION.REMOVE')}{' '}
+                        {t('ACTION.REMOVE', {name: 'Address'})}{' '}
                         {selectedIdsToLogout.length > 0 && `(${selectedIdsToLogout.length})`}
                     </Button>
                     <Button variant='primaryLinkDestructive' onClick={handleSelectAllWallets}>
