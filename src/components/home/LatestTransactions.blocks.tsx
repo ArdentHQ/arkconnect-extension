@@ -217,9 +217,7 @@ const TransactionListItem = ({
 
                     <div className='flex flex-col items-end gap-1'>
                         <span className='text-base font-medium leading-tight text-light-black dark:text-white'>
-                            <LatestTransactionAmount
-                                transaction={transaction}
-                            />
+                            <LatestTransactionAmount transaction={transaction} />
                         </span>
                         <span className='text-sm font-normal leading-tight text-theme-secondary-500 dark:text-theme-secondary-300'>
                             <Tooltip content={formattedTimestamp}>
@@ -286,12 +284,11 @@ export const LatestTransactionAmount = ({
     ];
     if (!paymentTypes.includes(type as TransactionType)) {
         return (
-            <span className='flex items-center justify-center dark:text-theme-secondary-500 font-semibold rounded py-0.5 px-1.5 bg-theme-secondary-100 text-theme-secondary-300 dark:bg-theme-secondary-700'>
+            <span className='flex items-center justify-center rounded bg-theme-secondary-100 px-1.5 py-0.5 font-semibold text-theme-secondary-300 dark:bg-theme-secondary-700 dark:text-theme-secondary-500'>
                 -
             </span>
         );
     }
-    
+
     return <TransactionAmount transaction={transaction} />;
 };
-
