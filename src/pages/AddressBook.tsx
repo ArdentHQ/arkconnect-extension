@@ -1,15 +1,16 @@
-import { useTranslation } from 'react-i18next';
-import { useState } from 'react';
-import SubPageLayout from '@/components/settings/SubPageLayout';
 import {
     AddContactButton,
     AddressBookList,
     NoContacts,
     RemoveAddress,
 } from '@/components/address-book';
-import useAddressBook from '@/lib/hooks/useAddressBook';
+
 import Modal from '@/shared/components/modal/Modal';
+import SubPageLayout from '@/components/settings/SubPageLayout';
+import useAddressBook from '@/lib/hooks/useAddressBook';
+import { useState } from 'react';
 import useToast from '@/lib/hooks/useToast';
+import { useTranslation } from 'react-i18next';
 
 const AddressBook = () => {
     const toast = useToast();
@@ -40,7 +41,7 @@ const AddressBook = () => {
             className='relative p-0'
             footer={<AddContactButton />}
         >
-            <div className='custom-scroll w-full overflow-y-auto'>
+            <div className='custom-scroll w-full overflow-y-auto pb-4'>
                 {addressBook.length > 0 ? (
                     <AddressBookList
                         handleRemoveContact={handleRemoveContact}
