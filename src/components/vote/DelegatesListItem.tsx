@@ -9,7 +9,7 @@ export const DelegatesListItem = ({ delegate }: { delegate: Contracts.IReadOnlyW
 
     return (
         <tr>
-            <td className='p-4'>
+            <td className='w-full p-4'>
                 <span className='font-medium dark:text-white'>
                     {trimAddress(delegate.username() || delegate.address(), 'long')}
                 </span>
