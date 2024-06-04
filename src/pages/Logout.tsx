@@ -145,9 +145,10 @@ const Logout = () => {
                     </Button>
                     <Button
                         onClick={() => navigate(-1)}
-                        className='mb-0 flex w-full bg-transparent py-0 text-light-black dark:text-white'
+                        className='mb-0 flex w-full bg-transparent py-0'
+                        variant='secondaryLink'
                     >
-                        <span className='typeset-headline font-medium text-light-black dark:text-white'>
+                        <span className='typeset-headline font-medium'>
                             {t('ACTION.CANCEL_AND_GO_BACK')}
                         </span>
                     </Button>
