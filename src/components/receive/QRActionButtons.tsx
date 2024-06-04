@@ -15,7 +15,7 @@ export const QRActionButtons = ({
     return (
         <button
             className={cn(
-                'transition-smoothEase flex flex-row items-center gap-3 px-5 py-1 text-base font-medium text-light-black hover:bg-theme-secondary-50 dark:text-theme-secondary-200 dark:hover:bg-theme-secondary-700 rounded-2xl',
+                'transition-smoothEase flex flex-row items-center gap-3 rounded-2xl px-5 py-1 text-base font-medium text-light-black hover:bg-theme-secondary-50 dark:text-theme-secondary-200 dark:hover:bg-theme-secondary-700',
                 className,
             )}
             onClick={onClick}
