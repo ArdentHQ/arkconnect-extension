@@ -143,6 +143,7 @@ const SetupPassword = ({ formik }: Props) => {
                             </label>
                         </div>
                     </div>
+                </div>
 
                     <Button
                         className='mt-6'
@@ -152,7 +153,6 @@ const SetupPassword = ({ formik }: Props) => {
                     >
                         Confirm
                     </Button>
-                </div>
             </div>
         </div>
     );
