@@ -29,7 +29,10 @@ const Vote = () => {
     }, [wallet]);
 
     return (
-        <SubPageLayout title={t('PAGES.VOTE.VOTE')} footer={<VoteButton onClick={() => {}} disabled={true} />}>
+        <SubPageLayout
+            title={t('PAGES.VOTE.VOTE')}
+            footer={<VoteButton onClick={() => {}} disabled={true} />}
+        >
             <DelegatesList
                 delegates={delegates.slice(0, delegatesPerPage)}
                 isLoading={isLoadingDelegates}
