@@ -1,18 +1,18 @@
 import { object, string } from 'yup';
+import { SendButton, SendForm } from '@/components/send';
 import { useEffect, useState } from 'react';
 
 import { BigNumber } from '@ardenthq/sdk-helpers';
-import { runtime } from 'webextension-polyfill';
-import { useFormik } from 'formik';
-import { useNavigate } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
-import { validateAddress } from './CreateContact';
 import constants from '@/constants';
+import { runtime } from 'webextension-polyfill';
 import { ScreenName } from '@/lib/background/contracts';
 import SubPageLayout from '@/components/settings/SubPageLayout';
+import { useFormik } from 'formik';
+import { useNavigate } from 'react-router-dom';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 import { useProfileContext } from '@/lib/context/Profile';
-import { SendButton, SendForm } from '@/components/send';
+import { useTranslation } from 'react-i18next';
+import { validateAddress } from './CreateContact';
 import { ValidateAddressResponse } from '@/components/address-book/types';
 import { WalletNetwork } from '@/lib/store/wallet';
 
@@ -66,8 +66,8 @@ const Send = () => {
             })
             .test('max-balance', t('ERROR.BALANCE_TOO_LOW'), (value) => {
                 if (!value) return true;
-                const userBalance = primaryWallet?.balance() || 0;
-                return Number(value) <= userBalance;
+                const userBalance = BigNumber.make(primaryWallet?.balance() || 0);
+                return BigNumber.make(value).isLessThanOrEqualTo(userBalance);
             })
             .test(
                 'total-check',
