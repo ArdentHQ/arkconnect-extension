@@ -15,7 +15,7 @@ export const Recipient = () => {
             </span>
             <div className='flex w-full items-center justify-between rounded-lg border border-theme-secondary-200 bg-white py-2.5 pl-3 pr-1.5 dark:border-theme-secondary-600 dark:bg-theme-secondary-800 dark:text-theme-secondary-400 dark:shadow-secondary-dark'>
                 <TransactionAddress address={address} displayParenthesis />
-                <CopyAddress disableTooltip />
+                <CopyAddress />
             </div>
         </div>
     );
