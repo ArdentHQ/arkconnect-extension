@@ -22,31 +22,32 @@ export const AmountBadge = ({
 
     return (
         <div
-            className={cn('flex items-center justify-center rounded-md border p-1.5', {
-                'border-theme-secondary-500 text-light-black dark:border-theme-secondary-300 dark:text-white':
+            className={cn('flex items-center justify-center rounded font-bold text-sm border overflow-hidden', {
+                'text-theme-secondary-500 bg-theme-secondary-100 border-theme-secondary-100 dark:text-theme-secondary-300 dark:border-theme-secondary-600 dark:bg-transparent':
                     type === 'default',
-                'border-theme-primary-700 text-theme-primary-700 dark:border-theme-primary-600 dark:text-theme-primary-600':
+                'border-theme-green-100 bg-theme-green-100 text-theme-green-700 dark:border-theme-green-700 dark:text-theme-green-600 dark:bg-transparent':
                     type === 'positive',
-                'border-theme-error-600 text-theme-error-600 dark:border-theme-error-500 dark:text-theme-error-500':
+                'border-theme-warning-75 bg-theme-warning-75 text-theme-warning-750 dark:bg-transparent dark:border-theme-error-350 dark:text-theme-error-300':
                     type === 'negative',
             })}
         >
-            {amount}
-
             {selfAmount && (
                 <Tooltip content={t('COMMON.EXCLUDING_AMOUNT_TO_SELF', { amount: selfAmount })}>
                     <div
-                        className={cn('ml-0.5 h-5 w-5 rounded-full bg-transparent p-0.5', {
-                            'text-light-black dark:text-white': type === 'default',
-                            'text-theme-primary-700  dark:text-theme-primary-600':
+                        className={cn('dark:text-white px-1.5 py-1.5', {
+                            'dark:bg-theme-secondary-600 ': type === 'default',
+                            'dark:bg-theme-green-700 ':
                                 type === 'positive',
-                            'text-theme-error-600 dark:text-theme-error-500': type === 'negative',
+                            'dark:bg-theme-error-350 bg-theme-warning-150 text-theme-warning-750': type === 'negative',
                         })}
                     >
-                        <Icon icon='information-circle' />
+                        <Icon icon='information' className='h-2.5 w-2.5' />
                     </div>
                 </Tooltip>
             )}
+            <span className='px-1.5'>
+                {amount}
+            </span>
         </div>
     );
 };
