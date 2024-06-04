@@ -12,7 +12,7 @@ export default {
     DISCONNECT: 'Disconnect',
     IMPORT: 'Import',
     REFUSE: 'Refuse',
-    REMOVE: 'Remove',
+    REMOVE: 'Remove {{name}}',
     SAVE: 'Save',
     SHOW_PASSPHRASE: 'Show Passphrase',
 };
