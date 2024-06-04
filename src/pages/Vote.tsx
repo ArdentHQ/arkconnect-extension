@@ -39,7 +39,7 @@ const Vote = () => {
     return (
         <SubPageLayout
             title={t('PAGES.VOTE.VOTE')}
-            footer={<VoteButton onClick={() => {}} disabled={true} />}
+            footer={<VoteButton delegate={selectedDelegate} votes={currentVotes} />}
         >
             <DelegatesList
                 onDelegateSelected={(delegate) => {
