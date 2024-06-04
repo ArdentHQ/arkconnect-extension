@@ -8,6 +8,7 @@ import { useProfileContext } from '@/lib/context/Profile';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 import { assertWallet } from '@/lib/utils/assertions';
 import { DelegatesList } from '@/components/vote/DelegatesList';
+import { VoteButton } from '@/components/vote/VoteButton';
 
 const Vote = () => {
     const { t } = useTranslation();
@@ -36,7 +37,10 @@ const Vote = () => {
     }, [wallet]);
 
     return (
-        <SubPageLayout title={t('PAGES.VOTE.VOTE')}>
+        <SubPageLayout
+            title={t('PAGES.VOTE.VOTE')}
+            footer={<VoteButton onClick={() => {}} disabled={true} />}
+        >
             <DelegatesList
                 onDelegateSelected={(delegate) => {
                     setSelectedDelegate(delegate);
