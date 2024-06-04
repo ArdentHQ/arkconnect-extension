@@ -5,10 +5,12 @@ export const useDelegates = ({
     env,
     profile,
     searchQuery,
+    limit,
 }: {
     env: Environment;
     profile: Contracts.IProfile;
     searchQuery: string;
+    limit: number;
 }) => {
     const [allDelegates, setAllDelegates] = useState<Contracts.IReadOnlyWallet[]>([]);
     const [isLoadingDelegates, setIsLoadingDelegates] = useState(false);
@@ -35,12 +37,14 @@ export const useDelegates = ({
 
         const query = searchQuery.toLowerCase();
 
-        return allDelegates.filter(
-            (delegate) =>
-                delegate.address().toLowerCase().includes(query) ||
-                delegate.username()?.toLowerCase()?.includes(query),
-        );
-    }, [allDelegates, searchQuery]);
+        return allDelegates
+            .filter(
+                (delegate) =>
+                    delegate.address().toLowerCase().includes(query) ||
+                    delegate.username()?.toLowerCase()?.includes(query),
+            )
+            .slice(0, limit);
+    }, [allDelegates, searchQuery, limit]);
 
     return {
         delegates,
