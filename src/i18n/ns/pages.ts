@@ -34,6 +34,8 @@ export default {
         VOTE: 'Vote',
         ACTIONS: {
             SELECT: 'Select',
+            SELECTED: 'Selected',
+            UNSELECTED: 'Unselected',
             CURRENT: 'Current',
         },
     },

@@ -7,11 +7,13 @@ export const DelegatesList = ({
     isLoading,
     onDelegateSelected,
     votes,
+    selectedDelegate,
 }: {
     delegates: Contracts.IReadOnlyWallet[];
     isLoading: boolean;
-    onDelegateSelected: (delegate: Contracts.IReadOnlyWallet) => void;
+    onDelegateSelected: (delegate?: Contracts.IReadOnlyWallet) => void;
     votes: Contracts.VoteRegistryItem[];
+    selectedDelegate?: Contracts.IReadOnlyWallet;
 }) => {
     if (isLoading) {
         return (
@@ -37,9 +39,11 @@ export const DelegatesList = ({
                                 onSelected={onDelegateSelected}
                                 key={delegate.address()}
                                 delegate={delegate}
-                                isSelected={votes.some(
+                                isSelected={selectedDelegate?.address() === delegate.address()}
+                                isVoted={votes.some(
                                     (vote) => vote.wallet?.address() === delegate.address(),
                                 )}
+                                anyIsSelected={selectedDelegate !== undefined}
                             />
                         );
                     })}

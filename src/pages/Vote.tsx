@@ -44,6 +44,7 @@ const Vote = () => {
                 delegates={delegates.slice(0, delegatesPerPage)}
                 isLoading={isLoadingDelegates}
                 votes={currentVotes}
+                selectedDelegate={selectedDelegate}
             />
         </SubPageLayout>
     );

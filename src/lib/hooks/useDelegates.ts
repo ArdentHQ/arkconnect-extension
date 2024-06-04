@@ -9,16 +9,14 @@ export const useDelegates = ({
     env: Environment;
     profile: Contracts.IProfile;
 }) => {
-    const [delegates, setDelegates] = useState<Contracts.IReadOnlyWallet[]>([]);
-    const [isLoadingDelegates, setIsLoadingDelegates] = useState(false);
-    const [votes, setVotes] = useState<Contracts.VoteRegistryItem[]>([]);
+    const [delegates, setDelegates] = useState<Contracts.IReadOnlyWallet[]>();
+    const [votes, setVotes] = useState<Contracts.VoteRegistryItem[]>();
 
     const fetchVotes = useCallback(
         (address: string, network: string) => {
             const wallet = profile.wallets().findByAddressWithNetwork(address, network);
 
             assertWallet(wallet);
-            console.log(wallet.voting().current());
 
             let votes: Contracts.VoteRegistryItem[];
 
@@ -33,33 +31,31 @@ export const useDelegates = ({
         [profile],
     );
 
-    const currentVotes = useMemo(
-        () =>
-            votes.filter((vote) =>
-                delegates.some((delegate) => vote.wallet?.address() === delegate.address()),
-            ),
-        [votes, delegates],
-    );
+    const currentVotes = useMemo(() => {
+        if (votes === undefined || delegates === undefined) {
+            return [];
+        }
+
+        return votes.filter((vote) =>
+            delegates.some((delegate) => vote.wallet?.address() === delegate.address()),
+        );
+    }, [votes, delegates]);
 
     const fetchDelegates = useCallback(
         async (wallet: Contracts.IReadWriteWallet) => {
-            setIsLoadingDelegates(true);
-
             await env.delegates().sync(profile, wallet.coinId(), wallet.networkId());
 
             const delegates = env.delegates().all(wallet.coinId(), wallet.networkId());
 
             setDelegates(delegates);
-
-            setIsLoadingDelegates(false);
         },
         [env, profile],
     );
     return {
-        delegates,
+        delegates: delegates ?? [],
         fetchDelegates,
         fetchVotes,
-        isLoadingDelegates,
+        isLoadingDelegates: delegates === undefined || votes === undefined,
         currentVotes,
     };
 };
