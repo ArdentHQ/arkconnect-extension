@@ -4,13 +4,11 @@ import { ExtendedConfirmedTransactionData } from '@ardenthq/sdk-profiles/distrib
 import { IReadWriteWallet } from '@ardenthq/sdk-profiles/distribution/esm/wallet.contract';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
+import { TransactionAmount } from '../transaction/Transaction.blocks';
 import {
-    getAmountByAddress,
-    getMultipaymentAmounts,
     getTransactionIcon,
     getType,
     getUniqueRecipients,
-    renderAmount,
     TransactionType,
 } from './LatestTransactions.utils';
 import { Button, EmptyConnectionsIcon, ExternalLink, Icon, Tooltip } from '@/shared/components';
@@ -221,8 +219,6 @@ const TransactionListItem = ({
                         <span className='text-base font-medium leading-tight text-light-black dark:text-white'>
                             <LatestTransactionAmount
                                 transaction={transaction}
-                                primaryCurrency={primaryWallet?.currency() ?? 'ARK'}
-                                address={primaryWallet?.address()}
                             />
                         </span>
                         <span className='text-sm font-normal leading-tight text-theme-secondary-500 dark:text-theme-secondary-300'>
@@ -278,17 +274,10 @@ export const TransactionsList = ({
 
 export const LatestTransactionAmount = ({
     transaction,
-    primaryCurrency,
-    address,
 }: {
     transaction: ExtendedConfirmedTransactionData;
-    primaryCurrency: string;
-    address?: string;
 }): JSX.Element => {
-    const { t } = useTranslation();
     const type = getType(transaction);
-    const isMultipayment = type === TransactionType.MULTIPAYMENT;
-    const amount = transaction.amount();
     const paymentTypes = [
         TransactionType.SEND,
         TransactionType.RECEIVE,
@@ -297,57 +286,12 @@ export const LatestTransactionAmount = ({
     ];
     if (!paymentTypes.includes(type as TransactionType)) {
         return (
-            <span className='flex h-5 items-center justify-center'>
-                <span className='h-0.5 w-2 bg-theme-secondary-300 dark:bg-theme-secondary-500' />
+            <span className='flex items-center justify-center dark:text-theme-secondary-500 font-semibold rounded py-0.5 px-1.5 bg-theme-secondary-100 text-theme-secondary-300 dark:bg-theme-secondary-700'>
+                -
             </span>
         );
     }
-
-    if (isMultipayment) {
-        const uniqueRecipients = getUniqueRecipients(transaction);
-
-        if (transaction.isSent()) {
-            const { selfAmount, sentAmount } = getMultipaymentAmounts(uniqueRecipients, address);
-            const isSenderAndRecipient = uniqueRecipients.some(
-                (recipient) => recipient.address === address,
-            );
-
-            return (
-                <span className='flex flex-row gap-0.5'>
-                    {renderAmount({
-                        value: sentAmount,
-                        isNegative: true,
-                        showSign: sentAmount !== 0,
-                        primaryCurrency,
-                    })}
-
-                    {isSenderAndRecipient && (
-                        <Tooltip
-                            content={t('COMMON.EXCLUDING_AMOUNT_TO_SELF', {
-                                amount: `${selfAmount} ${primaryCurrency}`,
-                            })}
-                        >
-                            <div className='h-5 w-5 rounded-full bg-transparent p-0.5 text-subtle-black hover:bg-theme-secondary-50 dark:text-white dark:hover:bg-theme-secondary-700'>
-                                <Icon icon='information-circle' />
-                            </div>
-                        </Tooltip>
-                    )}
-                </span>
-            );
-        } else {
-            return renderAmount({
-                value: getAmountByAddress(uniqueRecipients, address),
-                isNegative: false,
-                showSign: true,
-                primaryCurrency,
-            });
-        }
-    }
-
-    return renderAmount({
-        value: amount,
-        isNegative: type === TransactionType.SEND,
-        showSign: type !== TransactionType.RETURN,
-        primaryCurrency,
-    });
+    
+    return <TransactionAmount transaction={transaction} />;
 };
+
