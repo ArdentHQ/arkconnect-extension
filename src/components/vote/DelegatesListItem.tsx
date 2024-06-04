@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next';
 
 import { Contracts } from '@ardenthq/sdk-profiles';
 import { ExternalLink, Icon } from '@/shared/components';
+import trimAddress from '@/lib/utils/trimAddress';
 
 export const DelegatesListItem = ({ delegate }: { delegate: Contracts.IReadOnlyWallet }) => {
     const { t } = useTranslation();
@@ -10,7 +11,7 @@ export const DelegatesListItem = ({ delegate }: { delegate: Contracts.IReadOnlyW
         <tr>
             <td className='p-4'>
                 <span className='font-medium dark:text-white'>
-                    {delegate.username() || delegate.address()}
+                    {trimAddress(delegate.username() || delegate.address(), 'long')}
                 </span>
             </td>
 
