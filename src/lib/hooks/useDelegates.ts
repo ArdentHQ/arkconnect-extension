@@ -1,14 +1,16 @@
 import { Contracts, Environment } from '@ardenthq/sdk-profiles';
-import { useCallback, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 
 export const useDelegates = ({
     env,
     profile,
+    searchQuery,
 }: {
     env: Environment;
     profile: Contracts.IProfile;
+    searchQuery: string;
 }) => {
-    const [delegates, setDelegates] = useState<Contracts.IReadOnlyWallet[]>([]);
+    const [allDelegates, setAllDelegates] = useState<Contracts.IReadOnlyWallet[]>([]);
     const [isLoadingDelegates, setIsLoadingDelegates] = useState(false);
 
     const fetchDelegates = useCallback(
@@ -19,12 +21,27 @@ export const useDelegates = ({
 
             const delegates = env.delegates().all(wallet.coinId(), wallet.networkId());
 
-            setDelegates(delegates);
+            setAllDelegates(delegates);
 
             setIsLoadingDelegates(false);
         },
         [env, profile],
     );
+
+    const delegates = useMemo(() => {
+        if (searchQuery.length === 0) {
+            return allDelegates;
+        }
+
+        const query = searchQuery.toLowerCase();
+
+        return allDelegates.filter(
+            (delegate) =>
+                delegate.address().toLowerCase().includes(query) ||
+                delegate.username()?.toLowerCase()?.includes(query),
+        );
+    }, [allDelegates, searchQuery]);
+
     return {
         delegates,
         fetchDelegates,

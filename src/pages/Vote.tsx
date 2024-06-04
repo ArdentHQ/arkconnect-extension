@@ -24,6 +24,7 @@ const Vote = () => {
     const { delegates, fetchDelegates, isLoadingDelegates } = useDelegates({
         env,
         profile,
+        searchQuery,
     });
 
     useEffect(() => {
