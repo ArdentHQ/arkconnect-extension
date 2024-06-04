@@ -145,14 +145,14 @@ const SetupPassword = ({ formik }: Props) => {
                     </div>
                 </div>
 
-                    <Button
-                        className='mt-6'
-                        variant='primary'
-                        disabled={!values.termsAndConditionsConfirmed || !isValid}
-                        onClick={submitForm}
-                    >
-                        Confirm
-                    </Button>
+                <Button
+                    className='mt-6'
+                    variant='primary'
+                    disabled={!values.termsAndConditionsConfirmed || !isValid}
+                    onClick={submitForm}
+                >
+                    Confirm
+                </Button>
             </div>
         </div>
     );
