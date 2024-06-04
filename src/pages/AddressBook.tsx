@@ -1,3 +1,5 @@
+import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
     AddContactButton,
     AddressBookList,
@@ -8,9 +10,7 @@ import {
 import Modal from '@/shared/components/modal/Modal';
 import SubPageLayout from '@/components/settings/SubPageLayout';
 import useAddressBook from '@/lib/hooks/useAddressBook';
-import { useState } from 'react';
 import useToast from '@/lib/hooks/useToast';
-import { useTranslation } from 'react-i18next';
 
 const AddressBook = () => {
     const toast = useToast();
