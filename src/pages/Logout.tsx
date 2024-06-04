@@ -1,19 +1,19 @@
+import { ChangeEvent, KeyboardEvent, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { runtime } from 'webextension-polyfill';
+import { useTranslation } from 'react-i18next';
 import * as SessionStore from '@/lib/store/session';
 import * as WalletStore from '@/lib/store/wallet';
 
 import { Button, HeadingDescription, PasswordInput, WarningIcon } from '@/shared/components';
-import { ChangeEvent, KeyboardEvent, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@/lib/store';
-import { useLocation, useNavigate } from 'react-router-dom';
 
 import { ExtensionEvents } from '@/lib/events';
 import { isValidPassword } from '@/lib/utils/validations';
-import { runtime } from 'webextension-polyfill';
 import SubPageLayout from '@/components/settings/SubPageLayout';
 import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
 import { useProfileContext } from '@/lib/context/Profile';
 import useResetExtension from '@/lib/hooks/useResetExtension';
-import { useTranslation } from 'react-i18next';
 import { ValidationVariant } from '@/components/wallet/create';
 
 const Logout = () => {
