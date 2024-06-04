@@ -2,17 +2,19 @@ import { ChangeEvent, KeyboardEvent, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { runtime } from 'webextension-polyfill';
 import { useTranslation } from 'react-i18next';
-import { Button, HeadingDescription, PasswordInput, WarningIcon } from '@/shared/components';
-import { ValidationVariant } from '@/components/wallet/create';
-import { useAppDispatch, useAppSelector } from '@/lib/store';
-import * as WalletStore from '@/lib/store/wallet';
 import * as SessionStore from '@/lib/store/session';
-import { useProfileContext } from '@/lib/context/Profile';
-import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
-import { isValidPassword } from '@/lib/utils/validations';
+import * as WalletStore from '@/lib/store/wallet';
+
+import { Button, HeadingDescription, PasswordInput, WarningIcon } from '@/shared/components';
+import { useAppDispatch, useAppSelector } from '@/lib/store';
+
 import { ExtensionEvents } from '@/lib/events';
+import { isValidPassword } from '@/lib/utils/validations';
 import SubPageLayout from '@/components/settings/SubPageLayout';
+import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
+import { useProfileContext } from '@/lib/context/Profile';
 import useResetExtension from '@/lib/hooks/useResetExtension';
+import { ValidationVariant } from '@/components/wallet/create';
 
 const Logout = () => {
     const dispatch = useAppDispatch();
@@ -142,15 +144,6 @@ const Logout = () => {
                         {walletsToLogout.length > 1
                             ? t('PAGES.LOGOUT.REMOVE_ADDRESSES')
                             : t('PAGES.LOGOUT.REMOVE_ADDRESS')}
-                    </Button>
-                    <Button
-                        onClick={() => navigate(-1)}
-                        className='mb-0 flex w-full bg-transparent py-0'
-                        variant='secondaryLink'
-                    >
-                        <span className='typeset-headline font-medium'>
-                            {t('ACTION.CANCEL_AND_GO_BACK')}
-                        </span>
                     </Button>
                 </div>
             }
