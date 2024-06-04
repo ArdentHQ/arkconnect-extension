@@ -34,6 +34,7 @@ export default {
         VOTE: 'Vote',
         ACTIONS: {
             SELECT: 'Select',
+            CURRENT: 'Current',
         },
     },
     CREATE_WALLET: {

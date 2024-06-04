@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next';
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import { Contracts } from '@ardenthq/sdk-profiles';
 import SubPageLayout from '@/components/settings/SubPageLayout';
 import { useDelegates } from '@/lib/hooks/useDelegates';
 import { useEnvironmentContext } from '@/lib/context/Environment';
@@ -18,20 +19,31 @@ const Vote = () => {
 
     const delegatesPerPage = useMemo(() => wallet.network().delegateCount(), [wallet]);
 
-    const { delegates, fetchDelegates, isLoadingDelegates } = useDelegates({
-        env,
-        profile,
-    });
+    const { delegates, fetchDelegates, fetchVotes, currentVotes, isLoadingDelegates } =
+        useDelegates({
+            env,
+            profile,
+        });
+
+    const [selectedDelegate, setSelectedDelegate] = useState<
+        Contracts.IReadOnlyWallet | undefined
+    >();
 
     useEffect(() => {
         fetchDelegates(wallet);
+
+        fetchVotes(wallet.address(), wallet.network().id());
     }, [wallet]);
 
     return (
         <SubPageLayout title={t('PAGES.VOTE.VOTE')}>
             <DelegatesList
+                onDelegateSelected={(delegate) => {
+                    setSelectedDelegate(delegate);
+                }}
                 delegates={delegates.slice(0, delegatesPerPage)}
                 isLoading={isLoadingDelegates}
+                votes={currentVotes}
             />
         </SubPageLayout>
     );

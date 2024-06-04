@@ -5,9 +5,13 @@ import { DelegatesListItemSkeleton } from './DelegatesListItemSkeleton';
 export const DelegatesList = ({
     delegates,
     isLoading,
+    onDelegateSelected,
+    votes,
 }: {
     delegates: Contracts.IReadOnlyWallet[];
     isLoading: boolean;
+    onDelegateSelected: (delegate: Contracts.IReadOnlyWallet) => void;
+    votes: Contracts.VoteRegistryItem[];
 }) => {
     if (isLoading) {
         return (
@@ -28,7 +32,16 @@ export const DelegatesList = ({
             <table className='w-full'>
                 <tbody>
                     {delegates.map((delegate) => {
-                        return <DelegatesListItem key={delegate.address()} delegate={delegate} />;
+                        return (
+                            <DelegatesListItem
+                                onSelected={onDelegateSelected}
+                                key={delegate.address()}
+                                delegate={delegate}
+                                isSelected={votes.some(
+                                    (vote) => vote.wallet?.address() === delegate.address(),
+                                )}
+                            />
+                        );
                     })}
                 </tbody>
             </table>
