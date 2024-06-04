@@ -33,7 +33,11 @@ const Vote = () => {
     }, [wallet]);
 
     return (
-        <SubPageLayout title={t('PAGES.VOTE.VOTE')}>
+        <SubPageLayout
+            title={t('PAGES.VOTE.VOTE')}
+            className='flex flex-1 flex-col'
+            bodyClassName='flex-1 flex flex-col'
+        >
             <DelegatesSearchInput searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
 
             <DelegatesList delegates={delegates} isLoading={isLoadingDelegates} />
