@@ -19,10 +19,7 @@ export const CopyAddress = () => {
     const trimmedAddress = trimAddress(primaryWallet.address(), 10);
 
     return (
-        <Tooltip
-            content={t('COMMON.COPY_with_name', { name: 'Address' })}
-            placement='bottom-end'
-        >
+        <Tooltip content={t('COMMON.COPY_with_name', { name: 'Address' })} placement='bottom-end'>
             <HeaderButton
                 className='rounded-full'
                 onClick={() => {
