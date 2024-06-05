@@ -1,6 +1,5 @@
 export default {
     APPROVE: 'Approve',
-    CANCEL_AND_GO_BACK: 'Cancel and Go Back',
     CANCEL: 'Cancel',
     CLOSE: 'Close',
     CONFIRM_IMPORT: 'Confirm & Import',
@@ -12,7 +11,7 @@ export default {
     DISCONNECT: 'Disconnect',
     IMPORT: 'Import',
     REFUSE: 'Refuse',
-    REMOVE: 'Remove',
+    REMOVE: 'Remove {{name}}',
     SAVE: 'Save',
     SHOW_PASSPHRASE: 'Show Passphrase',
 };
