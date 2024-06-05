@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import SubPageLayout from '@/components/settings/SubPageLayout';
 import { useDelegates } from '@/lib/hooks/useDelegates';
 import { useEnvironmentContext } from '@/lib/context/Environment';
@@ -7,6 +7,7 @@ import { useProfileContext } from '@/lib/context/Profile';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 import { assertWallet } from '@/lib/utils/assertions';
 import { DelegatesList } from '@/components/vote/DelegatesList';
+import { DelegatesSearchInput } from '@/components/vote/DelegatesSearchInput';
 import { VoteButton } from '@/components/vote/VoteButton';
 
 const Vote = () => {
@@ -18,6 +19,8 @@ const Vote = () => {
     assertWallet(wallet);
 
     const delegatesPerPage = useMemo(() => wallet.network().delegateCount(), [wallet]);
+
+    const [searchQuery, setSearchQuery] = useState<string>('');
 
     const { delegates, fetchDelegates, isLoadingDelegates } = useDelegates({
         env,
@@ -33,6 +36,7 @@ const Vote = () => {
             title={t('PAGES.VOTE.VOTE')}
             footer={<VoteButton onClick={() => {}} disabled={true} />}
         >
+            <DelegatesSearchInput searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
             <DelegatesList
                 delegates={delegates.slice(0, delegatesPerPage)}
                 isLoading={isLoadingDelegates}

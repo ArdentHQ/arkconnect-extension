@@ -23,6 +23,7 @@ export type IconDefinition =
     | 'arrow-left'
     | 'arrow-right'
     | 'check'
+    | 'clear'
     | 'clock'
     | 'code'
     | 'completed'
@@ -94,6 +95,7 @@ export type IconDefinition =
     | 'registration'
     | 'resignation'
     | 'return'
+    | 'search'
     | 'second-signature'
     | 'send'
     | 'settings'
@@ -140,6 +142,7 @@ export const availableIcons: IconDefinition[] = [
     'arrow-left',
     'arrow-right',
     'check',
+    'clear',
     'clock',
     'code',
     'completed',
@@ -211,6 +214,7 @@ export const availableIcons: IconDefinition[] = [
     'registration',
     'resignation',
     'return',
+    'search',
     'second-signature',
     'send',
     'settings',
@@ -381,6 +385,17 @@ export const IconSvg = {
                 strokeLinejoin='round'
                 strokeWidth='2'
                 d='M4.167 10.834 7.5 14.167l8.333-8.333'
+            />
+        </svg>
+    ),
+    clear: (
+        <svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'>
+            <path
+                stroke='currentColor'
+                strokeLinecap='round'
+                strokeLinejoin='round'
+                strokeWidth='1.5'
+                d='M15 5 5 15M5 5l10 10'
             />
         </svg>
     ),
@@ -5111,6 +5126,17 @@ export const IconSvg = {
                     <path fill='#fff' d='M0 0H22V22H0z' />
                 </clipPath>
             </defs>
+        </svg>
+    ),
+    search: (
+        <svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'>
+            <path
+                stroke='currentColor'
+                strokeLinecap='round'
+                strokeLinejoin='round'
+                strokeWidth='2'
+                d='m17.5 17.5-5-5m1.667-4.167a5.833 5.833 0 1 1-11.666 0 5.833 5.833 0 0 1 11.666 0'
+            />
         </svg>
     ),
     'second-signature': (
