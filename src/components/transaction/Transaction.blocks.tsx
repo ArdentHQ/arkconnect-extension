@@ -113,8 +113,10 @@ export const TransactionUniqueRecipients = ({
 
 export const TransactionAmount = ({
     transaction,
+    displayFiat = true,
 }: {
     transaction: ExtendedConfirmedTransactionData;
+    displayFiat?: boolean;
 }): JSX.Element => {
     const primaryWallet = usePrimaryWallet();
     const { convert } = useExchangeRate({
@@ -132,6 +134,7 @@ export const TransactionAmount = ({
         type,
         selfAmount,
         isDevnet,
+        displayFiat,
     }: {
         value: number;
         isNegative: boolean;
@@ -139,6 +142,7 @@ export const TransactionAmount = ({
         type: AmountBadgeType;
         selfAmount?: string;
         isDevnet?: boolean;
+        displayFiat?: boolean;
     }) => (
         <div className='flex w-full items-center justify-between'>
             <AmountBadge
@@ -152,7 +156,7 @@ export const TransactionAmount = ({
                 type={type}
                 selfAmount={selfAmount}
             />
-            {!isDevnet && (
+            {(!isDevnet && displayFiat) && (
                 <span className='pl-0.5 text-theme-secondary-500 dark:text-theme-secondary-300'>
                     <Amount
                         value={convert(value)}
@@ -180,6 +184,7 @@ export const TransactionAmount = ({
                 type: sentAmount !== 0 ? AmountBadgeType.NEGATIVE : AmountBadgeType.DEFAULT,
                 selfAmount: isSenderAndRecipient ? `${selfAmount} ${primaryCurrency}` : undefined,
                 isDevnet: primaryWallet?.network().isTest(),
+                displayFiat,
             });
         } else {
             const amount = getAmountByAddress(uniqueRecipients, address);
@@ -189,6 +194,7 @@ export const TransactionAmount = ({
                 showSign: false,
                 type: AmountBadgeType.POSITIVE,
                 isDevnet: primaryWallet?.network().isTest(),
+                displayFiat,
             });
         }
     }
@@ -205,5 +211,6 @@ export const TransactionAmount = ({
         showSign: !transaction.isReturn(),
         type: badgeType,
         isDevnet: primaryWallet?.network().isTest(),
+        displayFiat,
     });
 };
