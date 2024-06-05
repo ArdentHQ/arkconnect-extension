@@ -13,7 +13,7 @@ export const DelegatesList = ({
     isLoading: boolean;
     onDelegateSelected: (delegateAddress?: string) => void;
     votes: Contracts.VoteRegistryItem[];
-    selectedDelegateAddress?: string;
+    selectedDelegateAddress: string;
 }) => {
     if (isLoading) {
         return (
@@ -43,7 +43,7 @@ export const DelegatesList = ({
                                 isVoted={votes.some(
                                     (vote) => vote.wallet?.address() === delegate.address(),
                                 )}
-                                anyIsSelected={selectedDelegateAddress !== undefined}
+                                anyIsSelected={selectedDelegateAddress !== ''}
                             />
                         );
                     })}

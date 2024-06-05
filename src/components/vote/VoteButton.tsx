@@ -5,29 +5,30 @@ import { Button } from '@/shared/components';
 import { Footer } from '@/shared/components/layout/Footer';
 
 export const VoteButton = ({
-    delegate,
+    delegateAddress,
+    fee,
     votes,
+    onClick,
 }: {
-    delegate?: Contracts.IReadOnlyWallet;
+    delegateAddress: string;
+    fee: string;
     votes: Contracts.VoteRegistryItem[];
+    onClick: () => void;
 }) => {
-    const disabled = delegate === undefined;
+    // @TODO: disable if empty fee
+    const disabled = delegateAddress === '';
 
     const isVoted = useMemo(() => {
-        if (delegate === undefined) {
+        if (delegateAddress === '') {
             return false;
         }
 
-        return votes.some((vote) => vote.wallet?.address() === delegate.address());
-    }, [votes, delegate]);
+        return votes.some((vote) => vote.wallet?.address() === delegateAddress);
+    }, [votes, delegateAddress]);
 
     const isSwapping = useMemo(() => votes.length > 0 && !isVoted, [votes, isVoted]);
 
     const isVoting = useMemo(() => votes.length === 0 && !isVoted, [votes, isVoted]);
-
-    const clickHandler = () => {
-        console.log('Voting for delegate:', delegate?.address());
-    };
 
     const { t } = useTranslation();
 
@@ -45,7 +46,7 @@ export const VoteButton = ({
 
     return (
         <Footer className='h-[84px]'>
-            <Button variant='primary' disabled={disabled} onClick={clickHandler}>
+            <Button variant='primary' disabled={disabled} onClick={onClick}>
                 {voteText}
             </Button>
         </Footer>
