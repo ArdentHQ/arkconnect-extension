@@ -6,6 +6,7 @@ import { Footer } from '@/shared/components/layout/Footer';
 
 export const VoteButton = ({
     delegateAddress,
+    // @TODO: remove unused variable once handling of fee is implemented
     fee: _,
     votes,
     onClick,
