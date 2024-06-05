@@ -32,6 +32,7 @@ export default {
     },
     VOTE: {
         VOTE: 'Vote',
+        FIND_A_DELEGATE: 'Find a delegate',
         ACTIONS: {
             SELECT: 'Select',
         },
