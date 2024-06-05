@@ -59,7 +59,7 @@ const Vote = () => {
             .required(t('ERROR.IS_REQUIRED', { name: 'Delegate' }))
             .min(
                 constants.ADDRESS_LENGTH,
-                t('ERROR.IS_INVALID_ADDRESS_LENGTH', { name: 'Address' })
+                t('ERROR.IS_INVALID_ADDRESS_LENGTH', { name: 'Address' }),
             )
             .max(
                 constants.ADDRESS_LENGTH,
@@ -74,7 +74,7 @@ const Vote = () => {
         },
         validationSchema: validationSchema,
         validateOnMount: true,
-        onSubmit: () => {}
+        onSubmit: () => {},
     });
 
     const hasValues = formik.values.delegateAddress && formik.values.fee;
@@ -82,7 +82,9 @@ const Vote = () => {
     return (
         <SubPageLayout
             title={t('PAGES.VOTE.VOTE')}
-            footer={<VoteButton onClick={formik.submitForm} disabled={!(formik.isValid && hasValues)} />}
+            footer={
+                <VoteButton onClick={formik.submitForm} disabled={!(formik.isValid && hasValues)} />
+            }
         >
             <DelegatesSearchInput searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
 

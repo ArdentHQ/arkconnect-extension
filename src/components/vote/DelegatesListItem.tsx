@@ -73,7 +73,9 @@ export const DelegatesListItem = ({
                         'text-theme-error-600 hover:text-theme-error-500 dark:text-theme-error-500 dark:hover:text-theme-error-600':
                             isUnselected,
                     })}
-                    onClick={() => (isSelected ? onSelected(undefined) : onSelected(delegate.address()))}
+                    onClick={() =>
+                        isSelected ? onSelected(undefined) : onSelected(delegate.address())
+                    }
                 >
                     {buttonLabel}
                 </button>
