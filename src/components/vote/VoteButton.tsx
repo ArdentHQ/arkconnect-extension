@@ -6,7 +6,7 @@ import { Footer } from '@/shared/components/layout/Footer';
 
 export const VoteButton = ({
     delegateAddress,
-    fee,
+    fee: _,
     votes,
     onClick,
 }: {
