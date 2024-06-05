@@ -8,6 +8,7 @@ import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 import { assertWallet } from '@/lib/utils/assertions';
 import { DelegatesList } from '@/components/vote/DelegatesList';
 import { DelegatesSearchInput } from '@/components/vote/DelegatesSearchInput';
+import { VoteButton } from '@/components/vote/VoteButton';
 
 const Vote = () => {
     const { t } = useTranslation();
@@ -37,6 +38,7 @@ const Vote = () => {
             title={t('PAGES.VOTE.VOTE')}
             className='flex flex-1 flex-col'
             bodyClassName='flex-1 flex flex-col'
+            footer={<VoteButton onClick={() => {}} disabled={true} />}
         >
             <DelegatesSearchInput searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
 

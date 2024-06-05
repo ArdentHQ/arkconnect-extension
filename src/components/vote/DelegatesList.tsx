@@ -34,7 +34,7 @@ export const DelegatesList = ({
                     <span>
                         <WarningIcon iconClassName='w-[130px] h-auto' />
                     </span>
-                    <span>{t('PAGES.VOTE.NO_RESULTS')}</span>
+                    <span className='dark:text-white'>{t('PAGES.VOTE.NO_RESULTS')}</span>
                 </div>
             </div>
         );
