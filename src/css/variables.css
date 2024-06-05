@@ -20,6 +20,7 @@
     --theme-color-error-100: 254 228 226; /* #FEE4E2 */
     --theme-color-error-200: 254 205 202; /* #FECDCA */
     --theme-color-error-300: 253 162 155; /* #FDA29B */
+    --theme-color-error-350: 170 104 104; /* #AA6868 */
     --theme-color-error-400: 249 112 102; /* #F97066 */
     --theme-color-error-500: 249 86 74; /* #F9564A */
     --theme-color-error-600: 217 45 32; /* #D92D20 */
@@ -30,13 +31,16 @@
     /* warning */
     --theme-color-warning-25: 255 252 245; /* #FFFCF5 */
     --theme-color-warning-50: 255 250 235; /* #FFFAEB */
+    --theme-color-warning-75: 251 238 214; /* #FBEED6 */
     --theme-color-warning-100: 254 240 199; /* #FEF0C7 */
+    --theme-color-warning-150: 246 223 181; /* #F6DFB5 */
     --theme-color-warning-200: 254 223 137; /* #FEDF89 */
     --theme-color-warning-300: 254 200 75; /* #FEC84B */
     --theme-color-warning-400: 253 176 34; /* #FDB022 */
     --theme-color-warning-500: 247 144 9; /* #F79009 */
     --theme-color-warning-600: 220 104 3; /* #DC6803 */
     --theme-color-warning-700: 181 71 8; /* #B54708 */
+    --theme-color-warning-750: 165 109 76; /* #A56D4C */
     --theme-color-warning-800: 147 55 13; /* #93370D */
     --theme-color-warning-900: 122 46 14; /* #7A2E0E */
 

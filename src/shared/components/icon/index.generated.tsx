@@ -60,6 +60,7 @@ export type IconDefinition =
     | 'green-indicator'
     | 'home'
     | 'information-circle'
+    | 'information'
     | 'key'
     | 'ledger-address'
     | 'ledger-device-dark-green'
@@ -178,6 +179,7 @@ export const availableIcons: IconDefinition[] = [
     'green-indicator',
     'home',
     'information-circle',
+    'information',
     'key',
     'ledger-address',
     'ledger-device-dark-green',
@@ -3524,6 +3526,18 @@ export const IconSvg = {
                 strokeWidth='1.5'
                 d='M11.333 13.333H10.5V10h-.833m.833-3.333h.008M18 10a7.5 7.5 0 1 1-15 0 7.5 7.5 0 0 1 15 0'
             />
+        </svg>
+    ),
+    information: (
+        <svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 12 12'>
+            <path
+                stroke='currentColor'
+                strokeLinecap='round'
+                strokeLinejoin='round'
+                strokeWidth='2'
+                d='M8.28 10.803h-.6c-.72 0-1.32-.72-1.32-1.44v-3.6c0-.36-.24-.72-.6-.72h-.6'
+            />
+            <circle cx='6.001' cy='1.2' r='1.2' fill='currentColor' />
         </svg>
     ),
     key: (
