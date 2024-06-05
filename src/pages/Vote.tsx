@@ -8,6 +8,7 @@ import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 import { assertWallet } from '@/lib/utils/assertions';
 import { DelegatesList } from '@/components/vote/DelegatesList';
 import { DelegatesSearchInput } from '@/components/vote/DelegatesSearchInput';
+import { VoteButton } from '@/components/vote/VoteButton';
 
 const Vote = () => {
     const { t } = useTranslation();
@@ -31,9 +32,11 @@ const Vote = () => {
     }, [wallet]);
 
     return (
-        <SubPageLayout title={t('PAGES.VOTE.VOTE')}>
+        <SubPageLayout
+            title={t('PAGES.VOTE.VOTE')}
+            footer={<VoteButton onClick={() => {}} disabled={true} />}
+        >
             <DelegatesSearchInput searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
-
             <DelegatesList
                 delegates={delegates.slice(0, delegatesPerPage)}
                 isLoading={isLoadingDelegates}
