@@ -12,6 +12,8 @@ import { DelegatesList } from '@/components/vote/DelegatesList';
 import { VoteButton } from '@/components/vote/VoteButton';
 import { DelegatesSearchInput } from '@/components/vote/DelegatesSearchInput';
 import constants from '@/constants';
+import { Footer } from '@/shared/components/layout/Footer';
+import { VoteFee } from '@/components/vote/VoteFee';
 
 export type VoteFormik = {
     delegateAddress: string;
@@ -81,12 +83,16 @@ const Vote = () => {
         <SubPageLayout
             title={t('PAGES.VOTE.VOTE')}
             footer={
-                <VoteButton
-                    onClick={formik.submitForm}
-                    fee={formik.values.fee}
-                    delegateAddress={formik.values.delegateAddress}
-                    votes={currentVotes}
-                />
+                <Footer className='space-y-4'>
+                    <VoteFee delegateAddress={formik.values.delegateAddress} />
+
+                    <VoteButton
+                        onClick={formik.submitForm}
+                        fee={formik.values.fee}
+                        delegateAddress={formik.values.delegateAddress}
+                        votes={currentVotes}
+                    />
+                </Footer>
             }
         >
             <DelegatesSearchInput searchQuery={searchQuery} setSearchQuery={setSearchQuery} />

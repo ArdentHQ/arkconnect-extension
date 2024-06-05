@@ -2,7 +2,6 @@ import { useTranslation } from 'react-i18next';
 import { Contracts } from '@ardenthq/sdk-profiles';
 import { useMemo } from 'react';
 import { Button } from '@/shared/components';
-import { Footer } from '@/shared/components/layout/Footer';
 
 export const VoteButton = ({
     delegateAddress,
@@ -46,10 +45,8 @@ export const VoteButton = ({
     }, [disabled, isSwapping, isVoting]);
 
     return (
-        <Footer className='h-[84px]'>
-            <Button variant='primary' disabled={disabled} onClick={onClick}>
-                {voteText}
-            </Button>
-        </Footer>
+        <Button variant='primary' disabled={disabled} onClick={onClick}>
+            {voteText}
+        </Button>
     );
 };
