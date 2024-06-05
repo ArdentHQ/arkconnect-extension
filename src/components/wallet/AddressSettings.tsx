@@ -78,7 +78,7 @@ export const AddressSettings = () => {
                         <SettingsOption
                             disabled={address.isLedger()}
                             iconLeading='show-passphrase'
-                            title={t('PAGES.ADDRESS_SETTINGS.OPTIONS.SHOW', { name: 'Passphrase'})}
+                            title={t('PAGES.ADDRESS_SETTINGS.OPTIONS.SHOW', { name: 'Passphrase' })}
                             onClick={() => {
                                 navigate(`/view-sensitive-info/${address.id()}/passphrase`);
                             }}
@@ -176,7 +176,7 @@ const AddressRow = ({ address }: { address: Contracts.IReadWriteWallet }) => {
 
                 <p className='typeset-body text-light-black dark:text-white'>{address.address()}</p>
 
-                <p className='typeset-body cursor-pointer text-light-black dark:text-white font-bold'>
+                <p className='typeset-body cursor-pointer font-bold text-light-black dark:text-white'>
                     <Amount
                         ticker={getNetworkCurrency(address.network())}
                         maxDigits={5}
