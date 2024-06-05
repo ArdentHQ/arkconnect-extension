@@ -30,6 +30,7 @@ import Receive from '@/pages/Receive';
 import AddressBook from '@/pages/AddressBook';
 import CreateContact from '@/pages/CreateContact';
 import EditContact from '@/pages/EditContact';
+import Vote from '@/pages/Vote';
 
 type RouteData = {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -55,6 +56,12 @@ const routes: RouteData[] = [
         path: '/connections',
         title: 'Connections',
         icon: 'connections',
+    },
+    {
+        Component: Vote,
+        path: '/vote',
+        title: 'Vote',
+        icon: 'vote',
     },
     {
         Component: CreateOrImport,
