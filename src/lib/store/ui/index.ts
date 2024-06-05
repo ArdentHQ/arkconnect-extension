@@ -8,6 +8,11 @@ export enum ThemeMode {
     DARK = 'dark',
 }
 
+export enum ThemeAccent {
+    GREEN = 'green',
+    NAVY = 'navy',
+}
+
 export type ToastType = 'warning' | 'danger' | 'success';
 
 export type Toast = {
@@ -17,6 +22,7 @@ export type Toast = {
 };
 
 export type UIState = {
+    themeAccent?: ThemeAccent;
     themeMode?: ThemeMode;
     toasts: Toast[];
     locked: boolean;
@@ -24,6 +30,7 @@ export type UIState = {
 
 const initialState: UIState = {
     themeMode: undefined,
+    themeAccent: ThemeAccent.NAVY,
     toasts: [],
     locked: false,
 };
@@ -36,6 +43,9 @@ export const uiSlice = createSlice({
     reducers: {
         themeModeUpdated: (state, action: PayloadAction<ThemeMode>) => {
             state.themeMode = action.payload;
+        },
+        themeAccentUpdated: (state, action: PayloadAction<ThemeAccent>) => {
+            state.themeAccent = action.payload;
         },
         toastAdded: (state, action: PayloadAction<Toast>) => {
             state.toasts.push(action.payload);
@@ -53,10 +63,17 @@ export const uiSlice = createSlice({
     extraReducers: (builder) => builder.addCase(revertAll, () => initialState),
 });
 
-export const { themeModeUpdated, toastAdded, toastRemoved, toastsReseted, lockedChanged } =
-    uiSlice.actions;
+export const {
+    themeModeUpdated,
+    toastAdded,
+    toastRemoved,
+    toastsReseted,
+    lockedChanged,
+    themeAccentUpdated,
+} = uiSlice.actions;
 
 export const selectThemeMode = (state: RootState) => state.ui.themeMode;
+export const selectThemeAccent = (state: RootState) => state.ui.themeAccent;
 export const selectToasts = (state: RootState) => state.ui.toasts;
 export const selectLocked = (state: RootState) => state.ui.locked;
 

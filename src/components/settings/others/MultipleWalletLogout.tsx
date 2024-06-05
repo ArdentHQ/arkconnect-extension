@@ -8,6 +8,7 @@ import { useAppSelector } from '@/lib/store';
 import trimAddress from '@/lib/utils/trimAddress';
 import { generateWalletHelperText } from '@/lib/utils/generateWalletHelperText';
 import { useProfileContext } from '@/lib/context/Profile';
+import { Footer } from '@/shared/components/layout/Footer';
 
 const MultipleWalletLogout = () => {
     const { t } = useTranslation();
@@ -44,7 +45,26 @@ const MultipleWalletLogout = () => {
     };
 
     return (
-        <SubPageLayout title={t('PAGES.LOGOUT.REMOVE_ADDRESSES')}>
+        <SubPageLayout
+            title={t('PAGES.LOGOUT.REMOVE_ADDRESSES')}
+            footer={
+                <Footer className='flex flex-col gap-4'>
+                    <Button
+                        variant={!selectedIdsToLogout.length ? 'primary' : 'destructivePrimary'}
+                        onClick={() => {
+                            navigate('/logout', { state: selectedIdsToLogout });
+                        }}
+                        disabled={!selectedIdsToLogout.length}
+                    >
+                        {t('ACTION.REMOVE', { name: 'Address' })}{' '}
+                        {selectedIdsToLogout.length > 0 && `(${selectedIdsToLogout.length})`}
+                    </Button>
+                    <Button variant='primaryLinkDestructive' onClick={handleSelectAllWallets}>
+                        {t('PAGES.LOGOUT.REMOVE_ALL_ADDRESSES')}
+                    </Button>
+                </Footer>
+            }
+        >
             <div className='flex h-full flex-col'>
                 <HeadingDescription className='mb-6'>
                     {t('PAGES.LOGOUT.SELECT_ADDRESSES_TO_REMOVE')}
@@ -79,25 +99,6 @@ const MultipleWalletLogout = () => {
                         </RowLayout>
                     );
                 })}
-
-                <Button
-                    variant='destructivePrimary'
-                    className='mt-4'
-                    onClick={() => {
-                        navigate('/logout', { state: selectedIdsToLogout });
-                    }}
-                    disabled={!selectedIdsToLogout.length}
-                >
-                    {t('ACTION.REMOVE')}{' '}
-                    {selectedIdsToLogout.length > 0 && `(${selectedIdsToLogout.length})`}
-                </Button>
-                <Button
-                    variant='primaryLinkDestructive'
-                    className='mt-4'
-                    onClick={handleSelectAllWallets}
-                >
-                    {t('PAGES.LOGOUT.REMOVE_ALL_ADDRESSES')}
-                </Button>
             </div>
         </SubPageLayout>
     );

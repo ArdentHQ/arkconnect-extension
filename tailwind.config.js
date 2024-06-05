@@ -1,4 +1,5 @@
 const defaultTheme = require('tailwindcss/defaultTheme');
+const plugin = require('tailwindcss/plugin');
 
 /** @type {import('tailwindcss').Config} */
 export default {
@@ -21,6 +22,7 @@ export default {
                 30: '7.5rem',
                 50: '12.5rem',
                 65: '16.25rem',
+                81.5: '20.375rem',
             },
             boxShadow: {
                 light: '0 1px 4px 0 rgba(0, 0, 0, 0.05)',
@@ -151,7 +153,35 @@ export default {
             'light-green': 'rgb(var(--theme-color-light-green) / <alpha-value>)',
             'shadow-green': 'rgb(var(--theme-color-shadow-green) / <alpha-value>)',
             'shadow-green-dark': 'rgb(var(--theme-color-shadow-green-dark) / <alpha-value>)',
+
+            // navy
+            'theme-navy-50': 'rgb(var(--theme-color-navy-50) / <alpha-value>)',
+            'theme-navy-100': 'rgb(var(--theme-color-navy-100) / <alpha-value>)',
+            'theme-navy-200': 'rgb(var(--theme-color-navy-200) / <alpha-value>)',
+            'theme-navy-300': 'rgb(var(--theme-color-navy-300) / <alpha-value>)',
+            'theme-navy-400': 'rgb(var(--theme-color-navy-400) / <alpha-value>)',
+            'theme-navy-500': 'rgb(var(--theme-color-navy-500) / <alpha-value>)',
+            'theme-navy-600': 'rgb(var(--theme-color-navy-600) / <alpha-value>)',
+            'theme-navy-700': 'rgb(var(--theme-color-navy-700) / <alpha-value>)',
+            'theme-navy-800': 'rgb(var(--theme-color-navy-800) / <alpha-value>)',
+            'theme-navy-900': 'rgb(var(--theme-color-navy-900) / <alpha-value>)',
+
+            // green
+            'theme-green-50': 'rgb(var(--theme-color-green-50) / <alpha-value>)',
+            'theme-green-100': 'rgb(var(--theme-color-green-100) / <alpha-value>)',
+            'theme-green-200': 'rgb(var(--theme-color-green-200) / <alpha-value>)',
+            'theme-green-300': 'rgb(var(--theme-color-green-300) / <alpha-value>)',
+            'theme-green-400': 'rgb(var(--theme-color-green-400) / <alpha-value>)',
+            'theme-green-500': 'rgb(var(--theme-color-green-500) / <alpha-value>)',
+            'theme-green-600': 'rgb(var(--theme-color-green-600) / <alpha-value>)',
+            'theme-green-700': 'rgb(var(--theme-color-green-700) / <alpha-value>)',
+            'theme-green-800': 'rgb(var(--theme-color-green-800) / <alpha-value>)',
+            'theme-green-900': 'rgb(var(--theme-color-green-900) / <alpha-value>)',
         },
     },
-    plugins: [],
+    plugins: [
+        plugin(function ({ addVariant }) {
+            addVariant('green', '.accent-green &');
+        }),
+    ],
 };

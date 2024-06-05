@@ -2,19 +2,19 @@ import { object, string } from 'yup';
 import { useEffect, useState } from 'react';
 
 import { BigNumber } from '@ardenthq/sdk-helpers';
+import { runtime } from 'webextension-polyfill';
 import { useFormik } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { runtime } from 'webextension-polyfill';
 import { validateAddress } from './CreateContact';
 import constants from '@/constants';
+import { ScreenName } from '@/lib/background/contracts';
 import SubPageLayout from '@/components/settings/SubPageLayout';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 import { useProfileContext } from '@/lib/context/Profile';
 import { SendButton, SendForm } from '@/components/send';
 import { ValidateAddressResponse } from '@/components/address-book/types';
 import { WalletNetwork } from '@/lib/store/wallet';
-import { ScreenName } from '@/lib/background/contracts';
 
 export type SendFormik = {
     amount?: string;
@@ -52,7 +52,7 @@ const Send = () => {
         });
     }
 
-    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [isLoading, setIsLoading] = useState<boolean>(true);
     const [addressValidation, setAddressValidation] = useState<ValidateAddressResponse>({
         isValid: false,
         network: WalletNetwork.MAINNET,
@@ -66,8 +66,8 @@ const Send = () => {
             })
             .test('max-balance', t('ERROR.BALANCE_TOO_LOW'), (value) => {
                 if (!value) return true;
-                const userBalance = primaryWallet?.balance() || 0;
-                return Number(value) <= userBalance;
+                const userBalance = BigNumber.make(primaryWallet?.balance() || 0);
+                return BigNumber.make(value).isLessThanOrEqualTo(userBalance);
             })
             .test(
                 'total-check',
@@ -78,7 +78,7 @@ const Send = () => {
                     const sum: BigNumber = BigNumber.make(value).plus(
                         BigNumber.make(formik.values.fee),
                     );
-                    return sum <= userBalance;
+                    return sum.isLessThanOrEqualTo(userBalance);
                 },
             )
             .trim(),
@@ -133,6 +133,7 @@ const Send = () => {
             receiverAddress: lastVisitedPage?.data?.receiverAddress || '',
         },
         validationSchema: validationSchema,
+        validateOnMount: true,
         onSubmit: () => {
             runtime.sendMessage({ type: 'CLEAR_LAST_SCREEN' });
             profile.settings().forget('LAST_VISITED_PAGE');
@@ -148,7 +149,7 @@ const Send = () => {
                     session: {
                         walletId: primaryWallet?.id(),
                         logo: 'icon/128.png',
-                        domain: 'Arkconnect',
+                        domain: 'ARK Connect',
                     },
                 },
             });
@@ -191,13 +192,14 @@ const Send = () => {
     const hasValues = formik.values.amount && formik.values.receiverAddress && formik.values.fee;
 
     return (
-        <SubPageLayout title={t('COMMON.SEND')} className='relative p-0'>
-            <div className='custom-scroll h-[393px] w-full overflow-y-auto overflow-x-hidden px-4'>
-                <SendForm formik={formik} />
-            </div>
-            <div className='w-full'>
+        <SubPageLayout
+            title={t('COMMON.SEND')}
+            className='relative p-0'
+            footer={
                 <SendButton disabled={!(formik.isValid && hasValues)} onClick={formik.submitForm} />
-            </div>
+            }
+        >
+            <SendForm formik={formik} />
         </SubPageLayout>
     );
 };

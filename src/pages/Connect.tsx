@@ -15,6 +15,7 @@ import { assertIsUnlocked } from '@/lib/background/assertions';
 import ActionHeader from '@/shared/components/actions/ActionHeader';
 import { useNotifyOnUnload } from '@/lib/hooks/useNotifyOnUnload';
 import useLoadingModal from '@/lib/hooks/useLoadingModal';
+import { ApproveLayout } from '@/components/approve/ApproveLayout';
 
 const Connect = () => {
     const location = useLocation();
@@ -109,18 +110,23 @@ const Connect = () => {
     };
 
     return (
-        <Layout withHeader={false}>
-            <ActionHeader
+        <Layout withHeader={false} className='pb-0'>
+            <ApproveLayout
                 appDomain={location.state?.domain}
                 appLogo={location.state?.favicon}
-                icon='action-connect'
-                actionLabel={t('PAGES.CONNECT.CONNECT_TO_APP')}
-                iconClassNames='w-[22px] h-[31px]'
-            />
+                footer={<ConnectFooter onSubmit={onSubmit} onCancel={onCancel} />}
+                className='pt-6'
+            >
+                <>
+                    <ActionHeader
+                        icon='action-connect'
+                        actionLabel={t('PAGES.CONNECT.CONNECT_TO_APP')}
+                        iconClassNames='w-[11px] h-4 mx-[2.5px]'
+                    />
 
-            <ConnectWithWallet wallet={primaryWallet} />
-
-            <ConnectFooter onSubmit={onSubmit} onCancel={onCancel} />
+                    <ConnectWithWallet wallet={primaryWallet} />
+                </>
+            </ApproveLayout>
         </Layout>
     );
 };

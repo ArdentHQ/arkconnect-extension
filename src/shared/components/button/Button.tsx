@@ -13,7 +13,8 @@ type ButtonVariant =
     | 'primaryLinkDestructive'
     | 'linkDestructive'
     | 'destructivePrimary'
-    | 'destructiveSecondary';
+    | 'destructiveSecondary'
+    | 'secondaryLink';
 
 type ButtonProps = React.ComponentPropsWithRef<'button'> & {
     iconLeading?: IconDefinition;
@@ -35,6 +36,7 @@ const buttonClass: Record<ButtonVariant, string> = {
     linkDestructive: 'button-linkDestructive',
     destructivePrimary: 'button-destructivePrimary',
     destructiveSecondary: 'button-destructiveSecondary',
+    secondaryLink: 'button-secondaryLink',
 };
 
 const getButtonClass = (variant?: ButtonVariant) => (variant ? buttonClass[variant] : '');

@@ -3,6 +3,8 @@ import RemoveConnections from '@/components/connections/RemoveConnections';
 import Modal from '@/shared/components/modal/Modal';
 import { useAppDispatch } from '@/lib/store';
 import * as SessionStore from '@/lib/store/session';
+import { useProfileContext } from '@/lib/context/Profile';
+import { OneTimeEvents } from '@/OneTimeEventHandlers';
 
 interface Properties {
     onCancel?: () => void;
@@ -12,13 +14,14 @@ interface Properties {
 }
 export const DisconnectSessionModal = ({ isOpen, onCancel, onConfirm, sessions }: Properties) => {
     const dispatch = useAppDispatch();
+    const { initProfile } = useProfileContext();
 
     const handleDisconnect = async () => {
         await dispatch(SessionStore.sessionRemoved(sessions.map((session) => session.id)));
 
         for (const session of sessions) {
             await runtime.sendMessage({
-                type: 'DISCONNECT_RESOLVE',
+                type: OneTimeEvents.DISCONNECT_RESOLVE,
                 data: {
                     domain: session.domain,
                     status: 'success',
@@ -26,6 +29,8 @@ export const DisconnectSessionModal = ({ isOpen, onCancel, onConfirm, sessions }
                 },
             });
         }
+
+        await initProfile();
 
         onConfirm?.();
     };

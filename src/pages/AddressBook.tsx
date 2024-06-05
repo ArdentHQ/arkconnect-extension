@@ -1,14 +1,15 @@
-import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
-import SubPageLayout from '@/components/settings/SubPageLayout';
+import { useTranslation } from 'react-i18next';
 import {
     AddContactButton,
     AddressBookList,
     NoContacts,
     RemoveAddress,
 } from '@/components/address-book';
-import useAddressBook from '@/lib/hooks/useAddressBook';
+
 import Modal from '@/shared/components/modal/Modal';
+import SubPageLayout from '@/components/settings/SubPageLayout';
+import useAddressBook from '@/lib/hooks/useAddressBook';
 import useToast from '@/lib/hooks/useToast';
 
 const AddressBook = () => {
@@ -35,21 +36,20 @@ const AddressBook = () => {
     };
 
     return (
-        <SubPageLayout title={t('PAGES.ADDRESS_BOOK.TITLE')} className='relative p-0'>
-            <div className='custom-scroll h-[393px] w-full overflow-y-auto'>
+        <SubPageLayout
+            title={t('PAGES.ADDRESS_BOOK.TITLE')}
+            className='relative p-0'
+            footer={<AddContactButton />}
+        >
+            <div className='custom-scroll w-full overflow-y-auto pb-4'>
                 {addressBook.length > 0 ? (
-                    <div className='mx-4'>
-                        <AddressBookList
-                            handleRemoveContact={handleRemoveContact}
-                            addressBook={addressBook}
-                        />
-                    </div>
+                    <AddressBookList
+                        handleRemoveContact={handleRemoveContact}
+                        addressBook={addressBook}
+                    />
                 ) : (
                     <NoContacts className='mt-24' />
                 )}
-            </div>
-            <div className='w-full'>
-                <AddContactButton />
             </div>
 
             {isDeleteModalOpen && (

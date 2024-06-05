@@ -5,13 +5,60 @@ import constants from '@/constants';
 import removeWindowInstance from '@/lib/utils/removeWindowInstance';
 import { Button, ExternalLink, Heading, Icon, Loader } from '@/shared/components';
 import formatDomain from '@/lib/utils/formatDomain';
-import RequestedBy from '@/shared/components/actions/RequestedBy';
 import { useProfileContext } from '@/lib/context/Profile';
 import { WalletNetwork } from '@/lib/store/wallet';
 import { ActionBody } from '@/components/approve/ActionBody';
 import trimAddress from '@/lib/utils/trimAddress';
 import getActiveCoin from '@/lib/utils/getActiveCoin';
 import { useConfirmedTransaction } from '@/lib/hooks/useConfirmedTransaction';
+import { ApproveLayout } from '@/components/approve/ApproveLayout';
+import { Footer } from '@/shared/components/layout/Footer';
+
+const VoteApprovedFooter = ({
+    onClose,
+    isTransactionConfirmed,
+    state,
+}: {
+    onClose: () => void;
+    isTransactionConfirmed: boolean;
+    state: any;
+}) => {
+    const { t } = useTranslation();
+
+    return (
+        <Footer className='flex w-full flex-col gap-5'>
+            <Button variant='primary' onClick={onClose}>
+                {t('ACTION.CLOSE')}
+            </Button>
+
+            {isTransactionConfirmed && (
+                <ExternalLink
+                    className='flex w-full items-center justify-center gap-3 text-light-black dark:text-white'
+                    href={
+                        state?.isTestnet
+                            ? `${constants.ARKSCAN_TESTNET_TRANSACTIONS}/${state?.vote.id}`
+                            : `${constants.ARKSCAN_MAINNET_TRANSACTIONS}/${state?.vote.id}`
+                    }
+                    color='base'
+                >
+                    <span className='typeset-headline font-medium'>
+                        {t('MISC.VIEW_TRANSACTION_ON_ARKSCAN')}
+                    </span>
+                    <Icon icon='link-external' className='h-5 w-5' />
+                </ExternalLink>
+            )}
+
+            {!isTransactionConfirmed && (
+                <div className='flex items-center justify-center gap-2'>
+                    <Loader variant='warning' />
+                    <p className='typeset-heading text-theme-warning-600 dark:text-theme-warning-200'>
+                        {t('PAGES.PENDING_CONFIRMATION_MESSAGE')}
+                    </p>
+                </div>
+            )}
+        </Footer>
+    );
+};
 
 const VoteApproved = () => {
     const { t } = useTranslation();
@@ -43,21 +90,31 @@ const VoteApproved = () => {
     };
 
     return (
-        <div className='left-0 top-0 z-10 flex w-full flex-col items-center justify-center bg-subtle-white dark:bg-light-black'>
-            <RequestedBy appDomain={formatDomain(session.domain) || ''} appLogo={session.logo} />
+        <ApproveLayout
+            containerClassName='left-0 top-0 z-10 w-full items-center justify-center bg-subtle-white dark:bg-light-black'
+            appDomain={formatDomain(session.domain) || ''}
+            appLogo={session.logo}
+            footer={
+                <VoteApprovedFooter
+                    onClose={onClose}
+                    isTransactionConfirmed={isTransactionConfirmed}
+                    state={state}
+                />
+            }
+        >
             <div className='flex w-full flex-col items-center justify-between gap-[37px] px-4 py-6'>
-                <div className='flex w-full flex-col items-center gap-6'>
-                    <div className='flex flex-col items-center gap-4'>
+                <div className='flex w-full flex-col items-center gap-4'>
+                    <div className='flex flex-row items-center justify-center gap-3'>
                         {isTransactionConfirmed ? (
                             <Icon
                                 icon='completed'
-                                className='h-16 w-16 text-theme-primary-700 dark:text-theme-primary-650'
+                                className='h-6 w-6 text-theme-primary-700 dark:text-theme-primary-650'
                             />
                         ) : (
-                            <div className='flex h-16 w-16 items-center justify-center rounded-full bg-theme-primary-700 dark:bg-theme-primary-650'>
+                            <div className='flex h-6 w-6 items-center justify-center rounded-full bg-theme-primary-700 dark:bg-theme-primary-650'>
                                 <Icon
                                     icon='pending'
-                                    className='h-10 w-10 text-theme-primary-700 dark:text-theme-primary-650'
+                                    className='h-4 w-4 text-theme-primary-700 dark:text-theme-primary-650'
                                 />
                             </div>
                         )}
@@ -85,43 +142,10 @@ const VoteApproved = () => {
                             address: state?.vote.voteAddress,
                         }}
                         transactionId={isTransactionConfirmed ? vote.id : undefined}
-                        maxHeight='229px'
                     />
                 </div>
-
-                <div className='flex w-full flex-col gap-5'>
-                    <Button variant='primary' onClick={onClose}>
-                        {t('ACTION.CLOSE')}
-                    </Button>
-
-                    {isTransactionConfirmed && (
-                        <ExternalLink
-                            className='flex w-full items-center justify-center gap-3 text-light-black dark:text-white'
-                            href={
-                                state?.isTestnet
-                                    ? `${constants.ARKSCAN_TESTNET_TRANSACTIONS}/${state?.vote.id}`
-                                    : `${constants.ARKSCAN_MAINNET_TRANSACTIONS}/${state?.vote.id}`
-                            }
-                            color='base'
-                        >
-                            <span className='typeset-headline font-medium'>
-                                {t('MISC.VIEW_TRANSACTION_ON_ARKSCAN')}
-                            </span>
-                            <Icon icon='link-external' className='h-5 w-5' />
-                        </ExternalLink>
-                    )}
-
-                    {!isTransactionConfirmed && (
-                        <div className='flex items-center justify-center gap-2'>
-                            <Loader variant='warning' />
-                            <p className='typeset-heading text-theme-warning-600 dark:text-theme-warning-200'>
-                                {t('PAGES.PENDING_CONFIRMATION_MESSAGE')}
-                            </p>
-                        </div>
-                    )}
-                </div>
             </div>
-        </div>
+        </ApproveLayout>
     );
 };
 

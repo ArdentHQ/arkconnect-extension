@@ -8,11 +8,11 @@ type ConnectFooterProps = {
 const ConnectFooter = ({ onSubmit, onCancel }: ConnectFooterProps) => {
     const { t } = useTranslation();
     return (
-        <div className='px-4'>
-            <HeadingDescription className='mb-8'>
+        <div>
+            <HeadingDescription className='mb-6 px-4'>
                 {t('PAGES.CONNECT.CAN_SEE_YOUR_ADDRESS_DISCLAIMER')}
             </HeadingDescription>
-            <div className='grid grid-cols-2 gap-2'>
+            <div className='grid h-full w-full grid-cols-2 items-center gap-2 bg-white px-4 py-4 shadow-button-container dark:bg-subtle-black dark:shadow-button-container-dark'>
                 <Button variant='secondaryBlack' onClick={onCancel}>
                     {t('ACTION.REFUSE')}
                 </Button>

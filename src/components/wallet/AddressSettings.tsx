@@ -26,7 +26,7 @@ export const AddressSettings = () => {
         <SubPageLayout title='Address Settings'>
             <AddressRow address={address} />
             <SafeOutlineOverflowContainer>
-                <div className='my-2 flex flex-col rounded-2xl bg-white py-2 dark:bg-subtle-black'>
+                <div className='my-2 flex flex-col overflow-hidden rounded-2xl bg-white py-2 dark:bg-subtle-black'>
                     <SettingsOption
                         iconLeading='pencil'
                         title='Edit Name'

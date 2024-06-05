@@ -1,20 +1,6 @@
 :root {
     --font-dm-sans: 'DM Sans', sans-serif;
 
-    /* primary */
-    --theme-color-primary-50: 238 255 247; /* #EEFFF7 */
-    --theme-color-primary-100: 215 255 238; /* #D7FFEE */
-    --theme-color-primary-200: 178 255 221; /* #B2FFDD */
-    --theme-color-primary-300: 119 254 196; /* #77FEC4 */
-    --theme-color-primary-400: 52 244 162; /* #34f4A2 */
-    --theme-color-primary-500: 10 221 132; /* #0ADD84 */
-    --theme-color-primary-600: 1 184 108; /* #01B86C */
-    --theme-color-primary-650: 2 168 99; /* #02A863 */
-    --theme-color-primary-700: 5 135 81; /* #058751 */
-    --theme-color-primary-800: 10 113 71; /* #0A7147 */
-    --theme-color-primary-900: 11 92 60; /* #0B5C3C */
-    --theme-color-primary-950: 0 52 32; /* #003420 */
-
     /* secondary */
     --theme-color-secondary-25: 252 252 252; /* #FCFCFC */
     --theme-color-secondary-50: 245 245 245; /* #F5F5F5 */
@@ -73,4 +59,74 @@
     --theme-color-light-green: 229 255 244; /* #E5FFF4 */
     --theme-color-shadow-green: 229 243 237; /* #E5F3ED */
     --theme-color-shadow-green-dark: 43 61 53; /* #2B3D35 */
+
+    --theme-color-green-50: 238 255 247; /* #EEFFF7 */
+    --theme-color-green-100: 215 255 238; /* #D7FFEE */
+    --theme-color-green-200: 178 255 221; /* #B2FFDD */
+    --theme-color-green-300: 119 254 196; /* #77FEC4 */
+    --theme-color-green-400: 52 244 162; /* #34f4A2 */
+    --theme-color-green-500: 10 221 132; /* #0ADD84 */
+    --theme-color-green-600: 1 184 108; /* #01B86C */
+    /* @TODO remove */
+    --theme-color-green-650: 2 168 99; /* #02A863 */
+    --theme-color-green-700: 5 135 81; /* #058751 */
+    --theme-color-green-800: 10 113 71; /* #0A7147 */
+    --theme-color-green-900: 11 92 60; /* #0B5C3C */
+    /* @TODO remove */
+    --theme-color-green-950: 0 52 32; /* #003420 */
+
+    --theme-color-navy-50: 242 246 250; /* #F2F6FA */
+    --theme-color-navy-100: 230 239 249; /* #E6EFF9 */
+    --theme-color-navy-200: 182 215 248; /* #B6D7F8 */
+    --theme-color-navy-300: 138 192 246; /* #8AC0F6 */
+    --theme-color-navy-400: 92 164 236; /* #5CA4EC */
+    --theme-color-navy-500: 67 129 192; /* #4381C0 */
+    --theme-color-navy-600: 35 91 149; /* #235B95 */
+    --theme-color-navy-700: 21 74 130; /* #154A82 */
+    --theme-color-navy-800: 7 55 105; /* #073769 */
+    --theme-color-navy-900: 6 42 80; /* #062A50 */
+
+    /* primary */
+    --theme-color-primary-50: var(--theme-color-navy-50);
+    --theme-color-primary-100: var(--theme-color-navy-100);
+    --theme-color-primary-200: var(--theme-color-navy-200);
+    --theme-color-primary-300: var(--theme-color-navy-300);
+    --theme-color-primary-400: var(--theme-color-navy-400);
+    --theme-color-primary-500: var(--theme-color-navy-500);
+    --theme-color-primary-600: var(--theme-color-navy-600);
+    --theme-color-primary-650: var(--theme-color-navy-500);
+    --theme-color-primary-700: var(--theme-color-navy-700);
+    --theme-color-primary-800: var(--theme-color-navy-800);
+    --theme-color-primary-900: var(--theme-color-navy-900);
+    /* @TODO: Using the same color as 900 for now, need to be replaced according to design */
+    --theme-color-primary-950: var(--theme-color-navy-900);
+}
+
+.dark {
+    --theme-color-navy-50: 224 241 255 /* #e0f1ff */;
+    --theme-color-navy-100: 197 229 255 /* #c5e5ff */;
+    --theme-color-navy-200: 155 208 251 /* #9bd0fb */;
+    --theme-color-navy-300: 114 191 251 /* #72bffb */;
+    --theme-color-navy-400: 69 162 235 /* #45a2eb */;
+    --theme-color-navy-500: 35 145 231 /* #2391e7 */;
+    --theme-color-navy-600: 13 126 214 /* #0d7ed6 */;
+    --theme-color-navy-700: 14 108 181 /* #0e6cb5 */;
+    --theme-color-navy-800: 14 87 144 /* #0e5790 */;
+    --theme-color-navy-900: 26 72 107 /* #1a486b */;
+}
+
+.accent-green {
+    /* primary */
+    --theme-color-primary-50: var(--theme-color-green-50);
+    --theme-color-primary-100: var(--theme-color-green-100);
+    --theme-color-primary-200: var(--theme-color-green-200);
+    --theme-color-primary-300: var(--theme-color-green-300);
+    --theme-color-primary-400: var(--theme-color-green-400);
+    --theme-color-primary-500: var(--theme-color-green-500);
+    --theme-color-primary-600: var(--theme-color-green-600);
+    --theme-color-primary-650: var(--theme-color-green-650);
+    --theme-color-primary-700: var(--theme-color-green-700);
+    --theme-color-primary-800: var(--theme-color-green-800);
+    --theme-color-primary-900: var(--theme-color-green-900);
+    --theme-color-primary-950: var(--theme-color-green-950);
 }

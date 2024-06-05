@@ -9,6 +9,7 @@ import { Button, Checkbox, HeadingDescription, PasswordInput } from '@/shared/co
 import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
 import { useProfileContext } from '@/lib/context/Profile';
 import YourPassphrase from '@/components/settings/general/YourPassphrase';
+import { Footer } from '@/shared/components/layout/Footer';
 
 type SensitiveInfoFormik = {
     password: string;
@@ -89,7 +90,34 @@ const ViewSensitiveInfo = () => {
     }
 
     return (
-        <SubPageLayout title={texts[infoType].title} hideCloseButton={false} noPaddingBottom>
+        <SubPageLayout
+            title={texts[infoType].title}
+            hideCloseButton={false}
+            footer={
+                <Footer variant='simple'>
+                    <Checkbox
+                        id='doNotShare'
+                        name='doNotShare'
+                        checked={formik.values.doNotShare}
+                        onChange={formik.handleChange}
+                        title={texts[infoType].footer}
+                    />
+
+                    <Button
+                        variant='primary'
+                        onClick={formik.submitForm}
+                        className='mt-6'
+                        disabled={
+                            !formik.isValid ||
+                            !formik.values.password.length ||
+                            !formik.values.doNotShare
+                        }
+                    >
+                        {t('ACTION.CONTINUE')}
+                    </Button>
+                </Footer>
+            }
+        >
             <div className='flex h-full flex-col'>
                 <HeadingDescription className='mb-6'>
                     {texts[infoType].description}
@@ -106,29 +134,6 @@ const ViewSensitiveInfo = () => {
                             onBlur={formik.handleBlur}
                             labelText={t('PAGES.SETTINGS.FORM.ENTER_PASSWORD_TO_ACCESS')}
                         />
-                    </div>
-
-                    <div>
-                        <Checkbox
-                            id='doNotShare'
-                            name='doNotShare'
-                            checked={formik.values.doNotShare}
-                            onChange={formik.handleChange}
-                            title={texts[infoType].footer}
-                        />
-
-                        <Button
-                            variant='primary'
-                            onClick={formik.submitForm}
-                            className='mt-6'
-                            disabled={
-                                !formik.isValid ||
-                                !formik.values.password.length ||
-                                !formik.values.doNotShare
-                            }
-                        >
-                            {t('ACTION.CONTINUE')}
-                        </Button>
                     </div>
                 </div>
             </div>
