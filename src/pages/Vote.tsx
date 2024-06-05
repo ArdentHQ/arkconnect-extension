@@ -88,13 +88,13 @@ const Vote = () => {
                         delegateAddress={formik.values.delegateAddress}
                         fee={formik.values.fee}
                         onSelectedFee={(fee) => formik.setFieldValue('fee', fee)}
+                        onBlur={formik.handleBlur}
+                        feeError={formik.errors.fee}
                     />
 
                     <VoteButton
                         onClick={formik.submitForm}
                         fee={formik.values.fee}
-                        feeError={formik.errors.fee}
-                        onBlur={formik.handleBlur}
                         delegateAddress={formik.values.delegateAddress}
                         votes={currentVotes}
                     />
