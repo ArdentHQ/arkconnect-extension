@@ -65,7 +65,11 @@ export const AddressSettings = () => {
                     <Tooltip
                         content={
                             <p>
-                                {t('PAGES.ADDRESS_SETTINGS.TOOLTIP.LEDGER_DEVICES_DO_NOT_ALLOW')}<br />{t('PAGES.ADDRESS_SETTINGS.TOOLTIP.ACCESS_TO', { name: 'passphrase'})}
+                                {t('PAGES.ADDRESS_SETTINGS.TOOLTIP.LEDGER_DEVICES_DO_NOT_ALLOW')}
+                                <br />
+                                {t('PAGES.ADDRESS_SETTINGS.TOOLTIP.ACCESS_TO', {
+                                    name: 'passphrase',
+                                })}
                             </p>
                         }
                         placement='bottom'
@@ -90,7 +94,11 @@ export const AddressSettings = () => {
                     <Tooltip
                         content={
                             <p>
-                            {t('PAGES.ADDRESS_SETTINGS.TOOLTIP.LEDGER_DEVICES_DO_NOT_ALLOW')}<br />{t('PAGES.ADDRESS_SETTINGS.TOOLTIP.ACCESS_TO', { name: 'private key'})}
+                                {t('PAGES.ADDRESS_SETTINGS.TOOLTIP.LEDGER_DEVICES_DO_NOT_ALLOW')}
+                                <br />
+                                {t('PAGES.ADDRESS_SETTINGS.TOOLTIP.ACCESS_TO', {
+                                    name: 'private key',
+                                })}
                             </p>
                         }
                         placement='bottom'
@@ -99,7 +107,9 @@ export const AddressSettings = () => {
                         <SettingsOption
                             disabled={address.isLedger()}
                             iconLeading='key'
-                            title={t('PAGES.ADDRESS_SETTINGS.OPTIONS.SHOW', { name: 'Private Key'})}
+                            title={t('PAGES.ADDRESS_SETTINGS.OPTIONS.SHOW', {
+                                name: 'Private Key',
+                            })}
                             onClick={() => {
                                 navigate(`/view-sensitive-info/${address.id()}/privateKey`);
                             }}

@@ -274,6 +274,6 @@ export default {
         TOOLTIP: {
             LEDGER_DEVICES_DO_NOT_ALLOW: 'Ledger devices do not allow',
             ACCESS_TO: 'access to the {{ name }}',
-        }
-    }
+        },
+    },
 };
