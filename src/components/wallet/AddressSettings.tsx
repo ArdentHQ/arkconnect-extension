@@ -176,7 +176,7 @@ const AddressRow = ({ address }: { address: Contracts.IReadWriteWallet }) => {
 
                 <p className='typeset-body text-light-black dark:text-white'>{address.address()}</p>
 
-                <p className='typeset-body cursor-pointer text-light-black dark:text-white'>
+                <p className='typeset-body cursor-pointer font-bold text-light-black dark:text-white'>
                     <Amount
                         ticker={getNetworkCurrency(address.network())}
                         maxDigits={5}
