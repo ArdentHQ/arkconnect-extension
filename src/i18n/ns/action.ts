@@ -1,6 +1,5 @@
 export default {
     APPROVE: 'Approve',
-    CANCEL_AND_GO_BACK: 'Cancel and Go Back',
     CANCEL: 'Cancel',
     CLOSE: 'Close',
     CONFIRM_IMPORT: 'Confirm & Import',
