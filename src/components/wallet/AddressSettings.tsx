@@ -1,5 +1,6 @@
 import { Contracts } from '@ardenthq/sdk-profiles';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import Amount from './Amount';
 import SubPageLayout from '@/components/settings/SubPageLayout';
 import { Tooltip } from '@/shared/components';
@@ -15,6 +16,7 @@ import { handleSubmitKeyAction } from '@/lib/utils/handleKeyAction';
 
 export const AddressSettings = () => {
     const { state } = useLocation();
+    const { t } = useTranslation();
 
     const { address } = state;
 
@@ -23,13 +25,13 @@ export const AddressSettings = () => {
     const navigate = useNavigate();
 
     return (
-        <SubPageLayout title='Address Settings'>
+        <SubPageLayout title={t('PAGES.ADDRESS_SETTINGS.TITLE')}>
             <AddressRow address={address} />
             <SafeOutlineOverflowContainer>
                 <div className='my-2 flex flex-col overflow-hidden rounded-2xl bg-white py-2 dark:bg-subtle-black'>
                     <SettingsOption
                         iconLeading='pencil'
-                        title='Edit Name'
+                        title={t('PAGES.ADDRESS_SETTINGS.OPTIONS.EDIT_NAME')}
                         onClick={() => navigate(`/edit-address-name/${address.id()}`)}
                         iconTrailing='arrow-right'
                         onKeyDown={(e) =>
@@ -41,7 +43,7 @@ export const AddressSettings = () => {
 
                     <SettingsOption
                         iconLeading='copy'
-                        title='Copy Address'
+                        title={t('PAGES.ADDRESS_SETTINGS.OPTIONS.COPY_ADDRESS')}
                         onClick={() => {
                             copy(
                                 address.address(),
@@ -63,7 +65,7 @@ export const AddressSettings = () => {
                     <Tooltip
                         content={
                             <p>
-                                Ledger devices do not allow <br /> access to the passphrase.
+                                {t('PAGES.ADDRESS_SETTINGS.TOOLTIP.LEDGER_DEVICES_DO_NOT_ALLOW')}<br />{t('PAGES.ADDRESS_SETTINGS.TOOLTIP.ACCESS_TO', { name: 'passphrase'})}
                             </p>
                         }
                         placement='bottom'
@@ -72,7 +74,7 @@ export const AddressSettings = () => {
                         <SettingsOption
                             disabled={address.isLedger()}
                             iconLeading='show-passphrase'
-                            title='Show Passphrase'
+                            title={t('PAGES.ADDRESS_SETTINGS.OPTIONS.SHOW', { name: 'Passphrase'})}
                             onClick={() => {
                                 navigate(`/view-sensitive-info/${address.id()}/passphrase`);
                             }}
@@ -88,7 +90,7 @@ export const AddressSettings = () => {
                     <Tooltip
                         content={
                             <p>
-                                Ledger devices do not allow <br /> access to the private key.
+                            {t('PAGES.ADDRESS_SETTINGS.TOOLTIP.LEDGER_DEVICES_DO_NOT_ALLOW')}<br />{t('PAGES.ADDRESS_SETTINGS.TOOLTIP.ACCESS_TO', { name: 'private key'})}
                             </p>
                         }
                         placement='bottom'
@@ -97,7 +99,7 @@ export const AddressSettings = () => {
                         <SettingsOption
                             disabled={address.isLedger()}
                             iconLeading='key'
-                            title='Show Private Key'
+                            title={t('PAGES.ADDRESS_SETTINGS.OPTIONS.SHOW', { name: 'Private Key'})}
                             onClick={() => {
                                 navigate(`/view-sensitive-info/${address.id()}/privateKey`);
                             }}
@@ -112,7 +114,7 @@ export const AddressSettings = () => {
 
                     <SettingsOption
                         iconLeading='link-external'
-                        title='View on ARKScan'
+                        title={t('PAGES.ADDRESS_SETTINGS.OPTIONS.VIEW_ON_ARKSCAN')}
                         onClick={() => {
                             window.open(
                                 getExplorerDomain(address.network().isLive(), address.address()),
@@ -132,7 +134,7 @@ export const AddressSettings = () => {
 
                     <SettingsOption
                         iconLeading='trash'
-                        title='Remove Address'
+                        title={t('PAGES.ADDRESS_SETTINGS.OPTIONS.REMOVE_ADDRESS')}
                         onClick={() => {
                             navigate('/logout', { state: [address.id()] });
                         }}
