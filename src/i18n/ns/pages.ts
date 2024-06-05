@@ -30,6 +30,9 @@ export default {
         ARE_YOU_CERTAIN_TO_DISCONNECT_YOUR_CONNECTION:
             'Are you certain you want to disconnect your connection with ',
     },
+    VOTE: {
+        VOTE: 'Vote',
+    },
     CREATE_WALLET: {
         SAVE_YOUR_SECRET_PASSPHRASE: 'Save Your Secret Passphrase',
         WRITE_DOWN_OR_COPY_YOUR_PASSPHRASE:
@@ -228,6 +231,7 @@ export default {
             REMOVE_ADDRESSES: 'Remove Addresses',
             CONNECTED_APPS: 'Connected Apps',
             CREATE_N_IMPORT_ADDRESS: 'Create & Import Address',
+            VOTE: 'Vote',
         },
     },
     TRANSACTION_DETAILS: {
