@@ -262,4 +262,18 @@ export default {
         ENTER_OR_CHOOSE_FROM_SAVED_ADDRESSES: 'Enter or choose from saved addresses',
         RECIPIENT_ADDRESS: 'Recipient Address',
     },
+    ADDRESS_SETTINGS: {
+        TITLE: 'Address Settings',
+        OPTIONS: {
+            EDIT_NAME: 'Edit Name',
+            COPY_ADDRESS: 'Copy Address',
+            SHOW: 'Show {{ name }}',
+            VIEW_ON_ARKSCAN: 'View on ARKscan',
+            REMOVE_ADDRESS: 'Remove Address',
+        },
+        TOOLTIP: {
+            LEDGER_DEVICES_DO_NOT_ALLOW: 'Ledger devices do not allow',
+            ACCESS_TO: 'access to the {{ name }}',
+        }
+    }
 };
