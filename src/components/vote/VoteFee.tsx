@@ -1,10 +1,10 @@
-import { ChangeEventHandler, FocusEventHandler, useEffect, useState } from 'react';
+import { ChangeEventHandler, FocusEventHandler, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FeeSection } from '../fees';
 import { useProfileContext } from '@/lib/context/Profile';
 import useActiveNetwork from '@/lib/hooks/useActiveNetwork';
 import { useNetworkFees } from '@/lib/hooks/useNetworkFees';
-
+import useOnClickOutside from '@/lib/hooks/useOnClickOutside';
 export const VoteFee = ({
     delegateAddress,
     fee,
@@ -21,6 +21,7 @@ export const VoteFee = ({
     const { t } = useTranslation();
     const [isEditing, setIsEditing] = useState<boolean>(false);
     const activeNetwork = useActiveNetwork();
+
     const { profile } = useProfileContext();
 
     const { isLoadingFee, fees } = useNetworkFees({
@@ -44,22 +45,28 @@ export const VoteFee = ({
         console.log('handleInputChange', event);
     };
 
+    const feeFormRef = useRef<HTMLDivElement>(null);
+
+    useOnClickOutside(feeFormRef, () => setIsEditing(false));
+
     if (isEditing) {
         return (
-            <FeeSection
-                onChange={handleInputChange}
-                onBlur={onBlur}
-                variant={fee && feeError ? 'destructive' : 'primary'}
-                helperText={fee ? feeError : undefined}
-                value={fee}
-                setValue={onSelectedFee}
-                feeType='vote'
-            />
+            <div ref={feeFormRef}>
+                <FeeSection
+                    onChange={handleInputChange}
+                    onBlur={onBlur}
+                    variant={fee && feeError ? 'destructive' : 'primary'}
+                    helperText={fee ? feeError : undefined}
+                    value={fee}
+                    setValue={onSelectedFee}
+                    feeType='vote'
+                />
+            </div>
         );
     }
 
     return (
-        <div className='flex h-[42px] items-center justify-between space-x-2 overflow-auto rounded-lg border border-theme-secondary-400 p-3 text-sm text-theme-secondary-500 dark:border-theme-secondary-500'>
+        <div className='flex h-[42px] items-center justify-between space-x-2 overflow-x-auto rounded-lg border border-theme-secondary-400 p-3 text-sm text-theme-secondary-500 dark:border-theme-secondary-500'>
             <span className='truncate text-sm font-medium dark:text-theme-secondary-200'>
                 {t('COMMON.TRANSACTION_FEE')}
             </span>
