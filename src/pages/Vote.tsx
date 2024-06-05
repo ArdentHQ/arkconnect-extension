@@ -84,7 +84,11 @@ const Vote = () => {
             title={t('PAGES.VOTE.VOTE')}
             footer={
                 <Footer className='space-y-4'>
-                    <VoteFee delegateAddress={formik.values.delegateAddress} />
+                    <VoteFee
+                        delegateAddress={formik.values.delegateAddress}
+                        fee={formik.values.fee}
+                        onSelectedFee={(fee) => formik.setFieldValue('fee', fee)}
+                    />
 
                     <VoteButton
                         onClick={formik.submitForm}

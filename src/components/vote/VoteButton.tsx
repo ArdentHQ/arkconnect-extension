@@ -5,8 +5,7 @@ import { Button } from '@/shared/components';
 
 export const VoteButton = ({
     delegateAddress,
-    // @TODO: remove unused variable once handling of fee is implemented
-    fee: _,
+    fee,
     votes,
     onClick,
 }: {
@@ -15,8 +14,7 @@ export const VoteButton = ({
     votes: Contracts.VoteRegistryItem[];
     onClick: () => void;
 }) => {
-    // @TODO: disable if empty fee
-    const disabled = delegateAddress === '';
+    const disabled = delegateAddress === '' || fee === '';
 
     const isVoted = useMemo(() => {
         if (delegateAddress === '') {
