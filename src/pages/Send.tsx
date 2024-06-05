@@ -66,8 +66,8 @@ const Send = () => {
             })
             .test('max-balance', t('ERROR.BALANCE_TOO_LOW'), (value) => {
                 if (!value) return true;
-                const userBalance = primaryWallet?.balance() || 0;
-                return Number(value) <= userBalance;
+                const userBalance = BigNumber.make(primaryWallet?.balance() || 0);
+                return BigNumber.make(value).isLessThanOrEqualTo(userBalance);
             })
             .test(
                 'total-check',
