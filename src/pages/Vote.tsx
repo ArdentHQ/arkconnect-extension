@@ -8,6 +8,8 @@ import { useProfileContext } from '@/lib/context/Profile';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 import { assertWallet } from '@/lib/utils/assertions';
 import { DelegatesList } from '@/components/vote/DelegatesList';
+import { VoteButton } from '@/components/vote/VoteButton';
+import { DelegatesSearchInput } from '@/components/vote/DelegatesSearchInput';
 
 const Vote = () => {
     const { t } = useTranslation();
@@ -18,6 +20,8 @@ const Vote = () => {
     assertWallet(wallet);
 
     const delegatesPerPage = useMemo(() => wallet.network().delegateCount(), [wallet]);
+
+    const [searchQuery, setSearchQuery] = useState<string>('');
 
     const { delegates, fetchDelegates, fetchVotes, currentVotes, isLoadingDelegates } =
         useDelegates({
@@ -36,7 +40,12 @@ const Vote = () => {
     }, [wallet]);
 
     return (
-        <SubPageLayout title={t('PAGES.VOTE.VOTE')}>
+        <SubPageLayout
+            title={t('PAGES.VOTE.VOTE')}
+            footer={<VoteButton onClick={() => {}} disabled={true} />}
+        >
+            <DelegatesSearchInput searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+
             <DelegatesList
                 onDelegateSelected={(delegate) => {
                     setSelectedDelegate(delegate);
