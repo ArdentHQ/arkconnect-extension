@@ -32,6 +32,9 @@ export default {
     },
     VOTE: {
         VOTE: 'Vote',
+        ACTIONS: {
+            SELECT: 'Select',
+        },
     },
     CREATE_WALLET: {
         SAVE_YOUR_SECRET_PASSPHRASE: 'Save Your Secret Passphrase',
