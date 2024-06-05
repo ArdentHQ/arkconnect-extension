@@ -93,6 +93,8 @@ const Vote = () => {
                     <VoteButton
                         onClick={formik.submitForm}
                         fee={formik.values.fee}
+                        feeError={formik.errors.fee}
+                        onBlur={formik.handleBlur}
                         delegateAddress={formik.values.delegateAddress}
                         votes={currentVotes}
                     />

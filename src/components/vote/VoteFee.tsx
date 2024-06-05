@@ -1,4 +1,6 @@
-import { useEffect } from 'react';
+import { ChangeEventHandler, FocusEventHandler, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { FeeSection } from '../fees';
 import { useProfileContext } from '@/lib/context/Profile';
 import useActiveNetwork from '@/lib/hooks/useActiveNetwork';
 import { useNetworkFees } from '@/lib/hooks/useNetworkFees';
@@ -6,12 +8,18 @@ import { useNetworkFees } from '@/lib/hooks/useNetworkFees';
 export const VoteFee = ({
     delegateAddress,
     fee,
+    feeError,
     onSelectedFee,
+    onBlur,
 }: {
     delegateAddress: string;
     fee: string;
+    feeError?: string;
     onSelectedFee: (fee: string) => void;
+    onBlur: FocusEventHandler<HTMLInputElement>;
 }) => {
+    const { t } = useTranslation();
+    const [isEditing, setIsEditing] = useState<boolean>(false);
     const activeNetwork = useActiveNetwork();
     const { profile } = useProfileContext();
 
@@ -30,10 +38,30 @@ export const VoteFee = ({
 
     const disabled = delegateAddress === '' || isLoadingFee;
 
+    const handleInputChange: ChangeEventHandler<HTMLInputElement> = (event) => {
+        // @TODO: can be used to validate the funds limit
+        // @see src/components/send/SendForm.tsx@handleInputChange
+        console.log('handleInputChange', event);
+    };
+
+    if (isEditing) {
+        return (
+            <FeeSection
+                onChange={handleInputChange}
+                onBlur={onBlur}
+                variant={fee && feeError ? 'destructive' : 'primary'}
+                helperText={fee ? feeError : undefined}
+                value={fee}
+                setValue={onSelectedFee}
+                feeType='vote'
+            />
+        );
+    }
+
     return (
         <div className='flex h-[42px] items-center justify-between space-x-2 overflow-auto rounded-lg border border-theme-secondary-400 p-3 text-sm text-theme-secondary-500 dark:border-theme-secondary-500'>
             <span className='truncate text-sm font-medium dark:text-theme-secondary-200'>
-                Transaction Fee
+                {t('COMMON.TRANSACTION_FEE')}
             </span>
 
             <div className='flex items-center space-x-1.5 dark:text-theme-secondary-500'>
@@ -48,13 +76,14 @@ export const VoteFee = ({
                 <span className='h-1 w-1 rounded-full bg-theme-secondary-400'></span>
 
                 {disabled ? (
-                    <span className='font-medium'>Edit Fee</span>
+                    <span className='font-medium'>{t('PAGES.VOTE.EDIT_FEE')}</span>
                 ) : (
                     <button
                         type='button'
                         className='transition-smoothEase whitespace-nowrap font-medium text-theme-primary-700 hover:text-theme-primary-600 dark:text-theme-primary-600 dark:hover:text-theme-primary-650'
+                        onClick={() => setIsEditing(true)}
                     >
-                        Edit Fee
+                        {t('PAGES.VOTE.EDIT_FEE')}
                     </button>
                 )}
             </div>

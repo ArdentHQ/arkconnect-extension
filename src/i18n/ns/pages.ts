@@ -39,6 +39,7 @@ export default {
             UNSELECTED: 'Unselected',
             CURRENT: 'Current',
         },
+        EDIT_FEE: 'Edit Fee',
     },
     CREATE_WALLET: {
         SAVE_YOUR_SECRET_PASSPHRASE: 'Save Your Secret Passphrase',
