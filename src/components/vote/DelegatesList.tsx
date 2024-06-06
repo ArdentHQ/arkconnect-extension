@@ -7,9 +7,15 @@ import { WarningIcon } from '@/shared/components';
 export const DelegatesList = ({
     delegates,
     isLoading,
+    onDelegateSelected,
+    votes,
+    selectedDelegate,
 }: {
     delegates: Contracts.IReadOnlyWallet[];
     isLoading: boolean;
+    onDelegateSelected: (delegate?: Contracts.IReadOnlyWallet) => void;
+    votes: Contracts.VoteRegistryItem[];
+    selectedDelegate?: Contracts.IReadOnlyWallet;
 }) => {
     const { t } = useTranslation();
 
@@ -45,7 +51,18 @@ export const DelegatesList = ({
             <table className='w-full'>
                 <tbody>
                     {delegates.map((delegate) => {
-                        return <DelegatesListItem key={delegate.address()} delegate={delegate} />;
+                        return (
+                            <DelegatesListItem
+                                onSelected={onDelegateSelected}
+                                key={delegate.address()}
+                                delegate={delegate}
+                                isSelected={selectedDelegate?.address() === delegate.address()}
+                                isVoted={votes.some(
+                                    (vote) => vote.wallet?.address() === delegate.address(),
+                                )}
+                                anyIsSelected={selectedDelegate !== undefined}
+                            />
+                        );
                     })}
                 </tbody>
             </table>
