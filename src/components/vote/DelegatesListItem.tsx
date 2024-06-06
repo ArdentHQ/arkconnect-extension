@@ -1,18 +1,30 @@
 import { useTranslation } from 'react-i18next';
 
 import { Contracts } from '@ardenthq/sdk-profiles';
-import { ExternalLink, Icon } from '@/shared/components';
+import { ExternalLink, Icon, Tooltip } from '@/shared/components';
 import trimAddress from '@/lib/utils/trimAddress';
 
 export const DelegatesListItem = ({ delegate }: { delegate: Contracts.IReadOnlyWallet }) => {
     const { t } = useTranslation();
+    const username = delegate.username() ?? '';
+    const isLongAddress = username.length > 15;
 
     return (
         <tr>
             <td className='w-full p-4'>
-                <span className='font-medium dark:text-white'>
-                    {trimAddress(delegate.username() || delegate.address(), 'long')}
-                </span>
+                {
+                    isLongAddress ? (
+                        <Tooltip content={delegate.username()}>
+                            <span className='font-medium dark:text-white'>
+                                {trimAddress(delegate.username() || delegate.address(), 'long', 'end')}
+                            </span>
+                        </Tooltip>
+                    ) : (
+                        <span className='font-medium dark:text-white'>
+                            {delegate.username()}
+                        </span>
+                    )
+                }
             </td>
 
             <td className='p-4'>
