@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { useEffect, useMemo, useState } from 'react';
 import { useFormik } from 'formik';
 import { object, string } from 'yup';
+import { runtime } from 'webextension-polyfill';
 import SubPageLayout from '@/components/settings/SubPageLayout';
 import { useDelegates } from '@/lib/hooks/useDelegates';
 import { useEnvironmentContext } from '@/lib/context/Environment';
@@ -14,6 +15,7 @@ import { DelegatesSearchInput } from '@/components/vote/DelegatesSearchInput';
 import constants from '@/constants';
 import { Footer } from '@/shared/components/layout/Footer';
 import { VoteFee } from '@/components/vote/VoteFee';
+import { ScreenName } from '@/lib/background/contracts';
 
 export type VoteFormik = {
     delegateAddress: string;
@@ -71,15 +73,33 @@ const Vote = () => {
             ),
     });
 
+    const lastVisitedPage = profile.settings().get('LAST_VISITED_PAGE') as { data: VoteFormik };
+
     const formik = useFormik<VoteFormik>({
         initialValues: {
-            fee: '',
-            delegateAddress: '',
+            fee: lastVisitedPage?.data?.fee || '',
+            delegateAddress: lastVisitedPage?.data?.delegateAddress || '',
         },
         validationSchema: validationSchema,
         validateOnMount: true,
-        onSubmit: () => {},
+        onSubmit: () => {
+            runtime.sendMessage({ type: 'CLEAR_LAST_SCREEN' });
+            profile.settings().forget('LAST_VISITED_PAGE');
+        },
     });
+
+    useEffect(() => {
+        runtime.sendMessage({
+            type: 'SET_LAST_SCREEN',
+            path: ScreenName.Vote,
+            data: formik.values,
+        });
+
+        return () => {
+            runtime.sendMessage({ type: 'CLEAR_LAST_SCREEN' });
+            profile.settings().forget('LAST_VISITED_PAGE');
+        };
+    }, [formik.values]);
 
     return (
         <SubPageLayout

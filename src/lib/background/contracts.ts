@@ -34,6 +34,7 @@ export enum ScreenName {
     ImportWallet = '/wallet/import',
     AddContact = '/address-book/create',
     SendTransfer = '/transaction/send',
+    Vote = '/vote',
 }
 
 interface WalletCreate {
