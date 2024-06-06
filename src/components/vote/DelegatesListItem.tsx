@@ -52,19 +52,15 @@ export const DelegatesListItem = ({
             })}
         >
             <td className='p-4'>
-                {
-                    isLongAddress ? (
-                        <Tooltip content={username}>
-                            <span className='font-medium dark:text-white'>
-                                {trimAddress(username, 'long', 'end')}
-                            </span>
-                        </Tooltip>
-                    ) : (
+                {isLongAddress ? (
+                    <Tooltip content={username}>
                         <span className='font-medium dark:text-white'>
-                            {username}
+                            {trimAddress(username, 'long', 'end')}
                         </span>
-                    )
-                }
+                    </Tooltip>
+                ) : (
+                    <span className='font-medium dark:text-white'>{username}</span>
+                )}
             </td>
 
             <td className='py-4'>

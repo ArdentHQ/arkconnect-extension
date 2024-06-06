@@ -27,7 +27,9 @@ describe('trimAddress', () => {
     });
 
     it('trims from the middle by default', async () => {
-        expect(trimAddress('1234567890123456789123456', 'longest')).toBe('123456789012…456789123456');
+        expect(trimAddress('1234567890123456789123456', 'longest')).toBe(
+            '123456789012…456789123456',
+        );
     });
 
     it('trims from the end when specified', async () => {
