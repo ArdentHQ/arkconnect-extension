@@ -41,7 +41,7 @@ export const DelegatesList = ({
     }
 
     return (
-        <div className='w-full flex-1 overflow-hidden rounded-xl bg-white py-2 dark:bg-subtle-black'>
+        <div className='w-full overflow-hidden rounded-xl bg-white py-2 dark:bg-subtle-black'>
             <table className='w-full'>
                 <tbody>
                     {delegates.map((delegate) => {
