@@ -25,6 +25,15 @@ export type VoteFormik = {
     fee: string;
 };
 
+interface PageData extends VoteFormik {
+    type?: string;
+    session?: {
+        walletId: string;
+        logo: string;
+        domain: string;
+    };
+}
+
 const Vote = () => {
     const navigate = useNavigate();
 
@@ -32,6 +41,7 @@ const Vote = () => {
     const { profile } = useProfileContext();
     const { env } = useEnvironmentContext();
     const wallet = usePrimaryWallet();
+    const [redirectToApprove, setRedirectToApprove] = useState(false);
 
     assertWallet(wallet);
 
@@ -78,7 +88,51 @@ const Vote = () => {
             ),
     });
 
-    const lastVisitedPage = profile.settings().get('LAST_VISITED_PAGE') as { data: VoteFormik };
+    const lastVisitedPage = profile.settings().get('LAST_VISITED_PAGE') as { data: PageData };
+
+    const approveVote = () => {
+        const type = isVoting || isSwapping ? 'vote' : 'unvote';
+
+        const data: {
+            vote?: {
+                amount: number;
+                address: string;
+            };
+            unvote?: {
+                amount: number;
+                address: string;
+            };
+        } = {};
+
+        if (isVoting || isSwapping) {
+            data.vote = {
+                amount: 0,
+                address: formik.values.delegateAddress,
+            };
+        }
+
+        if (isUnvoting || isSwapping) {
+            assert(currentlyVotedAddress);
+
+            data.unvote = {
+                amount: 0,
+                address: currentlyVotedAddress,
+            };
+        }
+
+        navigate('/approve', {
+            state: {
+                type: type,
+                fee: Number(formik.values.fee),
+                ...data,
+                session: {
+                    walletId: wallet?.id(),
+                    logo: 'icon/128.png',
+                    domain: 'ARK Connect',
+                },
+            },
+        });
+    };
 
     const formik = useFormik<VoteFormik>({
         initialValues: {
@@ -90,48 +144,9 @@ const Vote = () => {
         onSubmit: () => {
             runtime.sendMessage({ type: 'CLEAR_LAST_SCREEN' });
             profile.settings().forget('LAST_VISITED_PAGE');
+            formik.resetForm();
 
-            const type = isVoting || isSwapping ? 'vote' : 'unvote';
-
-            const data: {
-                vote?: {
-                    amount: number;
-                    address: string;
-                };
-                unvote?: {
-                    amount: number;
-                    address: string;
-                };
-            } = {};
-
-            if (isVoting || isSwapping) {
-                data.vote = {
-                    amount: 0,
-                    address: formik.values.delegateAddress,
-                };
-            }
-
-            if (isUnvoting || isSwapping) {
-                assert(currentlyVotedAddress);
-
-                data.unvote = {
-                    amount: 0,
-                    address: currentlyVotedAddress,
-                };
-            }
-
-            navigate('/approve', {
-                state: {
-                    type: type,
-                    fee: Number(formik.values.fee),
-                    ...data,
-                    session: {
-                        walletId: wallet?.id(),
-                        logo: 'icon/128.png',
-                        domain: 'ARK Connect',
-                    },
-                },
-            });
+            approveVote();
         },
     });
 
@@ -141,6 +156,22 @@ const Vote = () => {
             delegateAddress: formik.values.delegateAddress,
             votes: currentVotes,
         });
+
+    useEffect(() => {
+        // delegates.length === 0 means is the first time the page is loaded
+        if (!redirectToApprove || isLoadingDelegates || delegates.length === 0) {
+            return;
+        }
+
+        approveVote();
+    }, [redirectToApprove, isLoadingDelegates, delegates]);
+
+    useEffect(() => {
+        if (['vote', 'unvote'].includes(lastVisitedPage?.data?.type ?? '')) {
+            //  we need to wait for the vote/delegate to be loaded
+            setRedirectToApprove(true);
+        }
+    }, [lastVisitedPage]);
 
     useEffect(() => {
         runtime.sendMessage({

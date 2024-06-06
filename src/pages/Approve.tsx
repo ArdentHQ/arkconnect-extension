@@ -105,6 +105,18 @@ const Approve = () => {
             });
         }
 
+        if ([ApproveActionType.VOTE, ApproveActionType.UNVOTE].includes(location.state?.type)) {
+            profile.settings().set('LAST_VISITED_PAGE', {
+                path: ScreenName.Vote,
+                data: {
+                    type: location.state.type,
+                    fee: String(location.state.fee),
+                    delegateAddress:
+                        location.state.vote?.address || location.state.unvote?.address || '',
+                },
+            });
+        }
+
         return () => {
             profile.settings().forget('LAST_VISITED_PAGE');
         };
