@@ -18,13 +18,15 @@ const Vote = () => {
 
     assertWallet(wallet);
 
-    const delegatesPerPage = useMemo(() => wallet.network().delegateCount(), [wallet]);
+    const delegateCount = useMemo(() => wallet.network().delegateCount(), [wallet]);
 
     const [searchQuery, setSearchQuery] = useState<string>('');
 
     const { delegates, fetchDelegates, isLoadingDelegates } = useDelegates({
         env,
         profile,
+        searchQuery,
+        limit: delegateCount,
     });
 
     useEffect(() => {
@@ -34,13 +36,13 @@ const Vote = () => {
     return (
         <SubPageLayout
             title={t('PAGES.VOTE.VOTE')}
+            className='flex flex-1 flex-col'
+            bodyClassName='flex-1 flex flex-col'
             footer={<VoteButton onClick={() => {}} disabled={true} />}
         >
             <DelegatesSearchInput searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
-            <DelegatesList
-                delegates={delegates.slice(0, delegatesPerPage)}
-                isLoading={isLoadingDelegates}
-            />
+
+            <DelegatesList delegates={delegates} isLoading={isLoadingDelegates} />
         </SubPageLayout>
     );
 };
