@@ -10,6 +10,7 @@ export const DelegatesSearchInput = ({
     setSearchQuery: Dispatch<SetStateAction<string>>;
 }) => {
     const { t } = useTranslation();
+
     return (
         <div className='-mt-1.5 mb-2'>
             <Input

@@ -33,8 +33,13 @@ export default {
     VOTE: {
         VOTE: 'Vote',
         FIND_A_DELEGATE: 'Find a delegate',
+        NO_RESULTS:
+            'The delegate is either unregistered or resigned. Check your search term and try again.',
         ACTIONS: {
             SELECT: 'Select',
+            SELECTED: 'Selected',
+            UNSELECTED: 'Unselected',
+            CURRENT: 'Current',
         },
     },
     CREATE_WALLET: {
