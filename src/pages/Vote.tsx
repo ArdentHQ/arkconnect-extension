@@ -79,6 +79,9 @@ const Vote = () => {
         onSubmit: () => {},
     });
 
+    const hasValues = formik.values.delegateAddress && formik.values.fee;
+    const hasSufficientFunds = wallet.balance() > Number(formik.values.fee);
+
     return (
         <SubPageLayout
             title={t('PAGES.VOTE.VOTE')}
@@ -94,9 +97,10 @@ const Vote = () => {
 
                     <VoteButton
                         onClick={formik.submitForm}
-                        fee={formik.values.fee}
                         delegateAddress={formik.values.delegateAddress}
                         votes={currentVotes}
+                        disabled={!(formik.isValid && hasValues && hasSufficientFunds)}
+                        displayTooltip={hasSufficientFunds}
                     />
                 </Footer>
             }
