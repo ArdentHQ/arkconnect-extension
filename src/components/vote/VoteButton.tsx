@@ -1,21 +1,21 @@
 import { useTranslation } from 'react-i18next';
 import { Contracts } from '@ardenthq/sdk-profiles';
 import { useMemo } from 'react';
-import { Button } from '@/shared/components';
+import { Button, Tooltip } from '@/shared/components';
 
 export const VoteButton = ({
     delegateAddress,
-    fee,
     votes,
     onClick,
+    disabled,
+    displayTooltip,
 }: {
     delegateAddress: string;
-    fee: string;
     votes: Contracts.VoteRegistryItem[];
-    onClick: () => void;
+    onClick: () => void,
+    disabled: boolean;
+    displayTooltip: boolean;
 }) => {
-    const disabled = delegateAddress === '' || fee === '';
-
     const isVoted = useMemo(() => {
         if (delegateAddress === '') {
             return false;
@@ -43,8 +43,12 @@ export const VoteButton = ({
     }, [disabled, isSwapping, isVoting]);
 
     return (
-        <Button variant='primary' disabled={disabled} onClick={onClick}>
-            {voteText}
-        </Button>
+        <Tooltip content={<span>{t('ERROR.BALANCE_TOO_LOW')}</span>} disabled={displayTooltip}  >
+            <div>
+                <Button variant='primary' onClick={onClick} disabled={disabled}>
+                    {voteText}
+                </Button>
+            </div>
+        </Tooltip>
     );
 };
