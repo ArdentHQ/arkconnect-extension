@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { useEffect, useMemo, useState } from 'react';
+import { Contracts } from '@ardenthq/sdk-profiles';
 import SubPageLayout from '@/components/settings/SubPageLayout';
 import { useDelegates } from '@/lib/hooks/useDelegates';
 import { useEnvironmentContext } from '@/lib/context/Environment';
@@ -7,8 +8,8 @@ import { useProfileContext } from '@/lib/context/Profile';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 import { assertWallet } from '@/lib/utils/assertions';
 import { DelegatesList } from '@/components/vote/DelegatesList';
-import { DelegatesSearchInput } from '@/components/vote/DelegatesSearchInput';
 import { VoteButton } from '@/components/vote/VoteButton';
+import { DelegatesSearchInput } from '@/components/vote/DelegatesSearchInput';
 
 const Vote = () => {
     const { t } = useTranslation();
@@ -22,15 +23,22 @@ const Vote = () => {
 
     const [searchQuery, setSearchQuery] = useState<string>('');
 
-    const { delegates, fetchDelegates, isLoadingDelegates } = useDelegates({
-        env,
-        profile,
-        searchQuery,
-        limit: delegateCount,
-    });
+    const { delegates, fetchDelegates, fetchVotes, currentVotes, isLoadingDelegates } =
+        useDelegates({
+            env,
+            profile,
+            searchQuery,
+            limit: delegateCount,
+        });
+
+    const [selectedDelegate, setSelectedDelegate] = useState<
+        Contracts.IReadOnlyWallet | undefined
+    >();
 
     useEffect(() => {
         fetchDelegates(wallet);
+
+        fetchVotes(wallet.address(), wallet.network().id());
     }, [wallet]);
 
     return (
@@ -42,7 +50,15 @@ const Vote = () => {
         >
             <DelegatesSearchInput searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
 
-            <DelegatesList delegates={delegates} isLoading={isLoadingDelegates} />
+            <DelegatesList
+                onDelegateSelected={(delegate) => {
+                    setSelectedDelegate(delegate);
+                }}
+                delegates={delegates.slice(0, delegateCount)}
+                isLoading={isLoadingDelegates}
+                votes={currentVotes}
+                selectedDelegate={selectedDelegate}
+            />
         </SubPageLayout>
     );
 };

@@ -37,6 +37,9 @@ export default {
             'The delegate is either unregistered or resigned. Check your search term and try again.',
         ACTIONS: {
             SELECT: 'Select',
+            SELECTED: 'Selected',
+            UNSELECTED: 'Unselected',
+            CURRENT: 'Current',
         },
     },
     CREATE_WALLET: {

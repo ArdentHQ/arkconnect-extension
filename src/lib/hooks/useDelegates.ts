@@ -1,5 +1,6 @@
 import { Contracts, Environment } from '@ardenthq/sdk-profiles';
 import { useCallback, useMemo, useState } from 'react';
+import { assertWallet } from '@/lib/utils/assertions';
 
 export const useDelegates = ({
     env,
@@ -13,17 +14,17 @@ export const useDelegates = ({
     limit: number;
 }) => {
     const [allDelegates, setAllDelegates] = useState<Contracts.IReadOnlyWallet[]>([]);
+    const [votes, setVotes] = useState<Contracts.VoteRegistryItem[]>();
     const [isLoadingDelegates, setIsLoadingDelegates] = useState(false);
 
     const fetchDelegates = useCallback(
         async (wallet: Contracts.IReadWriteWallet) => {
             setIsLoadingDelegates(true);
-
             await env.delegates().sync(profile, wallet.coinId(), wallet.networkId());
 
-            const delegates = env.delegates().all(wallet.coinId(), wallet.networkId());
+            const allDelegates = env.delegates().all(wallet.coinId(), wallet.networkId());
 
-            setAllDelegates(delegates);
+            setAllDelegates(allDelegates);
 
             setIsLoadingDelegates(false);
         },
@@ -46,9 +47,40 @@ export const useDelegates = ({
             .slice(0, limit);
     }, [allDelegates, searchQuery, limit]);
 
+    const fetchVotes = useCallback(
+        (address: string, network: string) => {
+            const wallet = profile.wallets().findByAddressWithNetwork(address, network);
+
+            assertWallet(wallet);
+
+            let votes: Contracts.VoteRegistryItem[];
+
+            try {
+                votes = wallet.voting().current();
+            } catch {
+                votes = [];
+            }
+
+            setVotes(votes);
+        },
+        [profile],
+    );
+
+    const currentVotes = useMemo(() => {
+        if (votes === undefined || delegates === undefined) {
+            return [];
+        }
+
+        return votes.filter((vote) =>
+            delegates.some((delegate) => vote.wallet?.address() === delegate.address()),
+        );
+    }, [votes, allDelegates]);
+
     return {
-        delegates,
+        delegates: delegates ?? [],
         fetchDelegates,
-        isLoadingDelegates,
+        fetchVotes,
+        isLoadingDelegates: isLoadingDelegates || votes === undefined,
+        currentVotes,
     };
 };
