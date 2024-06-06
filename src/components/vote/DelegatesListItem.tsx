@@ -7,7 +7,7 @@ import trimAddress from '@/lib/utils/trimAddress';
 export const DelegatesListItem = ({ delegate }: { delegate: Contracts.IReadOnlyWallet }) => {
     const { t } = useTranslation();
     const username = delegate.username() ?? '';
-    const isLongAddress = username.length > 15;
+    const isLongAddress = username.length > 16;
 
     return (
         <tr>
