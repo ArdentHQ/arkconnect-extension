@@ -26,7 +26,7 @@ const Vote = () => {
 
     assertWallet(wallet);
 
-    const delegatesPerPage = useMemo(() => wallet.network().delegateCount(), [wallet]);
+    const delegateCount = useMemo(() => wallet.network().delegateCount(), [wallet]);
 
     const [searchQuery, setSearchQuery] = useState<string>('');
 
@@ -34,6 +34,8 @@ const Vote = () => {
         useDelegates({
             env,
             profile,
+            searchQuery,
+            limit: delegateCount,
         });
 
     useEffect(() => {
@@ -82,6 +84,8 @@ const Vote = () => {
     return (
         <SubPageLayout
             title={t('PAGES.VOTE.VOTE')}
+            className='flex flex-1 flex-col'
+            bodyClassName='flex-1 flex flex-col'
             footer={
                 <VoteButton onClick={formik.submitForm} disabled={!(formik.isValid && hasValues)} />
             }
@@ -92,7 +96,7 @@ const Vote = () => {
                 onDelegateSelected={(delegateAddress) => {
                     formik.setFieldValue('delegateAddress', delegateAddress);
                 }}
-                delegates={delegates.slice(0, delegatesPerPage)}
+                delegates={delegates.slice(0, delegateCount)}
                 isLoading={isLoadingDelegates}
                 votes={currentVotes}
                 selectedDelegateAddress={formik.values.delegateAddress}

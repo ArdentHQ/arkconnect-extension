@@ -1,6 +1,8 @@
 import { Contracts } from '@ardenthq/sdk-profiles';
+import { useTranslation } from 'react-i18next';
 import { DelegatesListItem } from './DelegatesListItem';
 import { DelegatesListItemSkeleton } from './DelegatesListItemSkeleton';
+import { WarningIcon } from '@/shared/components';
 
 export const DelegatesList = ({
     delegates,
@@ -15,6 +17,8 @@ export const DelegatesList = ({
     votes: Contracts.VoteRegistryItem[];
     selectedDelegateAddress?: string;
 }) => {
+    const { t } = useTranslation();
+
     if (isLoading) {
         return (
             <div className='w-full overflow-hidden rounded-xl bg-white py-2 dark:bg-subtle-black'>
@@ -29,8 +33,21 @@ export const DelegatesList = ({
         );
     }
 
+    if (delegates.length === 0) {
+        return (
+            <div className='flex flex-1 items-center'>
+                <div className='mx-auto flex max-w-64 flex-col items-center space-y-4 text-center'>
+                    <span>
+                        <WarningIcon iconClassName='w-[130px] h-auto' />
+                    </span>
+                    <span className='dark:text-white'>{t('PAGES.VOTE.NO_RESULTS')}</span>
+                </div>
+            </div>
+        );
+    }
+
     return (
-        <div className='w-full overflow-hidden rounded-xl bg-white py-2 dark:bg-subtle-black'>
+        <div className='w-full flex-1 overflow-hidden rounded-xl bg-white py-2 dark:bg-subtle-black'>
             <table className='w-full'>
                 <tbody>
                     {delegates.map((delegate) => {
