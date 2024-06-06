@@ -129,6 +129,14 @@ header {
 @-moz-document url-prefix() {
     .custom-scroll {
         scrollbar-width: thin;
+        scrollbar-color: #154A82 transparent;
+    }
+
+    .dark .custom-scroll {
+        scrollbar-color: #0e6cb5 transparent;
+    }
+    
+    .accent-green .custom-scroll {
         scrollbar-color: #058751 transparent;
     }
 
