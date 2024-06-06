@@ -48,7 +48,9 @@ export const useDelegates = ({
     }, [allDelegates, searchQuery, limit]);
 
     const fetchVotes = useCallback(
-        (address: string, network: string) => {
+        async (address: string, network: string) => {
+            await env.delegates().syncAll(profile);
+
             const wallet = profile.wallets().findByAddressWithNetwork(address, network);
 
             assertWallet(wallet);
