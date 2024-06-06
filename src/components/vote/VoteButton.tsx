@@ -12,7 +12,7 @@ export const VoteButton = ({
 }: {
     delegateAddress: string;
     votes: Contracts.VoteRegistryItem[];
-    onClick: () => void,
+    onClick: () => void;
     disabled: boolean;
     displayTooltip: boolean;
 }) => {
@@ -43,7 +43,7 @@ export const VoteButton = ({
     }, [disabled, isSwapping, isVoting]);
 
     return (
-        <Tooltip content={<span>{t('ERROR.BALANCE_TOO_LOW')}</span>} disabled={displayTooltip}  >
+        <Tooltip content={<span>{t('ERROR.BALANCE_TOO_LOW')}</span>} disabled={displayTooltip}>
             <div>
                 <Button variant='primary' onClick={onClick} disabled={disabled}>
                     {voteText}
