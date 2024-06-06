@@ -19,7 +19,7 @@ const Vote = () => {
 
     assertWallet(wallet);
 
-    const delegatesPerPage = useMemo(() => wallet.network().delegateCount(), [wallet]);
+    const delegateCount = useMemo(() => wallet.network().delegateCount(), [wallet]);
 
     const [searchQuery, setSearchQuery] = useState<string>('');
 
@@ -27,6 +27,8 @@ const Vote = () => {
         useDelegates({
             env,
             profile,
+            searchQuery,
+            limit: delegateCount,
         });
 
     const [selectedDelegate, setSelectedDelegate] = useState<
@@ -42,6 +44,8 @@ const Vote = () => {
     return (
         <SubPageLayout
             title={t('PAGES.VOTE.VOTE')}
+            className='flex flex-1 flex-col'
+            bodyClassName='flex-1 flex flex-col'
             footer={<VoteButton onClick={() => {}} disabled={true} />}
         >
             <DelegatesSearchInput searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
@@ -50,7 +54,7 @@ const Vote = () => {
                 onDelegateSelected={(delegate) => {
                     setSelectedDelegate(delegate);
                 }}
-                delegates={delegates.slice(0, delegatesPerPage)}
+                delegates={delegates.slice(0, delegateCount)}
                 isLoading={isLoadingDelegates}
                 votes={currentVotes}
                 selectedDelegate={selectedDelegate}
