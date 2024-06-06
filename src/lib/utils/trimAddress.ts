@@ -1,7 +1,9 @@
 const trimAddress = (
     address: string,
     modeOrLength: 'short' | 'long' | 'longest' | number,
+    position: 'middle' | 'end' = 'middle',
 ): string => {
+    let trimmedAddress = '';
     const maxLength =
         typeof modeOrLength === 'number'
             ? modeOrLength
@@ -18,10 +20,16 @@ const trimAddress = (
     const totalLength = maxLength - 1; // Account for the ellipsis character
     const sideLength = Math.ceil(totalLength / 2);
 
-    const prefix = address.slice(0, sideLength);
-    const suffix = address.slice(-sideLength);
+    if (position === 'middle') {
+        const prefix = address.slice(0, sideLength);
+        const suffix = address.slice(-sideLength);
+        trimmedAddress = `${prefix}…${suffix}`;
+    } else if (position === 'end') {
+        const prefix = address.slice(0, totalLength);
+        trimmedAddress = `${prefix}…`;
+    }
 
-    return `${prefix}…${suffix}`;
+    return trimmedAddress;
 };
 
 export default trimAddress;
