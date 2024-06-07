@@ -15,7 +15,7 @@ export const DelegatesList = ({
     isLoading: boolean;
     onDelegateSelected: (delegateAddress?: string) => void;
     votes: Contracts.VoteRegistryItem[];
-    selectedDelegateAddress: string;
+    selectedDelegateAddress?: string;
 }) => {
     const { t } = useTranslation();
 
@@ -47,7 +47,7 @@ export const DelegatesList = ({
     }
 
     return (
-        <div className='w-full flex-1 overflow-hidden rounded-xl bg-white py-2 dark:bg-subtle-black'>
+        <div className='w-full overflow-hidden rounded-xl bg-white py-2 dark:bg-subtle-black'>
             <table className='w-full'>
                 <tbody>
                     {delegates.map((delegate) => {
@@ -60,7 +60,7 @@ export const DelegatesList = ({
                                 isVoted={votes.some(
                                     (vote) => vote.wallet?.address() === delegate.address(),
                                 )}
-                                anyIsSelected={selectedDelegateAddress !== ''}
+                                anyIsSelected={selectedDelegateAddress !== undefined}
                             />
                         );
                     })}

@@ -8,16 +8,18 @@ export const VoteButton = ({
     fee,
     votes,
     onClick,
+    isValid,
 }: {
-    delegateAddress: string;
+    delegateAddress?: string;
     fee: string;
     votes: Contracts.VoteRegistryItem[];
     onClick: () => void;
+    isValid: boolean;
 }) => {
-    const disabled = delegateAddress === '' || fee === '';
+    const disabled = !isValid || delegateAddress === undefined || fee === '';
 
     const isVoted = useMemo(() => {
-        if (delegateAddress === '') {
+        if (delegateAddress === undefined) {
             return false;
         }
 
