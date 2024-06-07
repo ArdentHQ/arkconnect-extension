@@ -6,10 +6,10 @@ import { Footer } from '@/shared/components/layout/Footer';
 
 export const VoteButton = ({
     delegateAddress,
-    fee,
+    fee: _,
     votes,
     onClick,
-    isValid,
+    isValid: _2,
 }: {
     delegateAddress?: string;
     fee: string;
@@ -17,8 +17,9 @@ export const VoteButton = ({
     onClick: () => void;
     isValid: boolean;
 }) => {
-    // @TODO: disable if empty fee
-    const disabled = !isValid || delegateAddress === undefined || fee === '';
+    // @TODO: disable if empty fee and form is not valid once fee is added
+    // const disabled = !isValid || delegateAddress === undefined || fee === '';
+    const disabled = delegateAddress === undefined;
 
     const isVoted = useMemo(() => {
         if (delegateAddress === undefined) {

@@ -72,12 +72,18 @@ const Vote = () => {
     const formik = useFormik<VoteFormik>({
         initialValues: {
             fee: '',
-            delegateAddress: '',
+            delegateAddress: undefined,
         },
         validationSchema: validationSchema,
         validateOnMount: true,
         onSubmit: () => {},
     });
+
+    useEffect(() => {
+        console.log({
+            isValid: formik.isValid,
+        });
+    }, [formik.isValid]);
 
     return (
         <SubPageLayout
