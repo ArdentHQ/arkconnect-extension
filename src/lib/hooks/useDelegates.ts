@@ -1,5 +1,6 @@
 import { Contracts, Environment } from '@ardenthq/sdk-profiles';
 import { useCallback, useMemo, useState } from 'react';
+import useWalletSync from './useWalletSync';
 
 export const useDelegates = ({
     env,
@@ -15,6 +16,7 @@ export const useDelegates = ({
     const [allDelegates, setAllDelegates] = useState<Contracts.IReadOnlyWallet[]>([]);
     const [votes, setVotes] = useState<Contracts.VoteRegistryItem[]>();
     const [isLoadingDelegates, setIsLoadingDelegates] = useState(false);
+    const { syncAll } = useWalletSync({ env, profile });
 
     const fetchDelegates = useCallback(
         async (wallet: Contracts.IReadWriteWallet) => {
@@ -49,7 +51,7 @@ export const useDelegates = ({
 
     const fetchVotes = useCallback(
         async (wallet: Contracts.IReadWriteWallet) => {
-            await env.delegates().sync(profile, wallet.coinId(), wallet.networkId());
+            await syncAll(wallet);
 
             let votes: Contracts.VoteRegistryItem[];
 
