@@ -59,7 +59,7 @@ const CreateContact = () => {
     const { addContact, addressBook } = useAddressBook();
     const { profile } = useProfileContext();
     const lastVisitedPage = profile.settings().get('LAST_VISITED_PAGE') as {
-        data: { name: string; address: string, errors: any };
+        data: { name: string; address: string; errors: any };
     };
     const [addressValidation, setAddressValidation] = useState<ValidateAddressResponse>({
         isValid: false,
@@ -119,8 +119,8 @@ const CreateContact = () => {
             path: ScreenName.AddContact,
             data: {
                 ...formik.values,
-                errors: formik.errors
-            }
+                errors: formik.errors,
+            },
         });
 
         return () => {
@@ -128,7 +128,7 @@ const CreateContact = () => {
             profile.settings().forget('LAST_VISITED_PAGE');
         };
     }, [formik.values, formik.errors]);
-    
+
     return (
         <SubPageLayout
             title={t('PAGES.ADDRESS_BOOK.ADD_NEW_CONTACT')}
