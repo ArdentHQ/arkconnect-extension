@@ -12,7 +12,6 @@ type Props = {
     className?: string;
     bodyClassName?: string;
     footer?: React.ReactNode;
-    compensateScroll?: boolean;
 };
 
 const SubPageLayout = ({
