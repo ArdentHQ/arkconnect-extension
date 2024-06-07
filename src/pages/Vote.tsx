@@ -79,12 +79,6 @@ const Vote = () => {
         onSubmit: () => {},
     });
 
-    useEffect(() => {
-        console.log({
-            isValid: formik.isValid,
-        });
-    }, [formik.isValid]);
-
     return (
         <SubPageLayout
             title={t('PAGES.VOTE.VOTE')}
