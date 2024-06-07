@@ -1,6 +1,5 @@
 import { Contracts, Environment } from '@ardenthq/sdk-profiles';
 import { useCallback, useMemo, useState } from 'react';
-import { assertWallet } from '@/lib/utils/assertions';
 
 export const useDelegates = ({
     env,
@@ -20,6 +19,7 @@ export const useDelegates = ({
     const fetchDelegates = useCallback(
         async (wallet: Contracts.IReadWriteWallet) => {
             setIsLoadingDelegates(true);
+
             await env.delegates().sync(profile, wallet.coinId(), wallet.networkId());
 
             const allDelegates = env.delegates().all(wallet.coinId(), wallet.networkId());
@@ -33,7 +33,7 @@ export const useDelegates = ({
 
     const delegates = useMemo(() => {
         if (searchQuery.length === 0) {
-            return allDelegates;
+            return allDelegates.slice(0, limit);
         }
 
         const query = searchQuery.toLowerCase();
@@ -48,12 +48,8 @@ export const useDelegates = ({
     }, [allDelegates, searchQuery, limit]);
 
     const fetchVotes = useCallback(
-        async (address: string, network: string) => {
-            await env.delegates().syncAll(profile);
-
-            const wallet = profile.wallets().findByAddressWithNetwork(address, network);
-
-            assertWallet(wallet);
+        async (wallet: Contracts.IReadWriteWallet) => {
+            await env.delegates().sync(profile, wallet.coinId(), wallet.networkId());
 
             let votes: Contracts.VoteRegistryItem[];
 

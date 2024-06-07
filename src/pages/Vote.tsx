@@ -8,7 +8,6 @@ import { useNavigate } from 'react-router-dom';
 import SubPageLayout from '@/components/settings/SubPageLayout';
 import { useDelegates } from '@/lib/hooks/useDelegates';
 import { useEnvironmentContext } from '@/lib/context/Environment';
-import { useProfileContext } from '@/lib/context/Profile';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 import { assertWallet } from '@/lib/utils/assertions';
 import { DelegatesList } from '@/components/vote/DelegatesList';
@@ -19,9 +18,10 @@ import { Footer } from '@/shared/components/layout/Footer';
 import { VoteFee } from '@/components/vote/VoteFee';
 import { ScreenName } from '@/lib/background/contracts';
 import { useVote } from '@/lib/hooks/useVote';
+import { useProfileContext } from '@/lib/context/Profile';
 
 export type VoteFormik = {
-    delegateAddress: string;
+    delegateAddress?: string;
     fee: string;
 };
 
@@ -60,7 +60,7 @@ const Vote = () => {
     useEffect(() => {
         fetchDelegates(wallet);
 
-        fetchVotes(wallet.address(), wallet.network().id());
+        fetchVotes(wallet);
     }, [wallet]);
 
     const validationSchema = object().shape({
@@ -105,6 +105,8 @@ const Vote = () => {
         } = {};
 
         if (isVoting || isSwapping) {
+            assert(formik.values.delegateAddress);
+
             data.vote = {
                 amount: 0,
                 address: formik.values.delegateAddress,
@@ -137,7 +139,7 @@ const Vote = () => {
     const formik = useFormik<VoteFormik>({
         initialValues: {
             fee: lastVisitedPage?.data?.fee || '',
-            delegateAddress: lastVisitedPage?.data?.delegateAddress || '',
+            delegateAddress: lastVisitedPage?.data?.delegateAddress,
         },
         validationSchema: validationSchema,
         validateOnMount: true,
@@ -155,6 +157,7 @@ const Vote = () => {
             fee: formik.values.fee,
             delegateAddress: formik.values.delegateAddress,
             votes: currentVotes,
+            isValid: formik.isValid,
         });
 
     useEffect(() => {
@@ -213,7 +216,7 @@ const Vote = () => {
 
             <DelegatesList
                 onDelegateSelected={(delegateAddress) => {
-                    formik.setFieldValue('delegateAddress', delegateAddress ?? '');
+                    formik.setFieldValue('delegateAddress', delegateAddress);
                 }}
                 delegates={delegates.slice(0, delegateCount)}
                 isLoading={isLoadingDelegates}
