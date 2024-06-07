@@ -9,13 +9,13 @@ export const DelegatesList = ({
     isLoading,
     onDelegateSelected,
     votes,
-    selectedDelegate,
+    selectedDelegateAddress,
 }: {
     delegates: Contracts.IReadOnlyWallet[];
     isLoading: boolean;
-    onDelegateSelected: (delegate?: Contracts.IReadOnlyWallet) => void;
+    onDelegateSelected: (delegateAddress?: string) => void;
     votes: Contracts.VoteRegistryItem[];
-    selectedDelegate?: Contracts.IReadOnlyWallet;
+    selectedDelegateAddress?: string;
 }) => {
     const { t } = useTranslation();
 
@@ -56,11 +56,11 @@ export const DelegatesList = ({
                                 onSelected={onDelegateSelected}
                                 key={delegate.address()}
                                 delegate={delegate}
-                                isSelected={selectedDelegate?.address() === delegate.address()}
+                                isSelected={selectedDelegateAddress === delegate.address()}
                                 isVoted={votes.some(
                                     (vote) => vote.wallet?.address() === delegate.address(),
                                 )}
-                                anyIsSelected={selectedDelegate !== undefined}
+                                anyIsSelected={selectedDelegateAddress !== undefined}
                             />
                         );
                     })}
