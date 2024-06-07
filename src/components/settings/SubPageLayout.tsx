@@ -22,7 +22,6 @@ const SubPageLayout = ({
     hideCloseButton = true,
     onBack,
     withPaddingBottom = false,
-    compensateScroll = false,
     className,
     bodyClassName,
     footer,
@@ -43,14 +42,7 @@ const SubPageLayout = ({
                     ),
                 )}
             >
-                <div
-                    className={cn(
-                        'custom-scroll flex w-full flex-1 flex-col overflow-x-hidden overflow-y-scroll',
-                        {
-                            'compensate-scroll': compensateScroll,
-                        },
-                    )}
-                >
+                <div className='custom-scroll compensate-scroll flex w-full flex-1 flex-col overflow-x-hidden overflow-y-scroll'>
                     <div
                         className={cn(
                             'flex items-center justify-between bg-subtle-white p-4 dark:bg-light-black',
