@@ -1,17 +1,18 @@
-import { useTranslation } from 'react-i18next';
-import { useEffect, useMemo, useState } from 'react';
-import { useFormik } from 'formik';
 import { object, string } from 'yup';
+import { useEffect, useMemo, useState } from 'react';
+
+import { DelegatesList } from '@/components/vote/DelegatesList';
+import { DelegatesSearchInput } from '@/components/vote/DelegatesSearchInput';
 import SubPageLayout from '@/components/settings/SubPageLayout';
+import { VoteButton } from '@/components/vote/VoteButton';
+import { assertWallet } from '@/lib/utils/assertions';
+import constants from '@/constants';
 import { useDelegates } from '@/lib/hooks/useDelegates';
 import { useEnvironmentContext } from '@/lib/context/Environment';
-import { useProfileContext } from '@/lib/context/Profile';
+import { useFormik } from 'formik';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
-import { assertWallet } from '@/lib/utils/assertions';
-import { DelegatesList } from '@/components/vote/DelegatesList';
-import { VoteButton } from '@/components/vote/VoteButton';
-import { DelegatesSearchInput } from '@/components/vote/DelegatesSearchInput';
-import constants from '@/constants';
+import { useProfileContext } from '@/lib/context/Profile';
+import { useTranslation } from 'react-i18next';
 
 export type VoteFormik = {
     delegateAddress?: string;
@@ -85,7 +86,7 @@ const Vote = () => {
         <SubPageLayout
             title={t('PAGES.VOTE.VOTE')}
             className='flex flex-1 flex-col'
-            bodyClassName='flex-1 flex flex-col'
+            bodyClassName='flex-1 flex flex-col pb-4'
             footer={
                 <VoteButton onClick={formik.submitForm} disabled={!(formik.isValid && hasValues)} />
             }
