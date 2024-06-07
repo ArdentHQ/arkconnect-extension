@@ -6,12 +6,14 @@ export const useVote = ({
     delegateAddress,
     fee,
     votes,
+    isValid,
 }: {
-    delegateAddress: string;
+    delegateAddress?: string;
     fee: string;
     votes: Contracts.VoteRegistryItem[];
+    isValid: boolean;
 }) => {
-    const disabled = delegateAddress === '' || fee === '';
+    const disabled = !isValid || delegateAddress === undefined || fee === '';
 
     const currentlyVotedAddress = useMemo(() => {
         return votes[0]?.wallet?.address();
