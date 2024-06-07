@@ -90,6 +90,7 @@ const Vote = () => {
             footer={
                 <VoteButton onClick={formik.submitForm} disabled={!(formik.isValid && hasValues)} />
             }
+            compensateScroll
         >
             <DelegatesSearchInput searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
 

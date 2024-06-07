@@ -12,6 +12,7 @@ type Props = {
     className?: string;
     bodyClassName?: string;
     footer?: React.ReactNode;
+    compensateScroll?: boolean;
 };
 
 const SubPageLayout = ({
@@ -21,6 +22,7 @@ const SubPageLayout = ({
     hideCloseButton = true,
     onBack,
     withPaddingBottom = false,
+    compensateScroll = false,
     className,
     bodyClassName,
     footer,
@@ -41,7 +43,14 @@ const SubPageLayout = ({
                     ),
                 )}
             >
-                <div className='custom-scroll flex w-full flex-1 flex-col overflow-y-auto overflow-x-hidden'>
+                <div
+                    className={cn(
+                        'custom-scroll flex w-full flex-1 flex-col overflow-x-hidden overflow-y-scroll',
+                        {
+                            'compensate-scroll': compensateScroll,
+                        },
+                    )}
+                >
                     <div
                         className={cn(
                             'flex items-center justify-between bg-subtle-white p-4 dark:bg-light-black',
