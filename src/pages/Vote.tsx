@@ -1,6 +1,8 @@
 import { object, string } from 'yup';
 import { useEffect, useMemo, useState } from 'react';
 
+import { useFormik } from 'formik';
+import { useTranslation } from 'react-i18next';
 import { DelegatesList } from '@/components/vote/DelegatesList';
 import { DelegatesSearchInput } from '@/components/vote/DelegatesSearchInput';
 import SubPageLayout from '@/components/settings/SubPageLayout';
@@ -9,10 +11,8 @@ import { assertWallet } from '@/lib/utils/assertions';
 import constants from '@/constants';
 import { useDelegates } from '@/lib/hooks/useDelegates';
 import { useEnvironmentContext } from '@/lib/context/Environment';
-import { useFormik } from 'formik';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 import { useProfileContext } from '@/lib/context/Profile';
-import { useTranslation } from 'react-i18next';
 
 export type VoteFormik = {
     delegateAddress?: string;
