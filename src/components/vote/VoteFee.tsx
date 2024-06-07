@@ -1,4 +1,4 @@
-import { ChangeEventHandler, FocusEventHandler, useEffect, useRef, useState } from 'react';
+import { FocusEventHandler, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FeeSection } from '../fees';
 import { useProfileContext } from '@/lib/context/Profile';
@@ -12,7 +12,7 @@ export const VoteFee = ({
     onSelectedFee,
     onBlur,
 }: {
-    delegateAddress: string;
+    delegateAddress?: string;
     fee: string;
     feeError?: string;
     onSelectedFee: (fee: string) => void;
@@ -37,13 +37,7 @@ export const VoteFee = ({
         }
     }, [fees]);
 
-    const disabled = delegateAddress === '' || isLoadingFee;
-
-    const handleInputChange: ChangeEventHandler<HTMLInputElement> = (event) => {
-        // @TODO: can be used to validate the funds limit
-        // @see src/components/send/SendForm.tsx@handleInputChange
-        console.log('handleInputChange', event);
-    };
+    const disabled = delegateAddress === undefined || isLoadingFee;
 
     const feeFormRef = useRef<HTMLDivElement>(null);
 
@@ -53,7 +47,6 @@ export const VoteFee = ({
         return (
             <div ref={feeFormRef}>
                 <FeeSection
-                    onChange={handleInputChange}
                     onBlur={onBlur}
                     variant={fee && feeError ? 'destructive' : 'primary'}
                     helperText={fee ? feeError : undefined}
