@@ -29,7 +29,7 @@ const SelectNetworkTypeModal = ({ onNetworkSelect, onClose, action = 'create' }:
             }}
         >
             <div>
-                <Heading className=' mb-1.5' level={4}>
+                <Heading className='mb-1.5' level={4}>
                     {t('PAGES.SETTINGS.SELECT_NETWORK_TYPE')}
                 </Heading>
                 <div>
