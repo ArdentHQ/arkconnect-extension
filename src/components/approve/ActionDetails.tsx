@@ -30,7 +30,7 @@ export const ActionDetailsFiatValue = ({ children }: { children: React.ReactNode
         <div className='flex justify-between'>
             <div className='text-sm text-theme-secondary-500 dark:text-theme-secondary-300'>≈</div>
 
-            <div className='text-sm text-theme-secondary-500 dark:text-theme-secondary-300 '>
+            <div className='text-sm text-theme-secondary-500 dark:text-theme-secondary-300'>
                 {children}
             </div>
         </div>
@@ -47,7 +47,7 @@ const ActionDetails = ({
     const { t } = useTranslation();
     return (
         <div className='flex h-full w-full flex-1 flex-col items-center overflow-auto'>
-            <div className=' mb-2 text-center text-sm font-medium text-theme-secondary-500 dark:text-theme-secondary-300'>
+            <div className='mb-2 text-center text-sm font-medium text-theme-secondary-500 dark:text-theme-secondary-300'>
                 {t('COMMON.DETAILS')}
             </div>
 

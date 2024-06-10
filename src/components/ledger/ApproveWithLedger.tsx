@@ -104,7 +104,7 @@ const ApproveWithLedger = ({
                     {actionType === ApproveActionType.SIGNATURE && <SignatureLedgerApprovalBody />}
                 </div>
 
-                <div className={twMerge('mb-6 ', getTopMarginClass())}>
+                <div className={twMerge('mb-6', getTopMarginClass())}>
                     <div className='overflow-hidden rounded-2xl border border-solid border-theme-warning-400'>
                         {!!address && (
                             <div className='flex justify-center bg-white p-[14px] dark:bg-light-black'>
