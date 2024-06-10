@@ -220,7 +220,12 @@ const TransactionListItem = ({
                             <LatestTransactionAmount transaction={transaction} />
                         </span>
                         <span className='text-sm font-normal leading-tight text-theme-secondary-500 dark:text-theme-secondary-300'>
-                            <Tooltip content={formattedTimestamp}>
+                            <Tooltip 
+                                content={formattedTimestamp} 
+                                popperOptions={{
+                                    strategy: 'fixed',
+                                }}
+                            >
                                 <span>{getTimeAgo(timestamp ?? '')}</span>
                             </Tooltip>
                         </span>
