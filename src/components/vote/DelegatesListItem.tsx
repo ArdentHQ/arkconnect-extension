@@ -72,7 +72,7 @@ export const DelegatesListItem = ({
                 </ExternalLink>
             </td>
 
-            <td className='p-4 text-right '>
+            <td className='p-4 text-right'>
                 <button
                     type='button'
                     className={classNames('transition-smoothEase font-medium', {

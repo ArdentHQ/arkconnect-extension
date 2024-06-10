@@ -38,8 +38,8 @@ export const AmountBadge = ({
                 <Tooltip content={t('COMMON.EXCLUDING_AMOUNT_TO_SELF', { amount: selfAmount })}>
                     <div
                         className={cn('px-1.5 py-1.5 dark:text-white', {
-                            'dark:bg-theme-secondary-600 ': type === 'default',
-                            'dark:bg-theme-green-700 ': type === 'positive',
+                            'dark:bg-theme-secondary-600': type === 'default',
+                            'dark:bg-theme-green-700': type === 'positive',
                             'bg-theme-warning-150 text-theme-warning-750 dark:bg-theme-error-350':
                                 type === 'negative',
                         })}

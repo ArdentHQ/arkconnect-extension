@@ -80,7 +80,7 @@ export const AddressesDropdown = ({
             ref={dropdownRef}
         >
             <div className='border-b border-solid border-b-theme-secondary-200 dark:border-b-theme-secondary-600'>
-                <div className=' flex items-center justify-between p-3'>
+                <div className='flex items-center justify-between p-3'>
                     <span className='font-medium text-light-black dark:text-white'>
                         {t('COMMON.ADDRESSES')}
                     </span>
@@ -129,7 +129,7 @@ const AddressRow = ({
     return (
         <div
             className={cn(
-                'flex items-center justify-between px-3 py-4 transition duration-200 ease-in-out ',
+                'flex items-center justify-between px-3 py-4 transition duration-200 ease-in-out',
                 {
                     'bg-theme-primary-50 dark:bg-theme-primary-650/15': isSelected,
                     'hover:bg-theme-secondary-50 dark:hover:bg-theme-secondary-700': !isSelected,
