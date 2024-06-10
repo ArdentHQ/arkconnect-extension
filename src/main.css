@@ -150,7 +150,7 @@ header {
 }
 
 .compensate-scroll {
-    @apply overflow-y-scroll overflow-x-hidden pl-2 pr-0;
+    @apply overflow-x-hidden overflow-y-scroll pl-2 pr-0;
     margin-left: calc(100vw - 100% - 8px);
     width: calc(100vw + 8px);
 }
