@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { useEffect, useMemo, useState } from 'react';
 import { useFormik } from 'formik';
 import { object, string } from 'yup';
+import { BigNumber } from '@ardenthq/sdk-helpers';
 import SubPageLayout from '@/components/settings/SubPageLayout';
 import { useDelegates } from '@/lib/hooks/useDelegates';
 import { useEnvironmentContext } from '@/lib/context/Environment';
@@ -80,7 +81,7 @@ const Vote = () => {
     });
 
     const hasValues = formik.values.delegateAddress && formik.values.fee;
-    const hasSufficientFunds = wallet.balance() > Number(formik.values.fee);
+    const hasSufficientFunds = BigNumber.make(wallet.balance()) > BigNumber.make(formik.values.fee);
 
     return (
         <SubPageLayout
