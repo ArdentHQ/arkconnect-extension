@@ -5,12 +5,47 @@ import { assertWallet } from '@/lib/utils/assertions';
 export const useDelegates = ({
     env,
     profile,
+    searchQuery,
+    limit,
 }: {
     env: Environment;
     profile: Contracts.IProfile;
+    searchQuery: string;
+    limit: number;
 }) => {
-    const [delegates, setDelegates] = useState<Contracts.IReadOnlyWallet[]>();
+    const [allDelegates, setAllDelegates] = useState<Contracts.IReadOnlyWallet[]>([]);
     const [votes, setVotes] = useState<Contracts.VoteRegistryItem[]>();
+    const [isLoadingDelegates, setIsLoadingDelegates] = useState(false);
+
+    const fetchDelegates = useCallback(
+        async (wallet: Contracts.IReadWriteWallet) => {
+            setIsLoadingDelegates(true);
+            await env.delegates().sync(profile, wallet.coinId(), wallet.networkId());
+
+            const allDelegates = env.delegates().all(wallet.coinId(), wallet.networkId());
+
+            setAllDelegates(allDelegates);
+
+            setIsLoadingDelegates(false);
+        },
+        [env, profile],
+    );
+
+    const delegates = useMemo(() => {
+        if (searchQuery.length === 0) {
+            return allDelegates.slice(0, limit);
+        }
+
+        const query = searchQuery.toLowerCase();
+
+        return allDelegates
+            .filter(
+                (delegate) =>
+                    delegate.address().toLowerCase().includes(query) ||
+                    delegate.username()?.toLowerCase()?.includes(query),
+            )
+            .slice(0, limit);
+    }, [allDelegates, searchQuery, limit]);
 
     const fetchVotes = useCallback(
         (address: string, network: string) => {
@@ -39,23 +74,13 @@ export const useDelegates = ({
         return votes.filter((vote) =>
             delegates.some((delegate) => vote.wallet?.address() === delegate.address()),
         );
-    }, [votes, delegates]);
+    }, [votes, allDelegates]);
 
-    const fetchDelegates = useCallback(
-        async (wallet: Contracts.IReadWriteWallet) => {
-            await env.delegates().sync(profile, wallet.coinId(), wallet.networkId());
-
-            const delegates = env.delegates().all(wallet.coinId(), wallet.networkId());
-
-            setDelegates(delegates);
-        },
-        [env, profile],
-    );
     return {
         delegates: delegates ?? [],
         fetchDelegates,
         fetchVotes,
-        isLoadingDelegates: delegates === undefined || votes === undefined,
+        isLoadingDelegates: isLoadingDelegates || votes === undefined,
         currentVotes,
     };
 };

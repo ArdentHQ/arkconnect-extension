@@ -1,6 +1,8 @@
 import { Contracts } from '@ardenthq/sdk-profiles';
+import { useTranslation } from 'react-i18next';
 import { DelegatesListItem } from './DelegatesListItem';
 import { DelegatesListItemSkeleton } from './DelegatesListItemSkeleton';
+import { WarningIcon } from '@/shared/components';
 
 export const DelegatesList = ({
     delegates,
@@ -13,8 +15,10 @@ export const DelegatesList = ({
     isLoading: boolean;
     onDelegateSelected: (delegateAddress?: string) => void;
     votes: Contracts.VoteRegistryItem[];
-    selectedDelegateAddress: string;
+    selectedDelegateAddress?: string;
 }) => {
+    const { t } = useTranslation();
+
     if (isLoading) {
         return (
             <div className='w-full overflow-hidden rounded-xl bg-white py-2 dark:bg-subtle-black'>
@@ -25,6 +29,19 @@ export const DelegatesList = ({
                         })}
                     </tbody>
                 </table>
+            </div>
+        );
+    }
+
+    if (delegates.length === 0) {
+        return (
+            <div className='flex flex-1 items-center'>
+                <div className='mx-auto flex max-w-64 flex-col items-center space-y-4 text-center'>
+                    <span>
+                        <WarningIcon iconClassName='w-[130px] h-auto' />
+                    </span>
+                    <span className='dark:text-white'>{t('PAGES.VOTE.NO_RESULTS')}</span>
+                </div>
             </div>
         );
     }
@@ -43,7 +60,7 @@ export const DelegatesList = ({
                                 isVoted={votes.some(
                                     (vote) => vote.wallet?.address() === delegate.address(),
                                 )}
-                                anyIsSelected={selectedDelegateAddress !== ''}
+                                anyIsSelected={selectedDelegateAddress !== undefined}
                             />
                         );
                     })}

@@ -1,12 +1,12 @@
-import { useTranslation } from 'react-i18next';
+import { object, string } from 'yup';
 import { useEffect, useMemo, useState } from 'react';
 import { useFormik } from 'formik';
 import { object, string } from 'yup';
 import { BigNumber } from '@ardenthq/sdk-helpers';
+import { useTranslation } from 'react-i18next';
 import SubPageLayout from '@/components/settings/SubPageLayout';
 import { useDelegates } from '@/lib/hooks/useDelegates';
 import { useEnvironmentContext } from '@/lib/context/Environment';
-import { useProfileContext } from '@/lib/context/Profile';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 import { assertWallet } from '@/lib/utils/assertions';
 import { DelegatesList } from '@/components/vote/DelegatesList';
@@ -15,9 +15,10 @@ import { DelegatesSearchInput } from '@/components/vote/DelegatesSearchInput';
 import constants from '@/constants';
 import { Footer } from '@/shared/components/layout/Footer';
 import { VoteFee } from '@/components/vote/VoteFee';
+import { useProfileContext } from '@/lib/context/Profile';
 
 export type VoteFormik = {
-    delegateAddress: string;
+    delegateAddress?: string;
     fee: string;
 };
 
@@ -29,7 +30,7 @@ const Vote = () => {
 
     assertWallet(wallet);
 
-    const delegatesPerPage = useMemo(() => wallet.network().delegateCount(), [wallet]);
+    const delegateCount = useMemo(() => wallet.network().delegateCount(), [wallet]);
 
     const [searchQuery, setSearchQuery] = useState<string>('');
 
@@ -37,6 +38,8 @@ const Vote = () => {
         useDelegates({
             env,
             profile,
+            searchQuery,
+            limit: delegateCount,
         });
 
     useEffect(() => {
@@ -73,7 +76,7 @@ const Vote = () => {
     const formik = useFormik<VoteFormik>({
         initialValues: {
             fee: '',
-            delegateAddress: '',
+            delegateAddress: undefined,
         },
         validationSchema: validationSchema,
         validateOnMount: true,
@@ -86,6 +89,8 @@ const Vote = () => {
     return (
         <SubPageLayout
             title={t('PAGES.VOTE.VOTE')}
+            className='flex flex-1 flex-col'
+            bodyClassName='flex-1 flex flex-col'
             footer={
                 <Footer className='space-y-4'>
                     <VoteFee
@@ -102,6 +107,7 @@ const Vote = () => {
                         votes={currentVotes}
                         disabled={!(formik.isValid && hasValues && hasSufficientFunds)}
                         displayTooltip={hasSufficientFunds}
+                        isValid={formik.isValid}
                     />
                 </Footer>
             }
@@ -110,9 +116,9 @@ const Vote = () => {
 
             <DelegatesList
                 onDelegateSelected={(delegateAddress) => {
-                    formik.setFieldValue('delegateAddress', delegateAddress ?? '');
+                    formik.setFieldValue('delegateAddress', delegateAddress);
                 }}
-                delegates={delegates.slice(0, delegatesPerPage)}
+                delegates={delegates.slice(0, delegateCount)}
                 isLoading={isLoadingDelegates}
                 votes={currentVotes}
                 selectedDelegateAddress={formik.values.delegateAddress}

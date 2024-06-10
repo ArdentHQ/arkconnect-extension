@@ -17,7 +17,7 @@ export const VoteButton = ({
     displayTooltip: boolean;
 }) => {
     const isVoted = useMemo(() => {
-        if (delegateAddress === '') {
+        if (delegateAddress === undefined) {
             return false;
         }
 
