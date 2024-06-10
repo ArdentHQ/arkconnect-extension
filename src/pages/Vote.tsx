@@ -106,7 +106,6 @@ const Vote = () => {
                         votes={currentVotes}
                         disabled={!(formik.isValid && hasValues && hasSufficientFunds)}
                         displayTooltip={hasSufficientFunds}
-                        isValid={formik.isValid}
                     />
                 </Footer>
             }

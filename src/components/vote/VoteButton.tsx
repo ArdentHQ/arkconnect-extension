@@ -10,7 +10,7 @@ export const VoteButton = ({
     disabled,
     displayTooltip,
 }: {
-    delegateAddress: string;
+    delegateAddress?: string;
     votes: Contracts.VoteRegistryItem[];
     onClick: () => void;
     disabled: boolean;
