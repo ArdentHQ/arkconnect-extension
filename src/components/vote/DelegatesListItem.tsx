@@ -17,7 +17,7 @@ export const DelegatesListItem = ({
     isVoted: boolean;
     anyIsSelected: boolean;
     delegate: Contracts.IReadOnlyWallet;
-    onSelected: (delegate?: Contracts.IReadOnlyWallet) => void;
+    onSelected: (delegate?: string) => void;
 }) => {
     const { t } = useTranslation();
     const username = delegate.username() || delegate.address();
@@ -81,7 +81,9 @@ export const DelegatesListItem = ({
                         'text-theme-error-600 hover:text-theme-error-500 dark:text-theme-error-500 dark:hover:text-theme-error-600':
                             isUnselected,
                     })}
-                    onClick={() => (isSelected ? onSelected(undefined) : onSelected(delegate))}
+                    onClick={() =>
+                        isSelected ? onSelected(undefined) : onSelected(delegate.address())
+                    }
                 >
                     {buttonLabel}
                 </button>

@@ -33,7 +33,7 @@ export const useDelegates = ({
 
     const delegates = useMemo(() => {
         if (searchQuery.length === 0) {
-            return allDelegates;
+            return allDelegates.slice(0, limit);
         }
 
         const query = searchQuery.toLowerCase();
