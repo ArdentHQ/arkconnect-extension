@@ -132,7 +132,7 @@ export const RowLayout = forwardRef(function RowLayout(
                 {iconLeading && iconLeading}
 
                 <span className='flex w-full items-center justify-between'>
-                    <span className='flex flex-col items-start gap-1 '>
+                    <span className='flex flex-col items-start gap-1'>
                         <span className='flex flex-row items-center gap-1.5'>
                             {title && (
                                 <span

@@ -38,13 +38,10 @@ export const ProgressBar = () => {
             className='relative h-1.25 w-full overflow-hidden rounded-2.5xl bg-theme-secondary-200 dark:bg-theme-secondary-600'
         >
             <div
-                className={cn(
-                    ' h-full rounded-3xl bg-theme-primary-700 dark:bg-theme-primary-650',
-                    {
-                        'w-full': isFilled,
-                        'w-0': !isFilled,
-                    },
-                )}
+                className={cn('h-full rounded-3xl bg-theme-primary-700 dark:bg-theme-primary-650', {
+                    'w-full': isFilled,
+                    'w-0': !isFilled,
+                })}
                 style={{
                     transition:
                         activeBarIndex === index && isFilled ? 'width 5s ease-in-out' : 'unset',
