@@ -41,7 +41,7 @@ const SubPageLayout = ({
                     ),
                 )}
             >
-                <div className='custom-scroll flex w-full flex-1 flex-col overflow-y-auto overflow-x-hidden'>
+                <div className='custom-scroll compensate-scroll flex w-full flex-1 flex-col overflow-x-hidden overflow-y-scroll'>
                     <div
                         className={cn(
                             'flex items-center justify-between bg-subtle-white p-4 dark:bg-light-black',
