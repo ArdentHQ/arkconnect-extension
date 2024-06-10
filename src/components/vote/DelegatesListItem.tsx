@@ -4,7 +4,6 @@ import { Contracts } from '@ardenthq/sdk-profiles';
 import classNames from 'classnames';
 import { useMemo } from 'react';
 import { ExternalLink, Icon, Tooltip } from '@/shared/components';
-import trimAddress from '@/lib/utils/trimAddress';
 
 export const DelegatesListItem = ({
     isSelected,
@@ -52,15 +51,17 @@ export const DelegatesListItem = ({
             })}
         >
             <td className='p-4'>
-                {isLongAddress ? (
+                <span className="block max-w-36">
+                    {isLongAddress ? (
                     <Tooltip content={username}>
-                        <span className='font-medium dark:text-white'>
-                            {trimAddress(username, 'long', 'end')}
+                        <span className="font-medium dark:text-white block w-full overflow-hidden text-ellipsis whitespace-nowrap">
+                        {username}
                         </span>
                     </Tooltip>
-                ) : (
-                    <span className='font-medium dark:text-white'>{username}</span>
-                )}
+                    ) : (
+                    <span className="font-medium dark:text-white">{username}</span>
+                    )}
+                </span>
             </td>
 
             <td className='py-4'>
