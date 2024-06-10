@@ -3,7 +3,7 @@ import { Heading, HeadingDescription } from '@/shared/components';
 const DisconnectedAddress = () => {
     return (
         <div>
-            <div className=' break-words'>
+            <div className='break-words'>
                 <Heading level={4}>Disconnected Address</Heading>
             </div>
 
