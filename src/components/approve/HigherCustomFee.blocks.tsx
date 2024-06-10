@@ -51,7 +51,7 @@ export const HigherFeeBanner = ({
                 </span>
             </div>
             <button onClick={onClose}>
-                <Icon icon='x' className='h-4.5 w-4.5  dark:text-theme-warning-500' />
+                <Icon icon='x' className='h-4.5 w-4.5 dark:text-theme-warning-500' />
             </button>
         </div>
     );

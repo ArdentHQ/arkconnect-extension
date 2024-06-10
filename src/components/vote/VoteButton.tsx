@@ -26,9 +26,9 @@ export const VoteButton = ({
         return votes.some((vote) => vote.wallet?.address() === delegateAddress);
     }, [votes, delegateAddress]);
 
-    const isSwapping = useMemo(() => votes.length > 0 && !isVoted, [votes, isVoted]);
+    const isSwapping = votes.length > 0 && !isVoted;
 
-    const isVoting = useMemo(() => votes.length === 0 && !isVoted, [votes, isVoted]);
+    const isVoting = votes.length === 0 && !isVoted;
 
     const { t } = useTranslation();
 
