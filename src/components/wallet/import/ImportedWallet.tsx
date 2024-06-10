@@ -48,7 +48,7 @@ const ImportedWallet = ({ goToNextStep, formik }: Props) => {
                 {t('PAGES.IMPORT_NEW_WALLET.ADDRESS_DETAILS_ARE_SHOWN_BELOW')}
             </HeadingDescription>
             <div>
-                <div className=' mb-4 border-b border-solid border-b-theme-secondary-200 pb-4 dark:border-b-theme-secondary-600'>
+                <div className='mb-4 border-b border-solid border-b-theme-secondary-200 pb-4 dark:border-b-theme-secondary-600'>
                     <p className='typeset-body mb-2 font-medium text-theme-secondary-500 dark:text-theme-secondary-300'>
                         {t('COMMON.ADDRESS')}
                     </p>
@@ -57,7 +57,7 @@ const ImportedWallet = ({ goToNextStep, formik }: Props) => {
                     </p>
                 </div>
 
-                <div className=' mb-4 border-b border-solid border-b-theme-secondary-200 pb-4 dark:border-b-theme-secondary-600'>
+                <div className='mb-4 border-b border-solid border-b-theme-secondary-200 pb-4 dark:border-b-theme-secondary-600'>
                     <p className='typeset-body mb-2 font-medium text-theme-secondary-500 dark:text-theme-secondary-300'>
                         {t('COMMON.BALANCE')}
                     </p>
