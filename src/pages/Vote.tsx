@@ -1,6 +1,5 @@
 import { object, string } from 'yup';
 import { useEffect, useMemo, useState } from 'react';
-
 import { useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { DelegatesList } from '@/components/vote/DelegatesList';
@@ -73,22 +72,26 @@ const Vote = () => {
     const formik = useFormik<VoteFormik>({
         initialValues: {
             fee: '',
-            delegateAddress: '',
+            delegateAddress: undefined,
         },
         validationSchema: validationSchema,
         validateOnMount: true,
         onSubmit: () => {},
     });
 
-    const hasValues = formik.values.delegateAddress && formik.values.fee;
-
     return (
         <SubPageLayout
             title={t('PAGES.VOTE.VOTE')}
             className='flex flex-1 flex-col'
-            bodyClassName='flex-1 flex flex-col pb-4'
+            bodyClassName='flex-1 flex flex-col'
             footer={
-                <VoteButton onClick={formik.submitForm} disabled={!(formik.isValid && hasValues)} />
+                <VoteButton
+                    onClick={formik.submitForm}
+                    fee={formik.values.fee}
+                    delegateAddress={formik.values.delegateAddress}
+                    votes={currentVotes}
+                    isValid={formik.isValid}
+                />
             }
         >
             <DelegatesSearchInput searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
