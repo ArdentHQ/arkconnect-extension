@@ -19,7 +19,7 @@ export const DelegatesListItem = ({
     onSelected: (delegate?: string) => void;
 }) => {
     const { t } = useTranslation();
-    const username = delegate.username()
+    const username = delegate.username();
     const isLongAddress = username.length > 16;
 
     const isUnselected = isVoted && (isSelected || (anyIsSelected && !isSelected));
