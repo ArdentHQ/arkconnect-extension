@@ -45,7 +45,7 @@ const ConnectionLogoImage = ({
                             style={{ borderColor: color }}
                         >
                             <img
-                                className='h-full w-full  object-contain'
+                                className='h-full w-full object-contain'
                                 src={appLogo}
                                 alt={alt || appName}
                             />

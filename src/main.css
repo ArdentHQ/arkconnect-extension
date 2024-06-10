@@ -149,6 +149,12 @@ header {
     @apply rounded-[50px] bg-theme-primary-700;
 }
 
+.compensate-scroll {
+    @apply overflow-x-hidden overflow-y-scroll pl-2 pr-0;
+    margin-left: calc(100vw - 100% - 8px);
+    width: calc(100vw + 8px);
+}
+
 .logo path#ark {
     @apply !fill-theme-primary-950 dark:fill-white;
 }

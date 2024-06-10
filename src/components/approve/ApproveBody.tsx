@@ -15,7 +15,7 @@ const ApproveBody = ({ wallet, header, children, error }: Props) => {
 
     return (
         <div className='flex flex-1 flex-col items-center overflow-y-auto px-4'>
-            <div className=' mb-2 text-sm font-medium text-theme-secondary-500 dark:text-theme-secondary-300'>
+            <div className='mb-2 text-sm font-medium text-theme-secondary-500 dark:text-theme-secondary-300'>
                 {header}
             </div>
 
