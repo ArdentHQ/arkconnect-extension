@@ -1,7 +1,6 @@
 import { object, string } from 'yup';
 import { useEffect, useMemo, useState } from 'react';
 import { useFormik } from 'formik';
-import { object, string } from 'yup';
 import { BigNumber } from '@ardenthq/sdk-helpers';
 import { useTranslation } from 'react-i18next';
 import SubPageLayout from '@/components/settings/SubPageLayout';
