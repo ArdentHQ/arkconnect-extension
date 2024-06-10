@@ -68,7 +68,7 @@ export const Header = ({ hideNavbar = false }: HeaderProps) => {
 
     return (
         <HeaderWrapper withShadow={!isOnboardingPage}>
-            <div className=' main-container relative px-4'>
+            <div className='main-container relative px-4'>
                 <div className='flex justify-between space-x-5 py-px'>
                     <div className='-m-1 flex flex-1 items-center overflow-auto p-1'>
                         {/*Logo*/}
