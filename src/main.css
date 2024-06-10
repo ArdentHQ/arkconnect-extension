@@ -129,7 +129,7 @@ header {
 @-moz-document url-prefix() {
     .custom-scroll {
         scrollbar-width: thin;
-        scrollbar-color: #058751 transparent;
+        scrollbar-color: rgb(var(--theme-color-primary-700)) transparent;
     }
 
     .custom-scroll::-webkit-scrollbar-thumb {
@@ -147,6 +147,12 @@ header {
 
 .custom-scroll::-webkit-scrollbar-thumb {
     @apply rounded-[50px] bg-theme-primary-700;
+}
+
+.compensate-scroll {
+    @apply overflow-y-scroll pl-2 pr-0;
+    margin-left: calc(100vw - 100% - 8px);
+    width: calc(100vw + 8px);
 }
 
 .logo path#ark {
