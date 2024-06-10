@@ -51,15 +51,15 @@ export const DelegatesListItem = ({
             })}
         >
             <td className='p-4'>
-                <span className="block max-w-36">
+                <span className='block max-w-36'>
                     {isLongAddress ? (
-                    <Tooltip content={username}>
-                        <span className="font-medium dark:text-white block w-full overflow-hidden text-ellipsis whitespace-nowrap">
-                        {username}
-                        </span>
-                    </Tooltip>
+                        <Tooltip content={username}>
+                            <span className='block w-full overflow-hidden text-ellipsis whitespace-nowrap font-medium dark:text-white'>
+                                {username}
+                            </span>
+                        </Tooltip>
                     ) : (
-                    <span className="font-medium dark:text-white">{username}</span>
+                        <span className='font-medium dark:text-white'>{username}</span>
                     )}
                 </span>
             </td>
