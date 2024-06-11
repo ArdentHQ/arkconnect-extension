@@ -61,7 +61,10 @@ export const DelegatesListItem = ({
             <td className='p-4'>
                 <span className='block max-w-36'>
                     <Tooltip content={username} disabled={disableTooltip}>
-                        <span ref={usernameRef} className='block w-full overflow-hidden text-ellipsis whitespace-nowrap font-medium dark:text-white'>
+                        <span
+                            ref={usernameRef}
+                            className='block w-full overflow-hidden text-ellipsis whitespace-nowrap font-medium dark:text-white'
+                        >
                             {username}
                         </span>
                     </Tooltip>
