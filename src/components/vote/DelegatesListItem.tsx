@@ -2,9 +2,8 @@ import { useTranslation } from 'react-i18next';
 
 import { Contracts } from '@ardenthq/sdk-profiles';
 import classNames from 'classnames';
-import { useMemo } from 'react';
-import { ExternalLink, Icon } from '@/shared/components';
-import trimAddress from '@/lib/utils/trimAddress';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { ExternalLink, Icon, Tooltip } from '@/shared/components';
 
 export const DelegatesListItem = ({
     isSelected,
@@ -20,10 +19,20 @@ export const DelegatesListItem = ({
     onSelected: (delegate?: string) => void;
 }) => {
     const { t } = useTranslation();
+    const username = delegate.username() || '';
+    const usernameRef = useRef<HTMLSpanElement>(null);
+    const [disableTooltip, setDisableTooltip] = useState(false);
 
     const isUnselected = isVoted && (isSelected || (anyIsSelected && !isSelected));
 
     const isHighlighted = isVoted || isSelected;
+
+    useEffect(() => {
+        if (usernameRef.current) {
+            const { clientWidth, scrollWidth } = usernameRef.current;
+            setDisableTooltip(scrollWidth <= clientWidth);
+        }
+    }, [username]);
 
     const buttonLabel = useMemo(() => {
         if (isUnselected) {
@@ -50,8 +59,15 @@ export const DelegatesListItem = ({
             })}
         >
             <td className='p-4'>
-                <span className='font-medium dark:text-white'>
-                    {trimAddress(delegate.username() || delegate.address(), 'long')}
+                <span className='block max-w-36'>
+                    <Tooltip content={username} disabled={disableTooltip}>
+                        <span
+                            ref={usernameRef}
+                            className='block w-full overflow-hidden text-ellipsis whitespace-nowrap font-medium dark:text-white'
+                        >
+                            {username}
+                        </span>
+                    </Tooltip>
                 </span>
             </td>
 
