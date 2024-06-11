@@ -2,15 +2,17 @@ import { object, string } from 'yup';
 import { useEffect, useMemo, useState } from 'react';
 import { useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
-import { DelegatesList } from '@/components/vote/DelegatesList';
-import { DelegatesSearchInput } from '@/components/vote/DelegatesSearchInput';
 import SubPageLayout from '@/components/settings/SubPageLayout';
-import { VoteButton } from '@/components/vote/VoteButton';
-import { assertWallet } from '@/lib/utils/assertions';
-import constants from '@/constants';
 import { useDelegates } from '@/lib/hooks/useDelegates';
 import { useEnvironmentContext } from '@/lib/context/Environment';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
+import { assertWallet } from '@/lib/utils/assertions';
+import { DelegatesList } from '@/components/vote/DelegatesList';
+import { VoteButton } from '@/components/vote/VoteButton';
+import { DelegatesSearchInput } from '@/components/vote/DelegatesSearchInput';
+import constants from '@/constants';
+import { Footer } from '@/shared/components/layout/Footer';
+import { VoteFee } from '@/components/vote/VoteFee';
 import { useProfileContext } from '@/lib/context/Profile';
 
 export type VoteFormik = {
@@ -85,13 +87,23 @@ const Vote = () => {
             className='flex flex-1 flex-col'
             bodyClassName='flex-1 flex flex-col'
             footer={
-                <VoteButton
-                    onClick={formik.submitForm}
-                    fee={formik.values.fee}
-                    delegateAddress={formik.values.delegateAddress}
-                    votes={currentVotes}
-                    isValid={formik.isValid}
-                />
+                <Footer className='space-y-4'>
+                    <VoteFee
+                        delegateAddress={formik.values.delegateAddress}
+                        fee={formik.values.fee}
+                        onSelectedFee={(fee) => formik.setFieldValue('fee', fee)}
+                        onBlur={formik.handleBlur}
+                        feeError={formik.errors.fee}
+                    />
+
+                    <VoteButton
+                        onClick={formik.submitForm}
+                        fee={formik.values.fee}
+                        delegateAddress={formik.values.delegateAddress}
+                        votes={currentVotes}
+                        isValid={formik.isValid}
+                    />
+                </Footer>
             }
         >
             <DelegatesSearchInput searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
