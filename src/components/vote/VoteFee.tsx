@@ -59,7 +59,7 @@ export const VoteFee = ({
     }
 
     return (
-        <div className='flex h-[42px] items-center justify-between space-x-2 overflow-x-auto rounded-lg border border-theme-secondary-400 p-3 text-sm text-theme-secondary-500 dark:border-theme-secondary-500'>
+        <div className='flex h-[42px] items-center justify-between space-x-2 rounded-lg border border-theme-secondary-400 px-3 text-sm text-theme-secondary-500 dark:border-theme-secondary-500'>
             <span className='truncate text-sm font-medium dark:text-theme-secondary-200'>
                 {t('COMMON.TRANSACTION_FEE')}
             </span>
