@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next';
 
 import { Contracts } from '@ardenthq/sdk-profiles';
 import classNames from 'classnames';
-import { useMemo } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { ExternalLink, Icon, Tooltip } from '@/shared/components';
 
 export const DelegatesListItem = ({
@@ -20,11 +20,19 @@ export const DelegatesListItem = ({
 }) => {
     const { t } = useTranslation();
     const username = delegate.username() || '';
-    const isLongAddress = username.length > 16;
+    const usernameRef = useRef<HTMLSpanElement>(null);
+    const [disableTooltip, setDisableTooltip] = useState(false);
 
     const isUnselected = isVoted && (isSelected || (anyIsSelected && !isSelected));
 
     const isHighlighted = isVoted || isSelected;
+
+    useEffect(() => {
+        if (usernameRef.current) {
+            const { clientWidth, scrollWidth } = usernameRef.current;
+            setDisableTooltip(scrollWidth <= clientWidth);
+        }
+    }, [username]);
 
     const buttonLabel = useMemo(() => {
         if (isUnselected) {
@@ -52,15 +60,11 @@ export const DelegatesListItem = ({
         >
             <td className='p-4'>
                 <span className='block max-w-36'>
-                    {isLongAddress ? (
-                        <Tooltip content={username}>
-                            <span className='block w-full overflow-hidden text-ellipsis whitespace-nowrap font-medium dark:text-white'>
-                                {username}
-                            </span>
-                        </Tooltip>
-                    ) : (
-                        <span className='font-medium dark:text-white'>{username}</span>
-                    )}
+                    <Tooltip content={username} disabled={disableTooltip}>
+                        <span ref={usernameRef} className='block w-full overflow-hidden text-ellipsis whitespace-nowrap font-medium dark:text-white'>
+                            {username}
+                        </span>
+                    </Tooltip>
                 </span>
             </td>
 
