@@ -2,14 +2,13 @@ import { useTranslation } from 'react-i18next';
 import { Contracts } from '@ardenthq/sdk-profiles';
 import { useMemo } from 'react';
 import { Button } from '@/shared/components';
-import { Footer } from '@/shared/components/layout/Footer';
 
 export const VoteButton = ({
     delegateAddress,
-    fee: _,
+    fee,
     votes,
     onClick,
-    isValid: _2,
+    isValid,
 }: {
     delegateAddress?: string;
     fee: string;
@@ -17,9 +16,7 @@ export const VoteButton = ({
     onClick: () => void;
     isValid: boolean;
 }) => {
-    // @TODO: disable if empty fee and form is not valid once fee is added
-    // const disabled = !isValid || delegateAddress === undefined || fee === '';
-    const disabled = delegateAddress === undefined;
+    const disabled = !isValid || delegateAddress === undefined || fee === '';
 
     const isVoted = useMemo(() => {
         if (delegateAddress === undefined) {
@@ -48,10 +45,8 @@ export const VoteButton = ({
     }, [disabled, isSwapping, isVoting]);
 
     return (
-        <Footer className='h-[84px]'>
-            <Button variant='primary' disabled={disabled} onClick={onClick}>
-                {voteText}
-            </Button>
-        </Footer>
+        <Button variant='primary' disabled={disabled} onClick={onClick}>
+            {voteText}
+        </Button>
     );
 };
