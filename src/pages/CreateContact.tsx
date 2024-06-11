@@ -59,7 +59,7 @@ const CreateContact = () => {
     const { addContact, addressBook } = useAddressBook();
     const { profile } = useProfileContext();
     const lastVisitedPage = profile.settings().get('LAST_VISITED_PAGE') as {
-        data: { name: string; address: string };
+        data: { name: string; address: string; errors: any };
     };
     const [addressValidation, setAddressValidation] = useState<ValidateAddressResponse>({
         isValid: false,
@@ -78,6 +78,7 @@ const CreateContact = () => {
             addressValidation,
             t,
         }),
+        initialErrors: lastVisitedPage?.data?.errors || {},
         onSubmit: async () => {
             addContact({
                 name: formik.values.name,
@@ -116,14 +117,17 @@ const CreateContact = () => {
         runtime.sendMessage({
             type: 'SET_LAST_SCREEN',
             path: ScreenName.AddContact,
-            data: formik.values,
+            data: {
+                ...formik.values,
+                errors: formik.errors,
+            },
         });
 
         return () => {
             runtime.sendMessage({ type: 'CLEAR_LAST_SCREEN' });
             profile.settings().forget('LAST_VISITED_PAGE');
         };
-    }, [formik.values]);
+    }, [formik.values, formik.errors]);
 
     return (
         <SubPageLayout

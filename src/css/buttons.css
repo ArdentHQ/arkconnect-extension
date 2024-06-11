@@ -76,9 +76,7 @@
 
     /** Button Secondary Link **/
     .button-secondaryLink {
-        @apply bg-transparent p-0 text-light-black underline decoration-transparent hover:text-theme-primary-700 hover:decoration-theme-primary-700 hover:green:text-theme-primary-600 hover:green:decoration-theme-primary-600
-        dark:text-white 
-        dark:hover:text-theme-primary-700;
+        @apply bg-transparent p-0 text-light-black underline decoration-transparent hover:text-theme-primary-700 hover:decoration-theme-primary-700 hover:green:text-theme-primary-600 hover:green:decoration-theme-primary-600 dark:text-white dark:hover:text-theme-primary-700;
     }
 
     /** Button Primary Link Destructive **/
