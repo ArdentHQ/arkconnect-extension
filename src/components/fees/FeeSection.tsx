@@ -12,6 +12,7 @@ type AddressDropdownProps = ComponentPropsWithRef<'input'> & {
     helperText?: string;
     value: string;
     setValue: (value: string) => void;
+    feeType?: string;
     step?: number;
 };
 
@@ -21,17 +22,19 @@ export const FeeSection = ({
     value,
     setValue,
     step = 0.01,
+    feeType = 'transfer',
     ...rest
 }: AddressDropdownProps) => {
     const { t } = useTranslation();
     const [advancedFeeView, setAdvancedFeeView] = useState<boolean>(false);
     const activeNetwork = useActiveNetwork();
     const { profile } = useProfileContext();
+
     const { isLoadingFee, fees } = useNetworkFees({
         profile,
         coin: activeNetwork.coin(),
         network: activeNetwork.id(),
-        type: 'transfer',
+        type: feeType,
     });
 
     const handleFeeViewClick = () => {
