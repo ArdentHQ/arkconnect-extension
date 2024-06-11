@@ -27,20 +27,11 @@ export const useVote = ({
         return votes.some((vote) => vote.wallet?.address() === delegateAddress);
     }, [votes, delegateAddress]);
 
-    const isSwapping = useMemo(
-        () => !disabled && votes.length > 0 && !isVoted,
-        [votes, isVoted, disabled],
-    );
+    const isSwapping = !disabled && votes.length > 0 && !isVoted;
 
-    const isVoting = useMemo(
-        () => !disabled && votes.length === 0 && !isVoted,
-        [votes, isVoted, disabled],
-    );
+    const isVoting = !disabled && votes.length === 0 && !isVoted;
 
-    const isUnvoting = useMemo(
-        () => !isVoting && !isSwapping && !disabled,
-        [isVoting, isSwapping, disabled],
-    );
+    const isUnvoting = !isVoting && !isSwapping && !disabled;
 
     const { t } = useTranslation();
 
