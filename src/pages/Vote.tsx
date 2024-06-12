@@ -2,6 +2,7 @@ import assert from 'assert';
 import { useTranslation } from 'react-i18next';
 import { useEffect, useMemo, useState } from 'react';
 import { useFormik } from 'formik';
+import { BigNumber } from '@ardenthq/sdk-helpers';
 import { object, string } from 'yup';
 import { runtime } from 'webextension-polyfill';
 import { useNavigate } from 'react-router-dom';
@@ -152,12 +153,17 @@ const Vote = () => {
         },
     });
 
+    const hasValues = formik.values.delegateAddress && formik.values.fee;
+    const hasSufficientFunds = BigNumber.make(wallet.balance() || 0).isGreaterThan(
+        BigNumber.make(formik.values.fee || 0),
+    );
+
     const { isVoting, isUnvoting, isSwapping, actionLabel, disabled, currentlyVotedAddress } =
         useVote({
             fee: formik.values.fee,
             delegateAddress: formik.values.delegateAddress,
             votes: currentVotes,
-            isValid: formik.isValid,
+            isValid: !!(formik.isValid && hasValues && hasSufficientFunds),
         });
 
     useEffect(() => {
@@ -206,6 +212,7 @@ const Vote = () => {
 
                     <VoteButton
                         onClick={formik.submitForm}
+                        displayTooltip={!hasSufficientFunds}
                         disabled={disabled}
                         actionLabel={actionLabel}
                     />
