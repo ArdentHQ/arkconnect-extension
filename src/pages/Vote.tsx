@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useFormik } from 'formik';
 import { BigNumber } from '@ardenthq/sdk-helpers';
 import { object, string } from 'yup';
+import { runtime } from 'webextension-polyfill';
 import { useNavigate } from 'react-router-dom';
 import SubPageLayout from '@/components/settings/SubPageLayout';
 import { useDelegates } from '@/lib/hooks/useDelegates';
@@ -16,6 +17,7 @@ import { DelegatesSearchInput } from '@/components/vote/DelegatesSearchInput';
 import constants from '@/constants';
 import { Footer } from '@/shared/components/layout/Footer';
 import { VoteFee } from '@/components/vote/VoteFee';
+import { ScreenName } from '@/lib/background/contracts';
 import { useVote } from '@/lib/hooks/useVote';
 import { useProfileContext } from '@/lib/context/Profile';
 
@@ -24,6 +26,15 @@ export type VoteFormik = {
     fee: string;
 };
 
+interface PageData extends VoteFormik {
+    type?: string;
+    session?: {
+        walletId: string;
+        logo: string;
+        domain: string;
+    };
+}
+
 const Vote = () => {
     const navigate = useNavigate();
 
@@ -31,6 +42,7 @@ const Vote = () => {
     const { profile } = useProfileContext();
     const { env } = useEnvironmentContext();
     const wallet = usePrimaryWallet();
+    const [redirectToApprove, setRedirectToApprove] = useState(false);
 
     assertWallet(wallet);
 
@@ -77,57 +89,67 @@ const Vote = () => {
             ),
     });
 
+    const lastVisitedPage = profile.settings().get('LAST_VISITED_PAGE') as { data: PageData };
+
+    const approveVote = () => {
+        const type = isVoting || isSwapping ? 'vote' : 'unvote';
+
+        const data: {
+            vote?: {
+                amount: number;
+                address: string;
+            };
+            unvote?: {
+                amount: number;
+                address: string;
+            };
+        } = {};
+
+        if (isVoting || isSwapping) {
+            assert(formik.values.delegateAddress);
+
+            data.vote = {
+                amount: 0,
+                address: formik.values.delegateAddress,
+            };
+        }
+
+        if (isUnvoting || isSwapping) {
+            assert(currentlyVotedAddress);
+
+            data.unvote = {
+                amount: 0,
+                address: currentlyVotedAddress,
+            };
+        }
+
+        navigate('/approve', {
+            state: {
+                type: type,
+                fee: Number(formik.values.fee),
+                ...data,
+                session: {
+                    walletId: wallet?.id(),
+                    logo: 'icon/128.png',
+                    domain: 'ARK Connect',
+                },
+            },
+        });
+    };
+
     const formik = useFormik<VoteFormik>({
         initialValues: {
-            fee: '',
-            delegateAddress: undefined,
+            fee: lastVisitedPage?.data?.fee || '',
+            delegateAddress: lastVisitedPage?.data?.delegateAddress,
         },
         validationSchema: validationSchema,
         validateOnMount: true,
         onSubmit: () => {
-            const type = isVoting || isSwapping ? 'vote' : 'unvote';
+            runtime.sendMessage({ type: 'CLEAR_LAST_SCREEN' });
+            profile.settings().forget('LAST_VISITED_PAGE');
+            formik.resetForm();
 
-            const data: {
-                vote?: {
-                    amount: number;
-                    address: string;
-                };
-                unvote?: {
-                    amount: number;
-                    address: string;
-                };
-            } = {};
-
-            if (isVoting || isSwapping) {
-                assert(formik.values.delegateAddress);
-
-                data.vote = {
-                    amount: 0,
-                    address: formik.values.delegateAddress,
-                };
-            }
-
-            if (isUnvoting || isSwapping) {
-                assert(currentlyVotedAddress);
-
-                data.unvote = {
-                    amount: 0,
-                    address: currentlyVotedAddress,
-                };
-            }
-
-            navigate('/approve', {
-                state: {
-                    type: type,
-                    fee: Number(formik.values.fee),
-                    ...data,
-                    session: {
-                        walletId: wallet?.id(),
-                        logo: 'icon/128.png',
-                        domain: 'ARK Connect',
-                    },
-                },
-            });
+            approveVote();
         },
     });
 
@@ -143,6 +165,35 @@ const Vote = () => {
             votes: currentVotes,
             isValid: !!(formik.isValid && hasValues && hasSufficientFunds),
         });
+
+    useEffect(() => {
+        // delegates.length === 0 means is the first time the page is loaded
+        if (!redirectToApprove || isLoadingDelegates || delegates.length === 0) {
+            return;
+        }
+
+        approveVote();
+    }, [redirectToApprove, isLoadingDelegates, delegates]);
+
+    useEffect(() => {
+        if (['vote', 'unvote'].includes(lastVisitedPage?.data?.type ?? '')) {
+            //  we need to wait for the vote/delegate to be loaded
+            setRedirectToApprove(true);
+        }
+    }, [lastVisitedPage]);
+
+    useEffect(() => {
+        runtime.sendMessage({
+            type: 'SET_LAST_SCREEN',
+            path: ScreenName.Vote,
+            data: formik.values,
+        });
+
+        return () => {
+            runtime.sendMessage({ type: 'CLEAR_LAST_SCREEN' });
+            profile.settings().forget('LAST_VISITED_PAGE');
+        };
+    }, [formik.values]);
 
     return (
         <SubPageLayout

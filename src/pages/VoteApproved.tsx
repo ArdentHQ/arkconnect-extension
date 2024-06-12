@@ -1,5 +1,7 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { useEffect } from 'react';
+import { runtime } from 'webextension-polyfill';
 import { ApproveActionType } from './Approve';
 import constants from '@/constants';
 import removeWindowInstance from '@/lib/utils/removeWindowInstance';
@@ -80,6 +82,10 @@ const VoteApproved = () => {
 
         navigate('/');
     };
+    useEffect(() => {
+        runtime.sendMessage({ type: 'CLEAR_LAST_SCREEN' });
+        profile.settings().forget('LAST_VISITED_PAGE');
+    }, []);
 
     const getTitle = () => {
         switch (state?.type) {

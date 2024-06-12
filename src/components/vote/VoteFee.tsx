@@ -32,10 +32,10 @@ export const VoteFee = ({
     });
 
     useEffect(() => {
-        if (fees?.avg) {
+        if (fees?.avg && fee === '') {
             onSelectedFee(fees.avg);
         }
-    }, [fees]);
+    }, [fees, fee]);
 
     const disabled = delegateAddress === undefined || isLoadingFee;
 
