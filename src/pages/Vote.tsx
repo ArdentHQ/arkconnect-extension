@@ -1,7 +1,9 @@
-import { object, string } from 'yup';
+import assert from 'assert';
+import { useTranslation } from 'react-i18next';
 import { useEffect, useMemo, useState } from 'react';
 import { useFormik } from 'formik';
-import { useTranslation } from 'react-i18next';
+import { object, string } from 'yup';
+import { useNavigate } from 'react-router-dom';
 import SubPageLayout from '@/components/settings/SubPageLayout';
 import { useDelegates } from '@/lib/hooks/useDelegates';
 import { useEnvironmentContext } from '@/lib/context/Environment';
@@ -13,6 +15,7 @@ import { DelegatesSearchInput } from '@/components/vote/DelegatesSearchInput';
 import constants from '@/constants';
 import { Footer } from '@/shared/components/layout/Footer';
 import { VoteFee } from '@/components/vote/VoteFee';
+import { useVote } from '@/lib/hooks/useVote';
 import { useProfileContext } from '@/lib/context/Profile';
 
 export type VoteFormik = {
@@ -21,6 +24,8 @@ export type VoteFormik = {
 };
 
 const Vote = () => {
+    const navigate = useNavigate();
+
     const { t } = useTranslation();
     const { profile } = useProfileContext();
     const { env } = useEnvironmentContext();
@@ -43,7 +48,7 @@ const Vote = () => {
     useEffect(() => {
         fetchDelegates(wallet);
 
-        fetchVotes(wallet.address(), wallet.network().id());
+        fetchVotes(wallet);
     }, [wallet]);
 
     const validationSchema = object().shape({
@@ -78,8 +83,60 @@ const Vote = () => {
         },
         validationSchema: validationSchema,
         validateOnMount: true,
-        onSubmit: () => {},
+        onSubmit: () => {
+            const type = isVoting || isSwapping ? 'vote' : 'unvote';
+
+            const data: {
+                vote?: {
+                    amount: number;
+                    address: string;
+                };
+                unvote?: {
+                    amount: number;
+                    address: string;
+                };
+            } = {};
+
+            if (isVoting || isSwapping) {
+                assert(formik.values.delegateAddress);
+
+                data.vote = {
+                    amount: 0,
+                    address: formik.values.delegateAddress,
+                };
+            }
+
+            if (isUnvoting || isSwapping) {
+                assert(currentlyVotedAddress);
+
+                data.unvote = {
+                    amount: 0,
+                    address: currentlyVotedAddress,
+                };
+            }
+
+            navigate('/approve', {
+                state: {
+                    type: type,
+                    fee: Number(formik.values.fee),
+                    ...data,
+                    session: {
+                        walletId: wallet?.id(),
+                        logo: 'icon/128.png',
+                        domain: 'ARK Connect',
+                    },
+                },
+            });
+        },
     });
+
+    const { isVoting, isUnvoting, isSwapping, actionLabel, disabled, currentlyVotedAddress } =
+        useVote({
+            fee: formik.values.fee,
+            delegateAddress: formik.values.delegateAddress,
+            votes: currentVotes,
+            isValid: formik.isValid,
+        });
 
     return (
         <SubPageLayout
@@ -98,10 +155,8 @@ const Vote = () => {
 
                     <VoteButton
                         onClick={formik.submitForm}
-                        fee={formik.values.fee}
-                        delegateAddress={formik.values.delegateAddress}
-                        votes={currentVotes}
-                        isValid={formik.isValid}
+                        disabled={disabled}
+                        actionLabel={actionLabel}
                     />
                 </Footer>
             }

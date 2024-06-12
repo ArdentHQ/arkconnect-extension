@@ -183,7 +183,11 @@ const ApproveVote = ({ abortReference, approveWithLedger, wallet, closeLedgerScr
 
         reject();
 
-        await removeWindowInstance(location.state?.windowId, 100);
+        if (location.state.windowId) {
+            await removeWindowInstance(location.state?.windowId, 100);
+        }
+
+        navigate('/');
     };
 
     return (

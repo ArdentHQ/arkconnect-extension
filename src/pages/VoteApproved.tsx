@@ -1,4 +1,4 @@
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { ApproveActionType } from './Approve';
 import constants from '@/constants';
@@ -61,6 +61,7 @@ const VoteApprovedFooter = ({
 };
 
 const VoteApproved = () => {
+    const navigate = useNavigate();
     const { t } = useTranslation();
     const { state } = useLocation();
     const { profile } = useProfileContext();
@@ -73,7 +74,11 @@ const VoteApproved = () => {
     const isTransactionConfirmed = useConfirmedTransaction({ wallet, transactionId: vote.id });
 
     const onClose = async () => {
-        await removeWindowInstance(state?.windowId);
+        if (state?.windowId) {
+            await removeWindowInstance(state?.windowId);
+        }
+
+        navigate('/');
     };
 
     const getTitle = () => {
