@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { Button , Tooltip } from '@/shared/components';
+import { Button, Tooltip } from '@/shared/components';
 
 export const VoteButton = ({
     disabled,
@@ -13,7 +13,7 @@ export const VoteButton = ({
     displayTooltip: boolean;
 }) => {
     const { t } = useTranslation();
-    
+
     return (
         <Tooltip content={<span>{t('ERROR.BALANCE_TOO_LOW')}</span>} disabled={displayTooltip}>
             <div>
