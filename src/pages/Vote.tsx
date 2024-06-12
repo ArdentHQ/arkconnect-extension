@@ -132,7 +132,7 @@ const Vote = () => {
     });
 
     const hasValues = formik.values.delegateAddress && formik.values.fee;
-    const hasSufficientFunds = BigNumber.make(wallet.balance()).isGreaterThan(BigNumber.make(formik.values.fee));
+    const hasSufficientFunds = BigNumber.make(wallet.balance() || 0).isGreaterThan(BigNumber.make(formik.values.fee || 0));
 
     const { isVoting, isUnvoting, isSwapping, actionLabel, disabled, currentlyVotedAddress } =
         useVote({
