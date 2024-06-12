@@ -142,7 +142,7 @@ const Vote = () => {
         <SubPageLayout
             title={t('PAGES.VOTE.VOTE')}
             className='flex flex-1 flex-col'
-            bodyClassName='flex-1 flex flex-col'
+            bodyClassName='flex-1 flex flex-col pb-4'
             footer={
                 <Footer className='space-y-4'>
                     <VoteFee
