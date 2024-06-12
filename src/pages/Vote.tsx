@@ -161,7 +161,7 @@ const Vote = () => {
 
                     <VoteButton
                         onClick={formik.submitForm}
-                        displayTooltip={hasSufficientFunds}
+                        displayTooltip={!hasSufficientFunds}
                         disabled={disabled}
                         actionLabel={actionLabel}
                     />
