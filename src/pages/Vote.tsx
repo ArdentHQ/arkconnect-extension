@@ -83,7 +83,7 @@ const Vote = () => {
     });
 
     const hasValues = formik.values.delegateAddress && formik.values.fee;
-    const hasSufficientFunds = BigNumber.make(wallet.balance()) > BigNumber.make(formik.values.fee);
+    const hasSufficientFunds = BigNumber.make(wallet.balance()).isGreaterThan(BigNumber.make(formik.values.fee));
 
     return (
         <SubPageLayout
