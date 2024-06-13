@@ -31,6 +31,7 @@ interface SendTransferForm {
     senderAddress: string;
     fee: number;
     hasHigherCustomFee: number | null;
+    hasLowerCustomFee: number | null;
     remainingBalance: number;
     amount: number;
     isSendAllSelected: string;
@@ -62,6 +63,7 @@ const defaultState = {
     },
     fee: 0,
     hasHigherCustomFee: null,
+    hasLowerCustomFee: null,
     remainingBalance: 0,
     amount: 0,
     isSendAllSelected: '',
@@ -95,7 +97,7 @@ export const useSendTransferForm = (
 ) => {
     const { profile } = useProfileContext();
     const { onError } = useErrorHandlerContext();
-    const { calculateAvgFee, calculateMaxFee } = useFees();
+    const { calculateAvgFee, calculateMaxFee, calculateMinFee } = useFees();
     const [formValues, setFormValues] = useState<SendTransferForm>(defaultState);
     const [formValuesLoaded, setFormValuesLoaded] = useState(false);
     const { persist } = useEnvironmentContext();
@@ -191,6 +193,12 @@ export const useSendTransferForm = (
                     type: ApproveActionType.TRANSACTION,
                 });
 
+                const minFee = await calculateMinFee({
+                    coin: wallet.network().coin(),
+                    network: wallet.network().id(),
+                    type: ApproveActionType.TRANSACTION,
+                });
+
                 const fee = request.customFee ?? averageFee;
 
                 setFormValues((prevFormValues) => ({
@@ -202,6 +210,8 @@ export const useSendTransferForm = (
                     memo: request.memo,
                     hasHigherCustomFee:
                         request.customFee && request.customFee > maxFee ? maxFee : null,
+                    hasLowerCustomFee: 
+                        request.customFee && request.customFee < minFee ? minFee : null,
                     mnemonic: passphrase?.join(' ') || '',
                     total: BigNumber.make(fee).plus(request.amount).toHuman(),
                     recipients: [
@@ -239,6 +249,7 @@ export const useSendTransferForm = (
             network: formValues.network,
             senderAddress: formValues.senderAddress,
             hasHigherCustomFee: formValues.hasHigherCustomFee,
+            hasLowerCustomFee: formValues.hasLowerCustomFee,
         },
         formValuesLoaded,
     };
