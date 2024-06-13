@@ -32,5 +32,16 @@ export const useFees = () => {
         [profile, env],
     );
 
-    return { calculateAvgFee, calculateMaxFee };
+    const calculateMinFee = useCallback(
+        async ({ coin, network, type }: CalculateProperties): Promise<number> => {
+            await env.fees().sync(profile, coin, network);
+            const transactionFees = env.fees().findByType(coin, network, type);
+
+            return transactionFees.min.toHuman();
+        },
+        [profile, env],
+    );
+        
+
+    return { calculateAvgFee, calculateMaxFee, calculateMinFee };
 };
