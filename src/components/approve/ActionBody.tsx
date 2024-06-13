@@ -7,8 +7,10 @@ import {
     ActionBodyRow,
     ActionTransactionIdRow,
 } from './ActionBody.blocks';
-import { HigherFeeWarning } from './HigherCustomFee.blocks';
+
+import { FeeWarning } from './CustomFeeAlerts.blocks';
 import trimAddress from '@/lib/utils/trimAddress';
+import constants from '@/constants';
 
 type VoteData = {
     address?: string;
@@ -35,6 +37,7 @@ interface ActionBodyProps {
     vote?: VoteData;
     wallet?: Contracts.IReadWriteWallet;
     hasHigherCustomFee?: number | null;
+    hasLowerCustomFee?: number | null;
     memo?: string | null;
 }
 
@@ -58,9 +61,13 @@ export const ActionBody = ({
     totalAmount,
     convertedTotalAmount,
     hasHigherCustomFee = null,
+    hasLowerCustomFee = null,
     memo = null,
 }: ActionBodyProps) => {
     const { t } = useTranslation();
+
+    const customFee = hasHigherCustomFee || hasLowerCustomFee;
+    const customFeeState = customFee ? (hasHigherCustomFee ? constants.FEE_HIGHER : constants.FEE_LOWER) : null;
 
     return (
         <ActionDetails className={actionDetailsClassName}>
@@ -98,8 +105,8 @@ export const ActionBody = ({
                 label={
                     <span className='flex items-center gap-1'>
                         {t('COMMON.TRANSACTION_FEE')}{' '}
-                        {hasHigherCustomFee && amountTicker && (
-                            <HigherFeeWarning averageFee={hasHigherCustomFee} coin={amountTicker} />
+                        {customFee && amountTicker && (
+                            <FeeWarning averageFee={customFee} coin={amountTicker} customFeeState={customFeeState} />
                         )}
                     </span>
                 }
