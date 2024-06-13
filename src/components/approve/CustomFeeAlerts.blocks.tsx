@@ -2,7 +2,15 @@ import { useTranslation } from 'react-i18next';
 import { Icon, Tooltip } from '@/shared/components';
 import cropToMaxDigits from '@/lib/utils/cropToMaxDigits';
 
-export const FeeWarning = ({ averageFee, coin, customFeeState }: { averageFee: number; coin: string, customFeeState: string | null }) => {
+export const FeeWarning = ({
+    averageFee,
+    coin,
+    customFeeState,
+}: {
+    averageFee: number;
+    coin: string;
+    customFeeState: string | null;
+}) => {
     const { t } = useTranslation();
     const formattedAmount = cropToMaxDigits({
         value: averageFee,
@@ -14,11 +22,11 @@ export const FeeWarning = ({ averageFee, coin, customFeeState }: { averageFee: n
             content={
                 <span>
                     {t('MISC.FEE_WARNING.TOP_LINE', {
-                            state: customFeeState,
-                        })}{' '}
+                        state: customFeeState,
+                    })}{' '}
                     {t('MISC.FEE_WARNING.BOTTOM_LINE', {
                         formattedAmount,
-                        coin
+                        coin,
                     })}
                 </span>
             }
@@ -57,11 +65,11 @@ export const FeeBanner = ({
                 <Icon icon='information-circle' className='h-5 w-5 flex-shrink-0' />
                 <span className='text-sm leading-[17.5px]'>
                     {t('MISC.FEE_WARNING.TOP_LINE', {
-                            state: customFeeState,
-                        })}{' '}
+                        state: customFeeState,
+                    })}{' '}
                     {t('MISC.FEE_WARNING.BOTTOM_LINE', {
                         formattedAmount,
-                        coin
+                        coin,
                     })}
                 </span>
             </div>

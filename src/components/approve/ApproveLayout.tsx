@@ -25,12 +25,16 @@ export const ApproveLayout = ({
     showHigherCustomFeeBanner?: boolean;
     setShowHigherCustomFeeBanner?: (value: boolean) => void;
     hasHigherCustomFee?: number | null;
-    hasLowerCustomFee?: number | null
+    hasLowerCustomFee?: number | null;
     wallet?: Contracts.IReadWriteWallet;
     containerClassName?: string;
 }) => {
     const hasCustomFee = hasHigherCustomFee || hasLowerCustomFee;
-    const customFeeState = hasCustomFee ? (hasHigherCustomFee ? constants.FEE_HIGHER : constants.FEE_LOWER) : null;
+    const customFeeState = hasCustomFee
+        ? hasHigherCustomFee
+            ? constants.FEE_HIGHER
+            : constants.FEE_LOWER
+        : null;
 
     return (
         <div className={cn('flex h-screen flex-col', containerClassName)}>

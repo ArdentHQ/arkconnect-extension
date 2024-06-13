@@ -50,7 +50,7 @@ const constants = {
     ADDRESS_LENGTH,
     AMOUNT_REGEX,
     FEE_HIGHER,
-    FEE_LOWER
+    FEE_LOWER,
 };
 
 export default constants;

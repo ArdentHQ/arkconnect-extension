@@ -16,5 +16,5 @@ export default {
     FEE_WARNING: {
         TOP_LINE: 'The fee specified appears to be {{ state }}',
         BOTTOM_LINE: 'than the typical rate, which is {{formattedAmount}} {{coin}}.',
-    }
+    },
 };

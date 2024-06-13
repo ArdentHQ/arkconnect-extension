@@ -210,7 +210,7 @@ export const useSendTransferForm = (
                     memo: request.memo,
                     hasHigherCustomFee:
                         request.customFee && request.customFee > maxFee ? maxFee : null,
-                    hasLowerCustomFee: 
+                    hasLowerCustomFee:
                         request.customFee && request.customFee < minFee ? minFee : null,
                     mnemonic: passphrase?.join(' ') || '',
                     total: BigNumber.make(fee).plus(request.amount).toHuman(),

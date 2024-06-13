@@ -41,7 +41,6 @@ export const useFees = () => {
         },
         [profile, env],
     );
-        
 
     return { calculateAvgFee, calculateMaxFee, calculateMinFee };
 };

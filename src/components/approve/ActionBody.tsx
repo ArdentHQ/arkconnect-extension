@@ -67,7 +67,11 @@ export const ActionBody = ({
     const { t } = useTranslation();
 
     const customFee = hasHigherCustomFee || hasLowerCustomFee;
-    const customFeeState = customFee ? (hasHigherCustomFee ? constants.FEE_HIGHER : constants.FEE_LOWER) : null;
+    const customFeeState = customFee
+        ? hasHigherCustomFee
+            ? constants.FEE_HIGHER
+            : constants.FEE_LOWER
+        : null;
 
     return (
         <ActionDetails className={actionDetailsClassName}>
@@ -106,7 +110,11 @@ export const ActionBody = ({
                     <span className='flex items-center gap-1'>
                         {t('COMMON.TRANSACTION_FEE')}{' '}
                         {customFee && amountTicker && (
-                            <FeeWarning averageFee={customFee} coin={amountTicker} customFeeState={customFeeState} />
+                            <FeeWarning
+                                averageFee={customFee}
+                                coin={amountTicker}
+                                customFeeState={customFeeState}
+                            />
                         )}
                     </span>
                 }
