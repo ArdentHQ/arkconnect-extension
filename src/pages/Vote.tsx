@@ -74,7 +74,7 @@ const Vote = () => {
                 return Number(value) > 0;
             })
             .test('max-value', t('ERROR.IS_TOO_HIGH', { name: 'Fee' }), (value) => {
-                return Number(value) < 1;
+                return Number(value) <= 1;
             })
             .trim(),
         delegateAddress: string()
