@@ -18,7 +18,7 @@ export const VoteFee = ({
     feeError?: string;
     onSelectedFee: (fee: string) => void;
     onBlur: FocusEventHandler<HTMLInputElement>;
-    handleFeeInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void
+    handleFeeInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }) => {
     const { t } = useTranslation();
     const [isEditing, setIsEditing] = useState<boolean>(false);
