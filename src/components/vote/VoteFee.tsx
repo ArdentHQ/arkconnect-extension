@@ -11,12 +11,14 @@ export const VoteFee = ({
     feeError,
     onSelectedFee,
     onBlur,
+    handleFeeInputChange,
 }: {
     delegateAddress?: string;
     fee: string;
     feeError?: string;
     onSelectedFee: (fee: string) => void;
     onBlur: FocusEventHandler<HTMLInputElement>;
+    handleFeeInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void
 }) => {
     const { t } = useTranslation();
     const [isEditing, setIsEditing] = useState<boolean>(false);
@@ -47,6 +49,7 @@ export const VoteFee = ({
         return (
             <div ref={feeFormRef}>
                 <FeeSection
+                    onChange={handleFeeInputChange}
                     onBlur={onBlur}
                     variant={fee && feeError ? 'destructive' : 'primary'}
                     helperText={fee ? feeError : undefined}

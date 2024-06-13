@@ -195,6 +195,11 @@ const Vote = () => {
         };
     }, [formik.values]);
 
+    const handleFeeInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        event.target.value = event.target.value.trim();
+        formik.handleChange(event);
+    };
+
     return (
         <SubPageLayout
             title={t('PAGES.VOTE.VOTE')}
@@ -208,6 +213,7 @@ const Vote = () => {
                         onSelectedFee={(fee) => formik.setFieldValue('fee', fee)}
                         onBlur={formik.handleBlur}
                         feeError={formik.errors.fee}
+                        handleFeeInputChange={handleFeeInputChange}
                     />
 
                     <VoteButton
