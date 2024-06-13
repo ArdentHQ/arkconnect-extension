@@ -231,15 +231,13 @@ const Vote = () => {
                 selectedDelegateAddress={formik.values.delegateAddress}
             />
 
-            {
-                !searchQuery && (
-                    <div className='mt-4'>
-                        <p className='text-sm text-theme-secondary-500 dark:text-theme-secondary-300 text-center w-full'>
-                            {t('PAGES.VOTE.USE_SEARCH_TO_FIND_DELEGATES')}
-                        </p>
-                    </div>
-                )
-            }
+            {!searchQuery && (
+                <div className='mt-4'>
+                    <p className='w-full text-center text-sm text-theme-secondary-500 dark:text-theme-secondary-300'>
+                        {t('PAGES.VOTE.USE_SEARCH_TO_FIND_DELEGATES')}
+                    </p>
+                </div>
+            )}
         </SubPageLayout>
     );
 };
