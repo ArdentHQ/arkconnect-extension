@@ -13,4 +13,8 @@ export default {
     ARK_CONNECT: 'ARK Connect',
     TERMS_OF_SERVICE: 'Terms of Service',
     PRIVACY_POLICY: 'Privacy Policy',
+    FEE_WARNING: {
+        TOP_LINE: 'The fee specified appears to be {{ state }}',
+        BOTTOM_LINE: 'than the typical rate, which is {{formattedAmount}} {{coin}}.',
+    }
 };
