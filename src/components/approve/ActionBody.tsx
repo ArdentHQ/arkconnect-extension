@@ -114,7 +114,7 @@ export const ActionBody = ({
                     network={network}
                 />
             )}
-            
+
             {memo && (
                 <ActionBodyRow
                     label={t('COMMON.MEMO')}
