@@ -27,7 +27,7 @@ export const AmountBadge = ({
                 {
                     'border-theme-secondary-100 bg-theme-secondary-100 text-theme-secondary-500 dark:border-theme-secondary-600 dark:bg-transparent dark:text-theme-secondary-300':
                         type === 'default',
-                    'border-theme-green-100 bg-theme-green-100 text-theme-green-700 dark:border-theme-green-700 dark:bg-transparent dark:text-theme-green-600':
+                    'border-[#E2F0E6] bg-[#E2F0E6] text-[#307845] dark:border-[#307845] dark:bg-transparent dark:text-[#42B263]':
                         type === 'positive',
                     'border-theme-warning-75 bg-theme-warning-75 text-theme-warning-750 dark:border-theme-error-350 dark:bg-transparent dark:text-theme-error-300':
                         type === 'negative',
