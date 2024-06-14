@@ -1,7 +1,12 @@
+import assert from 'assert';
 import { object, string } from 'yup';
 import { useEffect, useMemo, useState } from 'react';
 
 import { BigNumber } from '@ardenthq/sdk-helpers';
+import { runtime } from 'webextension-polyfill';
+import { useFormik } from 'formik';
+import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { DelegatesList } from '@/components/vote/DelegatesList';
 import { DelegatesSearchInput } from '@/components/vote/DelegatesSearchInput';
 import { Footer } from '@/shared/components/layout/Footer';
@@ -9,17 +14,12 @@ import { ScreenName } from '@/lib/background/contracts';
 import SubPageLayout from '@/components/settings/SubPageLayout';
 import { VoteButton } from '@/components/vote/VoteButton';
 import { VoteFee } from '@/components/vote/VoteFee';
-import assert from 'assert';
 import { assertWallet } from '@/lib/utils/assertions';
 import constants from '@/constants';
-import { runtime } from 'webextension-polyfill';
 import { useDelegates } from '@/lib/hooks/useDelegates';
 import { useEnvironmentContext } from '@/lib/context/Environment';
-import { useFormik } from 'formik';
-import { useNavigate } from 'react-router-dom';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 import { useProfileContext } from '@/lib/context/Profile';
-import { useTranslation } from 'react-i18next';
 import { useVote } from '@/lib/hooks/useVote';
 
 export type VoteFormik = {
