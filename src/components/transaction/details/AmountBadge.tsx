@@ -39,7 +39,7 @@ export const AmountBadge = ({
                     <div
                         className={cn('px-1.5 py-1.5 dark:text-white', {
                             'dark:bg-theme-secondary-600': type === 'default',
-                            'dark:bg-theme-green-700': type === 'positive',
+                            'dark:bg-[#307845]': type === 'positive',
                             'bg-theme-warning-150 text-theme-warning-750 dark:bg-theme-error-350':
                                 type === 'negative',
                         })}
