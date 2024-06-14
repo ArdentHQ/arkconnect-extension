@@ -23,7 +23,8 @@ export const FeeWarning = ({
                 <span>
                     {t('MISC.FEE_WARNING.TOP_LINE', {
                         state: customFeeState,
-                    })}<br />
+                    })}
+                    <br />
                     {t('MISC.FEE_WARNING.BOTTOM_LINE', {
                         formattedAmount,
                         coin,
