@@ -1,25 +1,26 @@
 import assert from 'assert';
-import { useTranslation } from 'react-i18next';
-import { useEffect, useMemo, useState } from 'react';
-import { useFormik } from 'formik';
-import { BigNumber } from '@ardenthq/sdk-helpers';
 import { object, string } from 'yup';
+import { useEffect, useMemo, useState } from 'react';
+
+import { BigNumber } from '@ardenthq/sdk-helpers';
 import { runtime } from 'webextension-polyfill';
+import { useFormik } from 'formik';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import { DelegatesList } from '@/components/vote/DelegatesList';
+import { DelegatesSearchInput } from '@/components/vote/DelegatesSearchInput';
+import { Footer } from '@/shared/components/layout/Footer';
+import { ScreenName } from '@/lib/background/contracts';
 import SubPageLayout from '@/components/settings/SubPageLayout';
+import { VoteButton } from '@/components/vote/VoteButton';
+import { VoteFee } from '@/components/vote/VoteFee';
+import { assertWallet } from '@/lib/utils/assertions';
+import constants from '@/constants';
 import { useDelegates } from '@/lib/hooks/useDelegates';
 import { useEnvironmentContext } from '@/lib/context/Environment';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
-import { assertWallet } from '@/lib/utils/assertions';
-import { DelegatesList } from '@/components/vote/DelegatesList';
-import { VoteButton } from '@/components/vote/VoteButton';
-import { DelegatesSearchInput } from '@/components/vote/DelegatesSearchInput';
-import constants from '@/constants';
-import { Footer } from '@/shared/components/layout/Footer';
-import { VoteFee } from '@/components/vote/VoteFee';
-import { ScreenName } from '@/lib/background/contracts';
-import { useVote } from '@/lib/hooks/useVote';
 import { useProfileContext } from '@/lib/context/Profile';
+import { useVote } from '@/lib/hooks/useVote';
 
 export type VoteFormik = {
     delegateAddress?: string;
@@ -74,7 +75,7 @@ const Vote = () => {
                 return Number(value) > 0;
             })
             .test('max-value', t('ERROR.IS_TOO_HIGH', { name: 'Fee' }), (value) => {
-                return Number(value) < 1;
+                return Number(value) <= constants.MAX_FEES.vote;
             })
             .trim(),
         delegateAddress: string()
@@ -195,6 +196,11 @@ const Vote = () => {
         };
     }, [formik.values]);
 
+    const handleFeeInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        event.target.value = event.target.value.trim();
+        formik.handleChange(event);
+    };
+
     return (
         <SubPageLayout
             title={t('PAGES.VOTE.VOTE')}
@@ -208,6 +214,7 @@ const Vote = () => {
                         onSelectedFee={(fee) => formik.setFieldValue('fee', fee)}
                         onBlur={formik.handleBlur}
                         feeError={formik.errors.fee}
+                        handleFeeInputChange={handleFeeInputChange}
                     />
 
                     <VoteButton
@@ -230,6 +237,14 @@ const Vote = () => {
                 votes={currentVotes}
                 selectedDelegateAddress={formik.values.delegateAddress}
             />
+
+            {!searchQuery && (
+                <div className='mt-4'>
+                    <p className='w-full text-center text-sm text-theme-secondary-500 dark:text-theme-secondary-300'>
+                        {t('PAGES.VOTE.USE_SEARCH_TO_FIND_DELEGATES')}
+                    </p>
+                </div>
+            )}
         </SubPageLayout>
     );
 };

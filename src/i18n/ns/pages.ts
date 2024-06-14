@@ -42,6 +42,7 @@ export default {
             CURRENT: 'Current',
         },
         EDIT_FEE: 'Edit Fee',
+        USE_SEARCH_TO_FIND_DELEGATES: 'Use the search to find other delegates',
     },
     CREATE_WALLET: {
         SAVE_YOUR_SECRET_PASSPHRASE: 'Save Your Secret Passphrase',

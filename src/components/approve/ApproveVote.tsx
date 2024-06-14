@@ -173,6 +173,7 @@ const ApproveVote = ({ abortReference, approveWithLedger, wallet, closeLedgerScr
             closeLedgerScreen();
             reject(error.message);
             onError(error);
+            loadingModal.close();
         }
     };
 

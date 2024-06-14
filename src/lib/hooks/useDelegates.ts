@@ -24,7 +24,10 @@ export const useDelegates = ({
 
             await env.delegates().sync(profile, wallet.coinId(), wallet.networkId());
 
-            const allDelegates = env.delegates().all(wallet.coinId(), wallet.networkId());
+            const allDelegates = env
+                .delegates()
+                .all(wallet.coinId(), wallet.networkId())
+                .filter((delegate) => !delegate.isResignedDelegate());
 
             setAllDelegates(allDelegates);
 

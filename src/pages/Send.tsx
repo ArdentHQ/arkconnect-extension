@@ -1,20 +1,20 @@
 import { object, string } from 'yup';
 import { useEffect, useState } from 'react';
-
 import { BigNumber } from '@ardenthq/sdk-helpers';
 import { runtime } from 'webextension-polyfill';
 import { useFormik } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { validateAddress } from './CreateContact';
-import constants from '@/constants';
+import { SendButton, SendForm } from '@/components/send';
+
 import { ScreenName } from '@/lib/background/contracts';
 import SubPageLayout from '@/components/settings/SubPageLayout';
-import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
-import { useProfileContext } from '@/lib/context/Profile';
-import { SendButton, SendForm } from '@/components/send';
 import { ValidateAddressResponse } from '@/components/address-book/types';
 import { WalletNetwork } from '@/lib/store/wallet';
+import constants from '@/constants';
+import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
+import { useProfileContext } from '@/lib/context/Profile';
 
 export type SendFormik = {
     amount?: string;
@@ -92,7 +92,7 @@ const Send = () => {
                 return Number(value) > 0;
             })
             .test('max-value', t('ERROR.IS_TOO_HIGH', { name: 'Fee' }), (value) => {
-                return Number(value) < 1;
+                return Number(value) <= constants.MAX_FEES.transfer;
             })
             .trim(),
         receiverAddress: string()
