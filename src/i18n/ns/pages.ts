@@ -158,7 +158,7 @@ export default {
     VOTE_APPROVED: {
         VOTE_APPROVED: 'Vote Approved',
         UNVOTE_APPROVED: 'Unvote Approved',
-        SWITCH_VOTE_APPROVED: 'Switch Vote Approved',
+        VOTE_SWAP_APPROVED: 'Vote Swap Approved',
     },
     WALLET_NOT_FOUND: {
         YOU_DONT_HAVE_ANY_WALLET:
@@ -177,7 +177,7 @@ export default {
             INSUFFICIENT_BALANCE: 'Insufficient balance. Add funds or switch address.',
             PROCESSING_THE_VOTE: 'Processing the vote...',
             PROCESSING_THE_UNVOTE: 'Processing the unvote...',
-            PROCESSING_THE_VOTE_SWITCH: 'Processing the vote switch...',
+            PROCESSING_THE_VOTE_SWAP: 'Processing the vote swap...',
             SIGN_VOTE_DENIED: 'Sign vote denied!',
         },
     },
