@@ -1,6 +1,7 @@
 import { Dispatch, SetStateAction } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Icon, Input } from '@/shared/components';
+import { NavButton } from '@/shared/components/nav/NavButton';
 
 export const DelegatesSearchInput = ({
     searchQuery,
@@ -25,9 +26,9 @@ export const DelegatesSearchInput = ({
                 }
                 trailing={
                     searchQuery !== '' && (
-                        <button className='mt-1.5' type='button' onClick={() => setSearchQuery('')}>
+                        <NavButton onClick={() => setSearchQuery('')}>
                             <Icon icon='clear' className='h-5 w-5 text-black dark:text-white' />
-                        </button>
+                        </NavButton>
                     )
                 }
                 placeholder={t('PAGES.VOTE.FIND_A_DELEGATE')}
