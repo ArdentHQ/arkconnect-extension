@@ -38,7 +38,7 @@ export const TransactionTitle = ({
         case TransactionType.RETURN:
             return t('COMMON.RETURN');
         case TransactionType.SWAP:
-            return t('COMMON.SWAP_VOTE');
+            return t('COMMON.VOTE_SWAP');
         case TransactionType.VOTE:
             return t('COMMON.VOTE');
         case TransactionType.UNVOTE:
