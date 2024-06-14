@@ -25,6 +25,13 @@ const AMOUNT_REGEX = /^[0-9]+(\.[0-9]{1,8})?$/;
 // is 8 digits in total.
 const MAX_CURRENCY_DIGITS_ALLOWED = 9;
 
+// Max fee for transactions per supported type
+// set to static fee for the network
+const MAX_FEES = {
+    transfer: 0.1,
+    vote: 1,
+};
+
 const constants = {
     SUPPORT_EMAIL,
     ARKSCAN_MAINNET_TRANSACTIONS,
@@ -45,6 +52,7 @@ const constants = {
     TRANSACTION_CONFIRMATION_DELAY_MS,
     ADDRESS_LENGTH,
     AMOUNT_REGEX,
+    MAX_FEES,
 };
 
 export default constants;
