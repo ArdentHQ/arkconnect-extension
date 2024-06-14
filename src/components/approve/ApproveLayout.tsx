@@ -1,8 +1,8 @@
 import cn from 'classnames';
 import { Contracts } from '@ardenthq/sdk-profiles';
+import { useTranslation } from 'react-i18next';
 import { FeeBanner } from './CustomFeeAlerts.blocks';
 import RequestedBy from '@/shared/components/actions/RequestedBy';
-import constants from '@/constants';
 
 export const ApproveLayout = ({
     children,
@@ -29,11 +29,12 @@ export const ApproveLayout = ({
     wallet?: Contracts.IReadWriteWallet;
     containerClassName?: string;
 }) => {
+    const { t } = useTranslation();
     const hasCustomFee = hasHigherCustomFee || hasLowerCustomFee;
     const customFeeState = hasCustomFee
         ? hasHigherCustomFee
-            ? constants.FEE_HIGHER
-            : constants.FEE_LOWER
+            ? t('COMMON.HIGHER')
+            : t('COMMON.LOWER')
         : null;
 
     return (

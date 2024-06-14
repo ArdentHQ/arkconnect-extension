@@ -10,7 +10,6 @@ import {
 
 import { FeeWarning } from './CustomFeeAlerts.blocks';
 import trimAddress from '@/lib/utils/trimAddress';
-import constants from '@/constants';
 
 type VoteData = {
     address?: string;
@@ -69,8 +68,8 @@ export const ActionBody = ({
     const customFee = hasHigherCustomFee || hasLowerCustomFee;
     const customFeeState = customFee
         ? hasHigherCustomFee
-            ? constants.FEE_HIGHER
-            : constants.FEE_LOWER
+            ? t('COMMON.HIGHER')
+            : t('COMMON.LOWER')
         : null;
 
     return (
