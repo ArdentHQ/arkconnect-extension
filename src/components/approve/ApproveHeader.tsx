@@ -25,7 +25,7 @@ const ApproveHeader = ({ actionType }: Props) => {
         [ApproveActionType.TRANSACTION]: `${t('COMMON.TRANSACTION')} ${t('COMMON.REQUESTED')}`,
         [ApproveActionType.VOTE]: `${t('COMMON.VOTE')} ${t('COMMON.REQUESTED')}`,
         [ApproveActionType.UNVOTE]: `${t('COMMON.UNVOTE')} ${t('COMMON.REQUESTED')}`,
-        [ApproveActionType.SWITCH_VOTE]: t('COMMON.REQUESTED_TO_SWITCH_VOTE'),
+        [ApproveActionType.SWITCH_VOTE]: t('COMMON.REQUESTED_TO_SWAP_VOTE'),
     };
 
     return <ActionHeader actionLabel={labels[actionType]} icon={icons[actionType]} />;
