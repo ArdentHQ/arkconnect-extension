@@ -33,9 +33,12 @@ export const useDelegates = ({
             setAllDelegates(allDelegates);
 
             const currentVote = wallet.voting().current();
-            const currentVoteAddress = currentVote.length > 0 ? currentVote[0].wallet?.address() : undefined;
+            const currentVoteAddress =
+                currentVote.length > 0 ? currentVote[0].wallet?.address() : undefined;
             if (currentVoteAddress) {
-                const currentDelegate = env.delegates().findByAddress(wallet.coinId(), wallet.networkId(), currentVoteAddress);
+                const currentDelegate = env
+                    .delegates()
+                    .findByAddress(wallet.coinId(), wallet.networkId(), currentVoteAddress);
                 setCurrentDelegate(currentDelegate);
             }
 
@@ -47,7 +50,10 @@ export const useDelegates = ({
     const delegates = useMemo(() => {
         if (searchQuery.length === 0) {
             const delegateList = allDelegates.slice(0, limit);
-            if (currentDelegate && !delegateList.some((delegate) => delegate.address() === currentDelegate.address())) {
+            if (
+                currentDelegate &&
+                !delegateList.some((delegate) => delegate.address() === currentDelegate.address())
+            ) {
                 delegateList.unshift(currentDelegate);
             }
 
