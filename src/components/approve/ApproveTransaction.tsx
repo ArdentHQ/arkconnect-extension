@@ -205,6 +205,7 @@ const ApproveTransaction = ({
             showHigherCustomFeeBanner={showHigherCustomFeeBanner}
             setShowHigherCustomFeeBanner={setShowHigherCustomFeeBanner}
             hasHigherCustomFee={hasHigherCustomFee}
+            hasLowerCustomFee={hasLowerCustomFee}
             wallet={wallet}
         >
             <ApproveHeader actionType={ApproveActionType.TRANSACTION} />
