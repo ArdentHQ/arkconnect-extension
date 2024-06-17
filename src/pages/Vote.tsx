@@ -155,8 +155,9 @@ const Vote = () => {
     });
 
     const hasValues = formik.values.delegateAddress && formik.values.fee;
+    const isFeeValid = constants.FEE_REGEX.test(formik.values.fee);
     const hasSufficientFunds = BigNumber.make(wallet.balance() || 0).isGreaterThan(
-        BigNumber.make(formik.values.fee || 0),
+        BigNumber.make(isFeeValid ? formik.values.fee : 0),
     );
 
     const { isVoting, isUnvoting, isSwapping, actionLabel, disabled, currentlyVotedAddress } =
@@ -197,6 +198,10 @@ const Vote = () => {
     }, [formik.values]);
 
     const handleFeeInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (!constants.FEE_REGEX.test(event.target.value)) {
+            return;
+        }
+
         event.target.value = event.target.value.trim();
         formik.handleChange(event);
     };
