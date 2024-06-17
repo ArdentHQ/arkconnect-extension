@@ -84,7 +84,7 @@ const ApproveVote = ({ abortReference, approveWithLedger, wallet, closeLedgerScr
             case ApproveActionType.UNVOTE:
                 return t('PAGES.APPROVE.FEEDBACK.PROCESSING_THE_UNVOTE');
             case ApproveActionType.SWITCH_VOTE:
-                return t('PAGES.APPROVE.FEEDBACK.PROCESSING_THE_VOTE_SWITCH');
+                return t('PAGES.APPROVE.FEEDBACK.PROCESSING_THE_VOTE_SWAP');
             default:
                 return '';
         }

@@ -93,7 +93,7 @@ const VoteApproved = () => {
             case ApproveActionType.UNVOTE:
                 return t('PAGES.VOTE_APPROVED.UNVOTE_APPROVED');
             case ApproveActionType.SWITCH_VOTE:
-                return t('PAGES.VOTE_APPROVED.SWITCH_VOTE_APPROVED');
+                return t('PAGES.VOTE_APPROVED.VOTE_SWAP_APPROVED');
             default:
                 return '';
         }
