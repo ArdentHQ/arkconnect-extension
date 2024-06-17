@@ -32,7 +32,7 @@ export const VoteLedgerApprovalBody = ({ wallet, state }: Props) => {
     const { session, amount, receiverAddress } = state;
 
     const {
-        values: { hasHigherCustomFee },
+        values: { hasHigherCustomFee, hasLowerCustomFee },
     } = useSendTransferForm(wallet, {
         session,
         amount: amount ?? 0,
@@ -69,6 +69,7 @@ export const VoteLedgerApprovalBody = ({ wallet, state }: Props) => {
             }}
             actionDetailsClassName='max-h-81.5'
             hasHigherCustomFee={hasHigherCustomFee}
+            hasLowerCustomFee={hasLowerCustomFee}
             amountTicker={wallet.currency()}
         />
     );

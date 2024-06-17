@@ -1,18 +1,34 @@
+import { useTranslation } from 'react-i18next';
 import { Icon, Tooltip } from '@/shared/components';
 import cropToMaxDigits from '@/lib/utils/cropToMaxDigits';
 
-export const HigherFeeWarning = ({ averageFee, coin }: { averageFee: number; coin: string }) => {
+export const FeeWarning = ({
+    averageFee,
+    coin,
+    customFeeState,
+}: {
+    averageFee: number;
+    coin: string;
+    customFeeState: string | null;
+}) => {
+    const { t } = useTranslation();
     const formattedAmount = cropToMaxDigits({
         value: averageFee,
-        maxDigits: 3,
+        maxDigits: 4,
     });
 
     return (
         <Tooltip
             content={
                 <span>
-                    The fee specified appears to be higher <br /> than the typical rate, which is{' '}
-                    {formattedAmount} {coin}.
+                    {t('MISC.FEE_WARNING.TOP_LINE', {
+                        state: customFeeState,
+                    })}
+                    <br />
+                    {t('MISC.FEE_WARNING.BOTTOM_LINE', {
+                        formattedAmount,
+                        coin,
+                    })}
                 </span>
             }
             placement='top'
@@ -27,18 +43,21 @@ export const HigherFeeWarning = ({ averageFee, coin }: { averageFee: number; coi
     );
 };
 
-export const HigherFeeBanner = ({
+export const FeeBanner = ({
     averageFee,
     coin,
     onClose,
+    customFeeState,
 }: {
     averageFee: number;
     coin: string;
     onClose: () => void;
+    customFeeState: string | null;
 }) => {
+    const { t } = useTranslation();
     const formattedAmount = cropToMaxDigits({
         value: averageFee,
-        maxDigits: 3,
+        maxDigits: 4,
     });
 
     return (
@@ -46,8 +65,13 @@ export const HigherFeeBanner = ({
             <div className='flex items-center gap-2'>
                 <Icon icon='information-circle' className='h-5 w-5 flex-shrink-0' />
                 <span className='text-sm leading-[17.5px]'>
-                    The fee specified appears to be higher than the typical rate, which is{' '}
-                    {formattedAmount} {coin}.
+                    {t('MISC.FEE_WARNING.TOP_LINE', {
+                        state: customFeeState,
+                    })}{' '}
+                    {t('MISC.FEE_WARNING.BOTTOM_LINE', {
+                        formattedAmount,
+                        coin,
+                    })}
                 </span>
             </div>
             <button onClick={onClose}>

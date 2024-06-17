@@ -55,7 +55,7 @@ const ApproveVote = ({ abortReference, approveWithLedger, wallet, closeLedgerScr
         resetForm,
         submitForm,
         loading,
-        values: { fee, vote, unvote, hasHigherCustomFee },
+        values: { fee, vote, unvote, hasHigherCustomFee, hasLowerCustomFee },
     } = useVoteForm(wallet, { customFee, ...state });
 
     useEffect(() => {
@@ -203,6 +203,7 @@ const ApproveVote = ({ abortReference, approveWithLedger, wallet, closeLedgerScr
                 showHigherCustomFeeBanner={showHigherCustomFeeBanner}
                 setShowHigherCustomFeeBanner={setShowHigherCustomFeeBanner}
                 hasHigherCustomFee={hasHigherCustomFee}
+                hasLowerCustomFee={hasLowerCustomFee}
                 wallet={wallet}
             >
                 <>
@@ -233,6 +234,7 @@ const ApproveVote = ({ abortReference, approveWithLedger, wallet, closeLedgerScr
                             }}
                             actionDetailsClassName='max-h-81.5'
                             hasHigherCustomFee={hasHigherCustomFee}
+                            hasLowerCustomFee={hasLowerCustomFee}
                             amountTicker={wallet.currency()}
                         />
                     </ApproveBody>
