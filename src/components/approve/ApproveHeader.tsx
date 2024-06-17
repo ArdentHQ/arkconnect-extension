@@ -21,11 +21,11 @@ const ApproveHeader = ({ actionType }: Props) => {
     const labels: {
         [key in ApproveActionType]: string;
     } = {
-        [ApproveActionType.SIGNATURE]: t('COMMON.REQUESTED', { action: t('COMMON.SIGNATURE')}),
-        [ApproveActionType.TRANSACTION]: t('COMMON.REQUESTED', { action: t('COMMON.TRANSACTION')}),
-        [ApproveActionType.VOTE]: t('COMMON.REQUESTED', { action: t('COMMON.VOTE')}),
-        [ApproveActionType.UNVOTE]: t('COMMON.REQUESTED', { action: t('COMMON.UNVOTE')}),
-        [ApproveActionType.SWITCH_VOTE]: t('COMMON.REQUESTED', { action: t('COMMON.VOTE_SWAP')}),
+        [ApproveActionType.SIGNATURE]: t('COMMON.REQUESTED', { action: t('COMMON.SIGNATURE') }),
+        [ApproveActionType.TRANSACTION]: t('COMMON.REQUESTED', { action: t('COMMON.TRANSACTION') }),
+        [ApproveActionType.VOTE]: t('COMMON.REQUESTED', { action: t('COMMON.VOTE') }),
+        [ApproveActionType.UNVOTE]: t('COMMON.REQUESTED', { action: t('COMMON.UNVOTE') }),
+        [ApproveActionType.SWITCH_VOTE]: t('COMMON.REQUESTED', { action: t('COMMON.VOTE_SWAP') }),
     };
 
     return <ActionHeader actionLabel={labels[actionType]} icon={icons[actionType]} />;
