@@ -155,7 +155,7 @@ const Vote = () => {
     });
 
     const hasValues = formik.values.delegateAddress && formik.values.fee;
-    const isFeeValid = constants.FEE_REGEX.test(formik.values.fee);
+    const isFeeValid = formik.values.fee && constants.FEE_REGEX.test(formik.values.fee);
     const hasSufficientFunds = BigNumber.make(wallet.balance() || 0).isGreaterThan(
         BigNumber.make(isFeeValid ? formik.values.fee : 0),
     );
