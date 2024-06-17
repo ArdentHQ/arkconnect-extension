@@ -66,6 +66,14 @@ export const ActionBody = ({
         <ActionDetails className={actionDetailsClassName}>
             {isApproved && <ActionAddressRow label={t('COMMON.SENDER')} address={sender ?? ''} />}
 
+            {receiver && (
+                <ActionAddressRow
+                    label={t('COMMON.RECEIVER')}
+                    address={receiver}
+                    displayAddressBookName
+                />
+            )}
+
             {amount !== undefined && convertedAmount !== undefined && (
                 <ActionAmountRow
                     label={t('COMMON.AMOUNT')}
@@ -75,22 +83,6 @@ export const ActionBody = ({
                     exchangeCurrency={exchangeCurrency}
                     network={network}
                     amountTicker={amountTicker}
-                />
-            )}
-
-            {receiver && (
-                <ActionAddressRow
-                    label={t('COMMON.RECEIVER')}
-                    address={receiver}
-                    displayAddressBookName
-                />
-            )}
-            {memo && (
-                <ActionBodyRow
-                    label={t('COMMON.MEMO')}
-                    value={memo}
-                    className='truncate pl-20'
-                    tooltipContent={memo}
                 />
             )}
 
@@ -120,6 +112,15 @@ export const ActionBody = ({
                     showFiat={showFiat}
                     exchangeCurrency={exchangeCurrency}
                     network={network}
+                />
+            )}
+
+            {memo && (
+                <ActionBodyRow
+                    label={t('COMMON.MEMO')}
+                    value={memo}
+                    className='truncate pl-20'
+                    tooltipContent={memo}
                 />
             )}
 
