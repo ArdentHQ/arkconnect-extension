@@ -98,9 +98,11 @@ export const ActionTransactionIdRow = ({ transactionId }: { transactionId: strin
     const { t } = useTranslation();
 
     return (
-        <ActionDetailsRow label={t('COMMON.TRANSACTION_ID')}>
+        <ActionDetailsRow label={t('COMMON.TRANSACTION_ID')} className='items-center'>
             <div className='flex items-center gap-1'>
-                <ActionDetailsValue>{trimAddress(transactionId, 'short')}</ActionDetailsValue>
+                <Tooltip content={transactionId} className='break-words w-72' >
+                    <ActionDetailsValue>{trimAddress(transactionId, 'short')}</ActionDetailsValue>
+                </Tooltip>
 
                 <CopyTransactionId transactionId={transactionId} />
             </div>
