@@ -100,7 +100,7 @@ export const ActionTransactionIdRow = ({ transactionId }: { transactionId: strin
     return (
         <ActionDetailsRow label={t('COMMON.TRANSACTION_ID')} className='items-center'>
             <div className='flex items-center gap-1'>
-                <Tooltip content={transactionId} className='break-words w-72' >
+                <Tooltip content={transactionId} className='w-72 break-words'>
                     <ActionDetailsValue>{trimAddress(transactionId, 'short')}</ActionDetailsValue>
                 </Tooltip>
 
