@@ -29,7 +29,7 @@ interface Props {
 }
 
 export const VoteLedgerApprovalBody = ({ wallet, state }: Props) => {
-    const { session, amount, receiverAddress } = state;
+    const { session, amount, receiverAddress, fee: customFee } = state;
 
     const {
         values: { hasHigherCustomFee, hasLowerCustomFee },
@@ -37,6 +37,7 @@ export const VoteLedgerApprovalBody = ({ wallet, state }: Props) => {
         session,
         amount: amount ?? 0,
         receiverAddress,
+        customFee,
     });
 
     const { convert } = useExchangeRate({
@@ -53,7 +54,7 @@ export const VoteLedgerApprovalBody = ({ wallet, state }: Props) => {
             isApproved={false}
             showFiat={wallet.network().isLive()}
             wallet={wallet}
-            fee={fee}
+            fee={customFee || fee}
             convertedFee={convert(fee)}
             exchangeCurrency={wallet.exchangeCurrency() ?? 'USD'}
             network={getNetworkCurrency(wallet.network())}
