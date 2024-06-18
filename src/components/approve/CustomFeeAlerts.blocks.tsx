@@ -22,7 +22,7 @@ export const FeeWarning = ({
             content={
                 <span>
                     {t('MISC.FEE_WARNING.TOP_LINE', {
-                        state: customFeeState,
+                        state: customFeeState?.toLowerCase(),
                     })}
                     <br />
                     {t('MISC.FEE_WARNING.BOTTOM_LINE', {
@@ -66,7 +66,7 @@ export const FeeBanner = ({
                 <Icon icon='information-circle' className='h-5 w-5 flex-shrink-0' />
                 <span className='text-sm leading-[17.5px]'>
                     {t('MISC.FEE_WARNING.TOP_LINE', {
-                        state: customFeeState,
+                        state: customFeeState?.toLowerCase(),
                     })}{' '}
                     {t('MISC.FEE_WARNING.BOTTOM_LINE', {
                         formattedAmount,
