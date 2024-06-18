@@ -196,7 +196,7 @@ const TransactionListItem = ({
                 </div>
 
                 <div className='flex w-full flex-row items-center justify-between'>
-                    <div className='flex flex-col gap-1'>
+                    <div className='flex flex-col gap-1.5'>
                         <span className='text-left text-base font-medium leading-tight text-light-black dark:text-white'>
                             <TransactionTitle type={type} isSender={transaction.isSent()} />
                             {type === TransactionType.MULTIPAYMENT && (
