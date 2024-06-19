@@ -15,7 +15,12 @@ const RequestedSignatureMessage = ({ data, className }: Props) => {
                 {t('COMMON.MESSAGE')}
             </div>
 
-            <div className={twMerge('custom-scroll flex min-h-60 w-full flex-1 overflow-auto rounded-lg border border-solid border-theme-secondary-200 bg-white p-3 text-light-black dark:border-theme-secondary-700 dark:bg-subtle-black dark:text-white', className)}>
+            <div
+                className={twMerge(
+                    'custom-scroll flex min-h-60 w-full flex-1 overflow-auto rounded-lg border border-solid border-theme-secondary-200 bg-white p-3 text-light-black dark:border-theme-secondary-700 dark:bg-subtle-black dark:text-white',
+                    className,
+                )}
+            >
                 {data.message}
             </div>
         </div>
