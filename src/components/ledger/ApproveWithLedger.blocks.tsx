@@ -116,7 +116,5 @@ export const SignatureLedgerApprovalBody = () => {
     const location = useLocation();
     const { state } = location;
 
-    return (
-        <RequestedSignatureMessage data={state} className='min-h-[194px]' />
-    );
+    return <RequestedSignatureMessage data={state} className='min-h-[194px]' />;
 };
