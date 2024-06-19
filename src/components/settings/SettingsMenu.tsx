@@ -102,6 +102,13 @@ export const SettingsMenu = ({
                         }
                     />
                     <SettingsOption
+                        title={t('PAGES.SETTINGS.MENU.VOTE')}
+                        iconLeading='vote'
+                        onClick={() => handleNavigation('/vote')}
+                        iconTrailing='arrow-right'
+                        onKeyDown={(e) => handleSubmitKeyAction(e, () => handleNavigation('/vote'))}
+                    />
+                    <SettingsOption
                         title={t('PAGES.SETTINGS.MENU.ADDRESS_BOOK')}
                         iconLeading='users'
                         iconContainerClassName='overflow-visible'

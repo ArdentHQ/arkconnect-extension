@@ -2,6 +2,7 @@ import { useRef } from 'react';
 import { TippyProps } from '@tippyjs/react';
 import cn from 'classnames';
 import { twMerge } from 'tailwind-merge';
+import { useTranslation } from 'react-i18next';
 import Amount from '@/components/wallet/Amount';
 import { Icon, Tooltip } from '@/shared/components';
 import trimAddress from '@/lib/utils/trimAddress';
@@ -78,7 +79,7 @@ export const Address = ({
             <Tooltip content={address} placement={tooltipPlacement}>
                 <p
                     className={twMerge(
-                        'max-w-44 cursor-pointer text-sm font-normal leading-[17.5px] text-theme-secondary-500 underline-offset-2 hover:underline dark:text-theme-secondary-300',
+                        'max-w-44 cursor-default text-sm font-normal leading-[17.5px] text-theme-secondary-500 underline-offset-2 hover:underline dark:text-theme-secondary-300',
                         className,
                     )}
                 >
@@ -91,6 +92,7 @@ export const Address = ({
 
 export const AddressWithCopy = ({ address, length = 10 }: { address: string; length?: number }) => {
     const { copy } = useClipboard();
+    const { t } = useTranslation();
     const trimmedAddress = trimAddress(address, length);
 
     return (
@@ -100,7 +102,7 @@ export const AddressWithCopy = ({ address, length = 10 }: { address: string; len
                 copy(address, trimmedAddress, ToastPosition.LOWER);
             }}
         >
-            <Tooltip content='Copy address' placement='top'>
+            <Tooltip content={t('COMMON.COPY_with_name', { name: 'Address' })} placement='top'>
                 <div className='flex items-center gap-1.5'>
                     <p className='typeset-body text-theme-secondary-500 dark:text-theme-secondary-300'>
                         {trimmedAddress}

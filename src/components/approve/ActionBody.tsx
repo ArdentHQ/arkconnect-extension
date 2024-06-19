@@ -7,7 +7,8 @@ import {
     ActionBodyRow,
     ActionTransactionIdRow,
 } from './ActionBody.blocks';
-import { HigherFeeWarning } from './HigherCustomFee.blocks';
+
+import { FeeWarning } from './CustomFeeAlerts.blocks';
 import trimAddress from '@/lib/utils/trimAddress';
 
 type VoteData = {
@@ -35,6 +36,7 @@ interface ActionBodyProps {
     vote?: VoteData;
     wallet?: Contracts.IReadWriteWallet;
     hasHigherCustomFee?: number | null;
+    hasLowerCustomFee?: number | null;
     memo?: string | null;
 }
 
@@ -58,13 +60,29 @@ export const ActionBody = ({
     totalAmount,
     convertedTotalAmount,
     hasHigherCustomFee = null,
+    hasLowerCustomFee = null,
     memo = null,
 }: ActionBodyProps) => {
     const { t } = useTranslation();
 
+    const customFee = hasHigherCustomFee || hasLowerCustomFee;
+    const customFeeState = customFee
+        ? hasHigherCustomFee
+            ? t('COMMON.HIGHER')
+            : t('COMMON.LOWER')
+        : null;
+
     return (
         <ActionDetails className={actionDetailsClassName}>
             {isApproved && <ActionAddressRow label={t('COMMON.SENDER')} address={sender ?? ''} />}
+
+            {receiver && (
+                <ActionAddressRow
+                    label={t('COMMON.RECEIVER')}
+                    address={receiver}
+                    displayAddressBookName
+                />
+            )}
 
             {amount !== undefined && convertedAmount !== undefined && (
                 <ActionAmountRow
@@ -78,28 +96,16 @@ export const ActionBody = ({
                 />
             )}
 
-            {receiver && (
-                <ActionAddressRow
-                    label={t('COMMON.RECEIVER')}
-                    address={receiver}
-                    displayAddressBookName
-                />
-            )}
-            {memo && (
-                <ActionBodyRow
-                    label={t('COMMON.MEMO')}
-                    value={memo}
-                    className='truncate pl-20'
-                    tooltipContent={memo}
-                />
-            )}
-
             <ActionAmountRow
                 label={
                     <span className='flex items-center gap-1'>
                         {t('COMMON.TRANSACTION_FEE')}{' '}
-                        {hasHigherCustomFee && amountTicker && (
-                            <HigherFeeWarning averageFee={hasHigherCustomFee} coin={amountTicker} />
+                        {customFee && amountTicker && (
+                            <FeeWarning
+                                averageFee={customFee}
+                                coin={amountTicker}
+                                customFeeState={customFeeState}
+                            />
                         )}
                     </span>
                 }
@@ -120,6 +126,15 @@ export const ActionBody = ({
                     showFiat={showFiat}
                     exchangeCurrency={exchangeCurrency}
                     network={network}
+                />
+            )}
+
+            {memo && (
+                <ActionBodyRow
+                    label={t('COMMON.MEMO')}
+                    value={memo}
+                    className='truncate pl-20'
+                    tooltipContent={memo}
                 />
             )}
 

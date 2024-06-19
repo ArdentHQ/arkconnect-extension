@@ -29,14 +29,15 @@ interface Props {
 }
 
 export const VoteLedgerApprovalBody = ({ wallet, state }: Props) => {
-    const { session, amount, receiverAddress } = state;
+    const { session, amount, receiverAddress, fee: customFee } = state;
 
     const {
-        values: { hasHigherCustomFee },
+        values: { hasHigherCustomFee, hasLowerCustomFee },
     } = useSendTransferForm(wallet, {
         session,
         amount: amount ?? 0,
         receiverAddress,
+        customFee,
     });
 
     const { convert } = useExchangeRate({
@@ -53,7 +54,7 @@ export const VoteLedgerApprovalBody = ({ wallet, state }: Props) => {
             isApproved={false}
             showFiat={wallet.network().isLive()}
             wallet={wallet}
-            fee={fee}
+            fee={customFee || fee}
             convertedFee={convert(fee)}
             exchangeCurrency={wallet.exchangeCurrency() ?? 'USD'}
             network={getNetworkCurrency(wallet.network())}
@@ -67,8 +68,8 @@ export const VoteLedgerApprovalBody = ({ wallet, state }: Props) => {
                 publicKey: vote?.wallet?.publicKey(),
                 address: vote?.wallet?.address(),
             }}
-            actionDetailsClassName='max-h-81.5'
             hasHigherCustomFee={hasHigherCustomFee}
+            hasLowerCustomFee={hasLowerCustomFee}
             amountTicker={wallet.currency()}
         />
     );

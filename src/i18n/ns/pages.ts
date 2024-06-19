@@ -30,6 +30,20 @@ export default {
         ARE_YOU_CERTAIN_TO_DISCONNECT_YOUR_CONNECTION:
             'Are you certain you want to disconnect your connection with ',
     },
+    VOTE: {
+        VOTE: 'Vote',
+        FIND_A_DELEGATE: 'Find a delegate',
+        NO_RESULTS:
+            'The delegate is either unregistered or resigned. Check your search term and try again.',
+        ACTIONS: {
+            SELECT: 'Select',
+            SELECTED: 'Selected',
+            UNSELECTED: 'Unselected',
+            CURRENT: 'Current',
+        },
+        EDIT_FEE: 'Edit Fee',
+        USE_SEARCH_TO_FIND_DELEGATES: 'Use the search to find other delegates',
+    },
     CREATE_WALLET: {
         SAVE_YOUR_SECRET_PASSPHRASE: 'Save Your Secret Passphrase',
         WRITE_DOWN_OR_COPY_YOUR_PASSPHRASE:
@@ -144,7 +158,7 @@ export default {
     VOTE_APPROVED: {
         VOTE_APPROVED: 'Vote Approved',
         UNVOTE_APPROVED: 'Unvote Approved',
-        SWITCH_VOTE_APPROVED: 'Switch Vote Approved',
+        VOTE_SWAP_APPROVED: 'Vote Swap Approved',
     },
     WALLET_NOT_FOUND: {
         YOU_DONT_HAVE_ANY_WALLET:
@@ -161,9 +175,9 @@ export default {
             PROCESSING_TRANSACTION: 'Processing transaction...',
             SIGN_TRANSACTION_DENIED: 'Sign transaction denied!',
             INSUFFICIENT_BALANCE: 'Insufficient balance. Add funds or switch address.',
-            PROCESSING_THE_VOTE: 'Processing the vote...',
-            PROCESSING_THE_UNVOTE: 'Processing the unvote...',
-            PROCESSING_THE_VOTE_SWITCH: 'Processing the vote switch...',
+            PROCESSING_THE_VOTE: 'Processing the Vote...',
+            PROCESSING_THE_UNVOTE: 'Processing the Unvote...',
+            PROCESSING_THE_VOTE_SWAP: 'Processing the Vote Swap...',
             SIGN_VOTE_DENIED: 'Sign vote denied!',
         },
     },
@@ -228,6 +242,7 @@ export default {
             REMOVE_ADDRESSES: 'Remove Addresses',
             CONNECTED_APPS: 'Connected Apps',
             CREATE_N_IMPORT_ADDRESS: 'Create & Import Address',
+            VOTE: 'Vote',
         },
     },
     TRANSACTION_DETAILS: {
@@ -253,5 +268,19 @@ export default {
     SEND: {
         ENTER_OR_CHOOSE_FROM_SAVED_ADDRESSES: 'Enter or choose from saved addresses',
         RECIPIENT_ADDRESS: 'Recipient Address',
+    },
+    ADDRESS_SETTINGS: {
+        TITLE: 'Address Settings',
+        OPTIONS: {
+            EDIT_NAME: 'Edit Name',
+            COPY_ADDRESS: 'Copy Address',
+            SHOW: 'Show {{ name }}',
+            VIEW_ON_ARKSCAN: 'View on ARKscan',
+            REMOVE_ADDRESS: 'Remove Address',
+        },
+        TOOLTIP: {
+            LEDGER_DEVICES_DO_NOT_ALLOW: 'Ledger devices do not allow',
+            ACCESS_TO: 'access to the {{ name }}',
+        },
     },
 };

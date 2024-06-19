@@ -4,13 +4,11 @@ import { ExtendedConfirmedTransactionData } from '@ardenthq/sdk-profiles/distrib
 import { IReadWriteWallet } from '@ardenthq/sdk-profiles/distribution/esm/wallet.contract';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
+import { TransactionAmount } from '../transaction/Transaction.blocks';
 import {
-    getAmountByAddress,
-    getMultipaymentAmounts,
     getTransactionIcon,
     getType,
     getUniqueRecipients,
-    renderAmount,
     TransactionType,
 } from './LatestTransactions.utils';
 import { Button, EmptyConnectionsIcon, ExternalLink, Icon, Tooltip } from '@/shared/components';
@@ -40,7 +38,7 @@ export const TransactionTitle = ({
         case TransactionType.RETURN:
             return t('COMMON.RETURN');
         case TransactionType.SWAP:
-            return t('COMMON.SWAP_VOTE');
+            return t('COMMON.VOTE_SWAP');
         case TransactionType.VOTE:
             return t('COMMON.VOTE');
         case TransactionType.UNVOTE:
@@ -198,7 +196,7 @@ const TransactionListItem = ({
                 </div>
 
                 <div className='flex w-full flex-row items-center justify-between'>
-                    <div className='flex flex-col gap-1'>
+                    <div className='flex flex-col gap-1.5'>
                         <span className='text-left text-base font-medium leading-tight text-light-black dark:text-white'>
                             <TransactionTitle type={type} isSender={transaction.isSent()} />
                             {type === TransactionType.MULTIPAYMENT && (
@@ -219,14 +217,15 @@ const TransactionListItem = ({
 
                     <div className='flex flex-col items-end gap-1'>
                         <span className='text-base font-medium leading-tight text-light-black dark:text-white'>
-                            <LatestTransactionAmount
-                                transaction={transaction}
-                                primaryCurrency={primaryWallet?.currency() ?? 'ARK'}
-                                address={primaryWallet?.address()}
-                            />
+                            <LatestTransactionAmount transaction={transaction} />
                         </span>
                         <span className='text-sm font-normal leading-tight text-theme-secondary-500 dark:text-theme-secondary-300'>
-                            <Tooltip content={formattedTimestamp}>
+                            <Tooltip
+                                content={formattedTimestamp}
+                                popperOptions={{
+                                    strategy: 'fixed',
+                                }}
+                            >
                                 <span>{getTimeAgo(timestamp ?? '')}</span>
                             </Tooltip>
                         </span>
@@ -278,17 +277,10 @@ export const TransactionsList = ({
 
 export const LatestTransactionAmount = ({
     transaction,
-    primaryCurrency,
-    address,
 }: {
     transaction: ExtendedConfirmedTransactionData;
-    primaryCurrency: string;
-    address?: string;
 }): JSX.Element => {
-    const { t } = useTranslation();
     const type = getType(transaction);
-    const isMultipayment = type === TransactionType.MULTIPAYMENT;
-    const amount = transaction.amount();
     const paymentTypes = [
         TransactionType.SEND,
         TransactionType.RECEIVE,
@@ -297,57 +289,11 @@ export const LatestTransactionAmount = ({
     ];
     if (!paymentTypes.includes(type as TransactionType)) {
         return (
-            <span className='flex h-5 items-center justify-center'>
-                <span className='h-0.5 w-2 bg-theme-secondary-300 dark:bg-theme-secondary-500' />
+            <span className='flex items-center justify-center rounded bg-theme-secondary-100 px-1.5 py-0.5 font-semibold text-theme-secondary-300 dark:bg-theme-secondary-700 dark:text-theme-secondary-500'>
+                -
             </span>
         );
     }
 
-    if (isMultipayment) {
-        const uniqueRecipients = getUniqueRecipients(transaction);
-
-        if (transaction.isSent()) {
-            const { selfAmount, sentAmount } = getMultipaymentAmounts(uniqueRecipients, address);
-            const isSenderAndRecipient = uniqueRecipients.some(
-                (recipient) => recipient.address === address,
-            );
-
-            return (
-                <span className='flex flex-row gap-0.5'>
-                    {renderAmount({
-                        value: sentAmount,
-                        isNegative: true,
-                        showSign: sentAmount !== 0,
-                        primaryCurrency,
-                    })}
-
-                    {isSenderAndRecipient && (
-                        <Tooltip
-                            content={t('COMMON.EXCLUDING_AMOUNT_TO_SELF', {
-                                amount: `${selfAmount} ${primaryCurrency}`,
-                            })}
-                        >
-                            <div className='h-5 w-5 rounded-full bg-transparent p-0.5 text-subtle-black hover:bg-theme-secondary-50 dark:text-white dark:hover:bg-theme-secondary-700'>
-                                <Icon icon='information-circle' />
-                            </div>
-                        </Tooltip>
-                    )}
-                </span>
-            );
-        } else {
-            return renderAmount({
-                value: getAmountByAddress(uniqueRecipients, address),
-                isNegative: false,
-                showSign: true,
-                primaryCurrency,
-            });
-        }
-    }
-
-    return renderAmount({
-        value: amount,
-        isNegative: type === TransactionType.SEND,
-        showSign: type !== TransactionType.RETURN,
-        primaryCurrency,
-    });
+    return <TransactionAmount transaction={transaction} displayFiat={false} />;
 };

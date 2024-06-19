@@ -1,5 +1,7 @@
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { useEffect } from 'react';
+import { runtime } from 'webextension-polyfill';
 import { ApproveActionType } from './Approve';
 import constants from '@/constants';
 import removeWindowInstance from '@/lib/utils/removeWindowInstance';
@@ -8,7 +10,6 @@ import formatDomain from '@/lib/utils/formatDomain';
 import { useProfileContext } from '@/lib/context/Profile';
 import { WalletNetwork } from '@/lib/store/wallet';
 import { ActionBody } from '@/components/approve/ActionBody';
-import trimAddress from '@/lib/utils/trimAddress';
 import getActiveCoin from '@/lib/utils/getActiveCoin';
 import { useConfirmedTransaction } from '@/lib/hooks/useConfirmedTransaction';
 import { ApproveLayout } from '@/components/approve/ApproveLayout';
@@ -61,6 +62,7 @@ const VoteApprovedFooter = ({
 };
 
 const VoteApproved = () => {
+    const navigate = useNavigate();
     const { t } = useTranslation();
     const { state } = useLocation();
     const { profile } = useProfileContext();
@@ -73,8 +75,16 @@ const VoteApproved = () => {
     const isTransactionConfirmed = useConfirmedTransaction({ wallet, transactionId: vote.id });
 
     const onClose = async () => {
-        await removeWindowInstance(state?.windowId);
+        if (state?.windowId) {
+            await removeWindowInstance(state?.windowId);
+        }
+
+        navigate('/');
     };
+    useEffect(() => {
+        runtime.sendMessage({ type: 'CLEAR_LAST_SCREEN' });
+        profile.settings().forget('LAST_VISITED_PAGE');
+    }, []);
 
     const getTitle = () => {
         switch (state?.type) {
@@ -83,7 +93,7 @@ const VoteApproved = () => {
             case ApproveActionType.UNVOTE:
                 return t('PAGES.VOTE_APPROVED.UNVOTE_APPROVED');
             case ApproveActionType.SWITCH_VOTE:
-                return t('PAGES.VOTE_APPROVED.SWITCH_VOTE_APPROVED');
+                return t('PAGES.VOTE_APPROVED.VOTE_SWAP_APPROVED');
             default:
                 return '';
         }
@@ -125,7 +135,7 @@ const VoteApproved = () => {
                     <ActionBody
                         isApproved
                         wallet={wallet}
-                        sender={trimAddress(state?.vote.sender ?? '', 10)}
+                        sender={state?.vote.sender}
                         showFiat={showFiat}
                         fee={state?.vote.fee}
                         convertedFee={state?.vote.convertedFee as number}

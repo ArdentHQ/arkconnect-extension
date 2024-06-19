@@ -10,6 +10,7 @@ type Props = {
     withPaddingBottom?: boolean;
     onBack?: 'goHome' | 'goBack';
     className?: string;
+    bodyClassName?: string;
     footer?: React.ReactNode;
 };
 
@@ -21,6 +22,7 @@ const SubPageLayout = ({
     onBack,
     withPaddingBottom = false,
     className,
+    bodyClassName,
     footer,
 }: Props) => {
     if (!onBack) {
@@ -39,7 +41,7 @@ const SubPageLayout = ({
                     ),
                 )}
             >
-                <div className='custom-scroll w-full flex-1 overflow-y-auto overflow-x-hidden'>
+                <div className='custom-scroll compensate-scroll flex flex-1 flex-col'>
                     <div
                         className={cn(
                             'flex items-center justify-between bg-subtle-white p-4 dark:bg-light-black',
@@ -58,7 +60,7 @@ const SubPageLayout = ({
                         </div>
                     </div>
 
-                    <div className='px-4'>{children}</div>
+                    <div className={twMerge('px-4', bodyClassName)}>{children}</div>
                 </div>
 
                 {footer && <div className='w-full flex-none'>{footer}</div>}

@@ -20,7 +20,7 @@ const ErrorModal = ({ error, onClose }: Props) => {
                             {errorTitleParser(error)}
                         </Heading>
 
-                        <div className=' text-center text-theme-secondary-500 dark:text-theme-secondary-300'>
+                        <div className='max-w-80 break-words text-center text-theme-secondary-500 dark:text-theme-secondary-300'>
                             {error ? (
                                 <span
                                     dangerouslySetInnerHTML={{ __html: errorParser(error) }}

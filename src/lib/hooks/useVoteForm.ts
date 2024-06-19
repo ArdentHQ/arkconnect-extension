@@ -18,6 +18,7 @@ interface SendVoteForm {
     senderAddress: string;
     fee: number;
     hasHigherCustomFee: number | null;
+    hasLowerCustomFee: number | null;
     remainingBalance: number;
     amount: number;
     network?: Networks.Network;
@@ -45,6 +46,7 @@ const defaultState = {
     fee: 0,
     remainingBalance: 0,
     hasHigherCustomFee: null,
+    hasLowerCustomFee: null,
     amount: 0,
     vote: null,
     unvote: null,
@@ -66,7 +68,7 @@ export const useVoteForm = (wallet: Contracts.IReadWriteWallet, request: Approve
     const { env } = useEnvironmentContext();
     const { profile } = useProfileContext();
     const { onError } = useErrorHandlerContext();
-    const { calculateAvgFee, calculateMaxFee } = useFees();
+    const { calculateAvgFee, calculateMaxFee, calculateMinFee } = useFees();
     const [loading, setLoading] = useState(true);
     const [formValues, setFormValues] = useState<SendVoteForm>(defaultState);
     const { persist } = useEnvironmentContext();
@@ -191,6 +193,12 @@ export const useVoteForm = (wallet: Contracts.IReadWriteWallet, request: Approve
                     type: ApproveActionType.VOTE,
                 });
 
+                const minFee = await calculateMinFee({
+                    coin: wallet.network().coin(),
+                    network: wallet.network().id(),
+                    type: ApproveActionType.VOTE,
+                });
+
                 const fee = request.customFee ?? averageFee;
 
                 const { vote, unvote } = await getVote();
@@ -202,6 +210,8 @@ export const useVoteForm = (wallet: Contracts.IReadWriteWallet, request: Approve
                     fee,
                     hasHigherCustomFee:
                         request.customFee && request.customFee > maxFee ? maxFee : null,
+                    hasLowerCustomFee:
+                        request.customFee && request.customFee < minFee ? minFee : null,
                     vote: vote,
                     unvote: unvote,
                 }));
@@ -242,6 +252,7 @@ export const useVoteForm = (wallet: Contracts.IReadWriteWallet, request: Approve
             vote: formValues.vote,
             unvote: formValues.unvote,
             hasHigherCustomFee: formValues.hasHigherCustomFee,
+            hasLowerCustomFee: formValues.hasLowerCustomFee,
         },
     };
 };
