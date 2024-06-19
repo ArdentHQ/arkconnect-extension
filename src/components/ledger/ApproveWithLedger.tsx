@@ -1,6 +1,5 @@
 import { Contracts } from '@ardenthq/sdk-profiles';
 import { useTranslation } from 'react-i18next';
-import { twMerge } from 'tailwind-merge';
 import { useLocation } from 'react-router-dom';
 import {
     SignatureLedgerApprovalBody,
@@ -10,9 +9,8 @@ import {
 import formatDomain from '@/lib/utils/formatDomain';
 import trimAddress from '@/lib/utils/trimAddress';
 import { ApproveActionType } from '@/pages/Approve';
-import { ArrowButton, Heading, HeadingDescription, Icon, Loader } from '@/shared/components';
+import { ArrowButton, Heading, HeadingDescription, Loader } from '@/shared/components';
 import RequestedBy from '@/shared/components/actions/RequestedBy';
-import { NavButton } from '@/shared/components/nav/NavButton';
 import { useLedgerConnectionStatusMessage } from '@/lib/Ledger';
 
 type Props = {
