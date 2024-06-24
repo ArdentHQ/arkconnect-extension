@@ -67,7 +67,6 @@ export const VoteLedgerApprovalBody = ({ wallet, state }: Props) => {
                 publicKey: vote?.wallet?.publicKey(),
                 address: vote?.wallet?.address(),
             }}
-            actionDetailsClassName='max-h-81.5'
             hasHigherCustomFee={hasHigherCustomFee}
             amountTicker={wallet.currency()}
         />
@@ -117,9 +116,5 @@ export const SignatureLedgerApprovalBody = () => {
     const location = useLocation();
     const { state } = location;
 
-    return (
-        <div className='h-[191px]'>
-            <RequestedSignatureMessage data={state} />
-        </div>
-    );
+    return <RequestedSignatureMessage data={state} className='min-h-[194px]' />;
 };
