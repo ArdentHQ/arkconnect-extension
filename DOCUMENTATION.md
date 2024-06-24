@@ -157,7 +157,7 @@ try {
 
 ### `signVote(request: SignVoteRequest): Promise<SignVoteResponse>`
 
-> Request the user to sign a vote transaction (vote, unvote or switch vote)
+> Request the user to sign a vote transaction (vote, unvote or vote swap)
 
 ```javascript
 type SignVoteRequest = {

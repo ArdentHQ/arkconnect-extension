@@ -14,6 +14,7 @@ export const useDelegates = ({
     limit: number;
 }) => {
     const [allDelegates, setAllDelegates] = useState<Contracts.IReadOnlyWallet[]>([]);
+    const [currentDelegate, setCurrentDelegate] = useState<Contracts.IReadOnlyWallet>();
     const [votes, setVotes] = useState<Contracts.VoteRegistryItem[]>();
     const [isLoadingDelegates, setIsLoadingDelegates] = useState(false);
     const { syncAll } = useWalletSync({ env, profile });
@@ -24,9 +25,22 @@ export const useDelegates = ({
 
             await env.delegates().sync(profile, wallet.coinId(), wallet.networkId());
 
-            const allDelegates = env.delegates().all(wallet.coinId(), wallet.networkId());
+            const allDelegates = env
+                .delegates()
+                .all(wallet.coinId(), wallet.networkId())
+                .filter((delegate) => !delegate.isResignedDelegate());
 
             setAllDelegates(allDelegates);
+
+            const currentVote = wallet.voting().current();
+            const currentVoteAddress =
+                currentVote.length > 0 ? currentVote[0].wallet?.address() : undefined;
+            if (currentVoteAddress) {
+                const currentDelegate = env
+                    .delegates()
+                    .findByAddress(wallet.coinId(), wallet.networkId(), currentVoteAddress);
+                setCurrentDelegate(currentDelegate);
+            }
 
             setIsLoadingDelegates(false);
         },
@@ -35,7 +49,15 @@ export const useDelegates = ({
 
     const delegates = useMemo(() => {
         if (searchQuery.length === 0) {
-            return allDelegates.slice(0, limit);
+            const delegateList = allDelegates.slice(0, limit);
+            if (
+                currentDelegate &&
+                !delegateList.some((delegate) => delegate.address() === currentDelegate.address())
+            ) {
+                delegateList.unshift(currentDelegate);
+            }
+
+            return delegateList;
         }
 
         const query = searchQuery.toLowerCase();

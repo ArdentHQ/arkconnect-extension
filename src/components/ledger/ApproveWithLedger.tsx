@@ -54,7 +54,7 @@ const ApproveWithLedger = ({
             case ApproveActionType.UNVOTE:
                 return t('COMMON.UNVOTE');
             case ApproveActionType.SWITCH_VOTE:
-                return t('COMMON.SWITCH_VOTE');
+                return t('COMMON.VOTE_SWAP');
             default:
                 return '';
         }

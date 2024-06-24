@@ -20,10 +20,18 @@ const TRANSACTION_CONFIRMATION_DELAY_MS = 3000;
 // Validation constants
 const ADDRESS_LENGTH = 34;
 const AMOUNT_REGEX = /^[0-9]+(\.[0-9]{1,8})?$/;
+const FEE_REGEX = /^\d*\.?\d{0,8}$/;
 
 // Using 9 considering that the minimum amount of ARK is 0.00000001 which
 // is 8 digits in total.
 const MAX_CURRENCY_DIGITS_ALLOWED = 9;
+
+// Max fee for transactions per supported type
+// set to static fee for the network
+const MAX_FEES = {
+    transfer: 0.1,
+    vote: 1,
+};
 
 const constants = {
     SUPPORT_EMAIL,
@@ -45,6 +53,8 @@ const constants = {
     TRANSACTION_CONFIRMATION_DELAY_MS,
     ADDRESS_LENGTH,
     AMOUNT_REGEX,
+    MAX_FEES,
+    FEE_REGEX,
 };
 
 export default constants;

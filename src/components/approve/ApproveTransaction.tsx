@@ -71,7 +71,7 @@ const ApproveTransaction = ({
         formValuesLoaded,
         resetForm,
         submitForm,
-        values: { fee, total, hasHigherCustomFee },
+        values: { fee, total, hasHigherCustomFee, hasLowerCustomFee },
     } = useSendTransferForm(wallet, {
         session,
         amount,
@@ -205,6 +205,7 @@ const ApproveTransaction = ({
             showHigherCustomFeeBanner={showHigherCustomFeeBanner}
             setShowHigherCustomFeeBanner={setShowHigherCustomFeeBanner}
             hasHigherCustomFee={hasHigherCustomFee}
+            hasLowerCustomFee={hasLowerCustomFee}
             wallet={wallet}
         >
             <ApproveHeader actionType={ApproveActionType.TRANSACTION} />
@@ -224,6 +225,7 @@ const ApproveTransaction = ({
                     totalAmount={total}
                     convertedTotalAmount={convert(total)}
                     hasHigherCustomFee={hasHigherCustomFee}
+                    hasLowerCustomFee={hasLowerCustomFee}
                 />
             </ApproveBody>
         </ApproveLayout>

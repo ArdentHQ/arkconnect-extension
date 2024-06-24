@@ -1,6 +1,7 @@
 import cn from 'classnames';
 import { Contracts } from '@ardenthq/sdk-profiles';
-import { HigherFeeBanner } from './HigherCustomFee.blocks';
+import { useTranslation } from 'react-i18next';
+import { FeeBanner } from './CustomFeeAlerts.blocks';
 import RequestedBy from '@/shared/components/actions/RequestedBy';
 
 export const ApproveLayout = ({
@@ -12,6 +13,7 @@ export const ApproveLayout = ({
     showHigherCustomFeeBanner = false,
     setShowHigherCustomFeeBanner,
     hasHigherCustomFee,
+    hasLowerCustomFee,
     wallet,
     containerClassName,
 }: {
@@ -23,19 +25,29 @@ export const ApproveLayout = ({
     showHigherCustomFeeBanner?: boolean;
     setShowHigherCustomFeeBanner?: (value: boolean) => void;
     hasHigherCustomFee?: number | null;
+    hasLowerCustomFee?: number | null;
     wallet?: Contracts.IReadWriteWallet;
     containerClassName?: string;
 }) => {
+    const { t } = useTranslation();
+    const hasCustomFee = hasHigherCustomFee || hasLowerCustomFee;
+    const customFeeState = hasCustomFee
+        ? hasHigherCustomFee
+            ? t('COMMON.HIGHER')
+            : t('COMMON.LOWER')
+        : null;
+
     return (
         <div className={cn('flex h-screen flex-col', containerClassName)}>
             {showHigherCustomFeeBanner &&
-                hasHigherCustomFee &&
+                hasCustomFee &&
                 wallet &&
                 setShowHigherCustomFeeBanner && (
-                    <HigherFeeBanner
-                        averageFee={hasHigherCustomFee}
+                    <FeeBanner
+                        averageFee={hasCustomFee}
                         coin={wallet.currency()}
                         onClose={() => setShowHigherCustomFeeBanner(false)}
+                        customFeeState={customFeeState}
                     />
                 )}
             <div className='w-full flex-none'>

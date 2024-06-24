@@ -10,7 +10,6 @@ import formatDomain from '@/lib/utils/formatDomain';
 import { useProfileContext } from '@/lib/context/Profile';
 import { WalletNetwork } from '@/lib/store/wallet';
 import { ActionBody } from '@/components/approve/ActionBody';
-import trimAddress from '@/lib/utils/trimAddress';
 import getActiveCoin from '@/lib/utils/getActiveCoin';
 import { useConfirmedTransaction } from '@/lib/hooks/useConfirmedTransaction';
 import { ApproveLayout } from '@/components/approve/ApproveLayout';
@@ -94,7 +93,7 @@ const VoteApproved = () => {
             case ApproveActionType.UNVOTE:
                 return t('PAGES.VOTE_APPROVED.UNVOTE_APPROVED');
             case ApproveActionType.SWITCH_VOTE:
-                return t('PAGES.VOTE_APPROVED.SWITCH_VOTE_APPROVED');
+                return t('PAGES.VOTE_APPROVED.VOTE_SWAP_APPROVED');
             default:
                 return '';
         }
@@ -136,7 +135,7 @@ const VoteApproved = () => {
                     <ActionBody
                         isApproved
                         wallet={wallet}
-                        sender={trimAddress(state?.vote.sender ?? '', 10)}
+                        sender={state?.vote.sender}
                         showFiat={showFiat}
                         fee={state?.vote.fee}
                         convertedFee={state?.vote.convertedFee as number}

@@ -42,6 +42,7 @@ export default {
             CURRENT: 'Current',
         },
         EDIT_FEE: 'Edit Fee',
+        USE_SEARCH_TO_FIND_DELEGATES: 'Use the search to find other delegates',
     },
     CREATE_WALLET: {
         SAVE_YOUR_SECRET_PASSPHRASE: 'Save Your Secret Passphrase',
@@ -157,7 +158,7 @@ export default {
     VOTE_APPROVED: {
         VOTE_APPROVED: 'Vote Approved',
         UNVOTE_APPROVED: 'Unvote Approved',
-        SWITCH_VOTE_APPROVED: 'Switch Vote Approved',
+        VOTE_SWAP_APPROVED: 'Vote Swap Approved',
     },
     WALLET_NOT_FOUND: {
         YOU_DONT_HAVE_ANY_WALLET:
@@ -174,9 +175,9 @@ export default {
             PROCESSING_TRANSACTION: 'Processing transaction...',
             SIGN_TRANSACTION_DENIED: 'Sign transaction denied!',
             INSUFFICIENT_BALANCE: 'Insufficient balance. Add funds or switch address.',
-            PROCESSING_THE_VOTE: 'Processing the vote...',
-            PROCESSING_THE_UNVOTE: 'Processing the unvote...',
-            PROCESSING_THE_VOTE_SWITCH: 'Processing the vote switch...',
+            PROCESSING_THE_VOTE: 'Processing the Vote...',
+            PROCESSING_THE_UNVOTE: 'Processing the Unvote...',
+            PROCESSING_THE_VOTE_SWAP: 'Processing the Vote Swap...',
             SIGN_VOTE_DENIED: 'Sign vote denied!',
         },
     },

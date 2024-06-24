@@ -55,7 +55,7 @@ const ApproveVote = ({ abortReference, approveWithLedger, wallet, closeLedgerScr
         resetForm,
         submitForm,
         loading,
-        values: { fee, vote, unvote, hasHigherCustomFee },
+        values: { fee, vote, unvote, hasHigherCustomFee, hasLowerCustomFee },
     } = useVoteForm(wallet, { customFee, ...state });
 
     useEffect(() => {
@@ -84,7 +84,7 @@ const ApproveVote = ({ abortReference, approveWithLedger, wallet, closeLedgerScr
             case ApproveActionType.UNVOTE:
                 return t('PAGES.APPROVE.FEEDBACK.PROCESSING_THE_UNVOTE');
             case ApproveActionType.SWITCH_VOTE:
-                return t('PAGES.APPROVE.FEEDBACK.PROCESSING_THE_VOTE_SWITCH');
+                return t('PAGES.APPROVE.FEEDBACK.PROCESSING_THE_VOTE_SWAP');
             default:
                 return '';
         }
@@ -173,6 +173,7 @@ const ApproveVote = ({ abortReference, approveWithLedger, wallet, closeLedgerScr
             closeLedgerScreen();
             reject(error.message);
             onError(error);
+            loadingModal.close();
         }
     };
 
@@ -202,6 +203,7 @@ const ApproveVote = ({ abortReference, approveWithLedger, wallet, closeLedgerScr
                 showHigherCustomFeeBanner={showHigherCustomFeeBanner}
                 setShowHigherCustomFeeBanner={setShowHigherCustomFeeBanner}
                 hasHigherCustomFee={hasHigherCustomFee}
+                hasLowerCustomFee={hasLowerCustomFee}
                 wallet={wallet}
             >
                 <>
@@ -232,6 +234,7 @@ const ApproveVote = ({ abortReference, approveWithLedger, wallet, closeLedgerScr
                             }}
                             actionDetailsClassName='max-h-81.5'
                             hasHigherCustomFee={hasHigherCustomFee}
+                            hasLowerCustomFee={hasLowerCustomFee}
                             amountTicker={wallet.currency()}
                         />
                     </ApproveBody>
