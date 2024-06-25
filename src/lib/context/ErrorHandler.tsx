@@ -39,6 +39,7 @@ export const ErrorHandlerProvider = ({ children }: Properties) => {
 
     const handleBack = () => {
         setShowErrorModal(false);
+        navigate(-1);
     };
 
     return (
