@@ -47,7 +47,9 @@ export const ErrorHandlerProvider = ({ children }: Properties) => {
                 onError: handleOnError,
             }}
         >
-            {showErrorModal && <ErrorModal error={error} onClose={handleClose} onBack={handleBack} />}
+            {showErrorModal && (
+                <ErrorModal error={error} onClose={handleClose} onBack={handleBack} />
+            )}
             {children}
         </ErrorHandlerContext.Provider>
     );
