@@ -1,4 +1,6 @@
 import { Trans, useTranslation } from 'react-i18next';
+import { useLocation } from 'react-router-dom';
+import cn from 'classnames';
 import { Button, ExternalLink, Heading, Icon, SmallWarningIcon } from '@/shared/components';
 import constants from '@/constants';
 import { errorParser, errorTitleParser } from '@/lib/utils/errorParser';
@@ -38,6 +40,11 @@ const ErrorContainer = ({ error }: { error: string }) => {
 
 const ErrorModal = ({ error, onClose, onBack }: Props) => {
     const { t } = useTranslation();
+    const location = useLocation();
+    const { state } = location;
+
+    const isNativeError = state?.session?.domain ? state.session.domain === constants.APP_NAME : false;
+
     return (
         <div className='fixed left-0 top-0 z-50 flex h-screen w-full flex-col bg-subtle-white dark:bg-light-black'>
             <div className='flex w-full flex-1 flex-col items-center justify-between gap-4 px-4'>
@@ -61,13 +68,20 @@ const ErrorModal = ({ error, onClose, onBack }: Props) => {
             </div>
 
             <div className='flex w-full flex-none flex-col items-center gap-5 bg-white p-4 shadow-button-container dark:bg-subtle-black dark:shadow-button-container-dark'>
-                <div className='grid w-full grid-cols-2 gap-2'>
+                <div className={cn('grid w-full', {
+                    'grid-cols-1': !isNativeError,
+                    'grid-cols-2 gap-2': isNativeError,
+                })}>
                     <Button variant='secondary' onClick={onClose}>
                         {t('ACTION.CLOSE')}
                     </Button>
-                    <Button variant='primary' onClick={onBack}>
-                        {t('COMMON.BACK')}
-                    </Button>
+                    {
+                        isNativeError && (
+                            <Button variant='primary' onClick={onBack}>
+                                {t('COMMON.BACK')}
+                            </Button>
+                        )
+                    }
                 </div>
 
                 <ExternalLink
