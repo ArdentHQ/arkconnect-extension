@@ -22,6 +22,8 @@ import useLoadingModal from '@/lib/hooks/useLoadingModal';
 import { useWaitForConnectedDevice } from '@/lib/Ledger';
 import { ActionBody } from '@/components/approve/ActionBody';
 import { getNetworkCurrency } from '@/lib/utils/getActiveCoin';
+import { OneTimeEvents } from '@/OneTimeEventHandlers';
+import { ProfileData } from '@/lib/background/contracts';
 
 type Props = {
     abortReference: AbortController;
@@ -170,6 +172,8 @@ const ApproveVote = ({ abortReference, approveWithLedger, wallet, closeLedgerScr
                 },
             });
         } catch (error: any) {
+            await runtime.sendMessage({ type: OneTimeEvents.CLEAR_LAST_SCREEN });
+            profile.settings().forget(ProfileData.LastVisitedPage);
             closeLedgerScreen();
             reject(error.message);
             onError(error);

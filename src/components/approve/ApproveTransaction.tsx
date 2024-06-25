@@ -22,6 +22,8 @@ import { useNotifyOnUnload } from '@/lib/hooks/useNotifyOnUnload';
 import useLoadingModal from '@/lib/hooks/useLoadingModal';
 import { useWaitForConnectedDevice } from '@/lib/Ledger';
 import { getNetworkCurrency } from '@/lib/utils/getActiveCoin';
+import { OneTimeEvents } from '@/OneTimeEventHandlers';
+import { ProfileData } from '@/lib/background/contracts';
 
 type Props = {
     abortReference: AbortController;
@@ -168,6 +170,9 @@ const ApproveTransaction = ({
             if (wallet.isLedger()) {
                 closeLedgerScreen();
             }
+
+            await runtime.sendMessage({ type: OneTimeEvents.CLEAR_LAST_SCREEN });
+            profile.settings().forget(ProfileData.LastVisitedPage);
 
             reject(error.message);
 
