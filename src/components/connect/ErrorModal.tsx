@@ -27,13 +27,15 @@ const ErrorContainer = ({ error }: { error: string }) => {
                 dangerouslySetInnerHTML={{ __html: errorParser(error) }}
             />
 
-            <button
-                className='flex cursor-pointer flex-row items-center justify-center gap-3 bg-transparent px-4 py-0.5 text-base font-medium leading-5 text-light-black hover:underline dark:text-theme-secondary-200'
-                onClick={handleClick}
-            >
-                <Icon icon='copy' className='h-4 w-4' />
-                {t('COMMON.COPY_with_name', { name: t('COMMON.ERROR') })}
-            </button>
+            <div className='flex w-full justify-center'>
+                <button
+                    className='flex cursor-pointer flex-row items-center justify-center gap-3 bg-transparent px-4 py-1.5 text-base font-medium leading-5 text-light-black hover:bg-theme-secondary-50 hover:dark:bg-theme-secondary-700 rounded-2xl dark:text-theme-secondary-200 w-fit transition-smoothEase'
+                    onClick={handleClick}
+                    >
+                    <Icon icon='copy' className='h-4 w-4' />
+                    {t('COMMON.COPY_with_name', { name: t('COMMON.ERROR') })}
+                </button>
+            </div>
         </div>
     );
 };
