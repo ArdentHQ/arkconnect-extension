@@ -29,9 +29,9 @@ const ErrorContainer = ({ error }: { error: string }) => {
 
             <div className='flex w-full justify-center'>
                 <button
-                    className='flex cursor-pointer flex-row items-center justify-center gap-3 bg-transparent px-4 py-1.5 text-base font-medium leading-5 text-light-black hover:bg-theme-secondary-50 hover:dark:bg-theme-secondary-700 rounded-2xl dark:text-theme-secondary-200 w-fit transition-smoothEase'
+                    className='transition-smoothEase flex w-fit cursor-pointer flex-row items-center justify-center gap-3 rounded-2xl bg-transparent px-4 py-1.5 text-base font-medium leading-5 text-light-black hover:bg-theme-secondary-50 dark:text-theme-secondary-200 hover:dark:bg-theme-secondary-700'
                     onClick={handleClick}
-                    >
+                >
                     <Icon icon='copy' className='h-4 w-4' />
                     {t('COMMON.COPY_with_name', { name: t('COMMON.ERROR') })}
                 </button>
