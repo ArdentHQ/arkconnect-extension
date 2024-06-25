@@ -180,7 +180,7 @@ const ApproveVote = ({ abortReference, approveWithLedger, wallet, closeLedgerScr
                 data: {
                     fee: customFee,
                     delegateAddress: vote?.wallet?.address() || unvote?.wallet?.address(),
-                }
+                },
             });
             loadingModal.close();
         }

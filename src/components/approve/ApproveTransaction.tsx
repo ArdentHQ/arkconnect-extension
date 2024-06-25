@@ -185,7 +185,7 @@ const ApproveTransaction = ({
                     memo,
                     fee: customFee,
                     receiverAddress,
-                }
+                },
             });
             loadingModal.close();
         }
