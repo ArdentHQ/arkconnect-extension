@@ -1,3 +1,4 @@
+const APP_NAME = 'ARK Connect';
 const SUPPORT_EMAIL = 'support@arkconnect.io ';
 const ARKSCAN_MAINNET_TRANSACTIONS = 'https://live.arkscan.io/transactions';
 const ARKSCAN_TESTNET_TRANSACTIONS = 'https://test.arkscan.io/transactions';
@@ -34,6 +35,7 @@ const MAX_FEES = {
 };
 
 const constants = {
+    APP_NAME,
     SUPPORT_EMAIL,
     ARKSCAN_MAINNET_TRANSACTIONS,
     ARKSCAN_TESTNET_TRANSACTIONS,
