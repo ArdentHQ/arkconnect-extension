@@ -132,7 +132,7 @@ const Vote = () => {
                 session: {
                     walletId: wallet?.id(),
                     logo: 'icon/128.png',
-                    domain: 'ARK Connect',
+                    domain: constants.APP_NAME,
                 },
             },
         });
