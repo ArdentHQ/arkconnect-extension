@@ -37,13 +37,20 @@ export const ErrorHandlerProvider = ({ children }: Properties) => {
         navigate('/');
     };
 
+    const handleBack = () => {
+        setShowErrorModal(false);
+        navigate(-1);
+    };
+
     return (
         <ErrorHandlerContext.Provider
             value={{
                 onError: handleOnError,
             }}
         >
-            {showErrorModal && <ErrorModal error={error} onClose={handleClose} />}
+            {showErrorModal && (
+                <ErrorModal error={error} onClose={handleClose} onBack={handleBack} />
+            )}
             {children}
         </ErrorHandlerContext.Provider>
     );
