@@ -23,7 +23,7 @@ import useLoadingModal from '@/lib/hooks/useLoadingModal';
 import { useWaitForConnectedDevice } from '@/lib/Ledger';
 import { getNetworkCurrency } from '@/lib/utils/getActiveCoin';
 import { OneTimeEvents } from '@/OneTimeEventHandlers';
-import { ProfileData } from '@/lib/background/contracts';
+import { ProfileData, ScreenName } from '@/lib/background/contracts';
 
 type Props = {
     abortReference: AbortController;
@@ -177,6 +177,16 @@ const ApproveTransaction = ({
             reject(error.message);
 
             onError(error);
+
+            profile.settings().set(ProfileData.LastVisitedPage, {
+                path: ScreenName.SendTransfer,
+                data: {
+                    amount,
+                    memo,
+                    fee: customFee,
+                    receiverAddress,
+                },
+            });
             loadingModal.close();
         }
     };
