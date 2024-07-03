@@ -27,7 +27,6 @@ const AboutARK = () => {
 
         copy(constants.SUPPORT_EMAIL, t('MISC.SUPPORT_EMAIL'));
     };
-    console.log(os);
 
     return (
         <SubPageLayout title={t('PAGES.SETTINGS.ABOUT_ARK_CONNECT')}>
