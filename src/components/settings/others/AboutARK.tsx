@@ -31,7 +31,11 @@ const AboutARK = () => {
                     />
                 </div>
                 <ExternalLink href={`${constants.GITHUB_RELEASES_URL}${version}`} tabIndex={-1}>
-                    <Button iconTrailing='link-external' variant='secondaryLink' className='text-theme-secondary-500 dark:text-theme-secondary-300'>
+                    <Button
+                        iconTrailing='link-external'
+                        variant='secondaryLink'
+                        className='text-theme-secondary-500 dark:text-theme-secondary-300'
+                    >
                         <span className='typeset-body font-normal'>
                             {t('MISC.VERSION')} {version}
                         </span>
