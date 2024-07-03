@@ -15,7 +15,7 @@
         "scripts": ["src/background.ts"],
         "persistent": true
     },
-    "permissions": ["activeTab", "storage", "clipboardWrite", "tabs", "unlimitedStorage"],
+    "permissions": ["activeTab", "storage", "clipboardWrite", "tabs", "unlimitedStorage", "commands"],
     "content_scripts": [
         {
             "matches": ["https://*/*"],
@@ -23,5 +23,13 @@
             "run_at": "document_start"
         }
     ],
-    "web_accessible_resources": ["src/inpage.js"]
+    "web_accessible_resources": ["src/inpage.js"],
+    "commands": {
+        "_execute_browser_action": {
+            "suggested_key": {
+                "default": "Shift+Alt+A"
+            },
+            "description": "Open the extension"
+        }
+    }
 }
