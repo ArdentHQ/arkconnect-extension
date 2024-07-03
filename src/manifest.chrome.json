@@ -14,7 +14,14 @@
     "background": {
         "service_worker": "src/background.ts"
     },
-    "permissions": ["activeTab", "storage", "clipboardWrite", "tabs", "unlimitedStorage", "commands"],
+    "permissions": [
+        "activeTab",
+        "storage",
+        "clipboardWrite",
+        "tabs",
+        "unlimitedStorage",
+        "commands"
+    ],
     "content_scripts": [
         {
             "matches": ["https://*/*"],

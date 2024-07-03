@@ -15,7 +15,14 @@
         "scripts": ["src/background.ts"],
         "persistent": true
     },
-    "permissions": ["activeTab", "storage", "clipboardWrite", "tabs", "unlimitedStorage", "commands"],
+    "permissions": [
+        "activeTab",
+        "storage",
+        "clipboardWrite",
+        "tabs",
+        "unlimitedStorage",
+        "commands"
+    ],
     "content_scripts": [
         {
             "matches": ["https://*/*"],
