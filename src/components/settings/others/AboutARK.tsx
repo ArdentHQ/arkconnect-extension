@@ -34,9 +34,8 @@ const AboutARK = () => {
                     <Button
                         iconTrailing='link-external'
                         variant='secondaryLink'
-                        className='text-theme-secondary-500 dark:text-theme-secondary-300'
                     >
-                        <span className='typeset-body font-normal'>
+                        <span className='typeset-body font-normal text-theme-secondary-500 dark:text-theme-secondary-300 hover:text-theme-primary-700 transiton-smoothEase'>
                             {t('MISC.VERSION')} {version}
                         </span>
                     </Button>
