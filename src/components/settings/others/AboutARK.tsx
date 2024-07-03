@@ -1,13 +1,25 @@
 import { runtime } from 'webextension-polyfill';
 import { useTranslation } from 'react-i18next';
+import { useEffect, useState } from 'react';
 import SubPageLayout from '@/components/settings/SubPageLayout';
 import { Icon, RowLayout } from '@/shared/components';
 import useClipboard from '@/lib/hooks/useClipboard';
 import constants from '@/constants';
+import InfoBanner from '@/shared/components/utils/InfoBanner';
 
 const AboutARK = () => {
     const { copy } = useClipboard();
     const { t } = useTranslation();
+    const [os, setOs] = useState<string | undefined>(); // State to store the OS
+
+    useEffect(() => {
+        const fetchPlatformInfo = async () => {
+            const platformInfo = await runtime.getPlatformInfo();
+            setOs(platformInfo.os);
+        };
+
+        fetchPlatformInfo();
+    }, []);
 
     const copyEmailToClipboard = (evt: React.MouseEvent<HTMLButtonElement>) => {
         evt.stopPropagation();
@@ -15,6 +27,7 @@ const AboutARK = () => {
 
         copy(constants.SUPPORT_EMAIL, t('MISC.SUPPORT_EMAIL'));
     };
+    console.log(os);
 
     return (
         <SubPageLayout title={t('PAGES.SETTINGS.ABOUT_ARK_CONNECT')}>
@@ -94,6 +107,12 @@ const AboutARK = () => {
                     target='_blank'
                     rel='noopener noreferrer'
                 />
+            </div>
+
+            <div className='my-4'>
+                <InfoBanner title={t('MISC.INFO_TIP')}>
+                    <span>{os === 'mac' ? t('MISC.TIPS.SHORTCUT_TIP_MAC') : t('MISC.TIPS.SHORTCUT_TIP_DEFAULT')}</span>
+                </InfoBanner>
             </div>
         </SubPageLayout>
     );
