@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react';
 import cn from 'classnames';
 
-export const ProgressBar = () => {
+export const ProgressBar = ({ itemsLength }: {itemsLength: number}) => {
     const [activeBarIndex, setActiveBarIndex] = useState<number>(0);
-    const [filledSegments, setFilledSegments] = useState<boolean[]>([false, false, false]);
+    const [filledSegments, setFilledSegments] = useState<boolean[]>(Array(itemsLength).fill(false));
 
     useEffect(() => {
         if (activeBarIndex !== 0) return;
         const timeout = setTimeout(() => {
-            setFilledSegments([true, false, false]);
+            setFilledSegments([true, ...Array(itemsLength - 1).fill(false)]);
         }, 300);
 
         return () => {
@@ -19,18 +19,18 @@ export const ProgressBar = () => {
     useEffect(() => {
         const intervalId = setInterval(() => {
             if (activeBarIndex === filledSegments.length - 1) {
-                setFilledSegments([false, false, false]);
+                setFilledSegments(Array(itemsLength).fill(false));
                 setActiveBarIndex(0);
                 return;
             }
             const newArray = [...filledSegments];
             newArray[activeBarIndex + 1] = true;
             setFilledSegments(newArray);
-            setActiveBarIndex((prevIndex) => (prevIndex + 1) % 3);
+            setActiveBarIndex((prevIndex) => (prevIndex + 1) % itemsLength);
         }, 4900);
 
         return () => clearInterval(intervalId);
-    }, [filledSegments]);
+    }, [filledSegments, itemsLength]);
 
     const bars = filledSegments.map((isFilled, index) => (
         <div
