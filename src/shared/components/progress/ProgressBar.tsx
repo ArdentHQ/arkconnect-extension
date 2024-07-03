@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import cn from 'classnames';
 
-export const ProgressBar = ({ itemsLength }: {itemsLength: number}) => {
+export const ProgressBar = ({ itemsLength }: { itemsLength: number }) => {
     const [activeBarIndex, setActiveBarIndex] = useState<number>(0);
     const [filledSegments, setFilledSegments] = useState<boolean[]>(Array(itemsLength).fill(false));
 

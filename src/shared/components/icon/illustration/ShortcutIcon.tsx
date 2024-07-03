@@ -15,6 +15,6 @@ export const ShortcutIcon = () => {
     }, []);
 
     const icon = `shortcut-${os === 'mac' ? 'mac' : 'default'}`;
-    
+
     return <ThemedIcon icon={icon} className='h-50 w-50' />;
 };
