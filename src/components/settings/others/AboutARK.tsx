@@ -111,7 +111,11 @@ const AboutARK = () => {
 
             <div className='my-4'>
                 <InfoBanner title={t('MISC.INFO_TIP')}>
-                    <span>{os === 'mac' ? t('MISC.TIPS.SHORTCUT_TIP_MAC') : t('MISC.TIPS.SHORTCUT_TIP_DEFAULT')}</span>
+                    <span>
+                        {os === 'mac'
+                            ? t('MISC.TIPS.SHORTCUT_TIP_MAC')
+                            : t('MISC.TIPS.SHORTCUT_TIP_DEFAULT')}
+                    </span>
                 </InfoBanner>
             </div>
         </SubPageLayout>
