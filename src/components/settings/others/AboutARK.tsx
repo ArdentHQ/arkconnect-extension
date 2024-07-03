@@ -10,7 +10,7 @@ import InfoBanner from '@/shared/components/utils/InfoBanner';
 const AboutARK = () => {
     const { copy } = useClipboard();
     const { t } = useTranslation();
-    const [os, setOs] = useState<string | undefined>(); // State to store the OS
+    const [os, setOs] = useState<string | undefined>();
 
     useEffect(() => {
         const fetchPlatformInfo = async () => {
