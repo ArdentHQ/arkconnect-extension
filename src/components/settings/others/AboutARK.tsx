@@ -1,9 +1,10 @@
-import { runtime } from 'webextension-polyfill';
-import { useTranslation } from 'react-i18next';
-import SubPageLayout from '@/components/settings/SubPageLayout';
 import { Button, ExternalLink, Icon, RowLayout } from '@/shared/components';
-import useClipboard from '@/lib/hooks/useClipboard';
+
 import constants from '@/constants';
+import { runtime } from 'webextension-polyfill';
+import SubPageLayout from '@/components/settings/SubPageLayout';
+import useClipboard from '@/lib/hooks/useClipboard';
+import { useTranslation } from 'react-i18next';
 
 const AboutARK = () => {
     const { copy } = useClipboard();
@@ -32,7 +33,7 @@ const AboutARK = () => {
                 </div>
                 <ExternalLink href={`${constants.GITHUB_RELEASES_URL}${version}`} tabIndex={-1}>
                     <Button iconTrailing='link-external' variant='secondaryLink' className='group'>
-                        <span className='typeset-body transiton-smoothEase font-normal text-theme-secondary-500 group-hover:text-theme-primary-700 dark:text-theme-secondary-300 dark:group-hover:text-theme-primary-700'>
+                        <span className='typeset-body transition-smoothEase font-normal text-theme-secondary-500 group-hover:text-theme-primary-700 dark:text-theme-secondary-300 dark:group-hover:text-theme-primary-700'>
                             {t('MISC.VERSION')} {version}
                         </span>
                     </Button>
