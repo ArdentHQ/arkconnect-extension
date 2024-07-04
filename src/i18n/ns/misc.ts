@@ -17,4 +17,11 @@ export default {
         TOP_LINE: 'The fee specified appears to be {{ state }}',
         BOTTOM_LINE: 'than the typical rate, which is {{formattedAmount}} {{coin}}.',
     },
+    INFO_TIP: 'Info Tip',
+    TIPS: {
+        SHORTCUT_TIP_MAC:
+            'To quickly open the application in your browser, press Shift + Option + A',
+        SHORTCUT_TIP_DEFAULT:
+            'To quickly open the application in your browser, press Shift + Alt + A',
+    },
 };
