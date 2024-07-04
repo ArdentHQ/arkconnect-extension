@@ -13,6 +13,7 @@ const ARK_CONNECT_DEMO = 'https://demo.arkconnect.io';
 const ARKVAULT_BASE_URL = 'https://app.arkvault.io/';
 const ARKVAULT_API_MAINNET_BASE_URL = 'https://api.ark.io/';
 const ARKVAULT_API_DEVNET_BASE_URL = 'https://ark-test.arkvault.io/';
+const GITHUB_RELEASES_URL = 'https://github.com/ArdentHQ/arkconnect-extension/releases/tag/';
 
 const SHOW_MESSAGE_AFTER_ACTION_DURING_MS = 3000;
 
@@ -57,6 +58,7 @@ const constants = {
     AMOUNT_REGEX,
     MAX_FEES,
     FEE_REGEX,
+    GITHUB_RELEASES_URL,
 };
 
 export default constants;

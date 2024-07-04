@@ -1,15 +1,18 @@
 import { runtime } from 'webextension-polyfill';
 import { useTranslation } from 'react-i18next';
 import { useEffect, useState } from 'react';
-import SubPageLayout from '@/components/settings/SubPageLayout';
-import { Icon, RowLayout } from '@/shared/components';
-import useClipboard from '@/lib/hooks/useClipboard';
+import { Button, ExternalLink, Icon, RowLayout } from '@/shared/components';
+
 import constants from '@/constants';
+import SubPageLayout from '@/components/settings/SubPageLayout';
+import useClipboard from '@/lib/hooks/useClipboard';
 import InfoBanner from '@/shared/components/utils/InfoBanner';
+
 
 const AboutARK = () => {
     const { copy } = useClipboard();
     const { t } = useTranslation();
+
     const [os, setOs] = useState<string | undefined>();
 
     useEffect(() => {
@@ -20,6 +23,9 @@ const AboutARK = () => {
 
         fetchPlatformInfo();
     }, []);
+
+    const version = runtime.getManifest().version;
+
 
     const copyEmailToClipboard = (evt: React.MouseEvent<HTMLButtonElement>) => {
         evt.stopPropagation();
@@ -41,9 +47,13 @@ const AboutARK = () => {
                         className='h-[21px] w-[228px] text-theme-primary-700 dark:text-theme-primary-650'
                     />
                 </div>
-                <p className='typeset-body text-theme-secondary-500 dark:text-theme-secondary-300'>
-                    {t('MISC.VERSION')} {runtime.getManifest().version}
-                </p>
+                <ExternalLink href={`${constants.GITHUB_RELEASES_URL}${version}`} tabIndex={-1}>
+                    <Button iconTrailing='link-external' variant='secondaryLink' className='group'>
+                        <span className='typeset-body transition-smoothEase font-normal text-theme-secondary-500 group-hover:text-theme-primary-700 dark:text-theme-secondary-300 dark:group-hover:text-theme-primary-700'>
+                            {t('MISC.VERSION')} {version}
+                        </span>
+                    </Button>
+                </ExternalLink>
             </div>
 
             <div className='flex flex-col gap-2 text-light-black dark:text-white'>
