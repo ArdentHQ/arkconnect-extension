@@ -60,7 +60,7 @@ export const uiSlice = createSlice({
             state.locked = action.payload;
         },
     },
-    extraReducers: (builder) => builder.addCase(revertAll, () => initialState)
+    extraReducers: (builder) => builder.addCase(revertAll, () => initialState),
 });
 
 export const {

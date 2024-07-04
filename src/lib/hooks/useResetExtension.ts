@@ -54,7 +54,7 @@ const useResetExtension = () => {
         }
     };
 
-    return {resetExtension, softResetExtension};
+    return { resetExtension, softResetExtension };
 };
 
 export default useResetExtension;
