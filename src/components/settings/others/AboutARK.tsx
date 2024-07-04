@@ -8,7 +8,6 @@ import SubPageLayout from '@/components/settings/SubPageLayout';
 import useClipboard from '@/lib/hooks/useClipboard';
 import InfoBanner from '@/shared/components/utils/InfoBanner';
 
-
 const AboutARK = () => {
     const { copy } = useClipboard();
     const { t } = useTranslation();
@@ -25,7 +24,6 @@ const AboutARK = () => {
     }, []);
 
     const version = runtime.getManifest().version;
-
 
     const copyEmailToClipboard = (evt: React.MouseEvent<HTMLButtonElement>) => {
         evt.stopPropagation();
