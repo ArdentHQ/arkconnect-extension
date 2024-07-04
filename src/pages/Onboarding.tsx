@@ -70,7 +70,13 @@ const Onboarding = () => {
             illustration: <ShortcutIcon />,
             heading: (
                 <Heading level={3} className='w-[300px] text-center'>
-                    <Trans i18nKey={os === 'mac' ? 'PAGES.ONBOARDING.SCREEN_HEADINGS.SHORTCUT.MAC' : 'PAGES.ONBOARDING.SCREEN_HEADINGS.SHORTCUT.DEFAULT'} />
+                    <Trans
+                        i18nKey={
+                            os === 'mac'
+                                ? 'PAGES.ONBOARDING.SCREEN_HEADINGS.SHORTCUT.MAC'
+                                : 'PAGES.ONBOARDING.SCREEN_HEADINGS.SHORTCUT.DEFAULT'
+                        }
+                    />
                 </Heading>
             ),
         },
