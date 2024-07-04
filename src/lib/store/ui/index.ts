@@ -60,12 +60,7 @@ export const uiSlice = createSlice({
             state.locked = action.payload;
         },
     },
-    extraReducers: (builder) => {
-        builder.addCase(revertAll, (state) => {
-            const currentThemeAccent = state.themeAccent;
-            Object.assign(state, initialState, { themeAccent: currentThemeAccent });
-        });
-    },
+    extraReducers: (builder) => builder.addCase(revertAll, () => initialState)
 });
 
 export const {
