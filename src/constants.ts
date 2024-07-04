@@ -35,6 +35,10 @@ const MAX_FEES = {
     vote: 1,
 };
 
+// OS Contants
+const MAC_OS = 'mac';
+const DEFAULT_OS = 'default'; // For Windows and Linux
+
 const constants = {
     APP_NAME,
     SUPPORT_EMAIL,
@@ -59,6 +63,8 @@ const constants = {
     MAX_FEES,
     FEE_REGEX,
     GITHUB_RELEASES_URL,
+    MAC_OS,
+    DEFAULT_OS,
 };
 
 export default constants;

@@ -1,27 +1,17 @@
 import { runtime } from 'webextension-polyfill';
 import { useTranslation } from 'react-i18next';
-import { useEffect, useState } from 'react';
 import { Button, ExternalLink, Icon, RowLayout } from '@/shared/components';
 
 import constants from '@/constants';
 import SubPageLayout from '@/components/settings/SubPageLayout';
 import useClipboard from '@/lib/hooks/useClipboard';
 import InfoBanner from '@/shared/components/utils/InfoBanner';
+import { useOs } from '@/lib/hooks/useOs';
 
 const AboutARK = () => {
     const { copy } = useClipboard();
     const { t } = useTranslation();
-
-    const [os, setOs] = useState<string | undefined>();
-
-    useEffect(() => {
-        const fetchPlatformInfo = async () => {
-            const platformInfo = await runtime.getPlatformInfo();
-            setOs(platformInfo.os);
-        };
-
-        fetchPlatformInfo();
-    }, []);
+    const { os } = useOs();
 
     const version = runtime.getManifest().version;
 
@@ -119,7 +109,7 @@ const AboutARK = () => {
             <div className='my-4'>
                 <InfoBanner title={t('MISC.INFO_TIP')}>
                     <span>
-                        {os === 'mac'
+                        {os === constants.MAC_OS
                             ? t('MISC.TIPS.SHORTCUT_TIP_MAC')
                             : t('MISC.TIPS.SHORTCUT_TIP_DEFAULT')}
                     </span>
