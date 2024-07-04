@@ -1,10 +1,10 @@
+import { runtime } from 'webextension-polyfill';
+import { useTranslation } from 'react-i18next';
 import { Button, ExternalLink, Icon, RowLayout } from '@/shared/components';
 
 import constants from '@/constants';
-import { runtime } from 'webextension-polyfill';
 import SubPageLayout from '@/components/settings/SubPageLayout';
 import useClipboard from '@/lib/hooks/useClipboard';
-import { useTranslation } from 'react-i18next';
 
 const AboutARK = () => {
     const { copy } = useClipboard();
