@@ -2,7 +2,6 @@ import { ReactNode, useEffect, useState } from 'react';
 import cn from 'classnames';
 import { useNavigate } from 'react-router-dom';
 import { Trans, useTranslation } from 'react-i18next';
-import { runtime } from 'webextension-polyfill';
 import {
     Button,
     ControlConnectionsIcon,
@@ -13,6 +12,8 @@ import {
     TransactionsPassphraseIcon,
 } from '@/shared/components';
 import { ShortcutIcon } from '@/shared/components/icon/illustration/ShortcutIcon';
+import { useOs } from '@/lib/hooks/useOs';
+import constants from '@/constants';
 
 type OnboardingScreen = {
     id: number;
@@ -22,16 +23,7 @@ type OnboardingScreen = {
 
 const Onboarding = () => {
     const { t } = useTranslation();
-    const [os, setOs] = useState<string>('default');
-
-    useEffect(() => {
-        const fetchPlatformInfo = async () => {
-            const platformInfo = await runtime.getPlatformInfo();
-            setOs(platformInfo.os);
-        };
-
-        fetchPlatformInfo();
-    }, []);
+    const { os } = useOs();
 
     const navigate = useNavigate();
 
@@ -72,7 +64,7 @@ const Onboarding = () => {
                 <Heading level={3} className='w-[300px] text-center'>
                     <Trans
                         i18nKey={
-                            os === 'mac'
+                            os === constants.MAC_OS
                                 ? 'PAGES.ONBOARDING.SCREEN_HEADINGS.SHORTCUT.MAC'
                                 : 'PAGES.ONBOARDING.SCREEN_HEADINGS.SHORTCUT.DEFAULT'
                         }

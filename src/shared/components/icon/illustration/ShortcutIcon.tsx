@@ -1,20 +1,11 @@
-import { useEffect, useState } from 'react';
-import { runtime } from 'webextension-polyfill';
 import ThemedIcon from '@/shared/components/icon/ThemedIcon';
+import { useOs } from '@/lib/hooks/useOs';
+import constants from '@/constants';
 
 export const ShortcutIcon = () => {
-    const [os, setOs] = useState<string>('default');
+    const { os } = useOs();
 
-    useEffect(() => {
-        const fetchPlatformInfo = async () => {
-            const platformInfo = await runtime.getPlatformInfo();
-            setOs(platformInfo.os);
-        };
-
-        fetchPlatformInfo();
-    }, []);
-
-    const icon = `shortcut-${os === 'mac' ? 'mac' : 'default'}`;
+    const icon = `shortcut-${os === constants.MAC_OS ? 'mac' : 'default'}`;
 
     return <ThemedIcon icon={icon} className='h-50 w-50' />;
 };
