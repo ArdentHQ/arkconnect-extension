@@ -2,6 +2,7 @@ import { ReactNode, useEffect, useState } from 'react';
 import cn from 'classnames';
 import { useNavigate } from 'react-router-dom';
 import { Trans, useTranslation } from 'react-i18next';
+import { runtime } from 'webextension-polyfill';
 import {
     Button,
     ControlConnectionsIcon,
@@ -11,6 +12,7 @@ import {
     ProgressBar,
     TransactionsPassphraseIcon,
 } from '@/shared/components';
+import { ShortcutIcon } from '@/shared/components/icon/illustration/ShortcutIcon';
 
 type OnboardingScreen = {
     id: number;
@@ -20,19 +22,20 @@ type OnboardingScreen = {
 
 const Onboarding = () => {
     const { t } = useTranslation();
+    const [os, setOs] = useState<string>('default');
+
+    useEffect(() => {
+        const fetchPlatformInfo = async () => {
+            const platformInfo = await runtime.getPlatformInfo();
+            setOs(platformInfo.os);
+        };
+
+        fetchPlatformInfo();
+    }, []);
 
     const navigate = useNavigate();
 
     const [activeOnboardingScreen, setActiveOnboardingScreen] = useState<number>(0);
-
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setActiveOnboardingScreen((prevIndex) => (prevIndex + 1) % 3);
-        }, 5000);
-        return () => {
-            clearInterval(interval);
-        };
-    }, []);
 
     const onboardingScreens: OnboardingScreen[] = [
         {
@@ -62,12 +65,36 @@ const Onboarding = () => {
                 </Heading>
             ),
         },
+        {
+            id: 4,
+            illustration: <ShortcutIcon />,
+            heading: (
+                <Heading level={3} className='w-[300px] text-center'>
+                    <Trans
+                        i18nKey={
+                            os === 'mac'
+                                ? 'PAGES.ONBOARDING.SCREEN_HEADINGS.SHORTCUT.MAC'
+                                : 'PAGES.ONBOARDING.SCREEN_HEADINGS.SHORTCUT.DEFAULT'
+                        }
+                    />
+                </Heading>
+            ),
+        },
     ];
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setActiveOnboardingScreen((prevIndex) => (prevIndex + 1) % onboardingScreens.length);
+        }, 5000);
+        return () => {
+            clearInterval(interval);
+        };
+    }, []);
 
     return (
         <div className='fade pt-[58px] duration-1000 ease-in-out'>
             <Header />
-            <ProgressBar />
+            <ProgressBar itemsLength={onboardingScreens.length} />
             <div className='relative h-[410px]'>
                 {onboardingScreens.map((screen, index) => (
                     <div
