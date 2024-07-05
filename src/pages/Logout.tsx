@@ -26,7 +26,7 @@ const Logout = () => {
     const sessions = useAppSelector(SessionStore.selectSessions);
     const { onError } = useErrorHandlerContext();
     const walletsIds = useAppSelector(WalletStore.selectWalletsIds);
-    const resetExtension = useResetExtension();
+    const { softResetExtension } = useResetExtension();
     const { t } = useTranslation();
     const walletsToLogout = location.state;
 
@@ -67,7 +67,7 @@ const Logout = () => {
             });
 
             if (noWallets) {
-                await resetExtension();
+                await softResetExtension();
                 await initProfile();
                 return;
             }

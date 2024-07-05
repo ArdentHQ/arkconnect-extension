@@ -5,7 +5,7 @@ import SubPageLayout from '@/components/settings/SubPageLayout';
 import useResetExtension from '@/lib/hooks/useResetExtension';
 
 const ForgotPassword = () => {
-    const resetExtension = useResetExtension();
+    const { resetExtension } = useResetExtension();
     const [lostPasswordAwareness, setLostPasswordAwareness] = useState<boolean>(false);
     const { t } = useTranslation();
 

@@ -56,3 +56,10 @@ export const setLocalValue = async (
 export const clearLocalStorage = async () => {
     await storage.local.remove(KEY);
 };
+
+export const softClearLocalStorage = async () => {
+    const { autoLockTimer } = await parseLocalStorageValues();
+
+    await storage.local.clear();
+    await storage.local.set({ [KEY]: { autoLockTimer } });
+};

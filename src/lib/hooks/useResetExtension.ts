@@ -4,7 +4,7 @@ import useOnError from '.';
 import { useProfileContext } from '@/lib/context/Profile';
 import { revertAll } from '@/lib/store/ui';
 import { useAppDispatch } from '@/lib/store';
-import { clearLocalStorage } from '@/lib/utils/localStorage';
+import { clearLocalStorage, softClearLocalStorage } from '@/lib/utils/localStorage';
 
 const useResetExtension = () => {
     const dispatch = useAppDispatch();
@@ -42,7 +42,19 @@ const useResetExtension = () => {
         }
     };
 
-    return resetExtension;
+    const softResetExtension = async () => {
+        try {
+            navigate('/splash-screen');
+
+            await Promise.all([resetEnvironment(), softClearLocalStorage()]);
+
+            await initProfile();
+        } catch (error) {
+            onError(error);
+        }
+    };
+
+    return { resetExtension, softResetExtension };
 };
 
 export default useResetExtension;
