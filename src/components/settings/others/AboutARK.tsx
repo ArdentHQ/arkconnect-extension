@@ -1,7 +1,6 @@
 import { runtime } from 'webextension-polyfill';
 import { useTranslation } from 'react-i18next';
-import cn from 'classnames';
-import { Button, ExternalLink, Icon, RowLayout } from '@/shared/components';
+import { ExternalLink, Icon, RowLayout } from '@/shared/components';
 
 import constants from '@/constants';
 import SubPageLayout from '@/components/settings/SubPageLayout';
