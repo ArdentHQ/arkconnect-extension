@@ -1,5 +1,6 @@
 import { runtime } from 'webextension-polyfill';
 import { useTranslation } from 'react-i18next';
+import cn from 'classnames';
 import { Button, ExternalLink, Icon, RowLayout } from '@/shared/components';
 
 import constants from '@/constants';
@@ -35,9 +36,9 @@ const AboutARK = () => {
                         className='h-[21px] w-[228px] text-theme-primary-700 dark:text-theme-primary-650'
                     />
                 </div>
-                <ExternalLink href={`${constants.GITHUB_RELEASES_URL}${version}`} tabIndex={-1}>
-                    <Button iconTrailing='link-external' variant='secondaryLink' className='group'>
-                        <span className='typeset-body transition-smoothEase font-normal text-theme-secondary-500 group-hover:text-theme-primary-700 dark:text-theme-secondary-300 dark:group-hover:text-theme-primary-700'>
+                <ExternalLink href={`${constants.GITHUB_RELEASES_URL}${version}`} tabIndex={-1} className='group'>
+                    <Button iconTrailing='link-external' variant='secondaryLink' className='group' iconClass={cn('w-5 h-5 group-hover:text-theme-primary-700 dark:group-hover:text-theme-primary-700 transition-smoothEase')}>
+                        <span className={cn('typeset-body font-normal text-theme-secondary-500 group-hover:text-theme-primary-700 dark:text-theme-secondary-300 dark:group-hover:text-theme-primary-700 duration-300 transition-smoothEase')}>
                             {t('MISC.VERSION')} {version}
                         </span>
                     </Button>
