@@ -38,12 +38,15 @@ const AboutARK = () => {
                 <ExternalLink
                     href={`${constants.GITHUB_RELEASES_URL}${version}`}
                     tabIndex={-1}
-                    className='group flex flex-row gap-2 text-theme-secondary-500 hover:text-theme-primary-700 dark:text-theme-secondary-300 dark:hover:text-theme-primary-700 transition-smoothEase items-center'
+                    className='transition-smoothEase group flex flex-row items-center gap-2 text-theme-secondary-500 hover:text-theme-primary-700 dark:text-theme-secondary-300 dark:hover:text-theme-primary-700'
                 >
                     <span className='typeset-body font-normal'>
                         {t('MISC.VERSION')} {version}
                     </span>
-                    <Icon icon='link-external' className='h-5 w-5 text-light-black dark:text-white group-hover:text-theme-primary-700 dark:group-hover:text-theme-primary-700 transition-smoothEase' />
+                    <Icon
+                        icon='link-external'
+                        className='transition-smoothEase h-5 w-5 text-light-black group-hover:text-theme-primary-700 dark:text-white dark:group-hover:text-theme-primary-700'
+                    />
                 </ExternalLink>
             </div>
 
