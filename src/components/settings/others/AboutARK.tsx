@@ -1,6 +1,6 @@
 import { runtime } from 'webextension-polyfill';
 import { useTranslation } from 'react-i18next';
-import { Button, ExternalLink, Icon, RowLayout } from '@/shared/components';
+import { ExternalLink, Icon, RowLayout } from '@/shared/components';
 
 import constants from '@/constants';
 import SubPageLayout from '@/components/settings/SubPageLayout';
@@ -35,12 +35,18 @@ const AboutARK = () => {
                         className='h-[21px] w-[228px] text-theme-primary-700 dark:text-theme-primary-650'
                     />
                 </div>
-                <ExternalLink href={`${constants.GITHUB_RELEASES_URL}${version}`} tabIndex={-1}>
-                    <Button iconTrailing='link-external' variant='secondaryLink' className='group'>
-                        <span className='typeset-body transition-smoothEase font-normal text-theme-secondary-500 group-hover:text-theme-primary-700 dark:text-theme-secondary-300 dark:group-hover:text-theme-primary-700'>
-                            {t('MISC.VERSION')} {version}
-                        </span>
-                    </Button>
+                <ExternalLink
+                    href={`${constants.GITHUB_RELEASES_URL}${version}`}
+                    tabIndex={-1}
+                    className='transition-smoothEase group flex flex-row items-center gap-2 text-theme-secondary-500 hover:text-theme-primary-700 dark:text-theme-secondary-300 dark:hover:text-theme-primary-700'
+                >
+                    <span className='typeset-body font-normal'>
+                        {t('MISC.VERSION')} {version}
+                    </span>
+                    <Icon
+                        icon='link-external'
+                        className='transition-smoothEase h-5 w-5 text-light-black group-hover:text-theme-primary-700 dark:text-white dark:group-hover:text-theme-primary-700'
+                    />
                 </ExternalLink>
             </div>
 
