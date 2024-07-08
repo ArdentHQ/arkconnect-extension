@@ -37,7 +37,7 @@ const AboutARK = () => {
                     />
                 </div>
                 <ExternalLink href={`${constants.GITHUB_RELEASES_URL}${version}`} tabIndex={-1} className='group'>
-                    <Button iconTrailing='link-external' variant='secondaryLink' className='group' iconClass={cn('w-5 h-5 group-hover:text-theme-primary-700 dark:group-hover:text-theme-primary-700 transition-smoothEase')}>
+                    <Button iconTrailing='link-external' variant='secondaryLink' iconClass={cn('w-5 h-5 group-hover:text-theme-primary-700 dark:group-hover:text-theme-primary-700 transition-smoothEase')}>
                         <span className={cn('typeset-body font-normal text-theme-secondary-500 group-hover:text-theme-primary-700 dark:text-theme-secondary-300 dark:group-hover:text-theme-primary-700 duration-300 transition-smoothEase')}>
                             {t('MISC.VERSION')} {version}
                         </span>
