@@ -20,8 +20,8 @@ export default {
     INFO_TIP: 'Info Tip',
     TIPS: {
         SHORTCUT_TIP_MAC:
-            'To quickly open the application in your browser, press Shift + Option + A',
+            'To quickly open the application in your browser, press Shift + Option + C',
         SHORTCUT_TIP_DEFAULT:
-            'To quickly open the application in your browser, press Shift + Alt + A',
+            'To quickly open the application in your browser, press Shift + Alt + C',
     },
 };
