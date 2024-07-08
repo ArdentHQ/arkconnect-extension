@@ -36,9 +36,23 @@ const AboutARK = () => {
                         className='h-[21px] w-[228px] text-theme-primary-700 dark:text-theme-primary-650'
                     />
                 </div>
-                <ExternalLink href={`${constants.GITHUB_RELEASES_URL}${version}`} tabIndex={-1} className='group'>
-                    <Button iconTrailing='link-external' variant='secondaryLink' iconClass={cn('w-5 h-5 group-hover:text-theme-primary-700 dark:group-hover:text-theme-primary-700 transition-smoothEase')}>
-                        <span className={cn('typeset-body font-normal text-theme-secondary-500 group-hover:text-theme-primary-700 dark:text-theme-secondary-300 dark:group-hover:text-theme-primary-700 transition-smoothEase')}>
+                <ExternalLink
+                    href={`${constants.GITHUB_RELEASES_URL}${version}`}
+                    tabIndex={-1}
+                    className='group'
+                >
+                    <Button
+                        iconTrailing='link-external'
+                        variant='secondaryLink'
+                        iconClass={cn(
+                            'w-5 h-5 group-hover:text-theme-primary-700 dark:group-hover:text-theme-primary-700 transition-smoothEase',
+                        )}
+                    >
+                        <span
+                            className={cn(
+                                'typeset-body transition-smoothEase font-normal text-theme-secondary-500 group-hover:text-theme-primary-700 dark:text-theme-secondary-300 dark:group-hover:text-theme-primary-700',
+                            )}
+                        >
                             {t('MISC.VERSION')} {version}
                         </span>
                     </Button>
