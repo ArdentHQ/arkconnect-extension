@@ -12,6 +12,7 @@ type ModalProps = {
     onClose: () => void;
     className?: string;
     icon?: IconDefinition | ReactNode;
+    iconClassName?: string;
     variant?: 'danger';
     onCancel?: () => void;
     onResolve?: () => void;
@@ -78,6 +79,7 @@ const Modal = ({
     onResolve,
     className,
     icon,
+    iconClassName,
     variant,
     hideCloseButton = false,
     footer,
@@ -124,6 +126,7 @@ const Modal = ({
                                                     <ModalIcon
                                                         icon={icon as IconDefinition}
                                                         variant={variant}
+                                                        className={iconClassName}
                                                     />
                                                 ) : (
                                                     icon
