@@ -18,6 +18,6 @@ export default {
         INVALID_NETWORK: 'QR code data is from a different network.',
         NO_QR_CODE: 'No QR code found.',
         INVALID_TRANSACTION_TYPE: 'QR code uploaded has an invalid transaction type.',
-        CUSTOM_ERROR: 'An error occured while scanning your QR code: {{ error }}.'
-    }
+        CUSTOM_ERROR: 'An error occured while scanning your QR code: {{ error }}.',
+    },
 };

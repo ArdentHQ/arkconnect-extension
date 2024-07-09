@@ -47,7 +47,7 @@ const Send = () => {
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
     const [isModalLoading, setIsModalLoading] = useState<boolean>(false);
     const [modalError, setModalError] = useState<string | undefined>();
-    
+
     const lastVisitedPage = profile.settings().get('LAST_VISITED_PAGE') as { data: PageData };
 
     if (lastVisitedPage?.data && lastVisitedPage.data.type === 'transfer') {
@@ -226,20 +226,20 @@ const Send = () => {
 
     const readFileAsDataURL = (file: File): Promise<string> => {
         return new Promise((resolve, reject) => {
-          const reader = new FileReader();
-          reader.onload = () => resolve(reader.result as string);
-          reader.onerror = (error) => reject(error);
-          reader.readAsDataURL(file);
+            const reader = new FileReader();
+            reader.onload = () => resolve(reader.result as string);
+            reader.onerror = (error) => reject(error);
+            reader.readAsDataURL(file);
         });
-      };
+    };
 
-      const handleDragAndDropChange = useCallback(async (file: File) => {
+    const handleDragAndDropChange = useCallback(async (file: File) => {
         setIsModalLoading(true);
         if (!file.type.startsWith('image/')) {
             handleModalError(t('ERROR.QR_CODE.INVALID_FORMAT'));
             return;
         }
-        
+
         try {
             const imageData = await readFileAsDataURL(file);
             const img = new Image();
@@ -261,18 +261,21 @@ const Send = () => {
                 }
 
                 const params = new URLSearchParams(code.data.split('?')[1]);
-                    if (params.get('method') !== ApproveActionType.TRANSACTION) {
+                if (params.get('method') !== ApproveActionType.TRANSACTION) {
                     handleModalError(t('ERROR.QR_CODE.INVALID_TRANSACTION_TYPE'));
                     return;
                 }
-                
-                if(params.get('coin') !== primaryWallet?.network().coinName() || params.get('nethash') !== primaryWallet?.network().meta().nethash) {
+
+                if (
+                    params.get('coin') !== primaryWallet?.network().coinName() ||
+                    params.get('nethash') !== primaryWallet?.network().meta().nethash
+                ) {
                     handleModalError(t('ERROR.QR_CODE.INVALID_NETWORK'));
                     return;
                 }
 
                 formik.setFieldValue('receiverAddress', params.get('recipient'));
-                    ['amount', 'memo'].forEach(field => {
+                ['amount', 'memo'].forEach((field) => {
                     if (params.has(field)) {
                         formik.setFieldValue(field, params.get(field));
                     }
@@ -281,10 +284,10 @@ const Send = () => {
                 handleModalError(undefined);
                 setIsModalOpen(false);
             };
-          } catch (error) {
+        } catch (error) {
             handleModalError(t('CUSTOM_ERROR', { error }));
-          }
-      }, []);
+        }
+    }, []);
 
     return (
         <SubPageLayout
@@ -293,9 +296,7 @@ const Send = () => {
             footer={
                 <SendButton disabled={!(formik.isValid && hasValues)} onClick={formik.submitForm} />
             }
-            sideButton={
-                <SendModalButton onClick={handleModalClick} />
-            }
+            sideButton={<SendModalButton onClick={handleModalClick} />}
         >
             <SendForm formik={formik} />
 
@@ -309,32 +310,61 @@ const Send = () => {
                     }}
                     iconClassName='text-theme-secondary-500 dark:text-theme-secondary-300'
                     footer={
-                        !isModalLoading && (<div className='flex flex-row gap-2'>
-                            <Button variant='secondaryBlack' onClick={handleModalClose}>{t('COMMON.CANCEL')}</Button>
-                            <Button variant='primary'>{t('PAGES.SEND.QR_MODAL.UPLOAD_QR')}</Button>
-                        </div>)
+                        !isModalLoading && (
+                            <div className='flex flex-row gap-2'>
+                                <Button variant='secondaryBlack' onClick={handleModalClose}>
+                                    {t('COMMON.CANCEL')}
+                                </Button>
+                                <Button variant='primary'>
+                                    {t('PAGES.SEND.QR_MODAL.UPLOAD_QR')}
+                                </Button>
+                            </div>
+                        )
                     }
                     errorMessage={modalError}
                 >
                     <div className='flex flex-col gap-1.5'>
-                        <FileUploader handleChange={handleDragAndDropChange} name="qr-code" types={fileTypes} multiple={false} disabled={isModalLoading} maxSize={5} onSizeError={handleSizeError} onTypeError={handleTypeError}>
-                            <div className='h-50 w-[306px] border border-dashed border-theme-secondary-200 bg-theme-secondary-25 rounded-2xl dark:bg-theme-secondary-800 dark:border-theme-secondary-600'>
-                                <div className='flex items-center justify-center relative overflow-hidden'>
-                                    <Icon icon={isDark() ? 'upload-background-dark' : 'upload-background'} className='rounded-xl h-[192px] w-[298px] mt-[3px]' />
+                        <FileUploader
+                            handleChange={handleDragAndDropChange}
+                            name='qr-code'
+                            types={fileTypes}
+                            multiple={false}
+                            disabled={isModalLoading}
+                            maxSize={5}
+                            onSizeError={handleSizeError}
+                            onTypeError={handleTypeError}
+                        >
+                            <div className='h-50 w-[306px] rounded-2xl border border-dashed border-theme-secondary-200 bg-theme-secondary-25 dark:border-theme-secondary-600 dark:bg-theme-secondary-800'>
+                                <div className='relative flex items-center justify-center overflow-hidden'>
+                                    <Icon
+                                        icon={
+                                            isDark()
+                                                ? 'upload-background-dark'
+                                                : 'upload-background'
+                                        }
+                                        className='mt-[3px] h-[192px] w-[298px] rounded-xl'
+                                    />
 
-                                    <Icon icon={isDark() ? 'qr-drag-and-drop-dark' : 'qr-drag-and-drop'} className='h-80 w-80 absolute top-0' />
+                                    <Icon
+                                        icon={
+                                            isDark() ? 'qr-drag-and-drop-dark' : 'qr-drag-and-drop'
+                                        }
+                                        className='absolute top-0 h-80 w-80'
+                                    />
 
-                                    {
-                                        isModalLoading && (
-                                            <div className='h-[192px] w-[298px] bg-subtle-black/80 absolute rounded-xl mt-[3px] flex items-center justify-center dark:bg-theme-secondary-900/70'>
-                                                <Loader variant='big' className='w-16 h-16' />
-                                            </div>
-                                        )
-                                    }
+                                    {isModalLoading && (
+                                        <div className='absolute mt-[3px] flex h-[192px] w-[298px] items-center justify-center rounded-xl bg-subtle-black/80 dark:bg-theme-secondary-900/70'>
+                                            <Loader variant='big' className='h-16 w-16' />
+                                        </div>
+                                    )}
                                 </div>
                             </div>
                         </FileUploader>
-                        <span className='text-base font-normal leading-5 text-theme-secondary-500 dark:text-theme-secondary-300'>{isModalLoading ? t('PAGES.SEND.QR_MODAL.PROCESSING_IMAGE') : t('PAGES.SEND.QR_MODAL.CHOOSE_YOUR_QR_CODE')}</span>
+                        <span className='text-base font-normal leading-5 text-theme-secondary-500 dark:text-theme-secondary-300'>
+                            {isModalLoading
+                                ? t('PAGES.SEND.QR_MODAL.PROCESSING_IMAGE')
+                                : t('PAGES.SEND.QR_MODAL.CHOOSE_YOUR_QR_CODE')}
+                        </span>
                     </div>
                 </Modal>
             )}
