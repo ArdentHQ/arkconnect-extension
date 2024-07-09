@@ -15,6 +15,10 @@ import { WalletNetwork } from '@/lib/store/wallet';
 import constants from '@/constants';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 import { useProfileContext } from '@/lib/context/Profile';
+import SendModalButton from '@/components/send/SendModalButton';
+import Modal from '@/shared/components/modal/Modal';
+import { Button, Icon } from '@/shared/components';
+import useThemeMode from '@/lib/hooks/useThemeMode';
 
 export type SendFormik = {
     amount?: string;
@@ -37,6 +41,8 @@ const Send = () => {
     const primaryWallet = usePrimaryWallet();
     const { t } = useTranslation();
     const { profile } = useProfileContext();
+    const { isDark } = useThemeMode();
+    const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
     const lastVisitedPage = profile.settings().get('LAST_VISITED_PAGE') as { data: PageData };
 
     if (lastVisitedPage?.data && lastVisitedPage.data.type === 'transfer') {
@@ -191,6 +197,14 @@ const Send = () => {
 
     const hasValues = formik.values.amount && formik.values.receiverAddress && formik.values.fee;
 
+    const handleModalClick = () => {
+        setIsModalOpen(true)
+    }
+
+    const handleModalClose = () => {
+        setIsModalOpen(false)
+    }
+
     return (
         <SubPageLayout
             title={t('COMMON.SEND')}
@@ -198,8 +212,41 @@ const Send = () => {
             footer={
                 <SendButton disabled={!(formik.isValid && hasValues)} onClick={formik.submitForm} />
             }
+            sideButton={
+                <SendModalButton onClick={handleModalClick} />
+            }
         >
             <SendForm formik={formik} />
+
+            {isModalOpen && (
+                <Modal
+                    icon={'qr-code'}
+                    variant='danger'
+                    onClose={handleModalClose}
+                    focusTrapOptions={{
+                        initialFocus: false,
+                    }}
+                    iconClassName='text-theme-secondary-500 dark:text-theme-secondary-300'
+                    footer={
+                        <div className='flex flex-row gap-2'>
+                            <Button variant='secondaryBlack' onClick={handleModalClose}>{t('COMMON.CANCEL')}</Button>
+                            <Button variant='primary'>{t('PAGES.SEND.QR_MODAL.UPLOAD_QR')}</Button>
+                        </div>
+                    }
+                >
+                    <div className='flex flex-col gap-1.5'>
+                        <div className='h-50 w-[306px] border border-dashed border-theme-secondary-200 bg-theme-secondary-25 rounded-2xl dark:bg-theme-secondary-800 dark:border-theme-secondary-600'>
+                            <div className='flex items-center justify-center relative'>
+                                <Icon icon={isDark() ? 'upload-background-dark' : 'upload-background'} className='rounded-xl h-[192px] w-[298px] mt-[3px]' />
+
+                                <Icon icon={isDark() ? 'qr-drag-and-drop-dark' : 'qr-drag-and-drop'} className='h-80 w-80 absolute top-0' />
+                            </div>
+                        </div>
+
+                        <span className='text-base font-normal leading-5 text-theme-secondary-500 dark:text-theme-secondary-300'>{t('PAGES.SEND.QR_MODAL.CHOOSE_YOUR_QR_CODE')}</span>
+                    </div>
+                </Modal>
+            )}
         </SubPageLayout>
     );
 };
