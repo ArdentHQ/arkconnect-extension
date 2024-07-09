@@ -43,7 +43,8 @@ const Send = () => {
     const { profile } = useProfileContext();
     const { isDark } = useThemeMode();
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-    const [isModalLoading, setIsModalLoading] = useState<boolean>(true);
+    const [isModalLoading, setIsModalLoading] = useState<boolean>(false);
+    const [modalError, setModalError] = useState<string | undefined>();
     const lastVisitedPage = profile.settings().get('LAST_VISITED_PAGE') as { data: PageData };
 
     if (lastVisitedPage?.data && lastVisitedPage.data.type === 'transfer') {
@@ -244,7 +245,7 @@ const Send = () => {
 
                                 {
                                     isModalLoading && (
-                                        <div className='h-[192px] w-[298px] bg-subtle-black/80 absolute rounded-xl mt-[3px] flex items-center justify-center'>
+                                        <div className='h-[192px] w-[298px] bg-subtle-black/80 absolute rounded-xl mt-[3px] flex items-center justify-center dark:bg-theme-secondary-900/70'>
                                             <Loader variant='big' className='w-16 h-16' />
                                         </div>
                                     )

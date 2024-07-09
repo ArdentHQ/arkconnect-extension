@@ -33,6 +33,7 @@ type ModalProps = {
     activateFocusTrap?: boolean;
     focusTrapOptions?: FocusTrap.Props['focusTrapOptions'];
     title?: string;
+    errorMessage?: string;
 };
 
 const ModalCloseIcon = ({ onClose }: { onClose: () => void }) => {
@@ -87,6 +88,7 @@ const Modal = ({
     activateFocusTrap = true,
     focusTrapOptions,
     title,
+    errorMessage,
 }: ModalProps) => {
     const { t } = useTranslation();
     const ref = useRef<HTMLDivElement | null>(null);
@@ -105,9 +107,11 @@ const Modal = ({
                             <div
                                 className={twMerge(
                                     cn(
-                                        'flex flex-col gap-6 rounded-xl bg-white dark:bg-light-black',
+                                        'flex flex-col gap-6 bg-white dark:bg-light-black',
                                         {
                                             'p-4': !containerClassName,
+                                            'rounded-xl': !errorMessage,
+                                            'rounded-t-xl': errorMessage
                                         },
                                     ),
                                     containerClassName,
@@ -174,6 +178,14 @@ const Modal = ({
                                     footer
                                 )}
                             </div>
+                            {
+                                errorMessage && (
+                                    <div className='border-t border-t-theme-error-600 dark:border-t-theme-error-500 bg-theme-error-100 text-theme-error-600 dark:text-theme-error-100 dark:bg-theme-error-800 flex flex-row py-3 px-4 gap-2 items-center rounded-b-xl'>
+                                        <Icon icon='information-circle' className='h-5 w-5 flex-none'/>
+                                        <span className='text-xs font-normal'>{errorMessage}</span>
+                                    </div>
+                                )
+                            }
                         </div>
                     </div>
                 </div>
