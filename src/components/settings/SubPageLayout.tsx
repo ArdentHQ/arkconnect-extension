@@ -12,6 +12,7 @@ type Props = {
     className?: string;
     bodyClassName?: string;
     footer?: React.ReactNode;
+    sideButton?: React.ReactNode;
 };
 
 const SubPageLayout = ({
@@ -24,6 +25,7 @@ const SubPageLayout = ({
     className,
     bodyClassName,
     footer,
+    sideButton
 }: Props) => {
     if (!onBack) {
         onBack = hideCloseButton ? 'goHome' : 'goBack';
@@ -57,6 +59,7 @@ const SubPageLayout = ({
                             </div>
 
                             {!hideCloseButton && <CloseButton />}
+                            {sideButton}
                         </div>
                     </div>
 
