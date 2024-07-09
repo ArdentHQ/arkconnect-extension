@@ -11,6 +11,7 @@ export default {
     AVERAGE: 'Average',
     BACK: 'Back',
     BALANCE: 'Balance',
+    CANCEL: 'Cancel',
     CONTINUE: 'Continue',
     CONTRACT: 'Contract',
     COPY_with_name: 'Copy {{name}}',
