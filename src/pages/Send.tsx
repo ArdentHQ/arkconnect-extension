@@ -309,9 +309,11 @@ const Send = () => {
                     }}
                     iconClassName='text-theme-secondary-500 dark:text-theme-secondary-300'
                     footer={
-                        !isModalLoading && (<div className='flex flex-row gap-2'>
+                        !isModalLoading && (<div className='grid gap-2 grid-cols-2'>
                             <Button variant='secondaryBlack' onClick={handleModalClose}>{t('COMMON.CANCEL')}</Button>
-                            <Button variant='primary'>{t('PAGES.SEND.QR_MODAL.UPLOAD_QR')}</Button>
+                            <FileUploader onSelect={handleDragAndDropChange} onDrop={undefined} name="qr-code" types={fileTypes} multiple={false} disabled={isModalLoading} maxSize={5} onSizeError={handleSizeError} onTypeError={handleTypeError} tabIndex={-1}>
+                                <Button variant='primary'>{t('PAGES.SEND.QR_MODAL.UPLOAD_QR')}</Button>
+                            </FileUploader>
                         </div>)
                     }
                     errorMessage={modalError}
