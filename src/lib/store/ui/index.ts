@@ -31,7 +31,7 @@ export type UIState = {
 
 const initialState: UIState = {
     themeMode: undefined,
-    themeAccent: ThemeAccent.GREEN,
+    themeAccent: ThemeAccent.NAVY,
     toasts: [],
     locked: false,
 };
