@@ -1,3 +1,10 @@
+import { ReactNode, useEffect, useState } from 'react';
+import { Trans, useTranslation } from 'react-i18next';
+
+import cn from 'classnames';
+import { useNavigate } from 'react-router-dom';
+import constants from '@/constants';
+import { ShortcutIcon } from '@/shared/components/icon/illustration/ShortcutIcon';
 import {
     Button,
     ControlConnectionsIcon,
@@ -8,13 +15,6 @@ import {
     ProgressBar,
     TransactionsPassphraseIcon,
 } from '@/shared/components';
-import { ReactNode, useEffect, useState } from 'react';
-import { Trans, useTranslation } from 'react-i18next';
-
-import cn from 'classnames';
-import constants from '@/constants';
-import { ShortcutIcon } from '@/shared/components/icon/illustration/ShortcutIcon';
-import { useNavigate } from 'react-router-dom';
 import { useOs } from '@/lib/hooks/useOs';
 
 type OnboardingScreen = {
