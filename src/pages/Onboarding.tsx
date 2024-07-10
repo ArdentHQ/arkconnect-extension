@@ -99,10 +99,6 @@ const Onboarding = () => {
         setActiveOnboardingScreen(activeSlide);
     }, [activeSlide]);
 
-    useEffect(() => {
-        setActiveSlide(activeOnboardingScreen);
-    }, [activeOnboardingScreen]);
-
     const handlePrev = () => {
         setActiveSlide((prevSlide) => (prevSlide === 0 ? onboardingScreens.length - 1 : prevSlide - 1));
         startInterval();

@@ -15,7 +15,6 @@ export const ProgressBar = ({ itemsLength, activeSlide, setActiveSlide }: { item
         };
     }, [itemsLength, setActiveSlide]);
 
-    // Update filled segments when activeSlide changes
     useEffect(() => {
         setFilledSegments(() => {
             const newSegments = Array(itemsLength).fill(false);
@@ -25,24 +24,6 @@ export const ProgressBar = ({ itemsLength, activeSlide, setActiveSlide }: { item
             return newSegments;
         });
     }, [activeSlide, itemsLength]);
-
-    useEffect(() => {
-        const intervalId = setInterval(() => {
-            if (activeSlide === itemsLength - 1) {
-                setFilledSegments(Array(itemsLength).fill(false));
-                setActiveSlide(0);
-                return;
-            }
-            setFilledSegments((prevSegments) => {
-                const newSegments = [...prevSegments];
-                newSegments[activeSlide + 1] = true;
-                return newSegments;
-            });
-            setActiveSlide((prevSlide) => (prevSlide + 1) % itemsLength);
-        }, 4900);
-
-        return () => clearInterval(intervalId);
-    }, [activeSlide, itemsLength, setActiveSlide]);
 
     const bars = filledSegments.map((isFilled, index) => (
         <div
@@ -55,8 +36,7 @@ export const ProgressBar = ({ itemsLength, activeSlide, setActiveSlide }: { item
                     'w-0': !isFilled,
                 })}
                 style={{
-                    transition:
-                        activeSlide === index && isFilled ? 'width 5s ease-in-out' : 'unset',
+                    transition: activeSlide === index && isFilled ? 'width 5s ease-in-out' : 'unset',
                 }}
             />
         </div>
