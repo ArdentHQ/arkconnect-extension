@@ -124,6 +124,22 @@ const Onboarding = () => {
             <Header />
             <ProgressBar activeIndex={activeIndex} filledSegments={filledSegments} />
             <div className='relative h-[410px]'>
+                <div className='absolute left-4 top-1/2 z-1'>
+                    <button
+                        onClick={() => goToPreviousScreen()}
+                        className='h-6 w-6 rounded-full text-theme-secondary-500 transition hover:bg-theme-secondary-100 hover:text-black dark:text-theme-secondary-300 dark:hover:bg-theme-secondary-700 dark:hover:text-white'
+                    >
+                        <Icon icon='chevron-left' className='h-6 w-6' />
+                    </button>
+                </div>
+                <div className='absolute right-4 top-1/2 z-1 '>
+                    <button
+                        onClick={() => goToNextScreen()}
+                        className='h-6 w-6 rounded-full text-theme-secondary-500 transition hover:bg-theme-secondary-100 hover:text-black dark:text-theme-secondary-300 dark:hover:bg-theme-secondary-700 dark:hover:text-white'
+                    >
+                        <Icon icon='chevron-right' className='h-6 w-6' />
+                    </button>
+                </div>
                 {onboardingScreens.map((screen, index) => (
                     <div
                         className={cn(
@@ -139,22 +155,6 @@ const Onboarding = () => {
                         <div className='flex flex-col items-center gap-6 text-center'>
                             {screen.illustration}
                             {screen.heading}
-                        </div>
-                        <div className='absolute left-4 top-1/2'>
-                            <button
-                                onClick={() => goToPreviousScreen()}
-                                className='h-6 w-6 rounded-full text-theme-secondary-500 transition hover:bg-theme-secondary-100 hover:text-black dark:text-theme-secondary-300 dark:hover:bg-theme-secondary-700 dark:hover:text-white'
-                            >
-                                <Icon icon='chevron-left' className='h-6 w-6' />
-                            </button>
-                        </div>
-                        <div className='absolute right-4 top-1/2'>
-                            <button
-                                onClick={() => goToNextScreen()}
-                                className='h-6 w-6 rounded-full text-theme-secondary-500 transition hover:bg-theme-secondary-100 hover:text-black dark:text-theme-secondary-300 dark:hover:bg-theme-secondary-700 dark:hover:text-white'
-                            >
-                                <Icon icon='chevron-right' className='h-6 w-6' />
-                            </button>
                         </div>
                     </div>
                 ))}
