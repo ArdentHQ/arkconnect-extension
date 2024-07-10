@@ -1,19 +1,21 @@
-import { ReactNode, useEffect, useState } from 'react';
-import cn from 'classnames';
-import { useNavigate } from 'react-router-dom';
-import { Trans, useTranslation } from 'react-i18next';
 import {
     Button,
     ControlConnectionsIcon,
     FingerPrintIcon,
     Header,
     Heading,
+    Icon,
     ProgressBar,
     TransactionsPassphraseIcon,
 } from '@/shared/components';
-import { ShortcutIcon } from '@/shared/components/icon/illustration/ShortcutIcon';
-import { useOs } from '@/lib/hooks/useOs';
+import { ReactNode, useEffect, useState } from 'react';
+import { Trans, useTranslation } from 'react-i18next';
+
+import cn from 'classnames';
 import constants from '@/constants';
+import { ShortcutIcon } from '@/shared/components/icon/illustration/ShortcutIcon';
+import { useNavigate } from 'react-router-dom';
+import { useOs } from '@/lib/hooks/useOs';
 
 type OnboardingScreen = {
     id: number;
@@ -83,6 +85,16 @@ const Onboarding = () => {
         };
     }, []);
 
+    const goToNextScreen = () => {
+        setActiveOnboardingScreen((prevIndex) => (prevIndex + 1) % onboardingScreens.length);
+    };
+
+    const goToPreviousScreen = () => {
+        setActiveOnboardingScreen(
+            (prevIndex) => (prevIndex - 1 + onboardingScreens.length) % onboardingScreens.length,
+        );
+    };
+
     return (
         <div className='fade pt-[58px] duration-1000 ease-in-out'>
             <Header />
@@ -103,6 +115,22 @@ const Onboarding = () => {
                         <div className='flex flex-col items-center gap-6 text-center'>
                             {screen.illustration}
                             {screen.heading}
+                        </div>
+                        <div className='absolute left-4 top-1/2'>
+                            <button
+                                onClick={() => goToPreviousScreen()}
+                                className='h-6 w-6 rounded-full text-theme-secondary-500 transition hover:bg-theme-secondary-100 hover:text-black dark:text-theme-secondary-300 dark:hover:bg-theme-secondary-700 dark:hover:text-white'
+                            >
+                                <Icon icon='chevron-left' className='h-6 w-6' />
+                            </button>
+                        </div>
+                        <div className='absolute right-4 top-1/2'>
+                            <button
+                                onClick={() => goToNextScreen()}
+                                className='h-6 w-6 rounded-full text-theme-secondary-500 transition hover:bg-theme-secondary-100 hover:text-black dark:text-theme-secondary-300 dark:hover:bg-theme-secondary-700 dark:hover:text-white'
+                            >
+                                <Icon icon='chevron-right' className='h-6 w-6' />
+                            </button>
                         </div>
                     </div>
                 ))}
