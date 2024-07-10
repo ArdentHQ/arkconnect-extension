@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useState } from 'react';
+import { ReactNode, useEffect, useRef, useState } from 'react';
 import cn from 'classnames';
 import { useNavigate } from 'react-router-dom';
 import { Trans, useTranslation } from 'react-i18next';
@@ -28,6 +28,9 @@ const Onboarding = () => {
     const navigate = useNavigate();
 
     const [activeOnboardingScreen, setActiveOnboardingScreen] = useState<number>(0);
+    const [activeSlide, setActiveSlide] = useState<number>(0);
+
+    const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
     const onboardingScreens: OnboardingScreen[] = [
         {
@@ -74,28 +77,59 @@ const Onboarding = () => {
         },
     ];
 
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setActiveOnboardingScreen((prevIndex) => (prevIndex + 1) % onboardingScreens.length);
+    const startInterval = () => {
+        if (intervalRef.current) {
+            clearInterval(intervalRef.current);
+        }
+        intervalRef.current = setInterval(() => {
+            setActiveSlide((prevIndex) => (prevIndex + 1) % onboardingScreens.length);
         }, 5000);
+    };
+
+    useEffect(() => {
+        startInterval();
         return () => {
-            clearInterval(interval);
+            if (intervalRef.current) {
+                clearInterval(intervalRef.current);
+            }
         };
-    }, []);
+    }, [onboardingScreens.length]);
+
+    useEffect(() => {
+        setActiveOnboardingScreen(activeSlide);
+    }, [activeSlide]);
+
+    useEffect(() => {
+        setActiveSlide(activeOnboardingScreen);
+    }, [activeOnboardingScreen]);
+
+    const handlePrev = () => {
+        setActiveSlide((prevSlide) => (prevSlide === 0 ? onboardingScreens.length - 1 : prevSlide - 1));
+        startInterval();
+    };
+
+    const handleNext = () => {
+        setActiveSlide((prevSlide) => (prevSlide === onboardingScreens.length - 1 ? 0 : prevSlide + 1));
+        startInterval();
+    };
 
     return (
         <div className='fade pt-[58px] duration-1000 ease-in-out'>
             <Header />
-            <ProgressBar itemsLength={onboardingScreens.length} />
+            <ProgressBar itemsLength={onboardingScreens.length} activeSlide={activeSlide} setActiveSlide={setActiveSlide} />
+            <div className='flex justify-center gap-4'>
+                <button onClick={handlePrev}>prev</button>
+                <button onClick={handleNext}>next</button>
+            </div>
             <div className='relative h-[410px]'>
                 {onboardingScreens.map((screen, index) => (
                     <div
                         className={cn(
                             'absolute left-0 top-[70px] flex w-full items-center justify-center gap-6 px-9 transition-all duration-1000 ease-in-out',
                             {
-                                'translate-x-0 opacity-100': activeOnboardingScreen === index,
-                                '-translate-x-full opacity-0': activeOnboardingScreen > index,
-                                'translate-x-full opacity-0': activeOnboardingScreen < index,
+                                'translate-x-0 opacity-100': activeSlide === index,
+                                '-translate-x-full opacity-0': activeSlide > index,
+                                'translate-x-full opacity-0': activeSlide < index,
                             },
                         )}
                         key={screen.id}

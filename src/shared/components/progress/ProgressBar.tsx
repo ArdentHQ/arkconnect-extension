@@ -1,36 +1,48 @@
 import { useEffect, useState } from 'react';
 import cn from 'classnames';
 
-export const ProgressBar = ({ itemsLength }: { itemsLength: number }) => {
-    const [activeBarIndex, setActiveBarIndex] = useState<number>(0);
+export const ProgressBar = ({ itemsLength, activeSlide, setActiveSlide }: { itemsLength: number, activeSlide: number, setActiveSlide: (slide: number) => void }) => {
     const [filledSegments, setFilledSegments] = useState<boolean[]>(Array(itemsLength).fill(false));
 
     useEffect(() => {
-        if (activeBarIndex !== 0) return;
         const timeout = setTimeout(() => {
             setFilledSegments([true, ...Array(itemsLength - 1).fill(false)]);
+            setActiveSlide(0);
         }, 300);
 
         return () => {
             clearTimeout(timeout);
         };
-    }, [activeBarIndex]);
+    }, [itemsLength, setActiveSlide]);
+
+    // Update filled segments when activeSlide changes
+    useEffect(() => {
+        setFilledSegments(() => {
+            const newSegments = Array(itemsLength).fill(false);
+            for (let i = 0; i <= activeSlide; i++) {
+                newSegments[i] = true;
+            }
+            return newSegments;
+        });
+    }, [activeSlide, itemsLength]);
 
     useEffect(() => {
         const intervalId = setInterval(() => {
-            if (activeBarIndex === filledSegments.length - 1) {
+            if (activeSlide === itemsLength - 1) {
                 setFilledSegments(Array(itemsLength).fill(false));
-                setActiveBarIndex(0);
+                setActiveSlide(0);
                 return;
             }
-            const newArray = [...filledSegments];
-            newArray[activeBarIndex + 1] = true;
-            setFilledSegments(newArray);
-            setActiveBarIndex((prevIndex) => (prevIndex + 1) % itemsLength);
+            setFilledSegments((prevSegments) => {
+                const newSegments = [...prevSegments];
+                newSegments[activeSlide + 1] = true;
+                return newSegments;
+            });
+            setActiveSlide((prevSlide) => (prevSlide + 1) % itemsLength);
         }, 4900);
 
         return () => clearInterval(intervalId);
-    }, [filledSegments, itemsLength]);
+    }, [activeSlide, itemsLength, setActiveSlide]);
 
     const bars = filledSegments.map((isFilled, index) => (
         <div
@@ -44,7 +56,7 @@ export const ProgressBar = ({ itemsLength }: { itemsLength: number }) => {
                 })}
                 style={{
                     transition:
-                        activeBarIndex === index && isFilled ? 'width 5s ease-in-out' : 'unset',
+                        activeSlide === index && isFilled ? 'width 5s ease-in-out' : 'unset',
                 }}
             />
         </div>
