@@ -2,11 +2,11 @@ import { FormikProps } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { AddressDropdown } from '@/components/send/AddressDropdown';
 import Amount from '@/components/wallet/Amount';
+import constants from '@/constants';
 import { FeeSection } from '@/components/fees';
 import { Input } from '@/shared/components';
 import { SendFormik } from '@/pages/Send';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
-import constants from '@/constants';
 
 export const SendForm = ({ formik }: { formik: FormikProps<SendFormik> }) => {
     const primaryWallet = usePrimaryWallet();
@@ -26,6 +26,12 @@ export const SendForm = ({ formik }: { formik: FormikProps<SendFormik> }) => {
     };
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        event.target.value = event.target.value.trim();
+        formik.handleChange(event);
+        formik.validateField('amount');
+    };
+
+    const handleFeeInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (!constants.FEE_REGEX.test(event.target.value)) {
             return;
         }
@@ -107,7 +113,7 @@ export const SendForm = ({ formik }: { formik: FormikProps<SendFormik> }) => {
             />
 
             <FeeSection
-                onChange={handleInputChange}
+                onChange={handleFeeInputChange}
                 onBlur={formik.handleBlur}
                 variant={formik.values.fee && formik.errors.fee ? 'destructive' : 'primary'}
                 helperText={formik.values.fee ? formik.errors.fee : undefined}
