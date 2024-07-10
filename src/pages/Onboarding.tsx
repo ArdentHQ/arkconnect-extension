@@ -1,10 +1,3 @@
-import { ReactNode, useEffect, useState } from 'react';
-import { Trans, useTranslation } from 'react-i18next';
-
-import cn from 'classnames';
-import { useNavigate } from 'react-router-dom';
-import constants from '@/constants';
-import { ShortcutIcon } from '@/shared/components/icon/illustration/ShortcutIcon';
 import {
     Button,
     ControlConnectionsIcon,
@@ -15,6 +8,13 @@ import {
     ProgressBar,
     TransactionsPassphraseIcon,
 } from '@/shared/components';
+import { ReactNode, useEffect, useRef, useState } from 'react';
+import { Trans, useTranslation } from 'react-i18next';
+
+import cn from 'classnames';
+import constants from '@/constants';
+import { ShortcutIcon } from '@/shared/components/icon/illustration/ShortcutIcon';
+import { useNavigate } from 'react-router-dom';
 import { useOs } from '@/lib/hooks/useOs';
 
 type OnboardingScreen = {
@@ -28,6 +28,8 @@ const Onboarding = () => {
     const { os } = useOs();
 
     const navigate = useNavigate();
+
+    const interval = useRef<ReturnType<typeof setInterval> | undefined>();
 
     const [activeOnboardingScreen, setActiveOnboardingScreen] = useState<number>(0);
 
@@ -77,22 +79,29 @@ const Onboarding = () => {
     ];
 
     useEffect(() => {
-        const interval = setInterval(() => {
+        interval.current = setInterval(() => {
             setActiveOnboardingScreen((prevIndex) => (prevIndex + 1) % onboardingScreens.length);
         }, 5000);
         return () => {
-            clearInterval(interval);
+            clearInterval(interval.current);
         };
     }, []);
 
+    const resetInterval = () => {
+        clearInterval(interval.current);
+        interval.current = setInterval(() => {
+            setActiveOnboardingScreen((prevIndex) => (prevIndex + 1) % onboardingScreens.length);
+        }, 5000);
+    };
+
     const goToNextScreen = () => {
+        resetInterval();
         setActiveOnboardingScreen((prevIndex) => (prevIndex + 1) % onboardingScreens.length);
     };
 
     const goToPreviousScreen = () => {
-        setActiveOnboardingScreen(
-            (prevIndex) => (prevIndex - 1 + onboardingScreens.length) % onboardingScreens.length,
-        );
+        resetInterval();
+        setActiveOnboardingScreen((prevIndex) => (prevIndex - 1) % onboardingScreens.length);
     };
 
     return (
