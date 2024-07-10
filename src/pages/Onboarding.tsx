@@ -31,7 +31,8 @@ const Onboarding = () => {
 
     const interval = useRef<ReturnType<typeof setInterval> | undefined>();
 
-    const [activeIndex, setActiveIndex] = useState<number>(0);
+    const [activeIndex, setActiveIndex] = useState<number>(1);
+    const [filledSegments, setFilledSegments] = useState<boolean[]>(Array(5).fill(false)); // Adjust length accordingly
 
     const onboardingScreens: OnboardingScreen[] = [
         {
@@ -80,7 +81,7 @@ const Onboarding = () => {
 
     useEffect(() => {
         interval.current = setInterval(() => {
-            setActiveIndex((prevIndex) => (prevIndex + 1) % onboardingScreens.length);
+            goToNextScreen();
         }, 5000);
         return () => {
             clearInterval(interval.current);
@@ -90,33 +91,47 @@ const Onboarding = () => {
     const resetInterval = () => {
         clearInterval(interval.current);
         interval.current = setInterval(() => {
-            setActiveIndex((prevIndex) => (prevIndex + 1) % onboardingScreens.length);
+            goToNextScreen();
         }, 5000);
     };
 
     const goToNextScreen = () => {
+        setActiveIndex((prevIndex) => {
+            const newIndex = (prevIndex % onboardingScreens.length) + 1;
+            const newFilledSegments = Array(onboardingScreens.length + 1)
+                .fill(false)
+                .map((_, idx) => idx < newIndex);
+            setFilledSegments(newFilledSegments);
+            return newIndex;
+        });
         resetInterval();
-        setActiveIndex((prevIndex) => (prevIndex + 1) % onboardingScreens.length);
     };
 
     const goToPreviousScreen = () => {
+        setActiveIndex((prevIndex) => {
+            const newIndex = (prevIndex - 2 + onboardingScreens.length) % onboardingScreens.length + 1;
+            const newFilledSegments = Array(onboardingScreens.length + 1)
+                .fill(false)
+                .map((_, idx) => idx < newIndex);
+            setFilledSegments(newFilledSegments);
+            return newIndex;
+        });
         resetInterval();
-        setActiveIndex((prevIndex) => (prevIndex - 1 + onboardingScreens.length) % onboardingScreens.length);
     };
 
     return (
         <div className='fade pt-[58px] duration-1000 ease-in-out'>
             <Header />
-            <ProgressBar itemsLength={onboardingScreens.length} activeIndex={activeIndex} />
+            <ProgressBar activeIndex={activeIndex} filledSegments={filledSegments} />
             <div className='relative h-[410px]'>
                 {onboardingScreens.map((screen, index) => (
                     <div
                         className={cn(
                             'absolute left-0 top-[70px] flex w-full items-center justify-center gap-6 px-9 transition-all duration-1000 ease-in-out',
                             {
-                                'translate-x-0 opacity-100': activeIndex === index,
-                                '-translate-x-full opacity-0': activeIndex > index,
-                                'translate-x-full opacity-0': activeIndex < index,
+                                'translate-x-0 opacity-100': activeIndex === index + 1,
+                                '-translate-x-full opacity-0': activeIndex > index + 1,
+                                'translate-x-full opacity-0': activeIndex < index + 1,
                             },
                         )}
                         key={screen.id}
