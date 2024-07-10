@@ -1,12 +1,12 @@
+import { FormikProps } from 'formik';
+import { useTranslation } from 'react-i18next';
 import { AddressDropdown } from '@/components/send/AddressDropdown';
 import Amount from '@/components/wallet/Amount';
 import constants from '@/constants';
 import { FeeSection } from '@/components/fees';
-import { FormikProps } from 'formik';
 import { Input } from '@/shared/components';
 import { SendFormik } from '@/pages/Send';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
-import { useTranslation } from 'react-i18next';
 
 export const SendForm = ({ formik }: { formik: FormikProps<SendFormik> }) => {
     const primaryWallet = usePrimaryWallet();
