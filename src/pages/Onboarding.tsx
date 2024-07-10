@@ -109,7 +109,8 @@ const Onboarding = () => {
 
     const goToPreviousScreen = () => {
         setActiveIndex((prevIndex) => {
-            const newIndex = (prevIndex - 2 + onboardingScreens.length) % onboardingScreens.length + 1;
+            const newIndex =
+                ((prevIndex - 2 + onboardingScreens.length) % onboardingScreens.length) + 1;
             const newFilledSegments = Array(onboardingScreens.length + 1)
                 .fill(false)
                 .map((_, idx) => idx < newIndex);
