@@ -31,12 +31,12 @@ const Onboarding = () => {
 
     const interval = useRef<ReturnType<typeof setInterval> | undefined>();
 
-    const [activeIndex, setActiveIndex] = useState<number>(1);
-    const [filledSegments, setFilledSegments] = useState<boolean[]>(Array(5).fill(false)); // Adjust length accordingly
+    const [activeIndex, setActiveIndex] = useState<number>(0);
+    const [filledSegments, setFilledSegments] = useState<boolean[]>(Array(4).fill(false));
 
     const onboardingScreens: OnboardingScreen[] = [
         {
-            id: 1,
+            id: 0,
             illustration: <FingerPrintIcon />,
             heading: (
                 <Heading level={3} className='w-[256px] text-center'>
@@ -45,7 +45,7 @@ const Onboarding = () => {
             ),
         },
         {
-            id: 2,
+            id: 1,
             illustration: <ControlConnectionsIcon />,
             heading: (
                 <Heading level={3} className='w-[297px] text-center'>
@@ -54,7 +54,7 @@ const Onboarding = () => {
             ),
         },
         {
-            id: 3,
+            id: 2,
             illustration: <TransactionsPassphraseIcon />,
             heading: (
                 <Heading level={3} className='w-[257px] text-center'>
@@ -63,7 +63,7 @@ const Onboarding = () => {
             ),
         },
         {
-            id: 4,
+            id: 3,
             illustration: <ShortcutIcon />,
             heading: (
                 <Heading level={3} className='w-[300px] text-center'>
@@ -97,10 +97,10 @@ const Onboarding = () => {
 
     const goToNextScreen = () => {
         setActiveIndex((prevIndex) => {
-            const newIndex = (prevIndex % onboardingScreens.length) + 1;
-            const newFilledSegments = Array(onboardingScreens.length + 1)
+            const newIndex = (prevIndex + 1) % onboardingScreens.length;
+            const newFilledSegments = Array(onboardingScreens.length)
                 .fill(false)
-                .map((_, idx) => idx < newIndex);
+                .map((_, idx) => idx <= newIndex);
             setFilledSegments(newFilledSegments);
             return newIndex;
         });
@@ -109,10 +109,10 @@ const Onboarding = () => {
 
     const goToPreviousScreen = () => {
         setActiveIndex((prevIndex) => {
-            const newIndex = (prevIndex - 2 + onboardingScreens.length) % onboardingScreens.length + 1;
-            const newFilledSegments = Array(onboardingScreens.length + 1)
+            const newIndex = (prevIndex - 1 + onboardingScreens.length) % onboardingScreens.length;
+            const newFilledSegments = Array(onboardingScreens.length)
                 .fill(false)
-                .map((_, idx) => idx < newIndex);
+                .map((_, idx) => idx <= newIndex);
             setFilledSegments(newFilledSegments);
             return newIndex;
         });
@@ -129,9 +129,9 @@ const Onboarding = () => {
                         className={cn(
                             'absolute left-0 top-[70px] flex w-full items-center justify-center gap-6 px-9 transition-all duration-1000 ease-in-out',
                             {
-                                'translate-x-0 opacity-100': activeIndex === index + 1,
-                                '-translate-x-full opacity-0': activeIndex > index + 1,
-                                'translate-x-full opacity-0': activeIndex < index + 1,
+                                'translate-x-0 opacity-100': activeIndex === index,
+                                '-translate-x-full opacity-0': activeIndex > index,
+                                'translate-x-full opacity-0': activeIndex < index,
                             },
                         )}
                         key={screen.id}

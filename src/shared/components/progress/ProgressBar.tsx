@@ -8,12 +8,12 @@ export const ProgressBar = ({ activeIndex, filledSegments }: { activeIndex: numb
         setAnimateIndex(activeIndex);
     }, [activeIndex]);
 
-    const bars = filledSegments.slice(1).map((isFilled, index) => {
-        const shouldAnimate = index + 1 === animateIndex;
+    const bars = filledSegments.map((isFilled, index) => {
+        const shouldAnimate = index === animateIndex;
 
         return (
             <div
-                key={index + 1}
+                key={index}
                 className='relative h-1.25 w-full overflow-hidden rounded-2.5xl bg-theme-secondary-200 dark:bg-theme-secondary-600'
             >
                 <div
