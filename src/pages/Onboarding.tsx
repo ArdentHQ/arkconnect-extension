@@ -132,7 +132,7 @@ const Onboarding = () => {
                         <Icon icon='chevron-left' className='h-6 w-6' />
                     </button>
                 </div>
-                <div className='absolute right-4 top-1/2 z-1 '>
+                <div className='absolute right-4 top-1/2 z-1'>
                     <button
                         onClick={() => goToNextScreen()}
                         className='h-6 w-6 rounded-full text-theme-secondary-500 transition hover:bg-theme-secondary-100 hover:text-black dark:text-theme-secondary-300 dark:hover:bg-theme-secondary-700 dark:hover:text-white'
