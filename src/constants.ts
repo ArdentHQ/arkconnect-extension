@@ -1,3 +1,4 @@
+const APP_NAME = 'ARK Connect';
 const SUPPORT_EMAIL = 'support@arkconnect.io ';
 const ARKSCAN_MAINNET_TRANSACTIONS = 'https://live.arkscan.io/transactions';
 const ARKSCAN_TESTNET_TRANSACTIONS = 'https://test.arkscan.io/transactions';
@@ -12,6 +13,7 @@ const ARK_CONNECT_DEMO = 'https://demo.arkconnect.io';
 const ARKVAULT_BASE_URL = 'https://app.arkvault.io/';
 const ARKVAULT_API_MAINNET_BASE_URL = 'https://api.ark.io/';
 const ARKVAULT_API_DEVNET_BASE_URL = 'https://ark-test.arkvault.io/';
+const GITHUB_RELEASES_URL = 'https://github.com/ArdentHQ/arkconnect-extension/releases/tag/';
 
 const SHOW_MESSAGE_AFTER_ACTION_DURING_MS = 3000;
 
@@ -33,7 +35,12 @@ const MAX_FEES = {
     vote: 1,
 };
 
+// OS Contants
+const MAC_OS = 'mac';
+const DEFAULT_OS = 'default'; // For Windows and Linux
+
 const constants = {
+    APP_NAME,
     SUPPORT_EMAIL,
     ARKSCAN_MAINNET_TRANSACTIONS,
     ARKSCAN_TESTNET_TRANSACTIONS,
@@ -55,6 +62,9 @@ const constants = {
     AMOUNT_REGEX,
     MAX_FEES,
     FEE_REGEX,
+    GITHUB_RELEASES_URL,
+    MAC_OS,
+    DEFAULT_OS,
 };
 
 export default constants;

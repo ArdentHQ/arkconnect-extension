@@ -11,6 +11,9 @@ import {
     ProgressBar,
     TransactionsPassphraseIcon,
 } from '@/shared/components';
+import { ShortcutIcon } from '@/shared/components/icon/illustration/ShortcutIcon';
+import { useOs } from '@/lib/hooks/useOs';
+import constants from '@/constants';
 
 type OnboardingScreen = {
     id: number;
@@ -20,19 +23,11 @@ type OnboardingScreen = {
 
 const Onboarding = () => {
     const { t } = useTranslation();
+    const { os } = useOs();
 
     const navigate = useNavigate();
 
     const [activeOnboardingScreen, setActiveOnboardingScreen] = useState<number>(0);
-
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setActiveOnboardingScreen((prevIndex) => (prevIndex + 1) % 3);
-        }, 5000);
-        return () => {
-            clearInterval(interval);
-        };
-    }, []);
 
     const onboardingScreens: OnboardingScreen[] = [
         {
@@ -62,12 +57,36 @@ const Onboarding = () => {
                 </Heading>
             ),
         },
+        {
+            id: 4,
+            illustration: <ShortcutIcon />,
+            heading: (
+                <Heading level={3} className='w-[300px] text-center'>
+                    <Trans
+                        i18nKey={
+                            os === constants.MAC_OS
+                                ? 'PAGES.ONBOARDING.SCREEN_HEADINGS.SHORTCUT.MAC'
+                                : 'PAGES.ONBOARDING.SCREEN_HEADINGS.SHORTCUT.DEFAULT'
+                        }
+                    />
+                </Heading>
+            ),
+        },
     ];
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setActiveOnboardingScreen((prevIndex) => (prevIndex + 1) % onboardingScreens.length);
+        }, 5000);
+        return () => {
+            clearInterval(interval);
+        };
+    }, []);
 
     return (
         <div className='fade pt-[58px] duration-1000 ease-in-out'>
             <Header />
-            <ProgressBar />
+            <ProgressBar itemsLength={onboardingScreens.length} />
             <div className='relative h-[410px]'>
                 {onboardingScreens.map((screen, index) => (
                     <div

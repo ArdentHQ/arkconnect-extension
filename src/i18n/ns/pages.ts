@@ -148,6 +148,10 @@ export default {
             CONTROL_YOUR_IDENTITY:
                 'Control your identity with our <br /> session management feature.',
             SIGN_TRANSACTIONS: 'Sign transactions and <br /> perform on-chain actions.',
+            SHORTCUT: {
+                MAC: 'You can open the extension by <br /> pressing Shift + Option + C.',
+                DEFAULT: 'You can open the extension by <br /> pressing Shift + Alt + C.',
+            },
         },
     },
     TRANSACTION_APPROVED: {

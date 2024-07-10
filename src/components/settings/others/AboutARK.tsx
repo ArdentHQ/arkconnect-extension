@@ -1,13 +1,19 @@
 import { runtime } from 'webextension-polyfill';
 import { useTranslation } from 'react-i18next';
-import SubPageLayout from '@/components/settings/SubPageLayout';
-import { Icon, RowLayout } from '@/shared/components';
-import useClipboard from '@/lib/hooks/useClipboard';
+import { ExternalLink, Icon, RowLayout } from '@/shared/components';
+
 import constants from '@/constants';
+import SubPageLayout from '@/components/settings/SubPageLayout';
+import useClipboard from '@/lib/hooks/useClipboard';
+import InfoBanner from '@/shared/components/utils/InfoBanner';
+import { useOs } from '@/lib/hooks/useOs';
 
 const AboutARK = () => {
     const { copy } = useClipboard();
     const { t } = useTranslation();
+    const { os } = useOs();
+
+    const version = runtime.getManifest().version;
 
     const copyEmailToClipboard = (evt: React.MouseEvent<HTMLButtonElement>) => {
         evt.stopPropagation();
@@ -29,9 +35,19 @@ const AboutARK = () => {
                         className='h-[21px] w-[228px] text-theme-primary-700 dark:text-theme-primary-650'
                     />
                 </div>
-                <p className='typeset-body text-theme-secondary-500 dark:text-theme-secondary-300'>
-                    {t('MISC.VERSION')} {runtime.getManifest().version}
-                </p>
+                <ExternalLink
+                    href={`${constants.GITHUB_RELEASES_URL}${version}`}
+                    tabIndex={-1}
+                    className='transition-smoothEase group flex flex-row items-center gap-2 text-theme-secondary-500 hover:text-theme-primary-700 dark:text-theme-secondary-300 dark:hover:text-theme-primary-700'
+                >
+                    <span className='typeset-body font-normal'>
+                        {t('MISC.VERSION')} {version}
+                    </span>
+                    <Icon
+                        icon='link-external'
+                        className='transition-smoothEase h-5 w-5 text-light-black group-hover:text-theme-primary-700 dark:text-white dark:group-hover:text-theme-primary-700'
+                    />
+                </ExternalLink>
             </div>
 
             <div className='flex flex-col gap-2 text-light-black dark:text-white'>
@@ -94,6 +110,16 @@ const AboutARK = () => {
                     target='_blank'
                     rel='noopener noreferrer'
                 />
+            </div>
+
+            <div className='my-4'>
+                <InfoBanner title={t('MISC.INFO_TIP')}>
+                    <span>
+                        {os === constants.MAC_OS
+                            ? t('MISC.TIPS.SHORTCUT_TIP_MAC')
+                            : t('MISC.TIPS.SHORTCUT_TIP_DEFAULT')}
+                    </span>
+                </InfoBanner>
             </div>
         </SubPageLayout>
     );

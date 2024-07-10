@@ -153,6 +153,18 @@ export default {
             'theme-warning-800': 'rgb(var(--theme-color-warning-800) / <alpha-value>)',
             'theme-warning-900': 'rgb(var(--theme-color-warning-900) / <alpha-value>)',
 
+            // info
+            'theme-info-50': 'rgb(var(--theme-color-navy-50) / <alpha-value>)',
+            'theme-info-100': 'rgb(var(--theme-color-navy-100) / <alpha-value>)',
+            'theme-info-200': 'rgb(var(--theme-color-navy-200) / <alpha-value>)',
+            'theme-info-300': 'rgb(var(--theme-color-navy-300) / <alpha-value>)',
+            'theme-info-400': 'rgb(var(--theme-color-navy-400) / <alpha-value>)',
+            'theme-info-500': 'rgb(var(--theme-color-navy-500) / <alpha-value>)',
+            'theme-info-600': 'rgb(var(--theme-color-navy-600) / <alpha-value>)',
+            'theme-info-700': 'rgb(var(--theme-color-navy-700) / <alpha-value>)',
+            'theme-info-800': 'rgb(var(--theme-color-navy-800) / <alpha-value>)',
+            'theme-info-900': 'rgb(var(--theme-color-navy-900) / <alpha-value>)',
+
             // shadow
             'light-green': 'rgb(var(--theme-color-light-green) / <alpha-value>)',
             'shadow-green': 'rgb(var(--theme-color-shadow-green) / <alpha-value>)',

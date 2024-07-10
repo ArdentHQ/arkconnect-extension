@@ -22,6 +22,7 @@ import useLoadingModal from '@/lib/hooks/useLoadingModal';
 import { useWaitForConnectedDevice } from '@/lib/Ledger';
 import { ActionBody } from '@/components/approve/ActionBody';
 import { getNetworkCurrency } from '@/lib/utils/getActiveCoin';
+import { ProfileData, ScreenName } from '@/lib/background/contracts';
 
 type Props = {
     abortReference: AbortController;
@@ -173,6 +174,14 @@ const ApproveVote = ({ abortReference, approveWithLedger, wallet, closeLedgerScr
             closeLedgerScreen();
             reject(error.message);
             onError(error);
+
+            profile.settings().set(ProfileData.LastVisitedPage, {
+                path: ScreenName.Vote,
+                data: {
+                    fee: customFee,
+                    delegateAddress: vote?.wallet?.address() || unvote?.wallet?.address(),
+                },
+            });
             loadingModal.close();
         }
     };
