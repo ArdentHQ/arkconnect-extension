@@ -5317,7 +5317,7 @@ export const IconSvg = {
                 />
                 <path
                     fill='url(#paint8_linear_11471_864)'
-                    d='m193.361 149.809.105-33.533 6.091-2.206 21.553 25.689-5.753 2.083-4.851-5.995-11.548 4.183.071 7.726zm5.546-14.545 8.587-3.11-8.773-10.747z'
+                    d='M208.857 144.77q-4.483 1.624-8.388.885-3.92-.781-6.894-3.58-2.99-2.84-4.63-7.366-1.64-4.527-1.161-8.623.477-4.097 2.988-7.207 2.51-3.11 6.994-4.734 5.33-1.93 9.679-.491 4.376 1.382 6.953 5.855l-5.964 2.16q-1.423-2.211-3.733-2.907-2.282-.752-5.243.32-4.102 1.487-5.418 5.121t.446 8.499 5.1 6.814q3.322 1.906 7.425.42 2.961-1.072 4.278-2.984 1.344-1.97 1.067-4.454l5.964-2.16q.809 4.875-1.683 8.696-2.45 3.805-7.78 5.736'
                 />
             </g>
             <defs>
@@ -5538,10 +5538,10 @@ export const IconSvg = {
                 </linearGradient>
                 <linearGradient
                     id='paint8_linear_11471_864'
-                    x1='210.204'
-                    x2='218.711'
-                    y1='176.21'
-                    y2='86.298'
+                    x1='210.667'
+                    x2='217.174'
+                    y1='176.043'
+                    y2='85.003'
                     gradientUnits='userSpaceOnUse'
                 >
                     <stop stopColor='#B2FFDD' />
@@ -5649,16 +5649,16 @@ export const IconSvg = {
                 />
                 <path
                     fill='url(#paint11_linear_11471_913)'
-                    d='m193.361 149.809.105-33.532 6.091-2.206 21.553 25.688-5.753 2.083-4.851-5.994-11.548 4.182.071 7.726zm5.546-14.545 8.587-3.11-8.773-10.747z'
+                    d='M208.857 144.771q-4.483 1.623-8.388.884-3.92-.781-6.894-3.579-2.99-2.841-4.63-7.367-1.64-4.527-1.161-8.623.477-4.096 2.988-7.207 2.51-3.11 6.994-4.734 5.33-1.93 9.679-.491 4.376 1.382 6.953 5.855l-5.964 2.16q-1.423-2.211-3.733-2.906-2.282-.753-5.243.32-4.102 1.485-5.418 5.12t.446 8.499 5.1 6.814q3.322 1.906 7.425.421 2.961-1.072 4.278-2.985 1.344-1.97 1.067-4.454l5.964-2.16q.809 4.875-1.683 8.696-2.45 3.807-7.78 5.737'
                 />
             </g>
             <defs>
                 <filter
                     id='filter0_dddd_11471_913'
-                    width='250.9'
+                    width='252.7'
                     height='162.266'
-                    x='55.218'
-                    y='212.018'
+                    x='54.018'
+                    y='212.818'
                     colorInterpolationFilters='sRGB'
                     filterUnits='userSpaceOnUse'
                 >
@@ -5668,18 +5668,18 @@ export const IconSvg = {
                         result='hardAlpha'
                         values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0'
                     />
-                    <feOffset dx='-1.6' dy='3.2' />
-                    <feGaussianBlur stdDeviation='4' />
-                    <feColorMatrix values='0 0 0 0 0.0470588 0 0 0 0 0.360784 0 0 0 0 0.239216 0 0 0 0.1 0' />
+                    <feOffset dx='-2' dy='3' />
+                    <feGaussianBlur stdDeviation='3.5' />
+                    <feColorMatrix values='0 0 0 0 0.0470588 0 0 0 0 0.164706 0 0 0 0 0.352941 0 0 0 0.1 0' />
                     <feBlend in2='BackgroundImageFix' result='effect1_dropShadow_11471_913' />
                     <feColorMatrix
                         in='SourceAlpha'
                         result='hardAlpha'
                         values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0'
                     />
-                    <feOffset dx='-6.4' dy='11.2' />
-                    <feGaussianBlur stdDeviation='6.4' />
-                    <feColorMatrix values='0 0 0 0 0.0470588 0 0 0 0 0.360784 0 0 0 0 0.239216 0 0 0 0.09 0' />
+                    <feOffset dx='-6' dy='12' />
+                    <feGaussianBlur stdDeviation='6.5' />
+                    <feColorMatrix values='0 0 0 0 0.0470588 0 0 0 0 0.164706 0 0 0 0 0.352941 0 0 0 0.09 0' />
                     <feBlend
                         in2='effect1_dropShadow_11471_913'
                         result='effect2_dropShadow_11471_913'
@@ -5689,9 +5689,9 @@ export const IconSvg = {
                         result='hardAlpha'
                         values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0'
                     />
-                    <feOffset dx='-14.4' dy='27.2' />
-                    <feGaussianBlur stdDeviation='8.8' />
-                    <feColorMatrix values='0 0 0 0 0.0470588 0 0 0 0 0.360784 0 0 0 0 0.239216 0 0 0 0.05 0' />
+                    <feOffset dx='-14' dy='26' />
+                    <feGaussianBlur stdDeviation='9' />
+                    <feColorMatrix values='0 0 0 0 0.0470588 0 0 0 0 0.164706 0 0 0 0 0.352941 0 0 0 0.05 0' />
                     <feBlend
                         in2='effect2_dropShadow_11471_913'
                         result='effect3_dropShadow_11471_913'
@@ -5701,9 +5701,9 @@ export const IconSvg = {
                         result='hardAlpha'
                         values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0'
                     />
-                    <feOffset dx='-24' dy='46.4' />
-                    <feGaussianBlur stdDeviation='10.4' />
-                    <feColorMatrix values='0 0 0 0 0.0470588 0 0 0 0 0.360784 0 0 0 0 0.239216 0 0 0 0.01 0' />
+                    <feOffset dx='-25' dy='47' />
+                    <feGaussianBlur stdDeviation='10.5' />
+                    <feColorMatrix values='0 0 0 0 0.0470588 0 0 0 0 0.164706 0 0 0 0 0.352941 0 0 0 0.01 0' />
                     <feBlend
                         in2='effect3_dropShadow_11471_913'
                         result='effect4_dropShadow_11471_913'
@@ -5712,10 +5712,10 @@ export const IconSvg = {
                 </filter>
                 <filter
                     id='filter1_ddddd_11471_913'
-                    width='263.837'
-                    height='340.233'
-                    x='20.642'
-                    y='61.808'
+                    width='263.437'
+                    height='341.433'
+                    x='21.043'
+                    y='60.808'
                     colorInterpolationFilters='sRGB'
                     filterUnits='userSpaceOnUse'
                 >
@@ -5725,18 +5725,18 @@ export const IconSvg = {
                         result='hardAlpha'
                         values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0'
                     />
-                    <feOffset dx='-3.2' dy='6.4' />
-                    <feGaussianBlur stdDeviation='7.2' />
-                    <feColorMatrix values='0 0 0 0 0.0470588 0 0 0 0 0.172549 0 0 0 0 0.12549 0 0 0 0.42 0' />
+                    <feOffset dx='-3' dy='6' />
+                    <feGaussianBlur stdDeviation='7.5' />
+                    <feColorMatrix values='0 0 0 0 0.0352941 0 0 0 0 0.0627451 0 0 0 0 0.145098 0 0 0 0.42 0' />
                     <feBlend in2='BackgroundImageFix' result='effect1_dropShadow_11471_913' />
                     <feColorMatrix
                         in='SourceAlpha'
                         result='hardAlpha'
                         values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0'
                     />
-                    <feOffset dx='-11.2' dy='24' />
-                    <feGaussianBlur stdDeviation='13.6' />
-                    <feColorMatrix values='0 0 0 0 0.0470588 0 0 0 0 0.172549 0 0 0 0 0.12549 0 0 0 0.36 0' />
+                    <feOffset dx='-11' dy='24' />
+                    <feGaussianBlur stdDeviation='13.5' />
+                    <feColorMatrix values='0 0 0 0 0.0352941 0 0 0 0 0.0627451 0 0 0 0 0.145098 0 0 0 0.36 0' />
                     <feBlend
                         in2='effect1_dropShadow_11471_913'
                         result='effect2_dropShadow_11471_913'
@@ -5746,9 +5746,9 @@ export const IconSvg = {
                         result='hardAlpha'
                         values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0'
                     />
-                    <feOffset dx='-25.6' dy='54.4' />
-                    <feGaussianBlur stdDeviation='17.6' />
-                    <feColorMatrix values='0 0 0 0 0.0470588 0 0 0 0 0.172549 0 0 0 0 0.12549 0 0 0 0.21 0' />
+                    <feOffset dx='-26' dy='54' />
+                    <feGaussianBlur stdDeviation='18' />
+                    <feColorMatrix values='0 0 0 0 0.0352941 0 0 0 0 0.0627451 0 0 0 0 0.145098 0 0 0 0.21 0' />
                     <feBlend
                         in2='effect2_dropShadow_11471_913'
                         result='effect3_dropShadow_11471_913'
@@ -5758,9 +5758,9 @@ export const IconSvg = {
                         result='hardAlpha'
                         values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0'
                     />
-                    <feOffset dx='-46.4' dy='96' />
-                    <feGaussianBlur stdDeviation='21.6' />
-                    <feColorMatrix values='0 0 0 0 0.0470588 0 0 0 0 0.172549 0 0 0 0 0.12549 0 0 0 0.06 0' />
+                    <feOffset dx='-46' dy='96' />
+                    <feGaussianBlur stdDeviation='21.5' />
+                    <feColorMatrix values='0 0 0 0 0.0352941 0 0 0 0 0.0627451 0 0 0 0 0.145098 0 0 0 0.06 0' />
                     <feBlend
                         in2='effect3_dropShadow_11471_913'
                         result='effect4_dropShadow_11471_913'
@@ -5770,9 +5770,9 @@ export const IconSvg = {
                         result='hardAlpha'
                         values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0'
                     />
-                    <feOffset dx='-72' dy='150.4' />
-                    <feGaussianBlur stdDeviation='23.2' />
-                    <feColorMatrix values='0 0 0 0 0.0470588 0 0 0 0 0.172549 0 0 0 0 0.12549 0 0 0 0.01 0' />
+                    <feOffset dx='-71' dy='150' />
+                    <feGaussianBlur stdDeviation='23.5' />
+                    <feColorMatrix values='0 0 0 0 0.0352941 0 0 0 0 0.0627451 0 0 0 0 0.145098 0 0 0 0.01 0' />
                     <feBlend
                         in2='effect4_dropShadow_11471_913'
                         result='effect5_dropShadow_11471_913'
@@ -5906,10 +5906,10 @@ export const IconSvg = {
                 </linearGradient>
                 <linearGradient
                     id='paint11_linear_11471_913'
-                    x1='210.204'
-                    x2='218.711'
-                    y1='176.21'
-                    y2='86.298'
+                    x1='210.667'
+                    x2='217.174'
+                    y1='176.043'
+                    y2='85.003'
                     gradientUnits='userSpaceOnUse'
                 >
                     <stop stopColor='#E6EFF9' />
@@ -6017,7 +6017,7 @@ export const IconSvg = {
                 />
                 <path
                     fill='url(#paint8_linear_11471_840)'
-                    d='m193.361 149.809.105-33.533 6.091-2.206 21.553 25.689-5.753 2.083-4.851-5.995-11.548 4.183.071 7.726zm5.546-14.545 8.587-3.11-8.773-10.747z'
+                    d='M208.857 144.77q-4.483 1.624-8.388.885-3.92-.781-6.894-3.58-2.99-2.84-4.63-7.366-1.64-4.527-1.161-8.623.477-4.097 2.988-7.207 2.51-3.11 6.994-4.734 5.33-1.93 9.679-.491 4.376 1.382 6.953 5.855l-5.964 2.16q-1.423-2.211-3.733-2.907-2.282-.752-5.243.32-4.102 1.487-5.418 5.121t.446 8.499 5.1 6.814q3.322 1.906 7.425.42 2.961-1.072 4.278-2.984 1.344-1.97 1.067-4.454l5.964-2.16q.809 4.875-1.683 8.696-2.45 3.805-7.78 5.736'
                 />
             </g>
             <defs>
@@ -6238,10 +6238,10 @@ export const IconSvg = {
                 </linearGradient>
                 <linearGradient
                     id='paint8_linear_11471_840'
-                    x1='210.204'
-                    x2='218.711'
-                    y1='176.21'
-                    y2='86.298'
+                    x1='210.667'
+                    x2='217.174'
+                    y1='176.043'
+                    y2='85.003'
                     gradientUnits='userSpaceOnUse'
                 >
                     <stop stopColor='#B2FFDD' />
@@ -6346,16 +6346,16 @@ export const IconSvg = {
                 />
                 <path
                     fill='url(#paint11_linear_11471_889)'
-                    d='m193.361 149.808.105-33.532 6.091-2.206 21.553 25.689-5.753 2.083-4.851-5.995-11.548 4.183.071 7.726zm5.546-14.545 8.587-3.109-8.773-10.747z'
+                    d='M208.857 144.77q-4.483 1.624-8.388.885-3.92-.781-6.894-3.58-2.99-2.84-4.63-7.366-1.64-4.527-1.161-8.623.477-4.097 2.988-7.207 2.51-3.111 6.994-4.734 5.33-1.93 9.679-.491 4.376 1.382 6.953 5.855l-5.964 2.16q-1.423-2.211-3.733-2.907-2.282-.752-5.243.32-4.102 1.487-5.418 5.121t.446 8.499 5.1 6.813q3.322 1.908 7.425.421 2.961-1.073 4.278-2.984 1.344-1.97 1.067-4.454l5.964-2.16q.809 4.875-1.683 8.696-2.45 3.805-7.78 5.736'
                 />
             </g>
             <defs>
                 <filter
                     id='filter0_dddd_11471_889'
-                    width='250.9'
+                    width='252.7'
                     height='162.266'
-                    x='55.218'
-                    y='212.018'
+                    x='54.018'
+                    y='212.818'
                     colorInterpolationFilters='sRGB'
                     filterUnits='userSpaceOnUse'
                 >
@@ -6365,18 +6365,18 @@ export const IconSvg = {
                         result='hardAlpha'
                         values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0'
                     />
-                    <feOffset dx='-1.6' dy='3.2' />
-                    <feGaussianBlur stdDeviation='4' />
-                    <feColorMatrix values='0 0 0 0 0.0470588 0 0 0 0 0.360784 0 0 0 0 0.239216 0 0 0 0.1 0' />
+                    <feOffset dx='-2' dy='3' />
+                    <feGaussianBlur stdDeviation='3.5' />
+                    <feColorMatrix values='0 0 0 0 0.0470588 0 0 0 0 0.164706 0 0 0 0 0.352941 0 0 0 0.1 0' />
                     <feBlend in2='BackgroundImageFix' result='effect1_dropShadow_11471_889' />
                     <feColorMatrix
                         in='SourceAlpha'
                         result='hardAlpha'
                         values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0'
                     />
-                    <feOffset dx='-6.4' dy='11.2' />
-                    <feGaussianBlur stdDeviation='6.4' />
-                    <feColorMatrix values='0 0 0 0 0.0470588 0 0 0 0 0.360784 0 0 0 0 0.239216 0 0 0 0.09 0' />
+                    <feOffset dx='-6' dy='12' />
+                    <feGaussianBlur stdDeviation='6.5' />
+                    <feColorMatrix values='0 0 0 0 0.0470588 0 0 0 0 0.164706 0 0 0 0 0.352941 0 0 0 0.09 0' />
                     <feBlend
                         in2='effect1_dropShadow_11471_889'
                         result='effect2_dropShadow_11471_889'
@@ -6386,9 +6386,9 @@ export const IconSvg = {
                         result='hardAlpha'
                         values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0'
                     />
-                    <feOffset dx='-14.4' dy='27.2' />
-                    <feGaussianBlur stdDeviation='8.8' />
-                    <feColorMatrix values='0 0 0 0 0.0470588 0 0 0 0 0.360784 0 0 0 0 0.239216 0 0 0 0.05 0' />
+                    <feOffset dx='-14' dy='26' />
+                    <feGaussianBlur stdDeviation='9' />
+                    <feColorMatrix values='0 0 0 0 0.0470588 0 0 0 0 0.164706 0 0 0 0 0.352941 0 0 0 0.05 0' />
                     <feBlend
                         in2='effect2_dropShadow_11471_889'
                         result='effect3_dropShadow_11471_889'
@@ -6398,9 +6398,9 @@ export const IconSvg = {
                         result='hardAlpha'
                         values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0'
                     />
-                    <feOffset dx='-24' dy='46.4' />
-                    <feGaussianBlur stdDeviation='10.4' />
-                    <feColorMatrix values='0 0 0 0 0.0470588 0 0 0 0 0.360784 0 0 0 0 0.239216 0 0 0 0.01 0' />
+                    <feOffset dx='-25' dy='47' />
+                    <feGaussianBlur stdDeviation='10.5' />
+                    <feColorMatrix values='0 0 0 0 0.0470588 0 0 0 0 0.164706 0 0 0 0 0.352941 0 0 0 0.01 0' />
                     <feBlend
                         in2='effect3_dropShadow_11471_889'
                         result='effect4_dropShadow_11471_889'
@@ -6409,10 +6409,10 @@ export const IconSvg = {
                 </filter>
                 <filter
                     id='filter1_ddddd_11471_889'
-                    width='263.837'
-                    height='340.233'
-                    x='20.642'
-                    y='61.808'
+                    width='263.437'
+                    height='341.433'
+                    x='21.043'
+                    y='60.808'
                     colorInterpolationFilters='sRGB'
                     filterUnits='userSpaceOnUse'
                 >
@@ -6422,18 +6422,18 @@ export const IconSvg = {
                         result='hardAlpha'
                         values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0'
                     />
-                    <feOffset dx='-3.2' dy='6.4' />
-                    <feGaussianBlur stdDeviation='7.2' />
-                    <feColorMatrix values='0 0 0 0 0.0470588 0 0 0 0 0.172549 0 0 0 0 0.12549 0 0 0 0.42 0' />
+                    <feOffset dx='-3' dy='6' />
+                    <feGaussianBlur stdDeviation='7.5' />
+                    <feColorMatrix values='0 0 0 0 0.0352941 0 0 0 0 0.0627451 0 0 0 0 0.145098 0 0 0 0.42 0' />
                     <feBlend in2='BackgroundImageFix' result='effect1_dropShadow_11471_889' />
                     <feColorMatrix
                         in='SourceAlpha'
                         result='hardAlpha'
                         values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0'
                     />
-                    <feOffset dx='-11.2' dy='24' />
-                    <feGaussianBlur stdDeviation='13.6' />
-                    <feColorMatrix values='0 0 0 0 0.0470588 0 0 0 0 0.172549 0 0 0 0 0.12549 0 0 0 0.36 0' />
+                    <feOffset dx='-11' dy='24' />
+                    <feGaussianBlur stdDeviation='13.5' />
+                    <feColorMatrix values='0 0 0 0 0.0352941 0 0 0 0 0.0627451 0 0 0 0 0.145098 0 0 0 0.36 0' />
                     <feBlend
                         in2='effect1_dropShadow_11471_889'
                         result='effect2_dropShadow_11471_889'
@@ -6443,9 +6443,9 @@ export const IconSvg = {
                         result='hardAlpha'
                         values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0'
                     />
-                    <feOffset dx='-25.6' dy='54.4' />
-                    <feGaussianBlur stdDeviation='17.6' />
-                    <feColorMatrix values='0 0 0 0 0.0470588 0 0 0 0 0.172549 0 0 0 0 0.12549 0 0 0 0.21 0' />
+                    <feOffset dx='-26' dy='54' />
+                    <feGaussianBlur stdDeviation='18' />
+                    <feColorMatrix values='0 0 0 0 0.0352941 0 0 0 0 0.0627451 0 0 0 0 0.145098 0 0 0 0.21 0' />
                     <feBlend
                         in2='effect2_dropShadow_11471_889'
                         result='effect3_dropShadow_11471_889'
@@ -6455,9 +6455,9 @@ export const IconSvg = {
                         result='hardAlpha'
                         values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0'
                     />
-                    <feOffset dx='-46.4' dy='96' />
-                    <feGaussianBlur stdDeviation='21.6' />
-                    <feColorMatrix values='0 0 0 0 0.0470588 0 0 0 0 0.172549 0 0 0 0 0.12549 0 0 0 0.06 0' />
+                    <feOffset dx='-46' dy='96' />
+                    <feGaussianBlur stdDeviation='21.5' />
+                    <feColorMatrix values='0 0 0 0 0.0352941 0 0 0 0 0.0627451 0 0 0 0 0.145098 0 0 0 0.06 0' />
                     <feBlend
                         in2='effect3_dropShadow_11471_889'
                         result='effect4_dropShadow_11471_889'
@@ -6467,9 +6467,9 @@ export const IconSvg = {
                         result='hardAlpha'
                         values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0'
                     />
-                    <feOffset dx='-72' dy='150.4' />
-                    <feGaussianBlur stdDeviation='23.2' />
-                    <feColorMatrix values='0 0 0 0 0.0470588 0 0 0 0 0.172549 0 0 0 0 0.12549 0 0 0 0.01 0' />
+                    <feOffset dx='-71' dy='150' />
+                    <feGaussianBlur stdDeviation='23.5' />
+                    <feColorMatrix values='0 0 0 0 0.0352941 0 0 0 0 0.0627451 0 0 0 0 0.145098 0 0 0 0.01 0' />
                     <feBlend
                         in2='effect4_dropShadow_11471_889'
                         result='effect5_dropShadow_11471_889'
@@ -6603,10 +6603,10 @@ export const IconSvg = {
                 </linearGradient>
                 <linearGradient
                     id='paint11_linear_11471_889'
-                    x1='210.204'
-                    x2='218.711'
-                    y1='176.21'
-                    y2='86.298'
+                    x1='210.667'
+                    x2='217.174'
+                    y1='176.043'
+                    y2='85.003'
                     gradientUnits='userSpaceOnUse'
                 >
                     <stop stopColor='#E6EFF9' />
@@ -6714,7 +6714,7 @@ export const IconSvg = {
                 />
                 <path
                     fill='url(#paint8_linear_11440_30834)'
-                    d='m193.361 149.809.105-33.533 6.091-2.206 21.553 25.689-5.753 2.083-4.851-5.995-11.548 4.183.071 7.726zm5.546-14.545 8.587-3.11-8.773-10.747z'
+                    d='M208.857 144.77q-4.483 1.624-8.388.885-3.92-.781-6.894-3.58-2.99-2.84-4.63-7.366-1.64-4.527-1.161-8.623.477-4.097 2.988-7.207 2.51-3.11 6.994-4.734 5.33-1.93 9.679-.491 4.376 1.382 6.953 5.855l-5.964 2.16q-1.423-2.211-3.733-2.907-2.282-.752-5.243.32-4.102 1.487-5.418 5.121t.446 8.499 5.1 6.814q3.322 1.906 7.425.42 2.961-1.072 4.278-2.984 1.344-1.97 1.067-4.454l5.964-2.16q.809 4.875-1.683 8.696-2.45 3.805-7.78 5.736'
                 />
             </g>
             <defs>
@@ -6943,10 +6943,10 @@ export const IconSvg = {
                 </linearGradient>
                 <linearGradient
                     id='paint8_linear_11440_30834'
-                    x1='210.204'
-                    x2='218.711'
-                    y1='176.21'
-                    y2='86.298'
+                    x1='210.667'
+                    x2='217.174'
+                    y1='176.043'
+                    y2='85.003'
                     gradientUnits='userSpaceOnUse'
                 >
                     <stop stopColor='#B2FFDD' />
@@ -7054,16 +7054,16 @@ export const IconSvg = {
                 />
                 <path
                     fill='url(#paint11_linear_11440_30956)'
-                    d='m193.361 149.809.105-33.532 6.091-2.206 21.553 25.688-5.753 2.083-4.851-5.994-11.548 4.182.071 7.726zm5.546-14.545 8.587-3.11-8.773-10.747z'
+                    d='M208.857 144.771q-4.483 1.623-8.388.884-3.92-.781-6.894-3.579-2.99-2.841-4.63-7.367-1.64-4.527-1.161-8.623.477-4.096 2.988-7.207 2.51-3.11 6.994-4.734 5.33-1.93 9.679-.491 4.376 1.382 6.953 5.855l-5.964 2.16q-1.423-2.211-3.733-2.906-2.282-.753-5.243.32-4.102 1.485-5.418 5.12t.446 8.499 5.1 6.814q3.322 1.906 7.425.421 2.961-1.072 4.278-2.985 1.344-1.97 1.067-4.454l5.964-2.16q.809 4.875-1.683 8.696-2.45 3.807-7.78 5.737'
                 />
             </g>
             <defs>
                 <filter
                     id='filter0_dddd_11440_30956'
-                    width='250.9'
+                    width='252.7'
                     height='162.266'
-                    x='55.218'
-                    y='212.018'
+                    x='54.018'
+                    y='212.818'
                     colorInterpolationFilters='sRGB'
                     filterUnits='userSpaceOnUse'
                 >
@@ -7073,18 +7073,18 @@ export const IconSvg = {
                         result='hardAlpha'
                         values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0'
                     />
-                    <feOffset dx='-1.6' dy='3.2' />
-                    <feGaussianBlur stdDeviation='4' />
-                    <feColorMatrix values='0 0 0 0 0.0470588 0 0 0 0 0.360784 0 0 0 0 0.239216 0 0 0 0.1 0' />
+                    <feOffset dx='-2' dy='3' />
+                    <feGaussianBlur stdDeviation='3.5' />
+                    <feColorMatrix values='0 0 0 0 0.0470588 0 0 0 0 0.164706 0 0 0 0 0.352941 0 0 0 0.1 0' />
                     <feBlend in2='BackgroundImageFix' result='effect1_dropShadow_11440_30956' />
                     <feColorMatrix
                         in='SourceAlpha'
                         result='hardAlpha'
                         values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0'
                     />
-                    <feOffset dx='-6.4' dy='11.2' />
-                    <feGaussianBlur stdDeviation='6.4' />
-                    <feColorMatrix values='0 0 0 0 0.0470588 0 0 0 0 0.360784 0 0 0 0 0.239216 0 0 0 0.09 0' />
+                    <feOffset dx='-6' dy='12' />
+                    <feGaussianBlur stdDeviation='6.5' />
+                    <feColorMatrix values='0 0 0 0 0.0470588 0 0 0 0 0.164706 0 0 0 0 0.352941 0 0 0 0.09 0' />
                     <feBlend
                         in2='effect1_dropShadow_11440_30956'
                         result='effect2_dropShadow_11440_30956'
@@ -7094,9 +7094,9 @@ export const IconSvg = {
                         result='hardAlpha'
                         values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0'
                     />
-                    <feOffset dx='-14.4' dy='27.2' />
-                    <feGaussianBlur stdDeviation='8.8' />
-                    <feColorMatrix values='0 0 0 0 0.0470588 0 0 0 0 0.360784 0 0 0 0 0.239216 0 0 0 0.05 0' />
+                    <feOffset dx='-14' dy='26' />
+                    <feGaussianBlur stdDeviation='9' />
+                    <feColorMatrix values='0 0 0 0 0.0470588 0 0 0 0 0.164706 0 0 0 0 0.352941 0 0 0 0.05 0' />
                     <feBlend
                         in2='effect2_dropShadow_11440_30956'
                         result='effect3_dropShadow_11440_30956'
@@ -7106,9 +7106,9 @@ export const IconSvg = {
                         result='hardAlpha'
                         values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0'
                     />
-                    <feOffset dx='-24' dy='46.4' />
-                    <feGaussianBlur stdDeviation='10.4' />
-                    <feColorMatrix values='0 0 0 0 0.0470588 0 0 0 0 0.360784 0 0 0 0 0.239216 0 0 0 0.01 0' />
+                    <feOffset dx='-25' dy='47' />
+                    <feGaussianBlur stdDeviation='10.5' />
+                    <feColorMatrix values='0 0 0 0 0.0470588 0 0 0 0 0.164706 0 0 0 0 0.352941 0 0 0 0.01 0' />
                     <feBlend
                         in2='effect3_dropShadow_11440_30956'
                         result='effect4_dropShadow_11440_30956'
@@ -7121,10 +7121,10 @@ export const IconSvg = {
                 </filter>
                 <filter
                     id='filter1_ddddd_11440_30956'
-                    width='263.837'
-                    height='340.233'
-                    x='20.642'
-                    y='61.808'
+                    width='263.437'
+                    height='341.433'
+                    x='21.043'
+                    y='60.808'
                     colorInterpolationFilters='sRGB'
                     filterUnits='userSpaceOnUse'
                 >
@@ -7134,18 +7134,18 @@ export const IconSvg = {
                         result='hardAlpha'
                         values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0'
                     />
-                    <feOffset dx='-3.2' dy='6.4' />
-                    <feGaussianBlur stdDeviation='7.2' />
-                    <feColorMatrix values='0 0 0 0 0.0470588 0 0 0 0 0.172549 0 0 0 0 0.12549 0 0 0 0.42 0' />
+                    <feOffset dx='-3' dy='6' />
+                    <feGaussianBlur stdDeviation='7.5' />
+                    <feColorMatrix values='0 0 0 0 0.0352941 0 0 0 0 0.0627451 0 0 0 0 0.145098 0 0 0 0.42 0' />
                     <feBlend in2='BackgroundImageFix' result='effect1_dropShadow_11440_30956' />
                     <feColorMatrix
                         in='SourceAlpha'
                         result='hardAlpha'
                         values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0'
                     />
-                    <feOffset dx='-11.2' dy='24' />
-                    <feGaussianBlur stdDeviation='13.6' />
-                    <feColorMatrix values='0 0 0 0 0.0470588 0 0 0 0 0.172549 0 0 0 0 0.12549 0 0 0 0.36 0' />
+                    <feOffset dx='-11' dy='24' />
+                    <feGaussianBlur stdDeviation='13.5' />
+                    <feColorMatrix values='0 0 0 0 0.0352941 0 0 0 0 0.0627451 0 0 0 0 0.145098 0 0 0 0.36 0' />
                     <feBlend
                         in2='effect1_dropShadow_11440_30956'
                         result='effect2_dropShadow_11440_30956'
@@ -7155,9 +7155,9 @@ export const IconSvg = {
                         result='hardAlpha'
                         values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0'
                     />
-                    <feOffset dx='-25.6' dy='54.4' />
-                    <feGaussianBlur stdDeviation='17.6' />
-                    <feColorMatrix values='0 0 0 0 0.0470588 0 0 0 0 0.172549 0 0 0 0 0.12549 0 0 0 0.21 0' />
+                    <feOffset dx='-26' dy='54' />
+                    <feGaussianBlur stdDeviation='18' />
+                    <feColorMatrix values='0 0 0 0 0.0352941 0 0 0 0 0.0627451 0 0 0 0 0.145098 0 0 0 0.21 0' />
                     <feBlend
                         in2='effect2_dropShadow_11440_30956'
                         result='effect3_dropShadow_11440_30956'
@@ -7167,9 +7167,9 @@ export const IconSvg = {
                         result='hardAlpha'
                         values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0'
                     />
-                    <feOffset dx='-46.4' dy='96' />
-                    <feGaussianBlur stdDeviation='21.6' />
-                    <feColorMatrix values='0 0 0 0 0.0470588 0 0 0 0 0.172549 0 0 0 0 0.12549 0 0 0 0.06 0' />
+                    <feOffset dx='-46' dy='96' />
+                    <feGaussianBlur stdDeviation='21.5' />
+                    <feColorMatrix values='0 0 0 0 0.0352941 0 0 0 0 0.0627451 0 0 0 0 0.145098 0 0 0 0.06 0' />
                     <feBlend
                         in2='effect3_dropShadow_11440_30956'
                         result='effect4_dropShadow_11440_30956'
@@ -7179,9 +7179,9 @@ export const IconSvg = {
                         result='hardAlpha'
                         values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0'
                     />
-                    <feOffset dx='-72' dy='150.4' />
-                    <feGaussianBlur stdDeviation='23.2' />
-                    <feColorMatrix values='0 0 0 0 0.0470588 0 0 0 0 0.172549 0 0 0 0 0.12549 0 0 0 0.01 0' />
+                    <feOffset dx='-71' dy='150' />
+                    <feGaussianBlur stdDeviation='23.5' />
+                    <feColorMatrix values='0 0 0 0 0.0352941 0 0 0 0 0.0627451 0 0 0 0 0.145098 0 0 0 0.01 0' />
                     <feBlend
                         in2='effect4_dropShadow_11440_30956'
                         result='effect5_dropShadow_11440_30956'
@@ -7319,10 +7319,10 @@ export const IconSvg = {
                 </linearGradient>
                 <linearGradient
                     id='paint11_linear_11440_30956'
-                    x1='210.204'
-                    x2='218.711'
-                    y1='176.21'
-                    y2='86.298'
+                    x1='210.667'
+                    x2='217.174'
+                    y1='176.043'
+                    y2='85.003'
                     gradientUnits='userSpaceOnUse'
                 >
                     <stop stopColor='#E6EFF9' />
@@ -7430,7 +7430,7 @@ export const IconSvg = {
                 />
                 <path
                     fill='url(#paint8_linear_11440_30740)'
-                    d='m193.361 149.809.105-33.533 6.091-2.206 21.553 25.689-5.753 2.083-4.851-5.995-11.548 4.183.071 7.726zm5.546-14.545 8.587-3.11-8.773-10.747z'
+                    d='M208.857 144.77q-4.483 1.624-8.388.885-3.92-.781-6.894-3.58-2.99-2.84-4.63-7.366-1.64-4.527-1.161-8.623.477-4.097 2.988-7.207 2.51-3.11 6.994-4.734 5.33-1.93 9.679-.491 4.376 1.382 6.953 5.855l-5.964 2.16q-1.423-2.211-3.733-2.907-2.282-.752-5.243.32-4.102 1.487-5.418 5.121t.446 8.499 5.1 6.814q3.322 1.906 7.425.42 2.961-1.072 4.278-2.984 1.344-1.97 1.067-4.454l5.964-2.16q.809 4.875-1.683 8.696-2.45 3.805-7.78 5.736'
                 />
             </g>
             <defs>
@@ -7659,10 +7659,10 @@ export const IconSvg = {
                 </linearGradient>
                 <linearGradient
                     id='paint8_linear_11440_30740'
-                    x1='210.204'
-                    x2='218.711'
-                    y1='176.21'
-                    y2='86.298'
+                    x1='210.667'
+                    x2='217.174'
+                    y1='176.043'
+                    y2='85.003'
                     gradientUnits='userSpaceOnUse'
                 >
                     <stop stopColor='#B2FFDD' />
@@ -7767,16 +7767,16 @@ export const IconSvg = {
                 />
                 <path
                     fill='url(#paint11_linear_11440_30904)'
-                    d='m193.361 149.808.105-33.532 6.091-2.206 21.553 25.689-5.753 2.083-4.851-5.995-11.548 4.183.071 7.726zm5.546-14.545 8.587-3.109-8.773-10.747z'
+                    d='M208.857 144.77q-4.483 1.624-8.388.885-3.92-.781-6.894-3.58-2.99-2.84-4.63-7.366-1.64-4.527-1.161-8.623.477-4.097 2.988-7.207 2.51-3.111 6.994-4.734 5.33-1.93 9.679-.491 4.376 1.382 6.953 5.855l-5.964 2.16q-1.423-2.211-3.733-2.907-2.282-.752-5.243.32-4.102 1.487-5.418 5.121t.446 8.499 5.1 6.813q3.322 1.908 7.425.421 2.961-1.073 4.278-2.984 1.344-1.97 1.067-4.454l5.964-2.16q.809 4.875-1.683 8.696-2.45 3.805-7.78 5.736'
                 />
             </g>
             <defs>
                 <filter
                     id='filter0_dddd_11440_30904'
-                    width='250.9'
+                    width='252.7'
                     height='162.266'
-                    x='55.218'
-                    y='212.018'
+                    x='54.018'
+                    y='212.818'
                     colorInterpolationFilters='sRGB'
                     filterUnits='userSpaceOnUse'
                 >
@@ -7786,18 +7786,18 @@ export const IconSvg = {
                         result='hardAlpha'
                         values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0'
                     />
-                    <feOffset dx='-1.6' dy='3.2' />
-                    <feGaussianBlur stdDeviation='4' />
-                    <feColorMatrix values='0 0 0 0 0.0470588 0 0 0 0 0.360784 0 0 0 0 0.239216 0 0 0 0.1 0' />
+                    <feOffset dx='-2' dy='3' />
+                    <feGaussianBlur stdDeviation='3.5' />
+                    <feColorMatrix values='0 0 0 0 0.0470588 0 0 0 0 0.164706 0 0 0 0 0.352941 0 0 0 0.1 0' />
                     <feBlend in2='BackgroundImageFix' result='effect1_dropShadow_11440_30904' />
                     <feColorMatrix
                         in='SourceAlpha'
                         result='hardAlpha'
                         values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0'
                     />
-                    <feOffset dx='-6.4' dy='11.2' />
-                    <feGaussianBlur stdDeviation='6.4' />
-                    <feColorMatrix values='0 0 0 0 0.0470588 0 0 0 0 0.360784 0 0 0 0 0.239216 0 0 0 0.09 0' />
+                    <feOffset dx='-6' dy='12' />
+                    <feGaussianBlur stdDeviation='6.5' />
+                    <feColorMatrix values='0 0 0 0 0.0470588 0 0 0 0 0.164706 0 0 0 0 0.352941 0 0 0 0.09 0' />
                     <feBlend
                         in2='effect1_dropShadow_11440_30904'
                         result='effect2_dropShadow_11440_30904'
@@ -7807,9 +7807,9 @@ export const IconSvg = {
                         result='hardAlpha'
                         values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0'
                     />
-                    <feOffset dx='-14.4' dy='27.2' />
-                    <feGaussianBlur stdDeviation='8.8' />
-                    <feColorMatrix values='0 0 0 0 0.0470588 0 0 0 0 0.360784 0 0 0 0 0.239216 0 0 0 0.05 0' />
+                    <feOffset dx='-14' dy='26' />
+                    <feGaussianBlur stdDeviation='9' />
+                    <feColorMatrix values='0 0 0 0 0.0470588 0 0 0 0 0.164706 0 0 0 0 0.352941 0 0 0 0.05 0' />
                     <feBlend
                         in2='effect2_dropShadow_11440_30904'
                         result='effect3_dropShadow_11440_30904'
@@ -7819,9 +7819,9 @@ export const IconSvg = {
                         result='hardAlpha'
                         values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0'
                     />
-                    <feOffset dx='-24' dy='46.4' />
-                    <feGaussianBlur stdDeviation='10.4' />
-                    <feColorMatrix values='0 0 0 0 0.0470588 0 0 0 0 0.360784 0 0 0 0 0.239216 0 0 0 0.01 0' />
+                    <feOffset dx='-25' dy='47' />
+                    <feGaussianBlur stdDeviation='10.5' />
+                    <feColorMatrix values='0 0 0 0 0.0470588 0 0 0 0 0.164706 0 0 0 0 0.352941 0 0 0 0.01 0' />
                     <feBlend
                         in2='effect3_dropShadow_11440_30904'
                         result='effect4_dropShadow_11440_30904'
@@ -7834,10 +7834,10 @@ export const IconSvg = {
                 </filter>
                 <filter
                     id='filter1_ddddd_11440_30904'
-                    width='263.837'
-                    height='340.233'
-                    x='20.642'
-                    y='61.808'
+                    width='263.437'
+                    height='341.433'
+                    x='21.043'
+                    y='60.808'
                     colorInterpolationFilters='sRGB'
                     filterUnits='userSpaceOnUse'
                 >
@@ -7847,18 +7847,18 @@ export const IconSvg = {
                         result='hardAlpha'
                         values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0'
                     />
-                    <feOffset dx='-3.2' dy='6.4' />
-                    <feGaussianBlur stdDeviation='7.2' />
-                    <feColorMatrix values='0 0 0 0 0.0470588 0 0 0 0 0.172549 0 0 0 0 0.12549 0 0 0 0.42 0' />
+                    <feOffset dx='-3' dy='6' />
+                    <feGaussianBlur stdDeviation='7.5' />
+                    <feColorMatrix values='0 0 0 0 0.0352941 0 0 0 0 0.0627451 0 0 0 0 0.145098 0 0 0 0.42 0' />
                     <feBlend in2='BackgroundImageFix' result='effect1_dropShadow_11440_30904' />
                     <feColorMatrix
                         in='SourceAlpha'
                         result='hardAlpha'
                         values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0'
                     />
-                    <feOffset dx='-11.2' dy='24' />
-                    <feGaussianBlur stdDeviation='13.6' />
-                    <feColorMatrix values='0 0 0 0 0.0470588 0 0 0 0 0.172549 0 0 0 0 0.12549 0 0 0 0.36 0' />
+                    <feOffset dx='-11' dy='24' />
+                    <feGaussianBlur stdDeviation='13.5' />
+                    <feColorMatrix values='0 0 0 0 0.0352941 0 0 0 0 0.0627451 0 0 0 0 0.145098 0 0 0 0.36 0' />
                     <feBlend
                         in2='effect1_dropShadow_11440_30904'
                         result='effect2_dropShadow_11440_30904'
@@ -7868,9 +7868,9 @@ export const IconSvg = {
                         result='hardAlpha'
                         values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0'
                     />
-                    <feOffset dx='-25.6' dy='54.4' />
-                    <feGaussianBlur stdDeviation='17.6' />
-                    <feColorMatrix values='0 0 0 0 0.0470588 0 0 0 0 0.172549 0 0 0 0 0.12549 0 0 0 0.21 0' />
+                    <feOffset dx='-26' dy='54' />
+                    <feGaussianBlur stdDeviation='18' />
+                    <feColorMatrix values='0 0 0 0 0.0352941 0 0 0 0 0.0627451 0 0 0 0 0.145098 0 0 0 0.21 0' />
                     <feBlend
                         in2='effect2_dropShadow_11440_30904'
                         result='effect3_dropShadow_11440_30904'
@@ -7880,9 +7880,9 @@ export const IconSvg = {
                         result='hardAlpha'
                         values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0'
                     />
-                    <feOffset dx='-46.4' dy='96' />
-                    <feGaussianBlur stdDeviation='21.6' />
-                    <feColorMatrix values='0 0 0 0 0.0470588 0 0 0 0 0.172549 0 0 0 0 0.12549 0 0 0 0.06 0' />
+                    <feOffset dx='-46' dy='96' />
+                    <feGaussianBlur stdDeviation='21.5' />
+                    <feColorMatrix values='0 0 0 0 0.0352941 0 0 0 0 0.0627451 0 0 0 0 0.145098 0 0 0 0.06 0' />
                     <feBlend
                         in2='effect3_dropShadow_11440_30904'
                         result='effect4_dropShadow_11440_30904'
@@ -7892,9 +7892,9 @@ export const IconSvg = {
                         result='hardAlpha'
                         values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0'
                     />
-                    <feOffset dx='-72' dy='150.4' />
-                    <feGaussianBlur stdDeviation='23.2' />
-                    <feColorMatrix values='0 0 0 0 0.0470588 0 0 0 0 0.172549 0 0 0 0 0.12549 0 0 0 0.01 0' />
+                    <feOffset dx='-71' dy='150' />
+                    <feGaussianBlur stdDeviation='23.5' />
+                    <feColorMatrix values='0 0 0 0 0.0352941 0 0 0 0 0.0627451 0 0 0 0 0.145098 0 0 0 0.01 0' />
                     <feBlend
                         in2='effect4_dropShadow_11440_30904'
                         result='effect5_dropShadow_11440_30904'
@@ -8032,10 +8032,10 @@ export const IconSvg = {
                 </linearGradient>
                 <linearGradient
                     id='paint11_linear_11440_30904'
-                    x1='210.204'
-                    x2='218.711'
-                    y1='176.21'
-                    y2='86.298'
+                    x1='210.667'
+                    x2='217.174'
+                    y1='176.043'
+                    y2='85.003'
                     gradientUnits='userSpaceOnUse'
                 >
                     <stop stopColor='#E6EFF9' />
