@@ -31,7 +31,7 @@ const Onboarding = () => {
 
     const interval = useRef<ReturnType<typeof setInterval> | undefined>();
 
-    const [activeOnboardingScreen, setActiveOnboardingScreen] = useState<number>(0);
+    const [activeIndex, setActiveIndex] = useState<number>(0);
 
     const onboardingScreens: OnboardingScreen[] = [
         {
@@ -80,7 +80,7 @@ const Onboarding = () => {
 
     useEffect(() => {
         interval.current = setInterval(() => {
-            setActiveOnboardingScreen((prevIndex) => (prevIndex + 1) % onboardingScreens.length);
+            setActiveIndex((prevIndex) => (prevIndex + 1) % onboardingScreens.length);
         }, 5000);
         return () => {
             clearInterval(interval.current);
@@ -90,33 +90,33 @@ const Onboarding = () => {
     const resetInterval = () => {
         clearInterval(interval.current);
         interval.current = setInterval(() => {
-            setActiveOnboardingScreen((prevIndex) => (prevIndex + 1) % onboardingScreens.length);
+            setActiveIndex((prevIndex) => (prevIndex + 1) % onboardingScreens.length);
         }, 5000);
     };
 
     const goToNextScreen = () => {
         resetInterval();
-        setActiveOnboardingScreen((prevIndex) => (prevIndex + 1) % onboardingScreens.length);
+        setActiveIndex((prevIndex) => (prevIndex + 1) % onboardingScreens.length);
     };
 
     const goToPreviousScreen = () => {
         resetInterval();
-        setActiveOnboardingScreen((prevIndex) => (prevIndex - 1) % onboardingScreens.length);
+        setActiveIndex((prevIndex) => (prevIndex - 1 + onboardingScreens.length) % onboardingScreens.length);
     };
 
     return (
         <div className='fade pt-[58px] duration-1000 ease-in-out'>
             <Header />
-            <ProgressBar itemsLength={onboardingScreens.length} />
+            <ProgressBar itemsLength={onboardingScreens.length} activeIndex={activeIndex} />
             <div className='relative h-[410px]'>
                 {onboardingScreens.map((screen, index) => (
                     <div
                         className={cn(
                             'absolute left-0 top-[70px] flex w-full items-center justify-center gap-6 px-9 transition-all duration-1000 ease-in-out',
                             {
-                                'translate-x-0 opacity-100': activeOnboardingScreen === index,
-                                '-translate-x-full opacity-0': activeOnboardingScreen > index,
-                                'translate-x-full opacity-0': activeOnboardingScreen < index,
+                                'translate-x-0 opacity-100': activeIndex === index,
+                                '-translate-x-full opacity-0': activeIndex > index,
+                                'translate-x-full opacity-0': activeIndex < index,
                             },
                         )}
                         key={screen.id}
