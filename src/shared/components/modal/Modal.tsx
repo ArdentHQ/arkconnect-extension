@@ -12,6 +12,7 @@ type ModalProps = {
     onClose: () => void;
     className?: string;
     icon?: IconDefinition | ReactNode;
+    iconClassName?: string;
     variant?: 'danger';
     onCancel?: () => void;
     onResolve?: () => void;
@@ -32,6 +33,7 @@ type ModalProps = {
     activateFocusTrap?: boolean;
     focusTrapOptions?: FocusTrap.Props['focusTrapOptions'];
     title?: string;
+    errorMessage?: string;
 };
 
 const ModalCloseIcon = ({ onClose }: { onClose: () => void }) => {
@@ -78,6 +80,7 @@ const Modal = ({
     onResolve,
     className,
     icon,
+    iconClassName,
     variant,
     hideCloseButton = false,
     footer,
@@ -85,6 +88,7 @@ const Modal = ({
     activateFocusTrap = true,
     focusTrapOptions,
     title,
+    errorMessage,
 }: ModalProps) => {
     const { t } = useTranslation();
     const ref = useRef<HTMLDivElement | null>(null);
@@ -102,12 +106,11 @@ const Modal = ({
                         >
                             <div
                                 className={twMerge(
-                                    cn(
-                                        'flex flex-col gap-6 rounded-xl bg-white dark:bg-light-black',
-                                        {
-                                            'p-4': !containerClassName,
-                                        },
-                                    ),
+                                    cn('flex flex-col gap-6 bg-white dark:bg-light-black', {
+                                        'p-4': !containerClassName,
+                                        'rounded-xl': !errorMessage,
+                                        'rounded-t-xl': errorMessage,
+                                    }),
                                     containerClassName,
                                 )}
                             >
@@ -124,6 +127,7 @@ const Modal = ({
                                                     <ModalIcon
                                                         icon={icon as IconDefinition}
                                                         variant={variant}
+                                                        className={iconClassName}
                                                     />
                                                 ) : (
                                                     icon
@@ -171,6 +175,12 @@ const Modal = ({
                                     footer
                                 )}
                             </div>
+                            {errorMessage && (
+                                <div className='flex flex-row items-center gap-2 rounded-b-xl border-t border-t-theme-error-600 bg-theme-error-100 px-4 py-3 text-theme-error-600 dark:border-t-theme-error-500 dark:bg-theme-error-800 dark:text-theme-error-100'>
+                                    <Icon icon='information-circle' className='h-5 w-5 flex-none' />
+                                    <span className='text-xs font-normal'>{errorMessage}</span>
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>
