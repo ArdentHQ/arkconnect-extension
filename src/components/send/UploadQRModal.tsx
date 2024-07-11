@@ -10,7 +10,10 @@ import { SendFormik } from '@/pages/Send';
 import { ApproveActionType } from '@/pages/Approve';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 
-export const UploadQRModal = ({ formik, setIsModalOpen }: {
+export const UploadQRModal = ({
+    formik,
+    setIsModalOpen,
+}: {
     formik: FormikProps<SendFormik>;
     setIsModalOpen: (value: boolean) => void;
 }) => {
@@ -137,9 +140,7 @@ export const UploadQRModal = ({ formik, setIsModalOpen }: {
                             onTypeError={handleTypeError}
                             tabIndex={-1}
                         >
-                            <Button variant='primary'>
-                                {t('PAGES.SEND.QR_MODAL.UPLOAD_QR')}
-                            </Button>
+                            <Button variant='primary'>{t('PAGES.SEND.QR_MODAL.UPLOAD_QR')}</Button>
                         </FileUploader>
                     </div>
                 )
@@ -157,21 +158,15 @@ export const UploadQRModal = ({ formik, setIsModalOpen }: {
                     onSizeError={handleSizeError}
                     onTypeError={handleTypeError}
                 >
-                    <div className='h-50 w-[306px] rounded-2xl border border-dashed border-theme-secondary-200 bg-theme-secondary-25 dark:border-theme-secondary-600 dark:bg-theme-secondary-800 cursor-pointer'>
+                    <div className='h-50 w-[306px] cursor-pointer rounded-2xl border border-dashed border-theme-secondary-200 bg-theme-secondary-25 dark:border-theme-secondary-600 dark:bg-theme-secondary-800'>
                         <div className='relative flex items-center justify-center overflow-hidden'>
                             <Icon
-                                icon={
-                                    isDark()
-                                        ? 'upload-background-dark'
-                                        : 'upload-background'
-                                }
+                                icon={isDark() ? 'upload-background-dark' : 'upload-background'}
                                 className='mt-[3px] h-[192px] w-[298px] rounded-xl'
                             />
 
                             <Icon
-                                icon={
-                                    isDark() ? 'qr-drag-and-drop-dark' : 'qr-drag-and-drop'
-                                }
+                                icon={isDark() ? 'qr-drag-and-drop-dark' : 'qr-drag-and-drop'}
                                 className='absolute top-0 h-80 w-80'
                             />
 

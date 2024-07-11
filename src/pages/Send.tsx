@@ -210,9 +210,7 @@ const Send = () => {
         >
             <SendForm formik={formik} />
 
-            {isModalOpen && (
-                <UploadQRModal formik={formik} setIsModalOpen={setIsModalOpen} />
-            )}
+            {isModalOpen && <UploadQRModal formik={formik} setIsModalOpen={setIsModalOpen} />}
         </SubPageLayout>
     );
 };
