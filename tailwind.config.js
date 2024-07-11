@@ -72,6 +72,10 @@ export default {
                     '0%': { transform: 'translateY(100%)' },
                     '100%': { transform: 'translateY(0%)' },
                 },
+                fillProgressBar: {
+                    '0%': { width: '0%' },
+                    '100%': { width: '100%' },
+                },
             },
             animation: {
                 slideUp: 'slideUp 1.2s ease-in-out 1.8s forwards',
@@ -79,6 +83,7 @@ export default {
                     'fadeInAndTransform 0.8s ease-in-out forwards, scale 0.4s ease-in-out 1s forwards',
                 translateUp: 'translateUp 0.5s ease-in-out 2s forwards',
                 decreaseHeight: 'decreaseHeight 0.5s ease-in-out 2s forwards',
+                fillProgress: 'fillProgressBar 5s ease-in-out',
             },
             zIndex: {
                 1: '1',
