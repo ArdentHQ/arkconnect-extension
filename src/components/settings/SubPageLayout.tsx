@@ -25,7 +25,7 @@ const SubPageLayout = ({
     className,
     bodyClassName,
     footer,
-    sideButton
+    sideButton,
 }: Props) => {
     if (!onBack) {
         onBack = hideCloseButton ? 'goHome' : 'goBack';

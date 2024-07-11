@@ -106,14 +106,11 @@ const Modal = ({
                         >
                             <div
                                 className={twMerge(
-                                    cn(
-                                        'flex flex-col gap-6 bg-white dark:bg-light-black',
-                                        {
-                                            'p-4': !containerClassName,
-                                            'rounded-xl': !errorMessage,
-                                            'rounded-t-xl': errorMessage
-                                        },
-                                    ),
+                                    cn('flex flex-col gap-6 bg-white dark:bg-light-black', {
+                                        'p-4': !containerClassName,
+                                        'rounded-xl': !errorMessage,
+                                        'rounded-t-xl': errorMessage,
+                                    }),
                                     containerClassName,
                                 )}
                             >
@@ -178,14 +175,12 @@ const Modal = ({
                                     footer
                                 )}
                             </div>
-                            {
-                                errorMessage && (
-                                    <div className='border-t border-t-theme-error-600 dark:border-t-theme-error-500 bg-theme-error-100 text-theme-error-600 dark:text-theme-error-100 dark:bg-theme-error-800 flex flex-row py-3 px-4 gap-2 items-center rounded-b-xl'>
-                                        <Icon icon='information-circle' className='h-5 w-5 flex-none'/>
-                                        <span className='text-xs font-normal'>{errorMessage}</span>
-                                    </div>
-                                )
-                            }
+                            {errorMessage && (
+                                <div className='flex flex-row items-center gap-2 rounded-b-xl border-t border-t-theme-error-600 bg-theme-error-100 px-4 py-3 text-theme-error-600 dark:border-t-theme-error-500 dark:bg-theme-error-800 dark:text-theme-error-100'>
+                                    <Icon icon='information-circle' className='h-5 w-5 flex-none' />
+                                    <span className='text-xs font-normal'>{errorMessage}</span>
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>
