@@ -352,7 +352,7 @@ const Send = () => {
                             onSizeError={handleSizeError}
                             onTypeError={handleTypeError}
                         >
-                            <div className='h-50 w-[306px] rounded-2xl border border-dashed border-theme-secondary-200 bg-theme-secondary-25 dark:border-theme-secondary-600 dark:bg-theme-secondary-800 cursor-pointer'>
+                            <div className='h-50 w-[306px] cursor-pointer rounded-2xl border border-dashed border-theme-secondary-200 bg-theme-secondary-25 dark:border-theme-secondary-600 dark:bg-theme-secondary-800'>
                                 <div className='relative flex items-center justify-center overflow-hidden'>
                                     <Icon
                                         icon={
