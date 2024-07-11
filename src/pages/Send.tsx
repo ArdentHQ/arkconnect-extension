@@ -275,11 +275,16 @@ const Send = () => {
                 }
 
                 formik.setFieldValue('receiverAddress', params.get('recipient'));
+                setTimeout(() => formik.setFieldTouched('receiverAddress', true));
+
                 ['amount', 'memo'].forEach((field) => {
                     if (params.has(field)) {
                         formik.setFieldValue(field, params.get(field));
+                        setTimeout(() => formik.setFieldTouched(field, true));
                     }
                 });
+
+                formik.validateForm();
 
                 handleModalError(undefined);
                 setIsModalOpen(false);
