@@ -47,6 +47,11 @@ export const UploadQRModal = ({ formik, setIsModalOpen }: {
         });
     };
 
+    const setFieldValue = (field: string, value: string | null) => {
+        formik.setFieldValue(field, value);
+        setTimeout(() => formik.setFieldTouched(field, true));
+    };
+
     const handleDragAndDropChange = useCallback(async (file: File) => {
         setIsLoading(true);
         if (!file.type.startsWith('image/')) {
@@ -88,18 +93,15 @@ export const UploadQRModal = ({ formik, setIsModalOpen }: {
                     return;
                 }
 
-                formik.setFieldValue('receiverAddress', params.get('recipient'));
-                setTimeout(() => formik.setFieldTouched('receiverAddress', true));
+                setFieldValue('receiverAddress', params.get('recipient'));
 
                 ['amount', 'memo'].forEach((field) => {
                     if (params.has(field)) {
-                        formik.setFieldValue(field, params.get(field));
-                        setTimeout(() => formik.setFieldTouched(field, true));
+                        setFieldValue(field, params.get(field));
                     }
                 });
 
                 formik.validateForm();
-
                 handleModalError(undefined);
                 setIsModalOpen(false);
             };
