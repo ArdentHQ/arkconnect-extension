@@ -23,6 +23,8 @@ export type IconDefinition =
     | 'arrow-left'
     | 'arrow-right'
     | 'check'
+    | 'chevron-left'
+    | 'chevron-right'
     | 'clear'
     | 'clock'
     | 'code'
@@ -150,6 +152,8 @@ export const availableIcons: IconDefinition[] = [
     'arrow-left',
     'arrow-right',
     'check',
+    'chevron-left',
+    'chevron-right',
     'clear',
     'clock',
     'code',
@@ -401,6 +405,28 @@ export const IconSvg = {
                 strokeLinejoin='round'
                 strokeWidth='2'
                 d='M4.167 10.834 7.5 14.167l8.333-8.333'
+            />
+        </svg>
+    ),
+    'chevron-left': (
+        <svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24'>
+            <path
+                stroke='currentColor'
+                strokeLinecap='round'
+                strokeLinejoin='round'
+                strokeWidth='1.667'
+                d='m14.5 7-5 5 5 5'
+            />
+        </svg>
+    ),
+    'chevron-right': (
+        <svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24'>
+            <path
+                stroke='currentColor'
+                strokeLinecap='round'
+                strokeLinejoin='round'
+                strokeWidth='1.667'
+                d='m9.5 17 5-5-5-5'
             />
         </svg>
     ),
