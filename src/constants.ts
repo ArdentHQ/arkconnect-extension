@@ -39,6 +39,12 @@ const MAX_FEES = {
 const MAC_OS = 'mac';
 const DEFAULT_OS = 'default'; // For Windows and Linux
 
+// Fee classes
+const FEE_SLOW = 'slow';
+const FEE_FAST = 'fast';
+const FEE_DEFAULT = 'default';
+const FEE_CUSTOM = 'custom';
+
 const constants = {
     APP_NAME,
     SUPPORT_EMAIL,
@@ -65,6 +71,10 @@ const constants = {
     GITHUB_RELEASES_URL,
     MAC_OS,
     DEFAULT_OS,
+    FEE_SLOW,
+    FEE_FAST,
+    FEE_DEFAULT,
+    FEE_CUSTOM,
 };
 
 export default constants;
