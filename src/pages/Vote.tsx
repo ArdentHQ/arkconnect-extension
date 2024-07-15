@@ -149,7 +149,10 @@ const Vote = () => {
     const formik = useFormik<VoteFormik>({
         initialValues: {
             fee: searchParams.get('fee') || lastVisitedPage?.data?.fee || '',
-            feeClass: searchParams.get('feeClass') || lastVisitedPage?.data?.feeClass || constants.FEE_DEFAULT,
+            feeClass:
+                searchParams.get('feeClass') ||
+                lastVisitedPage?.data?.feeClass ||
+                constants.FEE_DEFAULT,
             delegateAddress:
                 searchParams.get('vote') ||
                 searchParams.get('unvote') ||
