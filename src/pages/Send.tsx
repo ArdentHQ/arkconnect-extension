@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { BigNumber } from '@ardenthq/sdk-helpers';
 import { runtime } from 'webextension-polyfill';
 import { useFormik } from 'formik';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { FileUploader } from 'react-drag-drop-files';
 import jsQR from 'jsqr';
@@ -27,6 +27,7 @@ export type SendFormik = {
     memo?: string;
     fee: string;
     receiverAddress: string;
+    feeClass?: string;
 };
 
 interface PageData extends SendFormik {
@@ -47,6 +48,7 @@ const Send = () => {
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
     const [isModalLoading, setIsModalLoading] = useState<boolean>(false);
     const [modalError, setModalError] = useState<string | undefined>();
+    const [searchParams] = useSearchParams();
 
     const lastVisitedPage = profile.settings().get('LAST_VISITED_PAGE') as { data: PageData };
 
@@ -106,6 +108,7 @@ const Send = () => {
                 return Number(value) <= constants.MAX_FEES.transfer;
             })
             .trim(),
+        feeClass: string().oneOf([constants.FEE_CUSTOM, constants.FEE_DEFAULT, constants.FEE_FAST, constants.FEE_SLOW]),
         receiverAddress: string()
             .required(t('ERROR.IS_REQUIRED', { name: 'Address' }))
             .min(
@@ -141,6 +144,7 @@ const Send = () => {
             amount: lastVisitedPage?.data?.amount || '',
             memo: lastVisitedPage?.data?.memo || '',
             fee: lastVisitedPage?.data?.fee || '',
+            feeClass: searchParams.get('feeClass') || constants.FEE_DEFAULT,
             receiverAddress: lastVisitedPage?.data?.receiverAddress || '',
         },
         validationSchema: validationSchema,
@@ -162,6 +166,7 @@ const Send = () => {
                         logo: 'icon/128.png',
                         domain: constants.APP_NAME,
                     },
+                    feeClass: formik.values.feeClass,
                 },
             });
         },
