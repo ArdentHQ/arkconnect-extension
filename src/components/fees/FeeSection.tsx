@@ -6,6 +6,7 @@ import { useNetworkFees } from '@/lib/hooks/useNetworkFees';
 import useActiveNetwork from '@/lib/hooks/useActiveNetwork';
 import { NumericInput } from '@/shared/components/input/NumericInput';
 import { useProfileContext } from '@/lib/context/Profile';
+import constants from '@/constants';
 
 type AddressDropdownProps = ComponentPropsWithRef<'input'> & {
     variant?: 'primary' | 'destructive';
@@ -14,6 +15,8 @@ type AddressDropdownProps = ComponentPropsWithRef<'input'> & {
     setValue: (value: string) => void;
     feeType?: string;
     step?: number;
+    feeClass?: string;
+    handleFeeClassChange?: (feeClass: string) => void;
 };
 
 export const FeeSection = ({
@@ -23,10 +26,12 @@ export const FeeSection = ({
     setValue,
     step = 0.01,
     feeType = 'transfer',
+    feeClass = constants.FEE_DEFAULT,
+    handleFeeClassChange,
     ...rest
 }: AddressDropdownProps) => {
     const { t } = useTranslation();
-    const [advancedFeeView, setAdvancedFeeView] = useState<boolean>(false);
+    const [advancedFeeView, setAdvancedFeeView] = useState<boolean>(feeClass === constants.FEE_CUSTOM);
     const activeNetwork = useActiveNetwork();
     const { profile } = useProfileContext();
 
@@ -42,6 +47,7 @@ export const FeeSection = ({
             onFeeChange(fees.avg);
         }
         setAdvancedFeeView(!advancedFeeView);
+        handleFeeClassChange?.(!advancedFeeView ? constants.FEE_CUSTOM : constants.FEE_DEFAULT);
     };
 
     const onFeeChange = (value: string) => {
@@ -53,6 +59,22 @@ export const FeeSection = ({
             onFeeChange(fees.avg);
         }
     }, [fees, advancedFeeView]);
+
+    useEffect(() => {
+        if (feeClass !== constants.FEE_CUSTOM && fees) {
+            switch (feeClass) {
+                case constants.FEE_SLOW:
+                    onFeeChange(fees.min);
+                    break;
+                case constants.FEE_DEFAULT:
+                    onFeeChange(fees.avg);
+                    break;
+                case constants.FEE_FAST:
+                    onFeeChange(fees.max);
+                    break;
+            }
+        }
+    }, []);
 
     return (
         <div className='flex flex-col gap-2'>
@@ -85,6 +107,7 @@ export const FeeSection = ({
                     isLoading={isLoadingFee}
                     setFee={onFeeChange}
                     fee={value}
+                    setFeeClass={(feeClass: string) => handleFeeClassChange?.(feeClass)}
                 />
             )}
         </div>
