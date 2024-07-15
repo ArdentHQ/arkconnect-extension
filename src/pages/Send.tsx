@@ -41,8 +41,6 @@ const Send = () => {
     const { t } = useTranslation();
     const { profile } = useProfileContext();
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-    const [isModalLoading, setIsModalLoading] = useState<boolean>(false);
-    const [modalError, setModalError] = useState<string | undefined>();
     const [searchParams] = useSearchParams();
 
     const lastVisitedPage = profile.settings().get('LAST_VISITED_PAGE') as { data: PageData };
