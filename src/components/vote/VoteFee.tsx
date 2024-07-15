@@ -12,6 +12,8 @@ export const VoteFee = ({
     onSelectedFee,
     onBlur,
     handleFeeInputChange,
+    feeClass,
+    handleFeeClassChange,
 }: {
     delegateAddress?: string;
     fee: string;
@@ -19,6 +21,8 @@ export const VoteFee = ({
     onSelectedFee: (fee: string) => void;
     onBlur: FocusEventHandler<HTMLInputElement>;
     handleFeeInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+    feeClass?: string;
+    handleFeeClassChange?: (feeClass: string) => void;
 }) => {
     const { t } = useTranslation();
     const [isEditing, setIsEditing] = useState<boolean>(false);
@@ -56,6 +60,8 @@ export const VoteFee = ({
                     value={fee}
                     setValue={onSelectedFee}
                     feeType='vote'
+                    feeClass={feeClass}
+                    handleFeeClassChange={handleFeeClassChange}
                 />
             </div>
         );
