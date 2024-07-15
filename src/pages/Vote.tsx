@@ -79,7 +79,12 @@ const Vote = () => {
                 return Number(value) <= constants.MAX_FEES.vote;
             })
             .trim(),
-        feeClass: string().oneOf([constants.FEE_CUSTOM, constants.FEE_DEFAULT, constants.FEE_FAST, constants.FEE_SLOW]),
+        feeClass: string().oneOf([
+            constants.FEE_CUSTOM,
+            constants.FEE_DEFAULT,
+            constants.FEE_FAST,
+            constants.FEE_SLOW,
+        ]),
         delegateAddress: string()
             .required(t('ERROR.IS_REQUIRED', { name: 'Delegate' }))
             .min(
@@ -145,7 +150,10 @@ const Vote = () => {
         initialValues: {
             fee: searchParams.get('fee') || lastVisitedPage?.data?.fee || '',
             feeClass: searchParams.get('feeClass') || constants.FEE_DEFAULT,
-            delegateAddress: searchParams.get('vote') || searchParams.get('unvote') || lastVisitedPage?.data?.delegateAddress,
+            delegateAddress:
+                searchParams.get('vote') ||
+                searchParams.get('unvote') ||
+                lastVisitedPage?.data?.delegateAddress,
         },
         validationSchema: validationSchema,
         validateOnMount: true,
@@ -225,7 +233,9 @@ const Vote = () => {
                         feeError={formik.errors.fee}
                         handleFeeInputChange={handleFeeInputChange}
                         feeClass={formik.values.feeClass}
-                        handleFeeClassChange={(feeClass) => formik.setFieldValue('feeClass', feeClass)}
+                        handleFeeClassChange={(feeClass) =>
+                            formik.setFieldValue('feeClass', feeClass)
+                        }
                     />
 
                     <VoteButton

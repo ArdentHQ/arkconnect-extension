@@ -203,7 +203,7 @@ const ApproveVote = ({ abortReference, approveWithLedger, wallet, closeLedgerScr
         const params = new URLSearchParams({ fee: customFee, feeClass });
         params.append('vote', vote?.wallet?.address() ?? '');
         params.append('unvote', unvote?.wallet?.address() ?? '');
-        if(isNative) {
+        if (isNative) {
             profile.settings().forget('LAST_VISITED_PAGE');
             navigate(`/vote?${params.toString()}`);
         } else {
@@ -217,7 +217,12 @@ const ApproveVote = ({ abortReference, approveWithLedger, wallet, closeLedgerScr
                 appDomain={state.session.domain}
                 appLogo={state.session.logo}
                 footer={
-                    <ApproveFooter disabled={!!error} onSubmit={onSubmit} onCancel={onCancel} isNative={isNative} />
+                    <ApproveFooter
+                        disabled={!!error}
+                        onSubmit={onSubmit}
+                        onCancel={onCancel}
+                        isNative={isNative}
+                    />
                 }
                 className='pt-6'
                 showHigherCustomFeeBanner={showHigherCustomFeeBanner}

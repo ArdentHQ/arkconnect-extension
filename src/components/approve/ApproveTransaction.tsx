@@ -206,7 +206,13 @@ const ApproveTransaction = ({
         }
         loadingModal.close();
 
-        const params = new URLSearchParams({ receiverAddress, memo, amount, fee: customFee, feeClass });
+        const params = new URLSearchParams({
+            receiverAddress,
+            memo,
+            amount,
+            fee: customFee,
+            feeClass,
+        });
         isNative ? navigate(`/transaction/send?${params.toString()}`) : navigate('/');
     };
 
