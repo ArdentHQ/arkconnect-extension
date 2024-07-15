@@ -7,7 +7,7 @@ const formatCurrency = (
         withTicker?: boolean;
     },
 ) => {
-    const locale = navigator.languages ? navigator.languages[0] : navigator.language ?? 'en-US';
+    const locale = navigator.languages ? navigator.languages[0] : (navigator.language ?? 'en-US');
 
     return Helpers.Currency.format(value, ticker, {
         ...options,
