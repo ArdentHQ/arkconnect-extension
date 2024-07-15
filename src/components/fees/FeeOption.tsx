@@ -16,15 +16,17 @@ export const FeeOption = ({
     value,
     onClick,
     isSelected = false,
+    feeClass
 }: {
     name: string;
     value: string;
-    onClick: (value: string) => void;
+    onClick: (value: string, feeClass: string) => void;
     isSelected: boolean;
+    feeClass: string;
 }) => {
     const network = useActiveNetwork();
     const handleClick = () => {
-        onClick(value);
+        onClick(value, feeClass);
     };
 
     return (
