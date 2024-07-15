@@ -31,7 +31,9 @@ export const FeeSection = ({
     ...rest
 }: AddressDropdownProps) => {
     const { t } = useTranslation();
-    const [advancedFeeView, setAdvancedFeeView] = useState<boolean>(feeClass === constants.FEE_CUSTOM);
+    const [advancedFeeView, setAdvancedFeeView] = useState<boolean>(
+        feeClass === constants.FEE_CUSTOM,
+    );
     const activeNetwork = useActiveNetwork();
     const { profile } = useProfileContext();
 

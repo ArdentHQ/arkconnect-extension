@@ -16,7 +16,7 @@ export const FeeOption = ({
     value,
     onClick,
     isSelected = false,
-    feeClass
+    feeClass,
 }: {
     name: string;
     value: string;
