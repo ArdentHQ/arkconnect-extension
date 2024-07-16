@@ -24,6 +24,7 @@ export type SendFormik = {
     fee: string;
     receiverAddress: string;
     feeClass?: string;
+    errors?: any;
 };
 
 interface PageData extends SendFormik {
@@ -197,7 +198,7 @@ const Send = () => {
         runtime.sendMessage({
             type: 'SET_LAST_SCREEN',
             path: ScreenName.SendTransfer,
-            data: formik.values,
+            data: {errors: formik.errors, ...formik.values},
         });
 
         return () => {
@@ -211,6 +212,16 @@ const Send = () => {
     const handleModalClick = () => {
         setIsModalOpen(true);
     };
+
+    useEffect(() => {
+        const { data } = lastVisitedPage || {};
+        if (data?.errors && Object.keys(data.errors).length > 0) {
+            formik.setErrors(data.errors);
+            Object.entries(data.errors).forEach(([key]) => {
+                formik.setFieldTouched(key, true);
+            });
+        }
+      }, [lastVisitedPage, formik.setFieldTouched, formik.setErrors]);
 
     return (
         <SubPageLayout
