@@ -142,7 +142,10 @@ const Send = () => {
             amount: lastVisitedPage?.data?.amount || '',
             memo: lastVisitedPage?.data?.memo || '',
             fee: lastVisitedPage?.data?.fee || '',
-            feeClass: searchParams.get('feeClass') || constants.FEE_DEFAULT,
+            feeClass:
+                searchParams.get('feeClass') ||
+                lastVisitedPage?.data?.feeClass ||
+                constants.FEE_DEFAULT,
             receiverAddress: lastVisitedPage?.data?.receiverAddress || '',
         },
         validationSchema: validationSchema,
