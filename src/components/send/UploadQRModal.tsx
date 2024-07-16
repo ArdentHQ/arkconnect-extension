@@ -138,9 +138,11 @@ export const UploadQRModal = ({
                             maxSize={5}
                             onSizeError={handleSizeError}
                             onTypeError={handleTypeError}
-                            tabIndex={-1}
+                            classes='focus-within:!outline-theme-primary-600 rounded-2xl'
                         >
-                            <Button variant='primary'>{t('PAGES.SEND.QR_MODAL.UPLOAD_QR')}</Button>
+                            <Button variant='primary' tabIndex={-1}>
+                                {t('PAGES.SEND.QR_MODAL.UPLOAD_QR')}
+                            </Button>
                         </FileUploader>
                     </div>
                 )
@@ -157,6 +159,7 @@ export const UploadQRModal = ({
                     maxSize={5}
                     onSizeError={handleSizeError}
                     onTypeError={handleTypeError}
+                    classes='focus-within:!outline-theme-primary-600 rounded-2xl'
                 >
                     <div className='h-50 w-[306px] cursor-pointer rounded-2xl border border-dashed border-theme-secondary-200 bg-theme-secondary-25 dark:border-theme-secondary-600 dark:bg-theme-secondary-800'>
                         <div className='relative flex items-center justify-center overflow-hidden'>
