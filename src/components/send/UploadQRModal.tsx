@@ -140,7 +140,9 @@ export const UploadQRModal = ({
                             onTypeError={handleTypeError}
                             classes='focus-within:!outline-theme-primary-600 rounded-2xl'
                         >
-                            <Button variant='primary' tabIndex={-1}>{t('PAGES.SEND.QR_MODAL.UPLOAD_QR')}</Button>
+                            <Button variant='primary' tabIndex={-1}>
+                                {t('PAGES.SEND.QR_MODAL.UPLOAD_QR')}
+                            </Button>
                         </FileUploader>
                     </div>
                 )
