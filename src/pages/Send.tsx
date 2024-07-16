@@ -198,7 +198,7 @@ const Send = () => {
         runtime.sendMessage({
             type: 'SET_LAST_SCREEN',
             path: ScreenName.SendTransfer,
-            data: {errors: formik.errors, ...formik.values},
+            data: { errors: formik.errors, ...formik.values },
         });
 
         return () => {
@@ -221,7 +221,7 @@ const Send = () => {
                 formik.setFieldTouched(key, true);
             });
         }
-      }, [lastVisitedPage, formik.setFieldTouched, formik.setErrors]);
+    }, [lastVisitedPage, formik.setFieldTouched, formik.setErrors]);
 
     return (
         <SubPageLayout
