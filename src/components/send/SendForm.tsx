@@ -31,6 +31,14 @@ export const SendForm = ({ formik }: { formik: FormikProps<SendFormik> }) => {
         formik.validateField('amount');
     };
 
+    const handleAmountInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const { value } = event.target;
+        if (constants.FEE_REGEX.test(value) || value === '') {
+            formik.setFieldValue('amount', value.trim());
+            formik.validateField('amount');
+        }
+    };
+
     const handleFeeInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (!constants.FEE_REGEX.test(event.target.value)) {
             return;
@@ -90,7 +98,7 @@ export const SendForm = ({ formik }: { formik: FormikProps<SendFormik> }) => {
                     </button>
                 }
                 value={formik.values.amount}
-                onChange={handleInputChange}
+                onChange={handleAmountInputChange}
                 onBlur={formik.handleBlur}
                 variant={
                     formik.errors.amount && formik.values.amount !== '' ? 'destructive' : 'primary'
