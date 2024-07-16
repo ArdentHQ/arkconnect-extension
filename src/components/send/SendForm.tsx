@@ -119,6 +119,8 @@ export const SendForm = ({ formik }: { formik: FormikProps<SendFormik> }) => {
                 helperText={formik.values.fee ? formik.errors.fee : undefined}
                 value={formik.values.fee}
                 setValue={(value: string) => formik.setFieldValue('fee', value)}
+                feeClass={formik.values.feeClass}
+                handleFeeClassChange={(value: string) => formik.setFieldValue('feeClass', value)}
             />
         </div>
     );

@@ -24,6 +24,7 @@ import { useWaitForConnectedDevice } from '@/lib/Ledger';
 import { getNetworkCurrency } from '@/lib/utils/getActiveCoin';
 import { OneTimeEvents } from '@/OneTimeEventHandlers';
 import { ProfileData, ScreenName } from '@/lib/background/contracts';
+import constants from '@/constants';
 
 type Props = {
     abortReference: AbortController;
@@ -53,6 +54,7 @@ const ApproveTransaction = ({
         receiverAddress,
         fee: customFee,
         memo,
+        feeClass,
     } = location.state;
     const { profile } = useProfileContext();
     const { env } = useEnvironmentContext();
@@ -68,6 +70,7 @@ const ApproveTransaction = ({
     const exchangeCurrency = wallet.exchangeCurrency() ?? 'USD';
     const coin = getNetworkCurrency(wallet.network());
     const withFiat = wallet.network().isLive();
+    const isNative = session.domain === constants.APP_NAME;
 
     const {
         formValuesLoaded,
@@ -202,7 +205,15 @@ const ApproveTransaction = ({
             await removeWindowInstance(location.state?.windowId, 100);
         }
         loadingModal.close();
-        navigate('/');
+
+        const params = new URLSearchParams({
+            receiverAddress,
+            memo,
+            amount,
+            fee: customFee,
+            feeClass,
+        });
+        isNative ? navigate(`/transaction/send?${params.toString()}`) : navigate('/');
     };
 
     return (
@@ -214,6 +225,7 @@ const ApproveTransaction = ({
                     disabled={!!error || !formValuesLoaded}
                     onSubmit={onSubmit}
                     onCancel={onCancel}
+                    isNative={isNative}
                 />
             }
             className='pt-6'
