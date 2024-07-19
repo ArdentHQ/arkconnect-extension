@@ -22,9 +22,7 @@ const ErrorContainer = ({ error }: { error: string }) => {
 
     return (
         <div className='flex flex-col gap-4'>
-            <div
-                className='flex items-start justify-start break-all rounded-lg border border-theme-secondary-400 bg-white p-3 text-left text-base font-normal leading-5 text-light-black dark:border-theme-secondary-500 dark:bg-subtle-black dark:text-white dark:shadow-secondary-dark'
-            >
+            <div className='flex items-start justify-start break-all rounded-lg border border-theme-secondary-400 bg-white p-3 text-left text-base font-normal leading-5 text-light-black dark:border-theme-secondary-500 dark:bg-subtle-black dark:text-white dark:shadow-secondary-dark'>
                 <span className='block' dangerouslySetInnerHTML={{ __html: errorParser(error) }} />
             </div>
 
