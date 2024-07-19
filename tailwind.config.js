@@ -83,7 +83,7 @@ export default {
                     'fadeInAndTransform 0.8s ease-in-out forwards, scale 0.4s ease-in-out 1s forwards',
                 translateUp: 'translateUp 0.5s ease-in-out 2s forwards',
                 decreaseHeight: 'decreaseHeight 0.5s ease-in-out 2s forwards',
-                fillProgress: 'fillProgressBar 5s ease-in-out',
+                fillProgress: 'fillProgressBar 5s ease-in-out forwards',
             },
             zIndex: {
                 1: '1',
