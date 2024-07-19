@@ -276,7 +276,7 @@ export default {
             UPLOAD_QR: 'Upload QR',
             CHOOSE_YOUR_QR_CODE: 'Choose your QR Code, and the fields will auto-populate',
             PROCESSING_IMAGE: "We're processing your image...",
-            FIREFOX_NOT_SUPPORTED: "QR Code upload is only supported on Chromium based browsers",
+            FIREFOX_NOT_SUPPORTED: 'QR Code upload is only supported on Chromium based browsers',
         },
     },
     ADDRESS_SETTINGS: {
