@@ -26,8 +26,8 @@ export const ProgressBar = ({
                     className={cn(
                         'h-full rounded-3xl bg-theme-primary-700 dark:bg-theme-primary-650',
                         {
-                            'w-full': isFilled && shouldAnimate || index < activeIndex,
-                            'w-0': !isFilled || isFilled && !shouldAnimate,
+                            'w-full': (isFilled && shouldAnimate) || index < activeIndex,
+                            'w-0': !isFilled || (isFilled && !shouldAnimate),
                             'animate-fillProgress': shouldAnimate,
                         },
                     )}
