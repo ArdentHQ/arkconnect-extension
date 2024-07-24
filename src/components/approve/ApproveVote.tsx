@@ -23,6 +23,7 @@ import { useWaitForConnectedDevice } from '@/lib/Ledger';
 import { ActionBody } from '@/components/approve/ActionBody';
 import { getNetworkCurrency } from '@/lib/utils/getActiveCoin';
 import { ProfileData, ScreenName } from '@/lib/background/contracts';
+import constants from '@/constants';
 
 type Props = {
     abortReference: AbortController;
@@ -49,8 +50,9 @@ const ApproveVote = ({ abortReference, approveWithLedger, wallet, closeLedgerScr
         ticker: wallet.currency(),
     });
     const { waitUntilLedgerIsConnected } = useWaitForConnectedDevice();
-    const { fee: customFee } = location.state;
+    const { fee: customFee, feeClass, session } = location.state;
     const [showHigherCustomFeeBanner, setShowHigherCustomFeeBanner] = useState(true);
+    const isNative = session.domain === constants.APP_NAME;
 
     const {
         resetForm,
@@ -196,8 +198,17 @@ const ApproveVote = ({ abortReference, approveWithLedger, wallet, closeLedgerScr
         if (location.state.windowId) {
             await removeWindowInstance(location.state?.windowId, 100);
         }
+        loadingModal.close();
 
-        navigate('/');
+        const params = new URLSearchParams({ fee: customFee, feeClass });
+        params.append('vote', vote?.wallet?.address() ?? '');
+        params.append('unvote', unvote?.wallet?.address() ?? '');
+        if (isNative) {
+            profile.settings().forget('LAST_VISITED_PAGE');
+            navigate(`/vote?${params.toString()}`);
+        } else {
+            navigate('/');
+        }
     };
 
     return (
@@ -206,7 +217,12 @@ const ApproveVote = ({ abortReference, approveWithLedger, wallet, closeLedgerScr
                 appDomain={state.session.domain}
                 appLogo={state.session.logo}
                 footer={
-                    <ApproveFooter disabled={!!error} onSubmit={onSubmit} onCancel={onCancel} />
+                    <ApproveFooter
+                        disabled={!!error}
+                        onSubmit={onSubmit}
+                        onCancel={onCancel}
+                        isNative={isNative}
+                    />
                 }
                 className='pt-6'
                 showHigherCustomFeeBanner={showHigherCustomFeeBanner}

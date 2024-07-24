@@ -272,6 +272,12 @@ export default {
     SEND: {
         ENTER_OR_CHOOSE_FROM_SAVED_ADDRESSES: 'Enter or choose from saved addresses',
         RECIPIENT_ADDRESS: 'Recipient Address',
+        QR_MODAL: {
+            UPLOAD_QR: 'Upload QR',
+            CHOOSE_YOUR_QR_CODE: 'Choose your QR Code, and the fields will auto-populate',
+            PROCESSING_IMAGE: "We're processing your image...",
+            FIREFOX_NOT_SUPPORTED: 'QR Code upload is only supported on Chromium based browsers',
+        },
     },
     ADDRESS_SETTINGS: {
         TITLE: 'Address Settings',

@@ -49,7 +49,7 @@
         @apply shadow-[0_0_0_4px_theme-secondary-50] dark:shadow-[0_0_0_4px_#3B3A3A];
     }
     .button-secondaryBlack:disabled {
-        @apply border-theme-secondary-200 bg-light-black text-theme-secondary-200 dark:border-theme-secondary-500 dark:bg-white dark:text-theme-secondary-500;
+        @apply border-theme-secondary-300 bg-transparent text-theme-secondary-300 dark:border-theme-secondary-500 dark:bg-transparent dark:text-theme-secondary-500;
     }
 
     /** Button Primary Text **/

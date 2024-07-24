@@ -5,7 +5,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { BigNumber } from '@ardenthq/sdk-helpers';
 import { runtime } from 'webextension-polyfill';
 import { useFormik } from 'formik';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { DelegatesList } from '@/components/vote/DelegatesList';
 import { DelegatesSearchInput } from '@/components/vote/DelegatesSearchInput';
@@ -25,6 +25,7 @@ import { useVote } from '@/lib/hooks/useVote';
 export type VoteFormik = {
     delegateAddress?: string;
     fee: string;
+    feeClass?: string;
 };
 
 interface PageData extends VoteFormik {
@@ -38,7 +39,7 @@ interface PageData extends VoteFormik {
 
 const Vote = () => {
     const navigate = useNavigate();
-
+    const [searchParams] = useSearchParams();
     const { t } = useTranslation();
     const { profile } = useProfileContext();
     const { env } = useEnvironmentContext();
@@ -78,6 +79,12 @@ const Vote = () => {
                 return Number(value) <= constants.MAX_FEES.vote;
             })
             .trim(),
+        feeClass: string().oneOf([
+            constants.FEE_CUSTOM,
+            constants.FEE_DEFAULT,
+            constants.FEE_FAST,
+            constants.FEE_SLOW,
+        ]),
         delegateAddress: string()
             .required(t('ERROR.IS_REQUIRED', { name: 'Delegate' }))
             .min(
@@ -134,14 +141,22 @@ const Vote = () => {
                     logo: 'icon/128.png',
                     domain: constants.APP_NAME,
                 },
+                feeClass: formik.values.feeClass,
             },
         });
     };
 
     const formik = useFormik<VoteFormik>({
         initialValues: {
-            fee: lastVisitedPage?.data?.fee || '',
-            delegateAddress: lastVisitedPage?.data?.delegateAddress,
+            fee: searchParams.get('fee') || lastVisitedPage?.data?.fee || '',
+            feeClass:
+                searchParams.get('feeClass') ||
+                lastVisitedPage?.data?.feeClass ||
+                constants.FEE_DEFAULT,
+            delegateAddress:
+                searchParams.get('vote') ||
+                searchParams.get('unvote') ||
+                lastVisitedPage?.data?.delegateAddress,
         },
         validationSchema: validationSchema,
         validateOnMount: true,
@@ -220,6 +235,10 @@ const Vote = () => {
                         onBlur={formik.handleBlur}
                         feeError={formik.errors.fee}
                         handleFeeInputChange={handleFeeInputChange}
+                        feeClass={formik.values.feeClass}
+                        handleFeeClassChange={(feeClass) =>
+                            formik.setFieldValue('feeClass', feeClass)
+                        }
                     />
 
                     <VoteButton
