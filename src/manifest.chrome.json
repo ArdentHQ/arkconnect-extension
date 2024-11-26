@@ -24,7 +24,7 @@
     ],
     "content_scripts": [
         {
-            "matches": ["https://*/*"],
+            "matches": ["https://*/*", "http://*/*"],
             "js": ["src/content.ts"],
             "run_at": "document_start"
         }
