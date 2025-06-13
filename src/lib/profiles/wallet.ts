@@ -1,6 +1,6 @@
-import { Contracts, Networks, Services } from '@/app/lib/mainsail';
-import { BigNumber } from '@/app/lib/helpers';
-import { DateTime } from '@/app/lib/intl';
+import { Contracts, Networks, Services } from '@/lib/mainsail';
+import { BigNumber } from '@/lib/helpers';
+import { DateTime } from '@/lib/intl';
 
 import {
     IDataRepository,
@@ -37,16 +37,16 @@ import { WalletMutator } from './wallet.mutator';
 import { WalletSynchroniser } from './wallet.synchroniser';
 import { TransactionService as WalletTransactionService } from './wallet-transaction.service';
 import { WalletImportFormat } from './wif.js';
-import { LinkService } from '@/app/lib/mainsail/link.service';
-import { MessageService } from '@/app/lib/mainsail/message.service';
-import { Manifest } from '@/app/lib/mainsail/manifest.class';
-import { manifest } from '@/app/lib/mainsail/index';
-import { LedgerService } from '@/app/lib/mainsail/ledger.service';
-import { ClientService } from '@/app/lib/mainsail/client.service';
-import { AddressService } from '@/app/lib/mainsail/address.service';
-import { PublicKeyService } from '@/app/lib/mainsail/public-key.service';
-import { SignatoryService } from '@/app/lib/mainsail/signatory.service.js';
-import { TransactionService } from '@/app/lib/mainsail/transaction.service.js';
+import { LinkService } from '@/lib/mainsail/link.service';
+import { MessageService } from '@/lib/mainsail/message.service';
+import { Manifest } from '@/lib/mainsail/manifest.class';
+import { manifest } from '@/lib/mainsail/index';
+import { LedgerService } from '@/lib/mainsail/ledger.service';
+import { ClientService } from '@/lib/mainsail/client.service';
+import { AddressService } from '@/lib/mainsail/address.service';
+import { PublicKeyService } from '@/lib/mainsail/public-key.service';
+import { SignatoryService } from '@/lib/mainsail/signatory.service.js';
+import { TransactionService } from '@/lib/mainsail/transaction.service.js';
 import { ValidatorService } from './validator.service.js';
 import { ExchangeRateService } from './exchange-rate.service.js';
 

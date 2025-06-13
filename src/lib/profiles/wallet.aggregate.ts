@@ -1,4 +1,4 @@
-import { BigNumber } from '@/app/lib/helpers';
+import { BigNumber } from '@/lib/helpers';
 import { IProfile, IWalletAggregate } from './contracts.js';
 
 type NetworkType = 'live' | 'test';

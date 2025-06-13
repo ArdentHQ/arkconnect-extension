@@ -1,4 +1,4 @@
-import { Services, Signatories } from '@/app/lib/mainsail';
+import { Services, Signatories } from '@/lib/mainsail';
 
 import { ExtendedSignedTransactionData } from './signed-transaction.dto.js';
 

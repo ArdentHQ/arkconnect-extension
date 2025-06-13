@@ -1,5 +1,5 @@
-import { Services } from '@/app/lib/mainsail';
-import { sortByDesc } from '@/app/lib/helpers';
+import { Services } from '@/lib/mainsail';
+import { sortByDesc } from '@/lib/helpers';
 
 import {
     INotificationTypes,

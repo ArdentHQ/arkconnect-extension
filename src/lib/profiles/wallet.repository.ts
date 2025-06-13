@@ -1,4 +1,4 @@
-import { sortBy, sortByDesc } from '@/app/lib/helpers';
+import { sortBy, sortByDesc } from '@/lib/helpers';
 import retry from 'p-retry';
 
 import {

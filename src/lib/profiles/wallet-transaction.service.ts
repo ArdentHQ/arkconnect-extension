@@ -1,12 +1,12 @@
 /* istanbul ignore file */
 
-import { Exceptions, Services } from '@/app/lib/mainsail';
+import { Exceptions, Services } from '@/lib/mainsail';
 import { IReadWriteWallet, ITransactionService, WalletData } from './contracts';
 
 import { ExtendedSignedTransactionData } from './signed-transaction.dto';
 import { SignedTransactionDataDictionary } from './wallet-transaction.service.contract';
-import { SignedTransactionData } from '@/app/lib/mainsail/signed-transaction.dto';
-import { ConfirmedTransactionData } from '@/app/lib/mainsail/confirmed-transaction.dto';
+import { SignedTransactionData } from '@/lib/mainsail/signed-transaction.dto';
+import { ConfirmedTransactionData } from '@/lib/mainsail/confirmed-transaction.dto';
 
 export class TransactionService implements ITransactionService {
     /**

@@ -1,6 +1,6 @@
-import { manifest } from '@/app/lib/mainsail/manifest.js';
-import { Networks } from '@/app/lib/mainsail';
-import { NetworkManifest } from '@/app/lib/mainsail/network.models';
+import { manifest } from '@/lib/mainsail/manifest.js';
+import { Networks } from '@/lib/mainsail';
+import { NetworkManifest } from '@/lib/mainsail/network.models';
 import { DataRepository } from './data.repository.js';
 import { Network, NetworkMap } from './network.repository.contract.js';
 import { IProfile } from './profile.contract.js';

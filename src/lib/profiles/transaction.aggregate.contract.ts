@@ -1,4 +1,4 @@
-import { Services } from '@/app/lib/mainsail';
+import { Services } from '@/lib/mainsail';
 
 import { ExtendedConfirmedTransactionDataCollection } from './transaction.collection.js';
 
