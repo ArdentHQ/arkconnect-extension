@@ -1,10 +1,10 @@
 /* istanbul ignore file */
 
-import { Exceptions, Services } from '@/lib/mainsail';
 import { IReadWriteWallet, ITransactionService, WalletData } from './contracts';
 
 import { ExtendedSignedTransactionData } from './signed-transaction.dto';
 import { SignedTransactionDataDictionary } from './wallet-transaction.service.contract';
+import { Exceptions, Services } from '@/lib/mainsail';
 import { SignedTransactionData } from '@/lib/mainsail/signed-transaction.dto';
 import { ConfirmedTransactionData } from '@/lib/mainsail/confirmed-transaction.dto';
 
@@ -301,7 +301,6 @@ export class TransactionService implements ITransactionService {
 
     /** {@inheritDoc ITransactionService.fromPublicKey} */
     public dump(): void {
-        // eslint-disable-next-line unicorn/consistent-function-scoping
         const dumpStorage = (storage: object, storageKey: string) => {
             const result: Record<string, object> = {};
 
@@ -321,7 +320,6 @@ export class TransactionService implements ITransactionService {
 
     /** {@inheritDoc ITransactionService.fromPublicKey} */
     public restore(): void {
-        // eslint-disable-next-line unicorn/consistent-function-scoping
         const restoreStorage = (storage: object, storageKey: string) => {
             const transactions: object = this.#wallet.data().get(storageKey) || {};
 

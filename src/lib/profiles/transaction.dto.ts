@@ -1,4 +1,3 @@
-/* eslint unicorn/no-abusive-eslint-disable: "off" */
 /* eslint-disable */
 
 import { Contracts } from '@/lib/mainsail';

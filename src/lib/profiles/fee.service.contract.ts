@@ -1,6 +1,6 @@
+import { IProfile } from './contracts.js';
 import { Services } from '@/lib/mainsail';
 
-import { IProfile } from './contracts.js';
 
 /**
  * Defines the implementation contract for the fee service.

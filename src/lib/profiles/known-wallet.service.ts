@@ -1,7 +1,6 @@
-import { Http, Networks, Services } from '@/lib/mainsail';
-
-import { ConfigKey } from '@/lib/mainsail';
 import { IProfile } from './contracts';
+import { ConfigKey, Http, Networks , Services } from '@/lib/mainsail';
+
 
 type KnownWalletRegistry = Record<string, Services.KnownWallet[]>;
 

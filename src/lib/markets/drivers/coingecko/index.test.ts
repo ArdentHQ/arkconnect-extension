@@ -1,8 +1,7 @@
-/* eslint-disable sonarjs/no-duplicate-string */
-import { describe, it, expect, vi, afterEach } from 'vitest';
-import { Http } from '@/lib/mainsail';
-import { server, requestMock } from '@/tests/mocks/server';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import { CoinGecko } from './index';
+import { Http } from '@/lib/mainsail';
+import { requestMock, server } from '@/tests/mocks/server';
 
 import coinsListFixture from '@/lib/markets/fixtures/coingecko/coins-list.json';
 import simplePriceFixture from '@/lib/markets/fixtures/coingecko/simple-price.json';

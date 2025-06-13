@@ -74,7 +74,7 @@
         "redux": "^5.0.1",
         "redux-persist": "^6.0.0",
         "seedrandom": "^3.0.5",
-        "semver": "^7.6.3",
+        "semver": "^7.7.2",
         "socks-proxy-agent": "^7.0.0",
         "string-hash": "^1.1.3",
         "tailwind-merge": "^2.4.0",

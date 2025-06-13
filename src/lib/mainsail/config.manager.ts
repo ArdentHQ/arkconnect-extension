@@ -1,7 +1,7 @@
 import deepmerge from 'deepmerge';
 
 import { assocPath, path } from 'rambda';
-import { NetworkConfig, IMilestone } from './contracts';
+import { IMilestone, NetworkConfig } from './contracts';
 
 export interface MilestoneSearchResult {
     found: boolean;
@@ -95,7 +95,7 @@ export class ConfigManager {
         key: string,
     ): MilestoneSearchResult {
         if (!this.milestones || this.milestones.length === 0) {
-            throw new Error(`Attempted to get next milestone but none were set`);
+            throw new Error('Attempted to get next milestone but none were set');
         }
 
         for (let index = 0; index < this.milestones.length; index++) {

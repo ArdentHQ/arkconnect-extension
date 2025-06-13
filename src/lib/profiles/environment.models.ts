@@ -1,6 +1,6 @@
+import { IProfile } from './profile.contract.js';
 import { Http, Networks, Services } from '@/lib/mainsail';
 
-import { IProfile } from './profile.contract.js';
 
 export interface CoinType {
     coin: string;

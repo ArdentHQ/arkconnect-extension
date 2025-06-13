@@ -1,4 +1,4 @@
-import { get } from '@/lib/helpers';
+import { ArkClient } from '@arkecosystem/typescript-client';
 import { randomHost } from './helpers/hosts';
 import {
     CoinManifest,
@@ -8,9 +8,9 @@ import {
     NetworkManifestToken,
     VotingMethod,
 } from './network.models';
-import { ConfigKey, ConfigRepository } from '.';
-import { ArkClient } from '@arkecosystem/typescript-client';
 import { configManager } from './config.manager';
+import { ConfigKey, ConfigRepository } from '.';
+import { get } from '@/lib/helpers';
 
 export class Network {
     /**

@@ -1,3 +1,5 @@
+import { HistoricalPriceTransformer } from './transformers/historical-price-transformer';
+import { MarketTransformer } from './transformers/market-transformer';
 import { Http } from '@/lib/mainsail';
 import { DateTime } from '@/lib/intl';
 
@@ -9,8 +11,6 @@ import {
     MarketDataCollection,
     PriceTracker,
 } from '@/lib/markets/contracts';
-import { HistoricalPriceTransformer } from './transformers/historical-price-transformer';
-import { MarketTransformer } from './transformers/market-transformer';
 
 /**
  * Implements a price tracker through the CoinCap API.

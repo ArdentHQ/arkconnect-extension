@@ -1,6 +1,6 @@
+import { IReadWriteWallet, IWalletData, WalletData, WalletFlag } from './contracts';
 import { Contracts } from '@/lib/mainsail';
 
-import { IReadWriteWallet, IWalletData, WalletData, WalletFlag } from './contracts';
 import { BigNumber } from '@/lib/helpers/bignumber';
 
 interface SerializedBalance {

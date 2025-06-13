@@ -1,16 +1,15 @@
 /* eslint-disable @typescript-eslint/require-await */
 
-import { Contracts, Services } from '@/lib/mainsail';
 import { BIP44, HDKey } from '@ardenthq/arkvault-crypto';
-import { connectedTransport as ledgerTransportFactory } from '@/app/contexts/Ledger/transport';
-
+import Eth, { ledgerService } from '@ledgerhq/hw-app-eth';
 import { createRange } from './ledger.service.helpers.js';
 import { LedgerSignature } from './ledger.service.types.js';
 import { AddressService } from './address.service.js';
-import { Exceptions } from '@/lib/mainsail';
 import { WalletData } from './wallet.dto.js';
+import { Contracts, Exceptions , Services } from '@/lib/mainsail';
+// import { connectedTransport as ledgerTransportFactory } from '@/app/contexts/Ledger/transport';
+
 import { ConfigKey, ConfigRepository } from '@/lib/mainsail/config.repository';
-import Eth, { ledgerService } from '@ledgerhq/hw-app-eth';
 
 export class LedgerService {
     readonly #addressService!: AddressService;
@@ -59,7 +58,7 @@ export class LedgerService {
     }
 
     public async connect(): Promise<void> {
-        this.#ledger = await ledgerTransportFactory();
+        // this.#ledger = await ledgerTransportFactory();
         this.#transport = new Eth(this.#ledger);
     }
 

@@ -1,6 +1,3 @@
-import { Contracts, Networks, Services } from '@/lib/mainsail';
-import { BigNumber } from '@/lib/helpers';
-
 import {
     IDataRepository,
     IProfile,
@@ -15,13 +12,16 @@ import {
     IWalletSynchroniser,
 } from './contracts.js';
 import { AttributeBag } from './helpers/attribute-bag.js';
+import { ValidatorService } from './validator.service.js';
+import { ExchangeRateService } from './exchange-rate.service.js';
+import { Contracts, Networks, Services } from '@/lib/mainsail';
+import { BigNumber } from '@/lib/helpers';
+
 import { MessageService } from '@/lib/mainsail/message.service.js';
 import { ClientService } from '@/lib/mainsail/client.service.js';
 import { AddressService } from '@/lib/mainsail/address.service.js';
 import { PublicKeyService } from '@/lib/mainsail/public-key.service.js';
 import { TransactionService } from '@/lib/mainsail/transaction.service.js';
-import { ValidatorService } from './validator.service.js';
-import { ExchangeRateService } from './exchange-rate.service.js';
 import { SignatoryService } from '@/lib/mainsail/signatory.service.js';
 import { Manifest } from '@/lib/mainsail/manifest.class';
 

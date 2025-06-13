@@ -1,4 +1,3 @@
-import { Http } from '@/lib/mainsail';
 import {
     HistoricalData,
     HistoricalPriceOptions,
@@ -9,6 +8,7 @@ import {
 import { CoinCap } from './drivers/coincap';
 import { CoinGecko } from './drivers/coingecko';
 import { CryptoCompare } from './drivers/cryptocompare';
+import { Http } from '@/lib/mainsail';
 
 /**
  * Normalises the communication with Market Data Providers.

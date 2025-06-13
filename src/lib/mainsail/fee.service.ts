@@ -1,4 +1,4 @@
-/* eslint unicorn/no-abusive-eslint-disable: "off" */
+
 /* eslint-disable */
 import { ConfigRepository, Contracts, Services } from '@/lib/mainsail';
 import { BigNumber } from '@/lib/helpers';

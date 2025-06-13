@@ -1,7 +1,7 @@
+import { EncodeFunctionDataReturnType } from 'viem';
+import { SignedTransactionData } from './dto';
 import { BigNumber } from '@/lib/helpers';
 
-import { SignedTransactionData } from './dto';
-import { EncodeFunctionDataReturnType } from 'viem';
 
 export interface TransactionFee {
     max: BigNumber;

@@ -1,4 +1,3 @@
-import { Enums } from '@/lib/mainsail';
 import { BIP39, UUID } from '@ardenthq/arkvault-crypto';
 
 import {
@@ -17,6 +16,7 @@ import {
 import { WalletFlag } from './wallet.enum.js';
 import { IMnemonicDerivativeOptions, ISecretOptions } from './wallet.factory.contract.js';
 import { Wallet } from './wallet.js';
+import { Enums } from '@/lib/mainsail';
 import { PublicKeyService } from '@/lib/mainsail/public-key.service';
 import { AddressService } from '@/lib/mainsail/address.service';
 

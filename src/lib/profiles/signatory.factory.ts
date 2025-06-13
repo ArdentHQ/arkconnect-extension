@@ -1,4 +1,3 @@
-/* eslint unicorn/no-abusive-eslint-disable: "off" */
 /* eslint-disable */
 import { Signatories } from '@/lib/mainsail';
 

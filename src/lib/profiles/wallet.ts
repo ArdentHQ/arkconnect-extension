@@ -1,6 +1,3 @@
-import { Contracts, Networks, Services } from '@/lib/mainsail';
-import { BigNumber } from '@/lib/helpers';
-import { DateTime } from '@/lib/intl';
 
 import {
     IDataRepository,
@@ -37,18 +34,20 @@ import { WalletMutator } from './wallet.mutator';
 import { WalletSynchroniser } from './wallet.synchroniser';
 import { TransactionService as WalletTransactionService } from './wallet-transaction.service';
 import { WalletImportFormat } from './wif.js';
+import { ValidatorService } from './validator.service.js';
+import { ExchangeRateService } from './exchange-rate.service.js';
 import { LinkService } from '@/lib/mainsail/link.service';
 import { MessageService } from '@/lib/mainsail/message.service';
 import { Manifest } from '@/lib/mainsail/manifest.class';
-import { manifest } from '@/lib/mainsail/index';
+import { Contracts , manifest, Networks, Services } from '@/lib/mainsail/index';
 import { LedgerService } from '@/lib/mainsail/ledger.service';
 import { ClientService } from '@/lib/mainsail/client.service';
 import { AddressService } from '@/lib/mainsail/address.service';
 import { PublicKeyService } from '@/lib/mainsail/public-key.service';
 import { SignatoryService } from '@/lib/mainsail/signatory.service.js';
 import { TransactionService } from '@/lib/mainsail/transaction.service.js';
-import { ValidatorService } from './validator.service.js';
-import { ExchangeRateService } from './exchange-rate.service.js';
+import { DateTime } from '@/lib/intl';
+import { BigNumber } from '@/lib/helpers';
 
 const ERR_NOT_SYNCED =
     'This wallet has not been synchronized yet. Please call [synchroniser().identity()] before using it.';

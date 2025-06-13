@@ -1,6 +1,6 @@
 import { HttpClient } from './http-client';
 
-import { server, requestMock } from '@/tests/mocks/server';
+import { requestMock, server } from '@/tests/mocks/server';
 
 let subject: HttpClient;
 

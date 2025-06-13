@@ -1,9 +1,9 @@
+import { filterHostsFromConfig, randomHost } from './helpers/hosts';
+import { Networks } from '.';
 import { get, has, set, unset, ValidatorSchema } from '@/lib/helpers';
 import { IProfile } from '@/lib/profiles/profile.contract';
 import { NetworkHostSelectorFactory } from '@/lib/profiles';
-import { Networks } from '.';
 import { ProfileSetting } from '@/lib/profiles/profile.enum.contract';
-import { filterHostsFromConfig, randomHost } from './helpers/hosts';
 
 export const hostSelector: NetworkHostSelectorFactory =
     (profile: IProfile) =>

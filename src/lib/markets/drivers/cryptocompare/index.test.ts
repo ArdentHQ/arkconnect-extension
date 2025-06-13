@@ -1,7 +1,7 @@
-import { describe, it, expect, vi, afterEach } from 'vitest';
-import { Http } from '@/lib/mainsail';
-import { server, requestMock } from '@/tests/mocks/server';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import { CryptoCompare } from './index';
+import { Http } from '@/lib/mainsail';
+import { requestMock, server } from '@/tests/mocks/server';
 
 import pricemultifullFixture from '@/lib/markets/fixtures/cryptocompare/pricemultifull.json';
 import priceFixture from '@/lib/markets/fixtures/cryptocompare/price.json';
