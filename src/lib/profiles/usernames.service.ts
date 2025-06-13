@@ -1,53 +1,56 @@
-import { Collections, DTO, Networks } from "@/app/lib/mainsail";
+import { Collections, DTO, Networks } from '@/app/lib/mainsail';
 
-import { IProfile, IUsernamesService } from "./contracts.js";
-import { ClientService } from "@/app/lib/mainsail/client.service.js";
-import { ConfigRepository } from "@/app/lib/mainsail/config.repository";
+import { IProfile, IUsernamesService } from './contracts.js';
+import { ClientService } from '@/app/lib/mainsail/client.service.js';
+import { ConfigRepository } from '@/app/lib/mainsail/config.repository';
 
 type UsernameRegistry = Record<string, Collections.UsernameDataCollection>;
 
 export class UsernamesService implements IUsernamesService {
-	readonly #registry: UsernameRegistry = {};
-	#config: ConfigRepository;
-	#profile: IProfile;
-	#network: Networks.Network;
-	#client: ClientService;
+    readonly #registry: UsernameRegistry = {};
+    #config: ConfigRepository;
+    #profile: IProfile;
+    #network: Networks.Network;
+    #client: ClientService;
 
-	constructor({ config, profile }: { config: ConfigRepository; profile: IProfile }) {
-		this.#config = config;
-		this.#profile = profile;
-		this.#network = profile.activeNetwork();
-		this.#client = new ClientService({ config: this.#config, profile: this.#profile });
-	}
+    constructor({ config, profile }: { config: ConfigRepository; profile: IProfile }) {
+        this.#config = config;
+        this.#profile = profile;
+        this.#network = profile.activeNetwork();
+        this.#client = new ClientService({ config: this.#config, profile: this.#profile });
+    }
 
-	public async syncUsernames(addresses: string[]): Promise<void> {
-		const collection = await this.#client.usernames(addresses);
+    public async syncUsernames(addresses: string[]): Promise<void> {
+        const collection = await this.#client.usernames(addresses);
 
-		if (this.#registry[this.#network.id()]) {
-			const existingCollection = this.#registry[this.#network.id()];
-			const mergedItems = [...existingCollection.items(), ...collection.items()];
-			const uniqueItems = mergedItems.filter(
-				(item, index, self) => index === self.findIndex((t) => t.address() === item.address()),
-			);
-			this.#registry[this.#network.id()] = new Collections.UsernameDataCollection(uniqueItems);
-		} else {
-			this.#registry[this.#network.id()] = collection;
-		}
-	}
+        if (this.#registry[this.#network.id()]) {
+            const existingCollection = this.#registry[this.#network.id()];
+            const mergedItems = [...existingCollection.items(), ...collection.items()];
+            const uniqueItems = mergedItems.filter(
+                (item, index, self) =>
+                    index === self.findIndex((t) => t.address() === item.address()),
+            );
+            this.#registry[this.#network.id()] = new Collections.UsernameDataCollection(
+                uniqueItems,
+            );
+        } else {
+            this.#registry[this.#network.id()] = collection;
+        }
+    }
 
-	public username(network: string, address: string): string | undefined {
-		return this.#findByAddress(network, address)?.username();
-	}
+    public username(network: string, address: string): string | undefined {
+        return this.#findByAddress(network, address)?.username();
+    }
 
-	public has(network: string, address: string): boolean {
-		return this.#findByAddress(network, address) !== undefined;
-	}
+    public has(network: string, address: string): boolean {
+        return this.#findByAddress(network, address) !== undefined;
+    }
 
-	#findByAddress(network: string, address: string): DTO.UsernameData | undefined {
-		const registry = this.#registry[network];
-		if (!registry) {
-			return undefined;
-		}
-		return registry.findByAddress(address);
-	}
+    #findByAddress(network: string, address: string): DTO.UsernameData | undefined {
+        const registry = this.#registry[network];
+        if (!registry) {
+            return undefined;
+        }
+        return registry.findByAddress(address);
+    }
 }

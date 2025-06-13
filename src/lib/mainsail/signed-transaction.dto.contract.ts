@@ -1,68 +1,73 @@
-import { BigNumber } from "@/app/lib/helpers";
-import { DateTime } from "@/app/lib/intl";
+import { BigNumber } from '@/app/lib/helpers';
+import { DateTime } from '@/app/lib/intl';
 
-import { MultiPaymentItem, MultiPaymentRecipient } from "./confirmed-transaction.dto.contract";
+import { MultiPaymentItem, MultiPaymentRecipient } from './confirmed-transaction.dto.contract';
 
 export type RawTransactionData = any;
 
 export interface SignedTransactionObject {
-	hash: string;
-	from: string;
-	to: string;
-	value: string;
-	fee: string;
-	timestamp: string;
-	data: RawTransactionData;
-	broadcast: any;
+    hash: string;
+    from: string;
+    to: string;
+    value: string;
+    fee: string;
+    timestamp: string;
+    data: RawTransactionData;
+    broadcast: any;
 }
 
 export interface SignedTransactionData {
-	setAttributes(attributes: { identifier: string }): void;
+    setAttributes(attributes: { identifier: string }): void;
 
-	configure(identifier: string, signedData: RawTransactionData, serialized?: string, decimals?: number | string);
+    configure(
+        identifier: string,
+        signedData: RawTransactionData,
+        serialized?: string,
+        decimals?: number | string,
+    );
 
-	// All
-	hash(): string;
-	data(): RawTransactionData;
-	from(): string;
-	to(): string;
-	value(): BigNumber;
-	fee(): BigNumber;
-	nonce(): BigNumber;
-	timestamp(): DateTime;
-	memo(): string;
+    // All
+    hash(): string;
+    data(): RawTransactionData;
+    from(): string;
+    to(): string;
+    value(): BigNumber;
+    fee(): BigNumber;
+    nonce(): BigNumber;
+    timestamp(): DateTime;
+    memo(): string;
 
-	// Types
-	isTransfer(): boolean;
-	isSecondSignature(): boolean;
-	isValidatorRegistration(): boolean;
-	isUsernameRegistration(): boolean;
-	isUsernameResignation(): boolean;
-	isValidatorResignation(): boolean;
-	isVoteCombination(): boolean;
-	isVote(): boolean;
-	isUnvote(): boolean;
-	isMultiPayment(): boolean;
+    // Types
+    isTransfer(): boolean;
+    isSecondSignature(): boolean;
+    isValidatorRegistration(): boolean;
+    isUsernameRegistration(): boolean;
+    isUsernameResignation(): boolean;
+    isValidatorResignation(): boolean;
+    isVoteCombination(): boolean;
+    isVote(): boolean;
+    isUnvote(): boolean;
+    isMultiPayment(): boolean;
 
-	methodHash(): string;
-	usesMultiSignature(): boolean;
-	isMultiSignatureRegistration(): boolean;
+    methodHash(): string;
+    usesMultiSignature(): boolean;
+    isMultiSignatureRegistration(): boolean;
 
-	// Access & serialization
-	get<T = string>(key: string): T;
-	toString(): string;
-	toBroadcast(): any;
-	toSignedData(): any;
-	toObject(): SignedTransactionObject;
-	type(): string;
+    // Access & serialization
+    get<T = string>(key: string): T;
+    toString(): string;
+    toBroadcast(): any;
+    toSignedData(): any;
+    toObject(): SignedTransactionObject;
+    type(): string;
 
-	votes(): string[];
-	unvotes(): string[];
+    votes(): string[];
+    unvotes(): string[];
 
-	// Multi-Payment
-	payments(): MultiPaymentItem[];
+    // Multi-Payment
+    payments(): MultiPaymentItem[];
 
-	username(): string;
-	validatorPublicKey(): string;
-	recipients(): MultiPaymentRecipient[];
+    username(): string;
+    validatorPublicKey(): string;
+    recipients(): MultiPaymentRecipient[];
 }
