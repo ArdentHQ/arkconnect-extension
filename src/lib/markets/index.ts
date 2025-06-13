@@ -1,4 +1,4 @@
-import { Http } from '@/app/lib/mainsail';
+import { Http } from '@/lib/mainsail';
 import {
     HistoricalData,
     HistoricalPriceOptions,

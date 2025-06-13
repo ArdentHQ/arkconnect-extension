@@ -1,11 +1,11 @@
 import { describe, it, expect, vi, afterEach } from 'vitest';
-import { Http } from '@/app/lib/mainsail';
+import { Http } from '@/lib/mainsail';
 import { server, requestMock } from '@/tests/mocks/server';
 import { CryptoCompare } from './index';
 
-import pricemultifullFixture from '@/app/lib/markets/fixtures/cryptocompare/pricemultifull.json';
-import priceFixture from '@/app/lib/markets/fixtures/cryptocompare/price.json';
-import histodayFixture from '@/app/lib/markets/fixtures/cryptocompare/histoday.json';
+import pricemultifullFixture from '@/lib/markets/fixtures/cryptocompare/pricemultifull.json';
+import priceFixture from '@/lib/markets/fixtures/cryptocompare/price.json';
+import histodayFixture from '@/lib/markets/fixtures/cryptocompare/histoday.json';
 
 describe('CryptoCompare', () => {
     afterEach(() => {

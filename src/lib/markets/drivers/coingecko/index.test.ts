@@ -1,14 +1,14 @@
 /* eslint-disable sonarjs/no-duplicate-string */
 import { describe, it, expect, vi, afterEach } from 'vitest';
-import { Http } from '@/app/lib/mainsail';
+import { Http } from '@/lib/mainsail';
 import { server, requestMock } from '@/tests/mocks/server';
 import { CoinGecko } from './index';
 
-import coinsListFixture from '@/app/lib/markets/fixtures/coingecko/coins-list.json';
-import simplePriceFixture from '@/app/lib/markets/fixtures/coingecko/simple-price.json';
-import coinFixture from '@/app/lib/markets/fixtures/coingecko/coin.json';
-import marketChartFixture from '@/app/lib/markets/fixtures/coingecko/market-chart.json';
-import historyFixture from '@/app/lib/markets/fixtures/coingecko/history.json';
+import coinsListFixture from '@/lib/markets/fixtures/coingecko/coins-list.json';
+import simplePriceFixture from '@/lib/markets/fixtures/coingecko/simple-price.json';
+import coinFixture from '@/lib/markets/fixtures/coingecko/coin.json';
+import marketChartFixture from '@/lib/markets/fixtures/coingecko/market-chart.json';
+import historyFixture from '@/lib/markets/fixtures/coingecko/history.json';
 
 describe('CoinGecko', () => {
     afterEach(() => {

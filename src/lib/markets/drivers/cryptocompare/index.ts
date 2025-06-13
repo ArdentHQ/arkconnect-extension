@@ -1,5 +1,5 @@
-import { CURRENCIES, DateTime } from '@/app/lib/intl';
-import { Http } from '@/app/lib/mainsail';
+import { CURRENCIES, DateTime } from '@/lib/intl';
+import { Http } from '@/lib/mainsail';
 
 import {
     CurrentPriceOptions,
@@ -9,7 +9,7 @@ import {
     HistoricalVolumeOptions,
     MarketDataCollection,
     PriceTracker,
-} from '@/app/lib/markets/contracts';
+} from '@/lib/markets/contracts';
 import { HistoricalPriceTransformer } from './transformers/historical-price-transformer';
 import { HistoricalVolumeTransformer } from './transformers/historical-volume-transformer';
 import { MarketTransformer } from './transformers/market-transformer';
