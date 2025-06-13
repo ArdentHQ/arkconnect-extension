@@ -2,7 +2,6 @@ import { MultiPaymentItem, MultiPaymentRecipient } from './confirmed-transaction
 import { BigNumber } from '@/lib/helpers';
 import { DateTime } from '@/lib/intl';
 
-
 export type RawTransactionData = any;
 
 export interface SignedTransactionObject {

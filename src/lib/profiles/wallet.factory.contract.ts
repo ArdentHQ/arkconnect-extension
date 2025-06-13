@@ -1,7 +1,6 @@
 import { IReadWriteWallet } from './contracts.js';
 import { Services } from '@/lib/mainsail';
 
-
 /**
  * Defines the options needed to generate a wallet.
  *

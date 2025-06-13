@@ -1,7 +1,7 @@
-import { Contracts } from '@ardenthq/sdk-profiles';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Contracts } from '@/lib/profiles';
 import { Layout } from '@/shared/components';
 import ApproveTransaction from '@/components/approve/ApproveTransaction';
 import ApproveMessage from '@/components/approve/ApproveMessage';
@@ -70,7 +70,7 @@ const Approve = () => {
 
         await waitUntilLedgerIsAvailable();
 
-        await connect(profile, wallet.coinId(), wallet.networkId(), undefined);
+        await connect(profile, wallet.networkId(), undefined);
     };
 
     const closeLedgerScreen = () => {

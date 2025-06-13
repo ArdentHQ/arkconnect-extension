@@ -1,7 +1,7 @@
 import { Coins, Services } from '@ardenthq/sdk';
-import { Contracts } from '@ardenthq/sdk-profiles';
 import { useCallback, useEffect, useState } from 'react';
 import { BigNumber } from '@ardenthq/sdk-helpers';
+import { Contracts } from '@/lib/profiles';
 import { useEnvironmentContext } from '@/lib/context/Environment';
 
 export interface TransactionFees {

@@ -1,4 +1,3 @@
-
 import { IProfile } from './contracts.js';
 import { DataRepository } from './data.repository.js';
 import { Services } from '@/lib/mainsail';

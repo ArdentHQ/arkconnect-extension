@@ -1,4 +1,3 @@
-
 import {
     IAppearanceService,
     IAuthenticator,

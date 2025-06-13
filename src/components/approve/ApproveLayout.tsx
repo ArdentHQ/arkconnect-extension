@@ -1,7 +1,7 @@
 import cn from 'classnames';
-import { Contracts } from '@ardenthq/sdk-profiles';
 import { useTranslation } from 'react-i18next';
 import { FeeBanner } from './CustomFeeAlerts.blocks';
+import { Contracts } from '@/lib/profiles';
 import RequestedBy from '@/shared/components/actions/RequestedBy';
 
 export const ApproveLayout = ({

@@ -1,4 +1,3 @@
-
 /* eslint-disable */
 import { Exceptions } from '@/lib/mainsail';
 import { FunctionSigs } from '@mainsail/evm-contracts';

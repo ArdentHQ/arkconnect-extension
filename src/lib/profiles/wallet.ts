@@ -1,4 +1,3 @@
-
 import {
     IDataRepository,
     IProfile,
@@ -39,7 +38,7 @@ import { ExchangeRateService } from './exchange-rate.service.js';
 import { LinkService } from '@/lib/mainsail/link.service';
 import { MessageService } from '@/lib/mainsail/message.service';
 import { Manifest } from '@/lib/mainsail/manifest.class';
-import { Contracts , manifest, Networks, Services } from '@/lib/mainsail/index';
+import { Contracts, manifest, Networks, Services } from '@/lib/mainsail/index';
 import { LedgerService } from '@/lib/mainsail/ledger.service';
 import { ClientService } from '@/lib/mainsail/client.service';
 import { AddressService } from '@/lib/mainsail/address.service';

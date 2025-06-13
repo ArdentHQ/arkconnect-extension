@@ -1,4 +1,3 @@
-import { Contracts } from '@ardenthq/sdk-profiles';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 import {
@@ -6,6 +5,7 @@ import {
     TransactionLedgerApprovalBody,
     VoteLedgerApprovalBody,
 } from './ApproveWithLedger.blocks';
+import { Contracts } from '@/lib/profiles';
 import formatDomain from '@/lib/utils/formatDomain';
 import trimAddress from '@/lib/utils/trimAddress';
 import { ApproveActionType } from '@/pages/Approve';

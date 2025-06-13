@@ -1,4 +1,3 @@
-
 import { IReadWriteWallet, IWalletSynchroniser, WalletData } from './contracts.js';
 import { WalletIdentifierFactory } from './wallet.identifier.factory.js';
 import { Contracts, Services } from '@/lib/mainsail';

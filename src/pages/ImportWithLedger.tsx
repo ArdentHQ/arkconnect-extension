@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import { Contracts } from '@ardenthq/sdk-profiles';
 import { runtime } from 'webextension-polyfill';
 import { useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
+import { Contracts } from '@/lib/profiles';
 import { Header, Icon } from '@/shared/components';
 import { LedgerData, useLedgerContext } from '@/lib/Ledger';
 import StepsNavigation, { Step } from '@/components/steps/StepsNavigation';

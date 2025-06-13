@@ -1,4 +1,3 @@
-import { Contracts } from '@ardenthq/sdk-profiles';
 import { FormikValues, useFormik } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
@@ -6,6 +5,7 @@ import { runtime } from 'webextension-polyfill';
 import { useTranslation } from 'react-i18next';
 import EnterPassphrase from './EnterPassphrase';
 import ImportedWallet from './ImportedWallet';
+import { Contracts } from '@/lib/profiles';
 import { ValidationVariant } from '@/components/wallet/create';
 import SetupPassword from '@/components/settings/SetupPassword';
 import StepsNavigation, { Step } from '@/components/steps/StepsNavigation';

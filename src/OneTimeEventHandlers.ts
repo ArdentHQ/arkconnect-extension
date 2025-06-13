@@ -1,6 +1,6 @@
-import { Contracts } from '@ardenthq/sdk-profiles';
 import { Services } from '@ardenthq/sdk';
 import { UUID } from '@ardenthq/sdk-cryptography';
+import { Contracts } from '@/lib/profiles';
 import { Extension } from '@/lib/background/extension';
 import { ExtensionEvents } from '@/lib/events';
 import { importWallets } from '@/background.helpers';

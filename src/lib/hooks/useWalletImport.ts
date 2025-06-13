@@ -1,5 +1,5 @@
 import { Networks } from '@ardenthq/sdk';
-import { Contracts } from '@ardenthq/sdk-profiles';
+import { Contracts } from '@/lib/profiles';
 
 type PrivateKey = string;
 type Mnemonic = string;

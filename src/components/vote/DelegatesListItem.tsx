@@ -1,8 +1,8 @@
 import { useTranslation } from 'react-i18next';
 
-import { Contracts } from '@ardenthq/sdk-profiles';
 import classNames from 'classnames';
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { Contracts } from '@/lib/profiles';
 import { ExternalLink, Icon, Tooltip } from '@/shared/components';
 
 export const DelegatesListItem = ({

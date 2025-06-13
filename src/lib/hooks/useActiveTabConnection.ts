@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { tabs } from 'webextension-polyfill';
-import { Contracts } from '@ardenthq/sdk-profiles';
+import { Contracts } from '@/lib/profiles';
 import * as SessionStore from '@/lib/store/session';
 import { useAppSelector } from '@/lib/store';
 

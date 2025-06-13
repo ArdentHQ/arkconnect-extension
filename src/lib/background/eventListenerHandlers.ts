@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Runtime, runtime, tabs, windows } from 'webextension-polyfill';
-import { Contracts } from '@ardenthq/sdk-profiles';
 import {
     assertHasProfile,
     assertHasWallet,
@@ -9,6 +8,7 @@ import {
     assertIsUnlocked,
     getActiveSession,
 } from './assertions';
+import { Contracts } from '@/lib/profiles';
 import { WalletNetwork } from '@/lib/store/wallet';
 
 export type EventPayload<T> = {

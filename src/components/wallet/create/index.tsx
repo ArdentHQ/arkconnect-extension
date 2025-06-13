@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useFormik } from 'formik';
-import { Contracts } from '@ardenthq/sdk-profiles';
 import { useNavigate } from 'react-router-dom';
 import { runtime } from 'webextension-polyfill';
 import { useTranslation } from 'react-i18next';
 import ConfirmPassphrase from './ConfirmPassphrase';
 import GeneratePassphrase from './GeneratePassphrase';
+import { Contracts } from '@/lib/profiles';
 import SetupPassword from '@/components/settings/SetupPassword';
 import StepsNavigation, { Step } from '@/components/steps/StepsNavigation';
 import useToast from '@/lib/hooks/useToast';

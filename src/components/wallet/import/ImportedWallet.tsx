@@ -1,8 +1,8 @@
 import { FormikProps } from 'formik';
 import { ChangeEvent, useEffect, useState } from 'react';
-import { Contracts } from '@ardenthq/sdk-profiles';
 import { useTranslation } from 'react-i18next';
 import { ImportedWalletFormik } from '.';
+import { Contracts } from '@/lib/profiles';
 import { Button, Heading, HeadingDescription, Input } from '@/shared/components';
 
 type Props = {

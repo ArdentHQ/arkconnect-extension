@@ -1,5 +1,5 @@
-import { Contracts } from '@ardenthq/sdk-profiles';
 import { runtime } from 'webextension-polyfill';
+import { Contracts } from '@/lib/profiles';
 import { AutoLockTimer, getLocalValues } from '@/lib/utils/localStorage';
 
 export class LockHandler {

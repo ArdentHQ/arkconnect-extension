@@ -1,6 +1,6 @@
-import { Contracts } from '@ardenthq/sdk-profiles';
 import { Networks } from '@ardenthq/sdk';
 import { networkDisplayName } from './networkUtils';
+import { Contracts } from '@/lib/profiles';
 
 interface GetDefaultAliasInput {
     profile: Contracts.IProfile;

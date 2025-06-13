@@ -1,8 +1,8 @@
 import { useLocation } from 'react-router-dom';
 import { runtime } from 'webextension-polyfill';
-import { Contracts } from '@ardenthq/sdk-profiles';
 import { useTranslation } from 'react-i18next';
 import { ApproveLayout } from './ApproveLayout';
+import { Contracts } from '@/lib/profiles';
 import ApproveBody from '@/components/approve/ApproveBody';
 import ApproveFooter from '@/components/approve/ApproveFooter';
 import ApproveHeader from '@/components/approve/ApproveHeader';

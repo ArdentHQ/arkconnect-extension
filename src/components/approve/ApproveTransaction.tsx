@@ -1,10 +1,10 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { runtime } from 'webextension-polyfill';
-import { Contracts } from '@ardenthq/sdk-profiles';
 import { BigNumber } from '@ardenthq/sdk-helpers';
 import { useTranslation } from 'react-i18next';
 import { ApproveLayout } from './ApproveLayout';
+import { Contracts } from '@/lib/profiles';
 import { ActionBody } from '@/components/approve/ActionBody';
 import ApproveBody from '@/components/approve/ApproveBody';
 import ApproveFooter from '@/components/approve/ApproveFooter';

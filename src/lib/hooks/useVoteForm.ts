@@ -1,8 +1,8 @@
 import { Networks, Services } from '@ardenthq/sdk';
-import { Contracts } from '@ardenthq/sdk-profiles';
 import { useEffect, useState } from 'react';
 import { runtime } from 'webextension-polyfill';
 import { useFees } from './useFees';
+import { Contracts } from '@/lib/profiles';
 import { useEnvironmentContext } from '@/lib/context/Environment';
 import { precisionRound } from '@/lib/utils/precisionRound';
 import { handleBroadcastError, withAbortPromise } from '@/lib/utils/transactionHelpers';

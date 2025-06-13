@@ -1,11 +1,10 @@
 import { Coins } from '@ardenthq/sdk';
-import { Contracts } from '@ardenthq/sdk-profiles';
 import { Options } from 'p-retry';
 import { useCallback, useEffect, useMemo, useReducer, useRef, useState } from 'react';
-
 import { useTranslation } from 'react-i18next';
 import { connectionReducer, defaultConnectionState } from './connection.state';
 import { useLedgerImport } from './import';
+import { Contracts } from '@/lib/profiles';
 import { useLedgerContext } from '@/lib/Ledger/Ledger';
 import { persistLedgerConnection } from '@/lib/Ledger/utils/connection';
 import { closeDevices, isLedgerTransportSupported, openTransport } from '@/lib/Ledger/transport';
@@ -84,12 +83,7 @@ export const useLedgerConnection = () => {
     );
 
     const connect = useCallback(
-        async (
-            profile: Contracts.IProfile,
-            coin: string,
-            network: string,
-            retryOptions?: Options,
-        ) => {
+        async (profile: Contracts.IProfile, network: string, retryOptions?: Options) => {
             const coinInstance = profile.coins().set(coin, network);
 
             if (!isLedgerTransportSupported()) {

@@ -1,8 +1,8 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import cn from 'classnames';
-import { Contracts } from '@ardenthq/sdk-profiles';
 import { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Contracts } from '@/lib/profiles';
 import {
     AddressAlias,
     AddressBalance,

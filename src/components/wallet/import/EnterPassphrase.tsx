@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
-import { Contracts } from '@ardenthq/sdk-profiles';
 import { FormikProps } from 'formik';
 import { runtime } from 'webextension-polyfill';
 import { useTranslation } from 'react-i18next';
 import { ImportedWalletFormik } from '.';
+import { Contracts } from '@/lib/profiles';
 import { TestnetIcon } from '@/components/wallet/address/Address.blocks';
 import {
     Button,

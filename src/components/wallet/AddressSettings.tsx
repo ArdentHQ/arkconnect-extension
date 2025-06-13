@@ -1,7 +1,7 @@
-import { Contracts } from '@ardenthq/sdk-profiles';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import Amount from './Amount';
+import { Contracts } from '@/lib/profiles';
 import SubPageLayout from '@/components/settings/SubPageLayout';
 import { Tooltip } from '@/shared/components';
 import { AddressAlias, LedgerIcon, TestnetIcon } from '@/components/wallet/address/Address.blocks';

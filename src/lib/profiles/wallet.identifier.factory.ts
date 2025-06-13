@@ -1,7 +1,6 @@
 import { IReadWriteWallet } from './wallet.contract.js';
 import { Services } from '@/lib/mainsail';
 
-
 export class WalletIdentifierFactory {
     public static make(wallet: IReadWriteWallet): Services.WalletIdentifier {
         if (wallet.actsWithAddress()) {
