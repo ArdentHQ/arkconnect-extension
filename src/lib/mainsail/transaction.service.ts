@@ -17,7 +17,7 @@ import { SignedTransactionData } from './signed-transaction.dto';
 import { ClientService } from './client.service.js';
 import { NetworkConfig } from './contracts.js';
 import { configManager } from './config.manager.js';
-import { ConfigRepository , Services } from '@/lib/mainsail';
+import { ConfigRepository, Services } from '@/lib/mainsail';
 import { IProfile } from '@/lib/profiles/profile.contract.js';
 import { BigNumber } from '@/lib/helpers';
 

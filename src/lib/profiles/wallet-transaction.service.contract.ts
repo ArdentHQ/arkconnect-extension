@@ -1,7 +1,6 @@
 import { ExtendedSignedTransactionData } from './signed-transaction.dto.js';
 import { Services, Signatories } from '@/lib/mainsail';
 
-
 export type SignedTransactionDataDictionary = Record<string, ExtendedSignedTransactionData>;
 
 /**

@@ -1,7 +1,6 @@
 import { explorer, featureFlags, importMethods, transactions } from './shared.js';
 import { Networks } from '@/lib/mainsail';
 
-
 const network: Networks.NetworkManifest = {
     coin: 'Mainsail',
     constants: {

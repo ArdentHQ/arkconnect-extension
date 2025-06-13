@@ -1,4 +1,3 @@
-
 import { PublicKey } from '@arkecosystem/typescript-crypto';
 import { BIP39, Bls } from '@ardenthq/arkvault-crypto';
 import { Exceptions, Services } from '@/lib/mainsail';

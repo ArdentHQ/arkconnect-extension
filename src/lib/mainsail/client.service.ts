@@ -10,7 +10,7 @@ import { ConfirmedTransactionData } from './confirmed-transaction.dto';
 import { SignedTransactionData } from './signed-transaction.dto';
 import { ConfirmedTransactionDataCollection } from '@/lib/mainsail/transactions.collection';
 import { DateTime } from '@/lib/intl';
-import { Collections, ConfigKey, ConfigRepository, Contracts , DTO, Services } from '@/lib/mainsail';
+import { Collections, ConfigKey, ConfigRepository, Contracts, DTO, Services } from '@/lib/mainsail';
 import { IProfile } from '@/lib/profiles/profile.contract';
 
 type searchParams<T extends Record<string, any> = object> = T & { page: number; limit?: number };

@@ -1,4 +1,3 @@
-
 import {
     INotificationTypes,
     IProfile,

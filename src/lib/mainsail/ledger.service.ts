@@ -6,7 +6,7 @@ import { createRange } from './ledger.service.helpers.js';
 import { LedgerSignature } from './ledger.service.types.js';
 import { AddressService } from './address.service.js';
 import { WalletData } from './wallet.dto.js';
-import { Contracts, Exceptions , Services } from '@/lib/mainsail';
+import { Contracts, Exceptions, Services } from '@/lib/mainsail';
 // import { connectedTransport as ledgerTransportFactory } from '@/app/contexts/Ledger/transport';
 
 import { ConfigKey, ConfigRepository } from '@/lib/mainsail/config.repository';

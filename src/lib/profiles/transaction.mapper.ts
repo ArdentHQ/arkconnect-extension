@@ -1,4 +1,3 @@
-
 import { IReadWriteWallet } from './contracts.js';
 import { ExtendedConfirmedTransactionDataCollection } from './transaction.collection.js';
 import { ExtendedConfirmedTransactionData } from './transaction.dto.js';

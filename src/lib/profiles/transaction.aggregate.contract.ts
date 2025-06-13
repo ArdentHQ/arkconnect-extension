@@ -1,7 +1,6 @@
 import { ExtendedConfirmedTransactionDataCollection } from './transaction.collection.js';
 import { Services } from '@/lib/mainsail';
 
-
 export type AggregateQuery = {
     identifiers?: Services.WalletIdentifier[];
     types?: string[];
