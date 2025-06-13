@@ -1,6 +1,3 @@
-/* eslint-disable unicorn/no-object-as-default-parameter */
-/* eslint-disable sonarjs/no-collection-size-mischeck */
-
 import { isLessThanOrEqual } from './is-less-than-or-equal.js';
 
 export const truncate = (

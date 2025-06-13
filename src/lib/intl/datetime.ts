@@ -1,5 +1,3 @@
-/* eslint-disable unicorn/prefer-module */
-
 import dayjs, { ConfigType, QUnitType } from 'dayjs';
 import advancedFormat from 'dayjs/plugin/advancedFormat.js';
 import dayOfYear from 'dayjs/plugin/dayOfYear.js';

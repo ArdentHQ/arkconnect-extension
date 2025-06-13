@@ -1,5 +1,3 @@
-/* eslint-disable sonarjs/cognitive-complexity */
-
 import { UsernamesAbi } from '@mainsail/evm-contracts';
 import dotify from 'node-dotify';
 

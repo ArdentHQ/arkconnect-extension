@@ -307,7 +307,6 @@ export class BigNumber {
             return this.#value.toFixed(decimals);
         }
 
-        // eslint-disable-next-line unicorn/require-number-to-fixed-digits-argument
         return this.#value.toFixed();
     }
 
