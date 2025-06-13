@@ -1,4 +1,4 @@
-import { Contracts } from '@ardenthq/sdk-profiles';
+import { Contracts } from '@/lib/profiles';
 
 interface WalletEntry {
     address: string;
@@ -19,16 +19,12 @@ const importWallet = async ({
     if (wallet.path) {
         return await profile.walletFactory().fromAddressWithDerivationPath({
             address: wallet.address,
-            network: wallet.network,
-            coin: wallet.coin,
             path: wallet.path,
         });
     }
 
     return await profile.walletFactory().fromAddress({
         address: wallet.address,
-        network: wallet.network,
-        coin: wallet.coin,
     });
 };
 
