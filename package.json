@@ -45,6 +45,7 @@
         "formik": "^2.4.6",
         "html-to-image": "^1.11.11",
         "i18next": "^23.12.2",
+        "joi": "^17.13.3",
         "jsqr": "^1.4.0",
         "locale-currency": "^0.0.2",
         "mockdate": "^3.0.5",
