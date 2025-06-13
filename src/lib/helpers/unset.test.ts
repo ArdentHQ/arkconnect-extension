@@ -11,7 +11,6 @@ describe('unset', () => {
     });
 
     it('should return false if the path is not a string', () => {
-        // @ts-expect-error
         expect(unset({}, 123)).toBe(false);
     });
 

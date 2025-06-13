@@ -166,7 +166,6 @@ export class CoinCap implements PriceTracker {
         const body = await this.#get('assets', { limit });
 
         for (const value of Object.values(body.data)) {
-            // @ts-ignore
             this.tokenLookup[value.symbol.toUpperCase()] = value.id;
         }
 

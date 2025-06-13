@@ -97,9 +97,8 @@ export class TransactionAggregate implements ITransactionAggregate {
         let response: ExtendedConfirmedTransactionDataCollection;
 
         try {
-            response = (await syncedWallets[0]
-                .transactionIndex()
-                [method](query)) as ExtendedConfirmedTransactionDataCollection;
+            const methodFn = syncedWallets[0].transactionIndex()[method];
+            response = (await methodFn(query)) as ExtendedConfirmedTransactionDataCollection;
         } catch {
             return new ExtendedConfirmedTransactionDataCollection([], {
                 last: undefined,

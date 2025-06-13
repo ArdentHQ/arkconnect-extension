@@ -13,7 +13,7 @@ import { DateTime } from '@/lib/intl';
 import { Collections, ConfigKey, ConfigRepository, Contracts , DTO, Services } from '@/lib/mainsail';
 import { IProfile } from '@/lib/profiles/profile.contract';
 
-type searchParams<T extends Record<string, any> = {}> = T & { page: number; limit?: number };
+type searchParams<T extends Record<string, any> = object> = T & { page: number; limit?: number };
 
 const wellKnownContracts = {
     consensus: '0x535B3D7A252fa034Ed71F0C53ec0C6F784cB64E1',
@@ -173,7 +173,6 @@ export class ClientService {
 
     public async evmCall(callData: Contracts.EvmCallData): Promise<Contracts.EvmCallResponse> {
         try {
-            // @ts-ignore
             const response = await this.#client.evm().call({
                 id: 1,
                 method: 'eth_call',
@@ -297,7 +296,6 @@ export class ClientService {
 
             result.searchParams.address = identifiers.map(({ value }) => value).join(',');
 
-            // @ts-ignore
             delete body.identifiers;
         }
 
@@ -314,7 +312,6 @@ export class ClientService {
             ].join(','),
         };
 
-        // @ts-ignore
         if (body.type) {
             const data = transactionTypeMap[body.type];
             if (data !== undefined) {
