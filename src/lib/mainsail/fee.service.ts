@@ -1,12 +1,12 @@
 /* eslint unicorn/no-abusive-eslint-disable: "off" */
 /* eslint-disable */
-import { ConfigRepository, Contracts, Services } from '@/app/lib/mainsail';
-import { BigNumber } from '@/app/lib/helpers';
+import { ConfigRepository, Contracts, Services } from '@/lib/mainsail';
+import { BigNumber } from '@/lib/helpers';
 
 import { ArkClient } from '@arkecosystem/typescript-client';
-import { IProfile } from '@/app/lib/profiles/profile.contract';
+import { IProfile } from '@/lib/profiles/profile.contract';
 import { UnitConverter } from '@arkecosystem/typescript-crypto';
-import { EstimateGasPayload } from '@/app/lib/mainsail/fee.contract';
+import { EstimateGasPayload } from '@/lib/mainsail/fee.contract';
 import { hexToBigInt } from 'viem';
 
 interface Fees {

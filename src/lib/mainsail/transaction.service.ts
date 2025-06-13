@@ -1,5 +1,5 @@
 import { path } from 'rambda';
-import { Services } from '@/app/lib/mainsail';
+import { Services } from '@/lib/mainsail';
 import {
     MultipaymentBuilder,
     UnvoteBuilder,
@@ -16,11 +16,11 @@ import { applyCryptoConfiguration } from './config.js';
 import { AddressService } from './address.service.js';
 import { SignedTransactionData } from './signed-transaction.dto';
 import { ClientService } from './client.service.js';
-import { ConfigRepository } from '@/app/lib/mainsail';
-import { IProfile } from '@/app/lib/profiles/profile.contract.js';
+import { ConfigRepository } from '@/lib/mainsail';
+import { IProfile } from '@/lib/profiles/profile.contract.js';
 import { NetworkConfig } from './contracts.js';
 import { configManager } from './config.manager.js';
-import { BigNumber } from '@/app/lib/helpers';
+import { BigNumber } from '@/lib/helpers';
 
 interface ValidatedTransferInput extends Services.TransferInput {
     gasPrice: BigNumber;

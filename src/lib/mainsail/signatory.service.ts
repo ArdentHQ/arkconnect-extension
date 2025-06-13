@@ -2,7 +2,7 @@
 /* eslint-disable */
 /* istanbul ignore file */
 
-import { IdentityOptions } from '@/app/lib/mainsail/shared.contract';
+import { IdentityOptions } from '@/lib/mainsail/shared.contract';
 import {
     ConfirmationMnemonicSignatory,
     ConfirmationSecretSignatory,
@@ -12,7 +12,7 @@ import {
     SecretSignatory,
     Signatory,
     WIFSignatory,
-} from '@/app/lib/mainsail/signatories';
+} from '@/lib/mainsail/signatories';
 
 import { AddressService } from './address.service';
 import { PublicKeyService } from './public-key.service';

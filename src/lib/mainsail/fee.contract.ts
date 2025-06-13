@@ -1,4 +1,4 @@
-import { BigNumber } from '@/app/lib/helpers';
+import { BigNumber } from '@/lib/helpers';
 
 import { SignedTransactionData } from './dto';
 import { EncodeFunctionDataReturnType } from 'viem';

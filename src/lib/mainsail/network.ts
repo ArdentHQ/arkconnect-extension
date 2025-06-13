@@ -1,4 +1,4 @@
-import { get } from '@/app/lib/helpers';
+import { get } from '@/lib/helpers';
 import { randomHost } from './helpers/hosts';
 import {
     CoinManifest,

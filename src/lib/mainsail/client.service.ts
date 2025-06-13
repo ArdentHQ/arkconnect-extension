@@ -1,7 +1,7 @@
 /* eslint-disable sonarjs/cognitive-complexity */
 
-import { Collections, Contracts, DTO, Services } from '@/app/lib/mainsail';
-import { DateTime } from '@/app/lib/intl';
+import { Collections, Contracts, DTO, Services } from '@/lib/mainsail';
+import { DateTime } from '@/lib/intl';
 import { UsernamesAbi } from '@mainsail/evm-contracts';
 import dotify from 'node-dotify';
 
@@ -11,10 +11,10 @@ import { TransactionTypes, trimHexPrefix } from './transaction-type.service';
 import { ArkClient } from '@arkecosystem/typescript-client';
 import { WalletData } from './wallet.dto';
 import { ConfirmedTransactionData } from './confirmed-transaction.dto';
-import { ConfirmedTransactionDataCollection } from '@/app/lib/mainsail/transactions.collection';
+import { ConfirmedTransactionDataCollection } from '@/lib/mainsail/transactions.collection';
 import { SignedTransactionData } from './signed-transaction.dto';
-import { ConfigKey, ConfigRepository } from '@/app/lib/mainsail';
-import { IProfile } from '@/app/lib/profiles/profile.contract';
+import { ConfigKey, ConfigRepository } from '@/lib/mainsail';
+import { IProfile } from '@/lib/profiles/profile.contract';
 
 type searchParams<T extends Record<string, any> = {}> = T & { page: number; limit?: number };
 
