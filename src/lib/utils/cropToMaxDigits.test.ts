@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
-import { Helpers } from '@ardenthq/sdk-profiles';
 import cropToMaxDigits from './cropToMaxDigits';
+import { Currency } from '@/lib/profiles/helpers';
 
 describe('cropToMaxDigits', () => {
     it('crops number decimals to max digits', () => {
@@ -36,7 +36,7 @@ describe('cropToMaxDigits', () => {
 
     it('crops number decimals to max digits with ticker for a locale that uses spaces as separator and comma as decimal (with ticker)', () => {
         const currencyFormatSpy = vi
-            .spyOn(Helpers.Currency, 'format')
+            .spyOn(Currency, 'format')
             // returns 1,1 instead of 1.1 (as in `fr-FR` locale)
             .mockReturnValueOnce('1,1')
             // returns 1 234 567,892 instead of 1,234,567.892 (as in `fr-FR` locale)

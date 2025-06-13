@@ -1,8 +1,7 @@
-import { Base64 } from '@ardenthq/sdk-cryptography';
-import { Environment, StorageData } from '@ardenthq/sdk-profiles';
-
+import { Base64 } from '@ardenthq/arkvault-crypto';
 import fixtureData from '@/tests/fixtures/env/storage.json';
 import TestingPasswords from '@/tests/fixtures/env/testing-passwords.json';
+import { Environment, StorageData } from '@/lib/profiles';
 
 export const bootEnvironmentWithProfileFixtures = async ({
     env,

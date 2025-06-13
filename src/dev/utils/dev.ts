@@ -1,4 +1,4 @@
-import { Contracts, Environment } from '@ardenthq/sdk-profiles';
+import { Contracts, Environment } from '@/lib/profiles';
 
 import { EnvironmentData } from '@/lib/background/contracts';
 import { getDefaultAlias } from '@/lib/utils/getDefaultAlias';

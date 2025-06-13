@@ -1,6 +1,6 @@
-import { Contracts, Environment } from '@ardenthq/sdk-profiles';
 import { useCallback, useMemo, useState } from 'react';
 import useWalletSync from './useWalletSync';
+import { Contracts, Environment } from '@/lib/profiles';
 
 export const useDelegates = ({
     env,

@@ -1,5 +1,5 @@
 import { Services } from '@ardenthq/sdk';
-import { UUID } from '@ardenthq/sdk-cryptography';
+import { UUID } from '@ardenthq/arkvault-crypto';
 import { Contracts } from '@/lib/profiles';
 import { Extension } from '@/lib/background/extension';
 import { ExtensionEvents } from '@/lib/events';

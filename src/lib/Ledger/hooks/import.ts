@@ -1,8 +1,7 @@
-import { Contracts, Environment } from '@ardenthq/sdk-profiles';
-
 import { Coins } from '@ardenthq/sdk';
 import { useCallback } from 'react';
 import { LedgerDevice } from './connection.state';
+import { Contracts, Environment } from '@/lib/profiles';
 import { LedgerData } from '@/lib/Ledger/Ledger.contracts';
 import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
 

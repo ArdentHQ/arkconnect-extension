@@ -1,12 +1,11 @@
 import assert from 'assert';
 import { object, string } from 'yup';
 import { useEffect, useMemo, useState } from 'react';
-
-import { BigNumber } from '@ardenthq/sdk-helpers';
 import { runtime } from 'webextension-polyfill';
 import { useFormik } from 'formik';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { BigNumber } from '@/lib/helpers';
 import { DelegatesList } from '@/components/vote/DelegatesList';
 import { DelegatesSearchInput } from '@/components/vote/DelegatesSearchInput';
 import { Footer } from '@/shared/components/layout/Footer';
@@ -48,7 +47,7 @@ const Vote = () => {
 
     assertWallet(wallet);
 
-    const delegateCount = useMemo(() => wallet.network().delegateCount(), [wallet]);
+    const delegateCount = useMemo(() => wallet.network().validatorCount(), [wallet]);
 
     const [searchQuery, setSearchQuery] = useState<string>('');
 

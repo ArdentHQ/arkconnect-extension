@@ -1,4 +1,4 @@
-import { Helpers } from '@ardenthq/sdk-profiles';
+import { Currency } from '@/lib/profiles/helpers';
 
 const formatCurrency = (
     value: number,
@@ -9,7 +9,7 @@ const formatCurrency = (
 ) => {
     const locale = navigator.languages ? navigator.languages[0] : (navigator.language ?? 'en-US');
 
-    return Helpers.Currency.format(value, ticker, {
+    return Currency.format(value, ticker, {
         ...options,
         locale,
     });

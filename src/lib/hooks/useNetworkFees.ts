@@ -1,6 +1,6 @@
 import { Coins, Services } from '@ardenthq/sdk';
 import { useCallback, useEffect, useState } from 'react';
-import { BigNumber } from '@ardenthq/sdk-helpers';
+import { BigNumber } from '@/lib/helpers';
 import { Contracts } from '@/lib/profiles';
 import { useEnvironmentContext } from '@/lib/context/Environment';
 

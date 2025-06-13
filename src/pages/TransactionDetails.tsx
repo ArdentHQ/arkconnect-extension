@@ -1,8 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { useEffect } from 'react';
-import { ExtendedConfirmedTransactionData } from '@ardenthq/sdk-profiles/distribution/esm/transaction.dto';
-import { IReadWriteWallet } from '@ardenthq/sdk-profiles/distribution/esm/wallet.contract';
 import { useQuery } from 'react-query';
 import { Loader } from '../shared/components/loader/Loader';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
@@ -12,6 +10,8 @@ import { TransactionHeader } from '@/components/transaction/details/TransactionH
 import { Button, ExternalLink } from '@/shared/components';
 import { getTransactionDetailLink } from '@/lib/utils/networkUtils';
 import { Footer } from '@/shared/components/layout/Footer';
+import { ExtendedConfirmedTransactionData } from '@/lib/profiles/transaction.dto';
+import { IReadWriteWallet } from '@/lib/profiles/wallet.contract';
 
 type TransactionDetailsResponse = ExtendedConfirmedTransactionData | undefined;
 

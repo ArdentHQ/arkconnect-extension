@@ -1,4 +1,4 @@
-import { BigNumber } from '@ardenthq/sdk-helpers';
+import { BigNumber } from '@/lib/helpers';
 import { Icon, Input } from '@/shared/components';
 
 interface InputProperties extends React.InputHTMLAttributes<HTMLInputElement> {

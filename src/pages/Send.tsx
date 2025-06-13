@@ -1,12 +1,12 @@
 import { object, string } from 'yup';
 import { useEffect, useState } from 'react';
-import { BigNumber } from '@ardenthq/sdk-helpers';
 import { runtime } from 'webextension-polyfill';
 import { useFormik } from 'formik';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
 import { validateAddress } from './CreateContact';
+import { BigNumber } from '@/lib/helpers';
 import { SendButton, SendForm } from '@/components/send';
 import { ScreenName } from '@/lib/background/contracts';
 import SubPageLayout from '@/components/settings/SubPageLayout';

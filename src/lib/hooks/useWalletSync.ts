@@ -1,4 +1,4 @@
-import { Contracts, Environment } from '@ardenthq/sdk-profiles';
+import { Contracts, Environment } from '@/lib/profiles';
 
 interface WalletImportTypes {
     profile: Contracts.IProfile;
