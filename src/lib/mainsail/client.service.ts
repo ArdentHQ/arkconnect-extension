@@ -1,4 +1,5 @@
 import { UsernamesAbi } from '@mainsail/evm-contracts';
+// @ts-ignore
 import dotify from 'node-dotify';
 
 import { decodeFunctionResult, encodeFunctionData } from 'viem';
@@ -53,7 +54,7 @@ export class ClientService {
         const response = await this.#client.transactions().all(page, limit, parameters);
 
         return new ConfirmedTransactionDataCollection(
-            response.data.map((transaction) =>
+            response.data.map((transaction: any) =>
                 new ConfirmedTransactionData().configure(transaction),
             ),
             this.#createMetaPagination(response),
@@ -74,7 +75,9 @@ export class ClientService {
         const response = await this.#client.wallets().all(page, limit);
 
         return new Collections.WalletDataCollection(
-            response.data.map((wallet) => new WalletData({ config: this.#config }).fill(wallet)),
+            response.data.map((wallet: Contracts.KeyValuePair) =>
+                new WalletData({ config: this.#config }).fill(wallet),
+            ),
             this.#createMetaPagination(response),
         );
     }
@@ -93,7 +96,9 @@ export class ClientService {
         const body = await this.#client.validators().all(page, limit, parameters);
 
         return new Collections.WalletDataCollection(
-            body.data.map((wallet) => new WalletData({ config: this.#config }).fill(wallet)),
+            body.data.map((wallet: Contracts.KeyValuePair) =>
+                new WalletData({ config: this.#config }).fill(wallet),
+            ),
             this.#createMetaPagination(body),
         );
     }
@@ -133,6 +138,7 @@ export class ClientService {
         try {
             response = await this.#client.transactions().create(transactionToBroadcast);
         } catch (error) {
+            // @ts-ignore
             response = error.response.json();
         }
 
@@ -185,6 +191,7 @@ export class ClientService {
                 result: response.result,
             };
         } catch (error) {
+            // @ts-ignore
             const errorResponse = error.response?.json();
             throw new Error(errorResponse?.error?.message || 'Failed to make EVM call');
         }
@@ -241,7 +248,7 @@ export class ClientService {
         }
     }
 
-    #createMetaPagination(body): Services.MetaPagination {
+    #createMetaPagination(body: Record<string, any>): Services.MetaPagination {
         const getPage = (url: string): string | undefined => {
             const match: RegExpExecArray | null = new RegExp(/page=(\d+)/).exec(url);
 
@@ -284,7 +291,9 @@ export class ClientService {
         };
 
         for (const [alias, original] of Object.entries(mappings)) {
+            // @ts-ignore
             if (body[alias]) {
+                // @ts-ignore
                 result.searchParams[original] = body[alias];
 
                 delete result.body[alias];
@@ -344,7 +353,7 @@ export class ClientService {
             const normalizeTimestamps = (timestamp: Services.RangeCriteria) => {
                 const epoch: string = this.#config.get<string>(ConfigKey.Epoch);
 
-                const normalized = { ...timestamp };
+                const normalized: Record<string, number> = { ...timestamp };
 
                 if (epoch) {
                     for (const [key, value] of Object.entries(normalized)) {
@@ -355,9 +364,7 @@ export class ClientService {
                 return normalized;
             };
 
-            const normalized = normalizeTimestamps(body.timestamp);
-
-            result.searchParams.timestamp = normalized;
+            result.searchParams.timestamp = normalizeTimestamps(body.timestamp);
             delete body.timestamp;
         }
 

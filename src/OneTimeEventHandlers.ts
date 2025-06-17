@@ -1,4 +1,3 @@
-import { Services } from '@ardenthq/sdk';
 import { UUID } from '@ardenthq/arkvault-crypto';
 import { Contracts } from '@/lib/profiles';
 import { Extension } from '@/lib/background/extension';
@@ -7,6 +6,7 @@ import { importWallets } from '@/background.helpers';
 import { EnvironmentData, ProfileData } from '@/lib/background/contracts';
 import { SendTransferInput } from '@/lib/background/extension.wallet';
 import { SessionEntries } from '@/lib/store/session';
+import { VoteInput } from '@/lib/mainsail/transaction.contract';
 
 export enum OneTimeEvents {
     SEND_VOTE = 'SEND_VOTE',
@@ -43,7 +43,7 @@ export function OneTimeEventHandlers(extension: ReturnType<typeof Extension>) {
                 return await extension
                     .primaryWallet()
                     .wallet()
-                    .sendVote(request.data as Services.VoteInput);
+                    .sendVote(request.data as VoteInput);
             } catch (error) {
                 return {
                     error: 'FAILED_TO_BROADCAST',

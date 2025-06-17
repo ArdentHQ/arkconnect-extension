@@ -6,19 +6,19 @@ export class NullStorage implements Storage {
         return {} as T;
     }
 
-    public async get<T = any>(key: string): Promise<T | undefined> {
+    public async get<T = any>(_key: string): Promise<T | undefined> {
         return undefined;
     }
 
-    public async set(key: string, value: string): Promise<void> {
+    public async set(_key: string, _value: string): Promise<void> {
         //
     }
 
-    public async has(key: string): Promise<boolean> {
+    public async has(_key: string): Promise<boolean> {
         return false;
     }
 
-    public async forget(key: string): Promise<void> {
+    public async forget(_key: string): Promise<void> {
         //
     }
 

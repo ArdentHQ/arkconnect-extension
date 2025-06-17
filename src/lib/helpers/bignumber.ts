@@ -1,3 +1,4 @@
+// @ts-ignore
 import Big, { BigSource } from 'big.js';
 
 export type NumberLike = string | number | bigint | Big | BigNumber;

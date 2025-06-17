@@ -1,4 +1,3 @@
-import { Coins } from '@ardenthq/sdk';
 import { Options } from 'p-retry';
 import { useCallback, useEffect, useMemo, useReducer, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -37,11 +36,10 @@ export const useLedgerConnection = () => {
     }, []);
 
     const handleLedgerConnectionError = useCallback(
-        async (error: LedgerConnectionError, coin: Coins.Coin) => {
+        async (error: LedgerConnectionError) => {
             try {
                 await disconnect();
                 await resetConnectionState();
-                await coin.ledger().disconnect();
             } catch (error) {
                 useSentryException(error);
             }

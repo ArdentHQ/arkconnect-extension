@@ -8,7 +8,9 @@ export const filterObject = <T extends object>(iterable: T, iteratee: FunctionRe
     for (let index = 0; index < length; index++) {
         const key = keys[index];
 
+        // @ts-ignore
         if (iteratee(iterable[key], key, iterable)) {
+            // @ts-ignore
             result[key] = iterable[key];
         }
     }

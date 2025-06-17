@@ -1,6 +1,10 @@
-import { Networks, Contracts as SDKContracts, Services } from '@ardenthq/sdk';
 import { Contracts } from '@/lib/profiles';
 import { buildTransferData } from '@/lib/utils/transactionHelpers';
+import { Network } from '@/lib/mainsail/network';
+import { SignedMessage } from '@/lib/mainsail/message.contract';
+import { BroadcastResponse as BroadcastResponseData } from '@/lib/mainsail/client.contract';
+import { TransferInput, VoteInput } from '@/lib/mainsail/transaction.contract';
+import { RawTransactionData } from '@/lib/mainsail/signed-transaction.dto.contract';
 
 interface RecipientItem {
     address: string;
@@ -10,11 +14,11 @@ interface RecipientItem {
 }
 
 interface BroadcastResponse {
-    transaction: SDKContracts.RawTransactionData;
-    response: Services.BroadcastResponse;
+    transaction: RawTransactionData;
+    response: BroadcastResponseData;
 }
 
-export interface SendTransferInput extends Services.TransferInput {
+export interface SendTransferInput extends TransferInput {
     recipients: RecipientItem[];
     memo?: string;
 }
@@ -25,7 +29,7 @@ function BroadcastResponse({
     wallet,
 }: {
     uuid: string;
-    response: Services.BroadcastResponse;
+    response: BroadcastResponseData;
     wallet: Contracts.IReadWriteWallet;
 }) {
     return {
@@ -50,10 +54,10 @@ export function Wallet({ wallet }: { wallet: Contracts.IReadWriteWallet }) {
         /**
          * Signs & broadcasts a vote transaction. Can be vote, unvote or swap .
          *
-         * @param {Services.VoteInput} input
+         * @param {VoteInput} input
          * @returns {Promise<BroadcastResponse>}
          */
-        async sendVote(input: Services.VoteInput): Promise<BroadcastResponse> {
+        async sendVote(input: VoteInput): Promise<BroadcastResponse> {
             // @TODO: validate input.
 
             // await wallet.synchroniser().coin();
@@ -103,9 +107,9 @@ export function Wallet({ wallet }: { wallet: Contracts.IReadWriteWallet }) {
          * Signs a given message.
          *
          * @param {string} message
-         * @returns {Promise<Services.SignedMessage>}
+         * @returns {Promise<SignedMessage>}
          */
-        async signMessage(message: string): Promise<Services.SignedMessage> {
+        async signMessage(message: string): Promise<SignedMessage> {
             // await wallet.synchroniser().coin();
 
             const mnemonic = await wallet.confirmKey().get(wallet.profile().password().get());
@@ -126,10 +130,10 @@ export function Wallet({ wallet }: { wallet: Contracts.IReadWriteWallet }) {
         /**
          * Returns the network of a wallet.
          *
-         * @returns {Networks.Network}
+         * @returns {Network}
          */
-        network(): Networks.Network {
-            return wallet.coin().network();
+        network(): Network {
+            return wallet.network();
         },
     };
 }

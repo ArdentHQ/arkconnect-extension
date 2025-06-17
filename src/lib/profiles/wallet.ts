@@ -641,8 +641,8 @@ export class Wallet implements IReadWriteWallet {
 
     #decimals(): number {
         try {
-            const manifest: Networks.NetworkManifest =
-                this.manifest().get<object>('networks')[this.networkId()];
+            const networks = this.manifest().get('networks') as Record<string, Networks.NetworkManifest>;
+            const manifest: Networks.NetworkManifest = networks[this.networkId()];
             return manifest.currency.decimals ?? 18;
         } catch {
             return 18;

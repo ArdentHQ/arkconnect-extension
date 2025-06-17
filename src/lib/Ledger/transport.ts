@@ -1,5 +1,5 @@
 import { LedgerTransportFactory } from '@ardenthq/sdk-ledger';
-import { Contracts } from '@ardenthq/sdk';
+import { LedgerTransport } from '@/lib/mainsail/contracts';
 
 const supportedTransport = async () => new LedgerTransportFactory().supportedTransport();
 
@@ -50,7 +50,7 @@ const onComplete = () => null;
 // if not it will trigger the native permission UI.
 
 // Important: it must be called in the context of a UI click.
-export const openTransport = async (): Promise<Contracts.LedgerTransport> => {
+export const openTransport = async (): Promise<LedgerTransport> => {
     const transport = await supportedTransport();
 
     return new Promise((resolve, reject) =>
