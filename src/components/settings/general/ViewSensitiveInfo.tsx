@@ -69,7 +69,7 @@ const ViewSensitiveInfo = () => {
                     //     .privateKeyService()
                     //     .fromMnemonic(mnemonic, { bip39: true });
 
-                    setPrivateKey("private-key");
+                    setPrivateKey('private-key');
                     setPassphrase(mnemonic);
                 } catch (error) {
                     formikHelpers.setFieldError('password', t('MISC.INCORRECT_PASSWORD'));

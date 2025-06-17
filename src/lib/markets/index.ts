@@ -46,10 +46,10 @@ export class MarketService {
      */
     public static make(name: string, httpClient: Http.HttpClient): MarketService {
         const priceTracker = {
-                coincap: new CoinCap(httpClient),
-                coingecko: new CoinGecko(httpClient),
-                cryptocompare: new CryptoCompare(httpClient),
-            }[name.toLowerCase()] as PriceTracker;
+            coincap: new CoinCap(httpClient),
+            coingecko: new CoinGecko(httpClient),
+            cryptocompare: new CryptoCompare(httpClient),
+        }[name.toLowerCase()] as PriceTracker;
 
         return new MarketService(priceTracker);
     }

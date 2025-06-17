@@ -152,19 +152,13 @@ export const useVoteForm = (wallet: Contracts.IReadWriteWallet, request: Approve
             amount: request.vote?.amount,
             wallet: profile
                 .validators()
-                .findByAddress(
-                    wallet.network().id(),
-                    request.vote?.address,
-                ),
+                .findByAddress(wallet.network().id(), request.vote?.address),
         };
         const unvote = request.unvote && {
             amount: request.unvote?.amount,
             wallet: profile
                 .validators()
-                .findByAddress(
-                    wallet.network().id(),
-                    request.unvote?.address,
-                ),
+                .findByAddress(wallet.network().id(), request.unvote?.address),
         };
         return { vote, unvote };
     };

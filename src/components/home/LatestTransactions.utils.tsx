@@ -1,6 +1,9 @@
 import { IconDefinition } from '@/shared/components';
 import Amount from '@/components/wallet/Amount';
-import { ExtendedConfirmedTransactionData, ExtendedTransactionRecipient } from '@/lib/profiles/transaction.dto';
+import {
+    ExtendedConfirmedTransactionData,
+    ExtendedTransactionRecipient,
+} from '@/lib/profiles/transaction.dto';
 
 export enum TransactionType {
     SEND = 'send',
