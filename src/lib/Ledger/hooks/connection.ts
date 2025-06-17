@@ -7,7 +7,7 @@ import { useLedgerImport } from './import';
 import { Contracts } from '@/lib/profiles';
 import { useLedgerContext } from '@/lib/Ledger/Ledger';
 import { persistLedgerConnection } from '@/lib/Ledger/utils/connection';
-import { closeDevices, isLedgerTransportSupported, openTransport } from '@/lib/Ledger/transport';
+import { closeDevices, openTransport } from '@/lib/Ledger/transport';
 import { useEnvironmentContext } from '@/lib/context/Environment';
 import useSentryException from '@/lib/hooks/useSentryException';
 
@@ -83,13 +83,12 @@ export const useLedgerConnection = () => {
     );
 
     const connect = useCallback(
-        async (profile: Contracts.IProfile, network: string, retryOptions?: Options) => {
-            const coinInstance = profile.coins().set(coin, network);
-
-            if (!isLedgerTransportSupported()) {
-                handleLedgerConnectionError({ message: 'COMPATIBILITY_ERROR' }, coinInstance);
-                return;
-            }
+        async (_profile: Contracts.IProfile, _network: string, retryOptions?: Options) => {
+            // TODO enable check
+            // if (!isLedgerTransportSupported()) {
+            //     handleLedgerConnectionError({ message: 'COMPATIBILITY_ERROR' }, coinInstance);
+            //     return;
+            // }
 
             const options = retryOptions || { factor: 1, randomize: false, retries: 50 };
 
@@ -98,13 +97,13 @@ export const useLedgerConnection = () => {
 
             try {
                 await persistLedgerConnection({
-                    coin: coinInstance,
                     hasRequestedAbort: () => abortRetryReference.current,
                     options,
                 });
                 dispatch({ type: 'connected' });
             } catch (connectError: any) {
-                handleLedgerConnectionError(connectError, coinInstance);
+                // TODO enable error handling
+                // handleLedgerConnectionError(connectError, coinInstance);
             }
         },
         [],

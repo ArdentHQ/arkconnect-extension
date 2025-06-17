@@ -113,6 +113,9 @@ importers:
       locale-currency:
         specifier: ^0.0.2
         version: 0.0.2
+      localforage:
+        specifier: ^1.10.0
+        version: 1.10.0
       mockdate:
         specifier: ^3.0.5
         version: 3.0.5

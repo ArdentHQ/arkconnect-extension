@@ -36,7 +36,7 @@ function BroadcastResponse({
                 response,
                 transaction: {
                     ...transaction.toObject(),
-                    amount: transaction.amount().toString(),
+                    amount: transaction.value().toString(),
                     total: transaction.total().toString(),
                     fee: transaction.fee().toString(),
                 },
@@ -56,7 +56,7 @@ export function Wallet({ wallet }: { wallet: Contracts.IReadWriteWallet }) {
         async sendVote(input: Services.VoteInput): Promise<BroadcastResponse> {
             // @TODO: validate input.
 
-            await wallet.synchroniser().coin();
+            // await wallet.synchroniser().coin();
 
             const signatory = await wallet.signatoryFactory().make({
                 mnemonic: await wallet.confirmKey().get(wallet.profile().password().get()),
@@ -78,7 +78,7 @@ export function Wallet({ wallet }: { wallet: Contracts.IReadWriteWallet }) {
          * @returns {Promise<BroadcastResponse>}
          */
         async sendTransfer(input: SendTransferInput): Promise<BroadcastResponse> {
-            await wallet.synchroniser().coin();
+            // await wallet.synchroniser().coin();
 
             const signatory = await wallet.signatoryFactory().make({
                 mnemonic: await wallet.confirmKey().get(wallet.profile().password().get()),
@@ -86,10 +86,8 @@ export function Wallet({ wallet }: { wallet: Contracts.IReadWriteWallet }) {
 
             const transactionInput = {
                 data: await buildTransferData({
-                    coin: wallet.coin(),
                     memo: input.memo,
-                    isMultiSignature:
-                        signatory.actsWithMultiSignature() || signatory.hasMultiSignature(),
+                    isMultiSignature: false,
                     recipients: input.recipients,
                 }),
                 fee: input.fee,
@@ -108,7 +106,7 @@ export function Wallet({ wallet }: { wallet: Contracts.IReadWriteWallet }) {
          * @returns {Promise<Services.SignedMessage>}
          */
         async signMessage(message: string): Promise<Services.SignedMessage> {
-            await wallet.synchroniser().coin();
+            // await wallet.synchroniser().coin();
 
             const mnemonic = await wallet.confirmKey().get(wallet.profile().password().get());
 

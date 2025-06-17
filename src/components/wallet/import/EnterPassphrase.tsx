@@ -85,8 +85,6 @@ const EnterPassphrase = ({ goToNextStep, formik }: Props) => {
         if (passphraseLength === 12 || passphraseLength === 24) {
             try {
                 await profile.walletFactory().fromMnemonicWithBIP39({
-                    coin: activeNetwork.coin(),
-                    network: activeNetwork.id(),
                     mnemonic: values.enteredPassphrase,
                 });
 

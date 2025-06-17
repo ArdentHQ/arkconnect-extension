@@ -20,7 +20,9 @@ export const useExchangeRate = ({ ticker, exchangeTicker }: Input): Output => {
                 return 0;
             }
 
-            return env.exchangeRates().exchange(ticker, exchangeTicker, DateTime.make(), value);
+            // TODO fix
+            return 1;
+            // return env.exchangeRates().exchange(ticker, exchangeTicker, DateTime.make(), value);
         },
         [env, exchangeTicker, ticker],
     );

@@ -1,4 +1,3 @@
-import { Coins } from '@ardenthq/sdk';
 import { useCallback } from 'react';
 import { LedgerDevice } from './connection.state';
 import { Contracts, Environment } from '@/lib/profiles';
@@ -14,14 +13,12 @@ export const useLedgerImport = ({ device, env }: LedgerWalletImportProperties) =
     const { onError } = useErrorHandlerContext();
 
     const importLedgerWallets = useCallback(
-        async (wallets: LedgerData[], coin: Coins.Coin, profile: Contracts.IProfile) => {
+        async (wallets: LedgerData[], profile: Contracts.IProfile) => {
             const importedWallets = await Promise.all(
                 wallets.map(async ({ address, path }) => {
                     try {
                         const wallet = await profile.walletFactory().fromAddressWithDerivationPath({
                             address,
-                            coin: coin.network().coin(),
-                            network: coin.network().id(),
                             path,
                         });
 

@@ -55,6 +55,7 @@
         "joi": "^17.13.3",
         "jsqr": "^1.4.0",
         "locale-currency": "^0.0.2",
+        "localforage": "^1.10.0",
         "mockdate": "^3.0.5",
         "node-dotify": "^1.1.0",
         "p-queue": "^8.1.0",

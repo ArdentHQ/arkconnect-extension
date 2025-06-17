@@ -5,11 +5,12 @@ import { Contracts as ProfileContracts } from '@/lib/profiles';
 const signWithLedger = async (message: string, wallet: ProfileContracts.IReadWriteWallet) => {
     const path = wallet.data().get<string>(ProfileContracts.WalletData.DerivationPath);
 
-    let signatory = wallet.publicKey();
+    const signatory = wallet.publicKey();
 
-    if (!signatory) {
-        signatory = await wallet.coin().ledger().getPublicKey(path!);
-    }
+    // TODO fix ledger signing
+    // if (!signatory) {
+    //     signatory = await wallet.coin().ledger().getPublicKey(path!);
+    // }
 
     const signature = await wallet.ledger().signMessage(path!, message);
 

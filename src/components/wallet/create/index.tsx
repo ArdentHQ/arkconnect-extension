@@ -189,9 +189,7 @@ const CreateNewWallet = () => {
             .get<string>(Contracts.ProfileSetting.Bip39Locale, 'english');
 
         return profile.walletFactory().generate({
-            coin: activeNetwork.coin(),
             locale,
-            network: activeNetwork.id(),
             wordCount: activeNetwork.wordCount(),
         });
     };

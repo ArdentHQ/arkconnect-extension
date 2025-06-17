@@ -1,11 +1,11 @@
 import { omitBy, uniqBy } from '@ardenthq/sdk-helpers';
-import { Contracts } from '@/lib/profiles';
 import { useCallback, useMemo, useReducer, useRef, useState } from 'react';
 import { scannerReducer } from './scanner.state';
+import { Contracts } from '@/lib/profiles';
 import { useLedgerContext } from '@/lib/Ledger';
 import { LedgerData } from '@/lib/Ledger/Ledger.contracts';
 
-export const useLedgerScanner = (coin: string, network: string) => {
+export const useLedgerScanner = () => {
     const { setBusy, setIdle } = useLedgerContext();
 
     const [state, dispatch] = useReducer(scannerReducer, {
@@ -48,15 +48,14 @@ export const useLedgerScanner = (coin: string, network: string) => {
             setBusy();
             abortRetryReference.current = false;
 
-            const instance = profile.coins().set(coin, network);
-
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
-            const ledgerWallets = await instance.ledger().scan({ onProgress, startPath });
+            const ledgerWallets = await profile.ledger().scan({ onProgress, startPath });
 
             const legacyWallets = isLoadingMore
                 ? {}
-                : await instance.ledger().scan({ onProgress, useLegacy: true });
+                // @ts-ignore
+                : await profile.ledger().scan({ onProgress, useLegacy: true });
 
             const allWallets = { ...legacyWallets, ...ledgerWallets };
 

@@ -27,7 +27,7 @@ const ImportWallets = ({ goToNextStep, formik }: Props) => {
     const onError = useOnError();
     const retryFunctionReference = useRef<() => void>();
     const { profile } = useProfileContext();
-    const ledgerScanner = useLedgerScanner(network.coin(), network.id());
+    const ledgerScanner = useLedgerScanner();
     const { isBusy, importLedgerWallets } = useLedgerContext();
     const { t } = useTranslation();
 
@@ -101,8 +101,7 @@ const ImportWallets = ({ goToNextStep, formik }: Props) => {
     };
 
     const importWallets = async () => {
-        const coin = profile.coins().set(network.coin(), network.id());
-        const importedWallets = await importLedgerWallets(selectedWallets, coin, profile);
+        const importedWallets = await importLedgerWallets(selectedWallets, profile);
         formik.setFieldValue('importedWallets', importedWallets);
     };
 

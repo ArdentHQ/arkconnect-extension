@@ -320,7 +320,7 @@ export class TransactionService implements ITransactionService {
 
     /** {@inheritDoc ITransactionService.fromPublicKey} */
     public restore(): void {
-        const restoreStorage = (storage: object, storageKey: string) => {
+        const restoreStorage = (storage: Record<string, ExtendedSignedTransactionData>, storageKey: string) => {
             const transactions: object = this.#wallet.data().get(storageKey) || {};
 
             for (const [id, transaction] of Object.entries(transactions)) {

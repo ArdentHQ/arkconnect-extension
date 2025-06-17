@@ -39,7 +39,6 @@ export const FeeSection = ({
 
     const { isLoadingFee, fees } = useNetworkFees({
         profile,
-        coin: activeNetwork.coin(),
         network: activeNetwork.id(),
         type: feeType,
     });

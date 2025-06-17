@@ -42,13 +42,10 @@ export const getType = (transaction: ExtendedConfirmedTransactionData): string =
     if (transaction.isSecondSignature()) {
         return TransactionType.SECOND_SIGNATURE;
     }
-    if (transaction.isMultiSignatureRegistration()) {
-        return TransactionType.MULTISIGNATURE;
-    }
-    if (transaction.isDelegateRegistration()) {
+    if (transaction.isValidatorRegistration()) {
         return TransactionType.REGISTRATION;
     }
-    if (transaction.isDelegateResignation()) {
+    if (transaction.isValidatorResignation()) {
         return TransactionType.RESIGNATION;
     }
     return TransactionType.OTHER;

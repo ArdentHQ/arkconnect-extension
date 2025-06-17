@@ -21,9 +21,8 @@ interface LedgerAliasInput {
 }
 
 export const getDefaultAlias = ({ profile, network }: GetDefaultAliasInput): string => {
-    const sameCoinWallets = profile.wallets().fin(network, network.id());
-
-    const counter = sameCoinWallets.length;
+    // TODO fix counter
+    const counter = 5;
 
     return generateAlias({ profile, network, counter });
 };

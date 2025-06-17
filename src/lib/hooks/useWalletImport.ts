@@ -1,5 +1,5 @@
-import { Networks } from '@ardenthq/sdk';
 import { Contracts } from '@/lib/profiles';
+import { Network } from '@/lib/mainsail/network';
 
 type PrivateKey = string;
 type Mnemonic = string;
@@ -13,7 +13,7 @@ const useWalletImport = ({ profile }: { profile: Contracts.IProfile }) => {
         network,
         value,
     }: {
-        network: Networks.Network;
+        network: Network;
         value: WalletGenerationInput;
     }): Promise<Contracts.IReadWriteWallet | undefined> => {
         const defaultOptions = {
