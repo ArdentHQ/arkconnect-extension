@@ -1,13 +1,6 @@
 import { IProfile } from './profile.contract.js';
 import { Http, Networks, Services } from '@/lib/mainsail';
 
-export interface CoinType {
-    coin: string;
-    network: string;
-    ticker: string;
-    symbol: string;
-}
-
 export type NetworkHostSelectorFactory = (profile: IProfile) => Networks.NetworkHostSelector;
 
 export interface EnvironmentOptions {

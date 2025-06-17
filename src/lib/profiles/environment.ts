@@ -1,5 +1,4 @@
 import Joi from 'joi';
-
 import { IDataRepository, IFeeService, IProfileRepository, IWalletService } from './contracts.js';
 import { EnvironmentOptions, Storage, StorageData } from './environment.models.js';
 import { KnownWalletService } from './known-wallet.service.js';
@@ -64,11 +63,11 @@ export class Environment {
 
         const storage = await this.#storage.all<StorageData>();
 
-        if (Object.keys(storage.data).length > 0) {
+        if (Object.keys(storage.data ?? {}).length > 0) {
             this.data().fill(storage.data);
         }
 
-        if (Object.keys(storage.profiles).length > 0) {
+        if (Object.keys(storage.profiles ?? {}).length > 0) {
             this.profiles().fill(storage.profiles);
         }
     }

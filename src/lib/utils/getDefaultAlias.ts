@@ -22,7 +22,7 @@ interface LedgerAliasInput {
 
 export const getDefaultAlias = ({ profile, network }: GetDefaultAliasInput): string => {
     // TODO fix counter
-    const counter = 5;
+    const counter = 0;
 
     return generateAlias({ profile, network, counter });
 };
