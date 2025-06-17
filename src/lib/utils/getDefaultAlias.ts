@@ -1,5 +1,5 @@
-import { Network } from '@/lib/mainsail/networks';
 import { networkDisplayName } from './networkUtils';
+import { Network } from '@/lib/mainsail/networks';
 import { Contracts } from '@/lib/profiles';
 
 interface GetDefaultAliasInput {

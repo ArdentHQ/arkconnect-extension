@@ -52,11 +52,7 @@ export const useNetworkFees = ({
         return parseFloat(value.toHuman().toFixed(4)).toString();
     };
 
-    const getWallet = useCallback(
-        async () =>
-            profile.walletFactory().generate(),
-        [profile],
-    );
+    const getWallet = useCallback(async () => profile.walletFactory().generate(), [profile]);
 
     const createTransaction = useCallback(
         async ({ type, getData }: CreateTransactionProperties) => {
