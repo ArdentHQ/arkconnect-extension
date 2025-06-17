@@ -57,11 +57,6 @@ export default defineConfig({
             output: {
                 manualChunks: {
                     utils: ['semver', 'yup', 'uuid', 'assert', 'p-retry', 'string-hash'],
-                    sdk: ['@ardenthq/sdk'],
-                    'sdk-ark': ['@ardenthq/sdk-ark'],
-                    'sdk-cryptography': ['@ardenthq/sdk-cryptography'],
-                    'sdk-helpers': ['@ardenthq/sdk-helpers'],
-                    'sdk-intl': ['@ardenthq/sdk-intl'],
                     'sdk-ledger': ['@ardenthq/sdk-ledger'],
                     'sdk-profiles': ['@ardenthq/sdk-profiles'],
                     sentry: ['@sentry/react'],

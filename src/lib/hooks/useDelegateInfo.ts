@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { useEnvironmentContext } from '@/lib/context/Environment';
 import { useProfileContext } from '@/lib/context/Profile';
 import { ExtendedConfirmedTransactionData } from '@/lib/profiles/transaction.dto';
 import { IReadWriteWallet } from '@/lib/profiles/wallet.contract';
@@ -8,7 +7,6 @@ export const useDelegateInfo = (
     transaction: ExtendedConfirmedTransactionData,
     primaryWallet?: IReadWriteWallet,
 ) => {
-    const { env } = useEnvironmentContext();
     const { profile } = useProfileContext();
     const [voteDelegate, setVoteDelegate] = useState<{
         name: string;
@@ -27,15 +25,14 @@ export const useDelegateInfo = (
     }> => {
         let name = '',
             delegateAddress = '';
-        const coin = primaryWallet?.network().coin() ?? 'ARK';
         const network = primaryWallet?.network().id() ?? 'ark.mainnet';
         try {
-            env.delegates().all(coin, network);
+            profile.validators().all(network);
         } catch {
-            await env.delegates().sync(profile, coin, network);
+            await profile.validators().sync(profile, network);
         }
 
-        const delegate = env.delegates().findByPublicKey(coin, network, address) || undefined;
+        const delegate = profile.validators().findByPublicKey(network, address) || undefined;
 
         if (delegate) {
             name = delegate.username() || '';

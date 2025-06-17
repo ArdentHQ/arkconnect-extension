@@ -1,9 +1,9 @@
-import { omitBy, uniqBy } from '@ardenthq/sdk-helpers';
 import { useCallback, useMemo, useReducer, useRef, useState } from 'react';
 import { scannerReducer } from './scanner.state';
 import { Contracts } from '@/lib/profiles';
 import { useLedgerContext } from '@/lib/Ledger';
 import { LedgerData } from '@/lib/Ledger/Ledger.contracts';
+import { omitBy, uniqBy } from '@/lib/helpers';
 
 export const useLedgerScanner = () => {
     const { setBusy, setIdle } = useLedgerContext();
