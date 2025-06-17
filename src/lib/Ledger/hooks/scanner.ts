@@ -1,6 +1,5 @@
 import { omitBy, uniqBy } from '@ardenthq/sdk-helpers';
-import { Contracts as ProfilesContracts } from '@ardenthq/sdk-profiles';
-import { Contracts } from '@ardenthq/sdk';
+import { Contracts } from '@/lib/profiles';
 import { useCallback, useMemo, useReducer, useRef, useState } from 'react';
 import { scannerReducer } from './scanner.state';
 import { useLedgerContext } from '@/lib/Ledger';
@@ -34,7 +33,7 @@ export const useLedgerScanner = (coin: string, network: string) => {
         setLoadedWallets(uniqBy([...loadedWallets, wallet], (wallet) => wallet.data.address));
     };
 
-    const scan = async (profile: ProfilesContracts.IProfile, startPath?: string) => {
+    const scan = async (profile: Contracts.IProfile, startPath?: string) => {
         try {
             setIdle();
             dispatch({ type: 'waiting' });

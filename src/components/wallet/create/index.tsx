@@ -93,8 +93,6 @@ const CreateNewWallet = () => {
 
                 if (mnemonic && network && coin) {
                     const wallet = await profile.walletFactory().fromMnemonicWithBIP39({
-                        coin,
-                        network,
                         mnemonic,
                     });
 

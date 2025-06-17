@@ -65,7 +65,7 @@ const TransactionDetails = () => {
                         <ExternalLink
                             href={getTransactionDetailLink(
                                 primaryWallet?.network().isLive() ?? false,
-                                transactionData.id(),
+                                transactionData.hash(),
                             )}
                             className='group hover:no-underline'
                         >

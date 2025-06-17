@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { IReadWriteWallet } from '@ardenthq/sdk-profiles/distribution/esm/wallet.contract';
+import { IReadWriteWallet } from '@/lib/profiles/wallet.contract';
 
 export const useConfirmedTransaction = ({
     wallet,

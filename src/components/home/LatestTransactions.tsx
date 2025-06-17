@@ -1,11 +1,11 @@
 import { useTranslation } from 'react-i18next';
-import { ExtendedConfirmedTransactionData } from '@ardenthq/sdk-profiles/distribution/esm/transaction.dto';
 import { useEffect } from 'react';
-import { IReadWriteWallet } from '@ardenthq/sdk-profiles/distribution/esm/wallet.contract';
 import { useQuery } from 'react-query';
 import { NoTransactions, TransactionsList } from './LatestTransactions.blocks';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 import { Loader } from '@/shared/components';
+import { ExtendedConfirmedTransactionData } from '@/lib/profiles/transaction.dto';
+import { IReadWriteWallet } from '@/lib/profiles/wallet.contract';
 
 type TransactionResponse = {
     transactions: ExtendedConfirmedTransactionData[];

@@ -1,4 +1,4 @@
-import seedrandom from 'seedrandom';
+import * as seedrandom from 'seedrandom';
 
 const COLORS = [
     '4381C0',

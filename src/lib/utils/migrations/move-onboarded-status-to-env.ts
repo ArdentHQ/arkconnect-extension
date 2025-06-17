@@ -1,7 +1,7 @@
-import { Environment } from '@ardenthq/sdk-profiles';
 import { storage } from 'webextension-polyfill';
 import { KEY } from '@/lib/utils/localStorage';
 import { EnvironmentData } from '@/lib/background/contracts';
+import { Environment } from '@/lib/profiles';
 
 export const moveOnboardedStatusToEnv = (env: Environment) => {
     return async () => {

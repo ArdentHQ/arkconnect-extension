@@ -310,8 +310,6 @@ const handleChangePassword = async (request: any, extension: ReturnType<typeof E
                 const mnemonic = await wallet.confirmKey().get(request.data.oldPassword);
 
                 newWallet = await extension.profile().walletFactory().fromMnemonicWithBIP39({
-                    coin: wallet.network().coin(),
-                    network: wallet.network().id(),
                     mnemonic,
                 });
 
@@ -323,8 +321,6 @@ const handleChangePassword = async (request: any, extension: ReturnType<typeof E
                     .walletFactory()
                     .fromAddressWithDerivationPath({
                         address: wallet.address(),
-                        network: wallet.network().id(),
-                        coin: wallet.coinId(),
                         path: wallet.data().get(Contracts.WalletData.DerivationPath)!,
                     });
 

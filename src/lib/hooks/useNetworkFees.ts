@@ -53,21 +53,18 @@ export const useNetworkFees = ({
     };
 
     const getWallet = useCallback(
-        async (coin: string, network: string) =>
-            profile.walletFactory().generate({ coin, network }),
+        async () =>
+            profile.walletFactory().generate(),
         [profile],
     );
 
     const createTransaction = useCallback(
-        async ({ coin, type, getData }: CreateTransactionProperties) => {
-            const { mnemonic, wallet } = await getWallet(
-                coin.network().coin(),
-                coin.network().id(),
-            );
+        async ({ type, getData }: CreateTransactionProperties) => {
+            const { mnemonic, wallet } = await getWallet();
 
             const signatory = await wallet.signatory().mnemonic(mnemonic);
 
-            return (coin.transaction() as any)[type]({
+            return (wallet.transaction() as any)[type]({
                 data: getData(wallet),
                 nonce: '1',
                 signatory,

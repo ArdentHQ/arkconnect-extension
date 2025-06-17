@@ -77,7 +77,7 @@ export const LedgerConnectionStep = ({
 
         (async () => {
             try {
-                await connect(activeProfile, network.coin(), network.id());
+                await connect(activeProfile, network.id());
             } catch (error) {
                 onError(error);
             }

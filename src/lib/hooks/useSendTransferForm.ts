@@ -1,4 +1,3 @@
-import { Networks, Services } from '@ardenthq/sdk';
 import { useEffect, useState } from 'react';
 import { runtime } from 'webextension-polyfill';
 import { useFees } from './useFees';
@@ -19,6 +18,8 @@ import { useEnvironmentContext } from '@/lib/context/Environment';
 import * as SessionStore from '@/lib/store/session';
 import { ApproveActionType } from '@/pages/Approve';
 import { selectWallets } from '@/lib/store/wallet';
+import { Network } from '@/lib/mainsail/network';
+import { TransferInput } from '@/lib/mainsail/transaction.contract';
 
 export interface RecipientItem {
     address: string;
@@ -35,7 +36,7 @@ interface SendTransferForm {
     remainingBalance: number;
     amount: number;
     isSendAllSelected: string;
-    network?: Networks.Network;
+    network?: Network;
     recipients: RecipientItem[];
     total: number;
     mnemonic: string;
@@ -121,14 +122,11 @@ export const useSendTransferForm = (
             )(prepareLedger(wallet));
 
             const data = await buildTransferData({
-                coin: wallet.coin(),
-                isMultiSignature:
-                    signatory.actsWithMultiSignature() || signatory.hasMultiSignature(),
                 memo,
                 recipients,
             });
 
-            const transactionInput: Services.TransferInput = {
+            const transactionInput: TransferInput = {
                 data,
                 fee: +fee,
                 signatory,
@@ -143,7 +141,7 @@ export const useSendTransferForm = (
 
             return {
                 ...transaction.toObject(),
-                amount: transaction.amount().toString(),
+                amount: transaction.value().toString(),
                 memo: transaction.memo(),
                 fee: transaction.fee(),
                 total: transaction.total(),
@@ -182,19 +180,16 @@ export const useSendTransferForm = (
                 const passphrase = walletData?.passphrase;
 
                 const averageFee = await calculateAvgFee({
-                    coin: wallet.network().coin(),
                     network: wallet.network().id(),
                     type: ApproveActionType.TRANSACTION,
                 });
 
                 const maxFee = await calculateMaxFee({
-                    coin: wallet.network().coin(),
                     network: wallet.network().id(),
                     type: ApproveActionType.TRANSACTION,
                 });
 
                 const minFee = await calculateMinFee({
-                    coin: wallet.network().coin(),
                     network: wallet.network().id(),
                     type: ApproveActionType.TRANSACTION,
                 });

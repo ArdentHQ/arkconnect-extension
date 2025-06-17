@@ -1,4 +1,3 @@
-import { ExtendedConfirmedTransactionData } from '@ardenthq/sdk-profiles/distribution/esm/transaction.dto';
 import { useTranslation } from 'react-i18next';
 import {
     TransactionAddress,
@@ -16,6 +15,7 @@ import trimAddress from '@/lib/utils/trimAddress';
 import { useDelegateInfo } from '@/lib/hooks/useDelegateInfo';
 import { useExchangeRate } from '@/lib/hooks/useExchangeRate';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
+import { ExtendedConfirmedTransactionData } from '@/lib/profiles/transaction.dto';
 
 export const TransactionBody = ({
     transaction,
@@ -42,7 +42,7 @@ export const TransactionBody = ({
         <div className='flex flex-col gap-4 pb-4'>
             <div>
                 <TrasactionItem title={t('COMMON.SENDER')}>
-                    <TransactionAddress address={transaction.sender()} />
+                    <TransactionAddress address={transaction.from()} />
                 </TrasactionItem>
 
                 {paymentTypes.includes(type) && (
@@ -50,7 +50,7 @@ export const TransactionBody = ({
                         {type === TransactionType.MULTIPAYMENT ? (
                             <TransactionUniqueRecipients transaction={transaction} />
                         ) : (
-                            <TransactionAddress address={transaction.recipient()} />
+                            <TransactionAddress address={transaction.to()} />
                         )}
                     </TrasactionItem>
                 )}
@@ -139,16 +139,16 @@ export const TransactionBody = ({
 
                 {type === TransactionType.MULTISIGNATURE && (
                     <TrasactionItem title={t('COMMON.MULTISIGNATURE_ADDRESS')}>
-                        {trimAddress(transaction.sender(), 'short')}
+                        {trimAddress(transaction.from(), 'short')}
                     </TrasactionItem>
                 )}
 
                 <TrasactionItem title={t('COMMON.TRANSACTION_ID')}>
                     <div className='flex w-full flex-row items-center justify-between'>
-                        <Tooltip content={transaction.id()} className='break-words'>
-                            <span>{trimAddress(transaction.id(), 'longest')}</span>
+                        <Tooltip content={transaction.hash()} className='break-words'>
+                            <span>{trimAddress(transaction.hash(), 'longest')}</span>
                         </Tooltip>
-                        <CopyTransactionId transactionId={transaction.id()} />
+                        <CopyTransactionId transactionId={transaction.hash()} />
                     </div>
                 </TrasactionItem>
 

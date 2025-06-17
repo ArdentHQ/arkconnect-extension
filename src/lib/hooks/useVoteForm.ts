@@ -1,4 +1,3 @@
-import { Networks, Services } from '@ardenthq/sdk';
 import { useEffect, useState } from 'react';
 import { runtime } from 'webextension-polyfill';
 import { useFees } from './useFees';
@@ -13,6 +12,8 @@ import { useLedgerContext } from '@/lib/Ledger';
 import { ApproveActionType } from '@/pages/Approve';
 import * as WalletStore from '@/lib/store/wallet';
 import * as SessionStore from '@/lib/store/session';
+import { Network } from '@/lib/mainsail/network';
+import { TransactionInputs } from '@/lib/mainsail/transaction.contract';
 
 interface SendVoteForm {
     senderAddress: string;
@@ -21,7 +22,7 @@ interface SendVoteForm {
     hasLowerCustomFee: number | null;
     remainingBalance: number;
     amount: number;
-    network?: Networks.Network;
+    network?: Network;
     vote: Contracts.VoteRegistryItem | null;
     unvote: Contracts.VoteRegistryItem | null;
     customFee?: number;
@@ -65,7 +66,6 @@ const prepareLedger = async (wallet: Contracts.IReadWriteWallet) => {
 };
 
 export const useVoteForm = (wallet: Contracts.IReadWriteWallet, request: ApproveVoteRequest) => {
-    const { env } = useEnvironmentContext();
     const { profile } = useProfileContext();
     const { onError } = useErrorHandlerContext();
     const { calculateAvgFee, calculateMaxFee, calculateMinFee } = useFees();
@@ -107,7 +107,7 @@ export const useVoteForm = (wallet: Contracts.IReadWriteWallet, request: Approve
                 abortConnectionRetry,
             )(prepareLedger(wallet));
 
-            const voteTransactionInput: Services.TransactionInputs = {
+            const voteTransactionInput: TransactionInputs = {
                 ...data,
                 signatory,
             };
@@ -122,7 +122,7 @@ export const useVoteForm = (wallet: Contracts.IReadWriteWallet, request: Approve
 
             return {
                 ...transaction.toObject(),
-                amount: transaction.amount().toString(),
+                amount: transaction.value().toString(),
                 fee: transaction.fee(),
                 total: transaction.total(),
             };
@@ -144,26 +144,24 @@ export const useVoteForm = (wallet: Contracts.IReadWriteWallet, request: Approve
 
     const getVote = async () => {
         try {
-            env.delegates().all(wallet.network().coin(), wallet.network().id());
+            profile.validators().all(wallet.network().id());
         } catch {
-            await env.delegates().sync(profile, wallet.network().coin(), wallet.network().id());
+            await profile.validators().sync(profile, wallet.network().id());
         }
         const vote = request.vote && {
             amount: request.vote?.amount,
-            wallet: env
-                .delegates()
+            wallet: profile
+                .validators()
                 .findByAddress(
-                    wallet.network().coin(),
                     wallet.network().id(),
                     request.vote?.address,
                 ),
         };
         const unvote = request.unvote && {
             amount: request.unvote?.amount,
-            wallet: env
-                .delegates()
+            wallet: profile
+                .validators()
                 .findByAddress(
-                    wallet.network().coin(),
                     wallet.network().id(),
                     request.unvote?.address,
                 ),
@@ -182,19 +180,16 @@ export const useVoteForm = (wallet: Contracts.IReadWriteWallet, request: Approve
                 await persist();
 
                 const averageFee = await calculateAvgFee({
-                    coin: wallet.network().coin(),
                     network: wallet.network().id(),
                     type: ApproveActionType.VOTE,
                 });
 
                 const maxFee = await calculateMaxFee({
-                    coin: wallet.network().coin(),
                     network: wallet.network().id(),
                     type: ApproveActionType.VOTE,
                 });
 
                 const minFee = await calculateMinFee({
-                    coin: wallet.network().coin(),
                     network: wallet.network().id(),
                     type: ApproveActionType.VOTE,
                 });
