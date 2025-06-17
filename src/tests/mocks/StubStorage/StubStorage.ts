@@ -1,4 +1,4 @@
-import { Storage } from '@ardenthq/sdk-profiles';
+import { Storage } from '@/lib/profiles';
 
 export class StubStorage implements Storage {
     private storage: any;

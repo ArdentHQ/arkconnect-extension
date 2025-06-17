@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useMemo, useRef } from 'react';
-import { Contracts as ProfilesContracts } from '@ardenthq/sdk-profiles';
 import { FormikProps } from 'formik';
 import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
@@ -16,6 +15,7 @@ import { getNetworkCurrency } from '@/lib/utils/getActiveCoin';
 import { AddressBalance, TestnetIcon } from '@/components/wallet/address/Address.blocks';
 import { handleSubmitKeyAction } from '@/lib/utils/handleKeyAction';
 import { WalletNetwork } from '@/lib/store/wallet';
+import { WalletData } from '@/lib/profiles/wallet.enum';
 
 type Props = {
     goToNextStep: () => void;
@@ -58,7 +58,7 @@ const ImportWallets = ({ goToNextStep, formik }: Props) => {
             .wallets()
             .values()
             .map((wallet) =>
-                wallet.data().get<string>(ProfilesContracts.WalletData.DerivationPath),
+                wallet.data().get<string>(WalletData.DerivationPath),
             );
 
         return [...profileWalletsPaths, ...ledgerPaths]
