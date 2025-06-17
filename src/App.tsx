@@ -88,9 +88,9 @@ const App = () => {
                 await env.verify();
                 await env.boot();
 
-                if (isDev()) {
-                    createTestAddressBook();
-                }
+                // if (isDev()) {
+                //     createTestAddressBook();
+                // }
 
                 setIsEnvironmentBooted(true);
             } catch (error) {

@@ -256,6 +256,7 @@ const handleSetData = async (request: any, extension: ReturnType<typeof Extensio
 
     const dump = Object.values(request.data.profileDump)[0] as Record<string, string>;
 
+    console.log("dump is", dump);
     const requestedProfile = await extension.env().profiles().import(dump.data);
     await extension.env().profiles().restore(requestedProfile);
 

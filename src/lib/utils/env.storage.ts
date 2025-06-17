@@ -13,10 +13,12 @@ export class ExtensionClientStorage implements Storage {
     }
 
     public async get<T = any>(key: string): Promise<T | undefined> {
+        console.debug('front storage.get', key);
         return this.storage[key] as T;
     }
 
     public async set(key: string, value: string | object): Promise<void> {
+        console.debug('front storage.set - will trigger sendMessage', key, value);
         if (key === 'profiles') {
             const { profileDump } = await runtime.sendMessage({
                 type: 'PERSIST',
