@@ -69,6 +69,7 @@ export default defineConfig({
                         '@reduxjs/toolkit',
                         'formik',
                     ],
+                    "arkvault-crypto": ["@ardenthq/arkvault-crypto"],
                 },
             },
         },
