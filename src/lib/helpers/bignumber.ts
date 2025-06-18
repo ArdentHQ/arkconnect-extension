@@ -1,5 +1,3 @@
-/* eslint-disable unicorn/no-array-reduce */
-
 // @ts-expect-error: No type declarations for 'big.js'
 import Big, { BigSource } from 'big.js';
 
@@ -308,7 +306,6 @@ export class BigNumber {
             return this.#value.toFixed(decimals);
         }
 
-        // eslint-disable-next-line unicorn/require-number-to-fixed-digits-argument
         return this.#value.toFixed();
     }
 

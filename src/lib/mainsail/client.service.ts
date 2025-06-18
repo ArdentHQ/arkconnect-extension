@@ -138,7 +138,7 @@ export class ClientService {
         try {
             response = await this.#client.transactions().create(transactionToBroadcast);
         } catch (error) {
-            // @ts-ignore
+            // @ts-expect-error this is an HTTP error
             response = error.response.json();
         }
 
@@ -191,7 +191,7 @@ export class ClientService {
                 result: response.result,
             };
         } catch (error) {
-            // @ts-ignore
+            // @ts-expect-error this is an HTTP error
             const errorResponse = error.response?.json();
             throw new Error(errorResponse?.error?.message || 'Failed to make EVM call');
         }
@@ -291,9 +291,9 @@ export class ClientService {
         };
 
         for (const [alias, original] of Object.entries(mappings)) {
-            // @ts-ignore
+            // @ts-expect-error any type issue
             if (body[alias]) {
-                // @ts-ignore
+                // @ts-expect-error any type issue
                 result.searchParams[original] = body[alias];
 
                 delete result.body[alias];

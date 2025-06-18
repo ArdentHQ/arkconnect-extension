@@ -52,8 +52,8 @@ export class FeeService {
     }
 
     public async calculate(
-        transaction: Contracts.RawTransactionData,
-        options?: Services.TransactionFeeOptions,
+        _transaction: Contracts.RawTransactionData,
+        _options?: Services.TransactionFeeOptions,
     ): Promise<BigNumber> {
         return BigNumber.ZERO;
     }
