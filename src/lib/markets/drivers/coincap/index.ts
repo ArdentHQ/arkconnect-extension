@@ -1,5 +1,7 @@
-import { Http } from '@/app/lib/mainsail';
-import { DateTime } from '@/app/lib/intl';
+import { HistoricalPriceTransformer } from './transformers/historical-price-transformer';
+import { MarketTransformer } from './transformers/market-transformer';
+import { Http } from '@/lib/mainsail';
+import { DateTime } from '@/lib/intl';
 
 import {
     CurrentPriceOptions,
@@ -8,9 +10,7 @@ import {
     HistoricalPriceOptions,
     MarketDataCollection,
     PriceTracker,
-} from '@/app/lib/markets/contracts';
-import { HistoricalPriceTransformer } from './transformers/historical-price-transformer';
-import { MarketTransformer } from './transformers/market-transformer';
+} from '@/lib/markets/contracts';
 
 /**
  * Implements a price tracker through the CoinCap API.
@@ -166,7 +166,6 @@ export class CoinCap implements PriceTracker {
         const body = await this.#get('assets', { limit });
 
         for (const value of Object.values(body.data)) {
-            // @ts-ignore
             this.tokenLookup[value.symbol.toUpperCase()] = value.id;
         }
 

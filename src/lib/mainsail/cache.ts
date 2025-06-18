@@ -1,4 +1,4 @@
-import { DateTime } from '@/app/lib/intl';
+import { DateTime } from '@/lib/intl';
 
 interface CacheItem {
     value: any;

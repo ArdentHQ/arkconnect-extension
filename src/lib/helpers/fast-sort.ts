@@ -36,7 +36,7 @@ type IAnySortBy<T = any> =
 
 // >>> HELPERS <<<
 
-const castComparer = (comparer: IComparer) => (a, b, order: IOrder) =>
+const castComparer = (comparer: IComparer) => (a: any, b: any, order: IOrder) =>
     comparer(a, b, order) * order;
 
 const throwInvalidConfigErrorIfTrue = function (condition: boolean, context: string) {
@@ -71,8 +71,8 @@ const multiPropertySorterProvider = function (defaultComparer: IComparer) {
         depth: number,
         order: IOrder,
         comparer: IComparer,
-        a,
-        b,
+        a: any,
+        b: any,
     ): number {
         let valueA;
         let valueB;
@@ -114,7 +114,7 @@ const multiPropertySorterProvider = function (defaultComparer: IComparer) {
     };
 };
 
-function getSortStrategy(sortBy: IAnySortBy, comparer: IComparer, order: IOrder): (a, b) => number {
+function getSortStrategy(sortBy: IAnySortBy, comparer: IComparer, order: IOrder): (a: any, b: any) => number {
     // Flat array sorter
     if (sortBy === undefined || sortBy === true) {
         return (a, b) => comparer(a, b, order);
@@ -223,7 +223,7 @@ export function createNewSortInstance(opts: ISortInstanceOptions): <T>(_ctx: T[]
     };
 }
 
-const defaultComparer = (a, b, order): number => {
+const defaultComparer = (a: any, b: any, order: number): number => {
     if (a == null) {
         return order;
     }

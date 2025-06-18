@@ -1,6 +1,6 @@
 /* istanbul ignore file */
 
-import { IdentityOptions } from '@/app/lib/mainsail/shared.contract';
+import { IdentityOptions } from '@/lib/mainsail/shared.contract';
 
 export class LedgerSignatory {
     readonly #signingKey: string;

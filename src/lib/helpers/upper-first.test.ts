@@ -3,7 +3,7 @@ import { describe, expect, it } from 'vitest';
 import { upperFirst } from './upper-first';
 
 describe('upperFirst', () => {
-    const dummies = {
+    const dummies: Record<string, string> = {
         FRED: 'FRED',
         fred: 'Fred',
         'test space': 'Test space',

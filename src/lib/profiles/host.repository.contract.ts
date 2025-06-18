@@ -1,4 +1,4 @@
-import { Networks } from '@/app/lib/mainsail';
+import { Networks } from '@/lib/mainsail';
 
 export type Host = Networks.NetworkHost;
 export type HostSet = { name: string; host: Host }[];

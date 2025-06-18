@@ -1,8 +1,8 @@
-import { Collections, DTO, Networks } from '@/app/lib/mainsail';
-
 import { IProfile, IUsernamesService } from './contracts.js';
-import { ClientService } from '@/app/lib/mainsail/client.service.js';
-import { ConfigRepository } from '@/app/lib/mainsail/config.repository';
+import { Collections, DTO, Networks } from '@/lib/mainsail';
+
+import { ClientService } from '@/lib/mainsail/client.service.js';
+import { ConfigRepository } from '@/lib/mainsail/config.repository';
 
 type UsernameRegistry = Record<string, Collections.UsernameDataCollection>;
 

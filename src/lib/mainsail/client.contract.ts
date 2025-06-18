@@ -1,6 +1,3 @@
-import { BigNumber } from '@/app/lib/helpers';
-import { DateTime } from '@/app/lib/intl';
-
 import {
     ConfirmedTransactionDataCollection,
     UsernameDataCollection,
@@ -14,7 +11,9 @@ import {
     WalletData,
 } from './contracts';
 import { TransactionType } from './networks';
-import { ConfirmedTransactionData } from '@/app/lib/mainsail/confirmed-transaction.dto';
+import { BigNumber } from '@/lib/helpers';
+import { DateTime } from '@/lib/intl';
+import { ConfirmedTransactionData } from '@/lib/mainsail/confirmed-transaction.dto';
 
 export type ClientPaginatorCursor = string | number | undefined;
 

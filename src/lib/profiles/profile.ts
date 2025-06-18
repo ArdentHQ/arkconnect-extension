@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { Networks } from '@/app/lib/mainsail';
 
 import { AppearanceService } from './appearance.service.js';
 import { Authenticator } from './authenticator.js';
@@ -44,12 +43,13 @@ import { TransactionAggregate } from './transaction.aggregate.js';
 import { WalletAggregate } from './wallet.aggregate.js';
 import { WalletFactory } from './wallet.factory.js';
 import { WalletRepository } from './wallet.repository.js';
-import { Contracts, Environment } from './index.js';
 import { UsernamesService } from './usernames.service.js';
-import { LedgerService } from '@/app/lib/mainsail/ledger.service.js';
 import { ValidatorService } from './validator.service.js';
 import { KnownWalletService } from './known-wallet.service.js';
 import { ExchangeRateService } from './exchange-rate.service.js';
+import { Contracts, Environment } from './index.js';
+import { LedgerService } from '@/lib/mainsail/ledger.service.js';
+import { Networks } from '@/lib/mainsail';
 
 export class Profile implements IProfile {
     /**

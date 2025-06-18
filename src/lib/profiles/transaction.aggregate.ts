@@ -1,8 +1,7 @@
-import { Services } from '@/app/lib/mainsail';
-
 import { IProfile, IReadWriteWallet, ITransactionAggregate } from './contracts.js';
 import { AggregateQuery } from './transaction.aggregate.contract.js';
 import { ExtendedConfirmedTransactionDataCollection } from './transaction.collection.js';
+import { Services } from '@/lib/mainsail';
 
 type HistoryMethod = string;
 type HistoryWallet = ExtendedConfirmedTransactionDataCollection;
@@ -97,9 +96,8 @@ export class TransactionAggregate implements ITransactionAggregate {
         let response: ExtendedConfirmedTransactionDataCollection;
 
         try {
-            response = (await syncedWallets[0]
-                .transactionIndex()
-                [method](query)) as ExtendedConfirmedTransactionDataCollection;
+            const methodFn = syncedWallets[0].transactionIndex()[method];
+            response = (await methodFn(query)) as ExtendedConfirmedTransactionDataCollection;
         } catch {
             return new ExtendedConfirmedTransactionDataCollection([], {
                 last: undefined,

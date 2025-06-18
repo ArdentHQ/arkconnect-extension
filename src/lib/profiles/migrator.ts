@@ -1,4 +1,4 @@
-import semver from 'semver';
+import * as semver from 'semver';
 
 import { IMigrator, IProfile, ProfileData } from './contracts.js';
 import { IProfileData } from './profile.contract.js';

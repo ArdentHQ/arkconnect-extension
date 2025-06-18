@@ -1,11 +1,9 @@
-import { Contracts } from '@/app/lib/mainsail';
-
 import {
     IDataRepository,
-    IValidatorService,
     IProfile,
     IReadOnlyWallet,
     IReadWriteWallet,
+    IValidatorService,
 } from './contracts.js';
 import { DataRepository } from './data.repository';
 import {
@@ -15,8 +13,9 @@ import {
 } from './validator-syncer.service.js';
 import { pqueueSettled } from './helpers/queue.js';
 import { ReadOnlyWallet } from './read-only-wallet.js';
-import { ClientService } from '@/app/lib/mainsail/client.service.js';
-import { LinkService } from '@/app/lib/mainsail/link.service.js';
+import { Contracts } from '@/lib/mainsail';
+import { ClientService } from '@/lib/mainsail/client.service.js';
+import { LinkService } from '@/lib/mainsail/link.service.js';
 
 export class ValidatorService implements IValidatorService {
     readonly #dataRepository: IDataRepository = new DataRepository();

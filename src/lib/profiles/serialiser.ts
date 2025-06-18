@@ -1,7 +1,7 @@
-import { Contracts } from '@/app/lib/mainsail';
-
 import { IReadWriteWallet, IWalletData, WalletData, WalletFlag } from './contracts';
-import { BigNumber } from '@/app/lib/helpers/bignumber';
+import { Contracts } from '@/lib/mainsail';
+
+import { BigNumber } from '@/lib/helpers/bignumber';
 
 interface SerializedBalance {
     available: string;

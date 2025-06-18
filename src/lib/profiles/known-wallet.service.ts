@@ -1,7 +1,5 @@
-import { Http, Networks, Services } from '@/app/lib/mainsail';
-
-import { ConfigKey } from '@/app/lib/mainsail';
 import { IProfile } from './contracts';
+import { ConfigKey, Http, Networks, Services } from '@/lib/mainsail';
 
 type KnownWalletRegistry = Record<string, Services.KnownWallet[]>;
 
@@ -9,7 +7,7 @@ export class KnownWalletService {
     readonly #registry: KnownWalletRegistry = {};
 
     /** {@inheritDoc IKnownWalletService.sync} */
-    public async sync(profile: IProfile, network: Networks.Network): Promise<void> {
+    public async sync(_profile: IProfile, network: Networks.Network): Promise<void> {
         const client = new Http.HttpClient(0);
 
         try {

@@ -1,8 +1,7 @@
-import { Services, Exceptions } from '@/app/lib/mainsail';
-
 import { PublicKey } from '@arkecosystem/typescript-crypto';
 import { BIP39, Bls } from '@ardenthq/arkvault-crypto';
-import { abort_if, abort_unless } from '@/app/lib/helpers';
+import { Exceptions, Services } from '@/lib/mainsail';
+import { abort_if, abort_unless } from '@/lib/helpers';
 
 export class PublicKeyService {
     public fromMnemonic(mnemonic: string): Services.PublicKeyDataTransferObject {

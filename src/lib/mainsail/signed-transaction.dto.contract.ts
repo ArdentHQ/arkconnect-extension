@@ -1,7 +1,6 @@
-import { BigNumber } from '@/app/lib/helpers';
-import { DateTime } from '@/app/lib/intl';
-
 import { MultiPaymentItem, MultiPaymentRecipient } from './confirmed-transaction.dto.contract';
+import { BigNumber } from '@/lib/helpers';
+import { DateTime } from '@/lib/intl';
 
 export type RawTransactionData = any;
 

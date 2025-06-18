@@ -1,5 +1,8 @@
-import { CURRENCIES, DateTime } from '@/app/lib/intl';
-import { Http } from '@/app/lib/mainsail';
+import { HistoricalPriceTransformer } from './transformers/historical-price-transformer';
+import { HistoricalVolumeTransformer } from './transformers/historical-volume-transformer';
+import { MarketTransformer } from './transformers/market-transformer';
+import { CURRENCIES, DateTime } from '@/lib/intl';
+import { Http } from '@/lib/mainsail';
 
 import {
     CurrentPriceOptions,
@@ -9,10 +12,7 @@ import {
     HistoricalVolumeOptions,
     MarketDataCollection,
     PriceTracker,
-} from '@/app/lib/markets/contracts';
-import { HistoricalPriceTransformer } from './transformers/historical-price-transformer';
-import { HistoricalVolumeTransformer } from './transformers/historical-volume-transformer';
-import { MarketTransformer } from './transformers/market-transformer';
+} from '@/lib/markets/contracts';
 
 /**
  * Implements a price tracker through the CryptoCompare API.
@@ -102,7 +102,7 @@ export class CryptoCompare implements PriceTracker {
 
     /** {@inheritDoc PriceTracker.dailyAverage} */
     public async dailyAverage(options: DailyAverageOptions): Promise<number> {
-        const response = await this.#get(`data/dayAvg`, {
+        const response = await this.#get('data/dayAvg', {
             fsym: options.token,
             toTs: DateTime.make(options.timestamp).toUNIX(),
             tsym: options.currency,

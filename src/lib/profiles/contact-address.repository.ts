@@ -109,7 +109,6 @@ export class ContactAddressRepository implements IContactAddressRepository {
 
     /** {@inheritDoc IContactAddressRepository.forget} */
     public forget(id: string): void {
-        // eslint-disable-next-line testing-library/prefer-explicit-assert
         this.findById(id);
 
         this.#data.forget(id);

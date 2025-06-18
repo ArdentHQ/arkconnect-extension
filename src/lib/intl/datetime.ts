@@ -1,5 +1,3 @@
-/* eslint-disable unicorn/prefer-module */
-
 import dayjs, { ConfigType, QUnitType } from 'dayjs';
 import advancedFormat from 'dayjs/plugin/advancedFormat.js';
 import dayOfYear from 'dayjs/plugin/dayOfYear.js';
@@ -76,6 +74,7 @@ export class DateTime {
 
             this.#instance.locale(locale);
         } catch {
+            // eslint-disable-next-line no-console
             console.debug(`Failed to load data for the [${locale}] locale.`);
         }
     }

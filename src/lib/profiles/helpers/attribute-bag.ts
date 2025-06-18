@@ -1,4 +1,4 @@
-import { get, has, set, unset } from '@/app/lib/helpers';
+import { get, has, set, unset } from '@/lib/helpers';
 
 export class AttributeBag<T> {
     /**

@@ -1,8 +1,7 @@
-import { Services } from '@/app/lib/mainsail';
-
 import { IProfile } from './contracts.js';
 import { DataRepository } from './data.repository.js';
-import { FeeService } from '@/app/lib/mainsail/fee.service.js';
+import { Services } from '@/lib/mainsail';
+import { FeeService } from '@/lib/mainsail/fee.service.js';
 
 export class ProfileFeeService {
     readonly #dataRepository: DataRepository = new DataRepository();

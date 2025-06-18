@@ -1,5 +1,5 @@
-import { BigNumber } from '@/app/lib/helpers';
-import { CURRENCIES, Money, Numeral } from '@/app/lib/intl';
+import { BigNumber } from '@/lib/helpers';
+import { CURRENCIES, Money, Numeral } from '@/lib/intl';
 
 interface CurrencyFormatOptions {
     locale?: string;

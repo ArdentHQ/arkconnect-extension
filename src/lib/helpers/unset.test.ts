@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import { unset } from './unset';
 
 describe('unset', () => {
@@ -11,7 +11,7 @@ describe('unset', () => {
     });
 
     it('should return false if the path is not a string', () => {
-        // @ts-expect-error
+        // @ts-expect-error passing number instead of string is purpose of the test
         expect(unset({}, 123)).toBe(false);
     });
 

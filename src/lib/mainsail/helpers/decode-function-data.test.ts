@@ -1,6 +1,6 @@
-import { describe, it, expect } from 'vitest';
-import { decodeFunctionData, AbiType } from './decode-function-data';
+import { describe, expect, it } from 'vitest';
 import { Hex } from 'viem';
+import { AbiType, decodeFunctionData } from './decode-function-data';
 
 describe('decodeFunctionData', () => {
     it('should decode consensus function data', () => {

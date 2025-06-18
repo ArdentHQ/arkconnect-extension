@@ -1,5 +1,3 @@
-import { Networks } from '@/app/lib/mainsail';
-
 import {
     IAppearanceService,
     IAuthenticator,
@@ -23,10 +21,11 @@ import { AttributeBag } from './helpers/attribute-bag.js';
 import { IHostRepository } from './host.repository.contract.js';
 import { INetworkRepository } from './network.repository.contract.js';
 import { UsernamesService } from './usernames.service.js';
-import { LedgerService } from '@/app/lib/mainsail/ledger.service.js';
 import { ValidatorService } from './validator.service.js';
 import { KnownWalletService } from './known-wallet.service.js';
 import { ExchangeRateService } from './exchange-rate.service.js';
+import { LedgerService } from '@/lib/mainsail/ledger.service.js';
+import { Networks } from '@/lib/mainsail';
 
 /**
  *

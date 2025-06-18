@@ -1,5 +1,8 @@
-import { Http } from '@/app/lib/mainsail';
-import { DateTime } from '@/app/lib/intl';
+import { HistoricalPriceTransformer } from './transformers/historical-price-transformer.js';
+import { HistoricalVolumeTransformer } from './transformers/historical-volume-transformer.js';
+import { MarketTransformer } from './transformers/market-transformer.js';
+import { Http } from '@/lib/mainsail';
+import { DateTime } from '@/lib/intl';
 
 import {
     CurrentPriceOptions,
@@ -9,10 +12,7 @@ import {
     HistoricalVolumeOptions,
     MarketDataCollection,
     PriceTracker,
-} from '@/app/lib/markets/contracts';
-import { HistoricalPriceTransformer } from './transformers/historical-price-transformer.js';
-import { HistoricalVolumeTransformer } from './transformers/historical-volume-transformer.js';
-import { MarketTransformer } from './transformers/market-transformer.js';
+} from '@/lib/markets/contracts';
 
 /**
  * Implements a price tracker through the CoinGecko API.
@@ -64,7 +64,7 @@ export class CoinGecko implements PriceTracker {
         const tokenId = await this.#getTokenId(token);
 
         try {
-            const body = await this.#get(`simple/price`, {
+            const body = await this.#get('simple/price', {
                 ids: tokenId,
                 vs_currencies: 'BTC',
             });
@@ -146,11 +146,10 @@ export class CoinGecko implements PriceTracker {
             return this.tokenLookup[token.toUpperCase()];
         }
 
-        const uri = `coins/list`;
+        const uri = 'coins/list';
         const body = await this.#get(uri);
 
         for (const value of Object.values(body)) {
-            // @ts-ignore
             this.tokenLookup[value.symbol.toUpperCase()] = value.id;
         }
 
