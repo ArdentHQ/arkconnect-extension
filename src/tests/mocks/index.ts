@@ -1,7 +1,7 @@
 import { StubStorage } from './StubStorage';
 import { connectedTransport as ledgerTransportFactory } from '@/lib/utils/transport';
 import { Environment } from '@/lib/profiles';
-import { Http} from '@/lib/mainsail';
+import { Http } from '@/lib/mainsail';
 
 export const httpClient = new Http.HttpClient(10);
 
