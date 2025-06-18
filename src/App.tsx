@@ -85,13 +85,10 @@ const App = () => {
     useLayoutEffect(() => {
         const boot = async () => {
             try {
-                await env.verify();
-                await env.boot();
-
                 // if (isDev()) {
                 //     createTestAddressBook();
                 // }
-
+                
                 setIsEnvironmentBooted(true);
             } catch (error) {
                 onError(error);
