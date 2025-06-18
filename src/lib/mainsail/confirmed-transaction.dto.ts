@@ -68,6 +68,7 @@ export class ConfirmedTransactionData {
                 continue;
             }
 
+            // @ts-expect-error method is key of ConfirmedTransactionData
             if (this[method]()) {
                 return type;
             }
@@ -281,7 +282,7 @@ export class ConfirmedTransactionData {
     public payments(): MultiPaymentItem[] {
         const payments: MultiPaymentItem[] = [];
 
-        const [recipients, amounts] = decodeFunctionData(this.data.data, AbiType.MultiPayment).args;
+        const [recipients, amounts] = decodeFunctionData(this.data.data, AbiType.MultiPayment).args as [string[], string[]];
 
         for (const index in recipients) {
             payments[index] = {

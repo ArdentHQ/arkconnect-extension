@@ -125,7 +125,8 @@ export class ValidatorService implements IValidatorService {
     }
 
     #findValidatorByAttribute(network: string, key: string, value: string): IReadOnlyWallet {
-        const result = this.all(network).find((validator) => validator[key]() === value);
+        const method = key as keyof IReadOnlyWallet;
+        const result = this.all(network).find((validator) => validator[method]() === value);
 
         if (result === undefined) {
             throw new Error(`No validator for ${key} with value ${value} could be found.`);

@@ -130,7 +130,7 @@ export class CoinCap implements PriceTracker {
         }
 
         const priceUsd =
-            response.data.reduce((acc, data) => acc + Number(data.priceUsd), 0) /
+            response.data.reduce((acc: number, data: Record<string, any>) => acc + Number(data.priceUsd), 0) /
             response.data.length;
 
         const { data } = await this.#get('rates');
@@ -163,7 +163,7 @@ export class CoinCap implements PriceTracker {
             return this.tokenLookup[token.toUpperCase()];
         }
 
-        const body = await this.#get('assets', { limit });
+        const body: Record<string, Record<string, any>> = await this.#get('assets', { limit });
 
         for (const value of Object.values(body.data)) {
             this.tokenLookup[value.symbol.toUpperCase()] = value.id;

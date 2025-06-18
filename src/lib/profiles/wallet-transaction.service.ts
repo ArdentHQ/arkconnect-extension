@@ -7,6 +7,7 @@ import { SignedTransactionDataDictionary } from './wallet-transaction.service.co
 import { Exceptions, Services } from '@/lib/mainsail';
 import { SignedTransactionData } from '@/lib/mainsail/signed-transaction.dto';
 import { ConfirmedTransactionData } from '@/lib/mainsail/confirmed-transaction.dto';
+import { TransactionService as MainsailTransactionService } from '@/lib/mainsail/transaction.service.js';
 
 export class TransactionService implements ITransactionService {
     /**
@@ -352,9 +353,11 @@ export class TransactionService implements ITransactionService {
      * @memberof TransactionService
      */
     async #signTransaction(type: string, input: any): Promise<string> {
+        const txMethod = type as keyof MainsailTransactionService;
+
         const transaction: ExtendedSignedTransactionData =
             this.#createExtendedSignedTransactionData(
-                await this.#wallet.transactionService()[type](input),
+                await this.#wallet.transactionService()[txMethod](input),
             );
 
         // When we are working with Multi-Signatures we need to sign them in split through

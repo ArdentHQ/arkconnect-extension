@@ -1,3 +1,4 @@
+// @ts-expect-error types for dinero.js is missing
 import Dinero from 'dinero.js';
 
 /**
@@ -31,7 +32,7 @@ export class Money {
      * @param {*} options
      * @memberof Money
      */
-    private constructor(options) {
+    private constructor(options: Record<string, any>) {
         if (!Number.isInteger(options.amount)) {
             options.amount = options.amount.getAmount();
         }

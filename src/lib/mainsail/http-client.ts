@@ -8,6 +8,7 @@ type RequestOptions = Record<string, any>;
 type Primitive = null | undefined | string | number | boolean | symbol | bigint;
 
 export class HttpClient {
+    // @ts-expect-error ignore bodyFormat is not read error
     private _bodyFormat!: string;
     private _options: RequestOptions = {};
     private readonly cache: Cache;

@@ -2,6 +2,7 @@ import { IProfile, IReadWriteWallet, ITransactionAggregate } from './contracts.j
 import { AggregateQuery } from './transaction.aggregate.contract.js';
 import { ExtendedConfirmedTransactionDataCollection } from './transaction.collection.js';
 import { Services } from '@/lib/mainsail';
+import { TransactionIndex } from '@/lib/profiles/transaction-index';
 
 type HistoryMethod = string;
 type HistoryWallet = ExtendedConfirmedTransactionDataCollection;
@@ -96,7 +97,8 @@ export class TransactionAggregate implements ITransactionAggregate {
         let response: ExtendedConfirmedTransactionDataCollection;
 
         try {
-            const methodFn = syncedWallets[0].transactionIndex()[method];
+            const methodFn = syncedWallets[0].transactionIndex()[method as keyof TransactionIndex];
+            // @ts-expect-error ignore types for query
             response = (await methodFn(query)) as ExtendedConfirmedTransactionDataCollection;
         } catch {
             return new ExtendedConfirmedTransactionDataCollection([], {

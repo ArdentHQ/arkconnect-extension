@@ -19,7 +19,7 @@ export class UsernameDataCollection {
         return this.#find('username', username);
     }
 
-    #find(key: string, value: string): UsernameData | undefined {
+    #find(key: 'username'|'address', value: string): UsernameData | undefined {
         return this.#data.find((item: UsernameData) => item[key]() === value);
     }
 

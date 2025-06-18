@@ -127,7 +127,7 @@ export class AttributeBag<T> {
      * @memberof AttributeBag
      */
     public only(keys: (keyof T)[]): Record<string, any> {
-        const result: object = {};
+        const result: Record<string, any> = {};
 
         for (const [key, value] of Object.entries(this.#attributes)) {
             if (keys.includes(key as keyof T)) {
@@ -146,7 +146,7 @@ export class AttributeBag<T> {
      * @memberof AttributeBag
      */
     public except(keys: (keyof T)[]): Record<string, any> {
-        const result: object = {};
+        const result: Record<string, any> = {};
 
         for (const [key, value] of Object.entries(this.#attributes)) {
             if (!keys.includes(key as keyof T)) {

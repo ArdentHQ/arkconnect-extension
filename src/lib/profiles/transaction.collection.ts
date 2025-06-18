@@ -22,7 +22,7 @@ export class ExtendedConfirmedTransactionDataCollection extends Paginator<Extend
         return this.#find('to', to);
     }
 
-    #find(key: string, value: string): ExtendedConfirmedTransactionData | undefined {
+    #find(key: 'from'|'to'|'type'|'hash'|'timestamp', value: string): ExtendedConfirmedTransactionData | undefined {
         return this.items().find(
             (transaction: ExtendedConfirmedTransactionData) => transaction[key]() === value,
         );

@@ -28,6 +28,10 @@ export const decodeFunctionData = (
             data,
         }) as FunctionData;
     } catch (error) {
-        throw new Error(error.message);
+        if (error instanceof Error) {
+            throw new Error(error.message);
+        }
+
+        throw new Error('Error occurred while decoding data');
     }
 };

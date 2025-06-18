@@ -23,6 +23,7 @@ export class ProfileFeeService {
 
     /** {@inheritDoc IFeeService.findByType} */
     public findByType(network: string, type: string): Services.TransactionFee {
+        // @ts-expect-error type should be the key
         return this.all(network)[type];
     }
 

@@ -160,7 +160,7 @@ export class SignedTransactionData {
         const [recipients, amounts] = decodeFunctionData(
             this.normalizedData() as Hex,
             AbiType.MultiPayment,
-        ).args;
+        ).args as [string[], string[]];
 
         for (const index in recipients) {
             payments[index] = {
@@ -278,6 +278,7 @@ export class SignedTransactionData {
                 continue;
             }
 
+            // @ts-expect-error method is key of SignedTransactionData
             if (this[method]()) {
                 return type;
             }

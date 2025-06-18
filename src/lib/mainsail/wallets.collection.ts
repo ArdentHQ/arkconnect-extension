@@ -14,7 +14,7 @@ export class WalletDataCollection extends Paginator<WalletData> {
         return this.#find('username', username);
     }
 
-    #find(key: string, value: string): WalletData | undefined {
+    #find(key: 'username'|'publicKey'|'address', value: string): WalletData | undefined {
         return this.items().find((wallet: WalletData) => wallet[key]() === value);
     }
 }
