@@ -58,7 +58,9 @@ export class ConfigManager {
             throw new Error('Milestone not found.');
         }
 
-        return this.milestones.some((milestone: Record<string, any>) => milestone.height === height);
+        return this.milestones.some(
+            (milestone: Record<string, any>) => milestone.height === height,
+        );
     }
 
     public getMilestone(height?: number): { [key: string]: any } {

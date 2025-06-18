@@ -282,7 +282,8 @@ export class ConfirmedTransactionData {
     public payments(): MultiPaymentItem[] {
         const payments: MultiPaymentItem[] = [];
 
-        const [recipients, amounts] = decodeFunctionData(this.data.data, AbiType.MultiPayment).args as [string[], string[]];
+        const [recipients, amounts] = decodeFunctionData(this.data.data, AbiType.MultiPayment)
+            .args as [string[], string[]];
 
         for (const index in recipients) {
             payments[index] = {

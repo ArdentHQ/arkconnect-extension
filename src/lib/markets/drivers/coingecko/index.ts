@@ -147,7 +147,7 @@ export class CoinGecko implements PriceTracker {
         }
 
         const uri = 'coins/list';
-        const body = await this.#get(uri) as Record<string, Record<string, any>>;
+        const body = (await this.#get(uri)) as Record<string, Record<string, any>>;
 
         for (const value of Object.values(body)) {
             this.tokenLookup[value.symbol.toUpperCase()] = value.id;

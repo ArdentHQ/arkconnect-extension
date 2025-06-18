@@ -5,7 +5,10 @@
  * @param {*} { from, to, base, rates }
  * @returns {number}
  */
-export const convertToCurrency = (amount: any, { from, to, base, rates }: Record<string, any>): number => {
+export const convertToCurrency = (
+    amount: any,
+    { from, to, base, rates }: Record<string, any>,
+): number => {
     if (from && to) {
         const baseAmount = amount * 100;
 
