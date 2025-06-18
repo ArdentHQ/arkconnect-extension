@@ -1,1 +1,1 @@
-export { default as isEqual } from "fast-deep-equal";
+export { default as isEqual } from 'fast-deep-equal';
