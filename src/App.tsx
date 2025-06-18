@@ -88,7 +88,7 @@ const App = () => {
                 // if (isDev()) {
                 //     createTestAddressBook();
                 // }
-                
+
                 setIsEnvironmentBooted(true);
             } catch (error) {
                 onError(error);

@@ -74,6 +74,7 @@ export class DateTime {
 
             this.#instance.locale(locale);
         } catch {
+            // eslint-disable-next-line no-console
             console.debug(`Failed to load data for the [${locale}] locale.`);
         }
     }

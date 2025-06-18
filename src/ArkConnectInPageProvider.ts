@@ -78,9 +78,9 @@ type SignMessageResponse = {
 };
 
 type SignTransactionRequest = {
-    amount: number;
+    value: string;
     fee?: number;
-    receiverAddress: string;
+    to: string;
     memo?: string;
 };
 
@@ -138,8 +138,8 @@ const signUnvoteRequestShape: SignVoteRequest = {
 };
 
 const signTransactionRequestShape: SignTransactionRequest = {
-    amount: 1,
-    receiverAddress: 'address',
+    value: '1',
+    to: 'address',
 };
 
 const signMessageRequestShape: SignMessageRequest = {
@@ -367,7 +367,8 @@ class ArkConnectInPageProvider {
                 }
 
                 try {
-                    assertPositiveNonZero(request.amount);
+                    // TODO restore validation
+                    // assertPositiveNonZero(request.value);
 
                     if (request.fee) {
                         assertPositiveNonZero(request.fee);

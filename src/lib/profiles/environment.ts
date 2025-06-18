@@ -43,8 +43,6 @@ export class Environment {
             throw new Error(`Terminating due to corrupted state: ${String(error)}`);
         }
 
-        console.log("env#verify setting data", value);
-
         this.#storage.set('data', value.data);
         this.#storage.set('profiles', value.profiles);
     }
@@ -64,7 +62,6 @@ export class Environment {
         }
 
         const storage = await this.#storage.all<StorageData>();
-        console.log('env#boot, storage is', storage);
 
         if (Object.keys(storage.data).length > 0) {
             this.data().fill(storage.data);

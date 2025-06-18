@@ -101,6 +101,7 @@ export class LedgerService {
     }
 
     public async signMessage(path: string, payload: string): Promise<string> {
+        // eslint-disable-next-line no-console
         console.log({ path, payload });
         throw new Exceptions.NotImplemented(this.constructor.name, this.signMessage.name);
     }

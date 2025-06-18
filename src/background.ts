@@ -19,7 +19,6 @@ const initOneTimeEventListeners = () => {
 
         let response;
         if (oneTimeEventHandlers[type]) {
-            console.log("one time event captured", type, request);
             response = await oneTimeEventHandlers[type](request);
         }
 
