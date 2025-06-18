@@ -16,7 +16,7 @@ export class Currency {
     ): string {
         const withTicker = options.withTicker ?? true;
         const currencies = CURRENCIES as Record<string, any>;
-        const decimals = currencies?.decimals ?? DEFAULT_DECIMALS;
+        const decimals = currencies[ticker]?.decimals ?? DEFAULT_DECIMALS;
 
         if (decimals > 2) {
             const numeral = Numeral.make(options.locale, {
