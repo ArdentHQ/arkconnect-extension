@@ -35,13 +35,14 @@ const withAbortPromise =
 const sign = async (
     wallet: ProfileContracts.IReadWriteWallet,
     message: string,
-    options?: {
+    _options?: {
         abortSignal?: AbortSignal;
     },
 ): Promise<SignedMessage> => {
-    if (wallet.isLedger()) {
-        return withAbortPromise(options?.abortSignal)(signWithLedger(message, wallet));
-    }
+    // TODO enable ledger
+    // if (wallet.isLedger()) {
+    //     return withAbortPromise(options?.abortSignal)(signWithLedger(message, wallet));
+    // }
 
     const { error, signatory, signature } = await runtime.sendMessage({
         type: 'SIGN_MESSAGE',
