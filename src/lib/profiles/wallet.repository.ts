@@ -273,7 +273,10 @@ export class WalletRepository implements IWalletRepository {
         await syncWallets(laterWallets);
     }
 
-    async #restoreWallet({ id, data }: {id: string, data: any}, options?: { ttl?: number }): Promise<void> {
+    async #restoreWallet(
+        { id, data }: { id: string; data: any },
+        options?: { ttl?: number },
+    ): Promise<void> {
         const previousWallet: IReadWriteWallet = this.findById(id);
         if (previousWallet.hasBeenPartiallyRestored()) {
             try {
