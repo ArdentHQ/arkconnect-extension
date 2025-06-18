@@ -60,6 +60,7 @@ export function Wallet({ wallet }: { wallet: Contracts.IReadWriteWallet }) {
         async sendVote(input: VoteInput): Promise<BroadcastResponse> {
             // @TODO: validate input.
 
+            // TODO: enable sync if needed
             // await wallet.synchroniser().coin();
 
             const signatory = await wallet.signatoryFactory().make({

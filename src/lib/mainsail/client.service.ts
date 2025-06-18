@@ -1,5 +1,5 @@
 import { UsernamesAbi } from '@mainsail/evm-contracts';
-// @ts-ignore
+// @ts-expect-error: No type declarations for 'node-dotify'
 import dotify from 'node-dotify';
 
 import { decodeFunctionResult, encodeFunctionData } from 'viem';

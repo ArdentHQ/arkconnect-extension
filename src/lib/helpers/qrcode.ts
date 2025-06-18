@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/require-await */
 
+// @ts-expect-error: No type declarations for 'qrcode'
 import BaseCode, { QRCodeToDataURLOptions } from 'qrcode';
 
 type StringType = 'utf8' | 'svg' | 'terminal' | undefined;

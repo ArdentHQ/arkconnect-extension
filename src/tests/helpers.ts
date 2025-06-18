@@ -15,9 +15,8 @@ export const bootEnvironmentWithProfileFixtures = async ({
     const storageData: StorageData = { data: {}, profiles: {} };
 
     for (const id of ids) {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        //@ts-ignore
-        const password: string = TestingPasswords?.profiles[id]?.password;
+        const profiles = TestingPasswords.profiles as Record<string, any>;
+        const password: string = profiles[id]?.password;
 
         const profileData = { id, ...fixtureProfiles[id] };
         let data = Base64.encode(JSON.stringify(profileData));

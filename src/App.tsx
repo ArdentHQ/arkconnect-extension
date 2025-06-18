@@ -4,7 +4,6 @@ import { I18nextProvider } from 'react-i18next';
 import { PersistGate } from 'redux-persist/es/integration/react';
 import { Provider } from 'react-redux';
 import { useLayoutEffect } from 'react';
-import { createTestAddressBook, isDev } from './dev/utils/dev';
 import { EnvironmentProvider, useEnvironmentContext } from './lib/context/Environment';
 import { ErrorHandlerProvider, useErrorHandlerContext } from './lib/context/ErrorHandler';
 import { i18n as index18n } from './i18n';

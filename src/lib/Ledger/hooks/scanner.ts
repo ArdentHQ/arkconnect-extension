@@ -54,7 +54,8 @@ export const useLedgerScanner = () => {
 
             const legacyWallets = isLoadingMore
                 ? {}
-                // @ts-ignore
+                // TODO - fix type - not sure if this should be WalletData from mainsail or profiles
+                // @ts-expect-error type issue
                 : await profile.ledger().scan({ onProgress, useLegacy: true });
 
             const allWallets = { ...legacyWallets, ...ledgerWallets };

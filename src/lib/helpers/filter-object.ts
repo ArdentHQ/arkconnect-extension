@@ -8,9 +8,9 @@ export const filterObject = <T extends object>(iterable: T, iteratee: FunctionRe
     for (let index = 0; index < length; index++) {
         const key = keys[index];
 
-        // @ts-ignore
+        // @ts-expect-error type error
         if (iteratee(iterable[key], key, iterable)) {
-            // @ts-ignore
+            // @ts-expect-error type error
             result[key] = iterable[key];
         }
     }

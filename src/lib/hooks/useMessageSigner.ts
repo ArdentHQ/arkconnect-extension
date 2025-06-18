@@ -1,6 +1,6 @@
-import { Services } from '@ardenthq/sdk';
 import { runtime } from 'webextension-polyfill';
 import { Contracts as ProfileContracts } from '@/lib/profiles';
+import { SignedMessage } from '@/lib/mainsail/message.contract';
 
 const signWithLedger = async (message: string, wallet: ProfileContracts.IReadWriteWallet) => {
     const path = wallet.data().get<string>(ProfileContracts.WalletData.DerivationPath);
@@ -38,7 +38,7 @@ const sign = async (
     options?: {
         abortSignal?: AbortSignal;
     },
-): Promise<Services.SignedMessage> => {
+): Promise<SignedMessage> => {
     if (wallet.isLedger()) {
         return withAbortPromise(options?.abortSignal)(signWithLedger(message, wallet));
     }
