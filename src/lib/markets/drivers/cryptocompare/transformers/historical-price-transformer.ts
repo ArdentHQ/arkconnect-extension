@@ -25,11 +25,11 @@ export class HistoricalPriceTransformer implements HistoricalTransformer {
      * @memberof HistoricalPriceTransformer
      */
     public transform(options: Record<string, any>): HistoricalData {
-        const datasets = this.data.map((value) => value.close);
+        const datasets = this.data.map((value: any) => value.close);
 
         return {
             datasets,
-            labels: this.data.map((value) =>
+            labels: this.data.map((value: any) =>
                 DateTime.make(value.time * 1000).format(options.dateFormat),
             ),
             max: Math.max(...datasets),

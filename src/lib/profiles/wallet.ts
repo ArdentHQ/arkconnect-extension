@@ -432,7 +432,10 @@ export class Wallet implements IReadWriteWallet {
 
     /** {@inheritDoc IReadWriteWallet.transactionTypes} */
     public transactionTypes(): Networks.TransactionType[] {
-        const networks = this.manifest().get('networks') as Record<string, Networks.NetworkManifest>;
+        const networks = this.manifest().get('networks') as Record<
+            string,
+            Networks.NetworkManifest
+        >;
         const manifest: Networks.NetworkManifest = networks[this.networkId()];
 
         return manifest.transactions.types;
@@ -641,7 +644,10 @@ export class Wallet implements IReadWriteWallet {
 
     #decimals(): number {
         try {
-            const networks = this.manifest().get('networks') as Record<string, Networks.NetworkManifest>;
+            const networks = this.manifest().get('networks') as Record<
+                string,
+                Networks.NetworkManifest
+            >;
             const manifest: Networks.NetworkManifest = networks[this.networkId()];
             return manifest.currency.decimals ?? 18;
         } catch {

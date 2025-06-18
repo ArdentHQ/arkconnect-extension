@@ -25,7 +25,7 @@ export class HistoricalVolumeTransformer implements HistoricalTransformer {
      * @memberof HistoricalVolumeTransformer
      */
     public transform(options: Record<string, any>): HistoricalData {
-        const datasets = {};
+        const datasets: Record<string, any> = {};
 
         for (let index = 0; index < this.data.total_volumes.length; index += 24) {
             datasets[this.data.total_volumes[index][0]] = this.data.total_volumes[index][1];

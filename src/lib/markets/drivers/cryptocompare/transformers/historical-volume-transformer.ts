@@ -25,11 +25,11 @@ export class HistoricalVolumeTransformer implements HistoricalTransformer {
      * @memberof HistoricalVolumeTransformer
      */
     public transform(options: Record<string, any>): HistoricalData {
-        const datasets = this.data.map((value) => value.volumeto);
+        const datasets = this.data.map((value: any) => value.volumeto);
 
         return {
             datasets,
-            labels: this.data.map((value) =>
+            labels: this.data.map((value: any) =>
                 DateTime.make(value.time * 1000).format(options.dateFormat),
             ),
             max: Math.max(...datasets),

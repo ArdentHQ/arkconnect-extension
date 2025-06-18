@@ -114,7 +114,11 @@ const multiPropertySorterProvider = function (defaultComparer: IComparer) {
     };
 };
 
-function getSortStrategy(sortBy: IAnySortBy, comparer: IComparer, order: IOrder): (a: any, b: any) => number {
+function getSortStrategy(
+    sortBy: IAnySortBy,
+    comparer: IComparer,
+    order: IOrder,
+): (a: any, b: any) => number {
     // Flat array sorter
     if (sortBy === undefined || sortBy === true) {
         return (a, b) => comparer(a, b, order);

@@ -134,8 +134,8 @@ export class ContactRepository implements IContactRepository {
     }
 
     /** {@inheritDoc IContactRepository.findByCoin} */
-    public findByCoin(value: string): IContact[] {
-        return this.#findByColumn('coin', value);
+    public findByCoin(_value: string): IContact[] {
+        throw new Error('Looking up with a coin is not supported anymore, use address or id');
     }
 
     /** {@inheritDoc IContactRepository.toObject} */
@@ -160,7 +160,7 @@ export class ContactRepository implements IContactRepository {
         }
     }
 
-    #findByColumn(column: string, value: string): IContact[] {
+    #findByColumn(column: 'address', value: string): IContact[] {
         const result: IContact[] = [];
 
         for (const contact of Object.values(this.all())) {

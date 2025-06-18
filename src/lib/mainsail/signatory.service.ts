@@ -61,7 +61,7 @@ export class SignatoryService {
     public async confirmationWIF(
         signingKey: string,
         confirmKey: string,
-        options?: IdentityOptions,
+        _options?: IdentityOptions,
     ): Promise<Signatory> {
         return new Signatory(
             new ConfirmationWIFSignatory({
@@ -91,7 +91,7 @@ export class SignatoryService {
     public async confirmationSecret(
         signingKey: string,
         confirmKey: string,
-        options?: IdentityOptions,
+        _options?: IdentityOptions,
     ): Promise<Signatory> {
         return new Signatory(
             new ConfirmationSecretSignatory({

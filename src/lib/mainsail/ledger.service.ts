@@ -44,12 +44,12 @@ export class LedgerService {
         try {
             const result = await this.#transport.getAddress(path);
             return result.publicKey;
-        } catch (error) {
-            if (error?.message?.includes?.('busy') && retryCount < 3) {
+        } catch (error: any) {
+            if (error.message && error.message?.includes?.('busy') && retryCount < 3) {
                 await new Promise((resolve) => setTimeout(resolve, 500));
                 return await this.#getExtendedPublicKeyWithRetry(path, retryCount + 1);
             }
-            throw new Error(error);
+            throw error;
         }
     }
 
@@ -58,6 +58,7 @@ export class LedgerService {
     }
 
     public async connect(): Promise<void> {
+        // TODO enable ledger
         // this.#ledger = await ledgerTransportFactory();
         this.#transport = new Eth(this.#ledger);
     }

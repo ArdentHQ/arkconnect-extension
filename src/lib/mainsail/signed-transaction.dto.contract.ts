@@ -23,7 +23,7 @@ export interface SignedTransactionData {
         signedData: RawTransactionData,
         serialized?: string,
         decimals?: number | string,
-    );
+    ): any;
 
     // All
     hash(): string;

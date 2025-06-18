@@ -25,7 +25,7 @@ export class MarketTransformer implements MarketTransformer {
      * @memberof MarketTransformer
      */
     public transform(options: Record<string, any>): MarketDataCollection {
-        const result = {};
+        const result: Record<string, any> = {};
 
         for (const currency of Object.keys(options.currencies || CURRENCIES)) {
             const currencyLowerCase = currency.toLowerCase();
