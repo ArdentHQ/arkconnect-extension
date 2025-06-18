@@ -1,5 +1,3 @@
-/* eslint-disable sonarjs/no-duplicate-string */
-
 import { BigNumber } from './bignumber';
 
 describe('BigNumber', () => {
