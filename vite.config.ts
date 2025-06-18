@@ -46,15 +46,13 @@ export default defineConfig(({ mode }) => {
             },
         },
         build: {
-          minify: false,
+            minify: false,
         },
         // See https://github.com/vitest-dev/vitest/issues/5555#issuecomment-2062855818
         test: {
             server: {
                 deps: {
-                    inline: [
-                        '@ardenthq/sdk-ledger',
-                    ],
+                    inline: ['@ardenthq/sdk-ledger'],
                 },
             },
         },

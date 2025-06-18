@@ -57,9 +57,7 @@ const ImportWallets = ({ goToNextStep, formik }: Props) => {
         const profileWalletsPaths = profile
             .wallets()
             .values()
-            .map((wallet) =>
-                wallet.data().get<string>(WalletData.DerivationPath),
-            );
+            .map((wallet) => wallet.data().get<string>(WalletData.DerivationPath));
 
         return [...profileWalletsPaths, ...ledgerPaths]
             .filter(Boolean)
