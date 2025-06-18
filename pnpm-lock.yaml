@@ -32,6 +32,9 @@ importers:
       '@ardenthq/sdk-ledger':
         specifier: 1.3.0
         version: 1.3.0
+      '@ardenthq/sdk-profiles':
+        specifier: 1.3.0
+        version: 1.3.0
       '@arkecosystem/typescript-client':
         specifier: ^0.0.5
         version: 0.0.5
@@ -338,6 +341,14 @@ packages:
 
   '@ardenthq/sdk-ledger@1.3.0':
     resolution: {integrity: sha512-P1JWzn/hVWaJtal3NY41GKFZHEHccHSLatsPgOUyOgqsIZb7nZIiQfC8JuHPkKIkPTpCxtG4grgDNuLoAybnRA==}
+    engines: {node: '>=16.0.0'}
+
+  '@ardenthq/sdk-markets@1.3.0':
+    resolution: {integrity: sha512-nbCFJNWJyMN7uL+933ZAFHOPmYpCfLjo70sFNqS9JCRAcHWGHTXCt8I4/fOkawE8UEIV2WKcXKEEccvTyFvxCg==}
+    engines: {node: '>=16.0.0'}
+
+  '@ardenthq/sdk-profiles@1.3.0':
+    resolution: {integrity: sha512-3q7r+rrmZEQwxBMpws7wg5ht3rmSoPJmrUn7hUve41uhuTHJGfHLcVR8c3ko0GSCMKmgYwVmRewDv9HGRyZJIg==}
     engines: {node: '>=16.0.0'}
 
   '@ardenthq/sdk@1.3.0':
@@ -1247,6 +1258,9 @@ packages:
   '@types/react@18.3.3':
     resolution: {integrity: sha512-hti/R0pS0q1/xx+TsI73XIqk26eBsISZ2R0wUijXIngRK9R/e7Xw/cXVxQK7R5JjW+SV4zGcn5hXjudkN/pLIw==}
 
+  '@types/retry@0.12.1':
+    resolution: {integrity: sha512-xoDlM2S4ortawSWORYqsdU+2rxdh4LRW9ytc3zmT37RIKQh6IHyKwwtKhKis9ah8ol07DCkZxPt8BBvPjC6v4g==}
+
   '@types/retry@0.12.2':
     resolution: {integrity: sha512-XISRgDJ2Tc5q4TRqvgJtzsRkFYNJzZrhTdtMoGVBttwzzQJkPnS3WWTFc7kuDRoPtPakl+T+OfdEUjYJj7Jbow==}
 
@@ -1325,6 +1339,9 @@ packages:
 
   '@ungap/structured-clone@1.2.0':
     resolution: {integrity: sha512-zuVdFrMJiuCDQUMCzQaD6KL28MjnqqN8XnAqiEq9PNm/hCPTSGfrXCOfwj1ow4LFb/tNymJPwsNbVePc1xFqrQ==}
+
+  '@vechain/picasso@2.1.1':
+    resolution: {integrity: sha512-SOH35A4jxmxQeIn+Q6qA2X+ivRKDE+9n/gvLgCQnacsJrrwh/tSinUbhj9KnfU4ixm+g1aRgTm0IYuz1/uS+uw==}
 
   '@vitejs/plugin-react@4.3.4':
     resolution: {integrity: sha512-SCCPBJtYLdE8PX/7ZQAs1QAZ8Jqwih+0VBLum1EGqmCCQal+MIUqLCzj3ZUy8ufbC0cAM4LRlSTm7IQJwWT4ug==}
@@ -1782,6 +1799,10 @@ packages:
 
   cliui@6.0.0:
     resolution: {integrity: sha512-t6wbgtoCXvAzst7QgXxJYqPt0usEfbgQdftEPbLL/cvv6HPE5VgvqCuAIDR0NgU52ds6rFwqrgakNLrHEjCbrQ==}
+
+  clone@2.1.2:
+    resolution: {integrity: sha512-3Pe/CF1Nn94hyhIYpjtiLhdCoEoz0DqQ+988E9gmeEdQZlojxnOb74wctFyuwWQHzqyf9X7C7MG8juUpqBJT8w==}
+    engines: {node: '>=0.8'}
 
   color-convert@1.9.3:
     resolution: {integrity: sha512-QfAUtd+vFdAtFQcC8CCyYt1fYWxSqAiK2cSD6zDB8N3cpsEBAvRxp9zOGg6G/SHHJYAT88/az/IuDGALsNVbGg==}
@@ -3245,6 +3266,9 @@ packages:
     resolution: {integrity: sha512-8q7VEgMJW4J8tcfVPy8g09NcQwZdbwFEqhe/WZkoIzjn/3TGDwtOCYtXGxA3O8tPzpczCCDgv+P2P5y00ZJOOg==}
     engines: {node: '>= 8'}
 
+  mersenne-twister@1.1.0:
+    resolution: {integrity: sha512-mUYWsMKNrm4lfygPkL3OfGzOPTR2DBlTkBNHM//F6hGp8cLThY897crAlk3/Jo17LEOOjQUrNAx6DvgO77QJkA==}
+
   micro-base@0.10.2:
     resolution: {integrity: sha512-lqqJrT7lfJtDmmiQ4zRLZuIJBk96t0RAc5pCrrWpL9zDeH5i/SUL85mku9HqzTI/OCZ8EQ3aicbMW+eK5Nyu5w==}
     deprecated: Switch to @scure/base for audited version of the lib & updates
@@ -3376,6 +3400,10 @@ packages:
   node-bitmap@0.0.1:
     resolution: {integrity: sha512-Jx5lPaaLdIaOsj2mVLWMWulXF6GQVdyLvNSxmiYCvZ8Ma2hfKX0POoR2kgKOqz+oFsRreq0yYZjQ2wjE9VNzCA==}
     engines: {node: '>=v0.6.5'}
+
+  node-cache@5.1.2:
+    resolution: {integrity: sha512-t1QzWwnk4sjLWaQAS8CHgOJ+RAfmHpxFWmc36IWTiWHQfs0w5JDMBS1b1ZxQteo0vVVuWJvIUKHDkkeK7vIGCg==}
+    engines: {node: '>= 8.0.0'}
 
   node-dotify@1.1.0:
     resolution: {integrity: sha512-kab1TLrjq7zQ3xmvao8Hk3x8miI0fBpLmerwPdoAZWhL3PdV6K3mDiGy4U6TpYc3kURmCCxIY7lSTjsixsP5cg==}
@@ -3526,13 +3554,25 @@ packages:
     resolution: {integrity: sha512-LaNjtRWUBY++zB5nE/NwcaoMylSPk+S+ZHNB1TzdbMJMny6dynpAGt7X/tl/QYq3TIeE6nxHppbo2LGymrG5Pw==}
     engines: {node: '>=10'}
 
+  p-queue@7.4.1:
+    resolution: {integrity: sha512-vRpMXmIkYF2/1hLBKisKeVYJZ8S2tZ0zEAmIJgdVKP2nq0nh4qCdf8bgw+ZgKrkh71AOCaqzwbJJk1WtdcF3VA==}
+    engines: {node: '>=12'}
+
   p-queue@8.1.0:
     resolution: {integrity: sha512-mxLDbbGIBEXTJL0zEx8JIylaj3xQ7Z/7eEVjcF9fJX4DBiH9oqe+oahYnlKKxm0Ci9TlWTyhSHgygxMxjIB2jw==}
     engines: {node: '>=18'}
 
+  p-retry@5.1.2:
+    resolution: {integrity: sha512-couX95waDu98NfNZV+i/iLt+fdVxmI7CbrrdC2uDWfPdUAApyxT4wmDlyOtR5KtTDmkDO0zDScDjDou9YHhd9g==}
+    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
+
   p-retry@6.2.0:
     resolution: {integrity: sha512-JA6nkq6hKyWLLasXQXUrO4z8BUZGUt/LjlJxx8Gb2+2ntodU/SS63YZ8b0LUTbQ8ZB9iwOfhEPhg4ykKnn2KsA==}
     engines: {node: '>=16.17'}
+
+  p-timeout@5.1.0:
+    resolution: {integrity: sha512-auFDyzzzGZZZdHz3BtET9VEz0SE/uMEAx7uWfGPucfzEwwe/xH0iVeZibQmANYE/hp9T2+UUZT5m+BKyrDp3Ew==}
+    engines: {node: '>=12'}
 
   p-timeout@6.1.4:
     resolution: {integrity: sha512-MyIV3ZA/PmyBN/ud8vV9XzwTrNtR4jFrObymZYnZqMmW0zA8Z17vnT0rBgFE/TlohB+YCHqXMgZzb3Csp49vqg==}
@@ -5012,6 +5052,27 @@ snapshots:
       '@ledgerhq/hw-transport-webusb': 6.28.1
       platform: 1.3.6
 
+  '@ardenthq/sdk-markets@1.3.0':
+    dependencies:
+      '@ardenthq/sdk': 1.3.0
+      '@ardenthq/sdk-intl': 1.3.0
+
+  '@ardenthq/sdk-profiles@1.3.0':
+    dependencies:
+      '@ardenthq/sdk': 1.3.0
+      '@ardenthq/sdk-cryptography': 1.3.0
+      '@ardenthq/sdk-helpers': 1.3.0
+      '@ardenthq/sdk-intl': 1.3.0
+      '@ardenthq/sdk-markets': 1.3.0
+      '@vechain/picasso': 2.1.1
+      joi: 17.13.3
+      localforage: 1.10.0
+      node-cache: 5.1.2
+      p-queue: 7.4.1
+      p-retry: 5.1.2
+      semver: 7.7.2
+      type-fest: 2.19.0
+
   '@ardenthq/sdk@1.3.0':
     dependencies:
       '@ardenthq/sdk-helpers': 1.3.0
@@ -6047,6 +6108,8 @@ snapshots:
       '@types/prop-types': 15.7.11
       csstype: 3.1.3
 
+  '@types/retry@0.12.1': {}
+
   '@types/retry@0.12.2': {}
 
   '@types/semver@7.5.8': {}
@@ -6141,6 +6204,10 @@ snapshots:
       eslint-visitor-keys: 3.4.3
 
   '@ungap/structured-clone@1.2.0': {}
+
+  '@vechain/picasso@2.1.1':
+    dependencies:
+      mersenne-twister: 1.1.0
 
   '@vitejs/plugin-react@4.3.4(vite@5.4.11(@types/node@22.15.32)(terser@5.30.3))':
     dependencies:
@@ -6692,6 +6759,8 @@ snapshots:
       string-width: 4.2.3
       strip-ansi: 6.0.1
       wrap-ansi: 6.2.0
+
+  clone@2.1.2: {}
 
   color-convert@1.9.3:
     dependencies:
@@ -8366,6 +8435,8 @@ snapshots:
 
   merge2@1.4.1: {}
 
+  mersenne-twister@1.1.0: {}
+
   micro-base@0.10.2: {}
 
   micro-bip39@0.1.3:
@@ -8486,6 +8557,10 @@ snapshots:
   node-addon-api@2.0.2: {}
 
   node-bitmap@0.0.1: {}
+
+  node-cache@5.1.2:
+    dependencies:
+      clone: 2.1.2
 
   node-dotify@1.1.0:
     dependencies:
@@ -8649,16 +8724,28 @@ snapshots:
     dependencies:
       p-limit: 3.1.0
 
+  p-queue@7.4.1:
+    dependencies:
+      eventemitter3: 5.0.1
+      p-timeout: 5.1.0
+
   p-queue@8.1.0:
     dependencies:
       eventemitter3: 5.0.1
       p-timeout: 6.1.4
+
+  p-retry@5.1.2:
+    dependencies:
+      '@types/retry': 0.12.1
+      retry: 0.13.1
 
   p-retry@6.2.0:
     dependencies:
       '@types/retry': 0.12.2
       is-network-error: 1.0.1
       retry: 0.13.1
+
+  p-timeout@5.1.0: {}
 
   p-timeout@6.1.4: {}
 
