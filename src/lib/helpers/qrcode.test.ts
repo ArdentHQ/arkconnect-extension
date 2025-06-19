@@ -34,8 +34,11 @@ describe('QRCode', () => {
         expect(result).toMatchSnapshot('qr-code-utf8');
     });
 
-    it.each(['utf8', 'svg', 'terminal'] as const)('should turn into a %s string', async (dataset) => {
-        const result = await QRCode.fromString('https://google.com').toString(dataset);
-        expect(result).toMatchSnapshot(`qr-code-${dataset}`);
-    });
+    it.each(['utf8', 'svg', 'terminal'] as const)(
+        'should turn into a %s string',
+        async (dataset) => {
+            const result = await QRCode.fromString('https://google.com').toString(dataset);
+            expect(result).toMatchSnapshot(`qr-code-${dataset}`);
+        },
+    );
 });
