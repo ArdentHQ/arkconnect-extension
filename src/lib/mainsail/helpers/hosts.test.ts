@@ -1,9 +1,9 @@
-import { describe, it, expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import {
     filterHosts,
-    randomHost,
-    groupCustomHosts,
     filterHostsFromConfig,
+    groupCustomHosts,
+    randomHost,
     randomNetworkHostFromConfig,
 } from './hosts';
 import { ConfigRepository } from '@/app/lib/mainsail/config.repository';

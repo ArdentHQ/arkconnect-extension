@@ -1,11 +1,11 @@
 /* istanbul ignore file */
 
-import { DTO } from '@/app/lib/mainsail';
 import { IReadWriteWallet } from './contracts.js';
+import { ExtendedTransactionRecipient } from './transaction.dto.js';
+import { DTO } from '@/app/lib/mainsail';
 
 import { BigNumber } from '@/app/lib/helpers';
 import { DateTime } from '@/app/lib/intl';
-import { ExtendedTransactionRecipient } from './transaction.dto.js';
 import { SignedTransactionData } from '@/app/lib/mainsail/signed-transaction.dto.js';
 
 export class ExtendedSignedTransactionData {

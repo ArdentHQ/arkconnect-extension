@@ -1,5 +1,5 @@
-import { decodeFunctionData as viemDecodeFunctionData, Hex } from 'viem';
-import { ConsensusAbi, UsernamesAbi, MultiPaymentAbi } from '@mainsail/evm-contracts';
+import { Hex, decodeFunctionData as viemDecodeFunctionData } from 'viem';
+import { ConsensusAbi, MultiPaymentAbi, UsernamesAbi } from '@mainsail/evm-contracts';
 
 interface FunctionData {
     functionName: string;
