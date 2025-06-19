@@ -17,6 +17,7 @@ let hasProcessedInPage = false;
 export default defineConfig({
     resolve: {
         alias: {
+            '@/app': srcDir,
             '@': srcDir,
         },
     },
