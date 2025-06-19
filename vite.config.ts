@@ -46,9 +46,6 @@ export default defineConfig(({ mode }) => {
                 '@': path.resolve(__dirname, 'src'),
             },
         },
-        build: {
-            minify: false,
-        },
         // See https://github.com/vitest-dev/vitest/issues/5555#issuecomment-2062855818
         test: {
             server: {
