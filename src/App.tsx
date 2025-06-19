@@ -19,6 +19,7 @@ import store, { persistor } from '@/lib/store';
 import routes from '@/routing';
 import ToastContainer from '@/components/toast/ToastContainer';
 import useBackgroundEventHandler from '@/lib/hooks/useBackgroundEventHandler';
+import { createTestAddressBook, isDev } from '@/dev/utils/dev';
 
 const env = initializeEnvironment();
 
@@ -84,9 +85,9 @@ const App = () => {
     useLayoutEffect(() => {
         const boot = async () => {
             try {
-                // if (isDev()) {
-                //     createTestAddressBook();
-                // }
+                if (isDev()) {
+                    createTestAddressBook();
+                }
 
                 setIsEnvironmentBooted(true);
             } catch (error) {
