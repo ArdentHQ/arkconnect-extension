@@ -68,7 +68,6 @@ export class ConfirmedTransactionData {
                 continue;
             }
 
-            // @ts-expect-error method is key of ConfirmedTransactionData
             if (this[method]()) {
                 return type;
             }

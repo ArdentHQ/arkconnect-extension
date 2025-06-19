@@ -207,7 +207,6 @@ export class WalletRepository implements IWalletRepository {
                 return wallet.balance().toFixed(0);
             }
 
-            // @ts-expect-error column should be a method in wallet
             return wallet[column]();
         };
 

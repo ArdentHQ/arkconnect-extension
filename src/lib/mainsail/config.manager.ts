@@ -59,7 +59,7 @@ export class ConfigManager {
         }
 
         return this.milestones.some(
-            (milestone: Record<string, any>) => milestone.height === height,
+            (milestone) => milestone.height === height,
         );
     }
 

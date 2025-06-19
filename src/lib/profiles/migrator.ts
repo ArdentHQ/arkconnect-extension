@@ -28,7 +28,6 @@ export class Migrator implements IMigrator {
             try {
                 this.#profile.data().snapshot();
 
-                // @ts-expect-error version is a key of migrations
                 await migrations[version]({ data: this.#data, profile: this.#profile });
 
                 this.#set(version);

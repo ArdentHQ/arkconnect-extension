@@ -1,4 +1,4 @@
-export const indexOf = <T>(iterable: T[], value: any, fromIndex?: number): number => {
+export const indexOf = <T>(iterable: T[], value, fromIndex?: number): number => {
     const length: number = iterable.length;
 
     let index = 0;

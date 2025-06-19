@@ -18,7 +18,6 @@ export class NetworkRepository {
     }
 
     public allByCoin(coin: string): Network[] {
-        // @ts-expect-error coin is key of NetworkMap
         const networks: Network[] = Object.values(this.#data.all()[coin.toLowerCase()] ?? []);
 
         return networks.filter(

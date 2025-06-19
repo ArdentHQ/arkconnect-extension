@@ -1,4 +1,3 @@
-// @ts-expect-error: No type declarations for 'big.js'
 import Big, { BigSource } from 'big.js';
 
 export type NumberLike = string | number | bigint | Big | BigNumber;

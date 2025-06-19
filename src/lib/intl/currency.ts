@@ -10,7 +10,7 @@ const getSeparators = (locale: string): { decimal: number; thousands: number } =
     let result;
 
     if (localeNotAvailable) {
-        const staticFallback: Record<string, any> = {
+        const staticFallback = {
             en: ['-$1.00', '10,000.2'],
             es: ['-1,00 US$', '10.000,2'],
             fr: ['-1,00 $US', '10 000,2'],

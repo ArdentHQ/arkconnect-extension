@@ -28,7 +28,6 @@ export class LocalStorage implements Storage {
     }
 
     public async get<T = any>(key: string): Promise<T | undefined> {
-        // @ts-expect-error ignore return type
         return this.#storage.getItem(key);
     }
 

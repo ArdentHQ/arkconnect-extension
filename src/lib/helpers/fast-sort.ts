@@ -3,7 +3,7 @@
 type IOrder = 1 | -1;
 
 export interface IComparer {
-    (a: any, b: any, order: IOrder): number;
+    (a, b, order: IOrder): number;
 }
 
 export interface ISortInstanceOptions {
@@ -227,7 +227,7 @@ export function createNewSortInstance(opts: ISortInstanceOptions): <T>(_ctx: T[]
     };
 }
 
-const defaultComparer = (a: any, b: any, order: number): number => {
+const defaultComparer = (a, b, order: number): number => {
     if (a == null) {
         return order;
     }

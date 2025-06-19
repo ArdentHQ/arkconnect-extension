@@ -1,5 +1,4 @@
 import { UsernamesAbi } from '@mainsail/evm-contracts';
-// @ts-expect-error: No type declarations for 'node-dotify'
 import dotify from 'node-dotify';
 
 import { decodeFunctionResult, encodeFunctionData } from 'viem';
@@ -54,7 +53,7 @@ export class ClientService {
         const response = await this.#client.transactions().all(page, limit, parameters);
 
         return new ConfirmedTransactionDataCollection(
-            response.data.map((transaction: any) =>
+            response.data.map((transaction) =>
                 new ConfirmedTransactionData().configure(transaction),
             ),
             this.#createMetaPagination(response),
@@ -248,7 +247,7 @@ export class ClientService {
         }
     }
 
-    #createMetaPagination(body: Record<string, any>): Services.MetaPagination {
+    #createMetaPagination(body): Services.MetaPagination {
         const getPage = (url: string): string | undefined => {
             const match: RegExpExecArray | null = new RegExp(/page=(\d+)/).exec(url);
 
@@ -291,9 +290,7 @@ export class ClientService {
         };
 
         for (const [alias, original] of Object.entries(mappings)) {
-            // @ts-expect-error any type issue
             if (body[alias]) {
-                // @ts-expect-error any type issue
                 result.searchParams[original] = body[alias];
 
                 delete result.body[alias];
@@ -364,7 +361,9 @@ export class ClientService {
                 return normalized;
             };
 
-            result.searchParams.timestamp = normalizeTimestamps(body.timestamp);
+            const normalized = normalizeTimestamps(body.timestamp);
+
+            result.searchParams.timestamp = normalized;
             delete body.timestamp;
         }
 
