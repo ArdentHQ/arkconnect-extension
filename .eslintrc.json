@@ -20,7 +20,7 @@
         "ecmaVersion": "latest",
         "sourceType": "module"
     },
-    "plugins": ["react", "@typescript-eslint", "unused-imports"],
+    "plugins": ["react", "@typescript-eslint", "unused-imports", "unicorn", "sonarjs", "testing-library"],
     "rules": {
         "comma-dangle": ["error", "only-multiline"],
         "semi": [2, "always", { "omitLastInOneLineBlock": true }],
@@ -54,6 +54,10 @@
         "unused-imports/no-unused-imports-ts": "error",
         "unicorn/no-abusive-eslint-disable": "off",
         "unicorn/consistent-function-scoping": "off",
+        "sonarjs/cognitive-complexity": "off",
+        "testing-library/prefer-explicit-assert": "off",
+        "sonarjs/no-collection-size-mischeck": "off",
+        "sonarjs/no-duplicate-string": "off",
         "no-unexpected-multiline": "off",
         "import/order": "warn",
         "import/default": "warn",
