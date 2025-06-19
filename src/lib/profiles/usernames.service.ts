@@ -1,6 +1,6 @@
+import { IProfile, IUsernamesService } from './contracts.js';
 import { Collections, DTO, Networks } from '@/app/lib/mainsail';
 
-import { IProfile, IUsernamesService } from './contracts.js';
 import { ClientService } from '@/app/lib/mainsail/client.service.js';
 import { ConfigRepository } from '@/app/lib/mainsail/config.repository';
 

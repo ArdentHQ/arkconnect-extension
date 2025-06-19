@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import { pqueue, pqueueSettled } from './queue.js';
 
 const success = async (result: any, delay = 1) =>

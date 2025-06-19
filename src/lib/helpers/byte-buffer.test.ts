@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import { ByteBuffer } from './byte-buffer';
 
 const writeReadValues = 'should write and read value (%s)';

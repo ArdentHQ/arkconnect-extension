@@ -1,8 +1,7 @@
-import { Services } from '@/app/lib/mainsail';
-
 import { IProfile, IReadWriteWallet, ITransactionAggregate } from './contracts.js';
 import { AggregateQuery } from './transaction.aggregate.contract.js';
 import { ExtendedConfirmedTransactionDataCollection } from './transaction.collection.js';
+import { Services } from '@/app/lib/mainsail';
 
 type HistoryMethod = string;
 type HistoryWallet = ExtendedConfirmedTransactionDataCollection;

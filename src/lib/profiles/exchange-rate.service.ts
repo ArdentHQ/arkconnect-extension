@@ -1,10 +1,10 @@
+import { IExchangeRateService, IProfile, IReadWriteWallet, ProfileSetting } from './contracts.js';
+import { DataRepository } from './data.repository';
+import { Storage } from './environment.models.js';
 import { NumberLike } from '@/app/lib/helpers';
 import { DateTime } from '@/app/lib/intl';
 import { MarketService } from '@/app/lib/markets';
 
-import { IExchangeRateService, IProfile, IReadWriteWallet, ProfileSetting } from './contracts.js';
-import { DataRepository } from './data.repository';
-import { Storage } from './environment.models.js';
 import { HttpClient } from '@/app/lib/mainsail/http-client.js';
 
 export class ExchangeRateService implements IExchangeRateService {

@@ -1,7 +1,6 @@
-import { Services } from '@/app/lib/mainsail';
-
 import { ExtendedConfirmedTransactionDataCollection } from './transaction.collection.js';
 import { ExtendedConfirmedTransactionData } from './transaction.dto.js';
+import { Services } from '@/app/lib/mainsail';
 
 export interface ITransactionIndex {
     /**

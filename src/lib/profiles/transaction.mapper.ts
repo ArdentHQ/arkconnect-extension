@@ -1,8 +1,7 @@
-import { Collections } from '@/app/lib/mainsail';
-
 import { IReadWriteWallet } from './contracts.js';
 import { ExtendedConfirmedTransactionDataCollection } from './transaction.collection.js';
 import { ExtendedConfirmedTransactionData } from './transaction.dto.js';
+import { Collections } from '@/app/lib/mainsail';
 import { ConfirmedTransactionData } from '@/app/lib/mainsail/confirmed-transaction.dto.js';
 
 export const transformTransactionData = (

@@ -1,4 +1,3 @@
-import { Services } from '@/app/lib/mainsail';
 import { BIP39 } from '@ardenthq/arkvault-crypto';
 
 import {
@@ -9,6 +8,7 @@ import {
     WalletSetting,
 } from './contracts.js';
 import { Avatar } from './helpers/avatar.js';
+import { Services } from '@/app/lib/mainsail';
 import { AddressService } from '@/app/lib/mainsail/address.service';
 
 export class WalletMutator implements IWalletMutator {

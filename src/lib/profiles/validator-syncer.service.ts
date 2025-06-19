@@ -1,6 +1,6 @@
+import { pqueueSettled } from './helpers/queue.js';
 import { Contracts, Services } from '@/app/lib/mainsail';
 
-import { pqueueSettled } from './helpers/queue.js';
 import { ClientService } from '@/app/lib/mainsail/client.service.js';
 
 export interface IValidatorSyncer {

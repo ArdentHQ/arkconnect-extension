@@ -1,4 +1,3 @@
-import { sortBy, sortByDesc } from '@/app/lib/helpers';
 import retry from 'p-retry';
 
 import {
@@ -13,6 +12,7 @@ import {
 import { DataRepository } from './data.repository';
 import { pqueue } from './helpers/queue.js';
 import { Wallet } from './wallet.js';
+import { sortBy, sortByDesc } from '@/app/lib/helpers';
 
 export class WalletRepository implements IWalletRepository {
     readonly #profile: IProfile;

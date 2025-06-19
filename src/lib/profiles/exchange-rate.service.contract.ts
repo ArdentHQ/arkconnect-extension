@@ -1,7 +1,6 @@
+import { IProfile } from './contracts.js';
 import { NumberLike } from '@/app/lib/helpers';
 import { DateTime } from '@/app/lib/intl';
-
-import { IProfile } from './contracts.js';
 
 /**
  * Defines the implementation contract for the exchange rate service.

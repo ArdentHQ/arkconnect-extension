@@ -1,6 +1,3 @@
-import { Services } from '@/app/lib/mainsail';
-import { sortByDesc } from '@/app/lib/helpers';
-
 import {
     INotificationTypes,
     IProfile,
@@ -11,6 +8,8 @@ import { INotification, INotificationRepository } from './notification.repositor
 import { AggregateQuery } from './transaction.aggregate.contract.js';
 import { ExtendedConfirmedTransactionDataCollection } from './transaction.collection.js';
 import { ExtendedConfirmedTransactionData } from './transaction.dto.js';
+import { sortByDesc } from '@/app/lib/helpers';
+import { Services } from '@/app/lib/mainsail';
 
 export class ProfileTransactionNotificationService
     implements IProfileTransactionNotificationService

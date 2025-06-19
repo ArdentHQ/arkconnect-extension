@@ -1,7 +1,7 @@
 import { Array_ } from '@/app/lib/helpers';
 
 import { NetworkHost, NetworkHostType } from '@/app/lib/mainsail/networks';
-import { HostSet, HostMap } from '@/app/lib/profiles/host.repository.contract';
+import { HostMap, HostSet } from '@/app/lib/profiles/host.repository.contract';
 import { ConfigRepository } from '@/app/lib/mainsail/config.repository';
 
 export const filterHosts = (hosts: NetworkHost[], type: NetworkHostType): NetworkHost[] =>

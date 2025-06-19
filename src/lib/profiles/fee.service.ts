@@ -1,7 +1,6 @@
-import { Services } from '@/app/lib/mainsail';
-
 import { IProfile } from './contracts.js';
 import { DataRepository } from './data.repository.js';
+import { Services } from '@/app/lib/mainsail';
 import { FeeService } from '@/app/lib/mainsail/fee.service.js';
 
 export class ProfileFeeService {
