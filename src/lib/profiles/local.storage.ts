@@ -11,10 +11,10 @@ export class LocalStorage implements Storage {
     public constructor(driver: string) {
         this.#storage = localForage.createInstance({
             driver: {
-                    indexeddb: localForage.INDEXEDDB,
-                    localstorage: localForage.LOCALSTORAGE,
-                    websql: localForage.WEBSQL,
-                }[driver],
+                indexeddb: localForage.INDEXEDDB,
+                localstorage: localForage.LOCALSTORAGE,
+                websql: localForage.WEBSQL,
+            }[driver],
         });
     }
 
