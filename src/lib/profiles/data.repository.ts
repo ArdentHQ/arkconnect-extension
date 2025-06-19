@@ -1,5 +1,5 @@
 import { IDataRepository } from './contracts.js';
-import { get, has, set, unset } from '@/lib/helpers';
+import { get, has, set, unset } from '@/app/lib/helpers';
 
 export class DataRepository implements IDataRepository {
     #storage: object = {};

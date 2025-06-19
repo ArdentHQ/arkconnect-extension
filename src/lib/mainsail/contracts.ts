@@ -1,4 +1,4 @@
-import { BigNumber } from '@/lib/helpers';
+import { BigNumber } from '@/app/lib/helpers';
 
 export type KeyValuePair = Record<string, any>;
 

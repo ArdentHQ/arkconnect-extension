@@ -1,4 +1,4 @@
-import * as semver from 'semver';
+import semver from 'semver';
 
 import { IMigrator, IProfile, ProfileData } from './contracts.js';
 import { IProfileData } from './profile.contract.js';
@@ -28,7 +28,6 @@ export class Migrator implements IMigrator {
             try {
                 this.#profile.data().snapshot();
 
-                // @ts-expect-error version is a key of migrations
                 await migrations[version]({ data: this.#data, profile: this.#profile });
 
                 this.#set(version);

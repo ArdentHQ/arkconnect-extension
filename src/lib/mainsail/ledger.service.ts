@@ -3,13 +3,13 @@
 import { BIP44, HDKey } from '@ardenthq/arkvault-crypto';
 import Eth, { ledgerService } from '@ledgerhq/hw-app-eth';
 import { createRange } from './ledger.service.helpers.js';
+// import { connectedTransport as ledgerTransportFactory } from '@/app/contexts/Ledger/transport';
+
 import { LedgerSignature } from './ledger.service.types.js';
 import { AddressService } from './address.service.js';
 import { WalletData } from './wallet.dto.js';
-import { Contracts, Exceptions, Services } from '@/lib/mainsail';
-// import { connectedTransport as ledgerTransportFactory } from '@/app/contexts/Ledger/transport';
-
-import { ConfigKey, ConfigRepository } from '@/lib/mainsail/config.repository';
+import { Contracts, Exceptions, Services } from '@/app/lib/mainsail';
+import { ConfigKey, ConfigRepository } from '@/app/lib/mainsail/config.repository';
 
 export class LedgerService {
     readonly #addressService!: AddressService;
@@ -44,12 +44,12 @@ export class LedgerService {
         try {
             const result = await this.#transport.getAddress(path);
             return result.publicKey;
-        } catch (error: any) {
-            if (error.message && error.message?.includes?.('busy') && retryCount < 3) {
+        } catch (error) {
+            if (error?.message?.includes?.('busy') && retryCount < 3) {
                 await new Promise((resolve) => setTimeout(resolve, 500));
                 return await this.#getExtendedPublicKeyWithRetry(path, retryCount + 1);
             }
-            throw error;
+            throw new Error(error);
         }
     }
 
@@ -58,7 +58,7 @@ export class LedgerService {
     }
 
     public async connect(): Promise<void> {
-        // TODO enable ledger
+        // TODO enable ledger transport factory
         // this.#ledger = await ledgerTransportFactory();
         this.#transport = new Eth(this.#ledger);
     }
@@ -102,7 +102,6 @@ export class LedgerService {
     }
 
     public async signMessage(path: string, payload: string): Promise<string> {
-        // eslint-disable-next-line no-console
         console.log({ path, payload });
         throw new Exceptions.NotImplemented(this.constructor.name, this.signMessage.name);
     }

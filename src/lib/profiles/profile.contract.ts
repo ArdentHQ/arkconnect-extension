@@ -24,8 +24,8 @@ import { UsernamesService } from './usernames.service.js';
 import { ValidatorService } from './validator.service.js';
 import { KnownWalletService } from './known-wallet.service.js';
 import { ExchangeRateService } from './exchange-rate.service.js';
-import { LedgerService } from '@/lib/mainsail/ledger.service.js';
-import { Networks } from '@/lib/mainsail';
+import { LedgerService } from '@/app/lib/mainsail/ledger.service.js';
+import { Networks } from '@/app/lib/mainsail';
 
 /**
  *

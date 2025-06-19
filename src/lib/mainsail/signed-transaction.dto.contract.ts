@@ -1,6 +1,6 @@
 import { MultiPaymentItem, MultiPaymentRecipient } from './confirmed-transaction.dto.contract';
-import { BigNumber } from '@/lib/helpers';
-import { DateTime } from '@/lib/intl';
+import { BigNumber } from '@/app/lib/helpers';
+import { DateTime } from '@/app/lib/intl';
 
 export type RawTransactionData = any;
 
@@ -23,7 +23,7 @@ export interface SignedTransactionData {
         signedData: RawTransactionData,
         serialized?: string,
         decimals?: number | string,
-    ): any;
+    );
 
     // All
     hash(): string;

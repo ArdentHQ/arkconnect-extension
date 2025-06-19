@@ -1,6 +1,6 @@
 import { Signatory } from './signatories';
 import { SignedTransactionData } from './contracts';
-import { BigNumber } from '@/lib/helpers';
+import { BigNumber } from '@/app/lib/helpers';
 
 export interface TransactionService {
     // Core

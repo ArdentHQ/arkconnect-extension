@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import Joi, { ValidationError } from 'joi';
+import Joi from 'joi';
 
 import { Validator } from './validator';
 
@@ -29,7 +29,7 @@ describe('Validator', () => {
         expect(validator.passes()).toBe(false);
         expect(validator.fails()).toBe(true);
         expect(validator.errors()).toEqual(['"age" is required']);
-        expect(validator.error()).toBeInstanceOf(ValidationError);
+        expect(validator.error()).toBeInstanceOf(Joi.ValidationError);
         expect(value).toEqual(data);
     });
 
@@ -39,7 +39,7 @@ describe('Validator', () => {
         validator.validate(data, schema);
         const error = validator.error();
 
-        expect(error).toBeInstanceOf(ValidationError);
+        expect(error).toBeInstanceOf(Joi.ValidationError);
         expect(error?.details).toHaveLength(1);
     });
 

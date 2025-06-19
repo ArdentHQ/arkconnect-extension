@@ -1,5 +1,5 @@
 import { Paginator } from './paginator';
-import { ConfirmedTransactionData } from '@/lib/mainsail/confirmed-transaction.dto';
+import { ConfirmedTransactionData } from '@/app/lib/mainsail/confirmed-transaction.dto';
 
 export class ConfirmedTransactionDataCollection extends Paginator<ConfirmedTransactionData> {
     public findById(id: string): ConfirmedTransactionData | undefined {
@@ -22,10 +22,7 @@ export class ConfirmedTransactionDataCollection extends Paginator<ConfirmedTrans
         return this.#find('to', recipient);
     }
 
-    #find(
-        key: 'from' | 'to' | 'type' | 'hash' | 'timestamp',
-        value: string,
-    ): ConfirmedTransactionData | undefined {
+    #find(key: string, value: string): ConfirmedTransactionData | undefined {
         return this.items().find(
             (transaction: ConfirmedTransactionData) => transaction[key]() === value,
         );

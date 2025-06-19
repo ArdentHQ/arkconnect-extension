@@ -1,14 +1,13 @@
 import { SocksProxyAgent } from 'socks-proxy-agent';
 import hash from 'string-hash';
 import { Cache } from './cache';
-import { Contracts } from '@/lib/profiles';
-import { HttpResponse } from '@/lib/mainsail/http-response';
+import { Contracts } from '@/app/lib/profiles';
+import { HttpResponse } from '@/app/lib/mainsail/http-response';
 
 type RequestOptions = Record<string, any>;
 type Primitive = null | undefined | string | number | boolean | symbol | bigint;
 
 export class HttpClient {
-    // @ts-expect-error ignore bodyFormat is not read error
     private _bodyFormat!: string;
     private _options: RequestOptions = {};
     private readonly cache: Cache;

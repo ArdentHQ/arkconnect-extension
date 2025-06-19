@@ -1,3 +1,4 @@
+/* eslint-disable unicorn/no-new-array */
 // Taken from https://raw.githubusercontent.com/lodash/lodash/4.17.15-post/lodash.js
 
 export const slice = <T>(array: T[], start: number, end: number): T[] => {

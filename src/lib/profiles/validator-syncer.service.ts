@@ -1,7 +1,7 @@
 import { pqueueSettled } from './helpers/queue.js';
-import { Contracts, Services } from '@/lib/mainsail';
+import { Contracts, Services } from '@/app/lib/mainsail';
 
-import { ClientService } from '@/lib/mainsail/client.service.js';
+import { ClientService } from '@/app/lib/mainsail/client.service.js';
 
 export interface IValidatorSyncer {
     sync(): Promise<Contracts.WalletData[]>;

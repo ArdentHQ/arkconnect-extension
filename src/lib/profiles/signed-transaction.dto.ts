@@ -2,11 +2,11 @@
 
 import { IReadWriteWallet } from './contracts.js';
 import { ExtendedTransactionRecipient } from './transaction.dto.js';
-import { DTO } from '@/lib/mainsail';
+import { DTO } from '@/app/lib/mainsail';
 
-import { BigNumber } from '@/lib/helpers';
-import { DateTime } from '@/lib/intl';
-import { SignedTransactionData } from '@/lib/mainsail/signed-transaction.dto.js';
+import { BigNumber } from '@/app/lib/helpers';
+import { DateTime } from '@/app/lib/intl';
+import { SignedTransactionData } from '@/app/lib/mainsail/signed-transaction.dto.js';
 
 export class ExtendedSignedTransactionData {
     readonly #data: SignedTransactionData;

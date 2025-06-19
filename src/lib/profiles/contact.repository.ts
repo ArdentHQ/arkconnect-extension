@@ -1,3 +1,4 @@
+/* eslint unicorn/no-abusive-eslint-disable: "off" */
 /* eslint-disable */
 import { UUID } from '@ardenthq/arkvault-crypto';
 import { Contact } from './contact';
@@ -134,8 +135,8 @@ export class ContactRepository implements IContactRepository {
     }
 
     /** {@inheritDoc IContactRepository.findByCoin} */
-    public findByCoin(_value: string): IContact[] {
-        throw new Error('Looking up with a coin is not supported anymore, use address or id');
+    public findByCoin(value: string): IContact[] {
+        return this.#findByColumn('coin', value);
     }
 
     /** {@inheritDoc IContactRepository.toObject} */
@@ -160,7 +161,7 @@ export class ContactRepository implements IContactRepository {
         }
     }
 
-    #findByColumn(column: 'address', value: string): IContact[] {
+    #findByColumn(column: string, value: string): IContact[] {
         const result: IContact[] = [];
 
         for (const contact of Object.values(this.all())) {

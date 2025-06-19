@@ -1,7 +1,7 @@
-import { formatString } from '@/lib/helpers';
-import { ConfigRepository } from '@/lib/mainsail';
-import { IProfile } from '@/lib/profiles/profile.contract';
-import { randomHost } from '@/lib/mainsail/helpers/hosts';
+import { formatString } from '@/app/lib/helpers';
+import { ConfigRepository } from '@/app/lib/mainsail';
+import { IProfile } from '@/app/lib/profiles/profile.contract';
+import { randomHost } from '@/app/lib/mainsail/helpers/hosts';
 
 export class LinkService {
     #config: ConfigRepository;

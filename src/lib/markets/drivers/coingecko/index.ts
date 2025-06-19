@@ -1,8 +1,8 @@
 import { HistoricalPriceTransformer } from './transformers/historical-price-transformer.js';
 import { HistoricalVolumeTransformer } from './transformers/historical-volume-transformer.js';
 import { MarketTransformer } from './transformers/market-transformer.js';
-import { Http } from '@/lib/mainsail';
-import { DateTime } from '@/lib/intl';
+import { Http } from '@/app/lib/mainsail';
+import { DateTime } from '@/app/lib/intl';
 
 import {
     CurrentPriceOptions,
@@ -12,7 +12,7 @@ import {
     HistoricalVolumeOptions,
     MarketDataCollection,
     PriceTracker,
-} from '@/lib/markets/contracts';
+} from '@/app/lib/markets/contracts';
 
 /**
  * Implements a price tracker through the CoinGecko API.
@@ -141,15 +141,16 @@ export class CoinGecko implements PriceTracker {
      * @returns {Promise<string>}
      * @memberof PriceTracker
      */
-    async #getTokenId(token: string): Promise<string> {
+    async #getTokenId(token): Promise<string> {
         if (Object.keys(this.tokenLookup).length > 0) {
             return this.tokenLookup[token.toUpperCase()];
         }
 
         const uri = 'coins/list';
-        const body = (await this.#get(uri)) as Record<string, Record<string, any>>;
+        const body = await this.#get(uri);
 
         for (const value of Object.values(body)) {
+            // @ts-ignore
             this.tokenLookup[value.symbol.toUpperCase()] = value.id;
         }
 

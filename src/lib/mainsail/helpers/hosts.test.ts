@@ -6,9 +6,9 @@ import {
     randomHost,
     randomNetworkHostFromConfig,
 } from './hosts';
-import { ConfigRepository } from '@/lib/mainsail/config.repository';
-import { HostSet } from '@/lib/profiles/host.repository.contract';
-import { NetworkHost } from '@/lib/mainsail/networks';
+import { ConfigRepository } from '@/app/lib/mainsail/config.repository';
+import { HostSet } from '@/app/lib/profiles/host.repository.contract';
+import { NetworkHost } from '@/app/lib/mainsail/networks';
 
 const hosts: NetworkHost[] = [
     { host: 'https://full.ark.io', type: 'full' },

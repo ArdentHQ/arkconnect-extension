@@ -1,4 +1,4 @@
-import { get } from '@/lib/helpers';
+import { get } from '@/app/lib/helpers';
 
 export class Manifest {
     readonly #manifest: object;

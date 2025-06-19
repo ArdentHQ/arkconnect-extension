@@ -1,3 +1,4 @@
+/* eslint unicorn/no-abusive-eslint-disable: "off" */
 /* eslint-disable */
 import localForage from 'localforage';
 
@@ -9,11 +10,13 @@ export class LocalStorage implements Storage {
 
     public constructor(driver: string) {
         this.#storage = localForage.createInstance({
-            driver: {
-                indexeddb: localForage.INDEXEDDB,
-                localstorage: localForage.LOCALSTORAGE,
-                websql: localForage.WEBSQL,
-            }[driver],
+            driver:
+                process.env.LFD ??
+                {
+                    indexeddb: localForage.INDEXEDDB,
+                    localstorage: localForage.LOCALSTORAGE,
+                    websql: localForage.WEBSQL,
+                }[driver],
         });
     }
 
@@ -28,7 +31,6 @@ export class LocalStorage implements Storage {
     }
 
     public async get<T = any>(key: string): Promise<T | undefined> {
-        // @ts-expect-error ignore return type
         return this.#storage.getItem(key);
     }
 

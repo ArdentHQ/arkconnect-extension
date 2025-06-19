@@ -1,7 +1,7 @@
 import { LedgerDerivationScheme } from './ledger.service.types';
 
 export const chunk = <T>(value: T[], size: number) =>
-    Array.from({ length: Math.ceil(value.length / size) }, (_v, index) =>
+    Array.from({ length: Math.ceil(value.length / size) }, (v, index) =>
         value.slice(index * size, index * size + size),
     );
 

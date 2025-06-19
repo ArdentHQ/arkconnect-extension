@@ -70,11 +70,7 @@ export class ProfileImporter implements IProfileImporter {
                 data = JSON.parse(Base64.decode(this.#profile.getAttributes().get<string>('data')));
             }
         } catch (error) {
-            if (error instanceof Error) {
-                errorReason = `Reason: ${error.message}`;
-            } else {
-                errorReason = 'Error occurred when unpacking a profile';
-            }
+            errorReason = ` Reason: ${error.message}`;
         }
 
         if (data === undefined) {

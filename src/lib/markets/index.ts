@@ -8,7 +8,7 @@ import {
 import { CoinCap } from './drivers/coincap';
 import { CoinGecko } from './drivers/coingecko';
 import { CryptoCompare } from './drivers/cryptocompare';
-import { Http } from '@/lib/mainsail';
+import { Http } from '@/app/lib/mainsail';
 
 /**
  * Normalises the communication with Market Data Providers.
@@ -45,13 +45,13 @@ export class MarketService {
      * @memberof MarketService
      */
     public static make(name: string, httpClient: Http.HttpClient): MarketService {
-        const priceTracker = {
-            coincap: new CoinCap(httpClient),
-            coingecko: new CoinGecko(httpClient),
-            cryptocompare: new CryptoCompare(httpClient),
-        }[name.toLowerCase()] as PriceTracker;
-
-        return new MarketService(priceTracker);
+        return new MarketService(
+            {
+                coincap: new CoinCap(httpClient),
+                coingecko: new CoinGecko(httpClient),
+                cryptocompare: new CryptoCompare(httpClient),
+            }[name.toLowerCase()] as PriceTracker,
+        );
     }
 
     /**

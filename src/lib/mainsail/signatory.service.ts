@@ -1,7 +1,8 @@
+/* eslint unicorn/no-abusive-eslint-disable: "off" */
 /* eslint-disable */
 /* istanbul ignore file */
 
-import { IdentityOptions } from '@/lib/mainsail/shared.contract';
+import { IdentityOptions } from '@/app/lib/mainsail/shared.contract';
 import {
     ConfirmationMnemonicSignatory,
     ConfirmationSecretSignatory,
@@ -11,7 +12,7 @@ import {
     SecretSignatory,
     Signatory,
     WIFSignatory,
-} from '@/lib/mainsail/signatories';
+} from '@/app/lib/mainsail/signatories';
 
 import { AddressService } from './address.service';
 import { PublicKeyService } from './public-key.service';
@@ -61,7 +62,7 @@ export class SignatoryService {
     public async confirmationWIF(
         signingKey: string,
         confirmKey: string,
-        _options?: IdentityOptions,
+        options?: IdentityOptions,
     ): Promise<Signatory> {
         return new Signatory(
             new ConfirmationWIFSignatory({
@@ -91,7 +92,7 @@ export class SignatoryService {
     public async confirmationSecret(
         signingKey: string,
         confirmKey: string,
-        _options?: IdentityOptions,
+        options?: IdentityOptions,
     ): Promise<Signatory> {
         return new Signatory(
             new ConfirmationSecretSignatory({

@@ -1,7 +1,7 @@
 import { PublicKey } from '@arkecosystem/typescript-crypto';
 import { BIP39, Bls } from '@ardenthq/arkvault-crypto';
-import { Exceptions, Services } from '@/lib/mainsail';
-import { abort_if, abort_unless } from '@/lib/helpers';
+import { Exceptions, Services } from '@/app/lib/mainsail';
+import { abort_if, abort_unless } from '@/app/lib/helpers';
 
 export class PublicKeyService {
     public fromMnemonic(mnemonic: string): Services.PublicKeyDataTransferObject {
@@ -25,7 +25,7 @@ export class PublicKeyService {
 
     // @TODO: Implement
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    public fromWIF(_wif: string): Promise<Services.PublicKeyDataTransferObject> {
+    public fromWIF(wif: string): Promise<Services.PublicKeyDataTransferObject> {
         throw new Exceptions.NotImplemented(this.constructor.name, this.fromWIF.name);
     }
 

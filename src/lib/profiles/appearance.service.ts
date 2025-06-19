@@ -25,7 +25,7 @@ export class AppearanceService implements IAppearanceService {
 
     /** {@inheritDoc IAppearanceService.all} */
     public all(): IProfileAppearance {
-        const all: Record<string, any> = {};
+        const all = {};
 
         for (const key of Object.keys(this.#map)) {
             all[key] = this.get(key as keyof IProfileAppearance);
@@ -51,7 +51,7 @@ export class AppearanceService implements IAppearanceService {
 
     /** {@inheritDoc IAppearanceService.defaults} */
     public defaults(): IProfileAppearance {
-        const defaults: Record<string, any> = {};
+        const defaults = {};
 
         for (const key of Object.keys(this.#map)) {
             defaults[key] = this.#map[key as keyof IProfileAppearance].defaultValue;

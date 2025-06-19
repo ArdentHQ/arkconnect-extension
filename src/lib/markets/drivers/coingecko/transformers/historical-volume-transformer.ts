@@ -1,5 +1,5 @@
-import { DateTime } from '@/lib/intl';
-import { HistoricalData, HistoricalTransformer } from '@/lib/markets/contracts';
+import { DateTime } from '@/app/lib/intl';
+import { HistoricalData, HistoricalTransformer } from '@/app/lib/markets/contracts';
 
 /**
  * Implements a transformer for historical volume data.
@@ -25,7 +25,7 @@ export class HistoricalVolumeTransformer implements HistoricalTransformer {
      * @memberof HistoricalVolumeTransformer
      */
     public transform(options: Record<string, any>): HistoricalData {
-        const datasets: Record<string, any> = {};
+        const datasets = {};
 
         for (let index = 0; index < this.data.total_volumes.length; index += 24) {
             datasets[this.data.total_volumes[index][0]] = this.data.total_volumes[index][1];

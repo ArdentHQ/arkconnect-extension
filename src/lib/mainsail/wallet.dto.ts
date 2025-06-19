@@ -1,6 +1,6 @@
-import { ConfigKey, ConfigRepository, Contracts } from '@/lib/mainsail';
-import { BigNumber, get, has } from '@/lib/helpers';
-import { KeyValuePair } from '@/lib/mainsail/contracts';
+import { ConfigKey, ConfigRepository, Contracts } from '@/app/lib/mainsail';
+import { BigNumber, get, has } from '@/app/lib/helpers';
+import { KeyValuePair } from '@/app/lib/mainsail/contracts';
 
 export class WalletData {
     protected data!: KeyValuePair;

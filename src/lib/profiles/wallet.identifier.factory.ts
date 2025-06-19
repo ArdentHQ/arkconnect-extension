@@ -1,5 +1,5 @@
 import { IReadWriteWallet } from './wallet.contract.js';
-import { Services } from '@/lib/mainsail';
+import { Services } from '@/app/lib/mainsail';
 
 export class WalletIdentifierFactory {
     public static make(wallet: IReadWriteWallet): Services.WalletIdentifier {

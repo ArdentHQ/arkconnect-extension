@@ -1,5 +1,5 @@
-import { BigNumber } from '@/lib/helpers';
-import { DateTime } from '@/lib/intl';
+import { BigNumber } from '@/app/lib/helpers';
+import { DateTime } from '@/app/lib/intl';
 
 export interface MultiPaymentRecipient {
     address: string;

@@ -1,5 +1,5 @@
-import { DateTime } from '@/lib/intl';
-import { HistoricalData, HistoricalTransformer } from '@/lib/markets/contracts';
+import { DateTime } from '@/app/lib/intl';
+import { HistoricalData, HistoricalTransformer } from '@/app/lib/markets/contracts';
 
 /**
  * Implements a transformer for historical price data.
@@ -25,11 +25,11 @@ export class HistoricalPriceTransformer implements HistoricalTransformer {
      * @memberof HistoricalPriceTransformer
      */
     public transform(options: Record<string, any>): HistoricalData {
-        const datasets = this.data.map((value: any) => value.close);
+        const datasets = this.data.map((value) => value.close);
 
         return {
             datasets,
-            labels: this.data.map((value: any) =>
+            labels: this.data.map((value) =>
                 DateTime.make(value.time * 1000).format(options.dateFormat),
             ),
             max: Math.max(...datasets),

@@ -13,9 +13,9 @@ import {
 } from './validator-syncer.service.js';
 import { pqueueSettled } from './helpers/queue.js';
 import { ReadOnlyWallet } from './read-only-wallet.js';
-import { Contracts } from '@/lib/mainsail';
-import { ClientService } from '@/lib/mainsail/client.service.js';
-import { LinkService } from '@/lib/mainsail/link.service.js';
+import { Contracts } from '@/app/lib/mainsail';
+import { ClientService } from '@/app/lib/mainsail/client.service.js';
+import { LinkService } from '@/app/lib/mainsail/link.service.js';
 
 export class ValidatorService implements IValidatorService {
     readonly #dataRepository: IDataRepository = new DataRepository();
@@ -125,8 +125,7 @@ export class ValidatorService implements IValidatorService {
     }
 
     #findValidatorByAttribute(network: string, key: string, value: string): IReadOnlyWallet {
-        const method = key as keyof IReadOnlyWallet;
-        const result = this.all(network).find((validator) => validator[method]() === value);
+        const result = this.all(network).find((validator) => validator[key]() === value);
 
         if (result === undefined) {
             throw new Error(`No validator for ${key} with value ${value} could be found.`);

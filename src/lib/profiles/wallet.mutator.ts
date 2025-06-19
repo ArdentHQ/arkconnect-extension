@@ -8,8 +8,8 @@ import {
     WalletSetting,
 } from './contracts.js';
 import { Avatar } from './helpers/avatar.js';
-import { Services } from '@/lib/mainsail';
-import { AddressService } from '@/lib/mainsail/address.service';
+import { Services } from '@/app/lib/mainsail';
+import { AddressService } from '@/app/lib/mainsail/address.service';
 
 export class WalletMutator implements IWalletMutator {
     readonly #wallet: IReadWriteWallet;

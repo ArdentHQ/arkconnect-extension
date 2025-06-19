@@ -6,7 +6,7 @@ import {
     transformTransactionData,
 } from './transaction.mapper';
 import { WalletFlag } from './wallet.enum';
-import { Services } from '@/lib/mainsail';
+import { Services } from '@/app/lib/mainsail';
 
 export class TransactionIndex implements ITransactionIndex {
     readonly #wallet: IReadWriteWallet;

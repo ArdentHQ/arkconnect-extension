@@ -35,18 +35,18 @@ import { TransactionService as WalletTransactionService } from './wallet-transac
 import { WalletImportFormat } from './wif.js';
 import { ValidatorService } from './validator.service.js';
 import { ExchangeRateService } from './exchange-rate.service.js';
-import { LinkService } from '@/lib/mainsail/link.service';
-import { MessageService } from '@/lib/mainsail/message.service';
-import { Manifest } from '@/lib/mainsail/manifest.class';
-import { Contracts, manifest, Networks, Services } from '@/lib/mainsail/index';
-import { LedgerService } from '@/lib/mainsail/ledger.service';
-import { ClientService } from '@/lib/mainsail/client.service';
-import { AddressService } from '@/lib/mainsail/address.service';
-import { PublicKeyService } from '@/lib/mainsail/public-key.service';
-import { SignatoryService } from '@/lib/mainsail/signatory.service.js';
-import { TransactionService } from '@/lib/mainsail/transaction.service.js';
-import { DateTime } from '@/lib/intl';
-import { BigNumber } from '@/lib/helpers';
+import { LinkService } from '@/app/lib/mainsail/link.service';
+import { MessageService } from '@/app/lib/mainsail/message.service';
+import { Manifest } from '@/app/lib/mainsail/manifest.class';
+import { Contracts, manifest, Networks, Services } from '@/app/lib/mainsail/index';
+import { LedgerService } from '@/app/lib/mainsail/ledger.service';
+import { ClientService } from '@/app/lib/mainsail/client.service';
+import { AddressService } from '@/app/lib/mainsail/address.service';
+import { PublicKeyService } from '@/app/lib/mainsail/public-key.service';
+import { SignatoryService } from '@/app/lib/mainsail/signatory.service.js';
+import { TransactionService } from '@/app/lib/mainsail/transaction.service.js';
+import { DateTime } from '@/app/lib/intl';
+import { BigNumber } from '@/app/lib/helpers';
 
 const ERR_NOT_SYNCED =
     'This wallet has not been synchronized yet. Please call [synchroniser().identity()] before using it.';
@@ -432,11 +432,8 @@ export class Wallet implements IReadWriteWallet {
 
     /** {@inheritDoc IReadWriteWallet.transactionTypes} */
     public transactionTypes(): Networks.TransactionType[] {
-        const networks = this.manifest().get('networks') as Record<
-            string,
-            Networks.NetworkManifest
-        >;
-        const manifest: Networks.NetworkManifest = networks[this.networkId()];
+        const manifest: Networks.NetworkManifest =
+            this.manifest().get<object>('networks')[this.networkId()];
 
         return manifest.transactions.types;
     }
@@ -644,11 +641,8 @@ export class Wallet implements IReadWriteWallet {
 
     #decimals(): number {
         try {
-            const networks = this.manifest().get('networks') as Record<
-                string,
-                Networks.NetworkManifest
-            >;
-            const manifest: Networks.NetworkManifest = networks[this.networkId()];
+            const manifest: Networks.NetworkManifest =
+                this.manifest().get<object>('networks')[this.networkId()];
             return manifest.currency.decimals ?? 18;
         } catch {
             return 18;

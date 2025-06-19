@@ -11,7 +11,7 @@ describe('cloneDeep', () => {
         class Wallet {
             public address: string;
 
-            constructor(address: string) {
+            constructor(address) {
                 this.address = address;
             }
 

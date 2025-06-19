@@ -10,7 +10,7 @@ import {
 } from './network.models';
 import { configManager } from './config.manager';
 import { ConfigKey, ConfigRepository } from '.';
-import { get } from '@/lib/helpers';
+import { get } from '@/app/lib/helpers';
 
 export class Network {
     /**

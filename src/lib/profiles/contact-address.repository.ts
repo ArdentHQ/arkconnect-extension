@@ -79,8 +79,8 @@ export class ContactAddressRepository implements IContactAddressRepository {
     }
 
     /** {@inheritDoc IContactAddressRepository.findByCoin} */
-    public findByCoin(_value: string): IContactAddress[] {
-        throw new Error('Looking up with a coin is not supported anymore, use address or id');
+    public findByCoin(value: string): IContactAddress[] {
+        return this.#findByColumn('coin', value);
     }
 
     /** {@inheritDoc IContactAddressRepository.exists} */
@@ -109,6 +109,7 @@ export class ContactAddressRepository implements IContactAddressRepository {
 
     /** {@inheritDoc IContactAddressRepository.forget} */
     public forget(id: string): void {
+        // eslint-disable-next-line testing-library/prefer-explicit-assert
         this.findById(id);
 
         this.#data.forget(id);
@@ -139,7 +140,7 @@ export class ContactAddressRepository implements IContactAddressRepository {
         return result;
     }
 
-    #findByColumn(column: 'address', value: string): IContactAddress[] {
+    #findByColumn(column: string, value: string): IContactAddress[] {
         const result: IContactAddress[] = [];
 
         for (const _ of Object.values(this.all())) {

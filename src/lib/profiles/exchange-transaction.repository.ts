@@ -1,3 +1,4 @@
+/* eslint unicorn/no-abusive-eslint-disable: "off" */
 /* eslint-disable */
 import { UUID } from '@ardenthq/arkvault-crypto';
 

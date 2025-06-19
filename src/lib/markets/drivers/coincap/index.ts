@@ -1,7 +1,7 @@
 import { HistoricalPriceTransformer } from './transformers/historical-price-transformer';
 import { MarketTransformer } from './transformers/market-transformer';
-import { Http } from '@/lib/mainsail';
-import { DateTime } from '@/lib/intl';
+import { Http } from '@/app/lib/mainsail';
+import { DateTime } from '@/app/lib/intl';
 
 import {
     CurrentPriceOptions,
@@ -10,7 +10,7 @@ import {
     HistoricalPriceOptions,
     MarketDataCollection,
     PriceTracker,
-} from '@/lib/markets/contracts';
+} from '@/app/lib/markets/contracts';
 
 /**
  * Implements a price tracker through the CoinCap API.
@@ -130,10 +130,8 @@ export class CoinCap implements PriceTracker {
         }
 
         const priceUsd =
-            response.data.reduce(
-                (acc: number, data: Record<string, any>) => acc + Number(data.priceUsd),
-                0,
-            ) / response.data.length;
+            response.data.reduce((acc, data) => acc + Number(data.priceUsd), 0) /
+            response.data.length;
 
         const { data } = await this.#get('rates');
 
@@ -165,9 +163,10 @@ export class CoinCap implements PriceTracker {
             return this.tokenLookup[token.toUpperCase()];
         }
 
-        const body: Record<string, Record<string, any>> = await this.#get('assets', { limit });
+        const body = await this.#get('assets', { limit });
 
         for (const value of Object.values(body.data)) {
+            // @ts-ignore
             this.tokenLookup[value.symbol.toUpperCase()] = value.id;
         }
 

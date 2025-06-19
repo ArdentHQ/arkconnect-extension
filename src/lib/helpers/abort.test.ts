@@ -1,5 +1,4 @@
 import { describe, expect, it } from 'vitest';
-// eslint-disable-next-line camelcase
 import { abort_if, abort_unless } from './abort';
 
 describe('Abort', () => {

@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from 'vitest';
 import { PriceTracker } from './contracts';
 import { MarketService } from './index';
-import { Http } from '@/lib/mainsail';
+import { Http } from '@/app/lib/mainsail';
 
 const createMockAdapter = (): PriceTracker => ({
     currentPrice: vi.fn(),

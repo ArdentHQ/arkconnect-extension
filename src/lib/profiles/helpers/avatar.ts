@@ -1,4 +1,3 @@
-// @ts-expect-error types for seedrandom is missing
 import seedrandom from 'seedrandom';
 
 const COLORS = [

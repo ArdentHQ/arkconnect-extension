@@ -1,4 +1,5 @@
 import Joi from 'joi';
+
 import { IDataRepository, IFeeService, IProfileRepository, IWalletService } from './contracts.js';
 import { EnvironmentOptions, Storage, StorageData } from './environment.models.js';
 import { KnownWalletService } from './known-wallet.service.js';

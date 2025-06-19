@@ -48,8 +48,8 @@ import { ValidatorService } from './validator.service.js';
 import { KnownWalletService } from './known-wallet.service.js';
 import { ExchangeRateService } from './exchange-rate.service.js';
 import { Contracts, Environment } from './index.js';
-import { LedgerService } from '@/lib/mainsail/ledger.service.js';
-import { Networks } from '@/lib/mainsail';
+import { LedgerService } from '@/app/lib/mainsail/ledger.service.js';
+import { Networks } from '@/app/lib/mainsail';
 
 export class Profile implements IProfile {
     /**

@@ -1,4 +1,6 @@
-import dayjs, { ConfigType, extend, QUnitType, unix } from 'dayjs';
+/* eslint-disable unicorn/prefer-module */
+
+import dayjs, { ConfigType, QUnitType } from 'dayjs';
 import advancedFormat from 'dayjs/plugin/advancedFormat.js';
 import dayOfYear from 'dayjs/plugin/dayOfYear.js';
 import localizedFormat from 'dayjs/plugin/localizedFormat.js';
@@ -9,15 +11,15 @@ import toObject from 'dayjs/plugin/toObject.js';
 import utc from 'dayjs/plugin/utc.js';
 import weekOfYear from 'dayjs/plugin/weekOfYear.js';
 
-extend(advancedFormat);
-extend(dayOfYear);
-extend(localizedFormat);
-extend(quarterOfYear);
-extend(timezone);
-extend(toObject);
-extend(utc);
-extend(weekOfYear);
-extend(relativeTime);
+dayjs.extend(advancedFormat);
+dayjs.extend(dayOfYear);
+dayjs.extend(localizedFormat);
+dayjs.extend(quarterOfYear);
+dayjs.extend(timezone);
+dayjs.extend(toObject);
+dayjs.extend(utc);
+dayjs.extend(weekOfYear);
+dayjs.extend(relativeTime);
 
 type DateTimeLike = string | number | dayjs.Dayjs | DateTime;
 
@@ -74,7 +76,6 @@ export class DateTime {
 
             this.#instance.locale(locale);
         } catch {
-            // eslint-disable-next-line no-console
             console.debug(`Failed to load data for the [${locale}] locale.`);
         }
     }
@@ -104,7 +105,7 @@ export class DateTime {
      * @memberof DateTime
      */
     public static fromUnix(value: number, locale?: string, timezone?: string): DateTime {
-        return new DateTime(unix(value), locale, timezone);
+        return new DateTime(dayjs.unix(value), locale, timezone);
     }
 
     /**

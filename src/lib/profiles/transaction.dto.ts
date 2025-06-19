@@ -1,10 +1,11 @@
+/* eslint unicorn/no-abusive-eslint-disable: "off" */
 /* eslint-disable */
 
-import { Contracts } from '@/lib/mainsail';
+import { Contracts } from '@/app/lib/mainsail';
 import { IReadWriteWallet } from './contracts.js';
 
-import { BigNumber } from '@/lib/helpers';
-import { DateTime } from '@/lib/intl';
+import { BigNumber } from '@/app/lib/helpers';
+import { DateTime } from '@/app/lib/intl';
 import { ConfirmedTransactionData } from '../mainsail/confirmed-transaction.dto.js';
 
 export interface ExtendedTransactionRecipient {

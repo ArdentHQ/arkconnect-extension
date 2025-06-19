@@ -1,3 +1,5 @@
+/* eslint-disable sonarjs/no-duplicate-string */
+
 import { describe, expect, it } from 'vitest';
 
 import { QRCode } from './qrcode';

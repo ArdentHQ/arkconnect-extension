@@ -11,7 +11,7 @@ describe('unset', () => {
     });
 
     it('should return false if the path is not a string', () => {
-        // @ts-expect-error passing number instead of string is purpose of the test
+        // @ts-expect-error
         expect(unset({}, 123)).toBe(false);
     });
 

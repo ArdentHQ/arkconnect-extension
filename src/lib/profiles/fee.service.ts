@@ -1,7 +1,7 @@
 import { IProfile } from './contracts.js';
 import { DataRepository } from './data.repository.js';
-import { Services } from '@/lib/mainsail';
-import { FeeService } from '@/lib/mainsail/fee.service.js';
+import { Services } from '@/app/lib/mainsail';
+import { FeeService } from '@/app/lib/mainsail/fee.service.js';
 
 export class ProfileFeeService {
     readonly #dataRepository: DataRepository = new DataRepository();
@@ -23,7 +23,6 @@ export class ProfileFeeService {
 
     /** {@inheritDoc IFeeService.findByType} */
     public findByType(network: string, type: string): Services.TransactionFee {
-        // @ts-expect-error type should be the key
         return this.all(network)[type];
     }
 

@@ -1,5 +1,6 @@
+/* eslint unicorn/no-abusive-eslint-disable: "off" */
 /* eslint-disable */
-import { Signatories } from '@/lib/mainsail';
+import { Signatories } from '@/app/lib/mainsail';
 
 import { IReadWriteWallet, WalletData } from './contracts.js';
 import { ISignatoryFactory, SignatoryInput } from './signatory.factory.contract.js';

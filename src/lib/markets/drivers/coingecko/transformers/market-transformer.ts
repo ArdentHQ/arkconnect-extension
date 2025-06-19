@@ -1,5 +1,5 @@
-import { CURRENCIES } from '@/lib/intl';
-import { MarketDataCollection } from '@/lib/markets/contracts';
+import { CURRENCIES } from '@/app/lib/intl';
+import { MarketDataCollection } from '@/app/lib/markets/contracts';
 
 /**
  * Implements a transformer for historical market data.
@@ -25,7 +25,7 @@ export class MarketTransformer implements MarketTransformer {
      * @memberof MarketTransformer
      */
     public transform(options: Record<string, any>): MarketDataCollection {
-        const result: Record<string, any> = {};
+        const result = {};
 
         for (const currency of Object.keys(options.currencies || CURRENCIES)) {
             const currencyLowerCase = currency.toLowerCase();

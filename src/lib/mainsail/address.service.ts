@@ -1,7 +1,7 @@
 import { Address, PrivateKey, PublicKey } from '@arkecosystem/typescript-crypto';
 import { BIP39 } from '@ardenthq/arkvault-crypto';
-import { Services } from '@/lib/mainsail';
-import { abort_if, abort_unless } from '@/lib/helpers';
+import { Services } from '@/app/lib/mainsail';
+import { abort_if, abort_unless } from '@/app/lib/helpers';
 
 export class AddressService {
     public fromMnemonic(mnemonic: string): Services.AddressDataTransferObject {

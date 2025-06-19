@@ -1,4 +1,5 @@
-// @ts-expect-error: No type declarations for 'big.js'
+/* eslint-disable unicorn/no-array-reduce */
+
 import Big, { BigSource } from 'big.js';
 
 export type NumberLike = string | number | bigint | Big | BigNumber;
@@ -306,6 +307,7 @@ export class BigNumber {
             return this.#value.toFixed(decimals);
         }
 
+        // eslint-disable-next-line unicorn/require-number-to-fixed-digits-argument
         return this.#value.toFixed();
     }
 

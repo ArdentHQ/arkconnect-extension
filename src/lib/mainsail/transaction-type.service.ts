@@ -1,5 +1,6 @@
+/* eslint unicorn/no-abusive-eslint-disable: "off" */
 /* eslint-disable */
-import { Exceptions } from '@/lib/mainsail';
+import { Exceptions } from '@/app/lib/mainsail';
 import { FunctionSigs } from '@mainsail/evm-contracts';
 
 type TransactionData = Record<string, any>;
@@ -19,7 +20,7 @@ export class TransactionTypeService {
         return data.data === TransactionTypes.Transfer;
     }
 
-    public static isSecondSignature(_data: TransactionData): boolean {
+    public static isSecondSignature(data: TransactionData): boolean {
         throw new Exceptions.NotImplemented(this.constructor.name, this.isSecondSignature.name);
     }
 
@@ -30,7 +31,7 @@ export class TransactionTypeService {
         return data.data.includes(TransactionTypes.RegisterValidator.slice(2)); // remove `0x` prefix from api response
     }
 
-    public static isVoteCombination(_data: TransactionData): boolean {
+    public static isVoteCombination(data: TransactionData): boolean {
         return false;
     }
 

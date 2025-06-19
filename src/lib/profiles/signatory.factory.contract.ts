@@ -1,4 +1,4 @@
-import { Signatories } from '@/lib/mainsail';
+import { Signatories } from '@/app/lib/mainsail';
 
 export interface SignatoryInput {
     encryptionPassword?: string;

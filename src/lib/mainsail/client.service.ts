@@ -1,5 +1,6 @@
+/* eslint-disable sonarjs/cognitive-complexity */
+
 import { UsernamesAbi } from '@mainsail/evm-contracts';
-// @ts-expect-error: No type declarations for 'node-dotify'
 import dotify from 'node-dotify';
 
 import { decodeFunctionResult, encodeFunctionData } from 'viem';
@@ -9,12 +10,19 @@ import { TransactionTypes, trimHexPrefix } from './transaction-type.service';
 import { WalletData } from './wallet.dto';
 import { ConfirmedTransactionData } from './confirmed-transaction.dto';
 import { SignedTransactionData } from './signed-transaction.dto';
-import { ConfirmedTransactionDataCollection } from '@/lib/mainsail/transactions.collection';
-import { DateTime } from '@/lib/intl';
-import { Collections, ConfigKey, ConfigRepository, Contracts, DTO, Services } from '@/lib/mainsail';
-import { IProfile } from '@/lib/profiles/profile.contract';
+import { ConfirmedTransactionDataCollection } from '@/app/lib/mainsail/transactions.collection';
+import { DateTime } from '@/app/lib/intl';
+import {
+    Collections,
+    ConfigKey,
+    ConfigRepository,
+    Contracts,
+    DTO,
+    Services,
+} from '@/app/lib/mainsail';
+import { IProfile } from '@/app/lib/profiles/profile.contract';
 
-type searchParams<T extends Record<string, any> = object> = T & { page: number; limit?: number };
+type searchParams<T extends Record<string, any> = {}> = T & { page: number; limit?: number };
 
 const wellKnownContracts = {
     consensus: '0x535B3D7A252fa034Ed71F0C53ec0C6F784cB64E1',
@@ -54,7 +62,7 @@ export class ClientService {
         const response = await this.#client.transactions().all(page, limit, parameters);
 
         return new ConfirmedTransactionDataCollection(
-            response.data.map((transaction: any) =>
+            response.data.map((transaction) =>
                 new ConfirmedTransactionData().configure(transaction),
             ),
             this.#createMetaPagination(response),
@@ -75,9 +83,7 @@ export class ClientService {
         const response = await this.#client.wallets().all(page, limit);
 
         return new Collections.WalletDataCollection(
-            response.data.map((wallet: Contracts.KeyValuePair) =>
-                new WalletData({ config: this.#config }).fill(wallet),
-            ),
+            response.data.map((wallet) => new WalletData({ config: this.#config }).fill(wallet)),
             this.#createMetaPagination(response),
         );
     }
@@ -96,9 +102,7 @@ export class ClientService {
         const body = await this.#client.validators().all(page, limit, parameters);
 
         return new Collections.WalletDataCollection(
-            body.data.map((wallet: Contracts.KeyValuePair) =>
-                new WalletData({ config: this.#config }).fill(wallet),
-            ),
+            body.data.map((wallet) => new WalletData({ config: this.#config }).fill(wallet)),
             this.#createMetaPagination(body),
         );
     }
@@ -138,7 +142,6 @@ export class ClientService {
         try {
             response = await this.#client.transactions().create(transactionToBroadcast);
         } catch (error) {
-            // @ts-expect-error this is an HTTP error
             response = error.response.json();
         }
 
@@ -179,6 +182,7 @@ export class ClientService {
 
     public async evmCall(callData: Contracts.EvmCallData): Promise<Contracts.EvmCallResponse> {
         try {
+            // @ts-ignore
             const response = await this.#client.evm().call({
                 id: 1,
                 method: 'eth_call',
@@ -191,7 +195,6 @@ export class ClientService {
                 result: response.result,
             };
         } catch (error) {
-            // @ts-expect-error this is an HTTP error
             const errorResponse = error.response?.json();
             throw new Error(errorResponse?.error?.message || 'Failed to make EVM call');
         }
@@ -248,7 +251,7 @@ export class ClientService {
         }
     }
 
-    #createMetaPagination(body: Record<string, any>): Services.MetaPagination {
+    #createMetaPagination(body): Services.MetaPagination {
         const getPage = (url: string): string | undefined => {
             const match: RegExpExecArray | null = new RegExp(/page=(\d+)/).exec(url);
 
@@ -291,9 +294,7 @@ export class ClientService {
         };
 
         for (const [alias, original] of Object.entries(mappings)) {
-            // @ts-expect-error any type issue
             if (body[alias]) {
-                // @ts-expect-error any type issue
                 result.searchParams[original] = body[alias];
 
                 delete result.body[alias];
@@ -305,6 +306,7 @@ export class ClientService {
 
             result.searchParams.address = identifiers.map(({ value }) => value).join(',');
 
+            // @ts-ignore
             delete body.identifiers;
         }
 
@@ -321,6 +323,7 @@ export class ClientService {
             ].join(','),
         };
 
+        // @ts-ignore
         if (body.type) {
             const data = transactionTypeMap[body.type];
             if (data !== undefined) {
@@ -353,7 +356,7 @@ export class ClientService {
             const normalizeTimestamps = (timestamp: Services.RangeCriteria) => {
                 const epoch: string = this.#config.get<string>(ConfigKey.Epoch);
 
-                const normalized: Record<string, number> = { ...timestamp };
+                const normalized = { ...timestamp };
 
                 if (epoch) {
                     for (const [key, value] of Object.entries(normalized)) {
@@ -364,7 +367,9 @@ export class ClientService {
                 return normalized;
             };
 
-            result.searchParams.timestamp = normalizeTimestamps(body.timestamp);
+            const normalized = normalizeTimestamps(body.timestamp);
+
+            result.searchParams.timestamp = normalized;
             delete body.timestamp;
         }
 

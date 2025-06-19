@@ -5,14 +5,14 @@ import { TransactionTypeService } from './transaction-type.service';
 import {
     MultiPaymentItem,
     MultiPaymentRecipient,
-} from '@/lib/mainsail/confirmed-transaction.dto.contract';
-import { BigNumber } from '@/lib/helpers';
-import { DateTime } from '@/lib/intl';
+} from '@/app/lib/mainsail/confirmed-transaction.dto.contract';
+import { BigNumber } from '@/app/lib/helpers';
+import { DateTime } from '@/app/lib/intl';
 
 import {
     RawTransactionData,
     SignedTransactionObject,
-} from '@/lib/mainsail/signed-transaction.dto.contract';
+} from '@/app/lib/mainsail/signed-transaction.dto.contract';
 
 export class SignedTransactionData {
     protected identifier!: string;
@@ -160,7 +160,7 @@ export class SignedTransactionData {
         const [recipients, amounts] = decodeFunctionData(
             this.normalizedData() as Hex,
             AbiType.MultiPayment,
-        ).args as [string[], string[]];
+        ).args;
 
         for (const index in recipients) {
             payments[index] = {
@@ -278,7 +278,6 @@ export class SignedTransactionData {
                 continue;
             }
 
-            // @ts-expect-error method is key of SignedTransactionData
             if (this[method]()) {
                 return type;
             }
