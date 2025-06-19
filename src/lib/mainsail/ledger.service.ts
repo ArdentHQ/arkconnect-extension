@@ -2,7 +2,7 @@
 
 import { Contracts, Services } from '@/app/lib/mainsail';
 import { BIP44, HDKey } from '@ardenthq/arkvault-crypto';
-import { connectedTransport as ledgerTransportFactory } from '@/app/contexts/Ledger/transport';
+// import { connectedTransport as ledgerTransportFactory } from '@/app/contexts/Ledger/transport';
 
 import { createRange } from './ledger.service.helpers.js';
 import { LedgerSignature } from './ledger.service.types.js';
@@ -59,7 +59,8 @@ export class LedgerService {
     }
 
     public async connect(): Promise<void> {
-        this.#ledger = await ledgerTransportFactory();
+        // TODO enable ledger transport factory
+        // this.#ledger = await ledgerTransportFactory();
         this.#transport = new Eth(this.#ledger);
     }
 
