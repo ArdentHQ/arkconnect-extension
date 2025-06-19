@@ -29,7 +29,7 @@ export class HistoricalPriceTransformer implements HistoricalTransformer {
         const { token, currency, rates, dateFormat } = options;
 
         const tokenId = token.toUpperCase();
-        const datasets: Record<string, any> = {};
+        const datasets = {};
 
         for (const value of Object.values(this.data)) {
             datasets[DateTime.make(value.time).format(dateFormat)] = convertToCurrency(

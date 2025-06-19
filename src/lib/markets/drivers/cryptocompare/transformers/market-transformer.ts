@@ -24,7 +24,7 @@ export class MarketTransformer implements MarketTransformer {
      * @memberof MarketTransformer
      */
     public transform(): MarketDataCollection {
-        const result: Record<string, any> = {};
+        const result = {};
 
         for (const value of Object.values(this.data) as any) {
             result[value.TOSYMBOL] = {

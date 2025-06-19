@@ -25,7 +25,7 @@ export class HistoricalPriceTransformer implements HistoricalTransformer {
      * @memberof HistoricalPriceTransformer
      */
     public transform(options: Record<string, any>): HistoricalData {
-        const datasets: Record<string, any> = {};
+        const datasets = {};
         for (let index = 0; index < this.data.prices.length; index += 24) {
             datasets[this.data.prices[index][0]] = this.data.prices[index][1];
         }

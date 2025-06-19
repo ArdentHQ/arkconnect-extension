@@ -131,7 +131,7 @@ export class CoinCap implements PriceTracker {
 
         const priceUsd =
             response.data.reduce(
-                (acc: number, data: Record<string, any>) => acc + Number(data.priceUsd),
+                (acc: number, data) => acc + Number(data.priceUsd),
                 0,
             ) / response.data.length;
 

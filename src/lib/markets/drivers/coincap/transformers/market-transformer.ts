@@ -37,7 +37,7 @@ export class MarketTransformer implements MarketTransformer {
      */
     public transform(options: Record<string, any>): MarketDataCollection {
         const tokenId = options.token.toUpperCase();
-        const result: Record<string, any> = {};
+        const result = {};
 
         for (const currency of Object.keys(options.currencies || CURRENCIES)) {
             const { assets, rates } = this.data;
@@ -66,7 +66,7 @@ export class MarketTransformer implements MarketTransformer {
         return result;
     }
 
-    #normalise(marketCapUsd: number, rates: Record<string, any>, currency: string): number {
+    #normalise(marketCapUsd: number, rates, currency: string): number {
         return marketCapUsd * (rates[this.baseCurrency] / rates[currency]);
     }
 }
