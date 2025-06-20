@@ -1,5 +1,5 @@
 export const getLogoOrFaviconUrl = () => {
-    let iconUrl = undefined;
+    let iconUrl: string | undefined | null = undefined;
 
     // First, try searching for a logo in image tags.
     const imageTags = document.getElementsByTagName('img');
