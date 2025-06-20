@@ -3,7 +3,6 @@ import { ComponentPropsWithRef, useEffect, useState } from 'react';
 import { FeeTypeSwtich } from './FeeTypeSwtich';
 import { FeeOptionsList } from './FeeOptionsList';
 import { useNetworkFees } from '@/lib/hooks/useNetworkFees';
-import useActiveNetwork from '@/lib/hooks/useActiveNetwork';
 import { NumericInput } from '@/shared/components/input/NumericInput';
 import { useProfileContext } from '@/lib/context/Profile';
 import constants from '@/constants';
@@ -34,12 +33,11 @@ export const FeeSection = ({
     const [advancedFeeView, setAdvancedFeeView] = useState<boolean>(
         feeClass === constants.FEE_CUSTOM,
     );
-    const activeNetwork = useActiveNetwork();
     const { profile } = useProfileContext();
 
     const { isLoadingFee, fees } = useNetworkFees({
         profile,
-        network: activeNetwork.id(),
+        network: profile.activeNetwork().id(),
         type: feeType,
     });
 

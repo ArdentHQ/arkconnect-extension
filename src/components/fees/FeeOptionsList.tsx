@@ -1,7 +1,12 @@
 import { useTranslation } from 'react-i18next';
 import { FeeOption, FeeOptionSkeleton } from './FeeOption';
-import { TransactionFees } from '@/lib/hooks/useNetworkFees';
+import { calculateGasFee, TransactionFees } from '@/lib/hooks/useNetworkFees';
 import constants from '@/constants';
+import { BigNumber } from '@/lib/helpers';
+
+export const formatFee = (fee: string) => {
+    return BigNumber.make(fee).decimalPlaces(7).toString();
+};
 
 export const FeeOptionsList = ({
     fee,
@@ -37,21 +42,21 @@ export const FeeOptionsList = ({
         <div className='grid w-full grid-cols-3 gap-1.5'>
             <FeeOption
                 name={t('COMMON.SLOW')}
-                value={fees.min}
+                value={formatFee(calculateGasFee(fees.min, '21000'))}
                 isSelected={fee == fees.min}
                 onClick={handleClick}
                 feeClass={constants.FEE_SLOW}
             />
             <FeeOption
                 name={t('COMMON.AVERAGE')}
-                value={fees.avg}
+                value={formatFee(calculateGasFee(fees.avg, '21000'))}
                 isSelected={fee == fees.avg}
                 onClick={handleClick}
                 feeClass={constants.FEE_DEFAULT}
             />
             <FeeOption
                 name={t('COMMON.FAST')}
-                value={fees.max}
+                value={formatFee(calculateGasFee(fees.max, '21000'))}
                 isSelected={fee == fees.max}
                 onClick={handleClick}
                 feeClass={constants.FEE_FAST}

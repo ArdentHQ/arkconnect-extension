@@ -32,7 +32,7 @@ export const VoteFee = ({
 
     const { isLoadingFee, fees } = useNetworkFees({
         profile,
-        network: activeNetwork.id(),
+        network: profile.activeNetwork().id(),
         type: 'vote',
     });
 
