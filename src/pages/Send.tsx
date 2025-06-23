@@ -86,9 +86,7 @@ const Send = () => {
                     const userBalance = BigNumber.make(primaryWallet?.balance() || 0);
                     const fee = calculateGasFee(formik.values.gasPrice, formik.values.gasLimit);
 
-                    const sum: BigNumber = BigNumber.make(value).plus(
-                        BigNumber.make(fee),
-                    );
+                    const sum: BigNumber = BigNumber.make(value).plus(BigNumber.make(fee));
                     return sum.isLessThanOrEqualTo(userBalance);
                 },
             )
@@ -177,7 +175,6 @@ const Send = () => {
             });
         },
     });
-
 
     const { receiverAddress, gasLimit, gasPrice, amount } = formik.values;
 

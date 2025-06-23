@@ -116,7 +116,7 @@ export const FeeSection = ({
                         <NumericInput
                             id='gasLimit'
                             placeholder='0.00'
-                            labelText={`Gas Limit`}
+                            labelText={'Gas Limit'}
                             onValueChange={(value) => {
                                 onGasLimitChange(value);
                             }}
