@@ -15,39 +15,23 @@ import { useProfileContext } from '@/lib/context/Profile';
 import useToast from '@/lib/hooks/useToast';
 import { ScreenName } from '@/lib/background/contracts';
 import { generateAddressBookValidationSchema } from '@/lib/validation/addressBook';
+import { AddressService } from '@/lib/mainsail/address.service';
 
-const COIN_ID = 'ARK';
-
-export const validateAddress = async ({
+export const validateAddress = ({
     address,
-    profile,
 }: {
     address?: string;
-    profile: Contracts.IProfile;
-}): Promise<ValidateAddressResponse> => {
+}): ValidateAddressResponse => {
     if (!address) {
         return { isValid: false, network: WalletNetwork.MAINNET };
     }
 
-    try {
-        for (const network of profile.networks().allByCoin(COIN_ID)) {
-            // TODO fix address validation
-            const isValidAddress: boolean = true;
-
-            if (!isValidAddress) {
-                continue;
-            }
-
-            return {
-                isValid: true,
-                network: network.type !== 'test' ? WalletNetwork.MAINNET : WalletNetwork.DEVNET,
-            };
-        }
-
-        return { isValid: false, network: WalletNetwork.MAINNET };
-    } catch (error) {
-        throw new Error('Failed to validate address');
+    const isValidAddress: boolean = new AddressService().validate(address);
+    if (isValidAddress) {
+        return { isValid: true, network: WalletNetwork.MAINNET };
     }
+
+    return { isValid: false, network: WalletNetwork.MAINNET };
 };
 
 const CreateContact = () => {

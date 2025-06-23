@@ -62,9 +62,8 @@ const Send = () => {
         });
     }
 
-    const [isLoading, setIsLoading] = useState<boolean>(true);
     const [addressValidation, setAddressValidation] = useState<ValidateAddressResponse>({
-        isValid: false,
+        isValid: true,
         network: WalletNetwork.MAINNET,
     });
 
@@ -124,22 +123,21 @@ const Send = () => {
             //     t('ERROR.IS_INVALID_ADDRESS_LENGTH', { name: 'Address' }),
             // )
             .test('valid-address', t('ERROR.IS_INVALID', { name: 'Address' }), () => {
-                if (isLoading) return true;
                 return addressValidation.isValid;
             })
-            .test(
-                'same-network-address',
-                t('ERROR.IS_INVALID_NETWORK', { name: 'Address' }),
-                () => {
-                    if (isLoading) return true;
-                    return (
-                        addressValidation.network ===
-                        (primaryWallet?.network().isTest()
-                            ? WalletNetwork.DEVNET
-                            : WalletNetwork.MAINNET)
-                    );
-                },
-            )
+            // .test(
+            //     'same-network-address',
+            //     t('ERROR.IS_INVALID_NETWORK', { name: 'Address' }),
+            //     () => {
+            //         if (isLoading) return true;
+            //         return (
+            //             addressValidation.network ===
+            //             (primaryWallet?.network().isTest()
+            //                 ? WalletNetwork.DEVNET
+            //                 : WalletNetwork.MAINNET)
+            //         );
+            //     },
+            // )
             .trim(),
     });
 
@@ -184,19 +182,11 @@ const Send = () => {
     const { receiverAddress, gasLimit, gasPrice, amount } = formik.values;
 
     useEffect(() => {
-        setIsLoading(true);
-
-        const handleAddressValidation = async () => {
-            const response = await validateAddress({
+        if (receiverAddress) {
+            const response = validateAddress({
                 address: receiverAddress,
-                profile,
             });
             setAddressValidation(response);
-            setIsLoading(false);
-        };
-
-        if (receiverAddress) {
-            handleAddressValidation();
         }
     }, [formik.values.receiverAddress, profile]);
 
