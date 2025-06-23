@@ -42,7 +42,7 @@ const DEFAULT_OS = 'default'; // For Windows and Linux
 // Fee classes
 const FEE_SLOW = 'slow';
 const FEE_FAST = 'fast';
-const FEE_DEFAULT = 'default';
+const FEE_AVERAGE = 'avg';
 const FEE_CUSTOM = 'custom';
 
 const constants = {
@@ -73,7 +73,7 @@ const constants = {
     DEFAULT_OS,
     FEE_SLOW,
     FEE_FAST,
-    FEE_DEFAULT,
+    FEE_AVERAGE,
     FEE_CUSTOM,
 };
 

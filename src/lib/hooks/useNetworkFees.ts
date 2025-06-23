@@ -231,19 +231,22 @@ export const useNetworkFees = ({
             ? GasLimit.multiPayment.times(recipientsCount)
             : GasLimit[type];
 
-        const estimate = async () => {
-            let gasLimit = fallbackGasLimit;
+        setEstimatedGasLimit(fallbackGasLimit);
 
-            try {
-                gasLimit = await estimateGas({ data: data ?? {}, type });
-            } catch (error) {
-                console.warn(error);
-            }
-
-            setEstimatedGasLimit(gasLimit);
-        };
-
-        void estimate();
+        // TODO enable gas limit estimations
+        // const estimate = async () => {
+        //     let gasLimit = fallbackGasLimit;
+        //
+        //     try {
+        //         gasLimit = await estimateGas({ data: data ?? {}, type });
+        //     } catch (error) {
+        //         console.warn(error);
+        //     }
+        //
+        //     setEstimatedGasLimit(gasLimit);
+        // };
+        //
+        // void estimate();
     }, [estimateGas, type]);
 
     return { isLoadingFee, fees, estimatedGasLimit };

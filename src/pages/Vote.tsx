@@ -80,7 +80,7 @@ const Vote = () => {
             .trim(),
         feeClass: string().oneOf([
             constants.FEE_CUSTOM,
-            constants.FEE_DEFAULT,
+            constants.FEE_AVERAGE,
             constants.FEE_FAST,
             constants.FEE_SLOW,
         ]),
@@ -151,7 +151,7 @@ const Vote = () => {
             feeClass:
                 searchParams.get('feeClass') ||
                 lastVisitedPage?.data?.feeClass ||
-                constants.FEE_DEFAULT,
+                constants.FEE_AVERAGE,
             delegateAddress:
                 searchParams.get('vote') ||
                 searchParams.get('unvote') ||
