@@ -21,6 +21,7 @@ import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 import { useProfileContext } from '@/lib/context/Profile';
 import { useVote } from '@/lib/hooks/useVote';
 import { calculateGasFee } from '@/lib/hooks/useNetworkFees';
+import { FeeLimits } from '@/components/fees';
 
 export type VoteFormik = {
     delegateAddress?: string;
@@ -68,18 +69,24 @@ const Vote = () => {
     }, [wallet]);
 
     const validationSchema = object().shape({
-        // fee: string()
-        //     .required(t('ERROR.IS_REQUIRED', { name: 'Fee' }))
-        //     .matches(constants.AMOUNT_REGEX, {
-        //         message: t('ERROR.IS_INVALID', { name: 'Fee' }),
-        //     })
-        //     .test('min-value', t('ERROR.IS_REQUIRED', { name: 'Fee' }), (value) => {
-        //         return Number(value) > 0;
-        //     })
-        //     .test('max-value', t('ERROR.IS_TOO_HIGH', { name: 'Fee' }), (value) => {
-        //         return Number(value) <= constants.MAX_FEES.vote;
-        //     })
-        //     .trim(),
+        gasPrice: string()
+            .required(t('ERROR.IS_REQUIRED', { name: 'Gas Price' }))
+            .test('min-value', t('ERROR.IS_REQUIRED', { name: 'Gas Price' }), (value) => {
+                return BigNumber.make(value).isGreaterThanOrEqualTo(FeeLimits.gasPrice[0]);
+            })
+            .test('max-value', t('ERROR.IS_TOO_HIGH', { name: 'Gas Price' }), (value) => {
+                return BigNumber.make(value).isLessThanOrEqualTo(FeeLimits.gasPrice[1]);
+            })
+            .trim(),
+        gasLimit: string()
+            .required(t('ERROR.IS_REQUIRED', { name: 'Gas Limit' }))
+            .test('min-value', t('ERROR.IS_REQUIRED', { name: 'Gas Limit' }), (value) => {
+                return BigNumber.make(value).isGreaterThanOrEqualTo(FeeLimits.gasLimit[0]);
+            })
+            .test('max-value', t('ERROR.IS_TOO_HIGH', { name: 'Gas Limit' }), (value) => {
+                return BigNumber.make(value).isLessThanOrEqualTo(FeeLimits.gasLimit[1]);
+            })
+            .trim(),
         feeClass: string().oneOf([
             constants.FEE_CUSTOM,
             constants.FEE_AVERAGE,
