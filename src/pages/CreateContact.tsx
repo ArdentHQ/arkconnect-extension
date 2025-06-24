@@ -3,7 +3,6 @@ import { useFormik } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { runtime } from 'webextension-polyfill';
-import { Contracts } from '@/lib/profiles';
 import { AddNewContactForm, SaveContactButton } from '@/components/address-book';
 import { ContactFormik, ValidateAddressResponse } from '@/components/address-book/types';
 import { WalletNetwork } from '@/lib/store/wallet';
@@ -17,11 +16,7 @@ import { ScreenName } from '@/lib/background/contracts';
 import { generateAddressBookValidationSchema } from '@/lib/validation/addressBook';
 import { AddressService } from '@/lib/mainsail/address.service';
 
-export const validateAddress = ({
-    address,
-}: {
-    address?: string;
-}): ValidateAddressResponse => {
+export const validateAddress = ({ address }: { address?: string }): ValidateAddressResponse => {
     if (!address) {
         return { isValid: false, network: WalletNetwork.MAINNET };
     }
