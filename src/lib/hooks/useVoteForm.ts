@@ -47,8 +47,8 @@ type ApproveVoteRequest = {
 
 const defaultState = {
     senderAddress: '',
-    gasPrice: '0',
-    gasLimit: '0',
+    gasPrice: '',
+    gasLimit: '',
     remainingBalance: 0,
     hasHigherCustomFee: null,
     hasLowerCustomFee: null,

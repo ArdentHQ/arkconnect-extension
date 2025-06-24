@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FormikProps } from 'formik';
 import { FeeSection } from '../fees';
@@ -6,6 +6,7 @@ import { useProfileContext } from '@/lib/context/Profile';
 import { calculateGasFee, useNetworkFees } from '@/lib/hooks/useNetworkFees';
 import useOnClickOutside from '@/lib/hooks/useOnClickOutside';
 import { VoteFormik } from '@/pages/Vote';
+import constants from '@/constants';
 
 export const VoteFee = ({ formik }: { formik: FormikProps<VoteFormik> }) => {
     const { t } = useTranslation();
@@ -14,13 +15,24 @@ export const VoteFee = ({ formik }: { formik: FormikProps<VoteFormik> }) => {
 
     const activeNetwork = profile.activeNetwork();
 
-    const { isLoadingFee } = useNetworkFees({
+    const { fees, isLoadingFee, estimatedGasLimit } = useNetworkFees({
         profile,
         network: activeNetwork.id(),
         type: 'vote',
     });
 
     const { delegateAddress, gasLimit, gasPrice } = formik.values;
+
+    useEffect(() => {
+        if (fees?.avg && gasPrice === '') {
+            void formik.setFieldValue('gasPrice', fees.avg);
+            void formik.setFieldValue('feeClass', constants.FEE_AVERAGE);
+        }
+
+        if (estimatedGasLimit.isGreaterThan(0) && gasLimit === '') {
+            void formik.setFieldValue('gasLimit', estimatedGasLimit.toString());
+        }
+    }, [fees, gasLimit, gasLimit, estimatedGasLimit]);
 
     const fee = calculateGasFee(gasPrice, gasLimit);
 

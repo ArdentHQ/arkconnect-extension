@@ -65,8 +65,8 @@ const defaultState = {
     fees: {
         avg: 0,
     },
-    gasPrice: '0',
-    gasLimit: '0',
+    gasPrice: '',
+    gasLimit: '',
     hasHigherCustomFee: null,
     hasLowerCustomFee: null,
     remainingBalance: 0,
