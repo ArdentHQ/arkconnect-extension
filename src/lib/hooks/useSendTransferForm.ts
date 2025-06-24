@@ -234,7 +234,7 @@ export const useSendTransferForm = (
 
     useEffect(() => {
         const remaining = BigNumber.make(formValues.remainingBalance).minus(
-            calculateGasFee(formValues.gasPrice, formValues.gasLimit)
+            calculateGasFee(formValues.gasPrice, formValues.gasLimit),
         );
 
         setFormValues((prevFormValues) => ({

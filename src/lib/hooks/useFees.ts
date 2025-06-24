@@ -42,7 +42,7 @@ export const useFees = () => {
         [profile, env],
     );
 
-    const getGasPrices= useCallback(
+    const getGasPrices = useCallback(
         async ({ network, type }: CalculateProperties): Promise<Record<string, BigNumber>> => {
             await env.fees().sync(profile);
             const transactionFees = env.fees().findByType(network, type);
@@ -50,12 +50,11 @@ export const useFees = () => {
             return {
                 min: transactionFees.min,
                 avg: transactionFees.avg,
-                max: transactionFees.max
+                max: transactionFees.max,
             };
         },
         [profile, env],
     );
-
 
     return { calculateAvgFee, calculateMaxFee, calculateMinFee, getGasPrices };
 };

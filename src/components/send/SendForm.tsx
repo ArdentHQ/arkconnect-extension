@@ -24,7 +24,10 @@ export const SendForm = ({ formik }: { formik: FormikProps<SendFormik> }) => {
         }
 
         const maxValue = balance.minus(fee);
-        formik.setFieldValue('amount', maxValue.isNegative() ? 0 : maxValue.decimalPlaces(18).toString());
+        formik.setFieldValue(
+            'amount',
+            maxValue.isNegative() ? 0 : maxValue.decimalPlaces(18).toString(),
+        );
     };
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
