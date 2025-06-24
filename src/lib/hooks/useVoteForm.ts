@@ -14,18 +14,20 @@ import * as WalletStore from '@/lib/store/wallet';
 import * as SessionStore from '@/lib/store/session';
 import { Network } from '@/lib/mainsail/network';
 import { TransactionInputs } from '@/lib/mainsail/transaction.contract';
+import { calculateGasFee, GasLimit } from '@/lib/hooks/useNetworkFees';
+import { BigNumber } from '@/lib/helpers';
 
 interface SendVoteForm {
     senderAddress: string;
-    fee: number;
-    hasHigherCustomFee: number | null;
-    hasLowerCustomFee: number | null;
+    gasPrice: string;
+    gasLimit: string;
+    hasHigherCustomFee: string | null;
+    hasLowerCustomFee: string | null;
     remainingBalance: number;
-    amount: number;
+    amount: string;
     network?: Network;
     vote: Contracts.VoteRegistryItem | null;
     unvote: Contracts.VoteRegistryItem | null;
-    customFee?: number;
 }
 
 type VoteDelegateProperties = {
@@ -39,16 +41,18 @@ type ApproveVoteRequest = {
     vote: VoteDelegateProperties;
     unvote: VoteDelegateProperties;
     tabId: number;
-    customFee?: number;
+    customGasPrice?: string;
+    customGasLimit?: string;
 };
 
 const defaultState = {
     senderAddress: '',
-    fee: 0,
+    gasPrice: '0',
+    gasLimit: '0',
     remainingBalance: 0,
     hasHigherCustomFee: null,
     hasLowerCustomFee: null,
-    amount: 0,
+    amount: '0',
     vote: null,
     unvote: null,
 };
@@ -68,7 +72,7 @@ const prepareLedger = async (wallet: Contracts.IReadWriteWallet) => {
 export const useVoteForm = (wallet: Contracts.IReadWriteWallet, request: ApproveVoteRequest) => {
     const { profile } = useProfileContext();
     const { onError } = useErrorHandlerContext();
-    const { calculateAvgFee, calculateMaxFee, calculateMinFee } = useFees();
+    const { getGasPrices } = useFees();
     const [loading, setLoading] = useState(true);
     const [formValues, setFormValues] = useState<SendVoteForm>(defaultState);
     const { persist } = useEnvironmentContext();
@@ -80,10 +84,11 @@ export const useVoteForm = (wallet: Contracts.IReadWriteWallet, request: Approve
     };
 
     const submitForm = async (abortReference: AbortController) => {
-        const { fee, vote, unvote } = formValues;
+        const { gasLimit, gasPrice, vote, unvote } = formValues;
 
         const data = {
-            fee: +fee,
+            gasLimit,
+            gasPrice,
             data: {
                 unvotes: unvote && [
                     {
@@ -173,22 +178,23 @@ export const useVoteForm = (wallet: Contracts.IReadWriteWallet, request: Approve
                 await profile.sync();
                 await persist();
 
-                const averageFee = await calculateAvgFee({
+                const { min, avg, max } = await getGasPrices({
                     network: wallet.network().id(),
-                    type: ApproveActionType.VOTE,
+                    type: ApproveActionType.TRANSACTION,
                 });
 
-                const maxFee = await calculateMaxFee({
-                    network: wallet.network().id(),
-                    type: ApproveActionType.VOTE,
-                });
+                const { customGasLimit, customGasPrice } = request;
 
-                const minFee = await calculateMinFee({
-                    network: wallet.network().id(),
-                    type: ApproveActionType.VOTE,
-                });
+                const hasCustomFee = !!(customGasLimit && customGasPrice);
 
-                const fee = request.customFee ?? averageFee;
+                const defaultGasLimit = GasLimit.vote.toString();
+
+                const customFee = BigNumber.make(calculateGasFee(customGasPrice, customGasLimit));
+                const maxFee = BigNumber.make(calculateGasFee(max.toString(), defaultGasLimit));
+                const avgFee = BigNumber.make(calculateGasFee(avg.toString(), defaultGasLimit));
+                const minFee = BigNumber.make(calculateGasFee(min.toString(), defaultGasLimit));
+
+                const fee = customFee ?? avgFee;
 
                 const { vote, unvote } = await getVote();
 
@@ -198,9 +204,9 @@ export const useVoteForm = (wallet: Contracts.IReadWriteWallet, request: Approve
                     remainingBalance: wallet.balance(),
                     fee,
                     hasHigherCustomFee:
-                        request.customFee && request.customFee > maxFee ? maxFee : null,
+                        hasCustomFee && customFee.isGreaterThan(maxFee) ? maxFee.toString() : null,
                     hasLowerCustomFee:
-                        request.customFee && request.customFee < minFee ? minFee : null,
+                        hasCustomFee && customFee.isLessThan(minFee) ? minFee.toString() : null,
                     vote: vote,
                     unvote: unvote,
                 }));
@@ -222,13 +228,15 @@ export const useVoteForm = (wallet: Contracts.IReadWriteWallet, request: Approve
     }, [wallet]);
 
     useEffect(() => {
-        const remaining = formValues.remainingBalance - formValues.fee;
+        const remaining = BigNumber.make(formValues.remainingBalance).minus(
+            calculateGasFee(formValues.gasPrice, formValues.gasLimit),
+        );
 
         setFormValues((prevFormValues) => ({
             ...prevFormValues,
-            amount: precisionRound(remaining, 8),
+            amount: precisionRound(remaining.toNumber(), 8).toString(),
         }));
-    }, [formValues.fee]);
+    }, [formValues.gasPrice, formValues.gasLimit]);
 
     return {
         formValues,
@@ -237,7 +245,8 @@ export const useVoteForm = (wallet: Contracts.IReadWriteWallet, request: Approve
         submitForm,
         loading,
         values: {
-            fee: formValues.fee,
+            gasPrice: formValues.gasPrice,
+            gasLimit: formValues.gasLimit,
             vote: formValues.vote,
             unvote: formValues.unvote,
             hasHigherCustomFee: formValues.hasHigherCustomFee,

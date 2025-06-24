@@ -1,46 +1,28 @@
-import { FocusEventHandler, useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { FormikProps } from 'formik';
 import { FeeSection } from '../fees';
 import { useProfileContext } from '@/lib/context/Profile';
-import useActiveNetwork from '@/lib/hooks/useActiveNetwork';
-import { useNetworkFees } from '@/lib/hooks/useNetworkFees';
+import { calculateGasFee, useNetworkFees } from '@/lib/hooks/useNetworkFees';
 import useOnClickOutside from '@/lib/hooks/useOnClickOutside';
-export const VoteFee = ({
-    delegateAddress,
-    fee,
-    feeError,
-    onSelectedFee,
-    onBlur,
-    handleFeeInputChange,
-    feeClass,
-    handleFeeClassChange,
-}: {
-    delegateAddress?: string;
-    fee: string;
-    feeError?: string;
-    onSelectedFee: (fee: string) => void;
-    onBlur: FocusEventHandler<HTMLInputElement>;
-    handleFeeInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-    feeClass?: string;
-    handleFeeClassChange?: (feeClass: string) => void;
-}) => {
+import { VoteFormik } from '@/pages/Vote';
+
+export const VoteFee = ({ formik }: { formik: FormikProps<VoteFormik> }) => {
     const { t } = useTranslation();
     const [isEditing, setIsEditing] = useState<boolean>(false);
-    const activeNetwork = useActiveNetwork();
-
     const { profile } = useProfileContext();
 
-    const { isLoadingFee, fees } = useNetworkFees({
+    const activeNetwork = profile.activeNetwork();
+
+    const { isLoadingFee } = useNetworkFees({
         profile,
-        network: profile.activeNetwork().id(),
+        network: activeNetwork.id(),
         type: 'vote',
     });
 
-    useEffect(() => {
-        if (fees?.avg && fee === '') {
-            onSelectedFee(fees.avg);
-        }
-    }, [fees, fee]);
+    const { delegateAddress, gasLimit, gasPrice } = formik.values;
+
+    const fee = calculateGasFee(gasPrice, gasLimit);
 
     const disabled = delegateAddress === undefined || isLoadingFee;
 
@@ -48,19 +30,27 @@ export const VoteFee = ({
 
     useOnClickOutside(feeFormRef, () => setIsEditing(false));
 
+    const handleGasPriceChange = (price: string) => {
+        formik.setFieldValue('gasPrice', price);
+    };
+
+    const handleGasLimitChange = (limit: string) => {
+        formik.setFieldValue('gasLimit', limit);
+    };
+
     if (isEditing) {
         return (
             <div ref={feeFormRef}>
                 <FeeSection
-                    onChange={handleFeeInputChange}
-                    onBlur={onBlur}
-                    variant={fee && feeError ? 'destructive' : 'primary'}
-                    helperText={fee ? feeError : undefined}
-                    value={fee}
-                    setValue={onSelectedFee}
+                    // variant={fee && feeError ? 'destructive' : 'primary'}
+                    // helperText={fee ? feeError : undefined}
+                    values={formik.values}
                     feeType='vote'
-                    feeClass={feeClass}
-                    handleFeeClassChange={handleFeeClassChange}
+                    onGasPriceChange={handleGasPriceChange}
+                    onGasLimitChange={handleGasLimitChange}
+                    handleFeeClassChange={(value: string) =>
+                        formik.setFieldValue('feeClass', value)
+                    }
                 />
             </div>
         );

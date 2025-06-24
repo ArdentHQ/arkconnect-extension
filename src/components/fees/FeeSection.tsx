@@ -7,12 +7,13 @@ import { NumericInput } from '@/shared/components/input/NumericInput';
 import { useProfileContext } from '@/lib/context/Profile';
 import constants from '@/constants';
 import { SendFormik } from '@/pages/Send';
+import { VoteFormik } from '@/pages/Vote';
 
 type AddressDropdownProps = ComponentPropsWithRef<'input'> & {
     variant?: 'primary' | 'destructive';
     helperText?: string;
     feeType?: string;
-    values: SendFormik;
+    values: SendFormik | VoteFormik;
     handleFeeClassChange?: (feeClass: string) => void;
     onGasPriceChange: (price: string) => void;
     onGasLimitChange: (limit: string) => void;
