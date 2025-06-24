@@ -1,5 +1,5 @@
 import { createContext, ReactNode, useCallback, useContext, useState } from 'react';
-import { Environment } from '@ardenthq/sdk-profiles';
+import { Environment } from '@/lib/profiles';
 
 interface Context {
     env: Environment;

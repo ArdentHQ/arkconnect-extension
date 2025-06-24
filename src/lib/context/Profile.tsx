@@ -1,8 +1,8 @@
 import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
-import { Contracts } from '@ardenthq/sdk-profiles';
 import { runtime } from 'webextension-polyfill';
 import { useEnvironmentContext } from './Environment';
 import { useErrorHandlerContext } from './ErrorHandler';
+import { Contracts } from '@/lib/profiles';
 import * as SessionStore from '@/lib/store/session';
 import * as WalletStore from '@/lib/store/wallet';
 
@@ -122,7 +122,7 @@ export const ProfileProvider = ({ children }: Properties) => {
         await newProfile.sync();
 
         await env.wallets().syncByProfile(newProfile);
-        await env.exchangeRates().syncAll(newProfile, 'ARK');
+        await newProfile.exchangeRates().syncAll(newProfile, 'ARK');
 
         setProfile(newProfile);
 

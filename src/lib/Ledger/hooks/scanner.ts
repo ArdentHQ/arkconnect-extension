@@ -1,12 +1,11 @@
-import { omitBy, uniqBy } from '@ardenthq/sdk-helpers';
-import { Contracts as ProfilesContracts } from '@ardenthq/sdk-profiles';
-import { Contracts } from '@ardenthq/sdk';
 import { useCallback, useMemo, useReducer, useRef, useState } from 'react';
 import { scannerReducer } from './scanner.state';
+import { Contracts } from '@/lib/profiles';
 import { useLedgerContext } from '@/lib/Ledger';
 import { LedgerData } from '@/lib/Ledger/Ledger.contracts';
+import { omitBy, uniqBy } from '@/lib/helpers';
 
-export const useLedgerScanner = (coin: string, network: string) => {
+export const useLedgerScanner = () => {
     const { setBusy, setIdle } = useLedgerContext();
 
     const [state, dispatch] = useReducer(scannerReducer, {
@@ -34,7 +33,7 @@ export const useLedgerScanner = (coin: string, network: string) => {
         setLoadedWallets(uniqBy([...loadedWallets, wallet], (wallet) => wallet.data.address));
     };
 
-    const scan = async (profile: ProfilesContracts.IProfile, startPath?: string) => {
+    const scan = async (profile: Contracts.IProfile, startPath?: string) => {
         try {
             setIdle();
             dispatch({ type: 'waiting' });
@@ -49,15 +48,15 @@ export const useLedgerScanner = (coin: string, network: string) => {
             setBusy();
             abortRetryReference.current = false;
 
-            const instance = profile.coins().set(coin, network);
-
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
-            const ledgerWallets = await instance.ledger().scan({ onProgress, startPath });
+            const ledgerWallets = await profile.ledger().scan({ onProgress, startPath });
 
             const legacyWallets = isLoadingMore
                 ? {}
-                : await instance.ledger().scan({ onProgress, useLegacy: true });
+                : // TODO - fix type - not sure if this should be WalletData from mainsail or profiles
+                  // @ts-expect-error type issue
+                  await profile.ledger().scan({ onProgress, useLegacy: true });
 
             const allWallets = { ...legacyWallets, ...ledgerWallets };
 

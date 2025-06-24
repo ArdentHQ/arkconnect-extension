@@ -50,15 +50,7 @@ export default defineConfig(({ mode }) => {
         test: {
             server: {
                 deps: {
-                    inline: [
-                        '@ardenthq/sdk',
-                        '@ardenthq/sdk-ark',
-                        '@ardenthq/sdk-cryptography',
-                        '@ardenthq/sdk-helpers',
-                        '@ardenthq/sdk-intl',
-                        '@ardenthq/sdk-ledger',
-                        '@ardenthq/sdk-profiles',
-                    ],
+                    inline: ['@ardenthq/sdk-ledger'],
                 },
             },
         },

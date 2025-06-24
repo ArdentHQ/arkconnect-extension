@@ -1,7 +1,7 @@
-import { Contracts } from '@ardenthq/sdk-profiles';
 import { useTranslation } from 'react-i18next';
 import { DelegatesListItem } from './DelegatesListItem';
 import { DelegatesListItemSkeleton } from './DelegatesListItemSkeleton';
+import { Contracts } from '@/lib/profiles';
 import { WarningIcon } from '@/shared/components';
 
 export const DelegatesList = ({

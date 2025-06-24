@@ -1,4 +1,4 @@
-import { Contracts, Environment } from '@ardenthq/sdk-profiles';
+import { Contracts, Environment } from '@/lib/profiles';
 
 interface WalletImportTypes {
     profile: Contracts.IProfile;
@@ -14,14 +14,14 @@ const useWalletSync = ({ profile, env }: WalletImportTypes) => {
             env.fees().all(network.coin(), network.id());
         } catch {
             // Sync network fees for the first time
-            await env.fees().sync(profile, network.coin(), network.id());
+            await env.fees().sync(profile);
         }
     };
 
     const syncRates = async (profile: Contracts.IProfile, wallet: Contracts.IReadWriteWallet) => {
         await Promise.all([
-            env.exchangeRates().syncAll(profile, wallet.currency()),
-            env.exchangeRates().syncAll(profile, wallet.exchangeCurrency()),
+            profile.exchangeRates().syncAll(profile, wallet.currency()),
+            profile.exchangeRates().syncAll(profile, wallet.exchangeCurrency()),
         ]);
     };
 
@@ -30,10 +30,10 @@ const useWalletSync = ({ profile, env }: WalletImportTypes) => {
 
         if (network.allowsVoting()) {
             try {
-                env.delegates().all(network.coin(), network.id());
+                profile.validators().all(network.id());
             } catch {
                 // Sync network delegates for the first time
-                await env.delegates().sync(profile, network.coin(), network.id());
+                await profile.validators().sync(profile, network.id());
             }
 
             if (wallet.hasSyncedWithNetwork()) {

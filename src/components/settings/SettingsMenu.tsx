@@ -1,9 +1,9 @@
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { NavigateOptions, useLocation, useNavigate } from 'react-router-dom';
 import classNames from 'classnames';
-import { Contracts } from '@ardenthq/sdk-profiles';
 import { runtime } from 'webextension-polyfill';
 import { useTranslation } from 'react-i18next';
+import { Contracts } from '@/lib/profiles';
 import { AutoLockTimer as AutoLockTimerEnum, getLocalValues } from '@/lib/utils/localStorage';
 import { handleInputKeyAction, handleSubmitKeyAction } from '@/lib/utils/handleKeyAction';
 import { HeadingDescription, ToggleSwitch } from '@/shared/components';

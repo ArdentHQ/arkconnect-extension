@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Contracts } from '@ardenthq/sdk-profiles';
+import { Contracts } from '@/lib/profiles';
 import { useExchangeRates } from '@/lib/hooks/useExchangeRates';
 
 export const useWalletBalance = (primaryWallet: Contracts.IReadWriteWallet | undefined) => {

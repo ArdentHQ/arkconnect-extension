@@ -1,29 +1,28 @@
-import { Contracts } from '@ardenthq/sdk-profiles';
-import { Networks } from '@ardenthq/sdk';
 import { networkDisplayName } from './networkUtils';
+import { Network } from '@/lib/mainsail/networks';
+import { Contracts } from '@/lib/profiles';
 
 interface GetDefaultAliasInput {
     profile: Contracts.IProfile;
-    network: Networks.Network;
+    network: Network;
 }
 
 interface AliasInput {
     profile: Contracts.IProfile;
-    network: Networks.Network;
+    network: Network;
     counter: number;
 }
 
 interface LedgerAliasInput {
     profile: Contracts.IProfile;
-    network: Networks.Network;
+    network: Network;
     importCount: number;
     index: number;
 }
 
 export const getDefaultAlias = ({ profile, network }: GetDefaultAliasInput): string => {
-    const sameCoinWallets = profile.wallets().findByCoinWithNetwork(network.coin(), network.id());
-
-    const counter = sameCoinWallets.length;
+    // TODO fix counter
+    const counter = 0;
 
     return generateAlias({ profile, network, counter });
 };
@@ -34,7 +33,9 @@ export const getLedgerAlias = ({
     importCount,
     index,
 }: LedgerAliasInput): string => {
-    const sameCoinWallets = profile.wallets().findByCoinWithNetwork(network.coin(), network.id());
+    // const sameCoinWallets = profile.wallets().findByCoinWithNetwork(network.coin(), network.id());
+    // TODO fix
+    const sameCoinWallets = [];
 
     // The way ledgers are currently stored requires us to do
     // some magic to determine the right label. The profile

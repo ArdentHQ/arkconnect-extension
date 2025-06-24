@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { IReadWriteWallet } from '@ardenthq/sdk-profiles/distribution/esm/wallet.contract';
+import { IReadWriteWallet } from '@/lib/profiles/wallet.contract';
 
 export const useConfirmedTransaction = ({
     wallet,
@@ -14,7 +14,8 @@ export const useConfirmedTransaction = ({
         const checkConfirmed = async () => {
             const id = setInterval(async () => {
                 try {
-                    await wallet.coin().client().transaction(transactionId);
+                    // TODO fix tx confirmation checking
+                    // await wallet.coin().client().transaction(transactionId);
                     setIsConfirmed(true);
                     clearInterval(id);
                 } catch (_e) {

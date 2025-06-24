@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
-import { Contracts } from '@ardenthq/sdk-profiles';
 import { useMemo } from 'react';
+import { Contracts } from '@/lib/profiles';
 
 export const useVote = ({
     delegateAddress,

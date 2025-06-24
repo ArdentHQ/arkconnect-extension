@@ -1,8 +1,7 @@
-import { Contracts, Environment } from '@ardenthq/sdk-profiles';
-
 import { LockHandler } from './handleAutoLock';
 import { PrimaryWallet } from './extension.wallet.primary';
 import { EnvironmentData } from './contracts';
+import { Contracts, Environment } from '@/lib/profiles';
 import { initializeEnvironment } from '@/lib/utils/env.background';
 import { createTestProfile, isDev } from '@/dev/utils/dev';
 

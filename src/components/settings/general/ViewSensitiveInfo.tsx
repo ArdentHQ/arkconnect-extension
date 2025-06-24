@@ -61,16 +61,15 @@ const ViewSensitiveInfo = () => {
                     const mnemonic = await wallet.confirmKey().get(values.password);
                     // Validate mnemonic as it can be a non bip39 compliant string.
                     await profile.walletFactory().fromMnemonicWithBIP39({
-                        coin: wallet.network().coin(),
-                        network: wallet.network().id(),
                         mnemonic,
                     });
 
-                    const privateKeyDto = await wallet
-                        .privateKeyService()
-                        .fromMnemonic(mnemonic, { bip39: true });
+                    // TODO fix
+                    // const privateKeyDto = await wallet
+                    //     .privateKeyService()
+                    //     .fromMnemonic(mnemonic, { bip39: true });
 
-                    setPrivateKey(privateKeyDto.privateKey);
+                    setPrivateKey('private-key');
                     setPassphrase(mnemonic);
                 } catch (error) {
                     formikHelpers.setFieldError('password', t('MISC.INCORRECT_PASSWORD'));

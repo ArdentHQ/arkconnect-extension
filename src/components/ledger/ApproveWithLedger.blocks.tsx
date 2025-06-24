@@ -1,7 +1,7 @@
 import { useLocation } from 'react-router-dom';
-import { Contracts } from '@ardenthq/sdk-profiles';
 import RequestedSignatureMessage from '../approve/RequestedSignatureMessage';
 import { ActionBody } from '../approve/ActionBody';
+import { Contracts } from '@/lib/profiles';
 import trimAddress from '@/lib/utils/trimAddress';
 import { getNetworkCurrency } from '@/lib/utils/getActiveCoin';
 import { useExchangeRate } from '@/lib/hooks/useExchangeRate';

@@ -1,5 +1,5 @@
 import { runtime } from 'webextension-polyfill';
-import { Storage } from '@ardenthq/sdk-profiles';
+import { Storage } from '@/lib/profiles';
 
 export class ExtensionClientStorage implements Storage {
     private storage: any;

@@ -1,7 +1,7 @@
-import { Networks } from '@ardenthq/sdk';
 import constants from '@/constants';
+import { Network } from '@/lib/mainsail/network';
 
-export const networkDisplayName = (network: Networks.Network | undefined | null) => {
+export const networkDisplayName = (network: Network | undefined | null) => {
     if (!network) {
         return '';
     }

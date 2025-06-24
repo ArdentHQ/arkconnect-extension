@@ -1,5 +1,5 @@
 import { tabs } from 'webextension-polyfill';
-import { Contracts } from '@ardenthq/sdk-profiles';
+import { Contracts } from '@/lib/profiles';
 import { ProfileData } from '@/lib/background/contracts';
 
 export enum ExtensionSupportedEvents {

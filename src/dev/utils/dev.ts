@@ -1,12 +1,10 @@
-import { Contracts, Environment } from '@ardenthq/sdk-profiles';
+import { Contracts, Environment } from '@/lib/profiles';
 
 import { EnvironmentData } from '@/lib/background/contracts';
 import { getDefaultAlias } from '@/lib/utils/getDefaultAlias';
 import { seededAddressBook } from '@/lib/data/addressBook';
 
 type TestingAddress = {
-    coin: string;
-    network: string;
     mnemonic: string;
 };
 
@@ -24,8 +22,7 @@ const getTestingAddresses = (): TestingAddress[] => {
     const addresses: TestingAddress[] = [];
 
     for (const passphrase of passphrases) {
-        addresses.push({ coin: 'ARK', network: 'ark.mainnet', mnemonic: passphrase });
-        addresses.push({ coin: 'ARK', network: 'ark.devnet', mnemonic: passphrase });
+        addresses.push({ mnemonic: passphrase });
     }
     return addresses;
 };

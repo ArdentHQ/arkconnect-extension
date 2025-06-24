@@ -1,4 +1,4 @@
-import { Contracts } from '@ardenthq/sdk-profiles';
+import { Contracts } from '@/lib/profiles';
 
 export const generateWalletHelperText = (
     wallet: Contracts.IReadWriteWallet,

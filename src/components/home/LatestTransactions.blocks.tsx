@@ -1,7 +1,5 @@
 import cn from 'classnames';
 import dayjs from 'dayjs';
-import { ExtendedConfirmedTransactionData } from '@ardenthq/sdk-profiles/distribution/esm/transaction.dto';
-import { IReadWriteWallet } from '@ardenthq/sdk-profiles/distribution/esm/wallet.contract';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { TransactionAmount } from '../transaction/Transaction.blocks';
@@ -20,6 +18,8 @@ import trimAddress from '@/lib/utils/trimAddress';
 import { useDelegateInfo } from '@/lib/hooks/useDelegateInfo';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 import { isFirefox } from '@/lib/utils/isFirefox';
+import { ExtendedConfirmedTransactionData } from '@/lib/profiles/transaction.dto';
+import { IReadWriteWallet } from '@/lib/profiles/wallet.contract';
 
 export const TransactionTitle = ({
     type,
@@ -102,9 +102,9 @@ export const TransactionSecondaryText = ({
 
     switch (type) {
         case TransactionType.SEND:
-            return <PaymentInfo address={transaction.recipient()} isSent={true} />;
+            return <PaymentInfo address={transaction.to()} isSent={true} />;
         case TransactionType.RECEIVE:
-            return <PaymentInfo address={transaction.sender()} isSent={false} />;
+            return <PaymentInfo address={transaction.from()} isSent={false} />;
         case TransactionType.RETURN:
             return t('COMMON.TO_SELF');
         case TransactionType.SWAP:
@@ -118,10 +118,10 @@ export const TransactionSecondaryText = ({
         case TransactionType.UNVOTE:
             return unvoteDelegate.name ? unvoteDelegate.name : <Skeleton width={90} height={18} />;
         case TransactionType.MULTIPAYMENT:
-            return transaction.sender() === address ? (
+            return transaction.from() === address ? (
                 <MultipaymentUniqueRecipients transaction={transaction} />
             ) : (
-                <PaymentInfo address={transaction.sender()} isSent={false} />
+                <PaymentInfo address={transaction.from()} isSent={false} />
             );
         case TransactionType.REGISTRATION:
         case TransactionType.RESIGNATION:
@@ -176,7 +176,7 @@ const TransactionListItem = ({
 
     return (
         <button
-            onClick={() => navigate(`/transaction/${transaction.id()}`)}
+            onClick={() => navigate(`/transaction/${transaction.hash()}`)}
             className={cn('group inline-block w-full -outline-offset-2 hover:no-underline', {
                 'outline-none': isFirefox,
             })}

@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
-import { Contracts } from '@ardenthq/sdk-profiles';
 import { useFormik } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { runtime } from 'webextension-polyfill';
+import { Contracts } from '@/lib/profiles';
 import { AddNewContactForm, SaveContactButton } from '@/components/address-book';
 import { ContactFormik, ValidateAddressResponse } from '@/components/address-book/types';
 import { WalletNetwork } from '@/lib/store/wallet';
@@ -31,10 +31,8 @@ export const validateAddress = async ({
 
     try {
         for (const network of profile.networks().allByCoin(COIN_ID)) {
-            const coin = profile.coins().set(network.coin, network.id);
-            await coin.__construct();
-
-            const isValidAddress: boolean = await coin.address().validate(address);
+            // TODO fix address validation
+            const isValidAddress: boolean = true;
 
             if (!isValidAddress) {
                 continue;
@@ -42,7 +40,7 @@ export const validateAddress = async ({
 
             return {
                 isValid: true,
-                network: coin.network().isLive() ? WalletNetwork.MAINNET : WalletNetwork.DEVNET,
+                network: network.type !== 'test' ? WalletNetwork.MAINNET : WalletNetwork.DEVNET,
             };
         }
 

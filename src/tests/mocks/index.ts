@@ -1,14 +1,12 @@
-import { Environment } from '@ardenthq/sdk-profiles';
-import { ARK } from '@ardenthq/sdk-ark';
 import { StubStorage } from './StubStorage';
-import { HttpClient } from '@/lib/services/HttpClient';
 import { connectedTransport as ledgerTransportFactory } from '@/lib/utils/transport';
+import { Environment } from '@/lib/profiles';
+import { Http } from '@/lib/mainsail';
 
-export const httpClient = new HttpClient(10);
+export const httpClient = new Http.HttpClient(10);
 
 const getEnvironmentWithMocks = () =>
     new Environment({
-        coins: { ARK },
         httpClient,
         storage: new StubStorage(),
         ledgerTransportFactory,

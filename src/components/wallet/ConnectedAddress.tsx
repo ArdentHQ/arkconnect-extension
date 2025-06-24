@@ -1,4 +1,4 @@
-import { Contracts } from '@ardenthq/sdk-profiles';
+import { Contracts } from '@/lib/profiles';
 import { Button, Heading, HeadingDescription } from '@/shared/components';
 import formatDomain from '@/lib/utils/formatDomain';
 import {

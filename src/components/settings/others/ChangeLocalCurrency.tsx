@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
-import { Contracts } from '@ardenthq/sdk-profiles';
 import { useTranslation } from 'react-i18next';
+import { Contracts } from '@/lib/profiles';
 import SubPageLayout, { SettingsRowItem } from '@/components/settings/SubPageLayout';
 import { Icon } from '@/shared/components';
 import { Currency, general } from '@/lib/data/general';
@@ -15,13 +15,13 @@ const ChangeLocalCurrency = () => {
     const toast = useToast();
     const navigate = useNavigate();
     const { profile } = useProfileContext();
-    const { persist, env } = useEnvironmentContext();
+    const { persist } = useEnvironmentContext();
     const currency = profile.settings().get<string>(Contracts.ProfileSetting.ExchangeCurrency);
 
     const changeCurrency = async (currency: Currency) => {
         profile.settings().set(Contracts.ProfileSetting.ExchangeCurrency, currency.value);
         await persist();
-        await env.exchangeRates().syncAll(profile, 'ARK');
+        await profile.exchangeRates().syncAll(profile, 'ARK');
 
         toast(
             'success',

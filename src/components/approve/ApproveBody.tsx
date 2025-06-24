@@ -1,4 +1,4 @@
-import { Contracts } from '@ardenthq/sdk-profiles';
+import { Contracts } from '@/lib/profiles';
 import { RowLayout } from '@/shared/components';
 import trimAddress from '@/lib/utils/trimAddress';
 import { generateWalletHelperText } from '@/lib/utils/generateWalletHelperText';

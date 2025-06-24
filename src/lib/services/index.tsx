@@ -1,3 +1,3 @@
-import { HttpClient } from './HttpClient';
+import { Http } from '@/lib/mainsail';
 
-export const httpClient = new HttpClient(10);
+export const httpClient = new Http.HttpClient(10);

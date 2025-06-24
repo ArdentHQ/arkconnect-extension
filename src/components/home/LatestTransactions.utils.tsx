@@ -1,9 +1,9 @@
+import { IconDefinition } from '@/shared/components';
+import Amount from '@/components/wallet/Amount';
 import {
     ExtendedConfirmedTransactionData,
     ExtendedTransactionRecipient,
-} from '@ardenthq/sdk-profiles/distribution/esm/transaction.dto';
-import { IconDefinition } from '@/shared/components';
-import Amount from '@/components/wallet/Amount';
+} from '@/lib/profiles/transaction.dto';
 
 export enum TransactionType {
     SEND = 'send',
@@ -45,13 +45,10 @@ export const getType = (transaction: ExtendedConfirmedTransactionData): string =
     if (transaction.isSecondSignature()) {
         return TransactionType.SECOND_SIGNATURE;
     }
-    if (transaction.isMultiSignatureRegistration()) {
-        return TransactionType.MULTISIGNATURE;
-    }
-    if (transaction.isDelegateRegistration()) {
+    if (transaction.isValidatorRegistration()) {
         return TransactionType.REGISTRATION;
     }
-    if (transaction.isDelegateResignation()) {
+    if (transaction.isValidatorResignation()) {
         return TransactionType.RESIGNATION;
     }
     return TransactionType.OTHER;

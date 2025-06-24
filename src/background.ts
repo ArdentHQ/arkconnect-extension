@@ -1,7 +1,6 @@
 import { Runtime, runtime, tabs } from 'webextension-polyfill';
-import { UUID } from '@ardenthq/sdk-cryptography';
+import { UUID } from '@ardenthq/arkvault-crypto';
 import { AutoLockTimer, setLocalValue } from './lib/utils/localStorage';
-
 import { Extension } from './lib/background/extension';
 import keepServiceWorkerAlive from './lib/background/keepServiceWorkerAlive';
 import { longLivedConnectionHandlers } from './lib/background/eventListenerHandlers';

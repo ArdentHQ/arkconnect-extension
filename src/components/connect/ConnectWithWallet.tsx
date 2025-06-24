@@ -1,6 +1,6 @@
-import { Contracts } from '@ardenthq/sdk-profiles';
 import { useTranslation } from 'react-i18next';
 import { WalletCard } from './WalletCard';
+import { Contracts } from '@/lib/profiles';
 import { RowLayout } from '@/shared/components';
 
 type Props = {

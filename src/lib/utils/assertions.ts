@@ -1,6 +1,6 @@
 import { AssertionError } from 'assert';
-import { Networks } from '@ardenthq/sdk';
-import { Contracts, Wallet } from '@ardenthq/sdk-profiles';
+import { Contracts, Wallet } from '@/lib/profiles';
+import { Network } from '@/lib/mainsail/network';
 
 export function assertWallet(wallet?: Contracts.IReadWriteWallet): asserts wallet is Wallet {
     if (!(wallet instanceof Wallet)) {
@@ -10,7 +10,7 @@ export function assertWallet(wallet?: Contracts.IReadWriteWallet): asserts walle
     }
 }
 
-export function assertNetwork(network?: Networks.Network): asserts network is Networks.Network {
+export function assertNetwork(network?: Network): asserts network is Network {
     if (typeof network?.isLive !== 'function') {
         throw new AssertionError({
             message: `Expected 'network' to be Networks.Network, but received ${network}`,

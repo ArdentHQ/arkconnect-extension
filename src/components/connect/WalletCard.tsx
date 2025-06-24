@@ -1,4 +1,4 @@
-import { Contracts } from '@ardenthq/sdk-profiles';
+import { Contracts } from '@/lib/profiles';
 import { Address, LedgerIcon, TestnetIcon } from '@/components/wallet/address/Address.blocks';
 import Amount from '@/components/wallet/Amount';
 import constants from '@/constants';

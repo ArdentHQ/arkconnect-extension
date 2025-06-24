@@ -1,9 +1,9 @@
 import cn from 'classnames';
-import { Helpers } from '@ardenthq/sdk-profiles';
 import { TippyProps } from '@tippyjs/react';
 import constants from '@/constants';
 import cropToMaxDigits from '@/lib/utils/cropToMaxDigits';
 import { Tooltip } from '@/shared/components';
+import { Currency } from '@/lib/profiles/helpers';
 
 interface AmountProperties {
     ticker: string;
@@ -32,7 +32,7 @@ const Amount = ({
     displayTooltip = true,
     hideSmallValues = false,
 }: AmountProperties) => {
-    let actualFormattedAmount = Helpers.Currency.format(value, ticker, { withTicker });
+    let actualFormattedAmount = Currency.format(value, ticker, { withTicker });
     const valueToFormat = hideSmallValues && value !== 0 && value < 0.01 ? 0.01 : value;
 
     let formattedAmount = cropToMaxDigits({

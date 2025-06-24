@@ -1,14 +1,13 @@
-import { Coins, Services } from '@ardenthq/sdk';
 import { RecipientItem } from '@/lib/hooks/useSendTransferForm';
+import { BroadcastResponse } from '@/lib/mainsail/client.contract';
 
 interface BuildTransferDataProperties {
     isMultiSignature?: boolean;
-    coin: Coins.Coin;
     recipients?: RecipientItem[];
     memo?: string;
 }
 
-export const handleBroadcastError = ({ errors }: Services.BroadcastResponse) => {
+export const handleBroadcastError = ({ errors }: BroadcastResponse) => {
     const allErrors = Object.values(errors);
 
     if (allErrors.length === 0) {
@@ -40,10 +39,8 @@ interface BuildTransferData {
 }
 
 export const buildTransferData = async ({
-    coin,
     recipients,
     memo,
-    isMultiSignature,
 }: BuildTransferDataProperties): Promise<BuildTransferData> => {
     let data: Record<string, any> = {};
 
@@ -65,13 +62,6 @@ export const buildTransferData = async ({
 
     if (memo) {
         data.memo = memo;
-    }
-
-    const rounds = isMultiSignature ? '211' : '5';
-    const expiration = await coin.transaction().estimateExpiration(rounds);
-
-    if (expiration) {
-        data.expiration = Number.parseInt(expiration);
     }
 
     return data as BuildTransferData;

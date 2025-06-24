@@ -1,6 +1,6 @@
-import { Contracts } from '@ardenthq/sdk-profiles';
 import { EventPayload } from './eventListenerHandlers';
 import { ProfileData, SessionEntries } from './contracts';
+import { Contracts } from '@/lib/profiles';
 
 export const assertIsUnlocked = (locked: boolean) => {
     if (locked) {

@@ -1,5 +1,5 @@
-import { Contracts } from '@ardenthq/sdk-profiles';
 import { Wallet } from './extension.wallet';
+import { Contracts } from '@/lib/profiles';
 
 export function PrimaryWallet({ profile }: { profile: Contracts.IProfile }) {
     return {

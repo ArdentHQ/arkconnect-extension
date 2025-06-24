@@ -1,6 +1,6 @@
-import { Contracts, Environment } from '@ardenthq/sdk-profiles';
 import { useCallback, useMemo, useState } from 'react';
 import useWalletSync from './useWalletSync';
+import { Contracts, Environment } from '@/lib/profiles';
 
 export const useDelegates = ({
     env,
@@ -23,12 +23,12 @@ export const useDelegates = ({
         async (wallet: Contracts.IReadWriteWallet) => {
             setIsLoadingDelegates(true);
 
-            await env.delegates().sync(profile, wallet.coinId(), wallet.networkId());
+            await profile.validators().sync(profile, wallet.networkId());
 
-            const allDelegates = env
-                .delegates()
-                .all(wallet.coinId(), wallet.networkId())
-                .filter((delegate) => !delegate.isResignedDelegate());
+            const allDelegates = profile
+                .validators()
+                .all(wallet.networkId())
+                .filter((delegate) => !delegate.isResignedValidator());
 
             setAllDelegates(allDelegates);
 
@@ -36,9 +36,9 @@ export const useDelegates = ({
             const currentVoteAddress =
                 currentVote.length > 0 ? currentVote[0].wallet?.address() : undefined;
             if (currentVoteAddress) {
-                const currentDelegate = env
-                    .delegates()
-                    .findByAddress(wallet.coinId(), wallet.networkId(), currentVoteAddress);
+                const currentDelegate = profile
+                    .validators()
+                    .findByAddress(wallet.networkId(), currentVoteAddress);
                 setCurrentDelegate(currentDelegate);
             }
 

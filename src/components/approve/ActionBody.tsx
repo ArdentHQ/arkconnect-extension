@@ -1,4 +1,3 @@
-import { Contracts } from '@ardenthq/sdk-profiles';
 import { useTranslation } from 'react-i18next';
 import ActionDetails from './ActionDetails';
 import {
@@ -9,6 +8,7 @@ import {
 } from './ActionBody.blocks';
 
 import { FeeWarning } from './CustomFeeAlerts.blocks';
+import { Contracts } from '@/lib/profiles';
 import trimAddress from '@/lib/utils/trimAddress';
 
 type VoteData = {

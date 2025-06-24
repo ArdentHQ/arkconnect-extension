@@ -1,42 +1,39 @@
 import retry, { AbortError, Options } from 'p-retry';
-import { Coins } from '@ardenthq/sdk';
-import { formatLedgerDerivationPath } from './format-ledger-derivation-path';
-import { hasRequiredAppVersion } from './validation';
 
-const accessLedgerDevice = async (coin: Coins.Coin) => {
-    try {
-        await coin.__construct();
-        await coin.ledger().connect();
-    } catch (error: any) {
-        // If the device is open, continue normally.
-        // Can be triggered when the user retries ledger connection.
-        if (error.message !== 'The device is already open.') {
-            throw error;
-        }
-    }
-};
+// const accessLedgerDevice = async (coin: Coins.Coin) => {
+//     try {
+//         await coin.__construct();
+//         await coin.ledger().connect();
+//     } catch (error: any) {
+//         // If the device is open, continue normally.
+//         // Can be triggered when the user retries ledger connection.
+//         if (error.message !== 'The device is already open.') {
+//             throw error;
+//         }
+//     }
+// };
 
-const accessLedgerApp = async ({ coin }: { coin: Coins.Coin }) => {
-    await accessLedgerDevice(coin);
-
-    if (!(await hasRequiredAppVersion(coin))) {
-        throw new Error('VERSION_ERROR');
-    }
-
-    // Ensure that the app is accessible.
-    await coin.ledger().getPublicKey(
-        formatLedgerDerivationPath({
-            coinType: coin.config().get<number>('network.constants.slip44'),
-        }),
-    );
-};
+// const accessLedgerApp = async ({ profile }: { profile: Contracts.IProfile }) => {
+//     await profile.ledger().connect();
+//
+//     // TODO fix validation
+//     // if (!(await hasRequiredAppVersion(coin))) {
+//     //     throw new Error('VERSION_ERROR');
+//     // }
+//
+//     // Ensure that the app is accessible.
+//     await profile.ledger().getPublicKey(
+//         formatLedgerDerivationPath({
+//             // TODO fix coinType
+//             coinType: 3
+//         }),
+//     );
+// };
 
 export const persistLedgerConnection = async ({
-    coin,
     options,
     hasRequestedAbort,
 }: {
-    coin: Coins.Coin;
     options: Options;
     hasRequestedAbort: () => boolean;
 }) => {
@@ -46,7 +43,8 @@ export const persistLedgerConnection = async ({
         }
 
         try {
-            await accessLedgerApp({ coin });
+            // TODO enable ledger
+            // await accessLedgerApp({ coin });
         } catch (error: any) {
             // Abort on version error or continue retrying access.
             if (error.message === 'VERSION_ERROR') {

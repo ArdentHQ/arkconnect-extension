@@ -1,9 +1,8 @@
 import { useCallback, useEffect, useMemo, useRef } from 'react';
-import { BIP44 } from '@ardenthq/sdk-cryptography';
-import { Contracts as ProfilesContracts } from '@ardenthq/sdk-profiles';
 import { FormikProps } from 'formik';
 import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
+import { BIP44 } from '@ardenthq/arkvault-crypto';
 import { Button, Checkbox, Heading, Tooltip } from '@/shared/components';
 import trimAddress from '@/lib/utils/trimAddress';
 import { useLedgerContext, useLedgerScanner } from '@/lib/Ledger';
@@ -16,6 +15,7 @@ import { getNetworkCurrency } from '@/lib/utils/getActiveCoin';
 import { AddressBalance, TestnetIcon } from '@/components/wallet/address/Address.blocks';
 import { handleSubmitKeyAction } from '@/lib/utils/handleKeyAction';
 import { WalletNetwork } from '@/lib/store/wallet';
+import { WalletData } from '@/lib/profiles/wallet.enum';
 
 type Props = {
     goToNextStep: () => void;
@@ -27,7 +27,7 @@ const ImportWallets = ({ goToNextStep, formik }: Props) => {
     const onError = useOnError();
     const retryFunctionReference = useRef<() => void>();
     const { profile } = useProfileContext();
-    const ledgerScanner = useLedgerScanner(network.coin(), network.id());
+    const ledgerScanner = useLedgerScanner();
     const { isBusy, importLedgerWallets } = useLedgerContext();
     const { t } = useTranslation();
 
@@ -57,9 +57,7 @@ const ImportWallets = ({ goToNextStep, formik }: Props) => {
         const profileWalletsPaths = profile
             .wallets()
             .values()
-            .map((wallet) =>
-                wallet.data().get<string>(ProfilesContracts.WalletData.DerivationPath),
-            );
+            .map((wallet) => wallet.data().get<string>(WalletData.DerivationPath));
 
         return [...profileWalletsPaths, ...ledgerPaths]
             .filter(Boolean)
@@ -101,8 +99,7 @@ const ImportWallets = ({ goToNextStep, formik }: Props) => {
     };
 
     const importWallets = async () => {
-        const coin = profile.coins().set(network.coin(), network.id());
-        const importedWallets = await importLedgerWallets(selectedWallets, coin, profile);
+        const importedWallets = await importLedgerWallets(selectedWallets, profile);
         formik.setFieldValue('importedWallets', importedWallets);
     };
 

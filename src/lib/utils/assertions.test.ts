@@ -16,6 +16,6 @@ describe('assertions', () => {
     });
 
     it('should not throw if network has isLive method', () => {
-        expect(() => assertNetwork(env.availableNetworks()[0])).not.toThrow();
+        expect(() => assertNetwork(env.profiles().first().availableNetworks()[0])).not.toThrow();
     });
 });

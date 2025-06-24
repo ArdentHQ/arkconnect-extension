@@ -4,7 +4,6 @@ import { I18nextProvider } from 'react-i18next';
 import { PersistGate } from 'redux-persist/es/integration/react';
 import { Provider } from 'react-redux';
 import { useLayoutEffect } from 'react';
-import { createTestAddressBook, isDev } from './dev/utils/dev';
 import { EnvironmentProvider, useEnvironmentContext } from './lib/context/Environment';
 import { ErrorHandlerProvider, useErrorHandlerContext } from './lib/context/ErrorHandler';
 import { i18n as index18n } from './i18n';
@@ -20,6 +19,7 @@ import store, { persistor } from '@/lib/store';
 import routes from '@/routing';
 import ToastContainer from '@/components/toast/ToastContainer';
 import useBackgroundEventHandler from '@/lib/hooks/useBackgroundEventHandler';
+import { createTestAddressBook, isDev } from '@/dev/utils/dev';
 
 const env = initializeEnvironment();
 
@@ -85,9 +85,6 @@ const App = () => {
     useLayoutEffect(() => {
         const boot = async () => {
             try {
-                await env.verify();
-                await env.boot();
-
                 if (isDev()) {
                     createTestAddressBook();
                 }
