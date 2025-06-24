@@ -24,8 +24,8 @@ export const ApproveLayout = ({
     className?: string;
     showHigherCustomFeeBanner?: boolean;
     setShowHigherCustomFeeBanner?: (value: boolean) => void;
-    hasHigherCustomFee?: number | null;
-    hasLowerCustomFee?: number | null;
+    hasHigherCustomFee?: string | null;
+    hasLowerCustomFee?: string | null;
     wallet?: Contracts.IReadWriteWallet;
     containerClassName?: string;
 }) => {

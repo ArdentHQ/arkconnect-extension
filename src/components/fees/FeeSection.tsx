@@ -18,6 +18,11 @@ type AddressDropdownProps = ComponentPropsWithRef<'input'> & {
     onGasLimitChange: (limit: string) => void;
 };
 
+export const FeeLimits = {
+    gasPrice: [5, 10_000],
+    gasLimit: [21_000, 5_000_000],
+};
+
 export const FeeSection = ({
     variant,
     helperText,
@@ -44,9 +49,6 @@ export const FeeSection = ({
     });
 
     const handleFeeViewClick = () => {
-        if (advancedFeeView && fees) {
-            // onFeeChange(fees.avg);
-        }
         setAdvancedFeeView(!advancedFeeView);
         handleFeeClassChange?.(!advancedFeeView ? constants.FEE_CUSTOM : constants.FEE_AVERAGE);
     };
@@ -108,9 +110,11 @@ export const FeeSection = ({
                             }}
                             helperText={helperText}
                             value={gasPrice}
+                            min={FeeLimits.gasPrice[0]}
+                            max={FeeLimits.gasPrice[1]}
                             variant={variant}
                             autoComplete='off'
-                            step={0.01}
+                            step={1}
                         />
 
                         <NumericInput
@@ -126,11 +130,11 @@ export const FeeSection = ({
                             }}
                             helperText={helperText}
                             value={gasLimit}
-                            min={21_000}
-                            max={2_000_000}
+                            min={FeeLimits.gasLimit[0]}
+                            max={FeeLimits.gasLimit[1]}
                             variant={variant}
                             autoComplete='off'
-                            step={100}
+                            step={1000}
                         />
                     </div>
                 </div>

@@ -8,22 +8,23 @@ import { Input } from '@/shared/components';
 import { SendFormik } from '@/pages/Send';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 import { calculateGasFee } from '@/lib/hooks/useNetworkFees';
+import { BigNumber } from '@/lib/helpers';
 
 export const SendForm = ({ formik }: { formik: FormikProps<SendFormik> }) => {
     const primaryWallet = usePrimaryWallet();
     const { t } = useTranslation();
 
     const handleMaxClick = () => {
-        const balance = BigNumber(primaryWallet?.balance() ?? 0);
-        const fee = BigNumber(calculateGasFee(formik.values.gasPrice, formik.values.gasLimit));
+        const balance = BigNumber.make(primaryWallet?.balance() ?? 0);
+        const fee = BigNumber.make(calculateGasFee(formik.values.gasPrice, formik.values.gasLimit));
 
         if (balance.isLessThanOrEqualTo(fee)) {
             formik.setFieldValue('amount', 0);
             return;
         }
 
-        const maxValue = Math.max(0, balance.minus(fee).toNumber());
-        formik.setFieldValue('amount', Number(maxValue.toFixed(18).replace(/\.?0+$/, '')));
+        const maxValue = balance.minus(fee);
+        formik.setFieldValue('amount', maxValue.isNegative() ? 0 : maxValue.decimalPlaces(18).toString());
     };
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -107,19 +108,6 @@ export const SendForm = ({ formik }: { formik: FormikProps<SendFormik> }) => {
                 }
                 autoComplete='off'
                 helperText={formik.values.amount !== '' ? formik.errors.amount : undefined}
-            />
-
-            <Input
-                name='memo'
-                labelText={`${t('COMMON.MEMO')} (${t('COMMON.OPTIONAL')})`}
-                secondaryText={`${formik.values.memo !== undefined ? formik.values.memo.length : 0}/255`}
-                placeholder={t('COMMON.ADD_NOTE_TO_TRANSACTION')}
-                value={formik.values.memo}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                variant={formik.errors.memo ? 'destructive' : 'primary'}
-                helperText={formik.errors.memo}
-                autoComplete='off'
             />
 
             <FeeSection

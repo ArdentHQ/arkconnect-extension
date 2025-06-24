@@ -52,7 +52,7 @@ const Send = () => {
         navigate('/approve', {
             state: {
                 type: 'transfer',
-                amount: Number(lastVisitedPage.data.amount),
+                amount: lastVisitedPage.data.amount,
                 memo: lastVisitedPage.data.memo,
                 gasPrice: lastVisitedPage.data.gasPrice,
                 gasLimit: lastVisitedPage.data.gasLimit,
@@ -112,30 +112,9 @@ const Send = () => {
         ]),
         receiverAddress: string()
             .required(t('ERROR.IS_REQUIRED', { name: 'Address' }))
-            // .min(
-            //     constants.ADDRESS_LENGTH,
-            //     t('ERROR.IS_INVALID_ADDRESS_LENGTH', { name: 'Address' }),
-            // )
-            // .max(
-            //     constants.ADDRESS_LENGTH,
-            //     t('ERROR.IS_INVALID_ADDRESS_LENGTH', { name: 'Address' }),
-            // )
             .test('valid-address', t('ERROR.IS_INVALID', { name: 'Address' }), () => {
                 return addressValidation.isValid;
             })
-            // .test(
-            //     'same-network-address',
-            //     t('ERROR.IS_INVALID_NETWORK', { name: 'Address' }),
-            //     () => {
-            //         if (isLoading) return true;
-            //         return (
-            //             addressValidation.network ===
-            //             (primaryWallet?.network().isTest()
-            //                 ? WalletNetwork.DEVNET
-            //                 : WalletNetwork.MAINNET)
-            //         );
-            //     },
-            // )
             .trim(),
     });
 
@@ -161,10 +140,10 @@ const Send = () => {
             navigate('/approve', {
                 state: {
                     type: 'transfer',
-                    amount: Number(values.amount),
+                    value: values.amount,
                     gasPrice: values.gasPrice,
                     gasLimit: values.gasLimit,
-                    receiverAddress: values.receiverAddress,
+                    to: values.receiverAddress,
                     session: {
                         walletId: primaryWallet?.id(),
                         logo: 'icon/128.png',

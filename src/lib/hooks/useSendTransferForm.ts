@@ -20,19 +20,21 @@ import { ApproveActionType } from '@/pages/Approve';
 import { selectWallets } from '@/lib/store/wallet';
 import { Network } from '@/lib/mainsail/network';
 import { TransferInput } from '@/lib/mainsail/transaction.contract';
+import { calculateGasFee, GasLimit } from '@/lib/hooks/useNetworkFees';
 
 export interface RecipientItem {
     address: string;
     alias?: string;
-    amount?: number;
+    amount?: string;
     isDelegate?: boolean;
 }
 
 interface SendTransferForm {
     senderAddress: string;
-    fee: number;
-    hasHigherCustomFee: number | null;
-    hasLowerCustomFee: number | null;
+    gasPrice: string;
+    gasLimit: string;
+    hasHigherCustomFee: string | null;
+    hasLowerCustomFee: string | null;
     remainingBalance: number;
     amount: number;
     isSendAllSelected: string;
@@ -51,9 +53,10 @@ interface SendTransferForm {
 
 type ApproveRequest = {
     session: SessionStore.Session;
-    amount: number;
+    amount: string;
     receiverAddress: string;
-    customFee?: number;
+    customGasPrice?: string;
+    customGasLimit?: string;
     memo?: string;
 };
 
@@ -62,7 +65,8 @@ const defaultState = {
     fees: {
         avg: 0,
     },
-    fee: 0,
+    gasPrice: '0',
+    gasLimit: '0',
     hasHigherCustomFee: null,
     hasLowerCustomFee: null,
     remainingBalance: 0,
@@ -98,7 +102,7 @@ export const useSendTransferForm = (
 ) => {
     const { profile } = useProfileContext();
     const { onError } = useErrorHandlerContext();
-    const { calculateAvgFee, calculateMaxFee, calculateMinFee } = useFees();
+    const { getGasPrices } = useFees();
     const [formValues, setFormValues] = useState<SendTransferForm>(defaultState);
     const [formValuesLoaded, setFormValuesLoaded] = useState(false);
     const { persist } = useEnvironmentContext();
@@ -112,7 +116,7 @@ export const useSendTransferForm = (
     const submitForm = async (abortReference: AbortController) => {
         assertWallet(wallet);
 
-        const { fee, recipients, memo } = formValues;
+        const { gasPrice, gasLimit, recipients, memo } = formValues;
 
         if (wallet.isLedger()) {
             const abortSignal = abortReference.signal;
@@ -128,7 +132,8 @@ export const useSendTransferForm = (
 
             const transactionInput: TransferInput = {
                 data,
-                fee: +fee,
+                gasLimit: BigNumber.make(gasLimit),
+                gasPrice: BigNumber.make(gasPrice),
                 signatory,
             };
 
@@ -153,7 +158,8 @@ export const useSendTransferForm = (
             data: {
                 recipients,
                 memo,
-                fee: +fee,
+                gasLimit,
+                gasPrice,
             },
         });
 
@@ -179,34 +185,36 @@ export const useSendTransferForm = (
 
                 const passphrase = walletData?.passphrase;
 
-                const averageFee = await calculateAvgFee({
+                const { min, avg, max } = await getGasPrices({
                     network: wallet.network().id(),
                     type: ApproveActionType.TRANSACTION,
                 });
 
-                const maxFee = await calculateMaxFee({
-                    network: wallet.network().id(),
-                    type: ApproveActionType.TRANSACTION,
-                });
+                const { customGasLimit, customGasPrice } = request;
 
-                const minFee = await calculateMinFee({
-                    network: wallet.network().id(),
-                    type: ApproveActionType.TRANSACTION,
-                });
+                const hasCustomFee = !!(customGasLimit && customGasPrice);
 
-                const fee = request.customFee ?? averageFee;
+                const defaultGasLimit = GasLimit.transfer.toString();
+
+                const customFee = BigNumber.make(calculateGasFee(customGasPrice, customGasLimit));
+                const maxFee = BigNumber.make(calculateGasFee(max.toString(), defaultGasLimit));
+                const avgFee = BigNumber.make(calculateGasFee(avg.toString(), defaultGasLimit));
+                const minFee = BigNumber.make(calculateGasFee(min.toString(), defaultGasLimit));
+
+                const fee = hasCustomFee ? customFee : avgFee;
 
                 setFormValues((prevFormValues) => ({
                     ...prevFormValues,
                     senderAddress: wallet.address(),
                     remainingBalance: wallet.balance(),
                     network: wallet.network(),
-                    fee,
+                    gasPrice: customGasPrice ?? avg.toString(),
+                    gasLimit: customGasLimit ?? defaultGasLimit,
                     memo: request.memo,
                     hasHigherCustomFee:
-                        request.customFee && request.customFee > maxFee ? maxFee : null,
+                        hasCustomFee && customFee.isGreaterThan(maxFee) ? maxFee.toString() : null,
                     hasLowerCustomFee:
-                        request.customFee && request.customFee < minFee ? minFee : null,
+                        hasCustomFee && customFee.isLessThan(minFee) ? minFee.toString() : null,
                     mnemonic: passphrase?.join(' ') || '',
                     total: BigNumber.make(fee).plus(request.amount).toHuman(),
                     recipients: [
@@ -225,13 +233,15 @@ export const useSendTransferForm = (
     }, [wallet]);
 
     useEffect(() => {
-        const remaining = formValues.remainingBalance - formValues.fee;
+        const remaining = BigNumber.make(formValues.remainingBalance).minus(
+            calculateGasFee(formValues.gasPrice, formValues.gasLimit)
+        );
 
         setFormValues((prevFormValues) => ({
             ...prevFormValues,
-            amount: precisionRound(remaining, 8),
+            amount: precisionRound(remaining.toNumber(), 8),
         }));
-    }, [formValues.fee]);
+    }, [formValues.gasPrice, formValues.gasLimit]);
 
     return {
         formValues,
@@ -239,7 +249,8 @@ export const useSendTransferForm = (
         resetForm,
         submitForm,
         values: {
-            fee: formValues.fee,
+            gasPrice: formValues.gasPrice,
+            gasLimit: formValues.gasLimit,
             total: formValues.total,
             network: formValues.network,
             senderAddress: formValues.senderAddress,

@@ -25,6 +25,7 @@ import { getNetworkCurrency } from '@/lib/utils/getActiveCoin';
 import { OneTimeEvents } from '@/OneTimeEventHandlers';
 import { ProfileData, ScreenName } from '@/lib/background/contracts';
 import constants from '@/constants';
+import { calculateGasFee } from '@/lib/hooks/useNetworkFees';
 
 type Props = {
     abortReference: AbortController;
@@ -52,7 +53,8 @@ const ApproveTransaction = ({
         session,
         value: amount,
         to: receiverAddress,
-        fee: customFee,
+        gasPrice: customGasPrice,
+        gasLimit: customGasLimit,
         memo,
         feeClass,
     } = location.state;
@@ -76,15 +78,17 @@ const ApproveTransaction = ({
         formValuesLoaded,
         resetForm,
         submitForm,
-        values: { fee, total, hasHigherCustomFee, hasLowerCustomFee },
+        values: { gasPrice, gasLimit, total, hasHigherCustomFee, hasLowerCustomFee },
     } = useSendTransferForm(wallet, {
         session,
         amount,
         receiverAddress,
-        customFee,
+        customGasPrice,
+        customGasLimit,
         memo,
     });
 
+    const fee = calculateGasFee(gasPrice, gasLimit);
     const [showHigherCustomFeeBanner, setShowHigherCustomFeeBanner] = useState(true);
 
     useEffect(() => {
@@ -186,7 +190,8 @@ const ApproveTransaction = ({
                 data: {
                     amount,
                     memo,
-                    fee: customFee,
+                    gasPrice: customGasPrice,
+                    gasLimit: customGasLimit,
                     receiverAddress,
                 },
             });
@@ -210,7 +215,8 @@ const ApproveTransaction = ({
             receiverAddress,
             memo,
             amount,
-            fee: customFee,
+            gasPrice: customGasPrice,
+            gasLimit: customGasLimit,
             feeClass,
         });
         isNative ? navigate(`/transaction/send?${params.toString()}`) : navigate('/');
@@ -246,8 +252,8 @@ const ApproveTransaction = ({
                     convertedAmount={convert(amount)}
                     exchangeCurrency={exchangeCurrency}
                     network={getNetworkCurrency(wallet.network())}
-                    fee={fee}
-                    convertedFee={convert(fee)}
+                    fee={+fee}
+                    convertedFee={convert(+fee)}
                     receiver={receiverAddress}
                     totalAmount={total}
                     convertedTotalAmount={convert(total)}
