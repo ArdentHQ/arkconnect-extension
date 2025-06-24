@@ -191,10 +191,7 @@ export const useVoteForm = (wallet: Contracts.IReadWriteWallet, request: Approve
 
                 const customFee = BigNumber.make(calculateGasFee(customGasPrice, customGasLimit));
                 const maxFee = BigNumber.make(calculateGasFee(max.toString(), defaultGasLimit));
-                const avgFee = BigNumber.make(calculateGasFee(avg.toString(), defaultGasLimit));
                 const minFee = BigNumber.make(calculateGasFee(min.toString(), defaultGasLimit));
-
-                const fee = customFee ?? avgFee;
 
                 const { vote, unvote } = await getVote();
 
@@ -202,7 +199,8 @@ export const useVoteForm = (wallet: Contracts.IReadWriteWallet, request: Approve
                     ...prevFormValues,
                     senderAddress: wallet.address(),
                     remainingBalance: wallet.balance(),
-                    fee,
+                    gasPrice: customGasPrice ?? avg.toString(),
+                    gasLimit: customGasLimit ?? defaultGasLimit,
                     hasHigherCustomFee:
                         hasCustomFee && customFee.isGreaterThan(maxFee) ? maxFee.toString() : null,
                     hasLowerCustomFee:
