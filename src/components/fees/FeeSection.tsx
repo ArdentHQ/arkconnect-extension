@@ -108,7 +108,9 @@ export const FeeSection = ({
                         }}
                         onChange={(event: ChangeEvent<HTMLInputElement>) => {
                             const valueRaw = event.target.value.trim();
-                            const value = BigNumber.make(valueRaw && valueRaw !== '' ? valueRaw : '0');
+                            const value = BigNumber.make(
+                                valueRaw && valueRaw !== '' ? valueRaw : '0',
+                            );
                             onGasPriceChange(value.toString());
                         }}
                         value={gasPrice}
@@ -129,7 +131,9 @@ export const FeeSection = ({
                         }}
                         onChange={(event: ChangeEvent<HTMLInputElement>) => {
                             const valueRaw = event.target.value.trim();
-                            const value = BigNumber.make(valueRaw && valueRaw !== '' ? valueRaw : '0');
+                            const value = BigNumber.make(
+                                valueRaw && valueRaw !== '' ? valueRaw : '0',
+                            );
                             onGasPriceChange(value.toString());
                         }}
                         value={gasLimit}
