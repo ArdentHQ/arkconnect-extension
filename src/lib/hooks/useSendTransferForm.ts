@@ -126,7 +126,6 @@ export const useSendTransferForm = (
             )(prepareLedger(wallet));
 
             const data = await buildTransferData({
-                memo,
                 recipients,
             });
 
