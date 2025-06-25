@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { ChangeEvent, ComponentPropsWithRef, useEffect, useState } from 'react';
+import { FormikErrors } from 'formik';
 import { FeeTypeSwtich } from './FeeTypeSwtich';
 import { FeeOptionsList } from './FeeOptionsList';
 import { useNetworkFees } from '@/lib/hooks/useNetworkFees';
@@ -13,6 +14,7 @@ type AddressDropdownProps = ComponentPropsWithRef<'input'> & {
     variant?: 'primary' | 'destructive';
     helperText?: string;
     feeType?: string;
+    errors: FormikErrors<SendFormik>;
     values: SendFormik | VoteFormik;
     handleFeeClassChange?: (feeClass: string) => void;
     onGasPriceChange: (price: string) => void;
@@ -25,8 +27,7 @@ export const FeeLimits = {
 };
 
 export const FeeSection = ({
-    variant,
-    helperText,
+    errors,
     values,
     feeType = 'transfer',
     onGasPriceChange,
@@ -96,48 +97,46 @@ export const FeeSection = ({
             </div>
 
             {advancedFeeView ? (
-                <div className='border-theme-gray-400 dark:border-theme-gray-500 -mx-4 overflow-hidden rounded-xl border'>
-                    <div className='space-y-4 p-4'>
-                        <NumericInput
-                            id='gasPrice'
-                            placeholder='0.00'
-                            labelText='Gas Price (in Gwei)'
-                            onValueChange={(value) => {
-                                onGasPriceChange(value);
-                            }}
-                            onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                                const value = event.target.value.trim();
-                                onGasPriceChange(value && value !== '' ? value : '0');
-                            }}
-                            helperText={helperText}
-                            value={gasPrice}
-                            min={FeeLimits.gasPrice[0]}
-                            max={FeeLimits.gasPrice[1]}
-                            variant={variant}
-                            autoComplete='off'
-                            step={1}
-                        />
+                <div className='space-y-4'>
+                    <NumericInput
+                        id='gasPrice'
+                        placeholder='0.00'
+                        labelText={t('COMMON.GAS_PRICE_GWEI')}
+                        onValueChange={(value) => {
+                            onGasPriceChange(value);
+                        }}
+                        onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                            const value = event.target.value.trim();
+                            onGasPriceChange(value && value !== '' ? value : '0');
+                        }}
+                        value={gasPrice}
+                        min={FeeLimits.gasPrice[0]}
+                        max={FeeLimits.gasPrice[1]}
+                        variant={gasPrice && errors.gasPrice ? 'destructive' : 'primary'}
+                        helperText={gasPrice && errors.gasPrice ? errors.gasPrice : undefined}
+                        autoComplete='off'
+                        step={1}
+                    />
 
-                        <NumericInput
-                            id='gasLimit'
-                            placeholder='0.00'
-                            labelText={'Gas Limit'}
-                            onValueChange={(value) => {
-                                onGasLimitChange(value);
-                            }}
-                            onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                                const value = event.target.value.trim();
-                                onGasLimitChange(value && value !== '' ? value : '0');
-                            }}
-                            helperText={helperText}
-                            value={gasLimit}
-                            min={FeeLimits.gasLimit[0]}
-                            max={FeeLimits.gasLimit[1]}
-                            variant={variant}
-                            autoComplete='off'
-                            step={1000}
-                        />
-                    </div>
+                    <NumericInput
+                        id='gasLimit'
+                        placeholder='0.00'
+                        labelText={t('COMMON.GAS_LIMIT')}
+                        onValueChange={(value) => {
+                            onGasLimitChange(value);
+                        }}
+                        onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                            const value = event.target.value.trim();
+                            onGasLimitChange(value && value !== '' ? value : '0');
+                        }}
+                        value={gasLimit}
+                        min={FeeLimits.gasLimit[0]}
+                        max={FeeLimits.gasLimit[1]}
+                        variant={gasLimit && errors.gasLimit ? 'destructive' : 'primary'}
+                        helperText={gasLimit && errors.gasLimit ? errors.gasLimit : undefined}
+                        autoComplete='off'
+                        step={1000}
+                    />
                 </div>
             ) : (
                 <FeeOptionsList

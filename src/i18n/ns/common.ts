@@ -89,4 +89,6 @@ export default {
     VOTE_DELEGATE_PUBKEY: 'Vote Delegate Pubkey',
     VOTE_SWAP: 'Vote Swap',
     YES: 'Yes',
+    GAS_PRICE_GWEI: 'Gas Price (Gwei)',
+    GAS_LIMIT: 'Gas Limit',
 };

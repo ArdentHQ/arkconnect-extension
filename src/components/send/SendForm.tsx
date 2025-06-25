@@ -116,8 +116,7 @@ export const SendForm = ({ formik }: { formik: FormikProps<SendFormik> }) => {
             <FeeSection
                 onBlur={formik.handleBlur}
                 values={formik.values}
-                // variant={formik.values.fee && formik.errors.fee ? 'destructive' : 'primary'}
-                // helperText={formik.values.fee ? formik.errors.fee : undefined}
+                errors={formik.errors}
                 handleFeeClassChange={(value: string) => formik.setFieldValue('feeClass', value)}
                 onGasLimitChange={handleGasLimitChange}
                 onGasPriceChange={handleGasPriceChange}

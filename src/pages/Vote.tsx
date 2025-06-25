@@ -94,14 +94,6 @@ const Vote = () => {
             constants.FEE_SLOW,
         ]),
         delegateAddress: string().required(t('ERROR.IS_REQUIRED', { name: 'Delegate' })),
-        // .min(
-        //     constants.ADDRESS_LENGTH,
-        //     t('ERROR.IS_INVALID_ADDRESS_LENGTH', { name: 'Address' }),
-        // )
-        // .max(
-        //     constants.ADDRESS_LENGTH,
-        //     t('ERROR.IS_INVALID_ADDRESS_LENGTH', { name: 'Address' }),
-        // ),
     });
 
     const lastVisitedPage = profile.settings().get('LAST_VISITED_PAGE') as { data: PageData };

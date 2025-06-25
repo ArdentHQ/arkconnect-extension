@@ -54,8 +54,7 @@ export const VoteFee = ({ formik }: { formik: FormikProps<VoteFormik> }) => {
         return (
             <div ref={feeFormRef}>
                 <FeeSection
-                    // variant={fee && feeError ? 'destructive' : 'primary'}
-                    // helperText={fee ? feeError : undefined}
+                    errors={formik.errors}
                     values={formik.values}
                     feeType='vote'
                     onGasPriceChange={handleGasPriceChange}
