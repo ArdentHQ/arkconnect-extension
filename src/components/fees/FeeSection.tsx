@@ -9,6 +9,7 @@ import { useProfileContext } from '@/lib/context/Profile';
 import constants from '@/constants';
 import { SendFormik } from '@/pages/Send';
 import { VoteFormik } from '@/pages/Vote';
+import { BigNumber } from '@/lib/helpers';
 
 type AddressDropdownProps = ComponentPropsWithRef<'input'> & {
     variant?: 'primary' | 'destructive';
@@ -106,8 +107,9 @@ export const FeeSection = ({
                             onGasPriceChange(value);
                         }}
                         onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                            const value = event.target.value.trim();
-                            onGasPriceChange(value && value !== '' ? value : '0');
+                            const valueRaw = event.target.value.trim();
+                            const value = BigNumber.make(valueRaw && valueRaw !== '' ? valueRaw : '0');
+                            onGasPriceChange(value.toString());
                         }}
                         value={gasPrice}
                         min={FeeLimits.gasPrice[0]}
@@ -126,8 +128,9 @@ export const FeeSection = ({
                             onGasLimitChange(value);
                         }}
                         onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                            const value = event.target.value.trim();
-                            onGasLimitChange(value && value !== '' ? value : '0');
+                            const valueRaw = event.target.value.trim();
+                            const value = BigNumber.make(valueRaw && valueRaw !== '' ? valueRaw : '0');
+                            onGasPriceChange(value.toString());
                         }}
                         value={gasLimit}
                         min={FeeLimits.gasLimit[0]}
