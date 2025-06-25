@@ -76,6 +76,7 @@
         "tippy.js": "^6.3.7",
         "uuid": "^9.0.1",
         "viem": "^2.31.1",
+        "vite-plugin-node-polyfills": "^0.23.0",
         "xss": "^1.0.15",
         "yup": "^1.4.0"
     },

@@ -4,7 +4,6 @@ import { BroadcastResponse } from '@/lib/mainsail/client.contract';
 interface BuildTransferDataProperties {
     isMultiSignature?: boolean;
     recipients?: RecipientItem[];
-    memo?: string;
 }
 
 export const handleBroadcastError = ({ errors }: BroadcastResponse) => {
@@ -40,7 +39,6 @@ interface BuildTransferData {
 
 export const buildTransferData = async ({
     recipients,
-    memo,
 }: BuildTransferDataProperties): Promise<BuildTransferData> => {
     let data: Record<string, any> = {};
 
@@ -58,10 +56,6 @@ export const buildTransferData = async ({
                 to: address,
             })),
         };
-    }
-
-    if (memo) {
-        data.memo = memo;
     }
 
     return data as BuildTransferData;
