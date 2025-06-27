@@ -52,7 +52,9 @@ export const useValidators = ({
             const validatorList = allValidators.slice(0, limit);
             if (
                 currentValidator &&
-                !validatorList.some((validator) => validator.address() === currentValidator.address())
+                !validatorList.some(
+                    (validator) => validator.address() === currentValidator.address(),
+                )
             ) {
                 validatorList.unshift(currentValidator);
             }
