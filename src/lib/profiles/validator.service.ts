@@ -1,13 +1,23 @@
-import { Contracts } from "@/app/lib/mainsail";
+import { Contracts } from '@/app/lib/mainsail';
 
-import { IDataRepository, IValidatorService, IProfile, IReadOnlyWallet, IReadWriteWallet } from "./contracts.js";
-import { DataRepository } from "./data.repository";
-import { IValidatorSyncer, ParallelValidatorSyncer, SerialValidatorSyncer } from "./validator-syncer.service.js";
-import { pqueueSettled } from "./helpers/queue.js";
-import { ReadOnlyWallet } from "./read-only-wallet.js";
-import { ClientService } from "@/app/lib/mainsail/client.service.js";
-import { LinkService } from "@/app/lib/mainsail/link.service.js";
-import { Cache } from "@/app/lib/mainsail/cache.js";
+import {
+    IDataRepository,
+    IValidatorService,
+    IProfile,
+    IReadOnlyWallet,
+    IReadWriteWallet,
+} from './contracts.js';
+import { DataRepository } from './data.repository';
+import {
+    IValidatorSyncer,
+    ParallelValidatorSyncer,
+    SerialValidatorSyncer,
+} from './validator-syncer.service.js';
+import { pqueueSettled } from './helpers/queue.js';
+import { ReadOnlyWallet } from './read-only-wallet.js';
+import { ClientService } from '@/app/lib/mainsail/client.service.js';
+import { LinkService } from '@/app/lib/mainsail/link.service.js';
+import { Cache } from '@/app/lib/mainsail/cache.js';
 
 export class ValidatorService implements IValidatorService {
     readonly #dataRepository: IDataRepository = new DataRepository();
@@ -28,21 +38,25 @@ export class ValidatorService implements IValidatorService {
 
     /** {@inheritDoc IValidatorService.findByAddress} */
     public findByAddress(network: string, address: string): IReadOnlyWallet {
-        return this.#findValidatorByAttribute(network, "address", address);
+        return this.#findValidatorByAttribute(network, 'address', address);
     }
 
     /** {@inheritDoc IValidatorService.findByPublicKey} */
     public findByPublicKey(network: string, publicKey: string): IReadOnlyWallet {
-        return this.#findValidatorByAttribute(network, "publicKey", publicKey);
+        return this.#findValidatorByAttribute(network, 'publicKey', publicKey);
     }
 
     /** {@inheritDoc IValidatorService.findByUsername} */
     public findByUsername(network: string, username: string): IReadOnlyWallet {
-        return this.#findValidatorByAttribute(network, "username", username);
+        return this.#findValidatorByAttribute(network, 'username', username);
     }
 
     /** {@inheritDoc IValidatorService.sync} */
-    public async sync(profile: IProfile, network: string, options?: { force?: boolean }): Promise<void> {
+    public async sync(
+        profile: IProfile,
+        network: string,
+        options?: { force?: boolean },
+    ): Promise<void> {
         const cacheKey = `${network}.validators`;
 
         if (options?.force) {
@@ -50,7 +64,10 @@ export class ValidatorService implements IValidatorService {
         }
 
         const cached = await this.#cache.remember(cacheKey, async () => {
-            const clientService = new ClientService({ config: profile.activeNetwork().config(), profile });
+            const clientService = new ClientService({
+                config: profile.activeNetwork().config(),
+                profile,
+            });
             const syncer: IValidatorSyncer = profile.activeNetwork().meta().fastValidatorSync
                 ? new ParallelValidatorSyncer(clientService)
                 : new SerialValidatorSyncer(clientService);
@@ -59,9 +76,10 @@ export class ValidatorService implements IValidatorService {
 
             return result.map((validator: Contracts.WalletData) => ({
                 ...validator.toObject(),
-                explorerLink: new LinkService({ config: profile.activeNetwork().config(), profile }).wallet(
-                    validator.address(),
-                ),
+                explorerLink: new LinkService({
+                    config: profile.activeNetwork().config(),
+                    profile,
+                }).wallet(validator.address()),
                 governanceIdentifier: profile.activeNetwork().validatorIdentifier(),
             }));
         });
@@ -92,7 +110,10 @@ export class ValidatorService implements IValidatorService {
     }
 
     /** {@inheritDoc IValidatorService.map} */
-    public mapByIdentifier(wallet: IReadWriteWallet, identifier: string): IReadOnlyWallet | undefined {
+    public mapByIdentifier(
+        wallet: IReadWriteWallet,
+        identifier: string,
+    ): IReadOnlyWallet | undefined {
         try {
             let validator: IReadOnlyWallet | undefined;
 

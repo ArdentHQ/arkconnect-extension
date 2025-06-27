@@ -159,7 +159,7 @@ export class BigNumber {
      */
     public static powerOfTen(exponent: NumberLike): BigNumber {
         const power = BigNumber.make(exponent).toNumber();
-        return BigNumber.make(`1${"0".repeat(power)}`);
+        return BigNumber.make(`1${'0'.repeat(power)}`);
     }
 
     /**

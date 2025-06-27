@@ -3,7 +3,7 @@ import { Collections, DTO, Networks } from '@/app/lib/mainsail';
 
 import { ClientService } from '@/app/lib/mainsail/client.service.js';
 import { ConfigRepository } from '@/app/lib/mainsail/config.repository';
-import { Cache } from "@/app/lib/mainsail/cache";
+import { Cache } from '@/app/lib/mainsail/cache';
 
 type UsernameRegistry = Record<string, Collections.UsernameDataCollection>;
 
@@ -23,9 +23,12 @@ export class UsernamesService implements IUsernamesService {
     }
 
     public async syncUsernames(addresses: string[]): Promise<void> {
-        const cacheKey = addresses.join("-");
+        const cacheKey = addresses.join('-');
 
-        const collection = await this.#cache.remember(cacheKey, async () => await this.#client.usernames(addresses));
+        const collection = await this.#cache.remember(
+            cacheKey,
+            async () => await this.#client.usernames(addresses),
+        );
 
         if (this.#registry[this.#network.id()]) {
             const existingCollection = this.#registry[this.#network.id()];

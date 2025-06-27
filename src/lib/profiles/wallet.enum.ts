@@ -65,7 +65,7 @@ export enum WalletSetting {
     Alias = 'ALIAS',
     Avatar = 'AVATAR',
     Peer = 'PEER',
-    IsSelected = "IS_SELECTED",
+    IsSelected = 'IS_SELECTED',
 }
 
 /**

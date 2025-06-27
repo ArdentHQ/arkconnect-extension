@@ -298,11 +298,11 @@ export class Wallet implements IReadWriteWallet {
 
     /** {@inheritDoc IReadWriteWallet.validatorFee} */
     public validatorFee(): number | undefined {
-        if (!this.#attributes.get<Contracts.WalletData>("wallet")) {
+        if (!this.#attributes.get<Contracts.WalletData>('wallet')) {
             throw new Error(ERR_NOT_SYNCED);
         }
 
-        return this.#attributes.get<Contracts.WalletData>("wallet").validatorFee();
+        return this.#attributes.get<Contracts.WalletData>('wallet').validatorFee();
     }
 
     /** {@inheritDoc IReadWriteWallet.isResignedValidator} */

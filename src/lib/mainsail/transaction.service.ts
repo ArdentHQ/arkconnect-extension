@@ -133,8 +133,8 @@ export class TransactionService {
         applyCryptoConfiguration(this.#configCrypto);
         this.#assertGasFee(input);
 
-        const vote: { id: string } | undefined = get(input, "data.votes[0]");
-        const unvote: { id: string } | undefined = get(input, "data.unvotes[0]");
+        const vote: { id: string } | undefined = get(input, 'data.votes[0]');
+        const unvote: { id: string } | undefined = get(input, 'data.unvotes[0]');
         const nonce = await this.#generateNonce(input);
 
         if (unvote) {

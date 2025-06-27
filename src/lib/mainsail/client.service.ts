@@ -304,7 +304,7 @@ export class ClientService {
         if (body.identifiers) {
             const identifiers: Services.WalletIdentifier[] = body.identifiers;
 
-            const addresses = identifiers.map(({ value }) => value).join(",");
+            const addresses = identifiers.map(({ value }) => value).join(',');
             if (addresses.length > 0) {
                 result.searchParams.address = addresses;
             }

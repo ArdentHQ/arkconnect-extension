@@ -704,7 +704,6 @@ export interface IReadWriteWallet {
      */
     signatoryFactory(): ISignatoryFactory;
 
-
     /**
      * Returns whether wallet has selected flag on
      *
