@@ -32,9 +32,9 @@ export default {
     },
     VOTE: {
         VOTE: 'Vote',
-        FIND_A_DELEGATE: 'Find a delegate',
+        FIND_A_VALIDATOR: 'Find a validator',
         NO_RESULTS:
-            'The delegate is either unregistered or resigned. Check your search term and try again.',
+            'The validator is either unregistered or resigned. Check your search term and try again.',
         ACTIONS: {
             SELECT: 'Select',
             SELECTED: 'Selected',
@@ -42,7 +42,7 @@ export default {
             CURRENT: 'Current',
         },
         EDIT_FEE: 'Edit Fee',
-        USE_SEARCH_TO_FIND_DELEGATES: 'Use the search to find other delegates',
+        USE_SEARCH_TO_FIND_VALIDATORS: 'Use the search to find other validators',
     },
     CREATE_WALLET: {
         SAVE_YOUR_SECRET_PASSPHRASE: 'Save Your Secret Passphrase',

@@ -84,13 +84,13 @@ export const TransactionBody = ({
                 )}
 
                 {type === TransactionType.REGISTRATION && (
-                    <TrasactionItem title={t('COMMON.DELEGATE_NAME')}>
+                    <TrasactionItem title={t('COMMON.VALIDATOR_NAME')}>
                         {transaction.username() ?? ''}
                     </TrasactionItem>
                 )}
 
                 {type === TransactionType.RESIGNATION && (
-                    <TrasactionItem title={t('COMMON.DELEGATE_NAME')}>
+                    <TrasactionItem title={t('COMMON.VALIDATOR_NAME')}>
                         {transaction.wallet().username() ?? ''}
                     </TrasactionItem>
                 )}

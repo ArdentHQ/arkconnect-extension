@@ -31,7 +31,7 @@ export const ValidatorsSearchInput = ({
                         </NavButton>
                     )
                 }
-                placeholder={t('PAGES.VOTE.FIND_A_DELEGATE')}
+                placeholder={t('PAGES.VOTE.FIND_A_VALIDATOR')}
             />
         </div>
     );

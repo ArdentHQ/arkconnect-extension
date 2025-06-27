@@ -139,12 +139,12 @@ export const ActionBody = ({
             )}
 
             {unvote?.name && (
-                <ActionBodyRow label={t('COMMON.UNVOTE_DELEGATE_NAME')} value={unvote.name} />
+                <ActionBodyRow label={t('COMMON.UNVOTE_VALIDATOR_NAME')} value={unvote.name} />
             )}
 
             {unvote?.publicKey && wallet?.isLedger() && (
                 <ActionBodyRow
-                    label={t('COMMON.UNVOTE_DELEGATE_PUBKEY')}
+                    label={t('COMMON.UNVOTE_VALIDATOR_PUBKEY')}
                     value={
                         <span className='underline-offset-2 hover:underline'>
                             {trimAddress(unvote.publicKey ?? '', 10)}
@@ -160,18 +160,18 @@ export const ActionBody = ({
 
             {unvote?.address && !wallet?.isLedger() && (
                 <ActionAddressRow
-                    label={t('COMMON.UNVOTE_DELEGATE_ADDRESS')}
+                    label={t('COMMON.UNVOTE_VALIDATOR_ADDRESS')}
                     address={unvote.address}
                 />
             )}
 
             {vote?.address && (
-                <ActionBodyRow label={t('COMMON.VOTE_DELEGATE_NAME')} value={vote.name} />
+                <ActionBodyRow label={t('COMMON.VOTE_VALIDATOR_NAME')} value={vote.name} />
             )}
 
             {vote?.publicKey && wallet?.isLedger() && (
                 <ActionBodyRow
-                    label={t('COMMON.VOTE_DELEGATE_PUBKEY')}
+                    label={t('COMMON.VOTE_VALIDATOR_PUBKEY')}
                     value={
                         <span className='underline-offset-2 hover:underline'>
                             {trimAddress(vote.publicKey ?? '', 10)}
@@ -187,7 +187,7 @@ export const ActionBody = ({
 
             {vote?.address && !wallet?.isLedger() && (
                 <ActionAddressRow
-                    label={t('COMMON.VOTE_DELEGATE_ADDRESS')}
+                    label={t('COMMON.VOTE_VALIDATOR_ADDRESS')}
                     address={vote.address}
                 />
             )}

@@ -16,7 +16,7 @@ export const ValidatorsListItem = ({
     isVoted: boolean;
     anyIsSelected: boolean;
     validator: Contracts.IReadOnlyWallet;
-    onSelected: (delegate?: string) => void;
+    onSelected: (validator?: string) => void;
 }) => {
     const { t } = useTranslation();
     const validatorAddress = validator.address();

@@ -1,7 +1,7 @@
 import { IProfile, IReadOnlyWallet, IReadWriteWallet } from './contracts.js';
 
 /**
- * Defines the implementation contract for the delegate service.
+ * Defines the implementation contract for the validator service.
  *
  * @export
  * @interface IValidatorService
