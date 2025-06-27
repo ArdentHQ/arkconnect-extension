@@ -5,22 +5,22 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { Contracts } from '@/lib/profiles';
 import { ExternalLink, Icon, Tooltip } from '@/shared/components';
 
-export const DelegatesListItem = ({
+export const ValidatorsListItem = ({
     isSelected,
     isVoted,
     anyIsSelected,
-    delegate,
+    validator,
     onSelected,
 }: {
     isSelected: boolean;
     isVoted: boolean;
     anyIsSelected: boolean;
-    delegate: Contracts.IReadOnlyWallet;
+    validator: Contracts.IReadOnlyWallet;
     onSelected: (delegate?: string) => void;
 }) => {
     const { t } = useTranslation();
-    const username = delegate.username() || '';
-    const usernameRef = useRef<HTMLSpanElement>(null);
+    const validatorAddress = validator.address();
+    const addressRef = useRef<HTMLSpanElement>(null);
     const [disableTooltip, setDisableTooltip] = useState(false);
 
     const isUnselected = isVoted && (isSelected || (anyIsSelected && !isSelected));
@@ -28,11 +28,11 @@ export const DelegatesListItem = ({
     const isHighlighted = isVoted || isSelected;
 
     useEffect(() => {
-        if (usernameRef.current) {
-            const { clientWidth, scrollWidth } = usernameRef.current;
+        if (addressRef.current) {
+            const { clientWidth, scrollWidth } = addressRef.current;
             setDisableTooltip(scrollWidth <= clientWidth);
         }
-    }, [username]);
+    }, [validatorAddress]);
 
     const buttonLabel = useMemo(() => {
         if (isUnselected) {
@@ -60,12 +60,12 @@ export const DelegatesListItem = ({
         >
             <td className='p-4'>
                 <span className='block max-w-36'>
-                    <Tooltip content={username} disabled={disableTooltip}>
+                    <Tooltip content={validatorAddress} disabled={disableTooltip}>
                         <span
-                            ref={usernameRef}
+                            ref={addressRef}
                             className='block w-full overflow-hidden text-ellipsis whitespace-nowrap font-medium dark:text-white'
                         >
-                            {username}
+                            {validatorAddress}
                         </span>
                     </Tooltip>
                 </span>
@@ -73,7 +73,7 @@ export const DelegatesListItem = ({
 
             <td className='py-4'>
                 <ExternalLink
-                    href={delegate.explorerLink()}
+                    href={validator.explorerLink()}
                     className='transition-smoothEase text-theme-primary-700 hover:text-theme-primary-600 dark:text-theme-primary-600 dark:hover:text-theme-primary-650'
                 >
                     <Icon icon='link-external' className='h-4 w-4' />
@@ -90,7 +90,7 @@ export const DelegatesListItem = ({
                             isUnselected,
                     })}
                     onClick={() =>
-                        isSelected ? onSelected(undefined) : onSelected(delegate.address())
+                        isSelected ? onSelected(undefined) : onSelected(validator.address())
                     }
                 >
                     {buttonLabel}

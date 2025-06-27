@@ -1,21 +1,21 @@
 import { useTranslation } from 'react-i18next';
-import { DelegatesListItem } from './DelegatesListItem';
-import { DelegatesListItemSkeleton } from './DelegatesListItemSkeleton';
+import { ValidatorsListItem } from './ValidatorsListItem';
+import { ValidatorsListItemSkeleton } from './ValidatorsListItemSkeleton';
 import { Contracts } from '@/lib/profiles';
 import { WarningIcon } from '@/shared/components';
 
-export const DelegatesList = ({
-    delegates,
+export const ValidatorsList = ({
+    validators,
     isLoading,
-    onDelegateSelected,
+    onValidatorSelected,
     votes,
-    selectedDelegateAddress,
+    selectedValidatorAddress,
 }: {
-    delegates: Contracts.IReadOnlyWallet[];
+    validators: Contracts.IReadOnlyWallet[];
     isLoading: boolean;
-    onDelegateSelected: (delegateAddress?: string) => void;
+    onValidatorSelected: (validatorAddress?: string) => void;
     votes: Contracts.VoteRegistryItem[];
-    selectedDelegateAddress?: string;
+    selectedValidatorAddress?: string;
 }) => {
     const { t } = useTranslation();
 
@@ -25,7 +25,7 @@ export const DelegatesList = ({
                 <table className='w-full'>
                     <tbody>
                         {Array.from({ length: 10 }).map((_, index) => {
-                            return <DelegatesListItemSkeleton key={index} />;
+                            return <ValidatorsListItemSkeleton key={index} />;
                         })}
                     </tbody>
                 </table>
@@ -33,7 +33,7 @@ export const DelegatesList = ({
         );
     }
 
-    if (delegates.length === 0) {
+    if (validators.length === 0) {
         return (
             <div className='flex flex-1 items-center'>
                 <div className='mx-auto flex max-w-64 flex-col items-center space-y-4 text-center'>
@@ -50,17 +50,17 @@ export const DelegatesList = ({
         <div className='w-full overflow-hidden rounded-xl bg-white py-2 dark:bg-subtle-black'>
             <table className='w-full'>
                 <tbody>
-                    {delegates.map((delegate) => {
+                    {validators.map((validator) => {
                         return (
-                            <DelegatesListItem
-                                onSelected={onDelegateSelected}
-                                key={delegate.address()}
-                                delegate={delegate}
-                                isSelected={selectedDelegateAddress === delegate.address()}
+                            <ValidatorsListItem
+                                onSelected={onValidatorSelected}
+                                key={validator.address()}
+                                validator={validator}
+                                isSelected={selectedValidatorAddress === validator.address()}
                                 isVoted={votes.some(
-                                    (vote) => vote.wallet?.address() === delegate.address(),
+                                    (vote) => vote.wallet?.address() === validator.address(),
                                 )}
-                                anyIsSelected={selectedDelegateAddress !== undefined}
+                                anyIsSelected={selectedValidatorAddress !== undefined}
                             />
                         );
                     })}

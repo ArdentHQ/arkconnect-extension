@@ -3,43 +3,43 @@ import { useProfileContext } from '@/lib/context/Profile';
 import { ExtendedConfirmedTransactionData } from '@/lib/profiles/transaction.dto';
 import { IReadWriteWallet } from '@/lib/profiles/wallet.contract';
 
-export const useDelegateInfo = (
+export const useValidatorInfo = (
     transaction: ExtendedConfirmedTransactionData,
     primaryWallet?: IReadWriteWallet,
 ) => {
     const { profile } = useProfileContext();
-    const [voteDelegate, setVoteDelegate] = useState<{
+    const [voteValidator, setVoteValidator] = useState<{
         name: string;
         address: string;
     }>({ name: '', address: '' });
-    const [unvoteDelegate, setUnvoteDelegate] = useState<{
+    const [unvoteValidator, setUnvoteValidator] = useState<{
         name: string;
         address: string;
     }>({ name: '', address: '' });
 
-    const getDelegateInfo = async (
+    const getValidatorInfo = async (
         address: string,
     ): Promise<{
         name: string;
         address: string;
     }> => {
         let name = '',
-            delegateAddress = '';
-        const network = primaryWallet?.network().id() ?? 'ark.mainnet';
+            validatorAddress = '';
+        const network = primaryWallet?.network().id() ?? 'mainsail.mainnet';
         try {
             profile.validators().all(network);
         } catch {
             await profile.validators().sync(profile, network);
         }
 
-        const delegate = profile.validators().findByPublicKey(network, address) || undefined;
+        const validator = profile.validators().findByPublicKey(network, address) || undefined;
 
-        if (delegate) {
-            name = delegate.username() || '';
-            delegateAddress = delegate.address();
+        if (validator) {
+            name = validator.username() || '';
+            validatorAddress = validator.address();
         }
 
-        return { name, address: delegateAddress };
+        return { name, address: validatorAddress };
     };
 
     useEffect(() => {
@@ -49,19 +49,19 @@ export const useDelegateInfo = (
                 const unvoteAddress = transaction.unvotes()[0] || undefined;
 
                 if (voteAddress) {
-                    const voteDelegate = await getDelegateInfo(voteAddress);
+                    const voteValidator = await getValidatorInfo(voteAddress);
 
-                    setVoteDelegate(voteDelegate);
+                    setVoteValidator(voteValidator);
                 }
 
                 if (unvoteAddress) {
-                    const unvoteDelegate = await getDelegateInfo(unvoteAddress);
+                    const unvoteValidator = await getValidatorInfo(unvoteAddress);
 
-                    setUnvoteDelegate(unvoteDelegate);
+                    setUnvoteValidator(unvoteValidator);
                 }
             }
         })();
     }, [transaction, primaryWallet]);
 
-    return { voteDelegate, unvoteDelegate };
+    return { voteValidator, unvoteValidator };
 };

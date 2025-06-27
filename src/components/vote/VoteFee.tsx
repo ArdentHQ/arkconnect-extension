@@ -21,7 +21,7 @@ export const VoteFee = ({ formik }: { formik: FormikProps<VoteFormik> }) => {
         type: 'vote',
     });
 
-    const { delegateAddress, gasLimit, gasPrice } = formik.values;
+    const { validatorAddress, gasLimit, gasPrice } = formik.values;
 
     useEffect(() => {
         if (fees?.avg && gasPrice === '') {
@@ -36,7 +36,7 @@ export const VoteFee = ({ formik }: { formik: FormikProps<VoteFormik> }) => {
 
     const fee = calculateGasFee(gasPrice, gasLimit);
 
-    const disabled = delegateAddress === undefined || isLoadingFee;
+    const disabled = validatorAddress === undefined || isLoadingFee;
 
     const feeFormRef = useRef<HTMLDivElement>(null);
 

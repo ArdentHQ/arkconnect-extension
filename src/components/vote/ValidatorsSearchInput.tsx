@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Icon, Input } from '@/shared/components';
 import { NavButton } from '@/shared/components/nav/NavButton';
 
-export const DelegatesSearchInput = ({
+export const ValidatorsSearchInput = ({
     searchQuery,
     setSearchQuery,
 }: {

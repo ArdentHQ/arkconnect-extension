@@ -2,7 +2,7 @@ import { useCallback, useMemo, useState } from 'react';
 import useWalletSync from './useWalletSync';
 import { Contracts, Environment } from '@/lib/profiles';
 
-export const useDelegates = ({
+export const useValidators = ({
     env,
     profile,
     searchQuery,
@@ -13,63 +13,63 @@ export const useDelegates = ({
     searchQuery: string;
     limit: number;
 }) => {
-    const [allDelegates, setAllDelegates] = useState<Contracts.IReadOnlyWallet[]>([]);
-    const [currentDelegate, setCurrentDelegate] = useState<Contracts.IReadOnlyWallet>();
+    const [allValidators, setAllValidators] = useState<Contracts.IReadOnlyWallet[]>([]);
+    const [currentValidator, setCurrentValidator] = useState<Contracts.IReadOnlyWallet>();
     const [votes, setVotes] = useState<Contracts.VoteRegistryItem[]>();
-    const [isLoadingDelegates, setIsLoadingDelegates] = useState(false);
+    const [isLoadingValidators, setIsLoadingValidators] = useState(false);
     const { syncAll } = useWalletSync({ env, profile });
 
-    const fetchDelegates = useCallback(
+    const fetchValidators = useCallback(
         async (wallet: Contracts.IReadWriteWallet) => {
-            setIsLoadingDelegates(true);
+            setIsLoadingValidators(true);
 
             await profile.validators().sync(profile, wallet.networkId());
 
-            const allDelegates = profile
+            const allValidators = profile
                 .validators()
                 .all(wallet.networkId())
-                .filter((delegate) => !delegate.isResignedValidator());
+                .filter((validator) => !validator.isResignedValidator());
 
-            setAllDelegates(allDelegates);
+            setAllValidators(allValidators);
 
             const currentVote = wallet.voting().current();
             const currentVoteAddress =
                 currentVote.length > 0 ? currentVote[0].wallet?.address() : undefined;
             if (currentVoteAddress) {
-                const currentDelegate = profile
+                const currentValidator = profile
                     .validators()
                     .findByAddress(wallet.networkId(), currentVoteAddress);
-                setCurrentDelegate(currentDelegate);
+                setCurrentValidator(currentValidator);
             }
 
-            setIsLoadingDelegates(false);
+            setIsLoadingValidators(false);
         },
         [env, profile],
     );
 
-    const delegates = useMemo(() => {
+    const validators = useMemo(() => {
         if (searchQuery.length === 0) {
-            const delegateList = allDelegates.slice(0, limit);
+            const validatorList = allValidators.slice(0, limit);
             if (
-                currentDelegate &&
-                !delegateList.some((delegate) => delegate.address() === currentDelegate.address())
+                currentValidator &&
+                !validatorList.some((validator) => validator.address() === currentValidator.address())
             ) {
-                delegateList.unshift(currentDelegate);
+                validatorList.unshift(currentValidator);
             }
 
-            return delegateList;
+            return validatorList;
         }
 
         const query = searchQuery.toLowerCase();
 
-        return allDelegates
+        return allValidators
             .filter(
-                (delegate) =>
-                    delegate.address().toLowerCase().includes(query) ||
-                    delegate.username()?.toLowerCase()?.includes(query),
+                (validator) =>
+                    validator.address().toLowerCase().includes(query) ||
+                    validator.username()?.toLowerCase()?.includes(query),
             )
             .slice(0, limit);
-    }, [allDelegates, searchQuery, limit]);
+    }, [allValidators, searchQuery, limit]);
 
     const fetchVotes = useCallback(
         async (wallet: Contracts.IReadWriteWallet) => {
@@ -89,20 +89,20 @@ export const useDelegates = ({
     );
 
     const currentVotes = useMemo(() => {
-        if (votes === undefined || delegates === undefined) {
+        if (votes === undefined || validators === undefined) {
             return [];
         }
 
         return votes.filter((vote) =>
-            delegates.some((delegate) => vote.wallet?.address() === delegate.address()),
+            validators.some((validator) => vote.wallet?.address() === validator.address()),
         );
-    }, [votes, allDelegates]);
+    }, [votes, allValidators]);
 
     return {
-        delegates: delegates ?? [],
-        fetchDelegates,
+        validators: validators ?? [],
+        fetchValidators,
         fetchVotes,
-        isLoadingDelegates: isLoadingDelegates || votes === undefined,
+        isLoadingValidators: isLoadingValidators || votes === undefined,
         currentVotes,
     };
 };

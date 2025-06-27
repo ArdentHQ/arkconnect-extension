@@ -111,7 +111,7 @@ const Approve = () => {
                 data: {
                     type: location.state.type,
                     fee: String(location.state.fee),
-                    delegateAddress:
+                    validatorAddress:
                         location.state.vote?.address || location.state.unvote?.address || '',
                 },
             });

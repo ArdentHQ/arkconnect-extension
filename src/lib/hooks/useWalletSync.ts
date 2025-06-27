@@ -32,7 +32,7 @@ const useWalletSync = ({ profile, env }: WalletImportTypes) => {
             try {
                 profile.validators().all(network.id());
             } catch {
-                // Sync network delegates for the first time
+                // Sync network validators for the first time
                 await profile.validators().sync(profile, network.id());
             }
 
