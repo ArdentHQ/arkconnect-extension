@@ -141,8 +141,8 @@ const ApproveVote = ({ abortReference, approveWithLedger, wallet, closeLedgerScr
             }
 
             const voteInfo = {
-                id: res.id as string,
-                sender: res.sender as string,
+                id: res.hash as string,
+                sender: res.from as string,
                 voteAddress: vote?.wallet?.address(),
                 voteName: vote?.wallet?.username(),
                 votePublicKey: vote?.wallet?.publicKey(),

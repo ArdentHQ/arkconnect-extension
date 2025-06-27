@@ -93,13 +93,13 @@ export const useVoteForm = (wallet: Contracts.IReadWriteWallet, request: Approve
                 unvotes: unvote && [
                     {
                         amount: unvote.amount,
-                        id: unvote.wallet?.governanceIdentifier(),
+                        id: unvote.wallet?.address(),
                     },
                 ],
                 votes: vote && [
                     {
                         amount: vote.amount,
-                        id: vote.wallet?.governanceIdentifier(),
+                        id: vote.wallet?.address(),
                     },
                 ],
             },
