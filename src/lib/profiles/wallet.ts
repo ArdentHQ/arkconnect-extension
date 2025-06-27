@@ -296,6 +296,15 @@ export class Wallet implements IReadWriteWallet {
         return this.#attributes.get<Contracts.WalletData>('wallet').isValidator();
     }
 
+    /** {@inheritDoc IReadWriteWallet.validatorFee} */
+    public validatorFee(): number | undefined {
+        if (!this.#attributes.get<Contracts.WalletData>("wallet")) {
+            throw new Error(ERR_NOT_SYNCED);
+        }
+
+        return this.#attributes.get<Contracts.WalletData>("wallet").validatorFee();
+    }
+
     /** {@inheritDoc IReadWriteWallet.isResignedValidator} */
     public isResignedValidator(): boolean {
         if (!this.#attributes.get<Contracts.WalletData>('wallet')) {
@@ -581,6 +590,11 @@ export class Wallet implements IReadWriteWallet {
     /** {@inheritDoc IReadWriteWallet.actsWithWif} */
     public actsWithWif(): boolean {
         return this.data().get(WalletData.ImportMethod) === WalletImportMethod.WIF;
+    }
+
+    /** {@inheritDoc IReadWriteWallet.isSelected} */
+    public isSelected(): boolean {
+        return this.settings().get(WalletSetting.IsSelected) === true;
     }
 
     /** {@inheritDoc IReadWriteWallet.actsWithWifWithEncryption} */

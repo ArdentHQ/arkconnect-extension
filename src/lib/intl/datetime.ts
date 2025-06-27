@@ -71,13 +71,7 @@ export class DateTime {
             locale = 'en';
         }
 
-        try {
-            require(`dayjs/locale/${locale}.js`);
-
-            this.#instance.locale(locale);
-        } catch {
-            console.debug(`Failed to load data for the [${locale}] locale.`);
-        }
+        this.#instance.locale(locale);
     }
 
     /**

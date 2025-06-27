@@ -45,6 +45,8 @@ export interface WalletData {
 
     validatorPublicKey(): string | undefined;
 
+    validatorFee(): number | undefined;
+
     rank(): number | undefined;
 
     votes(): BigNumber | undefined;
@@ -65,6 +67,8 @@ export interface WalletData {
     hasPassed(): boolean;
 
     hasFailed(): boolean;
+
+    isSelected(): boolean;
 }
 
 type LedgerTransport = any;
