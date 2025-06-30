@@ -1,7 +1,6 @@
 import packageData from '../package.json';
 import { ExtensionSupportedEvents } from '@/lib/events';
 import {
-    assertPositiveNonZero,
     assertPositiveNumberLike,
     getLogoOrFaviconUrl,
     isValidObjectByType,
@@ -103,15 +102,10 @@ type SignTransactionResponse = {
 };
 
 type SignVoteRequest = {
-    vote?: {
-        amount: number;
-        address: string;
-    };
-    unvote?: {
-        amount: number;
-        address: string;
-    };
-    fee?: number;
+    votes: string[];
+    unvotes: string[];
+    gasPrice?: string;
+    gasLimit?: string;
 };
 
 type SignVoteResponse = {
@@ -129,17 +123,8 @@ type SignVoteResponse = {
 };
 
 const signVoteRequestShape: SignVoteRequest = {
-    vote: {
-        amount: 1,
-        address: 'address',
-    },
-};
-
-const signUnvoteRequestShape: SignVoteRequest = {
-    unvote: {
-        amount: 1,
-        address: 'address',
-    },
+    votes: ['address'],
+    unvotes: ['address'],
 };
 
 const signTransactionRequestShape: SignTransactionRequest = {
@@ -415,9 +400,7 @@ class ArkConnectInPageProvider {
         return new Promise(
             (resolve: (data: SignVoteResponse) => void, reject: (error: ErrorResponse) => void) => {
                 if (
-                    !isValidObjectByType<SignVoteRequest>(request, signVoteRequestShape) &&
-                    !isValidObjectByType<SignVoteRequest>(request, signUnvoteRequestShape)
-                ) {
+                    !isValidObjectByType<SignVoteRequest>(request, signVoteRequestShape)) {
                     reject({
                         domain: window.location.origin,
                         status: 'failed',
@@ -427,14 +410,12 @@ class ArkConnectInPageProvider {
                 }
 
                 try {
-                    if (request.fee) {
-                        assertPositiveNonZero(request.fee);
+                    if (request.gasPrice) {
+                        assertPositiveNumberLike(request.gasPrice);
+                    }
 
-                        if (request.fee > 1) {
-                            throw new Error(
-                                `Fee cannot be greater than 1, received ${request.fee}`,
-                            );
-                        }
+                    if (request.gasLimit) {
+                        assertPositiveNumberLike(request.gasLimit);
                     }
                 } catch (error: unknown) {
                     reject({
@@ -458,9 +439,11 @@ class ArkConnectInPageProvider {
 
                 window.addEventListener('message', eventListener, false);
 
+
                 this._sendMessage(Messages.SIGN_VOTE, {
-                    ...request,
-                    type: request.vote ? 'vote' : 'unvote',
+                    vote: { address: request.votes[0], amount: 0 },
+                    unvote: request.unvotes.length > 0 ? { address: request.unvotes[0], amount: 0 } : undefined,
+                    type: request.votes.length > 0 ? 'vote' : 'unvote',
                 });
             },
         );
