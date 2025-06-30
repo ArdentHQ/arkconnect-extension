@@ -123,8 +123,8 @@ type SignVoteResponse = {
 };
 
 const signVoteRequestShape: SignVoteRequest = {
-    votes: ['address'],
-    unvotes: ['address'],
+    votes: [],
+    unvotes: [],
 };
 
 const signTransactionRequestShape: SignTransactionRequest = {
@@ -438,13 +438,15 @@ class ArkConnectInPageProvider {
 
                 window.addEventListener('message', eventListener, false);
 
+                const { votes, unvotes } = request;
+
                 this._sendMessage(Messages.SIGN_VOTE, {
-                    vote: { address: request.votes[0], amount: 0 },
+                    vote: votes.length > 0 ? { address: request.votes[0], amount: 0 } : undefined,
                     unvote:
-                        request.unvotes.length > 0
-                            ? { address: request.unvotes[0], amount: 0 }
+                        unvotes.length > 0
+                            ? { address: unvotes[0], amount: 0 }
                             : undefined,
-                    type: request.votes.length > 0 ? 'vote' : 'unvote',
+                    type: votes.length > 0 ? 'vote' : 'unvote',
                 });
             },
         );
