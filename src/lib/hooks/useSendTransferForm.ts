@@ -21,6 +21,7 @@ import { selectWallets } from '@/lib/store/wallet';
 import { Network } from '@/lib/mainsail/network';
 import { TransferInput } from '@/lib/mainsail/transaction.contract';
 import { calculateGasFee, GasLimit } from '@/lib/hooks/useNetworkFees';
+import { httpClient } from '@/lib/services';
 
 export interface RecipientItem {
     address: string;
@@ -126,9 +127,11 @@ export const useSendTransferForm = (
             )(prepareLedger(wallet));
 
             const data = await buildTransferData({
-                memo,
                 recipients,
             });
+
+            // Ensures the cache is flushed so it always fetches the latest wallet nonce
+            httpClient.forgetWalletCache(wallet);
 
             const transactionInput: TransferInput = {
                 data,

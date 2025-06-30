@@ -5,6 +5,7 @@ import { SignedMessage } from '@/lib/mainsail/message.contract';
 import { BroadcastResponse as BroadcastResponseData } from '@/lib/mainsail/client.contract';
 import { TransferInput, VoteInput } from '@/lib/mainsail/transaction.contract';
 import { RawTransactionData } from '@/lib/mainsail/signed-transaction.dto.contract';
+import { BigNumber } from '@/lib/helpers';
 
 interface RecipientItem {
     address: string;
@@ -20,7 +21,6 @@ interface BroadcastResponse {
 
 export interface SendTransferInput extends TransferInput {
     recipients: RecipientItem[];
-    memo?: string;
 }
 
 function BroadcastResponse({
@@ -83,7 +83,7 @@ export function Wallet({ wallet }: { wallet: Contracts.IReadWriteWallet }) {
          * @returns {Promise<BroadcastResponse>}
          */
         async sendTransfer(input: SendTransferInput): Promise<BroadcastResponse> {
-            // await wallet.synchroniser().coin();
+            await wallet.network().sync();
 
             const signatory = await wallet.signatoryFactory().make({
                 mnemonic: await wallet.confirmKey().get(wallet.profile().password().get()),
@@ -91,12 +91,11 @@ export function Wallet({ wallet }: { wallet: Contracts.IReadWriteWallet }) {
 
             const transactionInput = {
                 data: await buildTransferData({
-                    memo: input.memo,
                     isMultiSignature: false,
                     recipients: input.recipients,
                 }),
-                gasPrice: input.gasPrice,
-                gasLimit: input.gasLimit,
+                gasPrice: BigNumber.make(input.gasPrice),
+                gasLimit: BigNumber.make(input.gasLimit),
                 signatory,
             };
 

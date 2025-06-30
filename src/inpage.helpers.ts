@@ -1,3 +1,5 @@
+import { BigNumber, NumberLike } from '@/lib/helpers';
+
 export const getLogoOrFaviconUrl = () => {
     let iconUrl: string | undefined | null = undefined;
 
@@ -42,6 +44,16 @@ export const isValidObjectByType = <T>(object: any, type: T): object is T => {
     }
 
     return true;
+};
+
+export const assertPositiveNumberLike = (rawValue: NumberLike) => {
+    const value = BigNumber.make(rawValue);
+
+    if (value.isLessThanOrEqualTo(0)) {
+        throw new Error(
+            `Expected 'value' to be a greater than 0, but received ${value.toString()}.`,
+        );
+    }
 };
 
 export const assertPositiveNonZero = (amount: unknown, maxDecimals: number = 8) => {

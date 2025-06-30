@@ -2,6 +2,7 @@
 
 import { defineConfig, loadEnv } from 'vite';
 
+import { nodePolyfills } from 'vite-plugin-node-polyfills';
 import chromeManifest from './src/manifest.chrome.json';
 import firefoxManifest from './src/manifest.firefox.json';
 import path from 'node:path';
@@ -38,6 +39,30 @@ export default defineConfig(({ mode }) => {
                 },
                 browser: process.env.BROWSER || 'chrome',
                 skipManifestValidation: true,
+            }),
+            nodePolyfills({
+                // To add only specific polyfills, add them here. If no option is passed, adds all polyfills
+                include: [
+                    'buffer',
+                    'os',
+                    'process',
+                    // "fs",
+                    'path',
+                    'http',
+                    'https',
+                    // "crypto",
+                    'module',
+                    'util',
+                    'events',
+                    'string_decoder',
+                    'url',
+                ],
+                // Whether to polyfill specific globals.
+                globals: {
+                    Buffer: true, // can also be 'build', 'dev', or false
+                    global: true,
+                    process: false,
+                },
             }),
         ],
         resolve: {

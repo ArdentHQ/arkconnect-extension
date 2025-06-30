@@ -129,11 +129,11 @@ const ApproveTransaction = ({
             const response = await submitForm(abortReference);
 
             const transaction = {
-                id: response.id as string,
+                id: response.hash as string,
                 exchangeCurrency: wallet.exchangeCurrency() ?? 'USD',
-                sender: response.sender as string,
-                receiver: response.recipient as string,
-                memo: response.data?.vendorField as string,
+                sender: response.from as string,
+                receiver: response.to as string,
+                memo: '',
                 amount: response.amount as number,
                 convertedAmount: convert(response.amount),
                 fee: response.fee as number,

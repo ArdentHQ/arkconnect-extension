@@ -1,6 +1,11 @@
 import packageData from '../package.json';
 import { ExtensionSupportedEvents } from '@/lib/events';
-import { assertPositiveNonZero, getLogoOrFaviconUrl, isValidObjectByType } from '@/inpage.helpers';
+import {
+    assertPositiveNonZero,
+    assertPositiveNumberLike,
+    getLogoOrFaviconUrl,
+    isValidObjectByType,
+} from '@/inpage.helpers';
 
 type OnEvent = {
     type: Events;
@@ -79,9 +84,9 @@ type SignMessageResponse = {
 
 type SignTransactionRequest = {
     value: string;
-    fee?: number;
+    gasPrice?: string;
+    gasLimit?: string;
     to: string;
-    memo?: string;
 };
 
 type SignTransactionResponse = {
@@ -367,17 +372,14 @@ class ArkConnectInPageProvider {
                 }
 
                 try {
-                    // TODO restore validation
-                    // assertPositiveNonZero(request.value);
+                    assertPositiveNumberLike(request.value);
 
-                    if (request.fee) {
-                        assertPositiveNonZero(request.fee);
+                    if (request.gasPrice) {
+                        assertPositiveNumberLike(request.gasPrice);
+                    }
 
-                        if (request.fee > 1) {
-                            throw new Error(
-                                `Fee cannot be greater than 1, received ${request.fee}`,
-                            );
-                        }
+                    if (request.gasLimit) {
+                        assertPositiveNumberLike(request.gasLimit);
                     }
                 } catch (error: unknown) {
                     reject({
