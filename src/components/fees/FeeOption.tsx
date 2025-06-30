@@ -44,7 +44,7 @@ export const FeeOption = ({
                     {name}
                 </span>
                 <span className='text-sm font-normal text-theme-secondary-500 dark:text-theme-secondary-300'>
-                    {value} {network.coinName()}
+                    {value} {network.ticker()}
                 </span>
             </span>
         </button>

@@ -9,7 +9,6 @@ import { ContactFormik, ValidateAddressResponse } from '@/components/address-boo
 import constants from '@/constants';
 import SubPageLayout from '@/components/settings/SubPageLayout';
 import useAddressBook from '@/lib/hooks/useAddressBook';
-import { useProfileContext } from '@/lib/context/Profile';
 import useToast from '@/lib/hooks/useToast';
 import { WalletNetwork } from '@/lib/store/wallet';
 import { generateAddressBookValidationSchema } from '@/lib/validation/addressBook';
@@ -17,7 +16,6 @@ import { generateAddressBookValidationSchema } from '@/lib/validation/addressBoo
 const EditContact = () => {
     const toast = useToast();
     const { t } = useTranslation();
-    const { profile } = useProfileContext();
     const { name } = useParams<{ name: string }>();
     const { addressBook, updateContact } = useAddressBook();
     const navigate = useNavigate();
@@ -56,7 +54,7 @@ const EditContact = () => {
 
     useEffect(() => {
         const handleAddressValidation = async () => {
-            const response = await validateAddress({ address: formik.values.address, profile });
+            const response = validateAddress({ address: formik.values.address });
             setAddressValidation(response);
         };
 

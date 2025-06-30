@@ -20,10 +20,13 @@ import { useEnvironmentContext } from '@/lib/context/Environment';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 import { useProfileContext } from '@/lib/context/Profile';
 import { useVote } from '@/lib/hooks/useVote';
+import { calculateGasFee } from '@/lib/hooks/useNetworkFees';
+import { FeeLimits } from '@/components/fees';
 
 export type VoteFormik = {
     delegateAddress?: string;
-    fee: string;
+    gasPrice: string;
+    gasLimit: string;
     feeClass?: string;
 };
 
@@ -66,34 +69,31 @@ const Vote = () => {
     }, [wallet]);
 
     const validationSchema = object().shape({
-        fee: string()
-            .required(t('ERROR.IS_REQUIRED', { name: 'Fee' }))
-            .matches(constants.AMOUNT_REGEX, {
-                message: t('ERROR.IS_INVALID', { name: 'Fee' }),
+        gasPrice: string()
+            .required(t('ERROR.IS_REQUIRED', { name: 'Gas Price' }))
+            .test('min-value', t('ERROR.IS_REQUIRED', { name: 'Gas Price' }), (value) => {
+                return BigNumber.make(value).isGreaterThanOrEqualTo(FeeLimits.gasPrice[0]);
             })
-            .test('min-value', t('ERROR.IS_REQUIRED', { name: 'Fee' }), (value) => {
-                return Number(value) > 0;
+            .test('max-value', t('ERROR.IS_TOO_HIGH', { name: 'Gas Price' }), (value) => {
+                return BigNumber.make(value).isLessThanOrEqualTo(FeeLimits.gasPrice[1]);
             })
-            .test('max-value', t('ERROR.IS_TOO_HIGH', { name: 'Fee' }), (value) => {
-                return Number(value) <= constants.MAX_FEES.vote;
+            .trim(),
+        gasLimit: string()
+            .required(t('ERROR.IS_REQUIRED', { name: 'Gas Limit' }))
+            .test('min-value', t('ERROR.IS_REQUIRED', { name: 'Gas Limit' }), (value) => {
+                return BigNumber.make(value).isGreaterThanOrEqualTo(FeeLimits.gasLimit[0]);
+            })
+            .test('max-value', t('ERROR.IS_TOO_HIGH', { name: 'Gas Limit' }), (value) => {
+                return BigNumber.make(value).isLessThanOrEqualTo(FeeLimits.gasLimit[1]);
             })
             .trim(),
         feeClass: string().oneOf([
             constants.FEE_CUSTOM,
-            constants.FEE_DEFAULT,
+            constants.FEE_AVERAGE,
             constants.FEE_FAST,
             constants.FEE_SLOW,
         ]),
-        delegateAddress: string()
-            .required(t('ERROR.IS_REQUIRED', { name: 'Delegate' }))
-            .min(
-                constants.ADDRESS_LENGTH,
-                t('ERROR.IS_INVALID_ADDRESS_LENGTH', { name: 'Address' }),
-            )
-            .max(
-                constants.ADDRESS_LENGTH,
-                t('ERROR.IS_INVALID_ADDRESS_LENGTH', { name: 'Address' }),
-            ),
+        delegateAddress: string().required(t('ERROR.IS_REQUIRED', { name: 'Delegate' })),
     });
 
     const lastVisitedPage = profile.settings().get('LAST_VISITED_PAGE') as { data: PageData };
@@ -133,7 +133,8 @@ const Vote = () => {
         navigate('/approve', {
             state: {
                 type: type,
-                fee: Number(formik.values.fee),
+                gasPrice: formik.values.gasPrice,
+                gasLimit: formik.values.gasLimit,
                 ...data,
                 session: {
                     walletId: wallet?.id(),
@@ -147,11 +148,12 @@ const Vote = () => {
 
     const formik = useFormik<VoteFormik>({
         initialValues: {
-            fee: searchParams.get('fee') || lastVisitedPage?.data?.fee || '',
+            gasPrice: searchParams.get('gasPrice') || lastVisitedPage?.data?.gasPrice || '',
+            gasLimit: searchParams.get('gasLimit') || lastVisitedPage?.data?.gasLimit || '',
             feeClass:
                 searchParams.get('feeClass') ||
                 lastVisitedPage?.data?.feeClass ||
-                constants.FEE_DEFAULT,
+                constants.FEE_AVERAGE,
             delegateAddress:
                 searchParams.get('vote') ||
                 searchParams.get('unvote') ||
@@ -168,15 +170,15 @@ const Vote = () => {
         },
     });
 
-    const hasValues = formik.values.delegateAddress && formik.values.fee;
-    const isFeeValid = formik.values.fee && constants.FEE_REGEX.test(formik.values.fee);
+    const isFeeValid = formik.values.gasPrice && formik.values.gasLimit;
+    const hasValues = formik.values.delegateAddress && isFeeValid;
     const hasSufficientFunds = BigNumber.make(wallet.balance() || 0).isGreaterThan(
-        BigNumber.make(isFeeValid ? formik.values.fee : 0),
+        calculateGasFee(formik.values.gasPrice, formik.values.gasLimit),
     );
 
     const { isVoting, isUnvoting, isSwapping, actionLabel, disabled, currentlyVotedAddress } =
         useVote({
-            fee: formik.values.fee,
+            fee: isFeeValid ? isFeeValid.toString() : '',
             delegateAddress: formik.values.delegateAddress,
             votes: currentVotes,
             isValid: !!(formik.isValid && hasValues && hasSufficientFunds),
@@ -211,15 +213,6 @@ const Vote = () => {
         };
     }, [formik.values]);
 
-    const handleFeeInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        if (!constants.FEE_REGEX.test(event.target.value)) {
-            return;
-        }
-
-        event.target.value = event.target.value.trim();
-        formik.handleChange(event);
-    };
-
     return (
         <SubPageLayout
             title={t('PAGES.VOTE.VOTE')}
@@ -227,18 +220,7 @@ const Vote = () => {
             bodyClassName='flex-1 flex flex-col pb-4'
             footer={
                 <Footer className='space-y-4'>
-                    <VoteFee
-                        delegateAddress={formik.values.delegateAddress}
-                        fee={formik.values.fee}
-                        onSelectedFee={(fee) => formik.setFieldValue('fee', fee)}
-                        onBlur={formik.handleBlur}
-                        feeError={formik.errors.fee}
-                        handleFeeInputChange={handleFeeInputChange}
-                        feeClass={formik.values.feeClass}
-                        handleFeeClassChange={(feeClass) =>
-                            formik.setFieldValue('feeClass', feeClass)
-                        }
-                    />
+                    <VoteFee formik={formik} />
 
                     <VoteButton
                         onClick={formik.submitForm}

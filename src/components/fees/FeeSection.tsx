@@ -1,63 +1,70 @@
 import { useTranslation } from 'react-i18next';
-import { ComponentPropsWithRef, useEffect, useState } from 'react';
+import { ChangeEvent, ComponentPropsWithRef, useEffect, useState } from 'react';
+import { FormikErrors } from 'formik';
 import { FeeTypeSwtich } from './FeeTypeSwtich';
 import { FeeOptionsList } from './FeeOptionsList';
 import { useNetworkFees } from '@/lib/hooks/useNetworkFees';
-import useActiveNetwork from '@/lib/hooks/useActiveNetwork';
 import { NumericInput } from '@/shared/components/input/NumericInput';
 import { useProfileContext } from '@/lib/context/Profile';
 import constants from '@/constants';
+import { SendFormik } from '@/pages/Send';
+import { VoteFormik } from '@/pages/Vote';
+import { BigNumber } from '@/lib/helpers';
 
 type AddressDropdownProps = ComponentPropsWithRef<'input'> & {
     variant?: 'primary' | 'destructive';
     helperText?: string;
-    value: string;
-    setValue: (value: string) => void;
     feeType?: string;
-    step?: number;
-    feeClass?: string;
+    errors: FormikErrors<SendFormik>;
+    values: SendFormik | VoteFormik;
     handleFeeClassChange?: (feeClass: string) => void;
+    onGasPriceChange: (price: string) => void;
+    onGasLimitChange: (limit: string) => void;
+};
+
+export const FeeLimits = {
+    gasPrice: [5, 10_000],
+    gasLimit: [21_000, 5_000_000],
 };
 
 export const FeeSection = ({
-    variant,
-    helperText,
-    value,
-    setValue,
-    step = 0.01,
+    errors,
+    values,
     feeType = 'transfer',
-    feeClass = constants.FEE_DEFAULT,
+    onGasPriceChange,
+    onGasLimitChange,
     handleFeeClassChange,
-    ...rest
 }: AddressDropdownProps) => {
     const { t } = useTranslation();
+
+    const { gasLimit, gasPrice } = values;
+    const feeClass = values.feeClass ?? constants.FEE_AVERAGE;
+
     const [advancedFeeView, setAdvancedFeeView] = useState<boolean>(
         feeClass === constants.FEE_CUSTOM,
     );
-    const activeNetwork = useActiveNetwork();
     const { profile } = useProfileContext();
 
-    const { isLoadingFee, fees } = useNetworkFees({
+    const { isLoadingFee, fees, estimatedGasLimit } = useNetworkFees({
         profile,
-        network: activeNetwork.id(),
+        network: profile.activeNetwork().id(),
         type: feeType,
     });
 
     const handleFeeViewClick = () => {
-        if (advancedFeeView && fees) {
-            onFeeChange(fees.avg);
-        }
         setAdvancedFeeView(!advancedFeeView);
-        handleFeeClassChange?.(!advancedFeeView ? constants.FEE_CUSTOM : constants.FEE_DEFAULT);
+        handleFeeClassChange?.(!advancedFeeView ? constants.FEE_CUSTOM : constants.FEE_AVERAGE);
     };
 
-    const onFeeChange = (value: string) => {
-        setValue(value);
+    const onFeeChange = (type: string, value: string) => {
+        handleFeeClassChange?.(type);
+        onGasPriceChange(value);
+        onGasLimitChange(estimatedGasLimit.toString());
     };
 
     useEffect(() => {
-        if (fees && !value && !advancedFeeView) {
-            onFeeChange(fees.avg);
+        if (fees && !advancedFeeView) {
+            onFeeChange(constants.FEE_AVERAGE, fees.avg);
         }
     }, [fees, advancedFeeView]);
 
@@ -65,13 +72,13 @@ export const FeeSection = ({
         if (feeClass !== constants.FEE_CUSTOM && fees) {
             switch (feeClass) {
                 case constants.FEE_SLOW:
-                    onFeeChange(fees.min);
+                    onFeeChange(constants.FEE_SLOW, fees.min);
                     break;
-                case constants.FEE_DEFAULT:
-                    onFeeChange(fees.avg);
+                case constants.FEE_AVERAGE:
+                    onFeeChange(constants.FEE_AVERAGE, fees.avg);
                     break;
                 case constants.FEE_FAST:
-                    onFeeChange(fees.max);
+                    onFeeChange(constants.FEE_FAST, fees.max);
                     break;
             }
         }
@@ -91,24 +98,62 @@ export const FeeSection = ({
             </div>
 
             {advancedFeeView ? (
-                <NumericInput
-                    id='fee'
-                    placeholder='0.00'
-                    onValueChange={onFeeChange}
-                    helperText={helperText}
-                    value={value}
-                    variant={variant}
-                    autoComplete='off'
-                    step={step}
-                    {...rest}
-                />
+                <div className='space-y-4'>
+                    <NumericInput
+                        id='gasPrice'
+                        placeholder='0.00'
+                        labelText={t('COMMON.GAS_PRICE_GWEI')}
+                        onValueChange={(value) => {
+                            onGasPriceChange(value);
+                        }}
+                        onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                            const valueRaw = event.target.value.trim();
+                            const value = BigNumber.make(
+                                valueRaw && valueRaw !== '' ? valueRaw : '0',
+                            );
+                            onGasPriceChange(value.toString());
+                        }}
+                        value={gasPrice}
+                        min={FeeLimits.gasPrice[0]}
+                        max={FeeLimits.gasPrice[1]}
+                        variant={gasPrice && errors.gasPrice ? 'destructive' : 'primary'}
+                        helperText={gasPrice && errors.gasPrice ? errors.gasPrice : undefined}
+                        autoComplete='off'
+                        step={1}
+                    />
+
+                    <NumericInput
+                        id='gasLimit'
+                        placeholder='0.00'
+                        labelText={t('COMMON.GAS_LIMIT')}
+                        onValueChange={(value) => {
+                            onGasLimitChange(value);
+                        }}
+                        onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                            const valueRaw = event.target.value.trim();
+                            const value = BigNumber.make(
+                                valueRaw && valueRaw !== '' ? valueRaw : '0',
+                            );
+                            onGasPriceChange(value.toString());
+                        }}
+                        value={gasLimit}
+                        min={FeeLimits.gasLimit[0]}
+                        max={FeeLimits.gasLimit[1]}
+                        variant={gasLimit && errors.gasLimit ? 'destructive' : 'primary'}
+                        helperText={gasLimit && errors.gasLimit ? errors.gasLimit : undefined}
+                        autoComplete='off'
+                        step={1000}
+                    />
+                </div>
             ) : (
                 <FeeOptionsList
                     fees={fees}
+                    gasLimit={gasLimit}
                     isLoading={isLoadingFee}
-                    setFee={onFeeChange}
-                    fee={value}
-                    setFeeClass={(feeClass: string) => handleFeeClassChange?.(feeClass)}
+                    onOptionChange={(feeClass: string, value: string) => {
+                        onFeeChange(feeClass, value);
+                    }}
+                    selectedClass={feeClass}
                 />
             )}
         </div>

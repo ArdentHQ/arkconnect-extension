@@ -9,7 +9,7 @@ import { RawTransactionData } from '@/lib/mainsail/signed-transaction.dto.contra
 interface RecipientItem {
     address: string;
     alias?: string;
-    amount?: number;
+    amount?: string;
     isDelegate?: boolean;
 }
 
@@ -95,7 +95,8 @@ export function Wallet({ wallet }: { wallet: Contracts.IReadWriteWallet }) {
                     isMultiSignature: false,
                     recipients: input.recipients,
                 }),
-                fee: input.fee,
+                gasPrice: input.gasPrice,
+                gasLimit: input.gasLimit,
                 signatory,
             };
 

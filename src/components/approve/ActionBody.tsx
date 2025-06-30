@@ -35,8 +35,8 @@ interface ActionBodyProps {
     unvote?: VoteData;
     vote?: VoteData;
     wallet?: Contracts.IReadWriteWallet;
-    hasHigherCustomFee?: number | null;
-    hasLowerCustomFee?: number | null;
+    hasHigherCustomFee?: string | null;
+    hasLowerCustomFee?: string | null;
     memo?: string | null;
 }
 

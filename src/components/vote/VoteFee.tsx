@@ -1,46 +1,40 @@
-import { FocusEventHandler, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { FormikProps } from 'formik';
 import { FeeSection } from '../fees';
 import { useProfileContext } from '@/lib/context/Profile';
-import useActiveNetwork from '@/lib/hooks/useActiveNetwork';
-import { useNetworkFees } from '@/lib/hooks/useNetworkFees';
+import { calculateGasFee, useNetworkFees } from '@/lib/hooks/useNetworkFees';
 import useOnClickOutside from '@/lib/hooks/useOnClickOutside';
-export const VoteFee = ({
-    delegateAddress,
-    fee,
-    feeError,
-    onSelectedFee,
-    onBlur,
-    handleFeeInputChange,
-    feeClass,
-    handleFeeClassChange,
-}: {
-    delegateAddress?: string;
-    fee: string;
-    feeError?: string;
-    onSelectedFee: (fee: string) => void;
-    onBlur: FocusEventHandler<HTMLInputElement>;
-    handleFeeInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-    feeClass?: string;
-    handleFeeClassChange?: (feeClass: string) => void;
-}) => {
+import { VoteFormik } from '@/pages/Vote';
+import constants from '@/constants';
+
+export const VoteFee = ({ formik }: { formik: FormikProps<VoteFormik> }) => {
     const { t } = useTranslation();
     const [isEditing, setIsEditing] = useState<boolean>(false);
-    const activeNetwork = useActiveNetwork();
-
     const { profile } = useProfileContext();
 
-    const { isLoadingFee, fees } = useNetworkFees({
+    const activeNetwork = profile.activeNetwork();
+
+    const { fees, isLoadingFee, estimatedGasLimit } = useNetworkFees({
         profile,
         network: activeNetwork.id(),
         type: 'vote',
     });
 
+    const { delegateAddress, gasLimit, gasPrice } = formik.values;
+
     useEffect(() => {
-        if (fees?.avg && fee === '') {
-            onSelectedFee(fees.avg);
+        if (fees?.avg && gasPrice === '') {
+            void formik.setFieldValue('gasPrice', fees.avg);
+            void formik.setFieldValue('feeClass', constants.FEE_AVERAGE);
         }
-    }, [fees, fee]);
+
+        if (estimatedGasLimit.isGreaterThan(0) && gasLimit === '') {
+            void formik.setFieldValue('gasLimit', estimatedGasLimit.toString());
+        }
+    }, [fees, gasLimit, gasLimit, estimatedGasLimit]);
+
+    const fee = calculateGasFee(gasPrice, gasLimit);
 
     const disabled = delegateAddress === undefined || isLoadingFee;
 
@@ -48,19 +42,26 @@ export const VoteFee = ({
 
     useOnClickOutside(feeFormRef, () => setIsEditing(false));
 
+    const handleGasPriceChange = (price: string) => {
+        formik.setFieldValue('gasPrice', price);
+    };
+
+    const handleGasLimitChange = (limit: string) => {
+        formik.setFieldValue('gasLimit', limit);
+    };
+
     if (isEditing) {
         return (
             <div ref={feeFormRef}>
                 <FeeSection
-                    onChange={handleFeeInputChange}
-                    onBlur={onBlur}
-                    variant={fee && feeError ? 'destructive' : 'primary'}
-                    helperText={fee ? feeError : undefined}
-                    value={fee}
-                    setValue={onSelectedFee}
+                    errors={formik.errors}
+                    values={formik.values}
                     feeType='vote'
-                    feeClass={feeClass}
-                    handleFeeClassChange={handleFeeClassChange}
+                    onGasPriceChange={handleGasPriceChange}
+                    onGasLimitChange={handleGasLimitChange}
+                    handleFeeClassChange={(value: string) =>
+                        formik.setFieldValue('feeClass', value)
+                    }
                 />
             </div>
         );
@@ -74,10 +75,10 @@ export const VoteFee = ({
 
             <div className='flex items-center space-x-1.5 dark:text-theme-secondary-500'>
                 {disabled ? (
-                    <span>- {activeNetwork.coin()}</span>
+                    <span>- {activeNetwork.ticker()}</span>
                 ) : (
                     <span className='whitespace-nowrap font-medium text-black dark:text-theme-secondary-200'>
-                        {fee} {activeNetwork.coin()}
+                        {fee} {activeNetwork.ticker()}
                     </span>
                 )}
 

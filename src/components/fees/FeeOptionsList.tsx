@@ -1,27 +1,27 @@
 import { useTranslation } from 'react-i18next';
 import { FeeOption, FeeOptionSkeleton } from './FeeOption';
-import { TransactionFees } from '@/lib/hooks/useNetworkFees';
+import { calculateGasFee, TransactionFees } from '@/lib/hooks/useNetworkFees';
 import constants from '@/constants';
+import { BigNumber } from '@/lib/helpers';
+
+export const formatFee = (fee: string) => {
+    return BigNumber.make(fee).decimalPlaces(7).toString();
+};
 
 export const FeeOptionsList = ({
-    fee,
-    setFee,
     fees,
+    gasLimit,
     isLoading = false,
-    setFeeClass,
+    selectedClass,
+    onOptionChange,
 }: {
-    fee: string;
-    setFee: (fee: string) => void;
     fees?: TransactionFees;
+    gasLimit: string;
     isLoading?: boolean;
-    setFeeClass?: (feeClass: string) => void;
+    selectedClass: string;
+    onOptionChange: (feeClass: string, value: string) => void;
 }) => {
     const { t } = useTranslation();
-
-    const handleClick = (fee: string, feeClass: string) => {
-        setFee(fee);
-        setFeeClass?.(feeClass);
-    };
 
     if (!fees || isLoading) {
         return (
@@ -37,23 +37,29 @@ export const FeeOptionsList = ({
         <div className='grid w-full grid-cols-3 gap-1.5'>
             <FeeOption
                 name={t('COMMON.SLOW')}
-                value={fees.min}
-                isSelected={fee == fees.min}
-                onClick={handleClick}
+                value={formatFee(calculateGasFee(fees.min, gasLimit))}
+                isSelected={selectedClass === constants.FEE_SLOW}
+                onClick={() => {
+                    onOptionChange(constants.FEE_SLOW, fees.min);
+                }}
                 feeClass={constants.FEE_SLOW}
             />
             <FeeOption
                 name={t('COMMON.AVERAGE')}
-                value={fees.avg}
-                isSelected={fee == fees.avg}
-                onClick={handleClick}
-                feeClass={constants.FEE_DEFAULT}
+                value={formatFee(calculateGasFee(fees.avg, gasLimit))}
+                isSelected={selectedClass === constants.FEE_AVERAGE}
+                onClick={() => {
+                    onOptionChange(constants.FEE_AVERAGE, fees.avg);
+                }}
+                feeClass={constants.FEE_AVERAGE}
             />
             <FeeOption
                 name={t('COMMON.FAST')}
-                value={fees.max}
-                isSelected={fee == fees.max}
-                onClick={handleClick}
+                value={formatFee(calculateGasFee(fees.max, gasLimit))}
+                isSelected={selectedClass === constants.FEE_FAST}
+                onClick={() => {
+                    onOptionChange(constants.FEE_FAST, fees.max);
+                }}
                 feeClass={constants.FEE_FAST}
             />
         </div>

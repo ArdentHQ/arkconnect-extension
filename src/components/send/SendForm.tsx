@@ -7,22 +7,27 @@ import { FeeSection } from '@/components/fees';
 import { Input } from '@/shared/components';
 import { SendFormik } from '@/pages/Send';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
+import { calculateGasFee } from '@/lib/hooks/useNetworkFees';
+import { BigNumber } from '@/lib/helpers';
 
 export const SendForm = ({ formik }: { formik: FormikProps<SendFormik> }) => {
     const primaryWallet = usePrimaryWallet();
     const { t } = useTranslation();
 
     const handleMaxClick = () => {
-        const balance = primaryWallet?.balance() ?? 0;
-        const fee = Number(formik.values.fee);
+        const balance = BigNumber.make(primaryWallet?.balance() ?? 0);
+        const fee = BigNumber.make(calculateGasFee(formik.values.gasPrice, formik.values.gasLimit));
 
-        if (balance <= fee) {
+        if (balance.isLessThanOrEqualTo(fee)) {
             formik.setFieldValue('amount', 0);
             return;
         }
 
-        const maxValue = Math.max(0, balance - fee);
-        formik.setFieldValue('amount', Number(maxValue.toFixed(8).replace(/\.?0+$/, '')));
+        const maxValue = balance.minus(fee);
+        formik.setFieldValue(
+            'amount',
+            maxValue.isNegative() ? 0 : maxValue.decimalPlaces(18).toString(),
+        );
     };
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -39,12 +44,13 @@ export const SendForm = ({ formik }: { formik: FormikProps<SendFormik> }) => {
         }
     };
 
-    const handleFeeInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        if (!constants.FEE_REGEX.test(event.target.value)) {
-            return;
-        }
-        event.target.value = event.target.value.trim();
-        formik.handleChange(event);
+    const handleGasPriceChange = (price: string) => {
+        formik.setFieldValue('gasPrice', price);
+        formik.validateField('amount');
+    };
+
+    const handleGasLimitChange = (limit: string) => {
+        formik.setFieldValue('gasLimit', limit);
         formik.validateField('amount');
     };
 
@@ -107,28 +113,13 @@ export const SendForm = ({ formik }: { formik: FormikProps<SendFormik> }) => {
                 helperText={formik.values.amount !== '' ? formik.errors.amount : undefined}
             />
 
-            <Input
-                name='memo'
-                labelText={`${t('COMMON.MEMO')} (${t('COMMON.OPTIONAL')})`}
-                secondaryText={`${formik.values.memo !== undefined ? formik.values.memo.length : 0}/255`}
-                placeholder={t('COMMON.ADD_NOTE_TO_TRANSACTION')}
-                value={formik.values.memo}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                variant={formik.errors.memo ? 'destructive' : 'primary'}
-                helperText={formik.errors.memo}
-                autoComplete='off'
-            />
-
             <FeeSection
-                onChange={handleFeeInputChange}
                 onBlur={formik.handleBlur}
-                variant={formik.values.fee && formik.errors.fee ? 'destructive' : 'primary'}
-                helperText={formik.values.fee ? formik.errors.fee : undefined}
-                value={formik.values.fee}
-                setValue={(value: string) => formik.setFieldValue('fee', value)}
-                feeClass={formik.values.feeClass}
+                values={formik.values}
+                errors={formik.errors}
                 handleFeeClassChange={(value: string) => formik.setFieldValue('feeClass', value)}
+                onGasLimitChange={handleGasLimitChange}
+                onGasPriceChange={handleGasPriceChange}
             />
         </div>
     );

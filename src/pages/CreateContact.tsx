@@ -3,7 +3,6 @@ import { useFormik } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { runtime } from 'webextension-polyfill';
-import { Contracts } from '@/lib/profiles';
 import { AddNewContactForm, SaveContactButton } from '@/components/address-book';
 import { ContactFormik, ValidateAddressResponse } from '@/components/address-book/types';
 import { WalletNetwork } from '@/lib/store/wallet';
@@ -15,39 +14,19 @@ import { useProfileContext } from '@/lib/context/Profile';
 import useToast from '@/lib/hooks/useToast';
 import { ScreenName } from '@/lib/background/contracts';
 import { generateAddressBookValidationSchema } from '@/lib/validation/addressBook';
+import { AddressService } from '@/lib/mainsail/address.service';
 
-const COIN_ID = 'ARK';
-
-export const validateAddress = async ({
-    address,
-    profile,
-}: {
-    address?: string;
-    profile: Contracts.IProfile;
-}): Promise<ValidateAddressResponse> => {
+export const validateAddress = ({ address }: { address?: string }): ValidateAddressResponse => {
     if (!address) {
         return { isValid: false, network: WalletNetwork.MAINNET };
     }
 
-    try {
-        for (const network of profile.networks().allByCoin(COIN_ID)) {
-            // TODO fix address validation
-            const isValidAddress: boolean = true;
-
-            if (!isValidAddress) {
-                continue;
-            }
-
-            return {
-                isValid: true,
-                network: network.type !== 'test' ? WalletNetwork.MAINNET : WalletNetwork.DEVNET,
-            };
-        }
-
-        return { isValid: false, network: WalletNetwork.MAINNET };
-    } catch (error) {
-        throw new Error('Failed to validate address');
+    const isValidAddress: boolean = new AddressService().validate(address);
+    if (isValidAddress) {
+        return { isValid: true, network: WalletNetwork.MAINNET };
     }
+
+    return { isValid: false, network: WalletNetwork.MAINNET };
 };
 
 const CreateContact = () => {
@@ -96,7 +75,7 @@ const CreateContact = () => {
 
     useEffect(() => {
         const handleAddressValidation = async () => {
-            const response = await validateAddress({ address: formik.values.address, profile });
+            const response = validateAddress({ address: formik.values.address });
             setAddressValidation(response);
         };
 

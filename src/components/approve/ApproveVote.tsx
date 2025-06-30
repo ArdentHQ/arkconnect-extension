@@ -24,6 +24,8 @@ import { ActionBody } from '@/components/approve/ActionBody';
 import { getNetworkCurrency } from '@/lib/utils/getActiveCoin';
 import { ProfileData, ScreenName } from '@/lib/background/contracts';
 import constants from '@/constants';
+import { calculateGasFee } from '@/lib/hooks/useNetworkFees';
+import { BigNumber } from '@/lib/helpers';
 
 type Props = {
     abortReference: AbortController;
@@ -50,7 +52,12 @@ const ApproveVote = ({ abortReference, approveWithLedger, wallet, closeLedgerScr
         ticker: wallet.currency(),
     });
     const { waitUntilLedgerIsConnected } = useWaitForConnectedDevice();
-    const { fee: customFee, feeClass, session } = location.state;
+    const {
+        gasLimit: customGasLimit,
+        gasPrice: customGasPrice,
+        feeClass,
+        session,
+    } = location.state;
     const [showHigherCustomFeeBanner, setShowHigherCustomFeeBanner] = useState(true);
     const isNative = session.domain === constants.APP_NAME;
 
@@ -58,11 +65,13 @@ const ApproveVote = ({ abortReference, approveWithLedger, wallet, closeLedgerScr
         resetForm,
         submitForm,
         loading,
-        values: { fee, vote, unvote, hasHigherCustomFee, hasLowerCustomFee },
-    } = useVoteForm(wallet, { customFee, ...state });
+        values: { gasPrice, gasLimit, vote, unvote, hasHigherCustomFee, hasLowerCustomFee },
+    } = useVoteForm(wallet, { customGasPrice, customGasLimit, ...state });
+
+    const fee = calculateGasFee(gasPrice, gasLimit);
 
     useEffect(() => {
-        if (wallet.balance() < fee) {
+        if (BigNumber.make(wallet.balance()).isLessThan(fee)) {
             setError(t('PAGES.APPROVE.FEEDBACK.INSUFFICIENT_BALANCE'));
         } else {
             setError(undefined);
@@ -180,7 +189,8 @@ const ApproveVote = ({ abortReference, approveWithLedger, wallet, closeLedgerScr
             profile.settings().set(ProfileData.LastVisitedPage, {
                 path: ScreenName.Vote,
                 data: {
-                    fee: customFee,
+                    gasPrice: customGasPrice,
+                    gasLimit: customGasLimit,
                     delegateAddress: vote?.wallet?.address() || unvote?.wallet?.address(),
                 },
             });
@@ -200,7 +210,11 @@ const ApproveVote = ({ abortReference, approveWithLedger, wallet, closeLedgerScr
         }
         loadingModal.close();
 
-        const params = new URLSearchParams({ fee: customFee, feeClass });
+        const params = new URLSearchParams({
+            gasPrice: customGasPrice,
+            gasLimit: customGasLimit,
+            feeClass,
+        });
         params.append('vote', vote?.wallet?.address() ?? '');
         params.append('unvote', unvote?.wallet?.address() ?? '');
         if (isNative) {
@@ -227,8 +241,8 @@ const ApproveVote = ({ abortReference, approveWithLedger, wallet, closeLedgerScr
                 className='pt-6'
                 showHigherCustomFeeBanner={showHigherCustomFeeBanner}
                 setShowHigherCustomFeeBanner={setShowHigherCustomFeeBanner}
-                hasHigherCustomFee={hasHigherCustomFee}
-                hasLowerCustomFee={hasLowerCustomFee}
+                hasHigherCustomFee={hasHigherCustomFee?.toString()}
+                hasLowerCustomFee={hasLowerCustomFee?.toString()}
                 wallet={wallet}
             >
                 <>
@@ -243,8 +257,8 @@ const ApproveVote = ({ abortReference, approveWithLedger, wallet, closeLedgerScr
                             isApproved={false}
                             showFiat={wallet.network().isLive()}
                             wallet={wallet}
-                            fee={fee}
-                            convertedFee={convert(fee)}
+                            fee={+fee}
+                            convertedFee={convert(+fee)}
                             exchangeCurrency={wallet.exchangeCurrency() ?? 'USD'}
                             network={getNetworkCurrency(wallet.network())}
                             unvote={{
@@ -258,8 +272,8 @@ const ApproveVote = ({ abortReference, approveWithLedger, wallet, closeLedgerScr
                                 address: vote?.wallet?.address(),
                             }}
                             actionDetailsClassName='max-h-81.5'
-                            hasHigherCustomFee={hasHigherCustomFee}
-                            hasLowerCustomFee={hasLowerCustomFee}
+                            hasHigherCustomFee={hasHigherCustomFee?.toString()}
+                            hasLowerCustomFee={hasLowerCustomFee?.toString()}
                             amountTicker={wallet.currency()}
                         />
                     </ApproveBody>

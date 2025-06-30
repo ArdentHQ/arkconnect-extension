@@ -17,11 +17,14 @@ import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 import { useProfileContext } from '@/lib/context/Profile';
 import SendModalButton from '@/components/send/SendModalButton';
 import { UploadQRModal } from '@/components/send/UploadQRModal';
+import { calculateGasFee } from '@/lib/hooks/useNetworkFees';
+import { FeeLimits } from '@/components/fees';
 
 export type SendFormik = {
     amount?: string;
     memo?: string;
-    fee: string;
+    gasPrice: string;
+    gasLimit: string;
     receiverAddress: string;
     feeClass?: string;
     errors?: any;
@@ -50,18 +53,18 @@ const Send = () => {
         navigate('/approve', {
             state: {
                 type: 'transfer',
-                amount: Number(lastVisitedPage.data.amount),
+                amount: lastVisitedPage.data.amount,
                 memo: lastVisitedPage.data.memo,
-                fee: Number(lastVisitedPage.data.fee),
+                gasPrice: lastVisitedPage.data.gasPrice,
+                gasLimit: lastVisitedPage.data.gasLimit,
                 receiverAddress: lastVisitedPage.data.receiverAddress,
                 session: lastVisitedPage.data.session,
             },
         });
     }
 
-    const [isLoading, setIsLoading] = useState<boolean>(true);
     const [addressValidation, setAddressValidation] = useState<ValidateAddressResponse>({
-        isValid: false,
+        isValid: true,
         network: WalletNetwork.MAINNET,
     });
 
@@ -80,61 +83,44 @@ const Send = () => {
                 'total-check',
                 t('ERROR.IS_EXCEEDING_BALANCE', { name: 'fee + amount' }),
                 (value) => {
-                    if (!value || !formik.values.fee) return true;
+                    if (!value || !formik.values.gasLimit || !formik.values.gasPrice) return true;
                     const userBalance = BigNumber.make(primaryWallet?.balance() || 0);
-                    const sum: BigNumber = BigNumber.make(value).plus(
-                        BigNumber.make(formik.values.fee),
-                    );
+                    const fee = calculateGasFee(formik.values.gasPrice, formik.values.gasLimit);
+
+                    const sum: BigNumber = BigNumber.make(value).plus(BigNumber.make(fee));
                     return sum.isLessThanOrEqualTo(userBalance);
                 },
             )
             .trim(),
-        memo: string().max(255, t('ERROR.IS_TOO_LONG', { name: 'Memo' })),
-        fee: string()
-            .required(t('ERROR.IS_REQUIRED', { name: 'Fee' }))
-            .matches(constants.AMOUNT_REGEX, {
-                message: t('ERROR.IS_INVALID', { name: 'Fee' }),
+        gasPrice: string()
+            .required(t('ERROR.IS_REQUIRED', { name: 'Gas Price' }))
+            .test('min-value', t('ERROR.IS_REQUIRED', { name: 'Gas Price' }), (value) => {
+                return BigNumber.make(value).isGreaterThanOrEqualTo(FeeLimits.gasPrice[0]);
             })
-            .test('min-value', t('ERROR.IS_REQUIRED', { name: 'Fee' }), (value) => {
-                return Number(value) > 0;
+            .test('max-value', t('ERROR.IS_TOO_HIGH', { name: 'Gas Price' }), (value) => {
+                return BigNumber.make(value).isLessThanOrEqualTo(FeeLimits.gasPrice[1]);
             })
-            .test('max-value', t('ERROR.IS_TOO_HIGH', { name: 'Fee' }), (value) => {
-                return Number(value) <= constants.MAX_FEES.transfer;
+            .trim(),
+        gasLimit: string()
+            .required(t('ERROR.IS_REQUIRED', { name: 'Gas Limit' }))
+            .test('min-value', t('ERROR.IS_REQUIRED', { name: 'Gas Limit' }), (value) => {
+                return BigNumber.make(value).isGreaterThanOrEqualTo(FeeLimits.gasLimit[0]);
+            })
+            .test('max-value', t('ERROR.IS_TOO_HIGH', { name: 'Gas Limit' }), (value) => {
+                return BigNumber.make(value).isLessThanOrEqualTo(FeeLimits.gasLimit[1]);
             })
             .trim(),
         feeClass: string().oneOf([
             constants.FEE_CUSTOM,
-            constants.FEE_DEFAULT,
+            constants.FEE_AVERAGE,
             constants.FEE_FAST,
             constants.FEE_SLOW,
         ]),
         receiverAddress: string()
             .required(t('ERROR.IS_REQUIRED', { name: 'Address' }))
-            .min(
-                constants.ADDRESS_LENGTH,
-                t('ERROR.IS_INVALID_ADDRESS_LENGTH', { name: 'Address' }),
-            )
-            .max(
-                constants.ADDRESS_LENGTH,
-                t('ERROR.IS_INVALID_ADDRESS_LENGTH', { name: 'Address' }),
-            )
             .test('valid-address', t('ERROR.IS_INVALID', { name: 'Address' }), () => {
-                if (isLoading) return true;
                 return addressValidation.isValid;
             })
-            .test(
-                'same-network-address',
-                t('ERROR.IS_INVALID_NETWORK', { name: 'Address' }),
-                () => {
-                    if (isLoading) return true;
-                    return (
-                        addressValidation.network ===
-                        (primaryWallet?.network().isTest()
-                            ? WalletNetwork.DEVNET
-                            : WalletNetwork.MAINNET)
-                    );
-                },
-            )
             .trim(),
     });
 
@@ -142,55 +128,47 @@ const Send = () => {
         initialValues: {
             amount: lastVisitedPage?.data?.amount || '',
             memo: lastVisitedPage?.data?.memo || '',
-            fee: lastVisitedPage?.data?.fee || '',
+            gasPrice: lastVisitedPage?.data?.gasPrice || '',
+            gasLimit: lastVisitedPage?.data?.gasLimit || '',
             feeClass:
                 searchParams.get('feeClass') ||
                 lastVisitedPage?.data?.feeClass ||
-                constants.FEE_DEFAULT,
+                constants.FEE_AVERAGE,
             receiverAddress: lastVisitedPage?.data?.receiverAddress || '',
         },
         validationSchema: validationSchema,
         validateOnMount: true,
-        onSubmit: () => {
+        onSubmit: (values, formikHelpers) => {
             runtime.sendMessage({ type: 'CLEAR_LAST_SCREEN' });
             profile.settings().forget('LAST_VISITED_PAGE');
-            formik.resetForm();
+            formikHelpers.resetForm();
             setAddressValidation({ isValid: false, network: WalletNetwork.MAINNET });
             navigate('/approve', {
                 state: {
                     type: 'transfer',
-                    amount: Number(formik.values.amount),
-                    memo: formik.values.memo,
-                    fee: Number(formik.values.fee),
-                    receiverAddress: formik.values.receiverAddress,
+                    value: values.amount,
+                    gasPrice: values.gasPrice,
+                    gasLimit: values.gasLimit,
+                    to: values.receiverAddress,
                     session: {
                         walletId: primaryWallet?.id(),
                         logo: 'icon/128.png',
                         domain: constants.APP_NAME,
                     },
-                    feeClass: formik.values.feeClass,
+                    feeClass: values.feeClass,
                 },
             });
         },
     });
 
-    useEffect(() => {
-        setIsLoading(true);
+    const { receiverAddress, gasLimit, gasPrice, amount } = formik.values;
 
-        const handleAddressValidation = async () => {
-            const response = await validateAddress({
-                address: formik.values.receiverAddress,
-                profile,
+    useEffect(() => {
+        if (receiverAddress) {
+            const response = validateAddress({
+                address: receiverAddress,
             });
             setAddressValidation(response);
-            setIsLoading(false);
-        };
-
-        if (
-            formik.values.receiverAddress &&
-            formik.values.receiverAddress.length === constants.ADDRESS_LENGTH
-        ) {
-            handleAddressValidation();
         }
     }, [formik.values.receiverAddress, profile]);
 
@@ -207,7 +185,7 @@ const Send = () => {
         };
     }, [formik.values]);
 
-    const hasValues = formik.values.amount && formik.values.receiverAddress && formik.values.fee;
+    const hasValues = amount && receiverAddress && gasPrice && gasLimit;
 
     const handleModalClick = () => {
         setIsModalOpen(true);

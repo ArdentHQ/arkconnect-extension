@@ -8,6 +8,7 @@ import { useExchangeRate } from '@/lib/hooks/useExchangeRate';
 import { useSendTransferForm } from '@/lib/hooks/useSendTransferForm';
 import { useVoteForm } from '@/lib/hooks/useVoteForm';
 import * as SessionStore from '@/lib/store/session';
+import { calculateGasFee } from '@/lib/hooks/useNetworkFees';
 
 type VoteDelegateProperties = {
     address: string;
@@ -16,7 +17,7 @@ type VoteDelegateProperties = {
 interface Props {
     wallet: Contracts.IReadWriteWallet;
     state: {
-        amount: number;
+        amount: string;
         receiverAddress: string;
         domain: string;
         session: SessionStore.Session;
@@ -24,38 +25,30 @@ interface Props {
         unvote: VoteDelegateProperties;
         tabId: number;
         memo?: string;
-        fee?: number;
+        gasPrice?: string;
+        gasLimit?: string;
     };
 }
 
 export const VoteLedgerApprovalBody = ({ wallet, state }: Props) => {
-    const { session, amount, receiverAddress, fee: customFee } = state;
-
-    const {
-        values: { hasHigherCustomFee, hasLowerCustomFee },
-    } = useSendTransferForm(wallet, {
-        session,
-        amount: amount ?? 0,
-        receiverAddress,
-        customFee,
-    });
-
     const { convert } = useExchangeRate({
         exchangeTicker: wallet.exchangeCurrency(),
         ticker: wallet.currency(),
     });
 
     const {
-        values: { fee, vote, unvote },
+        values: { gasPrice, gasLimit, vote, unvote, hasLowerCustomFee, hasHigherCustomFee },
     } = useVoteForm(wallet, state);
+
+    const fee = calculateGasFee(gasPrice, gasLimit);
 
     return (
         <ActionBody
             isApproved={false}
             showFiat={wallet.network().isLive()}
             wallet={wallet}
-            fee={customFee || fee}
-            convertedFee={convert(fee)}
+            fee={+fee}
+            convertedFee={convert(+fee)}
             exchangeCurrency={wallet.exchangeCurrency() ?? 'USD'}
             network={getNetworkCurrency(wallet.network())}
             unvote={{
@@ -76,7 +69,15 @@ export const VoteLedgerApprovalBody = ({ wallet, state }: Props) => {
 };
 
 export const TransactionLedgerApprovalBody = ({ wallet, state }: Props) => {
-    const { session, amount, receiverAddress, memo, fee: customFee } = state;
+    const {
+        session,
+        amount,
+        receiverAddress,
+        memo,
+        gasPrice: customGasPrice,
+        gasLimit: customGasLimit,
+    } = state;
+
     const { convert } = useExchangeRate({
         exchangeTicker: wallet.exchangeCurrency(),
         ticker: wallet.currency(),
@@ -86,26 +87,29 @@ export const TransactionLedgerApprovalBody = ({ wallet, state }: Props) => {
     const withFiat = wallet.network().isLive();
 
     const {
-        values: { fee, total },
+        values: { gasPrice, gasLimit, total },
     } = useSendTransferForm(wallet, {
         session,
         amount,
         receiverAddress,
         memo,
-        customFee,
+        customGasPrice,
+        customGasLimit,
     });
+
+    const fee = calculateGasFee(gasPrice, gasLimit);
 
     return (
         <ActionBody
             isApproved={false}
             showFiat={withFiat}
-            amount={amount}
+            amount={+amount}
             amountTicker={coin}
-            convertedAmount={convert(amount)}
+            convertedAmount={convert(+amount)}
             exchangeCurrency={exchangeCurrency}
             network={getNetworkCurrency(wallet.network())}
-            fee={fee}
-            convertedFee={convert(fee)}
+            fee={+fee}
+            convertedFee={convert(+fee)}
             receiver={trimAddress(receiverAddress as string, 10)}
             totalAmount={total}
             convertedTotalAmount={convert(total)}

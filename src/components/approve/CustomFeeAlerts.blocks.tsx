@@ -7,14 +7,15 @@ export const FeeWarning = ({
     coin,
     customFeeState,
 }: {
-    averageFee: number;
+    averageFee: string;
     coin: string;
     customFeeState: string | null;
 }) => {
     const { t } = useTranslation();
+    // TODO find a way to format fee without casting it to number
     const formattedAmount = cropToMaxDigits({
-        value: averageFee,
-        maxDigits: 4,
+        value: +averageFee,
+        maxDigits: 8,
     });
 
     return (
@@ -49,15 +50,16 @@ export const FeeBanner = ({
     onClose,
     customFeeState,
 }: {
-    averageFee: number;
+    averageFee: string;
     coin: string;
     onClose: () => void;
     customFeeState: string | null;
 }) => {
     const { t } = useTranslation();
+    // TODO find a way to format fee without casting it to number
     const formattedAmount = cropToMaxDigits({
-        value: averageFee,
-        maxDigits: 4,
+        value: +averageFee,
+        maxDigits: 8,
     });
 
     return (

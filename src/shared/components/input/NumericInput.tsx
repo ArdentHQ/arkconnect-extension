@@ -8,6 +8,7 @@ interface InputProperties extends React.InputHTMLAttributes<HTMLInputElement> {
     variant?: 'primary' | 'destructive';
     value: string;
     helperText?: string;
+    labelText?: string;
 }
 
 const ArrowButtons = ({

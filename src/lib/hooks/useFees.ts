@@ -1,6 +1,7 @@
 import { useCallback } from 'react';
 import { useEnvironmentContext } from '@/lib/context/Environment';
 import { useProfileContext } from '@/lib/context/Profile';
+import { BigNumber } from '@/lib/helpers';
 
 interface CalculateProperties {
     network: string;
@@ -41,5 +42,19 @@ export const useFees = () => {
         [profile, env],
     );
 
-    return { calculateAvgFee, calculateMaxFee, calculateMinFee };
+    const getGasPrices = useCallback(
+        async ({ network, type }: CalculateProperties): Promise<Record<string, BigNumber>> => {
+            await env.fees().sync(profile);
+            const transactionFees = env.fees().findByType(network, type);
+
+            return {
+                min: transactionFees.min,
+                avg: transactionFees.avg,
+                max: transactionFees.max,
+            };
+        },
+        [profile, env],
+    );
+
+    return { calculateAvgFee, calculateMaxFee, calculateMinFee, getGasPrices };
 };
