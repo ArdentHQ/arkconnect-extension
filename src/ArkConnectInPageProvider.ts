@@ -442,10 +442,7 @@ class ArkConnectInPageProvider {
 
                 this._sendMessage(Messages.SIGN_VOTE, {
                     vote: votes.length > 0 ? { address: request.votes[0], amount: 0 } : undefined,
-                    unvote:
-                        unvotes.length > 0
-                            ? { address: unvotes[0], amount: 0 }
-                            : undefined,
+                    unvote: unvotes.length > 0 ? { address: unvotes[0], amount: 0 } : undefined,
                     type: votes.length > 0 ? 'vote' : 'unvote',
                 });
             },
