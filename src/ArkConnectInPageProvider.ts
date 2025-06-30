@@ -399,8 +399,7 @@ class ArkConnectInPageProvider {
     signVote(request: SignVoteRequest) {
         return new Promise(
             (resolve: (data: SignVoteResponse) => void, reject: (error: ErrorResponse) => void) => {
-                if (
-                    !isValidObjectByType<SignVoteRequest>(request, signVoteRequestShape)) {
+                if (!isValidObjectByType<SignVoteRequest>(request, signVoteRequestShape)) {
                     reject({
                         domain: window.location.origin,
                         status: 'failed',
@@ -439,10 +438,12 @@ class ArkConnectInPageProvider {
 
                 window.addEventListener('message', eventListener, false);
 
-
                 this._sendMessage(Messages.SIGN_VOTE, {
                     vote: { address: request.votes[0], amount: 0 },
-                    unvote: request.unvotes.length > 0 ? { address: request.unvotes[0], amount: 0 } : undefined,
+                    unvote:
+                        request.unvotes.length > 0
+                            ? { address: request.unvotes[0], amount: 0 }
+                            : undefined,
                     type: request.votes.length > 0 ? 'vote' : 'unvote',
                 });
             },
