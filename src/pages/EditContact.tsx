@@ -6,7 +6,6 @@ import { validateAddress } from './CreateContact';
 import { AddNewContactForm, SaveContactButton } from '@/components/address-book';
 import { ContactFormik } from '@/components/address-book/types';
 
-import constants from '@/constants';
 import SubPageLayout from '@/components/settings/SubPageLayout';
 import useAddressBook from '@/lib/hooks/useAddressBook';
 import useToast from '@/lib/hooks/useToast';
