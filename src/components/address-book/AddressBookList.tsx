@@ -1,9 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ToastPosition } from '../toast/ToastContainer';
-import { TestnetIcon } from '@/components/wallet/address/Address.blocks';
 import { Contact } from '@/lib/hooks/useAddressBook';
-import { WalletNetwork } from '@/lib/store/wallet';
 import trimAddress from '@/lib/utils/trimAddress';
 import { Icon, IconButton, Tooltip } from '@/shared/components';
 import useClipboard from '@/lib/hooks/useClipboard';
@@ -11,12 +9,10 @@ import useClipboard from '@/lib/hooks/useClipboard';
 const AddressBookItem = ({
     name,
     address,
-    network,
     handleRemoveContact,
 }: {
     name: string;
     address: string;
-    network: WalletNetwork;
     handleRemoveContact: (name: string) => void;
 }) => {
     const navigate = useNavigate();
@@ -49,7 +45,6 @@ const AddressBookItem = ({
                             {name}
                         </span>
                     </Tooltip>
-                    {network === WalletNetwork.DEVNET && <TestnetIcon />}
                 </div>
                 <Tooltip content={<span>{address}</span>}>
                     <span className='flex cursor-default flex-row gap-0.5 text-sm font-normal text-theme-secondary-500 dark:text-theme-secondary-300'>
@@ -95,7 +90,6 @@ export const AddressBookList = ({
                     key={index}
                     name={contact.name}
                     address={contact.address}
-                    network={contact.type}
                     handleRemoveContact={handleRemoveContact}
                 />
             ))}
