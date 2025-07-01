@@ -4,10 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { runtime } from 'webextension-polyfill';
 import { AddNewContactForm, SaveContactButton } from '@/components/address-book';
-import { ContactFormik, ValidateAddressResponse } from '@/components/address-book/types';
-import { WalletNetwork } from '@/lib/store/wallet';
+import { ContactFormik } from '@/components/address-book/types';
 
-import constants from '@/constants';
 import SubPageLayout from '@/components/settings/SubPageLayout';
 import useAddressBook from '@/lib/hooks/useAddressBook';
 import { useProfileContext } from '@/lib/context/Profile';
@@ -16,17 +14,12 @@ import { ScreenName } from '@/lib/background/contracts';
 import { generateAddressBookValidationSchema } from '@/lib/validation/addressBook';
 import { AddressService } from '@/lib/mainsail/address.service';
 
-export const validateAddress = ({ address }: { address?: string }): ValidateAddressResponse => {
+export const validateAddress = ({ address }: { address?: string }): boolean => {
     if (!address) {
-        return { isValid: false, network: WalletNetwork.MAINNET };
+        return false;
     }
 
-    const isValidAddress: boolean = new AddressService().validate(address);
-    if (isValidAddress) {
-        return { isValid: true, network: WalletNetwork.MAINNET };
-    }
-
-    return { isValid: false, network: WalletNetwork.MAINNET };
+    return new AddressService().validate(address);
 };
 
 const CreateContact = () => {
@@ -38,10 +31,7 @@ const CreateContact = () => {
     const lastVisitedPage = profile.settings().get('LAST_VISITED_PAGE') as {
         data: { name: string; address: string; errors: any };
     };
-    const [addressValidation, setAddressValidation] = useState<ValidateAddressResponse>({
-        isValid: false,
-        network: WalletNetwork.MAINNET,
-    });
+    const [isValidAddress, setIsValidAddress] = useState<boolean>(false);
 
     const formik = useFormik<ContactFormik>({
         initialValues: {
@@ -52,7 +42,7 @@ const CreateContact = () => {
             isEdit: false,
             contact: undefined,
             addressBook,
-            addressValidation,
+            isValidAddress,
             t,
         }),
         initialErrors: lastVisitedPage?.data?.errors || {},
@@ -60,27 +50,22 @@ const CreateContact = () => {
             addContact({
                 name: formik.values.name,
                 address: formik.values.address,
-                type: addressValidation.network,
             });
 
             // Reset
             runtime.sendMessage({ type: 'CLEAR_LAST_SCREEN' });
             profile.settings().forget('LAST_VISITED_PAGE');
             formik.resetForm();
-            setAddressValidation({ isValid: false, network: WalletNetwork.MAINNET });
+            setIsValidAddress(false);
             toast('success', t('PAGES.ADDRESS_BOOK.CONTACT_ADDED'));
             navigate('/address-book');
         },
     });
 
     useEffect(() => {
-        const handleAddressValidation = async () => {
+        if (formik.values.address) {
             const response = validateAddress({ address: formik.values.address });
-            setAddressValidation(response);
-        };
-
-        if (formik.values.address && formik.values.address.length === constants.ADDRESS_LENGTH) {
-            handleAddressValidation();
+            setIsValidAddress(response);
         }
     }, [formik.values.name, formik.values.address]);
 
@@ -88,7 +73,7 @@ const CreateContact = () => {
         if (formik.values.address) {
             formik.validateField('address');
         }
-    }, [addressValidation]);
+    }, [isValidAddress]);
 
     useEffect(() => {
         runtime.sendMessage({

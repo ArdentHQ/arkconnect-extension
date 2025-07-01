@@ -1,16 +1,11 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
-
-import { usePrimaryWallet } from './usePrimaryWallet';
-import { WalletNetwork } from '@/lib/store/wallet';
+import { useCallback, useEffect, useState } from 'react';
 
 export type Contact = {
     name: string;
     address: string;
-    type: WalletNetwork;
 };
 
 const useAddressBook = () => {
-    const primaryWallet = usePrimaryWallet();
     const [addressBook, setAddressBook] = useState<Contact[]>([]);
 
     useEffect(() => {
@@ -23,8 +18,8 @@ const useAddressBook = () => {
     };
 
     const addContact = useCallback(
-        ({ name, address, type }: Contact) => {
-            const updatedAddressBooks = [...addressBook, { name, address, type }];
+        ({ name, address }: Contact) => {
+            const updatedAddressBooks = [...addressBook, { name, address, }];
             setAddressBook(updatedAddressBooks);
             saveAddressBooksToLocalStorage(updatedAddressBooks);
         },
@@ -51,18 +46,6 @@ const useAddressBook = () => {
         [addressBook],
     );
 
-    const filteredAddressBook = useMemo(
-        (): Contact[] =>
-            addressBook.filter(
-                (contact) =>
-                    contact.type ===
-                    (primaryWallet?.network().isTest()
-                        ? WalletNetwork.DEVNET
-                        : WalletNetwork.MAINNET),
-            ),
-        [addressBook, primaryWallet],
-    );
-
     const findContact = useCallback(
         (address: string) => {
             return addressBook.find((contact) => contact.address === address);
@@ -72,7 +55,6 @@ const useAddressBook = () => {
 
     return {
         addressBook,
-        filteredAddressBook,
         addContact,
         updateContact,
         removeContact,
