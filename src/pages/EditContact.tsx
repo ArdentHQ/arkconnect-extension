@@ -4,13 +4,12 @@ import { useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { validateAddress } from './CreateContact';
 import { AddNewContactForm, SaveContactButton } from '@/components/address-book';
-import { ContactFormik, ValidateAddressResponse } from '@/components/address-book/types';
+import { ContactFormik } from '@/components/address-book/types';
 
 import constants from '@/constants';
 import SubPageLayout from '@/components/settings/SubPageLayout';
 import useAddressBook from '@/lib/hooks/useAddressBook';
 import useToast from '@/lib/hooks/useToast';
-import { WalletNetwork } from '@/lib/store/wallet';
 import { generateAddressBookValidationSchema } from '@/lib/validation/addressBook';
 
 const EditContact = () => {

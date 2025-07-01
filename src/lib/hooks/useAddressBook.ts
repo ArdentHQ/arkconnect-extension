@@ -19,7 +19,7 @@ const useAddressBook = () => {
 
     const addContact = useCallback(
         ({ name, address }: Contact) => {
-            const updatedAddressBooks = [...addressBook, { name, address, }];
+            const updatedAddressBooks = [...addressBook, { name, address }];
             setAddressBook(updatedAddressBooks);
             saveAddressBooksToLocalStorage(updatedAddressBooks);
         },
