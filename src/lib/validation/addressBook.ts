@@ -26,8 +26,6 @@ export const generateAddressBookValidationSchema = ({
             .trim(),
         address: string()
             .required(t('ERROR.IS_REQUIRED', { name: 'Address' }))
-            .min(34, t('ERROR.IS_INVALID', { name: 'Address' }))
-            .max(34, t('ERROR.IS_INVALID', { name: 'Address' }))
             .test('valid-address', t('ERROR.IS_INVALID', { name: 'Address' }), () => {
                 return isValidAddress;
             })

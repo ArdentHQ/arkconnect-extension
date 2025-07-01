@@ -48,7 +48,7 @@ const EditContact = () => {
     });
 
     useEffect(() => {
-        if (formik.values.address && formik.values.address.length === constants.ADDRESS_LENGTH) {
+        if (formik.values.address) {
             const response = validateAddress({ address: formik.values.address });
             setIsValidAddress(response);
         }
