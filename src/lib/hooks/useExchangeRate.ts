@@ -1,5 +1,6 @@
 import { useCallback } from 'react';
-import { useEnvironmentContext } from '@/lib/context/Environment';
+import { useProfileContext } from '@/lib/context/Profile';
+import { DateTime } from '@/lib/intl';
 
 interface Input {
     ticker?: string;
@@ -11,7 +12,7 @@ interface Output {
 }
 
 export const useExchangeRate = ({ ticker, exchangeTicker }: Input): Output => {
-    const { env } = useEnvironmentContext();
+    const { profile } = useProfileContext();
 
     const convert = useCallback(
         (value?: number) => {
@@ -19,11 +20,9 @@ export const useExchangeRate = ({ ticker, exchangeTicker }: Input): Output => {
                 return 0;
             }
 
-            // TODO fix
-            return 1;
-            // return env.exchangeRates().exchange(ticker, exchangeTicker, DateTime.make(), value);
+            return profile.exchangeRates().exchange(ticker, exchangeTicker, DateTime.make(), value);
         },
-        [env, exchangeTicker, ticker],
+        [profile, exchangeTicker, ticker],
     );
 
     return { convert };
