@@ -94,8 +94,8 @@ export function Wallet({ wallet }: { wallet: Contracts.IReadWriteWallet }) {
                     isMultiSignature: false,
                     recipients: input.recipients,
                 }),
-                gasPrice: BigNumber.make(input.gasPrice),
-                gasLimit: BigNumber.make(input.gasLimit),
+                gasPrice: input.gasPrice ? BigNumber.make(input.gasPrice) : undefined,
+                gasLimit: input.gasLimit ? BigNumber.make(input.gasLimit) : undefined,
                 signatory,
             };
 
