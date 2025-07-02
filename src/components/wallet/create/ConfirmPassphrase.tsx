@@ -4,8 +4,6 @@ import { runtime } from 'webextension-polyfill';
 import { CreateWalletFormik, ValidationVariant } from '.';
 import { Button, Checkbox, Heading, HeadingDescription, Input } from '@/shared/components';
 import getNumberSuffix from '@/lib/utils/getNumberSuffix';
-import { TestnetIcon } from '@/components/wallet/address/Address.blocks';
-import useActiveNetwork from '@/lib/hooks/useActiveNetwork';
 import { ScreenName } from '@/lib/background/contracts';
 
 type Props = {
@@ -16,8 +14,6 @@ type Props = {
 const ConfirmPassphrase = ({ goToNextStep, formik }: Props) => {
     const { values } = formik;
     const [validationStatus, setValidationStatus] = useState<ValidationVariant[]>([]);
-
-    const selectedNetwork = useActiveNetwork();
 
     useEffect(() => {
         checkConfirmation();
@@ -73,7 +69,6 @@ const ConfirmPassphrase = ({ goToNextStep, formik }: Props) => {
         <>
             <div className='mb-2 flex items-center gap-2'>
                 <Heading level={4}>Confirm Your Passphrase</Heading>
-                {selectedNetwork.isTest() && <TestnetIcon />}
             </div>
 
             <HeadingDescription className='mb-4'>

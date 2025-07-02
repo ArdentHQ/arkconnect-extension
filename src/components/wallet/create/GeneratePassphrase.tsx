@@ -19,8 +19,6 @@ const GeneratePassphrase = ({ goToNextStep, formik }: Props) => {
     const { t } = useTranslation();
     const toast = useToast();
 
-    const selectedNetwork = useActiveNetwork();
-
     const copyPassphraseToClipboard = async () => {
         try {
             await navigator.clipboard.writeText(formik.values.passphrase.join(' '));
@@ -63,7 +61,6 @@ const GeneratePassphrase = ({ goToNextStep, formik }: Props) => {
         <div className='flex flex-1 flex-col'>
             <div className='mb-2 flex items-center gap-2'>
                 <Heading level={3}>{t('PAGES.CREATE_WALLET.SAVE_YOUR_SECRET_PASSPHRASE')}</Heading>
-                {selectedNetwork.isTest() && <TestnetIcon />}
             </div>
 
             <HeadingDescription className='mb-4'>

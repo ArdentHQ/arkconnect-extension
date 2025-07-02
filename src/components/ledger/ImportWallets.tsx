@@ -23,7 +23,6 @@ type Props = {
 };
 
 const ImportWallets = ({ goToNextStep, formik }: Props) => {
-    const network = useActiveNetwork();
     const onError = useOnError();
     const retryFunctionReference = useRef<() => void>();
     const { profile } = useProfileContext();
@@ -114,7 +113,8 @@ const ImportWallets = ({ goToNextStep, formik }: Props) => {
     };
 
     const isWalletImported = (address: string) => {
-        return !!profile.wallets().findByAddressWithNetwork(address, network.id());
+        // TODO fix
+        return !!profile.wallets().findByAddressWithNetwork(address, "salam");
     };
 
     return (
@@ -123,7 +123,6 @@ const ImportWallets = ({ goToNextStep, formik }: Props) => {
                 <Heading level={3}>
                     {t('PAGES.IMPORT_WITH_LEDGER.SELECT_ADDRESSES_TO_IMPORT')}
                 </Heading>
-                {network.name() === WalletNetwork.DEVNET ? <TestnetIcon /> : null}
             </div>
             <p className='typeset-body mb-6 px-6 text-theme-secondary-500 dark:text-theme-secondary-300'>
                 {t('PAGES.IMPORT_WITH_LEDGER.MULTIPLE_ADDRESSES_CAN_BE_IMPORTED')}

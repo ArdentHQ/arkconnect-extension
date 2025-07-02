@@ -28,7 +28,7 @@ export type ImportWithLedger = {
 };
 
 const ImportWithLedger = () => {
-    const network = useActiveNetwork();
+    const { activeNetwork: network } = useActiveNetwork();
     const { profile, initProfile } = useProfileContext();
     const { defaultCurrency } = useLocaleCurrency();
     const { error, removeErrors, resetConnectionState, disconnect, abortConnectionRetry } =
