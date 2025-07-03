@@ -15,12 +15,10 @@ const useActiveNetwork = () => {
         const dashboardConfiguration = profile
             .settings()
             .get(Contracts.ProfileSetting.DashboardConfiguration, {});
-        profile
-            .settings()
-            .set(Contracts.ProfileSetting.DashboardConfiguration, {
-                ...dashboardConfiguration,
-                activeNetworkId,
-            });
+        profile.settings().set(Contracts.ProfileSetting.DashboardConfiguration, {
+            ...dashboardConfiguration,
+            activeNetworkId,
+        });
 
         await environment.persist();
     };
