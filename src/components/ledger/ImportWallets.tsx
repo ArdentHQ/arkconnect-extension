@@ -175,7 +175,9 @@ const ImportWallets = ({ goToNextStep, formik }: Props) => {
                                             <span className='typeset-body'>
                                                 <AddressBalance
                                                     balance={wallet.balance ?? 0}
-                                                    currency={getNetworkCurrency(profile.activeNetwork())}
+                                                    currency={getNetworkCurrency(
+                                                        profile.activeNetwork(),
+                                                    )}
                                                     maxDigits={2}
                                                 />
                                             </span>
