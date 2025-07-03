@@ -8,7 +8,6 @@ import {
     AddressBalance,
     AddressWithCopy,
     LedgerIcon,
-    TestnetIcon,
 } from '@/components/wallet/address/Address.blocks';
 import { Icon, RadioButton } from '@/shared/components';
 
@@ -150,8 +149,6 @@ const AddressRow = ({
                         <AddressAlias alias={address.alias() ?? ''} withTooltip={true} />
 
                         {address.isLedger() && <LedgerIcon />}
-
-                        {address.network().isTest() && <TestnetIcon />}
                     </div>
 
                     <div className='flex items-center gap-1.5 text-theme-secondary-500 dark:text-theme-secondary-400'>

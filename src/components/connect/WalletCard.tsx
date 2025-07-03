@@ -1,5 +1,5 @@
 import { Contracts } from '@/lib/profiles';
-import { Address, LedgerIcon, TestnetIcon } from '@/components/wallet/address/Address.blocks';
+import { Address, LedgerIcon, } from '@/components/wallet/address/Address.blocks';
 import Amount from '@/components/wallet/Amount';
 import constants from '@/constants';
 import { generateWalletHelperText } from '@/lib/utils/generateWalletHelperText';
@@ -15,7 +15,6 @@ export const WalletCard = ({ wallet }: Props) => {
     const title = hasAlias ? wallet.alias() : trimAddress(wallet.address(), 'long');
 
     const helperText = generateWalletHelperText(wallet, false);
-    const testnetIndicator = wallet.network().isTest();
     const ledgerIndicator = wallet.isLedger();
 
     return (
@@ -29,7 +28,6 @@ export const WalletCard = ({ wallet }: Props) => {
                             </div>
 
                             {ledgerIndicator && <LedgerIcon />}
-                            {testnetIndicator && <TestnetIcon />}
                         </div>
 
                         <div className='flex items-center gap-1.25 text-left text-sm leading-[18px] text-theme-secondary-500 dark:text-theme-secondary-300'>
