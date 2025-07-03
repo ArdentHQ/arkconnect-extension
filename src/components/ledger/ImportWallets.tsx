@@ -111,8 +111,7 @@ const ImportWallets = ({ goToNextStep, formik }: Props) => {
     };
 
     const isWalletImported = (address: string) => {
-        // TODO fix
-        return !!profile.wallets().findByAddressWithNetwork(address, 'salam');
+        return !!profile.wallets().findByAddressWithNetwork(address, profile.activeNetwork().id());
     };
 
     return (
