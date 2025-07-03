@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { useEffect, } from 'react';
+import { useEffect } from 'react';
 import { runtime, tabs } from 'webextension-polyfill';
 import { Trans, useTranslation } from 'react-i18next';
 import SubPageLayout from '@/components/settings/SubPageLayout';

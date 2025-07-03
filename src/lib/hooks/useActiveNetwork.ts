@@ -12,10 +12,13 @@ const useActiveNetwork = () => {
     assertNetwork(activeNetwork);
 
     const setActiveNetwork = async (activeNetworkId: string) => {
-        const dashboardConfiguration = profile.settings().get(Contracts.ProfileSetting.DashboardConfiguration, {});
-        profile
+        const dashboardConfiguration = profile
             .settings()
-            .set(Contracts.ProfileSetting.DashboardConfiguration, { ...dashboardConfiguration, activeNetworkId });
+            .get(Contracts.ProfileSetting.DashboardConfiguration, {});
+        profile.settings().set(Contracts.ProfileSetting.DashboardConfiguration, {
+            ...dashboardConfiguration,
+            activeNetworkId,
+        });
 
         await environment.persist();
     };
@@ -32,7 +35,6 @@ const useActiveNetwork = () => {
         resetToDefaults,
         setActiveNetwork,
     };
-
 };
 
 export default useActiveNetwork;
