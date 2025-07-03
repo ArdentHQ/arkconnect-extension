@@ -29,11 +29,7 @@ export const getDefaultAlias = ({ profile }: GetDefaultAliasInput): string => {
     return generateAlias({ profile, counter });
 };
 
-export const getLedgerAlias = ({
-    profile,
-    importCount,
-    index,
-}: LedgerAliasInput): string => {
+export const getLedgerAlias = ({ profile, importCount, index }: LedgerAliasInput): string => {
     // const sameCoinWallets = profile.wallets().findByCoinWithNetwork(network.coin(), network.id());
     // TODO fix
     const sameCoinWallets = [];

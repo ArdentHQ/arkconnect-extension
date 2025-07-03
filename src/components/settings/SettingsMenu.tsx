@@ -51,9 +51,7 @@ export const SettingsMenu = ({
 
     const toggleNetwork = () => {
         void setActiveNetwork(
-            activeNetwork.id() === Network.DEVNET
-                ? Network.MAINNET
-                : Network.DEVNET,
+            activeNetwork.id() === Network.DEVNET ? Network.MAINNET : Network.DEVNET,
         );
     };
 

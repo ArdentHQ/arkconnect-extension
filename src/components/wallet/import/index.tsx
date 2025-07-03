@@ -12,7 +12,6 @@ import StepsNavigation, { Step } from '@/components/steps/StepsNavigation';
 import { useProfileContext } from '@/lib/context/Profile';
 import { HandleLoadingState } from '@/shared/components/handleStates/HandleLoadingState';
 import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
-import useActiveNetwork from '@/lib/hooks/useActiveNetwork';
 import useWalletImport from '@/lib/hooks/useWalletImport';
 import useLocaleCurrency from '@/lib/hooks/useLocalCurrency';
 import useLoadingModal from '@/lib/hooks/useLoadingModal';

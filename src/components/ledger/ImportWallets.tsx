@@ -6,15 +6,13 @@ import { BIP44 } from '@ardenthq/arkvault-crypto';
 import { Button, Checkbox, Heading, Tooltip } from '@/shared/components';
 import trimAddress from '@/lib/utils/trimAddress';
 import { useLedgerContext, useLedgerScanner } from '@/lib/Ledger';
-import useActiveNetwork from '@/lib/hooks/useActiveNetwork';
 import { useProfileContext } from '@/lib/context/Profile';
 import { ImportWithLedger } from '@/pages/ImportWithLedger';
 import { HandleLoadingState } from '@/shared/components/handleStates/HandleLoadingState';
 import useOnError from '@/lib/hooks';
 import { getNetworkCurrency } from '@/lib/utils/getActiveCoin';
-import { AddressBalance, TestnetIcon } from '@/components/wallet/address/Address.blocks';
+import { AddressBalance } from '@/components/wallet/address/Address.blocks';
 import { handleSubmitKeyAction } from '@/lib/utils/handleKeyAction';
-import { WalletNetwork } from '@/lib/store/wallet';
 import { WalletData } from '@/lib/profiles/wallet.enum';
 
 type Props = {
@@ -114,7 +112,7 @@ const ImportWallets = ({ goToNextStep, formik }: Props) => {
 
     const isWalletImported = (address: string) => {
         // TODO fix
-        return !!profile.wallets().findByAddressWithNetwork(address, "salam");
+        return !!profile.wallets().findByAddressWithNetwork(address, 'salam');
     };
 
     return (

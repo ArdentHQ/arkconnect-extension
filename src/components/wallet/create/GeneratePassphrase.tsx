@@ -6,8 +6,6 @@ import { CreateWalletFormik } from '.';
 import { Button, Heading, HeadingDescription, Icon, ToggleSwitch } from '@/shared/components';
 import useToast from '@/lib/hooks/useToast';
 import { ToastPosition } from '@/components/toast/ToastContainer';
-import { TestnetIcon } from '@/components/wallet/address/Address.blocks';
-import useActiveNetwork from '@/lib/hooks/useActiveNetwork';
 
 type Props = {
     goToNextStep: () => void;
