@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
-import { useProfileContext } from '@/lib/context/Profile';
+
 import { ExtendedConfirmedTransactionData } from '@/lib/profiles/transaction.dto';
 import { IReadWriteWallet } from '@/lib/profiles/wallet.contract';
+import { useProfileContext } from '@/lib/context/Profile';
 
 export const useValidatorInfo = (
     transaction: ExtendedConfirmedTransactionData,
@@ -32,7 +33,7 @@ export const useValidatorInfo = (
             await profile.validators().sync(profile, network);
         }
 
-        const validator = profile.validators().findByPublicKey(network, address) || undefined;
+        const validator = profile.validators().findByAddress(network, address) || undefined;
 
         if (validator) {
             name = validator.username() || '';
