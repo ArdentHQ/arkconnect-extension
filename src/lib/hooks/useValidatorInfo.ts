@@ -33,7 +33,7 @@ export const useValidatorInfo = (
             await profile.validators().sync(profile, network);
         }
 
-        const validator = profile.validators().findByPublicKey(network, address) || undefined;
+        const validator = profile.validators().findByAddress(network, address) || undefined;
 
         if (validator) {
             name = validator.username() || '';
