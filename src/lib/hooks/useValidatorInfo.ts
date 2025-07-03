@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
-import { useProfileContext } from '@/lib/context/Profile';
+
 import { ExtendedConfirmedTransactionData } from '@/lib/profiles/transaction.dto';
 import { IReadWriteWallet } from '@/lib/profiles/wallet.contract';
+import { useProfileContext } from '@/lib/context/Profile';
 
 export const useValidatorInfo = (
     transaction: ExtendedConfirmedTransactionData,
