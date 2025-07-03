@@ -4,7 +4,6 @@ import { runtime } from 'webextension-polyfill';
 import { useTranslation } from 'react-i18next';
 import { ImportedWalletFormik } from '.';
 import { Contracts } from '@/lib/profiles';
-import { TestnetIcon } from '@/components/wallet/address/Address.blocks';
 import {
     Button,
     Heading,
@@ -142,7 +141,6 @@ const EnterPassphrase = ({ goToNextStep, formik }: Props) => {
                 const isNewProfile = profile.wallets().count() === 0;
 
                 const wallet = await importWallet({
-                    network: activeNetwork,
                     value: formik.values.enteredPassphrase,
                 });
 

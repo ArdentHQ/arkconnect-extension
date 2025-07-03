@@ -238,6 +238,7 @@ export default {
             ADDRESS_BOOK: 'Address Book',
             LOCK_EXTENSION: 'Lock Extension',
             DARK_MODE: 'Dark Mode',
+            USE_TESTNET: 'Use Testnet',
             THEME: 'Theme',
             CHANGE_PASSWORD: 'Change Password',
             CHANGE_LOCAL_CURRENCY: 'Change Local Currency',

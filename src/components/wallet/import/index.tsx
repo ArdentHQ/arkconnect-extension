@@ -51,7 +51,6 @@ const ImportNewWallet = () => {
     const { onError } = useErrorHandlerContext();
     const { importWallet } = useWalletImport({ profile });
     const { t } = useTranslation();
-    const { activeNetwork } = useActiveNetwork();
     const loadingModal = useLoadingModal({
         completedMessage: t('PAGES.IMPORT_NEW_WALLET.FEEDBACK.YOUR_WALLET_IS_READY'),
         loadingMessage: t('PAGES.IMPORT_NEW_WALLET.FEEDBACK.SETTING_UP_THE_WALLET'),
@@ -80,7 +79,6 @@ const ImportNewWallet = () => {
             if (lastVisitedPage?.path === ScreenName.ImportWallet) {
                 if (lastVisitedPage.data.step > 0) {
                     const importedWallet = await importWallet({
-                        network: activeNetwork,
                         value: formik.values.enteredPassphrase,
                     });
 

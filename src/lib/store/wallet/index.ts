@@ -3,8 +3,8 @@ import { revertAll } from '@/lib/store/ui';
 import { RootState } from '@/lib/store';
 
 export enum Network {
-    DEVNET = 'ark.devnet',
-    MAINNET = 'ark.mainnet',
+    DEVNET = 'mainsail.devnet',
+    MAINNET = 'mainsail.mainnet',
 }
 
 export enum WalletNetwork {

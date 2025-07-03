@@ -11,12 +11,13 @@ import { lockedChanged, ThemeAccent } from '@/lib/store/ui';
 import { useAppDispatch, useAppSelector } from '@/lib/store';
 
 import SafeOutlineOverflowContainer from '@/shared/components/layout/SafeOutlineOverflowContainer';
-import { selectWalletsIds } from '@/lib/store/wallet';
+import { Network, selectWalletsIds } from '@/lib/store/wallet';
 import { SettingsOption } from '@/components/settings/SettingsOption';
 import showAutoLockTimerValue from '@/lib/utils/showAutoLockTimerValue';
 import useOnClickOutside from '@/lib/hooks/useOnClickOutside';
 import { useProfileContext } from '@/lib/context/Profile';
 import useThemeMode from '@/lib/hooks/useThemeMode';
+import useActiveNetwork from '@/lib/hooks/useActiveNetwork';
 
 export interface DropdownMenuContainerProps {
     selected?: boolean;
@@ -37,6 +38,8 @@ export const SettingsMenu = ({
     const { pathname } = useLocation();
     const { profile } = useProfileContext();
 
+    const { activeNetwork, setActiveNetwork } = useActiveNetwork();
+
     const [autoLockTimer, setAutoLockTimer] = useState<AutoLockTimerEnum | undefined>(undefined);
 
     const handleNavigation = (route: string, options?: NavigateOptions) => {
@@ -44,6 +47,14 @@ export const SettingsMenu = ({
         if (pathname !== route) {
             navigate(route, options);
         }
+    };
+
+    const toggleNetwork = () => {
+        void setActiveNetwork(
+            activeNetwork.id() === Network.DEVNET
+                ? Network.MAINNET
+                : Network.DEVNET,
+        );
     };
 
     const lockExtension = async () => {
@@ -188,6 +199,28 @@ export const SettingsMenu = ({
                             handleInputKeyAction(
                                 e,
                                 toggleThemeMode,
+                                e as unknown as ChangeEvent<HTMLInputElement>,
+                            )
+                        }
+                    />
+                    <SettingsOption
+                        title={t('PAGES.SETTINGS.MENU.USE_TESTNET')}
+                        iconLeading='globe'
+                        iconClassName='text-light-black'
+                        onClick={() => toggleNetwork()}
+                        rightContent={
+                            <div>
+                                <ToggleSwitch
+                                    checked={activeNetwork.id() === Network.DEVNET}
+                                    onChange={() => toggleNetwork()}
+                                    id='toggle-network'
+                                />
+                            </div>
+                        }
+                        onKeyDown={(e) =>
+                            handleInputKeyAction(
+                                e,
+                                toggleNetwork,
                                 e as unknown as ChangeEvent<HTMLInputElement>,
                             )
                         }
