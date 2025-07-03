@@ -1,3 +1,4 @@
+import packageData from '../package.json';
 import {
     assertPositiveNumberLike,
     getLogoOrFaviconUrl,
@@ -5,7 +6,6 @@ import {
 } from '@/inpage.helpers';
 
 import { ExtensionSupportedEvents } from '@/lib/events';
-import packageData from '../package.json';
 
 type OnEvent = {
     type: Events;
