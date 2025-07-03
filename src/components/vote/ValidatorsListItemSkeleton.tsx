@@ -1,6 +1,6 @@
 import Skeleton from 'react-loading-skeleton';
 
-export const DelegatesListItemSkeleton = () => {
+export const ValidatorsListItemSkeleton = () => {
     return (
         <tr>
             <td className='p-4'>

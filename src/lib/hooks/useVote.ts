@@ -3,29 +3,29 @@ import { useMemo } from 'react';
 import { Contracts } from '@/lib/profiles';
 
 export const useVote = ({
-    delegateAddress,
+    validatorAddress,
     fee,
     votes,
     isValid,
 }: {
-    delegateAddress?: string;
+    validatorAddress?: string;
     fee: string;
     votes: Contracts.VoteRegistryItem[];
     isValid: boolean;
 }) => {
-    const disabled = !isValid || delegateAddress === undefined || fee === '';
+    const disabled = !isValid || validatorAddress === undefined || fee === '';
 
     const currentlyVotedAddress = useMemo(() => {
         return votes[0]?.wallet?.address();
-    }, [votes, delegateAddress]);
+    }, [votes, validatorAddress]);
 
     const isVoted = useMemo(() => {
-        if (delegateAddress === '') {
+        if (validatorAddress === '') {
             return false;
         }
 
-        return votes.some((vote) => vote.wallet?.address() === delegateAddress);
-    }, [votes, delegateAddress]);
+        return votes.some((vote) => vote.wallet?.address() === validatorAddress);
+    }, [votes, validatorAddress]);
 
     const isSwapping = !disabled && votes.length > 0 && !isVoted;
 

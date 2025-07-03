@@ -15,7 +15,7 @@ import { getExplorerDomain } from '@/lib/utils/networkUtils';
 import { getTimeAgo } from '@/lib/utils/getTimeAgo';
 import { Skeleton } from '@/shared/components/utils/Skeleton';
 import trimAddress from '@/lib/utils/trimAddress';
-import { useDelegateInfo } from '@/lib/hooks/useDelegateInfo';
+import { useValidatorInfo } from '@/lib/hooks/useValidatorInfo';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 import { isFirefox } from '@/lib/utils/isFirefox';
 import { ExtendedConfirmedTransactionData } from '@/lib/profiles/transaction.dto';
@@ -98,7 +98,7 @@ export const TransactionSecondaryText = ({
     primaryWallet?: IReadWriteWallet;
 }): string | JSX.Element => {
     const { t } = useTranslation();
-    const { voteDelegate, unvoteDelegate } = useDelegateInfo(transaction, primaryWallet);
+    const { voteValidator, unvoteValidator } = useValidatorInfo(transaction, primaryWallet);
 
     switch (type) {
         case TransactionType.SEND:
@@ -108,15 +108,19 @@ export const TransactionSecondaryText = ({
         case TransactionType.RETURN:
             return t('COMMON.TO_SELF');
         case TransactionType.SWAP:
-            return voteDelegate.name ? (
-                `${t('COMMON.TO')} ${voteDelegate.name}`
+            return voteValidator.name ? (
+                `${t('COMMON.TO')} ${voteValidator.name}`
             ) : (
                 <Skeleton width={90} height={18} />
             );
         case TransactionType.VOTE:
-            return voteDelegate.name ? voteDelegate.name : <Skeleton width={90} height={18} />;
+            return voteValidator.name ? voteValidator.name : <Skeleton width={90} height={18} />;
         case TransactionType.UNVOTE:
-            return unvoteDelegate.name ? unvoteDelegate.name : <Skeleton width={90} height={18} />;
+            return unvoteValidator.name ? (
+                unvoteValidator.name
+            ) : (
+                <Skeleton width={90} height={18} />
+            );
         case TransactionType.MULTIPAYMENT:
             return transaction.from() === address ? (
                 <MultipaymentUniqueRecipients transaction={transaction} />

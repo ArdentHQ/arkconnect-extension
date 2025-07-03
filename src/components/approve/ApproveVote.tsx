@@ -191,7 +191,7 @@ const ApproveVote = ({ abortReference, approveWithLedger, wallet, closeLedgerScr
                 data: {
                     gasPrice: customGasPrice,
                     gasLimit: customGasLimit,
-                    delegateAddress: vote?.wallet?.address() || unvote?.wallet?.address(),
+                    validatorAddress: vote?.wallet?.address() || unvote?.wallet?.address(),
                 },
             });
             loadingModal.close();

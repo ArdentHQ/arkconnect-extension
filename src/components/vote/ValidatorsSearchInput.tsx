@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Icon, Input } from '@/shared/components';
 import { NavButton } from '@/shared/components/nav/NavButton';
 
-export const DelegatesSearchInput = ({
+export const ValidatorsSearchInput = ({
     searchQuery,
     setSearchQuery,
 }: {
@@ -31,7 +31,7 @@ export const DelegatesSearchInput = ({
                         </NavButton>
                     )
                 }
-                placeholder={t('PAGES.VOTE.FIND_A_DELEGATE')}
+                placeholder={t('PAGES.VOTE.FIND_A_VALIDATOR')}
             />
         </div>
     );

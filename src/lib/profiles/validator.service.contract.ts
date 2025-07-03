@@ -1,10 +1,10 @@
 import { IProfile, IReadOnlyWallet, IReadWriteWallet } from './contracts.js';
 
 /**
- * Defines the implementation contract for the delegate service.
+ * Defines the implementation contract for the validator service.
  *
  * @export
- * @interface IDelegateService
+ * @interface IValidatorService
  */
 export interface IValidatorService {
     /**
@@ -12,7 +12,7 @@ export interface IValidatorService {
      *
      * @param {string} network
      * @return {IReadOnlyWallet[]}
-     * @memberof IDelegateService
+     * @memberof IValidatorService
      */
     all(network: string): IReadOnlyWallet[];
 
@@ -22,7 +22,7 @@ export interface IValidatorService {
      * @param {string} network
      * @param {string} address
      * @return {IReadOnlyWallet}
-     * @memberof IDelegateService
+     * @memberof IValidatorService
      */
     findByAddress(network: string, address: string): IReadOnlyWallet;
 
@@ -32,7 +32,7 @@ export interface IValidatorService {
      * @param {string} network
      * @param {string} publicKey
      * @return {IReadOnlyWallet}
-     * @memberof IDelegateService
+     * @memberof IValidatorService
      */
     findByPublicKey(network: string, publicKey: string): IReadOnlyWallet;
 

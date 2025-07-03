@@ -11,7 +11,7 @@ interface RecipientItem {
     address: string;
     alias?: string;
     amount?: string;
-    isDelegate?: boolean;
+    isValidator?: boolean;
 }
 
 interface BroadcastResponse {

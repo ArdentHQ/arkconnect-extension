@@ -6,8 +6,8 @@ import { useFormik } from 'formik';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { BigNumber } from '@/lib/helpers';
-import { DelegatesList } from '@/components/vote/DelegatesList';
-import { DelegatesSearchInput } from '@/components/vote/DelegatesSearchInput';
+import { ValidatorsList } from '@/components/vote/ValidatorsList';
+import { ValidatorsSearchInput } from '@/components/vote/ValidatorsSearchInput';
 import { Footer } from '@/shared/components/layout/Footer';
 import { ScreenName } from '@/lib/background/contracts';
 import SubPageLayout from '@/components/settings/SubPageLayout';
@@ -15,7 +15,7 @@ import { VoteButton } from '@/components/vote/VoteButton';
 import { VoteFee } from '@/components/vote/VoteFee';
 import { assertWallet } from '@/lib/utils/assertions';
 import constants from '@/constants';
-import { useDelegates } from '@/lib/hooks/useDelegates';
+import { useValidators } from '@/lib/hooks/useValidators';
 import { useEnvironmentContext } from '@/lib/context/Environment';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 import { useProfileContext } from '@/lib/context/Profile';
@@ -24,7 +24,7 @@ import { calculateGasFee } from '@/lib/hooks/useNetworkFees';
 import { FeeLimits } from '@/components/fees';
 
 export type VoteFormik = {
-    delegateAddress?: string;
+    validatorAddress?: string;
     gasPrice: string;
     gasLimit: string;
     feeClass?: string;
@@ -50,22 +50,22 @@ const Vote = () => {
 
     assertWallet(wallet);
 
-    const delegateCount = useMemo(() => wallet.network().validatorCount(), [wallet]);
+    const validatorCount = useMemo(() => wallet.network().validatorCount(), [wallet]);
 
     const [searchQuery, setSearchQuery] = useState<string>('');
 
-    const { delegates, fetchDelegates, fetchVotes, currentVotes, isLoadingDelegates } =
-        useDelegates({
+    const { validators, fetchValidators, fetchVotes, currentVotes, isLoadingValidators } =
+        useValidators({
             env,
             profile,
             searchQuery,
-            limit: delegateCount,
+            limit: validatorCount,
         });
 
     useEffect(() => {
-        fetchDelegates(wallet);
+        void fetchValidators(wallet);
 
-        fetchVotes(wallet);
+        void fetchVotes(wallet);
     }, [wallet]);
 
     const validationSchema = object().shape({
@@ -93,7 +93,7 @@ const Vote = () => {
             constants.FEE_FAST,
             constants.FEE_SLOW,
         ]),
-        delegateAddress: string().required(t('ERROR.IS_REQUIRED', { name: 'Delegate' })),
+        validatorAddress: string().required(t('ERROR.IS_REQUIRED', { name: 'Validator' })),
     });
 
     const lastVisitedPage = profile.settings().get('LAST_VISITED_PAGE') as { data: PageData };
@@ -113,11 +113,11 @@ const Vote = () => {
         } = {};
 
         if (isVoting || isSwapping) {
-            assert(formik.values.delegateAddress);
+            assert(formik.values.validatorAddress);
 
             data.vote = {
                 amount: 0,
-                address: formik.values.delegateAddress,
+                address: formik.values.validatorAddress,
             };
         }
 
@@ -154,10 +154,10 @@ const Vote = () => {
                 searchParams.get('feeClass') ||
                 lastVisitedPage?.data?.feeClass ||
                 constants.FEE_AVERAGE,
-            delegateAddress:
+            validatorAddress:
                 searchParams.get('vote') ||
                 searchParams.get('unvote') ||
-                lastVisitedPage?.data?.delegateAddress,
+                lastVisitedPage?.data?.validatorAddress,
         },
         validationSchema: validationSchema,
         validateOnMount: true,
@@ -171,7 +171,7 @@ const Vote = () => {
     });
 
     const isFeeValid = formik.values.gasPrice && formik.values.gasLimit;
-    const hasValues = formik.values.delegateAddress && isFeeValid;
+    const hasValues = formik.values.validatorAddress && isFeeValid;
     const hasSufficientFunds = BigNumber.make(wallet.balance() || 0).isGreaterThan(
         calculateGasFee(formik.values.gasPrice, formik.values.gasLimit),
     );
@@ -179,23 +179,23 @@ const Vote = () => {
     const { isVoting, isUnvoting, isSwapping, actionLabel, disabled, currentlyVotedAddress } =
         useVote({
             fee: isFeeValid ? isFeeValid.toString() : '',
-            delegateAddress: formik.values.delegateAddress,
+            validatorAddress: formik.values.validatorAddress,
             votes: currentVotes,
             isValid: !!(formik.isValid && hasValues && hasSufficientFunds),
         });
 
     useEffect(() => {
-        // delegates.length === 0 means is the first time the page is loaded
-        if (!redirectToApprove || isLoadingDelegates || delegates.length === 0) {
+        // validators.length === 0 means is the first time the page is loaded
+        if (!redirectToApprove || isLoadingValidators || validators.length === 0) {
             return;
         }
 
         approveVote();
-    }, [redirectToApprove, isLoadingDelegates, delegates]);
+    }, [redirectToApprove, isLoadingValidators, validators]);
 
     useEffect(() => {
         if (['vote', 'unvote'].includes(lastVisitedPage?.data?.type ?? '')) {
-            //  we need to wait for the vote/delegate to be loaded
+            //  we need to wait for the vote/validators to be loaded
             setRedirectToApprove(true);
         }
     }, [lastVisitedPage]);
@@ -231,22 +231,22 @@ const Vote = () => {
                 </Footer>
             }
         >
-            <DelegatesSearchInput searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+            <ValidatorsSearchInput searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
 
-            <DelegatesList
-                onDelegateSelected={(delegateAddress) => {
-                    formik.setFieldValue('delegateAddress', delegateAddress);
+            <ValidatorsList
+                onValidatorSelected={(validatorAddress) => {
+                    formik.setFieldValue('validatorAddress', validatorAddress);
                 }}
-                delegates={delegates.slice(0, delegateCount)}
-                isLoading={isLoadingDelegates}
+                validators={validators.slice(0, validatorCount)}
+                isLoading={isLoadingValidators}
                 votes={currentVotes}
-                selectedDelegateAddress={formik.values.delegateAddress}
+                selectedValidatorAddress={formik.values.validatorAddress}
             />
 
             {!searchQuery && (
                 <div className='mt-4'>
                     <p className='w-full text-center text-sm text-theme-secondary-500 dark:text-theme-secondary-300'>
-                        {t('PAGES.VOTE.USE_SEARCH_TO_FIND_DELEGATES')}
+                        {t('PAGES.VOTE.USE_SEARCH_TO_FIND_VALIDATORS')}
                     </p>
                 </div>
             )}

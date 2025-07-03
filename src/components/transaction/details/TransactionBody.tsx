@@ -12,7 +12,7 @@ import { getType, renderAmount, TransactionType } from '@/components/home/Latest
 import Amount from '@/components/wallet/Amount';
 import { formatUnixTimestamp } from '@/lib/utils/formatUnixTimestsamp';
 import trimAddress from '@/lib/utils/trimAddress';
-import { useDelegateInfo } from '@/lib/hooks/useDelegateInfo';
+import { useValidatorInfo } from '@/lib/hooks/useValidatorInfo';
 import { useExchangeRate } from '@/lib/hooks/useExchangeRate';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 import { ExtendedConfirmedTransactionData } from '@/lib/profiles/transaction.dto';
@@ -24,7 +24,7 @@ export const TransactionBody = ({
 }) => {
     const primaryWallet = usePrimaryWallet();
     const { t } = useTranslation();
-    const { voteDelegate, unvoteDelegate } = useDelegateInfo(transaction, primaryWallet);
+    const { voteValidator, unvoteValidator } = useValidatorInfo(transaction, primaryWallet);
     const { convert } = useExchangeRate({
         exchangeTicker: primaryWallet?.exchangeCurrency(),
         ticker: primaryWallet?.currency(),
@@ -63,10 +63,10 @@ export const TransactionBody = ({
 
                 {[TransactionType.UNVOTE, TransactionType.SWAP].includes(type) && (
                     <TrasactionItem title={t('COMMON.UNVOTE')}>
-                        {unvoteDelegate.name}
-                        <Tooltip content={unvoteDelegate.address} className='break-words'>
+                        {unvoteValidator.name}
+                        <Tooltip content={unvoteValidator.address} className='break-words'>
                             <span className='text-theme-secondary-500 dark:text-theme-secondary-300'>
-                                {trimAddress(unvoteDelegate.address, 10)}
+                                {trimAddress(unvoteValidator.address, 10)}
                             </span>
                         </Tooltip>
                     </TrasactionItem>
@@ -74,23 +74,23 @@ export const TransactionBody = ({
 
                 {[TransactionType.VOTE, TransactionType.SWAP].includes(type) && (
                     <TrasactionItem title={t('COMMON.VOTE')}>
-                        {voteDelegate.name}
-                        <Tooltip content={voteDelegate.address} className='break-words'>
+                        {voteValidator.name}
+                        <Tooltip content={voteValidator.address} className='break-words'>
                             <span className='text-theme-secondary-500 dark:text-theme-secondary-300'>
-                                {trimAddress(voteDelegate.address, 10)}
+                                {trimAddress(voteValidator.address, 10)}
                             </span>
                         </Tooltip>
                     </TrasactionItem>
                 )}
 
                 {type === TransactionType.REGISTRATION && (
-                    <TrasactionItem title={t('COMMON.DELEGATE_NAME')}>
+                    <TrasactionItem title={t('COMMON.VALIDATOR_NAME')}>
                         {transaction.username() ?? ''}
                     </TrasactionItem>
                 )}
 
                 {type === TransactionType.RESIGNATION && (
-                    <TrasactionItem title={t('COMMON.DELEGATE_NAME')}>
+                    <TrasactionItem title={t('COMMON.VALIDATOR_NAME')}>
                         {transaction.wallet().username() ?? ''}
                     </TrasactionItem>
                 )}
