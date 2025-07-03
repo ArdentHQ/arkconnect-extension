@@ -14,8 +14,7 @@ export const useConfirmedTransaction = ({
         const checkConfirmed = async () => {
             const id = setInterval(async () => {
                 try {
-                    // TODO fix tx confirmation checking
-                    // await wallet.coin().client().transaction(transactionId);
+                    await wallet.client().transaction(transactionId);
                     setIsConfirmed(true);
                     clearInterval(id);
                 } catch (_e) {
