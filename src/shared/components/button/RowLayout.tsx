@@ -3,7 +3,7 @@ import cn from 'classnames';
 import { twMerge } from 'tailwind-merge';
 import { HeadingDescription, Icon, IconDefinition } from '@/shared/components';
 import constants from '@/constants';
-import { Address, LedgerIcon, TestnetIcon } from '@/components/wallet/address/Address.blocks';
+import { Address, LedgerIcon } from '@/components/wallet/address/Address.blocks';
 import { isFirefox } from '@/lib/utils/isFirefox';
 import Amount from '@/components/wallet/Amount';
 
@@ -91,7 +91,6 @@ export const RowLayout = forwardRef(function RowLayout(
         onKeyDown,
         rightHelperText,
         tabIndex = 0,
-        testnetIndicator,
         title,
         href,
         rel,
@@ -149,7 +148,6 @@ export const RowLayout = forwardRef(function RowLayout(
                             )}
 
                             {ledgerIndicator && <LedgerIcon />}
-                            {testnetIndicator && <TestnetIcon />}
                         </span>
 
                         {helperText && (

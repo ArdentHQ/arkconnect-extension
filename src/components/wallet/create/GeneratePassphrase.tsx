@@ -6,8 +6,6 @@ import { CreateWalletFormik } from '.';
 import { Button, Heading, HeadingDescription, Icon, ToggleSwitch } from '@/shared/components';
 import useToast from '@/lib/hooks/useToast';
 import { ToastPosition } from '@/components/toast/ToastContainer';
-import { TestnetIcon } from '@/components/wallet/address/Address.blocks';
-import useActiveNetwork from '@/lib/hooks/useActiveNetwork';
 
 type Props = {
     goToNextStep: () => void;
@@ -18,8 +16,6 @@ const GeneratePassphrase = ({ goToNextStep, formik }: Props) => {
     const [showPassphrase, setShowPassphrase] = useState<boolean>(false);
     const { t } = useTranslation();
     const toast = useToast();
-
-    const selectedNetwork = useActiveNetwork();
 
     const copyPassphraseToClipboard = async () => {
         try {
@@ -63,7 +59,6 @@ const GeneratePassphrase = ({ goToNextStep, formik }: Props) => {
         <div className='flex flex-1 flex-col'>
             <div className='mb-2 flex items-center gap-2'>
                 <Heading level={3}>{t('PAGES.CREATE_WALLET.SAVE_YOUR_SECRET_PASSPHRASE')}</Heading>
-                {selectedNetwork.isTest() && <TestnetIcon />}
             </div>
 
             <HeadingDescription className='mb-4'>

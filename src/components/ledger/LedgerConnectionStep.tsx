@@ -38,7 +38,7 @@ export const LedgerConnectionStep = ({
 }) => {
     const { profile: activeProfile } = useProfileContext();
     const { onError } = useErrorHandlerContext();
-    const network = useActiveNetwork();
+    const { activeNetwork: network } = useActiveNetwork();
     const { t } = useTranslation();
 
     const {

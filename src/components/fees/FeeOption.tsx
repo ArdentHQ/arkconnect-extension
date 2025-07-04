@@ -24,7 +24,7 @@ export const FeeOption = ({
     isSelected: boolean;
     feeClass: string;
 }) => {
-    const network = useActiveNetwork();
+    const { activeNetwork: network } = useActiveNetwork();
     const handleClick = () => {
         onClick(value, feeClass);
     };

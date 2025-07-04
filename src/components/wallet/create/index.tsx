@@ -56,7 +56,7 @@ const CreateNewWallet = () => {
     const { onError } = useErrorHandlerContext();
     const { profile, initProfile } = useProfileContext();
     const { defaultCurrency } = useLocaleCurrency();
-    const activeNetwork = useActiveNetwork();
+    const { activeNetwork } = useActiveNetwork();
     const [isGeneratingWallet, setIsGeneratingWallet] = useState(true);
     const [steps, setSteps] = useState<Step[]>([
         { component: GeneratePassphrase },

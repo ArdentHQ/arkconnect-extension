@@ -12,7 +12,6 @@ import StepsNavigation, { Step } from '@/components/steps/StepsNavigation';
 import { useProfileContext } from '@/lib/context/Profile';
 import { HandleLoadingState } from '@/shared/components/handleStates/HandleLoadingState';
 import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
-import useActiveNetwork from '@/lib/hooks/useActiveNetwork';
 import useWalletImport from '@/lib/hooks/useWalletImport';
 import useLocaleCurrency from '@/lib/hooks/useLocalCurrency';
 import useLoadingModal from '@/lib/hooks/useLoadingModal';
@@ -51,7 +50,6 @@ const ImportNewWallet = () => {
     const { onError } = useErrorHandlerContext();
     const { importWallet } = useWalletImport({ profile });
     const { t } = useTranslation();
-    const activeNetwork = useActiveNetwork();
     const loadingModal = useLoadingModal({
         completedMessage: t('PAGES.IMPORT_NEW_WALLET.FEEDBACK.YOUR_WALLET_IS_READY'),
         loadingMessage: t('PAGES.IMPORT_NEW_WALLET.FEEDBACK.SETTING_UP_THE_WALLET'),
@@ -80,7 +78,6 @@ const ImportNewWallet = () => {
             if (lastVisitedPage?.path === ScreenName.ImportWallet) {
                 if (lastVisitedPage.data.step > 0) {
                     const importedWallet = await importWallet({
-                        network: activeNetwork,
                         value: formik.values.enteredPassphrase,
                     });
 

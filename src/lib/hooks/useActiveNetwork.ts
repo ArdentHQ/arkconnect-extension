@@ -1,37 +1,40 @@
-import { useLocation } from 'react-router-dom';
-import { WalletNetwork } from '@/lib/store/wallet';
 import { useProfileContext } from '@/lib/context/Profile';
-import { LastVisitedPage, ProfileData } from '@/lib/background/contracts';
+import { useEnvironmentContext } from '@/lib/context/Environment';
+import { assertNetwork } from '@/lib/utils/assertions';
+import { Contracts } from '@/lib/profiles';
 
 const useActiveNetwork = () => {
     const { profile } = useProfileContext();
 
-    const { state } = useLocation();
+    const environment = useEnvironmentContext();
+    const activeNetwork = profile.activeNetwork();
 
-    const networks = profile.availableNetworks();
+    assertNetwork(activeNetwork);
 
-    let selectedNetwork = WalletNetwork.MAINNET;
+    const setActiveNetwork = async (activeNetworkId: string) => {
+        const dashboardConfiguration = profile
+            .settings()
+            .get(Contracts.ProfileSetting.DashboardConfiguration, {});
+        profile.settings().set(Contracts.ProfileSetting.DashboardConfiguration, {
+            ...dashboardConfiguration,
+            activeNetworkId,
+        });
 
-    const lastVisitedPage = profile.settings().get(ProfileData.LastVisitedPage) as
-        | LastVisitedPage
-        | undefined;
+        await environment.persist();
+    };
 
-    if (lastVisitedPage && lastVisitedPage.data.network) {
-        selectedNetwork =
-            lastVisitedPage.data.network === 'ark.devnet'
-                ? WalletNetwork.DEVNET
-                : WalletNetwork.MAINNET;
-    }
+    const resetToDefaults = async () => {
+        const defaultNetwork = profile.availableNetworks().find((network) => network.isTest());
+        if (defaultNetwork) {
+            await setActiveNetwork(defaultNetwork.id());
+        }
+    };
 
-    if (state?.isTestnet) {
-        selectedNetwork = WalletNetwork.DEVNET;
-    }
-
-    if (profile.wallets().count() === 0) {
-        selectedNetwork = WalletNetwork.MAINNET;
-    }
-
-    return networks.find((n) => n.name() === selectedNetwork) || networks[0];
+    return {
+        activeNetwork,
+        resetToDefaults,
+        setActiveNetwork,
+    };
 };
 
 export default useActiveNetwork;

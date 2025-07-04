@@ -1,17 +1,10 @@
 import { useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { runtime, tabs } from 'webextension-polyfill';
 import { Trans, useTranslation } from 'react-i18next';
-import SelectNetworkTypeModal from './SelectNetworkTypeModal';
 import SubPageLayout from '@/components/settings/SubPageLayout';
 import { Icon, IconDefinition, RowLayout, Tooltip } from '@/shared/components';
 import { isFirefox } from '@/lib/utils/isFirefox';
-
-type NetworkModalState = {
-    nextAction?: (isTestnet: boolean) => void;
-    isOpen: boolean;
-    action?: 'import' | 'create';
-};
 
 const CreateOrImportAddress = () => {
     const navigate = useNavigate();
@@ -22,55 +15,21 @@ const CreateOrImportAddress = () => {
         void runtime.sendMessage({ type: 'CLEAR_LAST_SCREEN' });
     }, []);
 
-    const [networkModalState, setNetworkModalState] = useState<NetworkModalState>({
-        nextAction: undefined,
-        isOpen: false,
-        action: undefined,
-    });
-
-    const onCloseModalHandler = () => setNetworkModalState({ ...networkModalState, isOpen: false });
-
     const handleCreateNewAddress = () => {
-        setNetworkModalState({
-            nextAction: (isTestnet: boolean) =>
-                navigate('/wallet/create', {
-                    state: {
-                        isTestnet,
-                    },
-                }),
-            isOpen: true,
-            action: 'create',
-        });
+        navigate('/wallet/create');
     };
 
     const handleImportAddress = () => {
-        setNetworkModalState({
-            nextAction: (isTestnet: boolean) =>
-                navigate('/wallet/import', {
-                    state: {
-                        isTestnet,
-                    },
-                }),
-            isOpen: true,
-            action: 'import',
-        });
+        navigate('/wallet/import');
     };
 
     const handleConnectLedger = () => {
         if (isFirefox) return;
 
-        setNetworkModalState({
-            nextAction: (isTestnet: boolean) => {
-                const testnetParam = isTestnet ? 'isTestnet' : '';
-
-                void tabs.create({
-                    url: runtime.getURL(`/src/main.html?import_with_ledger&${testnetParam}`),
-                });
-                window.close(); // Close extension popup as we navigate away
-            },
-            isOpen: true,
-            action: 'import',
+        void tabs.create({
+            url: runtime.getURL('/src/main.html?import_with_ledger'),
         });
+        window.close(); // Close extension popup as we navigate away
     };
 
     return (
@@ -116,16 +75,6 @@ const CreateOrImportAddress = () => {
                     />
                 </Tooltip>
             </div>
-
-            {networkModalState.isOpen && (
-                <SelectNetworkTypeModal
-                    onClose={onCloseModalHandler}
-                    action={networkModalState.action}
-                    onNetworkSelect={(isTestnet: boolean) => {
-                        networkModalState.nextAction?.(isTestnet);
-                    }}
-                />
-            )}
         </SubPageLayout>
     );
 };

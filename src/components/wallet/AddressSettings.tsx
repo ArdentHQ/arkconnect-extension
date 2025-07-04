@@ -4,7 +4,7 @@ import Amount from './Amount';
 import { Contracts } from '@/lib/profiles';
 import SubPageLayout from '@/components/settings/SubPageLayout';
 import { Tooltip } from '@/shared/components';
-import { AddressAlias, LedgerIcon, TestnetIcon } from '@/components/wallet/address/Address.blocks';
+import { AddressAlias, LedgerIcon } from '@/components/wallet/address/Address.blocks';
 import { getNetworkCurrency } from '@/lib/utils/getActiveCoin';
 import useClipboard from '@/lib/hooks/useClipboard';
 import { ToastPosition } from '@/components/toast/ToastContainer';
@@ -170,8 +170,6 @@ const AddressRow = ({ address }: { address: Contracts.IReadWriteWallet }) => {
                     <AddressAlias alias={address.alias() ?? ''} isBold />
 
                     {address.isLedger() && <LedgerIcon />}
-
-                    {address.network().isTest() && <TestnetIcon />}
                 </div>
 
                 <p className='typeset-body text-light-black dark:text-white'>{address.address()}</p>

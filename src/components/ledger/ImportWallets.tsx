@@ -6,15 +6,13 @@ import { BIP44 } from '@ardenthq/arkvault-crypto';
 import { Button, Checkbox, Heading, Tooltip } from '@/shared/components';
 import trimAddress from '@/lib/utils/trimAddress';
 import { useLedgerContext, useLedgerScanner } from '@/lib/Ledger';
-import useActiveNetwork from '@/lib/hooks/useActiveNetwork';
 import { useProfileContext } from '@/lib/context/Profile';
 import { ImportWithLedger } from '@/pages/ImportWithLedger';
 import { HandleLoadingState } from '@/shared/components/handleStates/HandleLoadingState';
 import useOnError from '@/lib/hooks';
 import { getNetworkCurrency } from '@/lib/utils/getActiveCoin';
-import { AddressBalance, TestnetIcon } from '@/components/wallet/address/Address.blocks';
+import { AddressBalance } from '@/components/wallet/address/Address.blocks';
 import { handleSubmitKeyAction } from '@/lib/utils/handleKeyAction';
-import { WalletNetwork } from '@/lib/store/wallet';
 import { WalletData } from '@/lib/profiles/wallet.enum';
 
 type Props = {
@@ -23,7 +21,6 @@ type Props = {
 };
 
 const ImportWallets = ({ goToNextStep, formik }: Props) => {
-    const network = useActiveNetwork();
     const onError = useOnError();
     const retryFunctionReference = useRef<() => void>();
     const { profile } = useProfileContext();
@@ -114,7 +111,7 @@ const ImportWallets = ({ goToNextStep, formik }: Props) => {
     };
 
     const isWalletImported = (address: string) => {
-        return !!profile.wallets().findByAddressWithNetwork(address, network.id());
+        return !!profile.wallets().findByAddressWithNetwork(address, profile.activeNetwork().id());
     };
 
     return (
@@ -123,7 +120,6 @@ const ImportWallets = ({ goToNextStep, formik }: Props) => {
                 <Heading level={3}>
                     {t('PAGES.IMPORT_WITH_LEDGER.SELECT_ADDRESSES_TO_IMPORT')}
                 </Heading>
-                {network.name() === WalletNetwork.DEVNET ? <TestnetIcon /> : null}
             </div>
             <p className='typeset-body mb-6 px-6 text-theme-secondary-500 dark:text-theme-secondary-300'>
                 {t('PAGES.IMPORT_WITH_LEDGER.MULTIPLE_ADDRESSES_CAN_BE_IMPORTED')}
@@ -178,7 +174,9 @@ const ImportWallets = ({ goToNextStep, formik }: Props) => {
                                             <span className='typeset-body'>
                                                 <AddressBalance
                                                     balance={wallet.balance ?? 0}
-                                                    currency={getNetworkCurrency(network)}
+                                                    currency={getNetworkCurrency(
+                                                        profile.activeNetwork(),
+                                                    )}
                                                     maxDigits={2}
                                                 />
                                             </span>

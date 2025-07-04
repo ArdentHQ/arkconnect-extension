@@ -1,4 +1,3 @@
-import { networkDisplayName } from './networkUtils';
 import { Network } from '@/lib/mainsail/networks';
 import { Contracts } from '@/lib/profiles';
 
@@ -9,7 +8,6 @@ interface GetDefaultAliasInput {
 
 interface AliasInput {
     profile: Contracts.IProfile;
-    network: Network;
     counter: number;
 }
 
@@ -20,19 +18,18 @@ interface LedgerAliasInput {
     index: number;
 }
 
-export const getDefaultAlias = ({ profile, network }: GetDefaultAliasInput): string => {
-    // TODO fix counter
-    const counter = 0;
+export const getDefaultAlias = ({ profile }: GetDefaultAliasInput): string => {
+    const wallets = profile
+        .wallets()
+        .values()
+        .filter((wallet) => !wallet.isLedger());
 
-    return generateAlias({ profile, network, counter });
+    const counter = wallets.length;
+
+    return generateAlias({ profile, counter });
 };
 
-export const getLedgerAlias = ({
-    profile,
-    network,
-    importCount,
-    index,
-}: LedgerAliasInput): string => {
+export const getLedgerAlias = ({ profile, importCount, index }: LedgerAliasInput): string => {
     // const sameCoinWallets = profile.wallets().findByCoinWithNetwork(network.coin(), network.id());
     // TODO fix
     const sameCoinWallets = [];
@@ -46,11 +43,11 @@ export const getLedgerAlias = ({
     // manually increment the labels
     const counter = sameCoinWallets.length - importCount + index + 1;
 
-    return generateAlias({ profile, network, counter });
+    return generateAlias({ profile, counter });
 };
 
-const generateAlias = ({ profile, network, counter }: AliasInput): string => {
-    const makeAlias = (count: number) => `${networkDisplayName(network)} #${count}`;
+const generateAlias = ({ profile, counter }: AliasInput): string => {
+    const makeAlias = (count: number) => `Address #${count}`;
 
     if (counter === 0) {
         counter = 1;

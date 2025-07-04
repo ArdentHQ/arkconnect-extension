@@ -6,7 +6,6 @@ import {
     AddressAlias,
     AddressBalance,
     LedgerIcon,
-    TestnetIcon,
 } from '@/components/wallet/address/Address.blocks';
 import ConnectionLogoImage from '@/components/connections/ConnectionLogoImage';
 import { getNetworkCurrency } from '@/lib/utils/getActiveCoin';
@@ -63,8 +62,6 @@ const AddressRow = ({ address, logo }: { address: Contracts.IReadWriteWallet; lo
                     <AddressAlias alias={address.alias() ?? ''} />
 
                     {address.isLedger() && <LedgerIcon />}
-
-                    {address.network().isTest() && <TestnetIcon />}
                 </div>
 
                 <div className='flex items-center gap-1.5 text-theme-secondary-500 dark:text-theme-secondary-300'>

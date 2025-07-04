@@ -4,7 +4,6 @@ import { runtime } from 'webextension-polyfill';
 import { useTranslation } from 'react-i18next';
 import { ImportedWalletFormik } from '.';
 import { Contracts } from '@/lib/profiles';
-import { TestnetIcon } from '@/components/wallet/address/Address.blocks';
 import {
     Button,
     Heading,
@@ -36,14 +35,13 @@ const EnterPassphrase = ({ goToNextStep, formik }: Props) => {
     const [isImporting, setIsImporting] = useState<boolean>(false);
     const [isValidating, setIsValidating] = useState<boolean>(false);
     const walletsIds = useAppSelector(selectWalletsIds);
-    const activeNetwork = useActiveNetwork();
+    const { activeNetwork } = useActiveNetwork();
     const { profile, initProfile } = useProfileContext();
     const { onError } = useErrorHandlerContext();
     const { env } = useEnvironmentContext();
     const { syncAll } = useWalletSync({ env, profile });
     const { importWallet } = useWalletImport({ profile });
     const [submitAfterValidation, setSubmitAfterValidation] = useState<boolean>(false);
-    const selectedNetwork = useActiveNetwork();
     const { t } = useTranslation();
 
     useEffect(() => {
@@ -143,7 +141,6 @@ const EnterPassphrase = ({ goToNextStep, formik }: Props) => {
                 const isNewProfile = profile.wallets().count() === 0;
 
                 const wallet = await importWallet({
-                    network: activeNetwork,
                     value: formik.values.enteredPassphrase,
                 });
 
@@ -197,7 +194,6 @@ const EnterPassphrase = ({ goToNextStep, formik }: Props) => {
         <>
             <div className='mb-2 flex items-center gap-2'>
                 <Heading level={3}>{t('PAGES.IMPORT_NEW_WALLET.ENTER_PASSPHRASE')}</Heading>
-                {selectedNetwork.isTest() && <TestnetIcon />}
             </div>
 
             <HeadingDescription className='mb-8'>
