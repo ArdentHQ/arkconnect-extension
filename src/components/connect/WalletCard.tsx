@@ -1,5 +1,5 @@
 import { Contracts } from '@/lib/profiles';
-import { Address, LedgerIcon, } from '@/components/wallet/address/Address.blocks';
+import { Address, LedgerIcon } from '@/components/wallet/address/Address.blocks';
 import Amount from '@/components/wallet/Amount';
 import constants from '@/constants';
 import { generateWalletHelperText } from '@/lib/utils/generateWalletHelperText';
