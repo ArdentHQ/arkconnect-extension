@@ -61,7 +61,6 @@ export const ActionBody = ({
     convertedTotalAmount,
     hasHigherCustomFee = null,
     hasLowerCustomFee = null,
-    memo = null,
 }: ActionBodyProps) => {
     const { t } = useTranslation();
 
@@ -129,15 +128,6 @@ export const ActionBody = ({
                 />
             )}
 
-            {memo && (
-                <ActionBodyRow
-                    label={t('COMMON.MEMO')}
-                    value={memo}
-                    className='truncate pl-20'
-                    tooltipContent={memo}
-                />
-            )}
-
             {unvote?.name && (
                 <ActionBodyRow label={t('COMMON.UNVOTE_VALIDATOR_NAME')} value={unvote.name} />
             )}
@@ -165,7 +155,7 @@ export const ActionBody = ({
                 />
             )}
 
-            {vote?.address && (
+            {vote?.name && (
                 <ActionBodyRow label={t('COMMON.VOTE_VALIDATOR_NAME')} value={vote.name} />
             )}
 
