@@ -91,7 +91,6 @@ export const RowLayout = forwardRef(function RowLayout(
         onKeyDown,
         rightHelperText,
         tabIndex = 0,
-        testnetIndicator,
         title,
         href,
         rel,
