@@ -11,7 +11,9 @@ describe('trimAddress', () => {
     it('uses 24 characters with long trim', async () => {
         expect(trimAddress('1', 'long')).toBe('1');
         expect(trimAddress('1234567890123456', 'long')).toBe('1234567890123456');
-        expect(trimAddress('1234567890123456789123456789', 'long')).toBe('123456789012…789123456789');
+        expect(trimAddress('1234567890123456789123456789', 'long')).toBe(
+            '123456789012…789123456789',
+        );
     });
 
     it('uses 34 characters with longest trim', async () => {
