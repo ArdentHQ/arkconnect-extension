@@ -9,21 +9,21 @@ export const useValidatorInfo = (
 ) => {
     const { profile } = useProfileContext();
     const [voteValidator, setVoteValidator] = useState<{
-        name: string|undefined;
+        name: string | undefined;
         address: string;
     }>({ name: undefined, address: '' });
     const [unvoteValidator, setUnvoteValidator] = useState<{
-        name: string|undefined;
+        name: string | undefined;
         address: string;
     }>({ name: undefined, address: '' });
 
     const getValidatorInfo = async (
         address: string,
     ): Promise<{
-        name: string|undefined;
+        name: string | undefined;
         address: string;
     }> => {
-        let name: string|undefined = undefined;
+        let name: string | undefined = undefined;
         let validatorAddress = '';
 
         const network = primaryWallet?.network().id() ?? 'mainsail.mainnet';

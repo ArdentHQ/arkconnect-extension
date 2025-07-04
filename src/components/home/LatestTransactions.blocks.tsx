@@ -114,7 +114,11 @@ export const TransactionSecondaryText = ({
                 <Skeleton width={90} height={18} />
             );
         case TransactionType.VOTE:
-            return voteValidator.name || voteValidator.address ? (voteValidator.name ?? trimAddress(voteValidator.address, 'short')) : <Skeleton width={90} height={18} />;
+            return voteValidator.name || voteValidator.address ? (
+                (voteValidator.name ?? trimAddress(voteValidator.address, 'short'))
+            ) : (
+                <Skeleton width={90} height={18} />
+            );
         case TransactionType.MULTIPAYMENT:
             return transaction.from() === address ? (
                 <MultipaymentUniqueRecipients transaction={transaction} />
