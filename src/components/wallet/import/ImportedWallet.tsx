@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { ImportedWalletFormik } from '.';
 import { Contracts } from '@/lib/profiles';
 import { Button, Heading, HeadingDescription, Input } from '@/shared/components';
+import trimAddress from '@/lib/utils/trimAddress';
 
 type Props = {
     goToNextStep: () => void;
@@ -53,7 +54,7 @@ const ImportedWallet = ({ goToNextStep, formik }: Props) => {
                         {t('COMMON.ADDRESS')}
                     </p>
                     <p className='typeset-headline text-light-black dark:text-white'>
-                        {formik.values.wallet?.address()}
+                        {trimAddress(formik.values.wallet?.address()!, 'longest')}
                     </p>
                 </div>
 

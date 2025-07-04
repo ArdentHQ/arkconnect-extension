@@ -172,7 +172,9 @@ const AddressRow = ({ address }: { address: Contracts.IReadWriteWallet }) => {
                     {address.isLedger() && <LedgerIcon />}
                 </div>
 
-                <p className='typeset-body text-light-black dark:text-white'>{address.address()}</p>
+                <p className='typeset-body text-light-black dark:text-white'>
+                    {trimAddress(address.address(), 'longest')}
+                </p>
 
                 <p className='typeset-body cursor-pointer font-bold text-light-black dark:text-white'>
                     <Amount
