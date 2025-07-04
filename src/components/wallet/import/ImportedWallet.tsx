@@ -54,7 +54,7 @@ const ImportedWallet = ({ goToNextStep, formik }: Props) => {
                         {t('COMMON.ADDRESS')}
                     </p>
                     <p className='typeset-headline text-light-black dark:text-white'>
-                        {trimAddress(formik.values.wallet?.address()!, 'longest')}
+                        {trimAddress(formik.values.wallet?.address() as string, 'longest')}
                     </p>
                 </div>
 
