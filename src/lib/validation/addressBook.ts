@@ -1,19 +1,18 @@
 import { TFunction } from 'i18next';
 import { object, string } from 'yup';
-import { ValidateAddressResponse } from '@/components/address-book/types';
 import { Contact } from '@/lib/hooks/useAddressBook';
 
 export const generateAddressBookValidationSchema = ({
     isEdit = false,
     contact,
     addressBook = [],
-    addressValidation,
+    isValidAddress,
     t,
 }: {
     isEdit: boolean;
     contact?: Contact;
     addressBook: Contact[];
-    addressValidation: ValidateAddressResponse;
+    isValidAddress: boolean;
     t: TFunction<'translation', undefined>;
 }) => {
     return object().shape({
@@ -27,10 +26,8 @@ export const generateAddressBookValidationSchema = ({
             .trim(),
         address: string()
             .required(t('ERROR.IS_REQUIRED', { name: 'Address' }))
-            .min(34, t('ERROR.IS_INVALID', { name: 'Address' }))
-            .max(34, t('ERROR.IS_INVALID', { name: 'Address' }))
             .test('valid-address', t('ERROR.IS_INVALID', { name: 'Address' }), () => {
-                return addressValidation.isValid;
+                return isValidAddress;
             })
             .test(
                 'unique-address',

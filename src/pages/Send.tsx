@@ -10,8 +10,6 @@ import { BigNumber } from '@/lib/helpers';
 import { SendButton, SendForm } from '@/components/send';
 import { ScreenName } from '@/lib/background/contracts';
 import SubPageLayout from '@/components/settings/SubPageLayout';
-import { ValidateAddressResponse } from '@/components/address-book/types';
-import { WalletNetwork } from '@/lib/store/wallet';
 import constants from '@/constants';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 import { useProfileContext } from '@/lib/context/Profile';
@@ -63,10 +61,7 @@ const Send = () => {
         });
     }
 
-    const [addressValidation, setAddressValidation] = useState<ValidateAddressResponse>({
-        isValid: true,
-        network: WalletNetwork.MAINNET,
-    });
+    const [isValidAddress, setIsValidAddress] = useState<boolean>(true);
 
     const validationSchema = object().shape({
         amount: string()
@@ -119,7 +114,7 @@ const Send = () => {
         receiverAddress: string()
             .required(t('ERROR.IS_REQUIRED', { name: 'Address' }))
             .test('valid-address', t('ERROR.IS_INVALID', { name: 'Address' }), () => {
-                return addressValidation.isValid;
+                return isValidAddress;
             })
             .trim(),
     });
@@ -142,7 +137,7 @@ const Send = () => {
             runtime.sendMessage({ type: 'CLEAR_LAST_SCREEN' });
             profile.settings().forget('LAST_VISITED_PAGE');
             formikHelpers.resetForm();
-            setAddressValidation({ isValid: false, network: WalletNetwork.MAINNET });
+            setIsValidAddress(false);
             navigate('/approve', {
                 state: {
                     type: 'transfer',
@@ -168,7 +163,7 @@ const Send = () => {
             const response = validateAddress({
                 address: receiverAddress,
             });
-            setAddressValidation(response);
+            setIsValidAddress(response);
         }
     }, [formik.values.receiverAddress, profile]);
 

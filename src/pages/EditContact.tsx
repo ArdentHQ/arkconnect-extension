@@ -4,13 +4,11 @@ import { useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { validateAddress } from './CreateContact';
 import { AddNewContactForm, SaveContactButton } from '@/components/address-book';
-import { ContactFormik, ValidateAddressResponse } from '@/components/address-book/types';
+import { ContactFormik } from '@/components/address-book/types';
 
-import constants from '@/constants';
 import SubPageLayout from '@/components/settings/SubPageLayout';
 import useAddressBook from '@/lib/hooks/useAddressBook';
 import useToast from '@/lib/hooks/useToast';
-import { WalletNetwork } from '@/lib/store/wallet';
 import { generateAddressBookValidationSchema } from '@/lib/validation/addressBook';
 
 const EditContact = () => {
@@ -20,10 +18,7 @@ const EditContact = () => {
     const { addressBook, updateContact } = useAddressBook();
     const navigate = useNavigate();
     const contact = addressBook.find((contact) => contact.name === name);
-    const [addressValidation, setAddressValidation] = useState<ValidateAddressResponse>({
-        isValid: false,
-        network: WalletNetwork.MAINNET,
-    });
+    const [isValidAddress, setIsValidAddress] = useState<boolean>(false);
 
     const formik = useFormik<ContactFormik>({
         initialValues: {
@@ -34,7 +29,7 @@ const EditContact = () => {
             isEdit: true,
             contact,
             addressBook,
-            addressValidation,
+            isValidAddress,
             t,
         }),
         onSubmit: () => {
@@ -43,7 +38,6 @@ const EditContact = () => {
             updateContact(name, {
                 name: formik.values.name,
                 address: formik.values.address,
-                type: addressValidation.network,
             });
 
             toast('success', t('PAGES.ADDRESS_BOOK.CONTACT_EDITED'));
@@ -53,13 +47,9 @@ const EditContact = () => {
     });
 
     useEffect(() => {
-        const handleAddressValidation = async () => {
+        if (formik.values.address) {
             const response = validateAddress({ address: formik.values.address });
-            setAddressValidation(response);
-        };
-
-        if (formik.values.address && formik.values.address.length === constants.ADDRESS_LENGTH) {
-            handleAddressValidation();
+            setIsValidAddress(response);
         }
     }, [formik.values.name, formik.values.address]);
 
@@ -67,7 +57,7 @@ const EditContact = () => {
         if (formik.values.address) {
             formik.validateField('address');
         }
-    }, [addressValidation]);
+    }, [isValidAddress]);
 
     if (!contact) {
         navigate('/address-book');
