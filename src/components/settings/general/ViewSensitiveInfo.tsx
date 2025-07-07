@@ -3,6 +3,7 @@ import { boolean, object, string } from 'yup';
 import { useFormik } from 'formik';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { PrivateKey } from '@arkecosystem/typescript-crypto';
 import YourPrivateKey from './YourPrivateKey';
 import SubPageLayout from '@/components/settings/SubPageLayout';
 import { Button, Checkbox, HeadingDescription, PasswordInput } from '@/shared/components';
@@ -10,7 +11,6 @@ import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
 import { useProfileContext } from '@/lib/context/Profile';
 import YourPassphrase from '@/components/settings/general/YourPassphrase';
 import { Footer } from '@/shared/components/layout/Footer';
-import { PrivateKey } from '@arkecosystem/typescript-crypto';
 
 type SensitiveInfoFormik = {
     password: string;
