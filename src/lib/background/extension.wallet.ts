@@ -110,8 +110,6 @@ export function Wallet({ wallet }: { wallet: Contracts.IReadWriteWallet }) {
          * @returns {Promise<SignedMessage>}
          */
         async signMessage(message: string): Promise<SignedMessage> {
-            // await wallet.synchroniser().coin();
-
             const mnemonic = await wallet.confirmKey().get(wallet.profile().password().get());
 
             return await wallet.message().sign({
