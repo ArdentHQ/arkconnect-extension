@@ -5,6 +5,7 @@ import webExtension from '@samrum/vite-plugin-web-extension';
 import chromeManifest from './src/manifest.chrome.json';
 import firefoxManifest from './src/manifest.firefox.json';
 import pkg from './package.json';
+import { nodePolyfills } from 'vite-plugin-node-polyfills';
 
 const rootDir = resolve(__dirname);
 const outDir = resolve(rootDir, 'dist');
@@ -34,6 +35,30 @@ export default defineConfig({
                 scripts: ['src/inpage.ts'],
             },
         }),
+        nodePolyfills({
+            // To add only specific polyfills, add them here. If no option is passed, adds all polyfills
+            include: [
+                'buffer',
+                'os',
+                'process',
+                // "fs",
+                'path',
+                'http',
+                'https',
+                // "crypto",
+                'module',
+                'util',
+                'events',
+                'string_decoder',
+                'url',
+            ],
+            // Whether to polyfill specific globals.
+            globals: {
+                Buffer: true, // can also be 'build', 'dev', or false
+                global: true,
+                process: false,
+            },
+        }),
         {
             name: 'make-inpage-script-in-iife',
             generateBundle(outputOptions, bundle) {
@@ -48,6 +73,11 @@ export default defineConfig({
         },
     ],
     publicDir,
+    optimizeDeps: {
+        esbuildOptions: {
+            target: 'es2020',
+        },
+    },
     build: {
         target: 'es2020',
         outDir,
