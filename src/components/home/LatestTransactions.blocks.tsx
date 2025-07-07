@@ -98,7 +98,7 @@ export const TransactionSecondaryText = ({
     primaryWallet?: IReadWriteWallet;
 }): string | JSX.Element => {
     const { t } = useTranslation();
-    const { voteValidator, unvoteValidator } = useValidatorInfo(transaction, primaryWallet);
+    const { voteValidator } = useValidatorInfo(transaction, primaryWallet);
 
     switch (type) {
         case TransactionType.SEND:
@@ -108,16 +108,14 @@ export const TransactionSecondaryText = ({
         case TransactionType.RETURN:
             return t('COMMON.TO_SELF');
         case TransactionType.SWAP:
-            return voteValidator.name ? (
-                `${t('COMMON.TO')} ${voteValidator.name}`
+            return voteValidator.name || voteValidator.address ? (
+                `${t('COMMON.TO')} ${voteValidator.name ?? trimAddress(voteValidator.address, 'short')}`
             ) : (
                 <Skeleton width={90} height={18} />
             );
         case TransactionType.VOTE:
-            return voteValidator.name ? voteValidator.name : <Skeleton width={90} height={18} />;
-        case TransactionType.UNVOTE:
-            return unvoteValidator.name ? (
-                unvoteValidator.name
+            return voteValidator.name || voteValidator.address ? (
+                (voteValidator.name ?? trimAddress(voteValidator.address, 'short'))
             ) : (
                 <Skeleton width={90} height={18} />
             );
@@ -209,14 +207,16 @@ const TransactionListItem = ({
                                 </span>
                             )}
                         </span>
-                        <span className='text-left text-sm font-normal leading-tight text-theme-secondary-500 dark:text-theme-secondary-300'>
-                            <TransactionSecondaryText
-                                transaction={transaction}
-                                type={type}
-                                primaryWallet={primaryWallet}
-                                address={primaryWallet?.address()}
-                            />
-                        </span>
+                        {type !== TransactionType.UNVOTE && (
+                            <span className='text-left text-sm font-normal leading-tight text-theme-secondary-500 dark:text-theme-secondary-300'>
+                                <TransactionSecondaryText
+                                    transaction={transaction}
+                                    type={type}
+                                    primaryWallet={primaryWallet}
+                                    address={primaryWallet?.address()}
+                                />
+                            </span>
+                        )}
                     </div>
 
                     <div className='flex flex-col items-end gap-1'>

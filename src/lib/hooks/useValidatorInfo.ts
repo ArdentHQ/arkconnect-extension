@@ -9,22 +9,23 @@ export const useValidatorInfo = (
 ) => {
     const { profile } = useProfileContext();
     const [voteValidator, setVoteValidator] = useState<{
-        name: string;
+        name: string | undefined;
         address: string;
-    }>({ name: '', address: '' });
+    }>({ name: undefined, address: '' });
     const [unvoteValidator, setUnvoteValidator] = useState<{
-        name: string;
+        name: string | undefined;
         address: string;
-    }>({ name: '', address: '' });
+    }>({ name: undefined, address: '' });
 
     const getValidatorInfo = async (
         address: string,
     ): Promise<{
-        name: string;
+        name: string | undefined;
         address: string;
     }> => {
-        let name = '',
-            validatorAddress = '';
+        let name: string | undefined = undefined;
+        let validatorAddress = '';
+
         const network = primaryWallet?.network().id() ?? 'mainsail.mainnet';
         try {
             profile.validators().all(network);
@@ -35,7 +36,7 @@ export const useValidatorInfo = (
         const validator = profile.validators().findByAddress(network, address) || undefined;
 
         if (validator) {
-            name = validator.username() || '';
+            name = validator.username();
             validatorAddress = validator.address();
         }
 
@@ -44,15 +45,18 @@ export const useValidatorInfo = (
 
     useEffect(() => {
         (async () => {
-            if (transaction.isVote() || transaction.isUnvote() || transaction.isVoteCombination()) {
+            if (transaction.isVote()) {
                 const voteAddress = transaction.votes()[0] || undefined;
-                const unvoteAddress = transaction.unvotes()[0] || undefined;
 
                 if (voteAddress) {
                     const voteValidator = await getValidatorInfo(voteAddress);
 
                     setVoteValidator(voteValidator);
                 }
+            }
+
+            if (transaction.isUnvote()) {
+                const unvoteAddress = transaction.unvotes()[0] || undefined;
 
                 if (unvoteAddress) {
                     const unvoteValidator = await getValidatorInfo(unvoteAddress);
