@@ -6,9 +6,9 @@ const trimAddress = (
         typeof modeOrLength === 'number'
             ? modeOrLength
             : {
-                  short: 8,
-                  long: 16,
-                  longest: 24,
+                  short: 13,
+                  long: 24,
+                  longest: 34,
               }[modeOrLength];
 
     if (address.length <= maxLength) {
