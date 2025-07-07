@@ -49,6 +49,7 @@ export default defineConfig({
     ],
     publicDir,
     build: {
+        target: 'es2020',
         outDir,
         minify: true,
         modulePreload: false,
