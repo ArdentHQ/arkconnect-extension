@@ -10,6 +10,7 @@ import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
 import { useProfileContext } from '@/lib/context/Profile';
 import YourPassphrase from '@/components/settings/general/YourPassphrase';
 import { Footer } from '@/shared/components/layout/Footer';
+import { PrivateKey } from '@arkecosystem/typescript-crypto';
 
 type SensitiveInfoFormik = {
     password: string;
@@ -64,12 +65,9 @@ const ViewSensitiveInfo = () => {
                         mnemonic,
                     });
 
-                    // TODO fix
-                    // const privateKeyDto = await wallet
-                    //     .privateKeyService()
-                    //     .fromMnemonic(mnemonic, { bip39: true });
+                    const privateKeyDto = PrivateKey.fromPassphrase(mnemonic);
 
-                    setPrivateKey('private-key');
+                    setPrivateKey(privateKeyDto.privateKey);
                     setPassphrase(mnemonic);
                 } catch (error) {
                     formikHelpers.setFieldError('password', t('MISC.INCORRECT_PASSWORD'));
