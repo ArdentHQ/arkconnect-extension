@@ -3,6 +3,7 @@ import { boolean, object, string } from 'yup';
 import { useFormik } from 'formik';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { PrivateKey } from '@arkecosystem/typescript-crypto';
 import YourPrivateKey from './YourPrivateKey';
 import SubPageLayout from '@/components/settings/SubPageLayout';
 import { Button, Checkbox, HeadingDescription, PasswordInput } from '@/shared/components';
@@ -64,12 +65,9 @@ const ViewSensitiveInfo = () => {
                         mnemonic,
                     });
 
-                    // TODO fix
-                    // const privateKeyDto = await wallet
-                    //     .privateKeyService()
-                    //     .fromMnemonic(mnemonic, { bip39: true });
+                    const privateKeyDto = PrivateKey.fromPassphrase(mnemonic);
 
-                    setPrivateKey('private-key');
+                    setPrivateKey(privateKeyDto.privateKey);
                     setPassphrase(mnemonic);
                 } catch (error) {
                     formikHelpers.setFieldError('password', t('MISC.INCORRECT_PASSWORD'));
