@@ -7,7 +7,7 @@ import { omitBy, uniqBy } from '@/lib/helpers';
 import { Contracts as ProfilesContracts } from '@/app/lib/profiles';
 import { persistLedgerConnection } from '@/lib/Ledger/utils/connection';
 
-export const useLedgerScanner = (coin: string, network: string) => {
+export const useLedgerScanner = (network: string) => {
     const { setBusy, setIdle, resetConnectionState, disconnect } = useLedgerContext();
 
     const [state, dispatch] = useReducer(scannerReducer, {
