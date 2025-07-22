@@ -58,9 +58,7 @@ const Approve = () => {
     const locked = useAppSelector(UIStore.selectLocked);
     assertIsUnlocked(locked);
 
-    const approveWithLedger = async (
-        profile: Contracts.IProfile,
-    ) => {
+    const approveWithLedger = async (profile: Contracts.IProfile) => {
         if (!isLedgerTransportSupported()) {
             throw new Error(t('ERROR.LEDGER_TRANSPORT_NOT_SUPPORTED'));
         }
