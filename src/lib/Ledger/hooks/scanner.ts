@@ -57,6 +57,7 @@ export const useLedgerScanner = (network: string) => {
             options: { factor: 1, randomize: false, retries: 50 },
         });
 
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         const ledgerWallets = await ledgerService.scan({ onProgress, startPath });
 

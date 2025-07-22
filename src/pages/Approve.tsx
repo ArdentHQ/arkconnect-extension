@@ -70,7 +70,7 @@ const Approve = () => {
 
         await waitUntilLedgerIsAvailable();
 
-        await connect(profile, wallet.networkId(), undefined);
+        await connect(profile, undefined);
     };
 
     const closeLedgerScreen = () => {

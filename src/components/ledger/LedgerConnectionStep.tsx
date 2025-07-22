@@ -77,7 +77,7 @@ export const LedgerConnectionStep = ({
 
         (async () => {
             try {
-                await connect(activeProfile, network.id());
+                await connect(activeProfile);
             } catch (error) {
                 onError(error);
             }
@@ -99,7 +99,7 @@ export const LedgerConnectionStep = ({
 
     const continueToNextStep = async () => {
         try {
-            await connect(activeProfile, network.id());
+            await connect(activeProfile);
 
             goToNextStep();
         } catch (error) {
