@@ -60,7 +60,6 @@ const Approve = () => {
 
     const approveWithLedger = async (
         profile: Contracts.IProfile,
-        wallet: Contracts.IReadWriteWallet,
     ) => {
         if (!isLedgerTransportSupported()) {
             throw new Error(t('ERROR.LEDGER_TRANSPORT_NOT_SUPPORTED'));
