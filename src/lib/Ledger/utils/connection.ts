@@ -1,39 +1,35 @@
 import retry, { AbortError, Options } from 'p-retry';
+import { formatLedgerDerivationPath } from './format-ledger-derivation-path';
+import { LedgerService } from '@/lib/mainsail/ledger.service';
 
-// const accessLedgerDevice = async (coin: Coins.Coin) => {
-//     try {
-//         await coin.__construct();
-//         await coin.ledger().connect();
-//     } catch (error: any) {
-//         // If the device is open, continue normally.
-//         // Can be triggered when the user retries ledger connection.
-//         if (error.message !== 'The device is already open.') {
-//             throw error;
-//         }
-//     }
-// };
+const accessLedgerDevice = async (ledgerService: LedgerService) => {
+    try {
+        await ledgerService.connect();
+    } catch (error) {
+        // If the device is open, continue normally.
+        // Can be triggered when the user retries ledger connection.
+        if (error.message !== 'The device is already open.') {
+            throw error;
+        }
+    }
+};
 
-// const accessLedgerApp = async ({ profile }: { profile: Contracts.IProfile }) => {
-//     await profile.ledger().connect();
-//
-//     // TODO fix validation
-//     // if (!(await hasRequiredAppVersion(coin))) {
-//     //     throw new Error('VERSION_ERROR');
-//     // }
-//
-//     // Ensure that the app is accessible.
-//     await profile.ledger().getPublicKey(
-//         formatLedgerDerivationPath({
-//             // TODO fix coinType
-//             coinType: 3
-//         }),
-//     );
-// };
+const accessLedgerApp = async ({ ledgerService }: { ledgerService: LedgerService }) => {
+    await accessLedgerDevice(ledgerService);
+
+    await ledgerService.getPublicKey(
+        formatLedgerDerivationPath({
+            coinType: ledgerService.slip44(),
+        }),
+    );
+};
 
 export const persistLedgerConnection = async ({
+    ledgerService,
     options,
     hasRequestedAbort,
 }: {
+    ledgerService: LedgerService;
     options: Options;
     hasRequestedAbort: () => boolean;
 }) => {
@@ -43,9 +39,14 @@ export const persistLedgerConnection = async ({
         }
 
         try {
-            // TODO enable ledger
-            // await accessLedgerApp({ coin });
-        } catch (error: any) {
+            await accessLedgerApp({ ledgerService });
+        } catch (error) {
+            // Delay retry if an operation is in progress.
+            // Error: InvalidStateError: An operation that changes the device state is in progress.
+            if (error?.message?.includes?.('in progress')) {
+                await new Promise((resolve) => setTimeout(resolve, 1000));
+            }
+
             // Abort on version error or continue retrying access.
             if (error.message === 'VERSION_ERROR') {
                 throw new AbortError('VERSION_ERROR');
