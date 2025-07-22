@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import { LedgerTransportFactory } from '@ardenthq/sdk-ledger';
 import { LedgerTransport } from '@/lib/mainsail/contracts';
+import { LedgerTransportFactory } from '@/lib/Ledger/ledger.transport.factory';
 
 export const supportedTransport = async () => new LedgerTransportFactory().supportedTransport();
 
