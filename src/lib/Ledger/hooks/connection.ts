@@ -81,7 +81,7 @@ export const useLedgerConnection = () => {
     );
 
     const connect = useCallback(
-        async (profile: Contracts.IProfile, _network: string, retryOptions?: Options) => {
+        async (profile: Contracts.IProfile, retryOptions?: Options) => {
             if (!isLedgerTransportSupported()) {
                 void handleLedgerConnectionError({ message: 'COMPATIBILITY_ERROR' });
                 return;
