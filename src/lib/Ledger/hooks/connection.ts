@@ -6,7 +6,7 @@ import { useLedgerImport } from './import';
 import { Contracts } from '@/lib/profiles';
 import { useLedgerContext } from '@/lib/Ledger/Ledger';
 import { persistLedgerConnection } from '@/lib/Ledger/utils/connection';
-import { closeDevices, openTransport } from '@/lib/Ledger/transport';
+import { closeDevices, isLedgerTransportSupported, openTransport } from '@/lib/Ledger/transport';
 import { useEnvironmentContext } from '@/lib/context/Environment';
 import useSentryException from '@/lib/hooks/useSentryException';
 
@@ -81,12 +81,11 @@ export const useLedgerConnection = () => {
     );
 
     const connect = useCallback(
-        async (_profile: Contracts.IProfile, _network: string, retryOptions?: Options) => {
-            // TODO enable check
-            // if (!isLedgerTransportSupported()) {
-            //     handleLedgerConnectionError({ message: 'COMPATIBILITY_ERROR' }, coinInstance);
-            //     return;
-            // }
+        async (profile: Contracts.IProfile, _network: string, retryOptions?: Options) => {
+            if (!isLedgerTransportSupported()) {
+                void handleLedgerConnectionError({ message: 'COMPATIBILITY_ERROR' });
+                return;
+            }
 
             const options = retryOptions || { factor: 1, randomize: false, retries: 50 };
 
@@ -96,12 +95,12 @@ export const useLedgerConnection = () => {
             try {
                 await persistLedgerConnection({
                     hasRequestedAbort: () => abortRetryReference.current,
+                    ledgerService: profile.ledger(),
                     options,
                 });
                 dispatch({ type: 'connected' });
             } catch (connectError: any) {
-                // TODO enable error handling
-                // handleLedgerConnectionError(connectError, coinInstance);
+                void handleLedgerConnectionError(connectError);
             }
         },
         [],

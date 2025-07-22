@@ -3,11 +3,11 @@
 import { BIP44, HDKey } from '@ardenthq/arkvault-crypto';
 import Eth, { ledgerService } from '@ledgerhq/hw-app-eth';
 import { createRange } from './ledger.service.helpers.js';
-// import { connectedTransport as ledgerTransportFactory } from '@/app/contexts/Ledger/transport';
 
 import { LedgerSignature } from './ledger.service.types.js';
 import { AddressService } from './address.service.js';
 import { WalletData } from './wallet.dto.js';
+import { connectedTransport as ledgerTransportFactory } from '@/lib/Ledger/transport';
 import { Contracts, Exceptions, Services } from '@/app/lib/mainsail';
 import { ConfigKey, ConfigRepository } from '@/app/lib/mainsail/config.repository';
 
@@ -58,8 +58,7 @@ export class LedgerService {
     }
 
     public async connect(): Promise<void> {
-        // TODO enable ledger transport factory
-        // this.#ledger = await ledgerTransportFactory();
+        this.#ledger = await ledgerTransportFactory();
         this.#transport = new Eth(this.#ledger);
     }
 

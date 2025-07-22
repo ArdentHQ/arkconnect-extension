@@ -1,12 +1,14 @@
 import { useCallback, useMemo, useReducer, useRef, useState } from 'react';
 import { scannerReducer } from './scanner.state';
-import { Contracts } from '@/lib/profiles';
+import { Contracts } from '@/lib/mainsail';
 import { useLedgerContext } from '@/lib/Ledger';
 import { LedgerData } from '@/lib/Ledger/Ledger.contracts';
 import { omitBy, uniqBy } from '@/lib/helpers';
+import { Contracts as ProfilesContracts } from '@/app/lib/profiles';
+import { persistLedgerConnection } from '@/lib/Ledger/utils/connection';
 
-export const useLedgerScanner = () => {
-    const { setBusy, setIdle } = useLedgerContext();
+export const useLedgerScanner = (coin: string, network: string) => {
+    const { setBusy, setIdle, resetConnectionState, disconnect } = useLedgerContext();
 
     const [state, dispatch] = useReducer(scannerReducer, {
         selected: [],
@@ -33,67 +35,92 @@ export const useLedgerScanner = () => {
         setLoadedWallets(uniqBy([...loadedWallets, wallet], (wallet) => wallet.data.address));
     };
 
-    const scan = async (profile: Contracts.IProfile, startPath?: string) => {
-        try {
-            setIdle();
-            dispatch({ type: 'waiting' });
+    const scanAddresses = async (profile: ProfilesContracts.IProfile, startPath?: string) => {
+        const ledgerService = profile.ledger();
 
-            setIsScanning(true);
+        setIdle();
+        dispatch({ type: 'waiting' });
 
-            const isLoadingMore = wallets.length > 0;
-            if (isLoadingMore) {
-                setIsScanningMore(true);
-            }
+        setIsScanning(true);
 
-            setBusy();
-            abortRetryReference.current = false;
+        const isLoadingMore = wallets.length > 0;
+        if (isLoadingMore) {
+            setIsScanningMore(true);
+        }
 
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore
-            const ledgerWallets = await profile.ledger().scan({ onProgress, startPath });
+        setBusy();
+        abortRetryReference.current = false;
 
-            const legacyWallets = isLoadingMore
-                ? {}
-                : // TODO - fix type - not sure if this should be WalletData from mainsail or profiles
-                  // @ts-expect-error type issue
-                  await profile.ledger().scan({ onProgress, useLegacy: true });
+        await persistLedgerConnection({
+            hasRequestedAbort: () => abortRetryReference.current,
+            ledgerService,
+            options: { factor: 1, randomize: false, retries: 50 },
+        });
 
-            const allWallets = { ...legacyWallets, ...ledgerWallets };
+        // @ts-ignore
+        const ledgerWallets = await ledgerService.scan({ onProgress, startPath });
 
-            let ledgerData: LedgerData[] = [];
+        const legacyWallets = isLoadingMore
+            ? {}
+            : await ledgerService.scan({ onProgress, useLegacy: true });
 
-            for (const [path, data] of Object.entries(allWallets)) {
-                const address = data.address();
+        const allWallets = { ...legacyWallets, ...ledgerWallets };
+
+        let ledgerData: LedgerData[] = [];
+
+        for (const [path, data] of Object.entries(allWallets)) {
+            const address = data.address();
+
+            const wallet = await profile.walletFactory().fromAddress({ address });
+            await wallet.synchroniser().identity();
+
+            /* istanbul ignore next -- @preserve */
+            if (!profile.wallets().findByAddressWithNetwork(address, network)) {
                 ledgerData.push({
                     address,
-                    balance: data.balance().available.toHuman(),
+                    balance: wallet.balance(),
                     path,
                 });
             }
+        }
 
-            if (isLoadingMore) {
-                ledgerData = omitBy(ledgerData, (wallet) =>
-                    wallets.some((w) => w.address === wallet.address),
-                );
-            } else {
-                ledgerData = uniqBy([...wallets, ...ledgerData], (wallet) => wallet.address);
-            }
+        if (isLoadingMore) {
+            ledgerData = omitBy(ledgerData, (wallet) =>
+                wallets.some((w) => w.address === wallet.address),
+            );
+        } else {
+            ledgerData = uniqBy([...wallets, ...ledgerData], (wallet) => wallet.address);
+        }
 
-            if (abortRetryReference.current) {
+        if (abortRetryReference.current) {
+            return;
+        }
+
+        dispatch({ payload: ledgerData, type: 'success' });
+
+        setIdle();
+        setIsScanning(false);
+        setIsScanningMore(false);
+    };
+
+    const scan = async (profile: ProfilesContracts.IProfile, startPath?: string) => {
+        try {
+            await scanAddresses(profile, startPath);
+        } catch (error) {
+            if (error?.message?.includes?.('busy')) {
+                await new Promise((resolve) => setTimeout(resolve, 1000));
+                await scan(profile, startPath);
                 return;
             }
 
-            dispatch({ payload: ledgerData, type: 'success' });
-        } catch (error: any) {
             dispatch({ error: error.message, type: 'failed' });
-        } finally {
-            setIdle();
-            setIsScanning(false);
-            setIsScanningMore(false);
         }
     };
 
-    const abortScanner = useCallback(() => {
+    const abortScanner = useCallback(async () => {
+        await disconnect();
+        await resetConnectionState();
+
         abortRetryReference.current = true;
         setIdle();
     }, [setIdle]);
