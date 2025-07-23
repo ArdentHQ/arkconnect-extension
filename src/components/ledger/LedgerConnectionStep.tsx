@@ -6,7 +6,6 @@ import { Button, ExternalLink, Heading, Icon, Loader } from '@/shared/components
 import constants from '@/constants';
 import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
 import { useLedgerContext } from '@/lib/Ledger';
-import useActiveNetwork from '@/lib/hooks/useActiveNetwork';
 import { useProfileContext } from '@/lib/context/Profile';
 import ThemedIcon from '@/shared/components/icon/ThemedIcon';
 
