@@ -36,6 +36,7 @@ export class ConfirmedTransactionData {
         { method: 'isValidatorResignation', type: 'validatorResignation' },
         { method: 'isVote', type: 'vote' },
         { method: 'isVoteCombination', type: 'voteCombination' },
+        { method: 'isUpdateValidator', type: 'updateValidator' },
     ];
 
     protected decimals?: number;
@@ -71,6 +72,12 @@ export class ConfirmedTransactionData {
             if (this[method]()) {
                 return type;
             }
+        }
+
+        const identifierName = TransactionTypeService.getIdentifierName(this.data);
+
+        if (identifierName !== null) {
+            return identifierName;
         }
 
         return this.methodHash();
@@ -230,6 +237,10 @@ export class ConfirmedTransactionData {
 
     public isValidatorRegistration(): boolean {
         return TransactionTypeService.isValidatorRegistration(this.data);
+    }
+
+    public isUpdateValidator(): boolean {
+        return TransactionTypeService.isUpdateValidator(this.data);
     }
 
     public isVoteCombination(): boolean {

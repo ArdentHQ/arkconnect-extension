@@ -1,4 +1,4 @@
-import { Address, PrivateKey, PublicKey } from '@arkecosystem/typescript-crypto';
+import { Address, PublicKey } from '@arkecosystem/typescript-crypto';
 import { BIP39 } from '@ardenthq/arkvault-crypto';
 import { Services } from '@/app/lib/mainsail';
 import { abort_if, abort_unless } from '@/app/lib/helpers';
@@ -37,15 +37,6 @@ export class AddressService {
 
         return {
             address: Address.fromPublicKey(publicKey.publicKey),
-            type: 'bip39',
-        };
-    }
-
-    public fromWIF(wif: string): Services.AddressDataTransferObject {
-        const privateKey = PrivateKey.fromWif(wif);
-
-        return {
-            address: Address.fromPrivateKey(privateKey.privateKey),
             type: 'bip39',
         };
     }

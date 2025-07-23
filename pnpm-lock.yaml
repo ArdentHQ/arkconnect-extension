@@ -18,8 +18,8 @@ importers:
         specifier: ^0.0.5
         version: 0.0.5
       '@arkecosystem/typescript-crypto':
-        specifier: ^0.0.6
-        version: 0.0.6
+        specifier: ^0.0.13
+        version: 0.0.13
       '@ledgerhq/hw-app-eth':
         specifier: ^6.45.8
         version: 6.45.11
@@ -324,8 +324,8 @@ packages:
     resolution: {integrity: sha512-C+E5MFldX3HhCDU6L63d4C3ror1Iek+b7bltyisZ/WP3q6IrZXfqKmwjsbwD0T/YKbqFiRXkfLnmLYP/RcehaA==}
     engines: {node: '>=20.12.2'}
 
-  '@arkecosystem/typescript-crypto@0.0.6':
-    resolution: {integrity: sha512-0vjCLlCcARrCEX7YV9qiZvYOXRewFlN43NWQq4kcs+ZVG+Y1DxVLDdGsBta7xAaWnZpYiDtRWzfWT5GUkJUkiQ==}
+  '@arkecosystem/typescript-crypto@0.0.13':
+    resolution: {integrity: sha512-DMeBGBlbrgPnVS8hzj/77TpsPLX3Cns8WE3ZvYjOOGG6yw/NekRFLHmXPXKYJrxtZbn6Rc6F/j9xaYr0D93Gag==}
     engines: {node: '>=20.12.2'}
 
   '@babel/code-frame@7.23.5':
@@ -5235,7 +5235,7 @@ snapshots:
 
   '@arkecosystem/typescript-client@0.0.5': {}
 
-  '@arkecosystem/typescript-crypto@0.0.6':
+  '@arkecosystem/typescript-crypto@0.0.13':
     dependencies:
       '@noble/secp256k1': 2.3.0
       bignumber.js: 9.3.0

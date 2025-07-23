@@ -160,6 +160,20 @@ export class WalletRepository implements IWalletRepository {
 
     /** {@inheritDoc IWalletRepository.forget} */
     public forget(id: string): void {
+        // If the wallet to be deleted is a selected wallet,
+        // change the selection to the first available wallet before deleting.
+        const walletToBeDeleted = this.findById(id);
+        if (this.#profile.walletSelectionMode() === 'single' && walletToBeDeleted.isSelected()) {
+            const firstAvailable = this.#profile
+                .wallets()
+                .values()
+                .find((wallet) => wallet.address() !== walletToBeDeleted.address());
+
+            if (firstAvailable) {
+                this.#profile.wallets().selectOne(firstAvailable);
+            }
+        }
+
         this.#data.forget(id);
 
         this.#profile.status().markAsDirty();
@@ -178,12 +192,12 @@ export class WalletRepository implements IWalletRepository {
     }
 
     /** {@inheritDoc IWalletRepository.toObject} */
-    public toObject(options: IWalletExportOptions): Record<string, IWalletData> {
+    public toObject(options?: IWalletExportOptions): Record<string, IWalletData> {
         const {
             addNetworkInformation = true,
             excludeEmptyWallets = false,
             excludeLedgerWallets = false,
-        } = options;
+        } = options ?? {};
 
         if (!addNetworkInformation) {
             throw new Error('This is not implemented yet');
@@ -324,11 +338,11 @@ export class WalletRepository implements IWalletRepository {
                 await wallet.synchroniser().identity(options);
             },
             {
-                onFailedAttempt: (error) =>
-                    /* istanbul ignore next */
+                onFailedAttempt: (error) => {
                     console.log(
                         `Attempt #${error.attemptNumber} to restore [${address}] failed. There are ${error.retriesLeft} retries left.`,
-                    ),
+                    );
+                },
                 retries: 3,
             },
         );
