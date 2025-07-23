@@ -95,7 +95,7 @@ export class WalletData {
             return false;
         }
 
-        return !!this.#getProperty(['attributes.validatorPublicKey']);
+        return this.#getProperty(['attributes.validatorPublicKey']) !== undefined;
     }
 
     public isResignedValidator(): boolean {
