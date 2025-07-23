@@ -1,6 +1,6 @@
 import { PublicKey } from '@arkecosystem/typescript-crypto';
 import { BIP39, Bls } from '@ardenthq/arkvault-crypto';
-import { Exceptions, Services } from '@/app/lib/mainsail';
+import { Services } from '@/app/lib/mainsail';
 import { abort_if, abort_unless } from '@/app/lib/helpers';
 
 export class PublicKeyService {

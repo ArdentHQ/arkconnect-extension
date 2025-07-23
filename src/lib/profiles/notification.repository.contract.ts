@@ -215,7 +215,7 @@ export interface IProfileTransactionNotificationService {
      * @param {string} transactionId
      * @memberof IProfileTransactionNotificationService
      */
-    has(transactionId: string): Boolean;
+    has(transactionId: string): boolean;
 
     /**
      * Forget transaction notification
