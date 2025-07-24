@@ -71,7 +71,7 @@ const Vote = () => {
     const validationSchema = object().shape({
         gasPrice: string()
             .required(t('ERROR.IS_REQUIRED', { name: 'Gas Price' }))
-            .test('min-value', t('ERROR.IS_REQUIRED', { name: 'Gas Price123' }), (value) => {
+            .test('min-value', t('ERROR.IS_REQUIRED', { name: 'Gas Price' }), (value) => {
                 return BigNumber.make(value).isGreaterThanOrEqualTo(FeeLimits.gasPrice[0]);
             })
             .test('max-value', t('ERROR.IS_TOO_HIGH', { name: 'Gas Price' }), (value) => {
