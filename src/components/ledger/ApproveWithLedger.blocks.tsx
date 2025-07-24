@@ -17,8 +17,8 @@ type VoteDelegateProperties = {
 interface Props {
     wallet: Contracts.IReadWriteWallet;
     state: {
-        value: string;
-        to: string;
+        amount: string;
+        receiverAddress: string;
         domain: string;
         session: SessionStore.Session;
         vote: VoteDelegateProperties;
@@ -70,8 +70,8 @@ export const VoteLedgerApprovalBody = ({ wallet, state }: Props) => {
 export const TransactionLedgerApprovalBody = ({ wallet, state }: Props) => {
     const {
         session,
-        value,
-        to,
+        amount,
+        receiverAddress,
         gasPrice: customGasPrice,
         gasLimit: customGasLimit,
     } = state;
@@ -88,8 +88,8 @@ export const TransactionLedgerApprovalBody = ({ wallet, state }: Props) => {
         values: { gasPrice, gasLimit, total },
     } = useSendTransferForm(wallet, {
         session,
-        amount: value,
-        receiverAddress: to,
+        amount,
+        receiverAddress,
         customGasPrice,
         customGasLimit,
     });
@@ -100,14 +100,14 @@ export const TransactionLedgerApprovalBody = ({ wallet, state }: Props) => {
         <ActionBody
             isApproved={false}
             showFiat={withFiat}
-            amount={+value}
+            amount={+amount}
             amountTicker={coin}
-            convertedAmount={convert(+value)}
+            convertedAmount={convert(+amount)}
             exchangeCurrency={exchangeCurrency}
             network={getNetworkCurrency(wallet.network())}
             fee={+fee}
             convertedFee={convert(+fee)}
-            receiver={trimAddress(to as string, 10)}
+            receiver={trimAddress(receiverAddress as string, 10)}
             totalAmount={total}
             convertedTotalAmount={convert(total)}
         />

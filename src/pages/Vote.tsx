@@ -71,7 +71,7 @@ const Vote = () => {
     const validationSchema = object().shape({
         gasPrice: string()
             .required(t('ERROR.IS_REQUIRED', { name: 'Gas Price' }))
-            .test('min-value', t('ERROR.IS_REQUIRED', { name: 'Gas Price' }), (value) => {
+            .test('min-value', t('ERROR.IS_REQUIRED', { name: 'Gas Price123' }), (value) => {
                 return BigNumber.make(value).isGreaterThanOrEqualTo(FeeLimits.gasPrice[0]);
             })
             .test('max-value', t('ERROR.IS_TOO_HIGH', { name: 'Gas Price' }), (value) => {
@@ -171,17 +171,16 @@ const Vote = () => {
     });
 
     const isFeeValid = formik.values.gasPrice && formik.values.gasLimit;
+    const fee = calculateGasFee(formik.values.gasPrice, formik.values.gasLimit);
     const hasValues = formik.values.validatorAddress && isFeeValid;
-    const hasSufficientFunds = BigNumber.make(wallet.balance() || 0).isGreaterThan(
-        calculateGasFee(formik.values.gasPrice, formik.values.gasLimit),
-    );
+    const hasSufficientFunds = BigNumber.make(wallet.balance() || 0).isGreaterThan(fee);
 
     const { isVoting, isUnvoting, isSwapping, actionLabel, disabled, currentlyVotedAddress } =
         useVote({
-            fee: isFeeValid ? isFeeValid.toString() : '',
+            fee: isFeeValid ? fee : '',
             validatorAddress: formik.values.validatorAddress,
             votes: currentVotes,
-            isValid: !!(formik.isValid && hasValues && hasSufficientFunds),
+            isValid: !!(hasValues && hasSufficientFunds),
         });
 
     useEffect(() => {

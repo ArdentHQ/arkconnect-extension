@@ -391,6 +391,8 @@ class ArkConnectInPageProvider {
                 this._sendMessage(Messages.SIGN_TRANSACTION, {
                     ...request,
                     type: 'transfer',
+                    receiverAddress: request.to,
+                    amount: request.value,
                 });
             },
         );
