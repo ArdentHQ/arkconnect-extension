@@ -8,6 +8,7 @@ import { LedgerSignature } from './ledger.service.types.js';
 import { AddressService } from './address.service.js';
 import { WalletData } from './wallet.dto.js';
 import { connectedTransport as ledgerTransportFactory } from '@/lib/Ledger/transport';
+import { connectedTransport as ledgerTransportFactory } from '@/lib/Ledger/transport';
 import { configManager, Contracts, Services } from '@/app/lib/mainsail';
 import { ConfigKey, ConfigRepository } from '@/app/lib/mainsail/config.repository';
 
