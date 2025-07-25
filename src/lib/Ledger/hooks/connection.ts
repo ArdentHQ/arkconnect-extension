@@ -6,7 +6,7 @@ import { useLedgerImport } from './import';
 import { Contracts } from '@/lib/profiles';
 import { useLedgerContext } from '@/lib/Ledger/Ledger';
 import { persistLedgerConnection } from '@/lib/Ledger/utils/connection';
-import { closeDevices, openTransport } from '@/lib/Ledger/transport';
+import { closeDevices, isLedgerTransportSupported, openTransport } from '@/lib/Ledger/transport';
 import { useEnvironmentContext } from '@/lib/context/Environment';
 import useSentryException from '@/lib/hooks/useSentryException';
 
@@ -80,32 +80,28 @@ export const useLedgerConnection = () => {
         [dispatch],
     );
 
-    const connect = useCallback(
-        async (_profile: Contracts.IProfile, _network: string, retryOptions?: Options) => {
-            // TODO enable check
-            // if (!isLedgerTransportSupported()) {
-            //     handleLedgerConnectionError({ message: 'COMPATIBILITY_ERROR' }, coinInstance);
-            //     return;
-            // }
+    const connect = useCallback(async (profile: Contracts.IProfile, retryOptions?: Options) => {
+        if (!isLedgerTransportSupported()) {
+            void handleLedgerConnectionError({ message: 'COMPATIBILITY_ERROR' });
+            return;
+        }
 
-            const options = retryOptions || { factor: 1, randomize: false, retries: 50 };
+        const options = retryOptions || { factor: 1, randomize: false, retries: 50 };
 
-            dispatch({ type: 'waiting' });
-            abortRetryReference.current = false;
+        dispatch({ type: 'waiting' });
+        abortRetryReference.current = false;
 
-            try {
-                await persistLedgerConnection({
-                    hasRequestedAbort: () => abortRetryReference.current,
-                    options,
-                });
-                dispatch({ type: 'connected' });
-            } catch (connectError: any) {
-                // TODO enable error handling
-                // handleLedgerConnectionError(connectError, coinInstance);
-            }
-        },
-        [],
-    );
+        try {
+            await persistLedgerConnection({
+                hasRequestedAbort: () => abortRetryReference.current,
+                ledgerService: profile.ledger(),
+                options,
+            });
+            dispatch({ type: 'connected' });
+        } catch (connectError: any) {
+            void handleLedgerConnectionError(connectError);
+        }
+    }, []);
 
     const setBusy = useCallback(() => dispatch({ type: 'busy' }), []);
     const setIdle = useCallback(() => dispatch({ type: 'connected' }), []);

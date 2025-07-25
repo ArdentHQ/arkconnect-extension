@@ -66,7 +66,7 @@ const ImportWithLedger = () => {
             passwordConfirm: '',
         },
         onSubmit: async (values, formikHelpers) => {
-            const wallets = values.wallets.map((wallet, index) => {
+            const wallets = values.wallets.map((wallet) => {
                 return {
                     address: wallet.address,
                     network: network.id(),
@@ -75,8 +75,7 @@ const ImportWithLedger = () => {
                     alias: getLedgerAlias({
                         network,
                         profile,
-                        importCount: values.wallets.length,
-                        index,
+                        path: wallet.path,
                     }),
                 };
             });

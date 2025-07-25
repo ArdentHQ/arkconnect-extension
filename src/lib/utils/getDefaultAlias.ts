@@ -14,8 +14,7 @@ interface AliasInput {
 interface LedgerAliasInput {
     profile: Contracts.IProfile;
     network: Network;
-    importCount: number;
-    index: number;
+    path: string;
 }
 
 export const getDefaultAlias = ({ profile }: GetDefaultAliasInput): string => {
@@ -29,21 +28,25 @@ export const getDefaultAlias = ({ profile }: GetDefaultAliasInput): string => {
     return generateAlias({ profile, counter });
 };
 
-export const getLedgerAlias = ({ profile, importCount, index }: LedgerAliasInput): string => {
-    // const sameCoinWallets = profile.wallets().findByCoinWithNetwork(network.coin(), network.id());
-    // TODO fix
-    const sameCoinWallets = [];
+const makeLedgerAlias = (count: number | string) => `Ledger #${count}`;
 
-    // The way ledgers are currently stored requires us to do
-    // some magic to determine the right label. The profile
-    // has them stored before their alias gets updated, meaning
-    // we require to take the count (includes the new ledger
-    // addresses) and subtract the amount of wallets we are
-    // importing to counter this. The index (+ 1) is used to
-    // manually increment the labels
-    const counter = sameCoinWallets.length - importCount + index + 1;
+const findByAlias = (alias: string, wallets: Contracts.IReadWriteWallet[]) =>
+    wallets.find((wallet) => wallet.alias() === alias);
 
-    return generateAlias({ profile, counter });
+export const getLedgerAlias = ({ profile, path }: LedgerAliasInput): string => {
+    const pathCounter = path.slice(-1) ?? 0;
+    let counter = Number(pathCounter) + 1;
+
+    const wallets = profile
+        .wallets()
+        .values()
+        .filter((wallet) => wallet.isLedger());
+
+    while (findByAlias(makeLedgerAlias(counter), wallets)) {
+        counter++;
+    }
+
+    return makeLedgerAlias(counter);
 };
 
 const generateAlias = ({ profile, counter }: AliasInput): string => {

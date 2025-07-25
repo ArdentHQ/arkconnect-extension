@@ -58,10 +58,7 @@ const Approve = () => {
     const locked = useAppSelector(UIStore.selectLocked);
     assertIsUnlocked(locked);
 
-    const approveWithLedger = async (
-        profile: Contracts.IProfile,
-        wallet: Contracts.IReadWriteWallet,
-    ) => {
+    const approveWithLedger = async (profile: Contracts.IProfile) => {
         if (!isLedgerTransportSupported()) {
             throw new Error(t('ERROR.LEDGER_TRANSPORT_NOT_SUPPORTED'));
         }
@@ -70,7 +67,7 @@ const Approve = () => {
 
         await waitUntilLedgerIsAvailable();
 
-        await connect(profile, wallet.networkId(), undefined);
+        await connect(profile, undefined);
     };
 
     const closeLedgerScreen = () => {

@@ -6,7 +6,6 @@ import { Button, ExternalLink, Heading, Icon, Loader } from '@/shared/components
 import constants from '@/constants';
 import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
 import { useLedgerContext } from '@/lib/Ledger';
-import useActiveNetwork from '@/lib/hooks/useActiveNetwork';
 import { useProfileContext } from '@/lib/context/Profile';
 import ThemedIcon from '@/shared/components/icon/ThemedIcon';
 
@@ -38,7 +37,6 @@ export const LedgerConnectionStep = ({
 }) => {
     const { profile: activeProfile } = useProfileContext();
     const { onError } = useErrorHandlerContext();
-    const { activeNetwork: network } = useActiveNetwork();
     const { t } = useTranslation();
 
     const {
@@ -77,7 +75,7 @@ export const LedgerConnectionStep = ({
 
         (async () => {
             try {
-                await connect(activeProfile, network.id());
+                await connect(activeProfile);
             } catch (error) {
                 onError(error);
             }
@@ -99,7 +97,7 @@ export const LedgerConnectionStep = ({
 
     const continueToNextStep = async () => {
         try {
-            await connect(activeProfile, network.id());
+            await connect(activeProfile);
 
             goToNextStep();
         } catch (error) {

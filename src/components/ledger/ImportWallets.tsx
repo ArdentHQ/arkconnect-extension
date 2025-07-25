@@ -24,7 +24,7 @@ const ImportWallets = ({ goToNextStep, formik }: Props) => {
     const onError = useOnError();
     const retryFunctionReference = useRef<() => void>();
     const { profile } = useProfileContext();
-    const ledgerScanner = useLedgerScanner();
+    const ledgerScanner = useLedgerScanner(profile.activeNetwork().id());
     const { isBusy, importLedgerWallets } = useLedgerContext();
     const { t } = useTranslation();
 
