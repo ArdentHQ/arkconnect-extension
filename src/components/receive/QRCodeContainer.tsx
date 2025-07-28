@@ -15,7 +15,6 @@ import useToast from '@/lib/hooks/useToast';
 
 export type SendFormik = {
     amount?: string;
-    memo?: string;
 };
 
 export const QRCodeContainer = () => {
@@ -37,13 +36,11 @@ export const QRCodeContainer = () => {
                 const integerPart = Math.floor(Number(value));
                 return integerPart < 100_000_000;
             }),
-        memo: string().max(255, t('ERROR.IS_TOO_LONG', { name: 'Memo' })),
     });
 
     const formik = useFormik<SendFormik>({
         initialValues: {
             amount: '',
-            memo: '',
         },
         validationSchema: validationSchema,
         onSubmit: () => {},
@@ -56,10 +53,6 @@ export const QRCodeContainer = () => {
         amount:
             !formik.errors.amount && formik.values.amount !== undefined
                 ? formik.values.amount
-                : undefined,
-        memo:
-            !formik.errors.memo && formik.values.memo !== undefined
-                ? formik.values.memo
                 : undefined,
     });
 
@@ -138,18 +131,6 @@ export const QRCodeContainer = () => {
                         onBlur={formik.handleBlur}
                         variant={formik.errors.amount ? 'destructive' : 'primary'}
                         helperText={formik.errors.amount}
-                    />
-                    <Input
-                        type='text'
-                        labelText={t('COMMON.MEMO')}
-                        placeholder={t('COMMON.ADD_NOTE_TO_TRANSACTION')}
-                        name='memo'
-                        value={formik.values.memo}
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        variant={formik.errors.memo ? 'destructive' : 'primary'}
-                        helperText={formik.errors.memo}
-                        secondaryText={`${formik.values.memo !== undefined ? formik.values.memo.length : 0}/255`}
                     />
                 </div>
             </Accordion>

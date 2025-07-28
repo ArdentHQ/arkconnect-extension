@@ -98,7 +98,7 @@ export const UploadQRModal = ({
 
                 setFieldValue('receiverAddress', params.get('recipient'));
 
-                ['amount', 'memo'].forEach((field) => {
+                ['amount'].forEach((field) => {
                     if (params.has(field)) {
                         setFieldValue(field, params.get(field));
                     }

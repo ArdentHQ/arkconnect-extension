@@ -34,7 +34,6 @@ export interface TransferInput extends TransactionInput {
     data: {
         amount: number;
         to: string;
-        memo?: string;
         expiration?: number;
     };
 }
@@ -65,7 +64,6 @@ export interface VoteInput extends TransactionInput {
 
 export interface MultiPaymentInput extends TransactionInput {
     data: {
-        memo?: string;
         payments: { to: string; amount: number }[];
     };
 }

@@ -44,7 +44,6 @@ interface SendTransferForm {
     total: number;
     mnemonic: string;
     secondMnemonic: string;
-    memo?: string;
     encryptionPassword: string;
     wif: string;
     privateKey: string;
@@ -58,7 +57,6 @@ type ApproveRequest = {
     receiverAddress: string;
     customGasPrice?: string;
     customGasLimit?: string;
-    memo?: string;
 };
 
 const defaultState = {
@@ -77,7 +75,6 @@ const defaultState = {
     total: 0,
     mnemonic: '',
     secondMnemonic: '',
-    memo: '',
     encryptionPassword: '',
     wif: '',
     privateKey: '',
@@ -117,7 +114,7 @@ export const useSendTransferForm = (
     const submitForm = async (abortReference: AbortController) => {
         assertWallet(wallet);
 
-        const { gasPrice, gasLimit, recipients, memo } = formValues;
+        const { gasPrice, gasLimit, recipients } = formValues;
 
         if (wallet.isLedger()) {
             const abortSignal = abortReference.signal;
@@ -150,7 +147,6 @@ export const useSendTransferForm = (
             return {
                 ...transaction.toObject(),
                 amount: transaction.value().toString(),
-                memo: transaction.memo(),
                 fee: transaction.fee(),
                 total: transaction.total(),
             };
@@ -160,7 +156,6 @@ export const useSendTransferForm = (
             type: 'SEND_TRANSACTION',
             data: {
                 recipients,
-                memo,
                 gasLimit,
                 gasPrice,
             },
@@ -213,7 +208,6 @@ export const useSendTransferForm = (
                     network: wallet.network(),
                     gasPrice: customGasPrice ?? avg.toString(),
                     gasLimit: customGasLimit ?? defaultGasLimit,
-                    memo: request.memo,
                     hasHigherCustomFee:
                         hasCustomFee && customFee.isGreaterThan(maxFee) ? maxFee.toString() : null,
                     hasLowerCustomFee:
