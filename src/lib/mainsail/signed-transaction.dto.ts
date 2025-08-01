@@ -30,6 +30,7 @@ export class SignedTransactionData {
         { method: 'isValidatorResignation', type: 'validatorResignation' },
         { method: 'isVote', type: 'vote' },
         { method: 'isVoteCombination', type: 'voteCombination' },
+        { method: 'isUpdateValidator', type: 'updateValidator' },
     ];
 
     public configure(signedData: RawTransactionData, serialized: string) {
@@ -94,7 +95,7 @@ export class SignedTransactionData {
 
     public fee(): BigNumber {
         const gasPrice = BigNumber.make(UnitConverter.formatUnits(this.signedData.gasPrice, 'ark'));
-        return gasPrice.times(this.signedData.gas);
+        return gasPrice.times(this.signedData.gasLimit);
     }
 
     public timestamp(): DateTime {
@@ -139,6 +140,10 @@ export class SignedTransactionData {
 
     public isValidatorRegistration(): boolean {
         return TransactionTypeService.isValidatorRegistration(this.signedData);
+    }
+
+    public isUpdateValidator(): boolean {
+        return TransactionTypeService.isUpdateValidator(this.signedData);
     }
 
     public isVoteCombination(): boolean {

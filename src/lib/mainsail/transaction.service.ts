@@ -1,4 +1,7 @@
 import {
+    AbiEncoder,
+    ContractAddresses,
+    EvmCallBuilder,
     MultipaymentBuilder,
     TransferBuilder,
     UnitConverter,
@@ -84,8 +87,7 @@ export class TransactionService {
             .nonce(nonce)
             .gasPrice(UnitConverter.parseUnits(input.gasPrice.toString(), 'gwei'))
             // @TODO https://app.clickup.com/t/86dwvx1ya get rid of .toString() for all `gas` calls
-            .gas(input.gasLimit.toString())
-            .network(this.#configCrypto.crypto.network.chainId);
+            .gasLimit(input.gasLimit.toString());
 
         await this.#sign(input, builder);
 
@@ -114,9 +116,46 @@ export class TransactionService {
             .validatorPublicKey(`0x${input.data.validatorPublicKey}`)
             .nonce(nonce)
             .gasPrice(UnitConverter.parseUnits(input.gasPrice.toString(), 'gwei'))
-            .gas(input.gasLimit.toString())
-            .value(input.data.value)
-            .network(this.#configCrypto.crypto.network.chainId);
+            .gasLimit(input.gasLimit.toString())
+            .value(input.data.value);
+
+        await this.#sign(input, builder);
+
+        return new SignedTransactionData().configure(
+            builder.transaction.data,
+            builder.transaction.serialize().toString('hex'),
+        );
+    }
+
+    public async updateValidator(
+        input: Services.UpdateValidatorInput,
+    ): Promise<SignedTransactionData> {
+        applyCryptoConfiguration(this.#configCrypto);
+        this.#assertGasFee(input);
+
+        if (!input.data.validatorPublicKey) {
+            throw new Error(
+                `[TransactionService#updateValidator] Expected validatorPublicKey to be defined but received ${typeof input
+                    .data.validatorPublicKey}`,
+            );
+        }
+
+        const nonce = await this.#generateNonce(input);
+
+        const builder = await EvmCallBuilder.new({
+            senderPublicKey: '',
+            value: '0',
+        })
+
+            .to(ContractAddresses.CONSENSUS)
+            .payload(
+                new AbiEncoder().encodeFunctionCall('updateValidator', [
+                    `0x${input.data.validatorPublicKey}`,
+                ]),
+            )
+            .nonce(nonce)
+            .gasPrice(UnitConverter.parseUnits(input.gasPrice.toString(), 'gwei'))
+            .gasLimit(input.gasLimit.toString());
 
         await this.#sign(input, builder);
 
@@ -141,8 +180,7 @@ export class TransactionService {
             const builder = await UnvoteBuilder.new()
                 .nonce(nonce)
                 .gasPrice(UnitConverter.parseUnits(input.gasPrice.toString(), 'gwei'))
-                .gas(input.gasLimit.toString())
-                .network(this.#configCrypto.crypto.network.chainId);
+                .gasLimit(input.gasLimit.toString());
 
             await this.#sign(input, builder);
 
@@ -158,8 +196,7 @@ export class TransactionService {
             .vote(vote?.id)
             .nonce(nonce)
             .gasPrice(UnitConverter.parseUnits(input.gasPrice.toString(), 'gwei'))
-            .gas(input.gasLimit.toString())
-            .network(this.#configCrypto.crypto.network.chainId);
+            .gasLimit(input.gasLimit.toString());
 
         await this.#sign(input, builder);
 
@@ -188,8 +225,7 @@ export class TransactionService {
         const builder = MultipaymentBuilder.new()
             .nonce(nonce)
             .gasPrice(UnitConverter.parseUnits(input.gasPrice.toString(), 'gwei'))
-            .gas(input.gasLimit.toString())
-            .network(this.#configCrypto.crypto.network.chainId);
+            .gasLimit(input.gasLimit.toString());
 
         for (const payment of input.data.payments) {
             builder.pay(payment.to, UnitConverter.parseUnits(payment.amount, 'ark'));
@@ -222,8 +258,7 @@ export class TransactionService {
             .username(input.data.username)
             .nonce(nonce)
             .gasPrice(UnitConverter.parseUnits(input.gasPrice.toString(), 'gwei'))
-            .gas(input.gasLimit.toString())
-            .network(this.#configCrypto.crypto.network.chainId);
+            .gasLimit(input.gasLimit.toString());
 
         await this.#sign(input, builder);
 
@@ -244,8 +279,7 @@ export class TransactionService {
         const builder = await UsernameResignationBuilder.new()
             .nonce(nonce)
             .gasPrice(UnitConverter.parseUnits(input.gasPrice.toString(), 'gwei'))
-            .gas(input.gasLimit.toString())
-            .network(this.#configCrypto.crypto.network.chainId)
+            .gasLimit(input.gasLimit.toString())
             .sign(input.signatory.signingKey());
 
         await this.#sign(input, builder);
@@ -267,8 +301,7 @@ export class TransactionService {
         const builder = await ValidatorResignationBuilder.new()
             .nonce(nonce)
             .gasPrice(UnitConverter.parseUnits(input.gasPrice.toString(), 'gwei'))
-            .gas(input.gasLimit.toString())
-            .network(this.#configCrypto.crypto.network.chainId)
+            .gasLimit(input.gasLimit.toString())
             .sign(input.signatory.signingKey());
 
         await this.#sign(input, builder);
@@ -291,6 +324,7 @@ export class TransactionService {
         }
 
         if (input.signatory.actsWithLedger()) {
+            await this.#ledgerService.connect();
             const extendedPublicKey = await this.#ledgerService.getExtendedPublicKey(
                 input.signatory.signingKey(),
             );
@@ -319,6 +353,16 @@ export class TransactionService {
             return this.#signWithLedger(input, builder.transaction);
         }
 
+        if (
+            input.signatory.actsWithConfirmationMnemonic() ||
+            input.signatory.actsWithConfirmationSecret()
+        ) {
+            return await builder.legacySecondSign(
+                input.signatory.signingKey(),
+                input.signatory.confirmKey(),
+            );
+        }
+
         await builder.sign(input.signatory.signingKey());
     }
 
@@ -331,7 +375,6 @@ export class TransactionService {
         transaction.data = {
             ...transaction.data,
             ...signature,
-            v: Number.parseInt(signature.v) + 27, // TODO: remove +27 when updating mainsail packages https://app.clickup.com/t/86dwhby95
         };
 
         transaction.data.hash = transaction.hash();

@@ -1,6 +1,6 @@
 import { PublicKey } from '@arkecosystem/typescript-crypto';
 import { BIP39, Bls } from '@ardenthq/arkvault-crypto';
-import { Exceptions, Services } from '@/app/lib/mainsail';
+import { Services } from '@/app/lib/mainsail';
 import { abort_if, abort_unless } from '@/app/lib/helpers';
 
 export class PublicKeyService {
@@ -21,12 +21,6 @@ export class PublicKeyService {
         return {
             publicKey: PublicKey.fromPassphrase(secret).publicKey,
         };
-    }
-
-    // @TODO: Implement
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    public fromWIF(wif: string): Promise<Services.PublicKeyDataTransferObject> {
-        throw new Exceptions.NotImplemented(this.constructor.name, this.fromWIF.name);
     }
 
     public verifyPublicKeyWithBLS(publicKey: string): boolean {

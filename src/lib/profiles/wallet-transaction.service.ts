@@ -122,6 +122,11 @@ export class TransactionService implements ITransactionService {
         return this.#signTransaction('validatorResignation', input);
     }
 
+    /** {@inheritDoc ITransactionService.signUpdateValidator} */
+    public async signUpdateValidator(input: Services.UpdateValidatorInput): Promise<string> {
+        return this.#signTransaction('updateValidator', input);
+    }
+
     /** {@inheritDoc ITransactionService.transaction} */
     public transaction(id: string): ExtendedSignedTransactionData {
         this.#assertHasValidIdentifier(id);
@@ -155,32 +160,6 @@ export class TransactionService implements ITransactionService {
         return this.#broadcasted;
     }
 
-    /** {@inheritDoc ITransactionService.waitingForOurSignature} */
-    public waitingForOurSignature(): SignedTransactionDataDictionary {
-        const transactions: SignedTransactionDataDictionary = {};
-
-        for (const [id, transaction] of Object.entries(this.#pending)) {
-            if (this.isAwaitingOurSignature(id)) {
-                transactions[id] = transaction;
-            }
-        }
-
-        return transactions;
-    }
-
-    /** {@inheritDoc ITransactionService.waitingForOtherSignatures} */
-    public waitingForOtherSignatures(): SignedTransactionDataDictionary {
-        const transactions: SignedTransactionDataDictionary = {};
-
-        for (const [id, transaction] of Object.entries(this.#pending)) {
-            if (this.isAwaitingOtherSignatures(id)) {
-                transactions[id] = transaction;
-            }
-        }
-
-        return transactions;
-    }
-
     /** {@inheritDoc ITransactionService.hasBeenSigned} */
     public hasBeenSigned(id: string): boolean {
         this.#assertHasValidIdentifier(id);
@@ -205,28 +184,6 @@ export class TransactionService implements ITransactionService {
     /** {@inheritDoc ITransactionService.isAwaitingConfirmation} */
     public isAwaitingConfirmation(id: string): boolean {
         return this.hasBeenBroadcasted(id);
-    }
-
-    /** {@inheritDoc ITransactionService.isAwaitingOurSignature} */
-    public isAwaitingOurSignature(id: string): boolean {
-        return this.isAwaitingSignatureByPublicKey(id);
-    }
-
-    /** {@inheritDoc ITransactionService.isAwaitingOtherSignatures} */
-    public isAwaitingOtherSignatures(id: string): boolean {
-        this.#assertHasValidIdentifier(id);
-
-        return false;
-    }
-
-    /** {@inheritDoc ITransactionService.isAwaitingSignatureByPublicKey} */
-    public isAwaitingSignatureByPublicKey(id: string): boolean {
-        return this.isAwaitingOtherSignatures(id);
-    }
-
-    /** {@inheritDoc ITransactionService.isAwaitingFinalSignature} */
-    public isAwaitingFinalSignature(): boolean {
-        return false;
     }
 
     /** {@inheritDoc ITransactionService.canBeSigned} */
@@ -356,14 +313,7 @@ export class TransactionService implements ITransactionService {
                 await this.#wallet.transactionService()[type](input),
             );
 
-        // When we are working with Multi-Signatures we need to sign them in split through
-        // broadcasting and fetching them multiple times until all participants have signed
-        // the transaction. Once the transaction is fully signed we can mark it as finished.
-        if (transaction.isMultiSignatureRegistration()) {
-            this.#pending[transaction.hash()] = transaction;
-        } else {
-            this.#signed[transaction.hash()] = transaction;
-        }
+        this.#signed[transaction.hash()] = transaction;
 
         return transaction.hash();
     }
