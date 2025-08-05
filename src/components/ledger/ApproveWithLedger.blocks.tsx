@@ -24,7 +24,6 @@ interface Props {
         vote: VoteDelegateProperties;
         unvote: VoteDelegateProperties;
         tabId: number;
-        memo?: string;
         gasPrice?: string;
         gasLimit?: string;
     };
@@ -73,7 +72,6 @@ export const TransactionLedgerApprovalBody = ({ wallet, state }: Props) => {
         session,
         amount,
         receiverAddress,
-        memo,
         gasPrice: customGasPrice,
         gasLimit: customGasLimit,
     } = state;
@@ -92,7 +90,6 @@ export const TransactionLedgerApprovalBody = ({ wallet, state }: Props) => {
         session,
         amount,
         receiverAddress,
-        memo,
         customGasPrice,
         customGasLimit,
     });
@@ -113,7 +110,6 @@ export const TransactionLedgerApprovalBody = ({ wallet, state }: Props) => {
             receiver={trimAddress(receiverAddress as string, 10)}
             totalAmount={total}
             convertedTotalAmount={convert(total)}
-            memo={memo}
         />
     );
 };

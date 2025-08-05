@@ -89,7 +89,6 @@ export default defineConfig({
             output: {
                 manualChunks: {
                     utils: ['semver', 'yup', 'uuid', 'assert', 'p-retry', 'string-hash'],
-                    'sdk-ledger': ['@ardenthq/sdk-ledger'],
                     sentry: ['@sentry/react'],
                     react: [
                         'react',

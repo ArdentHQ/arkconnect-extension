@@ -141,10 +141,10 @@ const Send = () => {
             navigate('/approve', {
                 state: {
                     type: 'transfer',
-                    value: values.amount,
+                    amount: values.amount,
                     gasPrice: values.gasPrice,
                     gasLimit: values.gasLimit,
-                    to: values.receiverAddress,
+                    receiverAddress: values.receiverAddress,
                     session: {
                         walletId: primaryWallet?.id(),
                         logo: 'icon/128.png',
