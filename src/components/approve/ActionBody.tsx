@@ -37,7 +37,6 @@ interface ActionBodyProps {
     wallet?: Contracts.IReadWriteWallet;
     hasHigherCustomFee?: string | null;
     hasLowerCustomFee?: string | null;
-    memo?: string | null;
 }
 
 export const ActionBody = ({

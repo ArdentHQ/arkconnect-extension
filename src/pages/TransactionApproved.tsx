@@ -126,7 +126,6 @@ const TransactionApproved = () => {
                             isApproved={true}
                             sender={state?.transaction.sender}
                             amount={state?.transaction.amount}
-                            memo={state?.transaction.memo}
                             convertedAmount={state?.transaction.convertedAmount as number}
                             exchangeCurrency={state?.transaction.exchangeCurrency as string}
                             network={getActiveCoin(state?.walletNetwork)}

@@ -55,7 +55,6 @@ const ApproveTransaction = ({
         receiverAddress,
         gasPrice: customGasPrice,
         gasLimit: customGasLimit,
-        memo,
         feeClass,
     } = location.state;
     const { profile } = useProfileContext();
@@ -85,7 +84,6 @@ const ApproveTransaction = ({
         receiverAddress,
         customGasPrice,
         customGasLimit,
-        memo,
     });
 
     const fee = calculateGasFee(gasPrice, gasLimit);
@@ -133,7 +131,6 @@ const ApproveTransaction = ({
                 exchangeCurrency: wallet.exchangeCurrency() ?? 'USD',
                 sender: response.from as string,
                 receiver: response.to as string,
-                memo: '',
                 amount: response.amount as number,
                 convertedAmount: convert(response.amount),
                 fee: response.fee as number,
@@ -189,7 +186,6 @@ const ApproveTransaction = ({
                 path: ScreenName.SendTransfer,
                 data: {
                     amount,
-                    memo,
                     gasPrice: customGasPrice,
                     gasLimit: customGasLimit,
                     receiverAddress,
@@ -213,7 +209,6 @@ const ApproveTransaction = ({
 
         const params = new URLSearchParams({
             receiverAddress,
-            memo,
             amount,
             gasPrice: customGasPrice,
             gasLimit: customGasLimit,
@@ -247,7 +242,6 @@ const ApproveTransaction = ({
                     isApproved={false}
                     showFiat={withFiat}
                     amount={amount}
-                    memo={memo}
                     amountTicker={coin}
                     convertedAmount={convert(amount)}
                     exchangeCurrency={exchangeCurrency}

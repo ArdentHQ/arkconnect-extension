@@ -151,16 +151,6 @@ export const TransactionBody = ({
                         <CopyTransactionId transactionId={transaction.hash()} />
                     </div>
                 </TrasactionItem>
-
-                {paymentTypes.includes(type) && (
-                    <TrasactionItem title={t('COMMON.MEMO')}>
-                        {transaction.memo() ?? (
-                            <span className='text-theme-secondary-500 dark:text-theme-secondary-300'>
-                                {t('COMMON.NOT_AVAILABLE')}
-                            </span>
-                        )}
-                    </TrasactionItem>
-                )}
             </div>
         </div>
     );

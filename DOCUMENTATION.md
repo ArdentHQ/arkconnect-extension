@@ -127,7 +127,6 @@ try {
 type SignTransactionRequest = {
   amount: number;
   receiverAddress: string;
-  memo?: string;
 };
 
 type SignTransactionResponse = {

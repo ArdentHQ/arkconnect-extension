@@ -20,7 +20,6 @@ import { FeeLimits } from '@/components/fees';
 
 export type SendFormik = {
     amount?: string;
-    memo?: string;
     gasPrice: string;
     gasLimit: string;
     receiverAddress: string;
@@ -52,7 +51,6 @@ const Send = () => {
             state: {
                 type: 'transfer',
                 amount: lastVisitedPage.data.amount,
-                memo: lastVisitedPage.data.memo,
                 gasPrice: lastVisitedPage.data.gasPrice,
                 gasLimit: lastVisitedPage.data.gasLimit,
                 receiverAddress: lastVisitedPage.data.receiverAddress,
@@ -122,7 +120,6 @@ const Send = () => {
     const formik = useFormik<SendFormik>({
         initialValues: {
             amount: lastVisitedPage?.data?.amount || '',
-            memo: lastVisitedPage?.data?.memo || '',
             gasPrice: lastVisitedPage?.data?.gasPrice || '',
             gasLimit: lastVisitedPage?.data?.gasLimit || '',
             feeClass:

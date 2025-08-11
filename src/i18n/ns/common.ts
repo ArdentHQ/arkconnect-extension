@@ -33,7 +33,6 @@ export default {
     LOWER: 'Lower',
     MAINNET: 'Mainnet',
     MAX: 'Max',
-    MEMO: 'Memo',
     MINIMUN_REQUIRED_SIGNATURES: 'Minimum Required Signatures',
     MESSAGE: 'Message',
     MULTI: 'Multi',
