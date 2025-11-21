@@ -47,7 +47,7 @@ export class ClientService {
 		id: string,
 		query?: Record<string, string | number | boolean | null>,
 	): Promise<ConfirmedTransactionData> {
-		const body = await this.#client.transactions().get(id, query);
+		const body = await this.#client.transactions().get(id);
 		return new ConfirmedTransactionData().configure(body.data);
 	}
 
