@@ -1,147 +1,139 @@
-import { BIP39 } from '@ardenthq/arkvault-crypto';
+import { Services } from "@/app/lib/mainsail";
+import { BIP39 } from "@ardenthq/arkvault-crypto";
 
-import {
-    IReadWriteWallet,
-    IWalletMutator,
-    WalletData,
-    WalletImportMethod,
-    WalletSetting,
-} from './contracts.js';
-import { Avatar } from './helpers/avatar.js';
-import { Services } from '@/app/lib/mainsail';
-import { AddressService } from '@/app/lib/mainsail/address.service';
+import { IReadWriteWallet, IWalletMutator, WalletData, WalletImportMethod, WalletSetting } from "./contracts.js";
+import { Avatar } from "./helpers/avatar.js";
+import { AddressService } from "@/app/lib/mainsail/address.service";
 
 export class WalletMutator implements IWalletMutator {
-    readonly #wallet: IReadWriteWallet;
+	readonly #wallet: IReadWriteWallet;
 
-    public constructor(wallet: IReadWriteWallet) {
-        this.#wallet = wallet;
-    }
+	public constructor(wallet: IReadWriteWallet) {
+		this.#wallet = wallet;
+	}
 
-    /** {@inheritDoc IWalletMutator.identity} */
-    public async identity(mnemonic: string): Promise<void> {
-        const { type, address, path } = new AddressService().fromMnemonic(mnemonic);
+	/** {@inheritDoc IWalletMutator.identity} */
+	public async identity(mnemonic: string): Promise<void> {
+		const { type, address, path } = new AddressService().fromMnemonic(mnemonic);
 
-        /* istanbul ignore next */
-        if (type) {
-            this.#wallet.data().set(WalletData.DerivationType, type);
-        }
+		/* istanbul ignore next */
+		if (type) {
+			this.#wallet.data().set(WalletData.DerivationType, type);
+		}
 
-        if (path) {
-            this.#wallet.data().set(WalletData.DerivationPath, path);
-        }
+		if (path) {
+			this.#wallet.data().set(WalletData.DerivationPath, path);
+		}
 
-        if (type === 'bip39') {
-            this.#wallet.data().set(WalletData.ImportMethod, WalletImportMethod.BIP39.MNEMONIC);
-        }
+		if (type === "bip39") {
+			this.#wallet.data().set(WalletData.ImportMethod, WalletImportMethod.BIP39.MNEMONIC);
+		}
 
-        if (type === 'bip44') {
-            this.#wallet.data().set(WalletData.ImportMethod, WalletImportMethod.BIP44.MNEMONIC);
-        }
+		if (type === "bip44") {
+			this.#wallet.data().set(WalletData.ImportMethod, WalletImportMethod.BIP44.MNEMONIC);
+		}
 
-        if (type === 'bip49') {
-            this.#wallet.data().set(WalletData.ImportMethod, WalletImportMethod.BIP49.MNEMONIC);
-        }
+		if (type === "bip49") {
+			this.#wallet.data().set(WalletData.ImportMethod, WalletImportMethod.BIP49.MNEMONIC);
+		}
 
-        if (type === 'bip84') {
-            this.#wallet.data().set(WalletData.ImportMethod, WalletImportMethod.BIP84.MNEMONIC);
-        }
+		if (type === "bip84") {
+			this.#wallet.data().set(WalletData.ImportMethod, WalletImportMethod.BIP84.MNEMONIC);
+		}
 
-        return this.address({ address, path, type });
-    }
+		return this.address({ address, path, type });
+	}
 
-    /** {@inheritDoc IWalletMutator.address} */
-    public async address({
-        address,
-        path,
-        type,
-    }: Partial<Services.AddressDataTransferObject>): Promise<void> {
-        return new Promise((resolve) => {
-            if (type) {
-                this.#wallet.data().set(WalletData.DerivationType, type);
-            }
+	/** {@inheritDoc IWalletMutator.address} */
+	public async address({ address, path, type }: Partial<Services.AddressDataTransferObject>): Promise<void> {
+		return new Promise((resolve) => {
+			if (type) {
+				this.#wallet.data().set(WalletData.DerivationType, type);
+			}
 
-            if (path) {
-                this.#wallet.data().set(WalletData.DerivationPath, path);
-            }
+			if (path) {
+				this.#wallet.data().set(WalletData.DerivationPath, path);
+			}
 
-            this.#wallet.data().set(WalletData.Address, address);
+			this.#wallet.data().set(WalletData.Address, address);
 
-            this.avatar(this.#wallet.address());
-            resolve();
-        });
-    }
+			this.avatar(this.#wallet.address());
+			resolve();
+		});
+	}
 
-    /** {@inheritDoc IWalletMutator.avatar} */
-    public avatar(value: string): void {
-        const avatar: string = Avatar.make(value);
+	/** {@inheritDoc IWalletMutator.avatar} */
+	public avatar(value: string): void {
+		const avatar: string = Avatar.make(value);
 
-        this.#wallet.getAttributes().set('avatar', avatar);
+		this.#wallet.getAttributes().set("avatar", avatar);
 
-        this.#wallet.settings().set(WalletSetting.Avatar, avatar);
-    }
+		this.#wallet.settings().set(WalletSetting.Avatar, avatar);
+	}
 
-    /** {@inheritDoc IWalletMutator.alias} */
-    public alias(alias: string): void {
-        this.#wallet.settings().set(WalletSetting.Alias, alias);
-    }
+	/** {@inheritDoc IWalletMutator.alias} */
+	public alias(alias: string): void {
+		this.#wallet.settings().set(WalletSetting.Alias, alias);
+	}
 
-    /** {@inheritDoc IWalletMutator.selected} */
-    public isSelected(isSelected: boolean) {
-        this.#wallet.settings().set(WalletSetting.IsSelected, isSelected);
-    }
+	/** {@inheritDoc IWalletMutator.accountName} */
+	public accountName(name: string): void {
+		this.#wallet.settings().set(WalletSetting.AccountName, name);
+	}
 
-    public async removeEncryption(password: string): Promise<void> {
-        const importMethod = this.#wallet.importMethod();
+	/** {@inheritDoc IWalletMutator.selected} */
+	public isSelected(isSelected: boolean) {
+		this.#wallet.settings().set(WalletSetting.IsSelected, isSelected);
+	}
 
-        if (
-            ![
-                WalletImportMethod.BIP39.MNEMONIC_WITH_ENCRYPTION,
-                WalletImportMethod.SECRET_WITH_ENCRYPTION,
-            ].includes(importMethod)
-        ) {
-            throw new Error(`Import method [${importMethod}] is not supported.`);
-        }
+	public async removeEncryption(password: string): Promise<void> {
+		const importMethod = this.#wallet.importMethod();
 
-        const isValid = await this.#verifyPassword(password);
+		if (
+			![WalletImportMethod.BIP39.MNEMONIC_WITH_ENCRYPTION, WalletImportMethod.SECRET_WITH_ENCRYPTION].includes(
+				importMethod,
+			)
+		) {
+			throw new Error(`Import method [${importMethod}] is not supported.`);
+		}
 
-        if (!isValid) {
-            throw new Error('The provided password does not match the wallet.');
-        }
+		const isValid = await this.#verifyPassword(password);
 
-        this.#wallet.signingKey().forget(password);
+		if (!isValid) {
+			throw new Error("The provided password does not match the wallet.");
+		}
 
-        if (this.#wallet.isSecondSignature()) {
-            this.#wallet.confirmKey().forget(password);
-        }
+		this.#wallet.signingKey().forget(password);
 
-        if (importMethod === WalletImportMethod.BIP39.MNEMONIC_WITH_ENCRYPTION) {
-            return this.#wallet
-                .data()
-                .set(WalletData.ImportMethod, WalletImportMethod.BIP39.MNEMONIC);
-        }
+		if (this.#wallet.isSecondSignature()) {
+			this.#wallet.confirmKey().forget(password);
+		}
 
-        this.#wallet.data().set(WalletData.ImportMethod, WalletImportMethod.SECRET);
-    }
+		if (importMethod === WalletImportMethod.BIP39.MNEMONIC_WITH_ENCRYPTION) {
+			return this.#wallet.data().set(WalletData.ImportMethod, WalletImportMethod.BIP39.MNEMONIC);
+		}
 
-    async #verifyPassword(password: string): Promise<boolean> {
-        try {
-            const wif = await this.#wallet.signingKey().get(password);
+		this.#wallet.data().set(WalletData.ImportMethod, WalletImportMethod.SECRET);
+	}
 
-            let address: string;
+	async #verifyPassword(password: string): Promise<boolean> {
+		try {
+			const wif = await this.#wallet.signingKey().get(password);
 
-            if (BIP39.validate(wif)) {
-                const data = new AddressService().fromMnemonic(wif);
-                address = data.address;
-            } else {
-                const data = new AddressService().fromSecret(wif);
-                address = data.address;
-            }
+			let address: string;
 
-            return this.#wallet.address() === address;
-        } catch {
-            /* istanbul ignore next */
-            return false;
-        }
-    }
+			if (BIP39.validate(wif)) {
+				const data = new AddressService().fromMnemonic(wif);
+				address = data.address;
+			} else {
+				const data = new AddressService().fromSecret(wif);
+				address = data.address;
+			}
+
+			return this.#wallet.address() === address;
+		} catch {
+			/* istanbul ignore next */
+			return false;
+		}
+	}
 }

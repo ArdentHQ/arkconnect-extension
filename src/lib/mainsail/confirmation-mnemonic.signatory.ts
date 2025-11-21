@@ -1,5 +1,5 @@
-import { AbstractDoubleSignatory } from './abstract-double.signatory';
+import { AbstractDoubleSignatory } from "./abstract-double.signatory";
 
 export class ConfirmationMnemonicSignatory extends AbstractDoubleSignatory {
-    //
+	//
 }

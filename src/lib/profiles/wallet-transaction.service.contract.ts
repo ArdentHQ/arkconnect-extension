@@ -1,5 +1,6 @@
-import { ExtendedSignedTransactionData } from './signed-transaction.dto.js';
-import { Services, Signatories } from '@/app/lib/mainsail';
+import { Services, Signatories } from "@/app/lib/mainsail";
+
+import { ExtendedSignedTransactionData } from "./signed-transaction.dto.js";
 
 export type SignedTransactionDataDictionary = Record<string, ExtendedSignedTransactionData>;
 
@@ -25,243 +26,243 @@ export type SignedTransactionDataDictionary = Record<string, ExtendedSignedTrans
  * @interface ITransactionService
  */
 export interface ITransactionService {
-    /**
-     * Sync both pending and ready multi signature transactions.
-     *
-     * @return {Promise<void>}
-     * @memberof ITransactionService
-     */
-    sync(): Promise<void>;
+	/**
+	 * Sync both pending and ready multi signature transactions.
+	 *
+	 * @return {Promise<void>}
+	 * @memberof ITransactionService
+	 */
+	sync(): Promise<void>;
 
-    /**
-     * Sign the transaction for the given ID with the given mnemonic.
-     *
-     * @param {string} id
-     * @param {Signatories.Signatory} signatory
-     * @return {Promise<Services.BroadcastResponse>}
-     * @memberof ITransactionService
-     */
-    addSignature(id: string, signatory: Signatories.Signatory): Promise<Services.BroadcastResponse>;
+	/**
+	 * Sign the transaction for the given ID with the given mnemonic.
+	 *
+	 * @param {string} id
+	 * @param {Signatories.Signatory} signatory
+	 * @return {Promise<Services.BroadcastResponse>}
+	 * @memberof ITransactionService
+	 */
+	addSignature(id: string, signatory: Signatories.Signatory): Promise<Services.BroadcastResponse>;
 
-    /**
-     * Sign a Transfer transaction.
-     *
-     * @param {Services.TransferInput} input
-     * @return {Promise<string>}
-     * @memberof ITransactionService
-     */
-    signTransfer(input: Services.TransferInput): Promise<string>;
+	/**
+	 * Sign a Transfer transaction.
+	 *
+	 * @param {Services.TransferInput} input
+	 * @return {Promise<string>}
+	 * @memberof ITransactionService
+	 */
+	signTransfer(input: Services.TransferInput): Promise<string>;
 
-    /**
-     * Sign a Second-Signature Registration transaction.
-     *
-     * @param {Services.SecondSignatureInput} input
-     * @return {Promise<string>}
-     * @memberof ITransactionService
-     */
-    signSecondSignature(input: Services.SecondSignatureInput): Promise<string>;
+	/**
+	 * Sign a Second-Signature Registration transaction.
+	 *
+	 * @param {Services.SecondSignatureInput} input
+	 * @return {Promise<string>}
+	 * @memberof ITransactionService
+	 */
+	signSecondSignature(input: Services.SecondSignatureInput): Promise<string>;
 
-    /**
-     * Sign a Delegate Registration transaction.
-     *
-     * @deprecated
-     *
-     * @param {Services.DelegateRegistrationInput} input
-     * @return {Promise<string>}
-     * @memberof ITransactionService
-     */
-    signDelegateRegistration(input: Services.ValidatorResignationInput): Promise<string>;
+	/**
+	 * Sign a Delegate Registration transaction.
+	 *
+	 * @deprecated
+	 *
+	 * @param {Services.DelegateRegistrationInput} input
+	 * @return {Promise<string>}
+	 * @memberof ITransactionService
+	 */
+	signDelegateRegistration(input: Services.ValidatorResignationInput): Promise<string>;
 
-    /**
-     * Sign a Validator Registration transaction.
-     *
-     * @param {Services.ValidatorRegistrationInput} input
-     * @return {Promise<string>}
-     * @memberof ITransactionService
-     */
-    signValidatorRegistration(input: Services.ValidatorRegistrationInput): Promise<string>;
+	/**
+	 * Sign a Validator Registration transaction.
+	 *
+	 * @param {Services.ValidatorRegistrationInput} input
+	 * @return {Promise<string>}
+	 * @memberof ITransactionService
+	 */
+	signValidatorRegistration(input: Services.ValidatorRegistrationInput): Promise<string>;
 
-    /**
-     * Sign a Update Validator transaction.
-     *
-     * @param {Services.UpdateValidatorInput} input
-     * @return {Promise<string>}
-     * @memberof ITransactionService
-     */
-    signUpdateValidator(input: Services.UpdateValidatorInput): Promise<string>;
+	/**
+	 * Sign a Update Validator transaction.
+	 *
+	 * @param {Services.UpdateValidatorInput} input
+	 * @return {Promise<string>}
+	 * @memberof ITransactionService
+	 */
+	signUpdateValidator(input: Services.UpdateValidatorInput): Promise<string>;
 
-    /**
-     * Sign a Username Registration transaction.
-     *
-     * @param {Services.UsernameRegistrationInput} input
-     * @return {Promise<string>}
-     * @memberof ITransactionService
-     */
-    signUsernameRegistration(input: Services.UsernameRegistrationInput): Promise<string>;
+	/**
+	 * Sign a Username Registration transaction.
+	 *
+	 * @param {Services.UsernameRegistrationInput} input
+	 * @return {Promise<string>}
+	 * @memberof ITransactionService
+	 */
+	signUsernameRegistration(input: Services.UsernameRegistrationInput): Promise<string>;
 
-    /**
-     * Sign a Username Resignation transaction.
-     *
-     * @param {Services.UsernameResignationInput} input
-     * @return {Promise<string>}
-     * @memberof ITransactionService
-     */
-    signUsernameResignation(input: Services.UsernameResignationInput): Promise<string>;
+	/**
+	 * Sign a Username Resignation transaction.
+	 *
+	 * @param {Services.UsernameResignationInput} input
+	 * @return {Promise<string>}
+	 * @memberof ITransactionService
+	 */
+	signUsernameResignation(input: Services.UsernameResignationInput): Promise<string>;
 
-    /**
-     * Sign a Vote transaction.
-     *
-     * @param {Services.VoteInput} input
-     * @return {Promise<string>}
-     * @memberof ITransactionService
-     */
-    signVote(input: Services.VoteInput): Promise<string>;
+	/**
+	 * Sign a Vote transaction.
+	 *
+	 * @param {Services.VoteInput} input
+	 * @return {Promise<string>}
+	 * @memberof ITransactionService
+	 */
+	signVote(input: Services.VoteInput): Promise<string>;
 
-    /**
-     * Sign a Multi-Payment transaction.
-     *
-     * @param {Services.MultiPaymentInput} input
-     * @return {Promise<string>}
-     * @memberof ITransactionService
-     */
-    signMultiPayment(input: Services.MultiPaymentInput): Promise<string>;
+	/**
+	 * Sign a Multi-Payment transaction.
+	 *
+	 * @param {Services.MultiPaymentInput} input
+	 * @return {Promise<string>}
+	 * @memberof ITransactionService
+	 */
+	signMultiPayment(input: Services.MultiPaymentInput): Promise<string>;
 
-    /**
-     * Sign a Delegate Resignation transaction.
-     *
-     * @deprecated
-     *
-     * @param {Services.DelegateResignationInput} input
-     * @return {Promise<string>}
-     * @memberof ITransactionService
-     */
-    signDelegateResignation(input: Services.ValidatorResignationInput): Promise<string>;
+	/**
+	 * Sign a Delegate Resignation transaction.
+	 *
+	 * @deprecated
+	 *
+	 * @param {Services.DelegateResignationInput} input
+	 * @return {Promise<string>}
+	 * @memberof ITransactionService
+	 */
+	signDelegateResignation(input: Services.ValidatorResignationInput): Promise<string>;
 
-    /**
-     * Sign a Validator Resignation transaction.
-     *
-     * @param {Services.ValidatorResignationInput} input
-     * @return {Promise<string>}
-     * @memberof ITransactionService
-     */
-    signValidatorResignation(input: Services.ValidatorResignationInput): Promise<string>;
+	/**
+	 * Sign a Validator Resignation transaction.
+	 *
+	 * @param {Services.ValidatorResignationInput} input
+	 * @return {Promise<string>}
+	 * @memberof ITransactionService
+	 */
+	signValidatorResignation(input: Services.ValidatorResignationInput): Promise<string>;
 
-    /**
-     * Get the transaction for the given ID if it is exists with any valid state.
-     *
-     * @param {string} id
-     * @return {Contracts.SignedTransactionData}
-     * @memberof ITransactionService
-     */
-    transaction(id: string): ExtendedSignedTransactionData;
+	/**
+	 * Get the transaction for the given ID if it is exists with any valid state.
+	 *
+	 * @param {string} id
+	 * @return {Contracts.SignedTransactionData}
+	 * @memberof ITransactionService
+	 */
+	transaction(id: string): ExtendedSignedTransactionData;
 
-    /**
-     * Get all transactions that are pending in some state.
-     *
-     * @return {SignedTransactionDataDictionary}
-     * @memberof ITransactionService
-     */
-    pending(): SignedTransactionDataDictionary;
+	/**
+	 * Get all transactions that are pending in some state.
+	 *
+	 * @return {SignedTransactionDataDictionary}
+	 * @memberof ITransactionService
+	 */
+	pending(): SignedTransactionDataDictionary;
 
-    /**
-     * Get all transactions that have been signed.
-     *
-     * @return {SignedTransactionDataDictionary}
-     * @memberof ITransactionService
-     */
-    signed(): SignedTransactionDataDictionary;
+	/**
+	 * Get all transactions that have been signed.
+	 *
+	 * @return {SignedTransactionDataDictionary}
+	 * @memberof ITransactionService
+	 */
+	signed(): SignedTransactionDataDictionary;
 
-    /**
-     * Get all transactions that have been broadcasted.
-     *
-     * @return {SignedTransactionDataDictionary}
-     * @memberof ITransactionService
-     */
-    broadcasted(): SignedTransactionDataDictionary;
+	/**
+	 * Get all transactions that have been broadcasted.
+	 *
+	 * @return {SignedTransactionDataDictionary}
+	 * @memberof ITransactionService
+	 */
+	broadcasted(): SignedTransactionDataDictionary;
 
-    /**
-     * Check if the given ID has been signed.
-     *
-     * @param {string} id
-     * @return {boolean}
-     * @memberof ITransactionService
-     */
-    hasBeenSigned(id: string): boolean;
+	/**
+	 * Check if the given ID has been signed.
+	 *
+	 * @param {string} id
+	 * @return {boolean}
+	 * @memberof ITransactionService
+	 */
+	hasBeenSigned(id: string): boolean;
 
-    /**
-     * Check if the given ID has been broadcasted.
-     *
-     * @param {string} id
-     * @return {boolean}
-     * @memberof ITransactionService
-     */
-    hasBeenBroadcasted(id: string): boolean;
+	/**
+	 * Check if the given ID has been broadcasted.
+	 *
+	 * @param {string} id
+	 * @return {boolean}
+	 * @memberof ITransactionService
+	 */
+	hasBeenBroadcasted(id: string): boolean;
 
-    /**
-     * Check if the given ID has been confirmed.
-     *
-     * @param {string} id
-     * @return {boolean}
-     * @memberof ITransactionService
-     */
-    hasBeenConfirmed(id: string): boolean;
+	/**
+	 * Check if the given ID has been confirmed.
+	 *
+	 * @param {string} id
+	 * @return {boolean}
+	 * @memberof ITransactionService
+	 */
+	hasBeenConfirmed(id: string): boolean;
 
-    /**
-     * Check if the given ID is waiting to be confirmed.
-     *
-     * @param {string} id
-     * @return {boolean}
-     * @memberof ITransactionService
-     */
-    isAwaitingConfirmation(id: string): boolean;
+	/**
+	 * Check if the given ID is waiting to be confirmed.
+	 *
+	 * @param {string} id
+	 * @return {boolean}
+	 * @memberof ITransactionService
+	 */
+	isAwaitingConfirmation(id: string): boolean;
 
-    /**
-     * Check if the given transaction for the given ID can be signed.
-     *
-     * @param {string} id
-     * @return {boolean}
-     * @memberof ITransactionService
-     */
-    canBeSigned(id: string): boolean;
+	/**
+	 * Check if the given transaction for the given ID can be signed.
+	 *
+	 * @param {string} id
+	 * @return {boolean}
+	 * @memberof ITransactionService
+	 */
+	canBeSigned(id: string): boolean;
 
-    /**
-     * Check if the given transaction for the given ID can be broadcasted.
-     *
-     * @param {string} id
-     * @return {boolean}
-     * @memberof ITransactionService
-     */
-    canBeBroadcasted(id: string): boolean;
+	/**
+	 * Check if the given transaction for the given ID can be broadcasted.
+	 *
+	 * @param {string} id
+	 * @return {boolean}
+	 * @memberof ITransactionService
+	 */
+	canBeBroadcasted(id: string): boolean;
 
-    /**
-     * Broadcast the given ID.
-     *
-     * @param {string} id
-     * @return {Promise<Services.BroadcastResponse>}
-     * @memberof ITransactionService
-     */
-    broadcast(id: string): Promise<Services.BroadcastResponse>;
+	/**
+	 * Broadcast the given ID.
+	 *
+	 * @param {string} id
+	 * @return {Promise<Services.BroadcastResponse>}
+	 * @memberof ITransactionService
+	 */
+	broadcast(id: string): Promise<Services.BroadcastResponse>;
 
-    /**
-     * Check if the given ID has been confirmed by the respective network.
-     *
-     * @param {string} id
-     * @return {Promise<boolean>}
-     * @memberof ITransactionService
-     */
-    confirm(id: string): Promise<boolean>;
+	/**
+	 * Check if the given ID has been confirmed by the respective network.
+	 *
+	 * @param {string} id
+	 * @return {Promise<boolean>}
+	 * @memberof ITransactionService
+	 */
+	confirm(id: string): Promise<boolean>;
 
-    /**
-     * Dump the transactions as JSON strings.
-     *
-     * @memberof ITransactionService
-     */
-    dump(): void;
+	/**
+	 * Dump the transactions as JSON strings.
+	 *
+	 * @memberof ITransactionService
+	 */
+	dump(): void;
 
-    /**
-     * Restore the transactions as DTO instances.
-     *
-     * @memberof ITransactionService
-     */
-    restore(): void;
+	/**
+	 * Restore the transactions as DTO instances.
+	 *
+	 * @memberof ITransactionService
+	 */
+	restore(): void;
 }

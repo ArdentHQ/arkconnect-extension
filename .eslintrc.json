@@ -6,7 +6,7 @@
     },
     "ignorePatterns": [
         "src/lib/{helpers,intl,mainsail,markets,profiles}/**"
-    ]
+    ],
     "extends": [
         "eslint:recommended",
         "plugin:react/recommended",
