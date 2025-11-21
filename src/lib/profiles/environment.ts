@@ -204,15 +204,5 @@ export class Environment {
 	}
 
 	private async updateVersion() {
-		// For pre-evm, clear profiles, as they are not compatible.
-		if (!this.data().has("version") && process.env.DELETE_OLD_PROFILES === "true") {
-			this.reset();
-		}
-
-		if (this.data().get("version") !== process.env.APP_VERSION) {
-			this.data().set("version", process.env.APP_VERSION);
-		}
-
-		await this.persist();
 	}
 }
