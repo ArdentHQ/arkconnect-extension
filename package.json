@@ -13,6 +13,7 @@
         "build": "rm -rf dist && tsc && vite build && zip build.zip dist",
         "build:firefox": "rm -rf dist && BROWSER=firefox vite build --config vite.production.config.ts",
         "build:chrome": "rm -rf dist && BROWSER=chrome vite build --config vite.production.config.ts",
+        "format": "pnpm lint && pnpm prettier",
         "lint": "eslint -c .eslintrc.json \"src/**/*.{js,ts,jsx,tsx}\" --fix",
         "prettier": "prettier --write src/**/*.{json,ts,tsx,css} .github/**/*.yml ./*.{json,js,ts} --config .prettierrc.json",
         "preview": "vite preview",
