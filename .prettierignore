@@ -7,3 +7,4 @@ src/lib/intl
 src/lib/mainsail
 src/lib/markets
 src/lib/profiles
+src/lib/utils

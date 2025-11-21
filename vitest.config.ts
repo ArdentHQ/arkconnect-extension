@@ -19,7 +19,7 @@ export default defineConfig((env) => {
                     'src/lib/mainsail/**',
                     'src/lib/markets/**',
                     'src/lib/profiles/**',
-
+                    'src/lib/utils/**',
                 ],
                 setupFiles: ['./vitest.setup.ts'],
                 coverage: {
