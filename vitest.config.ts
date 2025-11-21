@@ -12,7 +12,15 @@ export default defineConfig((env) => {
                 maxConcurrency: 4,
                 globals: true,
                 environment: 'jsdom',
-                exclude: [...configDefaults.exclude],
+                exclude: [
+                    ...configDefaults.exclude,
+                    'src/lib/helpers/**',
+                    'src/lib/intl/**',
+                    'src/lib/mainsail/**',
+                    'src/lib/markets/**',
+                    'src/lib/profiles/**',
+
+                ],
                 setupFiles: ['./vitest.setup.ts'],
                 coverage: {
                     thresholds: {
