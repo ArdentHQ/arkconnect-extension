@@ -1,76 +1,76 @@
-import { BigNumber } from '@/app/lib/helpers';
+import { BigNumber } from "@/app/lib/helpers";
 
 export type KeyValuePair = Record<string, any>;
 
 export interface WalletBalance {
-    total: BigNumber;
-    available: BigNumber;
-    fees: BigNumber;
-    locked?: BigNumber;
-    lockedVotes?: BigNumber;
-    lockedUnvotes?: BigNumber;
-    tokens?: Record<string, BigNumber>;
+	total: BigNumber;
+	available: BigNumber;
+	fees: BigNumber;
+	locked?: BigNumber;
+	lockedVotes?: BigNumber;
+	lockedUnvotes?: BigNumber;
+	tokens?: Record<string, BigNumber>;
 }
 
 export interface WalletMultiSignature {
-    // Standard
-    min?: number;
-    publicKeys?: string[];
-    limit?: number;
-    // Advanced
-    mandatoryKeys?: string[];
-    numberOfSignatures?: number;
-    optionalKeys?: string[];
+	// Standard
+	min?: number;
+	publicKeys?: string[];
+	limit?: number;
+	// Advanced
+	mandatoryKeys?: string[];
+	numberOfSignatures?: number;
+	optionalKeys?: string[];
 }
 
 export interface WalletData {
-    fill(data: any): WalletData;
+	fill(data: any): WalletData;
 
-    // Wallet
-    primaryKey(): string;
+	// Wallet
+	primaryKey(): string;
 
-    address(): string;
+	address(): string;
 
-    publicKey(): string | undefined;
+	publicKey(): string | undefined;
 
-    balance(): WalletBalance;
+	balance(): WalletBalance;
 
-    nonce(): BigNumber;
+	nonce(): BigNumber;
 
-    // Second Signature
-    secondPublicKey(): string | undefined;
+	// Second Signature
+	secondPublicKey(): string | undefined;
 
-    // Delegate
-    username(): string | undefined;
+	// Delegate
+	username(): string | undefined;
 
-    validatorPublicKey(): string | undefined;
+	validatorPublicKey(): string | undefined;
 
-    validatorFee(): number | undefined;
+	validatorFee(): number | undefined;
 
-    rank(): number | undefined;
+	rank(): number | undefined;
 
-    votes(): BigNumber | undefined;
+	votes(): BigNumber | undefined;
 
-    // Flags
-    isValidator(): boolean;
+	// Flags
+	isValidator(): boolean;
 
-    isLegacyValidator(): boolean;
+	isLegacyValidator(): boolean;
 
-    isResignedDelegate(): boolean;
+	isResignedDelegate(): boolean;
 
-    isValidator(): boolean;
+	isValidator(): boolean;
 
-    isResignedValidator(): boolean;
+	isResignedValidator(): boolean;
 
-    isSecondSignature(): boolean;
+	isSecondSignature(): boolean;
 
-    toObject(): KeyValuePair;
+	toObject(): KeyValuePair;
 
-    hasPassed(): boolean;
+	hasPassed(): boolean;
 
-    hasFailed(): boolean;
+	hasFailed(): boolean;
 
-    isSelected(): boolean;
+	isSelected(): boolean;
 }
 
 type LedgerTransport = any;
@@ -79,43 +79,40 @@ type LedgerTransport = any;
 export type { LedgerTransport };
 
 export type {
-    ConfirmedTransactionData,
-    MultiPaymentRecipient,
-    TransactionDataMeta,
-    UnspentTransactionData,
-} from './confirmed-transaction.dto.contract.js';
-export type { EvmCallData, EvmCallResponse } from './evm.contract.js';
-export type {
-    RawTransactionData,
-    SignedTransactionData,
-} from './signed-transaction.dto.contract.js';
+	ConfirmedTransactionData,
+	MultiPaymentRecipient,
+	TransactionDataMeta,
+	UnspentTransactionData,
+} from "./confirmed-transaction.dto.contract.js";
+export type { EvmCallData, EvmCallResponse } from "./evm.contract.js";
+export type { RawTransactionData, SignedTransactionData } from "./signed-transaction.dto.contract.js";
 
 export interface NetworkConfig {
-    milestones: Array<Record<string, any>>;
-    network: Network;
+	milestones: Array<Record<string, any>>;
+	network: Network;
 }
 
 export interface Network {
-    name: string;
-    messagePrefix: string;
-    bip32: {
-        public: number;
-        private: number;
-    };
-    pubKeyHash: number;
-    nethash: string;
-    wif: number;
-    slip44: number;
-    aip20: number;
-    chainId: number;
-    client: {
-        token: string;
-        symbol: string;
-        explorer: string;
-    };
+	name: string;
+	messagePrefix: string;
+	bip32: {
+		public: number;
+		private: number;
+	};
+	pubKeyHash: number;
+	nethash: string;
+	wif: number;
+	slip44: number;
+	aip20: number;
+	chainId: number;
+	client: {
+		token: string;
+		symbol: string;
+		explorer: string;
+	};
 }
 
 export interface IMilestone {
-    index: number;
-    data: { [key: string]: any };
+	index: number;
+	data: { [key: string]: any };
 }

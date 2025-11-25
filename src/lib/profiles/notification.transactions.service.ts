@@ -1,207 +1,220 @@
-import {
-    INotificationTypes,
-    IProfile,
-    IProfileTransactionNotificationService,
-    ProfileSetting,
-} from './contracts.js';
-import { INotification, INotificationRepository } from './notification.repository.contract.js';
-import { AggregateQuery } from './transaction.aggregate.contract.js';
-import { ExtendedConfirmedTransactionDataCollection } from './transaction.collection.js';
-import { ExtendedConfirmedTransactionData } from './transaction.dto.js';
-import { sortByDesc } from '@/app/lib/helpers';
-import { Services } from '@/app/lib/mainsail';
+import { sortByDesc } from "@/app/lib/helpers";
 
-export class ProfileTransactionNotificationService
-    implements IProfileTransactionNotificationService
-{
-    readonly #profile: IProfile;
-    readonly #allowedTypes: string[];
-    readonly #notifications: INotificationRepository;
-    readonly #defaultLimit: number;
-    #transactions: Record<string, ExtendedConfirmedTransactionData> = {};
-    #isSyncing: boolean;
+import { INotificationTypes, IProfile, IProfileTransactionNotificationService } from "./contracts.js";
+import { INotification, INotificationRepository } from "./notification.repository.contract.js";
+import { AggregateQuery } from "./transaction.aggregate.contract.js";
+import { ExtendedConfirmedTransactionDataCollection } from "./transaction.collection.js";
+import { ExtendedConfirmedTransactionData } from "./transaction.dto.js";
+import { Cache } from "@/app/lib/mainsail/cache.js";
 
-    public constructor(profile: IProfile, notificationRepository: INotificationRepository) {
-        this.#defaultLimit = 10;
-        this.#profile = profile;
-        this.#allowedTypes = ['transfer', 'multiPayment'];
-        this.#notifications = notificationRepository;
-        this.#isSyncing = false;
-    }
+export class ProfileTransactionNotificationService implements IProfileTransactionNotificationService {
+	readonly #profile: IProfile;
+	readonly #allowedTypes: string[];
+	readonly #notifications: INotificationRepository;
+	readonly #defaultLimit: number;
+	readonly #cache: Cache;
+	#transactions: Record<string, ExtendedConfirmedTransactionData> = {};
+	#isSyncing: boolean;
 
-    /** {@inheritDoc IProfileTransactionNotificationService.findByTransactionId} */
-    public findByTransactionId(transactionId: string) {
-        return this.#notifications.findByTransactionId(transactionId);
-    }
+	private static readonly CACHE_TTL_SECONDS = 24 * 60 * 60;
 
-    /** {@inheritDoc IProfileTransactionNotificationService.has} */
-    public has(transactionId: string) {
-        return !!this.#notifications.findByTransactionId(transactionId);
-    }
+	public constructor(profile: IProfile, notificationRepository: INotificationRepository) {
+		this.#defaultLimit = 10;
+		this.#profile = profile;
+		this.#allowedTypes = ["transfer", "multiPayment"];
+		this.#notifications = notificationRepository;
+		this.#isSyncing = false;
+		this.#cache = new Cache(ProfileTransactionNotificationService.CACHE_TTL_SECONDS);
+	}
 
-    /** {@inheritDoc IProfileTransactionNotificationService.forget} */
-    public forget(transactionId: string): void {
-        for (const { id, meta } of this.#notifications.values()) {
-            if (transactionId === meta.transactionId) {
-                this.#notifications.forget(id);
-                delete this.#transactions[transactionId];
-            }
-        }
-    }
+	/** {@inheritDoc IProfileTransactionNotificationService.findByTransactionId} */
+	public findByTransactionId(transactionId: string) {
+		return this.#notifications.findByTransactionId(transactionId);
+	}
 
-    /** {@inheritDoc IProfileTransactionNotificationService.forgetByRecipient} */
-    public forgetByRecipient(address: string): void {
-        for (const { id, meta } of this.#notifications.filterByType(
-            INotificationTypes.Transaction,
-        )) {
-            if ([...meta.recipients].includes(address)) {
-                this.#notifications.forget(id);
-                delete this.#transactions[meta.transactionId];
-            }
-        }
-    }
+	/** {@inheritDoc IProfileTransactionNotificationService.has} */
+	public has(transactionId: string) {
+		return !!this.#notifications.findByTransactionId(transactionId);
+	}
 
-    /** {@inheritDoc IProfileTransactionNotificationService.recent} */
-    public recent(limit?: number) {
-        return sortByDesc(
-            this.#notifications.filterByType(INotificationTypes.Transaction),
-            (notification) => notification.meta.timestamp,
-        ).slice(0, limit || this.#defaultLimit);
-    }
+	/** {@inheritDoc IProfileTransactionNotificationService.forget} */
+	public forget(transactionId: string): void {
+		for (const { id, meta } of this.#notifications.values()) {
+			if (transactionId === meta.transactionId) {
+				this.#notifications.forget(id);
+				delete this.#transactions[transactionId];
+			}
+		}
 
-    /** {@inheritDoc IProfileTransactionNotificationService.markAsRead} */
-    public markAsRead(transactionId: string) {
-        const notification: INotification | undefined = this.findByTransactionId(transactionId);
+		void this.#cache.remember(this.#cacheKey(), Object.values(this.#transactions));
+	}
 
-        if (!notification) {
-            return;
-        }
+	/** {@inheritDoc IProfileTransactionNotificationService.forgetByRecipient} */
+	public forgetByRecipient(address: string): void {
+		for (const { id, meta } of this.#notifications.filterByType(INotificationTypes.Transaction)) {
+			if ([...meta.recipients].includes(address)) {
+				this.#notifications.forget(id);
+				delete this.#transactions[meta.transactionId];
+			}
+		}
 
-        this.#notifications.markAsRead(notification.id);
-    }
+		void this.#cache.remember(this.#cacheKey(), Object.values(this.#transactions));
+	}
 
-    /** {@inheritDoc IProfileTransactionNotificationService.markAllAsRead} */
-    public markAllAsRead() {
-        for (const notification of this.#notifications.unread()) {
-            if (notification.type === INotificationTypes.Transaction) {
-                this.#notifications.markAsRead(notification.id);
-            }
-        }
-    }
+	/** {@inheritDoc IProfileTransactionNotificationService.recent} */
+	public recent(limit?: number) {
+		return sortByDesc(
+			this.#notifications.filterByType(INotificationTypes.Transaction),
+			(notification) => notification.meta.timestamp,
+		).slice(0, limit || this.#defaultLimit);
+	}
 
-    /** {@inheritDoc IProfileTransactionNotificationService.sync} */
-    public async sync(queryInput?: AggregateQuery) {
-        this.#isSyncing = true;
+	/** {@inheritDoc IProfileTransactionNotificationService.markAsRead} */
+	public markAsRead(transactionId: string) {
+		const notification: INotification | undefined = this.findByTransactionId(transactionId);
 
-        this.#profile.transactionAggregate().flush('received');
+		if (!notification) {
+			return;
+		}
 
-        const transactions: ExtendedConfirmedTransactionDataCollection = await this.#profile
-            .transactionAggregate()
-            .received({
-                cursor: 1,
-                identifiers: this.#getIdentifiers(),
-                limit: this.#defaultLimit,
-                ...queryInput,
-            });
+		this.#notifications.markAsRead(notification.id);
+	}
 
-        for (const transaction of this.#filterUnseen(transactions.items())) {
-            this.#notifications.push({
-                meta: {
-                    recipients: [
-                        transaction.to(),
-                        ...transaction.recipients().map((recipient) => recipient.address),
-                    ],
-                    timestamp: transaction.timestamp()?.toUNIX(),
-                    transactionId: transaction.hash(),
-                },
-                read_at: undefined,
-                type: INotificationTypes.Transaction,
-            });
-        }
+	/** {@inheritDoc IProfileTransactionNotificationService.markAllAsRead} */
+	public markAllAsRead() {
+		for (const notification of this.#notifications.unread()) {
+			if (notification.type === INotificationTypes.Transaction) {
+				this.#notifications.markAsRead(notification.id);
+			}
+		}
+	}
 
-        this.#storeTransactions(transactions.items());
+	/** {@inheritDoc IProfileTransactionNotificationService.hydrateFromCache} */
+	public async hydrateFromCache(): Promise<void> {
+		const cached = await this.#cache.remember(this.#cacheKey(), async () => Object.values(this.#transactions));
 
-        this.#isSyncing = false;
-    }
+		if (Array.isArray(cached) && cached.length > 0) {
+			this.#storeTransactions(cached as ExtendedConfirmedTransactionData[]);
+		}
+	}
 
-    /** {@inheritDoc IProfileTransactionNotificationService.transactions} */
-    public transactions(limit?: number): ExtendedConfirmedTransactionData[] {
-        return sortByDesc(Object.values(this.#transactions), (transaction) =>
-            transaction.timestamp()?.toUNIX(),
-        ).slice(0, limit || this.#defaultLimit);
-    }
+	/** {@inheritDoc IProfileTransactionNotificationService.sync} */
+	public async sync(queryInput?: AggregateQuery) {
+		this.#isSyncing = true;
 
-    /** {@inheritDoc IProfileTransactionNotificationService.transaction} */
-    public transaction(transactionId: string): ExtendedConfirmedTransactionData | undefined {
-        return this.#transactions[transactionId];
-    }
+		try {
+			this.#profile.transactionAggregate().flush("received");
 
-    /** {@inheritDoc IProfileTransactionNotificationService.isSyncing} */
-    public isSyncing(): boolean {
-        return this.#isSyncing;
-    }
+			const transactions: ExtendedConfirmedTransactionDataCollection = await this.#profile
+				.transactionAggregate()
+				.received({
+					cursor: 1,
+					limit: this.#defaultLimit,
+					to: this.#getToAddresses().join(","),
+					...queryInput,
+				});
 
-    #isRecipient(transaction: ExtendedConfirmedTransactionData): boolean {
-        return [
-            transaction.to(),
-            ...transaction.recipients().map((recipient) => recipient.address),
-        ].some(
-            (address: string) =>
-                !!this.#profile
-                    .wallets()
-                    .findByAddressWithNetwork(address, transaction.wallet().networkId()),
-        );
-    }
+			for (const transaction of this.#filterUnseen(transactions.items())) {
+				this.#notifications.push({
+					meta: {
+						recipients: [
+							transaction.to(),
+							...transaction.recipients().map((recipient) => recipient.address),
+						],
+						timestamp: transaction.timestamp()?.toUNIX(),
+						transactionId: transaction.hash(),
+					},
+					read_at: undefined,
+					type: INotificationTypes.Transaction,
+				});
+			}
 
-    #filterUnseen(
-        transactions: ExtendedConfirmedTransactionData[],
-    ): ExtendedConfirmedTransactionData[] {
-        const result: ExtendedConfirmedTransactionData[] = [];
+			this.#storeTransactions(transactions.items());
 
-        for (const transaction of transactions) {
-            if (!this.#allowedTypes.includes(transaction.type())) {
-                continue;
-            }
+			await this.#cache.remember(this.#cacheKey(), Object.values(this.#transactions));
+		} finally {
+			this.#isSyncing = false;
+		}
+	}
 
-            if (!this.#isRecipient(transaction)) {
-                continue;
-            }
+	/** {@inheritDoc IProfileTransactionNotificationService.transactions} */
+	public transactions(limit?: number): ExtendedConfirmedTransactionData[] {
+		return sortByDesc(Object.values(this.#transactions), (transaction) => transaction.timestamp()?.toUNIX()).slice(
+			0,
+			limit || this.#defaultLimit,
+		);
+	}
 
-            if (this.has(transaction.hash())) {
-                continue;
-            }
+	/** {@inheritDoc IProfileTransactionNotificationService.transaction} */
+	public transaction(transactionId: string): ExtendedConfirmedTransactionData | undefined {
+		return this.#transactions[transactionId];
+	}
 
-            result.push(transaction);
-        }
+	/** {@inheritDoc IProfileTransactionNotificationService.isSyncing} */
+	public isSyncing(): boolean {
+		return this.#isSyncing;
+	}
 
-        return result;
-    }
+	#cacheKey(): string {
+		const networkIds = this.#profile
+			.wallets()
+			.values()
+			.map((w) => w.network().id())
+			.join(",");
+		return `notifications.${this.#profile.id()}.transactions::${networkIds}`;
+	}
 
-    #getIdentifiers(): Services.WalletIdentifier[] {
-        const usesTestNetworks = this.#profile.settings().get(ProfileSetting.UseTestNetworks);
+	#isRecipient(transaction: ExtendedConfirmedTransactionData): boolean {
+		return [transaction.to(), ...transaction.recipients().map((recipient) => recipient.address)].some(
+			(address: string) =>
+				!!this.#profile.wallets().findByAddressWithNetwork(address, transaction.wallet().networkId()),
+		);
+	}
 
-        const availableWallets = this.#profile
-            .wallets()
-            .values()
-            .filter((wallet) => wallet.network().isLive() || usesTestNetworks);
+	#filterUnseen(transactions: ExtendedConfirmedTransactionData[]): ExtendedConfirmedTransactionData[] {
+		const result: ExtendedConfirmedTransactionData[] = [];
 
-        return availableWallets.map((wallet) => ({
-            type: 'address',
-            value: wallet.address(),
-        }));
-    }
+		for (const transaction of transactions) {
+			if (!this.#allowedTypes.includes(transaction.type())) {
+				continue;
+			}
 
-    #storeTransactions(transactions: ExtendedConfirmedTransactionData[]): void {
-        const result: Record<string, ExtendedConfirmedTransactionData> = {};
+			if (!this.#isRecipient(transaction)) {
+				continue;
+			}
 
-        for (const transaction of transactions) {
-            if (!this.has(transaction.hash())) {
-                continue;
-            }
+			if (this.has(transaction.hash())) {
+				continue;
+			}
 
-            result[transaction.hash()] = transaction;
-        }
+			result.push(transaction);
+		}
 
-        this.#transactions = result;
-    }
+		return result;
+	}
+
+	#getToAddresses(): string[] {
+		const activeNetwork = this.#profile.activeNetwork();
+
+		const availableWallets = this.#profile
+			.wallets()
+			.values()
+			.filter((wallet) => wallet.network().id() === activeNetwork.id());
+
+		return availableWallets.map((wallet) => wallet.address());
+	}
+
+	#storeTransactions(transactions: ExtendedConfirmedTransactionData[]): void {
+		const result: Record<string, ExtendedConfirmedTransactionData> = {};
+
+		for (const transaction of transactions) {
+			if (!this.has(transaction.hash())) {
+				continue;
+			}
+
+			result[transaction.hash()] = transaction;
+		}
+
+		this.#transactions = result;
+	}
 }

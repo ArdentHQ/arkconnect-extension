@@ -1,256 +1,259 @@
 /* istanbul ignore file */
 
-import { IReadWriteWallet } from './contracts.js';
-import { ExtendedTransactionRecipient } from './transaction.dto.js';
-import { DTO } from '@/app/lib/mainsail';
+import { DTO } from "@/app/lib/mainsail";
+import { IReadWriteWallet } from "./contracts.js";
 
-import { BigNumber } from '@/app/lib/helpers';
-import { DateTime } from '@/app/lib/intl';
-import { SignedTransactionData } from '@/app/lib/mainsail/signed-transaction.dto.js';
+import { BigNumber } from "@/app/lib/helpers";
+import { DateTime } from "@/app/lib/intl";
+import { ExtendedTransactionRecipient } from "./transaction.dto.js";
+import { SignedTransactionData } from "@/app/lib/mainsail/signed-transaction.dto.js";
 
 export class ExtendedSignedTransactionData {
-    readonly #data: SignedTransactionData;
-    readonly #wallet: IReadWriteWallet;
+	readonly #data: SignedTransactionData;
+	readonly #wallet: IReadWriteWallet;
 
-    public constructor(data: SignedTransactionData, wallet: IReadWriteWallet) {
-        this.#data = data;
-        this.#wallet = wallet;
-    }
+	public constructor(data: SignedTransactionData, wallet: IReadWriteWallet) {
+		this.#data = data;
+		this.#wallet = wallet;
+	}
 
-    public data(): SignedTransactionData {
-        return this.#data;
-    }
+	public data(): SignedTransactionData {
+		return this.#data;
+	}
 
-    public hash(): string {
-        return this.#data.hash();
-    }
+	public hash(): string {
+		return this.#data.hash();
+	}
 
-    public type(): string {
-        return this.#data.type();
-    }
+	public type(): string {
+		return this.#data.type();
+	}
 
-    public from(): string {
-        return this.#data.from();
-    }
+	public from(): string {
+		return this.#data.from();
+	}
 
-    public to(): string {
-        return this.#data.to();
-    }
+	public to(): string {
+		return this.#data.to();
+	}
 
-    public value(): number {
-        return this.#data.value().toHuman();
-    }
+	public value(): number {
+		return this.#data.value().toHuman();
+	}
 
-    public convertedAmount(): number {
-        return this.#convertAmount(this.value());
-    }
+	public convertedAmount(): number {
+		return this.#convertAmount(this.value());
+	}
 
-    public fee(): number {
-        return this.#data.fee().toHuman();
-    }
+	public fee(): number {
+		return this.#data.fee().toHuman();
+	}
 
-    public convertedFee(): number {
-        return this.#convertAmount(this.fee());
-    }
+	public convertedFee(): number {
+		return this.#convertAmount(this.fee());
+	}
 
-    public nonce(): BigNumber {
-        return this.#data.nonce();
-    }
+	public nonce(): BigNumber {
+		return this.#data.nonce();
+	}
 
-    public timestamp(): DateTime {
-        return this.#data.timestamp();
-    }
+	public timestamp(): DateTime {
+		return this.#data.timestamp();
+	}
 
-    public isReturn(): boolean {
-        if (this.isTransfer()) {
-            return this.isSent() && this.isReceived();
-        }
+	public isReturn(): boolean {
+		if (this.isTransfer()) {
+			return this.isSent() && this.isReceived();
+		}
 
-        if (this.isMultiPayment()) {
-            let isReturn = true;
+		if (this.isMultiPayment()) {
+			return this.recipients().every(({ address }) => address === this.from());
+		}
 
-            for (const recipient of this.recipients().values()) {
-                if (recipient.address !== this.from()) {
-                    isReturn = false;
-                    break;
-                }
-            }
+		return false;
+	}
 
-            return isReturn;
-        }
+	public isSent(): boolean {
+		return [this.#wallet.address(), this.#wallet.publicKey()].includes(this.from());
+	}
 
-        return false;
-    }
+	public isReceived(): boolean {
+		return [this.#wallet.address(), this.#wallet.publicKey()].includes(this.to());
+	}
 
-    public isSent(): boolean {
-        return [this.#wallet.address(), this.#wallet.publicKey()].includes(this.from());
-    }
+	public isTransfer(): boolean {
+		return this.#data.isTransfer();
+	}
 
-    public isReceived(): boolean {
-        return [this.#wallet.address(), this.#wallet.publicKey()].includes(this.to());
-    }
+	public isSecondSignature(): boolean {
+		return this.#data.isSecondSignature();
+	}
 
-    public isTransfer(): boolean {
-        return this.#data.isTransfer();
-    }
+	public isValidatorRegistration(): boolean {
+		return this.#data.isValidatorRegistration();
+	}
 
-    public isSecondSignature(): boolean {
-        return this.#data.isSecondSignature();
-    }
+	public isUpdateValidator(): boolean {
+		return this.#data.isUpdateValidator();
+	}
 
-    public isValidatorRegistration(): boolean {
-        return this.#data.isValidatorRegistration();
-    }
+	public isUsernameRegistration(): boolean {
+		return this.#data.isUsernameRegistration();
+	}
 
-    public isUpdateValidator(): boolean {
-        return this.#data.isUpdateValidator();
-    }
+	public isUsernameResignation(): boolean {
+		return this.#data.isUsernameResignation();
+	}
 
-    public isUsernameRegistration(): boolean {
-        return this.#data.isUsernameRegistration();
-    }
+	public isVoteCombination(): boolean {
+		return this.#data.isVoteCombination();
+	}
 
-    public isUsernameResignation(): boolean {
-        return this.#data.isUsernameResignation();
-    }
+	public isVote(): boolean {
+		return this.#data.isVote();
+	}
 
-    public isVoteCombination(): boolean {
-        return this.#data.isVoteCombination();
-    }
+	public isUnvote(): boolean {
+		return this.#data.isUnvote();
+	}
 
-    public isVote(): boolean {
-        return this.#data.isVote();
-    }
+	public isMultiSignatureRegistration(): boolean {
+		return false;
+	}
 
-    public isUnvote(): boolean {
-        return this.#data.isUnvote();
-    }
+	public isMultiPayment(): boolean {
+		return this.#data.isMultiPayment();
+	}
 
-    public isMultiSignatureRegistration(): boolean {
-        return false;
-    }
+	public isValidatorResignation(): boolean {
+		return this.#data.isValidatorResignation();
+	}
 
-    public isMultiPayment(): boolean {
-        return this.#data.isMultiPayment();
-    }
+	public total(): number {
+		if (this.isReturn()) {
+			return this.value() - this.fee();
+		}
 
-    public isValidatorResignation(): boolean {
-        return this.#data.isValidatorResignation();
-    }
+		// We want to return amount + fee for the transactions using multi-signature
+		// because the total should be calculated from the sender perspective.
+		// This is specific for signed - unconfirmed transactions only.
+		if (this.isSent()) {
+			return this.value() + this.fee();
+		}
 
-    public total(): number {
-        if (this.isReturn()) {
-            return this.value() - this.fee();
-        }
+		let total = this.value();
 
-        // We want to return amount + fee for the transactions using multi-signature
-        // because the total should be calculated from the sender perspective.
-        // This is specific for signed - unconfirmed transactions only.
-        if (this.isSent()) {
-            return this.value() + this.fee();
-        }
+		if (this.isMultiPayment()) {
+			for (const recipient of this.recipients()) {
+				if (recipient.address !== this.wallet().address()) {
+					total -= recipient.amount;
+				}
+			}
+		}
 
-        let total = this.value();
+		return total;
+	}
 
-        if (this.isMultiPayment()) {
-            for (const recipient of this.recipients()) {
-                if (recipient.address !== this.wallet().address()) {
-                    total -= recipient.amount;
-                }
-            }
-        }
+	public convertedTotal(): number {
+		return this.#convertAmount(this.total());
+	}
 
-        return total;
-    }
+	public get<T = string>(key: string): T {
+		return this.#data.get(key);
+	}
 
-    public convertedTotal(): number {
-        return this.#convertAmount(this.total());
-    }
+	public toString(): string {
+		return this.#data.toString();
+	}
 
-    public get<T = string>(key: string): T {
-        return this.#data.get(key);
-    }
+	public toBroadcast(): any {
+		return this.#data.toBroadcast();
+	}
 
-    public toString(): string {
-        return this.#data.toString();
-    }
+	public toObject(): DTO.SignedTransactionObject {
+		return this.#data.toObject();
+	}
 
-    public toBroadcast(): any {
-        return this.#data.toBroadcast();
-    }
+	public wallet(): IReadWriteWallet {
+		return this.#wallet;
+	}
 
-    public toObject(): DTO.SignedTransactionObject {
-        return this.#data.toObject();
-    }
+	public votes(): string[] {
+		return this.#data.votes();
+	}
 
-    public wallet(): IReadWriteWallet {
-        return this.#wallet;
-    }
+	public unvotes(): string[] {
+		return this.#data.unvotes();
+	}
 
-    public votes(): string[] {
-        return this.#data.votes();
-    }
+	// @TODO: remove those after introducing proper signed tx DTOs (ARK/LSK specific)
+	public username(): string {
+		return this.#data.username();
+	}
 
-    public unvotes(): string[] {
-        return this.#data.unvotes();
-    }
+	public validatorPublicKey(): string {
+		return this.#data.validatorPublicKey();
+	}
 
-    // @TODO: remove those after introducing proper signed tx DTOs (ARK/LSK specific)
-    public username(): string {
-        return this.#data.username();
-    }
+	public payments(): { recipientId: string; amount: number }[] {
+		return this.#data.payments().map((payment) => ({
+			amount: payment.amount.toHuman(),
+			recipientId: payment.recipientId,
+		}));
+	}
 
-    public validatorPublicKey(): string {
-        return this.#data.validatorPublicKey();
-    }
+	public recipients(): ExtendedTransactionRecipient[] {
+		return this.#data.recipients().map((payment: { address: string; amount: BigNumber }) => ({
+			address: payment.address,
+			amount: payment.amount.toHuman(),
+		}));
+	}
 
-    public payments(): { recipientId: string; amount: number }[] {
-        return this.#data.payments().map((payment) => ({
-            amount: payment.amount.toHuman(),
-            recipientId: payment.recipientId,
-        }));
-    }
+	public explorerLink(): string {
+		return this.#wallet.link().transaction(this.hash());
+	}
 
-    public recipients(): ExtendedTransactionRecipient[] {
-        return this.#data.recipients().map((payment: { address: string; amount: BigNumber }) => ({
-            address: payment.address,
-            amount: payment.amount.toHuman(),
-        }));
-    }
+	public explorerLinkForBlock(): string | undefined {
+		return undefined;
+	}
 
-    public explorerLink(): string {
-        return this.#wallet.link().transaction(this.hash());
-    }
+	public memo(): string | undefined {
+		return this.#data.memo();
+	}
 
-    public explorerLinkForBlock(): string | undefined {
-        return undefined;
-    }
+	public blockHash(): string | undefined {
+		return undefined;
+	}
 
-    public memo(): string | undefined {
-        return this.#data.memo();
-    }
+	public confirmations(): BigNumber {
+		return BigNumber.ZERO;
+	}
 
-    public blockHash(): string | undefined {
-        return undefined;
-    }
+	public isConfirmed(): boolean {
+		return false;
+	}
 
-    public confirmations(): BigNumber {
-        return BigNumber.ZERO;
-    }
+	#convertAmount(value: number): number {
+		const timestamp: DateTime | undefined = this.timestamp();
 
-    public isConfirmed(): boolean {
-        return false;
-    }
+		if (timestamp === undefined) {
+			return 0;
+		}
 
-    #convertAmount(value: number): number {
-        const timestamp: DateTime | undefined = this.timestamp();
+		return this.wallet()
+			.exchangeRates()
+			.exchange(this.wallet().currency(), this.wallet().exchangeCurrency(), timestamp, value);
+	}
 
-        if (timestamp === undefined) {
-            return 0;
-        }
+	public isSuccess(): boolean {
+		return false;
+	}
 
-        return this.wallet()
-            .exchangeRates()
-            .exchange(this.wallet().currency(), this.wallet().exchangeCurrency(), timestamp, value);
-    }
+	public gasUsed(): number | null {
+		return null;
+	}
+
+	public gasLimit(): number {
+		return this.#data.gasLimit();
+	}
 }

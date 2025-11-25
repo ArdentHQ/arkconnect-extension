@@ -1,86 +1,99 @@
-import { Base64 } from '@ardenthq/arkvault-crypto';
+import { Base64 } from "@ardenthq/arkvault-crypto";
 
-import { IProfile, IProfileData, IProfileImporter, IProfileValidator } from './contracts.js';
-import { Migrator } from './migrator.js';
-import { ProfileEncrypter } from './profile.encrypter';
-import { ProfileValidator } from './profile.validator';
-import { Environment } from './environment.js';
+import { IProfile, IProfileData, IProfileImporter, IProfileValidator, IProfileMainsailMigrator } from "./contracts.js";
+import { Migrator } from "./migrator.js";
+import { ProfileEncrypter } from "./profile.encrypter";
+import { ProfileValidator } from "./profile.validator";
+import { Environment } from "./environment.js";
+import { ProfileMainsailMigrator } from "./profile.mainsail-migrator.js";
 
 export class ProfileImporter implements IProfileImporter {
-    readonly #profile: IProfile;
-    readonly #validator: IProfileValidator;
-    readonly #env: Environment;
+	readonly #profile: IProfile;
+	readonly #validator: IProfileValidator;
+	readonly #migrator: IProfileMainsailMigrator;
+	readonly #env: Environment;
+	#ignoreDetails: boolean = false;
 
-    public constructor(profile: IProfile, env: Environment) {
-        this.#profile = profile;
-        this.#validator = new ProfileValidator();
-        this.#env = env;
-    }
+	public constructor(profile: IProfile, env: Environment) {
+		this.#profile = profile;
+		this.#validator = new ProfileValidator();
+		this.#migrator = new ProfileMainsailMigrator();
+		this.#env = env;
+	}
 
-    /** {@inheritDoc IProfileImporter.import} */
-    public async import(password?: string): Promise<void> {
-        let data: IProfileData | undefined = await this.#unpack(password);
+	public ignoreDetails(): ProfileImporter {
+		this.#ignoreDetails = true;
+		return this;
+	}
 
-        const schemas = this.#env.migrationSchemas();
-        const version = this.#env.migrationVersion();
+	/** {@inheritDoc IProfileImporter.import} */
+	public async import(password?: string): Promise<void> {
+		let data: IProfileData | undefined = await this.#unpack(password);
 
-        if (!!schemas && !!version) {
-            await new Migrator(this.#profile, data).migrate(schemas, version);
-        }
+		const schemas = this.#env.migrationSchemas();
+		const version = this.#env.migrationVersion();
 
-        data = this.#validator.validate(data);
+		if (!!schemas && !!version) {
+			await new Migrator(this.#profile, data).migrate(schemas, version);
+		}
 
-        this.#profile.notifications().fill(data.notifications);
+		data = await this.#migrator.migrate(this.#profile, data);
 
-        this.#profile.data().fill(data.data);
+		data = this.#validator.validate(data);
 
-        this.#profile.hosts().fill(data.hosts);
+		if (!this.#ignoreDetails) {
+			this.#profile.notifications().fill(data.notifications);
 
-        this.#profile.networks().fill(data.networks);
+			this.#profile.data().fill(data.data);
 
-        this.#profile.exchangeTransactions().fill(data.exchangeTransactions);
+			this.#profile.hosts().fill(data.hosts);
 
-        this.#profile.settings().fill(data.settings);
+			this.#profile.networks().fill(data.networks);
 
-        this.#profile.wallets().fill(data.wallets);
+			this.#profile.exchangeTransactions().fill(data.exchangeTransactions);
 
-        this.#profile.contacts().fill(data.contacts);
+			this.#profile.wallets().fill(data.wallets);
 
-        this.#profile.exchangeRates().restore();
-    }
+			this.#profile.contacts().fill(data.contacts);
 
-    /**
-     * Validate the profile data after decoding and/or decrypting it.
-     *
-     * @private
-     * @param {string} [password]
-     * @return {Promise<IProfileData>}
-     * @memberof Profile
-     */
-    async #unpack(password?: string): Promise<IProfileData> {
-        let data: IProfileData | undefined;
-        let errorReason = '';
+			this.#profile.exchangeRates().restore();
+		}
 
-        try {
-            if (typeof password === 'string') {
-                this.#profile.password().set(password);
+		this.#profile.settings().fill(data.settings);
+	}
 
-                data = await new ProfileEncrypter(this.#profile).decrypt(password);
-            } else {
-                data = JSON.parse(Base64.decode(this.#profile.getAttributes().get<string>('data')));
-            }
-        } catch (error) {
-            errorReason = ` Reason: ${error.message}`;
-        }
+	/**
+	 * Validate the profile data after decoding and/or decrypting it.
+	 *
+	 * @private
+	 * @param {string} [password]
+	 * @return {Promise<IProfileData>}
+	 * @memberof Profile
+	 */
+	async #unpack(password?: string): Promise<IProfileData> {
+		let data: IProfileData | undefined;
+		let errorReason = "";
 
-        if (data === undefined) {
-            throw new Error(`Failed to decode or decrypt the profile.${errorReason}`);
-        }
+		try {
+			if (typeof password === "string") {
+				this.#profile.password().set(password);
 
-        if (!data.data && !password) {
-            throw new Error('PasswordRequired');
-        }
+				data = await new ProfileEncrypter(this.#profile).decrypt(password);
+			} else {
+				data = JSON.parse(Base64.decode(this.#profile.getAttributes().get<string>("data")));
+			}
+		} catch (error) {
+			errorReason = ` Reason: ${error.message}`;
+		}
 
-        return data;
-    }
+		if (data === undefined) {
+			throw new Error(`Failed to decode or decrypt the profile.${errorReason}`);
+		}
+
+		if (!data.data && !password) {
+			throw new Error("PasswordRequired");
+		}
+
+		return data;
+	}
 }

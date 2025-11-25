@@ -1,19 +1,17 @@
-import { IProfile, IReadWriteWallet } from './contracts.js';
+import { IProfile, IReadWriteWallet } from "./contracts.js";
 
 export class RegistrationAggregate implements RegistrationAggregate {
-    readonly #profile: IProfile;
+	readonly #profile: IProfile;
 
-    public constructor(profile: IProfile) {
-        this.#profile = profile;
-    }
+	public constructor(profile: IProfile) {
+		this.#profile = profile;
+	}
 
-    /** {@inheritDoc RegistrationAggregate.validators} */
-    public validators(): IReadWriteWallet[] {
-        return this.#profile
-            .wallets()
-            .values()
-            .filter(
-                (wallet: IReadWriteWallet) => wallet.hasSyncedWithNetwork() && wallet.isValidator(),
-            );
-    }
+	/** {@inheritDoc RegistrationAggregate.validators} */
+	public validators(): IReadWriteWallet[] {
+		return this.#profile
+			.wallets()
+			.values()
+			.filter((wallet: IReadWriteWallet) => wallet.hasSyncedWithNetwork() && wallet.isValidator());
+	}
 }
