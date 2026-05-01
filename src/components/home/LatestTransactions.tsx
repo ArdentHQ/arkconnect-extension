@@ -1,13 +1,13 @@
 import { useTranslation } from 'react-i18next';
 import { useEffect, useMemo, useState } from 'react';
 import { useQuery } from 'react-query';
+import classNames from 'classnames';
+import { NoTransactions, TransactionsList } from './LatestTransactions.blocks';
+import { TransactionsTabs, TransactionTab } from './TransactionsTabs';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 import { Loader } from '@/shared/components';
 import { ExtendedConfirmedTransactionData } from '@/lib/profiles/transaction.dto';
 import { IReadWriteWallet } from '@/lib/profiles/wallet.contract';
-import classNames from 'classnames';
-import { NoTransactions, TransactionsList } from './LatestTransactions.blocks';
-import { TransactionsTabs, TransactionTab } from './TransactionsTabs';
 
 type TransactionResponse = {
     transactions: ExtendedConfirmedTransactionData[];
