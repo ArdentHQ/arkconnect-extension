@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { Networks } from "@/app/lib/mainsail";
+import { Networks } from "@/lib/mainsail";
 
 import { AppearanceService } from "./appearance.service.js";
 import { Authenticator } from "./authenticator.js";
@@ -46,13 +46,15 @@ import { WalletFactory } from "./wallet.factory.js";
 import { WalletRepository } from "./wallet.repository.js";
 import { Contracts, Environment } from "./index.js";
 import { UsernamesService } from "./usernames.service.js";
-import { LedgerService } from "@/app/lib/mainsail/ledger.service.js";
+import { LedgerService } from "@/lib/mainsail/ledger.service.js";
 import { ValidatorService } from "./validator.service.js";
 import { KnownWalletService } from "./known-wallet.service.js";
 import { ExchangeRateService } from "./exchange-rate.service.js";
-import { BigNumber } from "@/app/lib/helpers/bignumber.js";
+import { BigNumber } from "@/lib/helpers/bignumber.js";
 import { WalletAliasProvider } from "./profile.wallet.alias.js";
 import { isPreview } from "@/utils/test-helpers";
+import { DraftTransactionFactory } from "@/lib/mainsail/draft-transaction.factory.js";
+import { TokenService } from "./token.service.js";
 
 export class Profile implements IProfile {
 	/**
@@ -240,12 +242,28 @@ export class Profile implements IProfile {
 	readonly #ledgerService: LedgerService;
 
 	/**
+	 * Draft transaction factory.
+	 *
+	 * @type {DraftTransactionFactory}
+	 * @memberof Profile
+	 */
+	readonly #draftTransactionFactory: DraftTransactionFactory;
+
+	/**
 	 * The status service.
 	 *
 	 * @type {IProfileStatus}
 	 * @memberof Profile
 	 */
 	readonly #status: IProfileStatus;
+
+	/**
+	 * The token service.
+	 *
+	 * @type {TokenService}
+	 * @memberof Profile
+	 */
+	readonly #tokenService: TokenService;
 
 	public constructor(data: IProfileInput, env: Environment) {
 		this.#attributes = new AttributeBag<IProfileInput>(data);
@@ -270,7 +288,9 @@ export class Profile implements IProfile {
 		this.#knownWalletService = new KnownWalletService();
 		this.#usernameService = new UsernamesService({ config: this.activeNetwork().config(), profile: this });
 		this.#exchangeRateService = new ExchangeRateService({ storage: env.storage() });
-		this.#ledgerService = new LedgerService({ config: this.activeNetwork().config() });
+		this.#ledgerService = new LedgerService({ config: this.activeNetwork().config(), profile: this });
+		this.#draftTransactionFactory = new DraftTransactionFactory({ env, profile: this });
+		this.#tokenService = new TokenService({ network: this.activeNetwork(), profile: this });
 	}
 
 	/** {@inheritDoc IProfile.id} */
@@ -394,18 +414,14 @@ export class Profile implements IProfile {
 		const activeNetwork = this.networks()
 			.availableNetworks()
 			.find((network) => {
-				if (!network) {
-					return;
-				}
-
 				/* istanbul ignore next -- @preserve */
-				if (activeNetworkId === network.id()) {
+				if (activeNetworkId === network?.id()) {
 					/* istanbul ignore next -- @preserve */
 					return network;
 				}
 
 				// @TODO: Return mainnet as the default network once it will be available.
-				return network.isTest();
+				return network?.isTest();
 			});
 
 		if (!activeNetwork) {
@@ -580,5 +596,49 @@ export class Profile implements IProfile {
 
 	public findAliasByAddress(address: string, networkId?: string): string | undefined {
 		return new WalletAliasProvider(this).findAliasByAddress(address, networkId);
+	}
+
+	public draftTransactionFactory(): DraftTransactionFactory {
+		return this.#draftTransactionFactory;
+	}
+
+	public tokens(): TokenService {
+		return this.#tokenService;
+	}
+
+	/** {@inheritDoc IProfile.whitelistedContractAddresses} */
+	public whitelistedContractAddresses(): string[] {
+		return this.data().get(ProfileData.WhitelistedContractAddresses, []) as string[];
+	}
+
+	/** {@inheritDoc IProfile.whitelistContractAddress} */
+	public whitelistContractAddress(address: string): string[] {
+		const existingContractAddresses = this.whitelistedContractAddresses();
+
+		// do nothing if address is already in the list
+		if (existingContractAddresses.some((a) => a.toLowerCase() === address.toLowerCase())) {
+			return existingContractAddresses;
+		}
+
+		const updatedList = [...existingContractAddresses, address];
+
+		this.data().set(ProfileData.WhitelistedContractAddresses, updatedList);
+
+		this.status().markAsDirty();
+
+		return updatedList;
+	}
+
+	/** {@inheritDoc IProfile.removeWhitelistedContractAddress} */
+	public removeWhitelistedContractAddress(address: string): string[] {
+		const updatedList = this.whitelistedContractAddresses().filter(
+			(a) => a.toLowerCase() !== address.toLowerCase(),
+		);
+
+		this.data().set(ProfileData.WhitelistedContractAddresses, updatedList);
+
+		this.status().markAsDirty();
+
+		return updatedList;
 	}
 }

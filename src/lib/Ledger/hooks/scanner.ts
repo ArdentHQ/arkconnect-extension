@@ -4,7 +4,7 @@ import { Contracts } from '@/lib/mainsail';
 import { useLedgerContext } from '@/lib/Ledger';
 import { LedgerData } from '@/lib/Ledger/Ledger.contracts';
 import { omitBy, uniqBy } from '@/lib/helpers';
-import { Contracts as ProfilesContracts } from '@/app/lib/profiles';
+import { Contracts as ProfilesContracts } from '@/lib/profiles';
 import { persistLedgerConnection } from '@/lib/Ledger/utils/connection';
 
 export const useLedgerScanner = (network: string) => {

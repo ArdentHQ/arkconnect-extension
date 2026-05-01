@@ -3,6 +3,7 @@ import {
 	ContractAddresses,
 	EvmCallBuilder,
 	MultipaymentBuilder,
+	Network,
 	TransferBuilder,
 	UnitConverter,
 	UnvoteBuilder,
@@ -11,16 +12,21 @@ import {
 	ValidatorRegistrationBuilder,
 	ValidatorResignationBuilder,
 	VoteBuilder,
+	TokenTransferBuilder,
 } from "@arkecosystem/typescript-crypto";
-import { BigNumber, get } from "@/app/lib/helpers";
+import { BigNumber, get } from "@/lib/helpers";
 
 import { AddressService } from "./address.service.js";
 import { ClientService } from "./client.service.js";
-import { ConfigRepository } from "@/app/lib/mainsail";
-import { IProfile } from "@/app/lib/profiles/profile.contract.js";
-import { Services } from "@/app/lib/mainsail";
+import { ConfigRepository } from "@/lib/mainsail";
+import { IProfile } from "@/lib/profiles/profile.contract.js";
+import { Services } from "@/lib/mainsail";
 import { SignedTransactionData } from "./signed-transaction.dto";
-import { HDWalletService } from "@/app/lib/mainsail/hd-wallet.service";
+import { HDWalletService } from "@/lib/mainsail/hd-wallet.service";
+import { NetworkConfig } from "@/lib/mainsail/network-config";
+import { assertToken } from "@/utils/assertions.js";
+import { closeDevices, openTransport } from "@/app/contexts/Ledger/transport.js";
+import { LedgerService } from "./ledger.service.js";
 
 interface ValidatedTransferInput extends Services.TransferInput {
 	gasPrice: BigNumber;
@@ -34,7 +40,7 @@ type TransactionsInputs =
 	| Services.ValidatorResignationInput;
 
 export class TransactionService {
-	readonly #ledgerService!: Services.LedgerService;
+	readonly #ledgerService!: LedgerService;
 	readonly hdWalletService!: HDWalletService;
 	readonly #addressService!: AddressService;
 	readonly #clientService!: ClientService;
@@ -44,6 +50,9 @@ export class TransactionService {
 		this.#addressService = new AddressService();
 		this.#clientService = new ClientService({ config, profile });
 		this.hdWalletService = new HDWalletService({ config });
+
+		// set Network instance for `typescript-crypto`
+		Network.set(new NetworkConfig(config));
 	}
 
 	#assertGasFee(input: TransactionsInputs): asserts input is ValidatedTransferInput {
@@ -69,6 +78,10 @@ export class TransactionService {
 	}
 
 	public async transfer(input: Services.TransferInput): Promise<SignedTransactionData> {
+		if (input.token) {
+			return await this.tokenTransfer(input);
+		}
+
 		this.#assertGasFee(input);
 		this.#assertAmount(input);
 
@@ -86,6 +99,50 @@ export class TransactionService {
 
 		return new SignedTransactionData().configure(
 			builder.transaction.data,
+			builder.transaction.serialize().toString("hex"),
+		);
+	}
+
+	public async tokenTransfer(input: Services.TransferInput): Promise<SignedTransactionData> {
+		this.#assertGasFee(input);
+		this.#assertAmount(input);
+
+		const nonce = await this.#generateNonce(input);
+		const token = input.token;
+
+		assertToken(token);
+
+		const amount = BigNumber.make(input.data.amount, token.token().decimals()).toSatoshi();
+
+		const builder = TokenTransferBuilder.new({
+			senderPublicKey: input.signatory.publicKey(),
+		})
+			.recipient(input.data.to, BigInt(amount.toFixed(0)))
+			.contractAddress(token.token().address())
+			.nonce(nonce)
+			.gasPrice(UnitConverter.parseUnits(input.gasPrice.toString(), "gwei"))
+			.gasLimit(input.gasLimit.toString());
+
+		await this.#sign(input, builder);
+
+		return new SignedTransactionData().configure(
+			{
+				...builder.transaction.data,
+				tokens: [
+					{
+						from: input.signatory.address(),
+						index: 0,
+						metadata: {
+							tokenAddress: token.token().address(),
+							tokenDecimals: token.token().decimals(),
+							tokenName: token.token().name(),
+							tokenSymbol: token.token().symbol(),
+						},
+						to: input.data.to,
+						value: amount.toFixed(0),
+					},
+				],
+			},
 			builder.transaction.serialize().toString("hex"),
 		);
 	}
@@ -282,6 +339,26 @@ export class TransactionService {
 		);
 	}
 
+	public async contractDeployment(input: Services.ContractDeploymentInput): Promise<SignedTransactionData> {
+		this.#assertGasFee(input);
+
+		const nonce = await this.#generateNonce(input);
+
+		const builder = await EvmCallBuilder.new()
+			.nonce(nonce)
+			.payload(input.data.bytecode)
+			.gasPrice(UnitConverter.parseUnits(input.gasPrice.toString(), "gwei"))
+			.gasLimit(input.gasLimit.toString())
+			.sign(input.signatory.signingKey());
+
+		await this.#sign(input, builder);
+
+		return new SignedTransactionData().configure(
+			builder.transaction.data,
+			builder.transaction.serialize().toString("hex"),
+		);
+	}
+
 	async #signerData(input: Services.TransactionInputs): Promise<{ address?: string }> {
 		let address: string | undefined;
 
@@ -298,9 +375,12 @@ export class TransactionService {
 		}
 
 		if (input.signatory.actsWithLedger()) {
-			await this.#ledgerService.connect();
-			const extendedPublicKey = await this.#ledgerService.getExtendedPublicKey(input.signatory.signingKey());
-			address = this.#addressService.fromPublicKey(extendedPublicKey).address;
+			if (input.signatory.address()) {
+				address = input.signatory.address();
+			} else {
+				const extendedPublicKey = await this.#ledgerService.getExtendedPublicKey(input.signatory.signingKey());
+				address = this.#addressService.fromPublicKey(extendedPublicKey).address;
+			}
 		}
 
 		return { address };
@@ -326,7 +406,7 @@ export class TransactionService {
 		}
 
 		if (input.signatory.actsWithLedger()) {
-			return this.#signWithLedger(input, builder.transaction);
+			return await this.#signWithLedger(input, builder.transaction);
 		}
 
 		if (input.signatory.actsWithConfirmationMnemonic() || input.signatory.actsWithConfirmationSecret()) {
@@ -337,6 +417,10 @@ export class TransactionService {
 	}
 
 	async #signWithLedger(input: Services.TransferInput, transaction: any): Promise<void> {
+		await closeDevices();
+		await openTransport();
+		await this.#ledgerService.accessLedgerApp();
+
 		const signature = await this.#ledgerService.sign(
 			input.signatory.signingKey(),
 			transaction.serialize().toString("hex"),
