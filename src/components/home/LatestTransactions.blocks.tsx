@@ -2,13 +2,6 @@ import cn from 'classnames';
 import dayjs from 'dayjs';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { TransactionAmount } from '../transaction/Transaction.blocks';
-import {
-    getTransactionIcon,
-    getType,
-    getUniqueRecipients,
-    TransactionType,
-} from './LatestTransactions.utils';
 import { Button, EmptyConnectionsIcon, ExternalLink, Icon, Tooltip } from '@/shared/components';
 
 import { getExplorerDomain } from '@/lib/utils/networkUtils';
@@ -20,6 +13,13 @@ import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 import { isFirefox } from '@/lib/utils/isFirefox';
 import { ExtendedConfirmedTransactionData } from '@/lib/profiles/transaction.dto';
 import { IReadWriteWallet } from '@/lib/profiles/wallet.contract';
+import { TransactionAmount } from '../transaction/Transaction.blocks';
+import {
+    getTransactionIcon,
+    getType,
+    getUniqueRecipients,
+    TransactionType,
+} from './LatestTransactions.utils';
 
 export const TransactionTitle = ({
     type,
