@@ -1,6 +1,6 @@
 import { Services } from "@/lib/mainsail";
 import { BIP44, HDKey } from "@ardenthq/arkvault-crypto";
-import { closeDevices, connectedTransport as ledgerTransportFactory } from "@/lib/contexts/Ledger/transport";
+import { closeDevices, connectedTransport as ledgerTransportFactory } from "@/lib/Ledger/transport";
 
 import { createRange } from "./ledger.service.helpers";
 import { LedgerSignature } from "./ledger.service.types";
@@ -8,10 +8,10 @@ import { AddressService } from "./address.service";
 import { WalletData } from "./wallet.dto";
 import { ConfigKey, ConfigRepository } from "@/lib/mainsail/config.repository";
 import Eth, { ledgerService } from "@ledgerhq/hw-app-eth";
-import { LedgerData } from "@/lib/contexts/index";
+import { LedgerData } from "@/lib/Ledger/Ledger.contracts";
 import { LedgerScanner } from "./ledger.scanner";
 import { IProfile } from "@/lib/profiles/contracts";
-import { formatLedgerDerivationPath } from "@/lib/contexts/Ledger/utils/format-ledger-derivation-path";
+import { formatLedgerDerivationPath } from "@/lib/Ledger/utils/format-ledger-derivation-path";
 
 export class LedgerService {
 	readonly #addressService!: AddressService;

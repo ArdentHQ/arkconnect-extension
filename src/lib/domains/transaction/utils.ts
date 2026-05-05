@@ -1,7 +1,11 @@
-import { Services } from "@/app/lib/mainsail";
-import { Contracts } from "@/app/lib/profiles";
-import { RecipientItem } from "@/lib/domains/transaction/components/RecipientList/RecipientList.contracts";
+import { Services } from "@/lib/mainsail";
+import { Contracts } from "@/lib/profiles";
 import { TFunction } from "i18next";
+
+type RecipientItem = {
+	address: string;
+	amount: number | string;
+};
 
 export const DISPLAY_DECIMALS = 8;
 

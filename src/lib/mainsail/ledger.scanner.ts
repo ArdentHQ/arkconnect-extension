@@ -1,7 +1,7 @@
 /* eslint-disable unicorn/no-array-reduce */
 import { omitBy, uniqBy } from "@/lib/helpers";
 
-import { LedgerData } from "@/lib/contexts/Ledger/Ledger.contracts";
+import { LedgerData } from "@/lib/Ledger/Ledger.contracts";
 import { Contracts } from "@/lib/profiles";
 import { BIP44 } from "@ardenthq/arkvault-crypto";
 import { sort } from "@/lib/helpers/fast-sort";

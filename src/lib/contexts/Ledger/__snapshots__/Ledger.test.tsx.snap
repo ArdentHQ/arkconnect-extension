@@ -1,9 +1,0 @@
-// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
-
-exports[`Ledger Provider > should render ledger provider 1`] = `
-<DocumentFragment>
-  <div
-    data-testid="content"
-  />
-</DocumentFragment>
-`;
