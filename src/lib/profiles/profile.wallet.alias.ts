@@ -1,5 +1,5 @@
 import { Contracts, Contracts as ProfileContracts } from "@/lib/profiles";
-import { getDefaultAlias, getLedgerDefaultAlias } from "@/domains/wallet/utils/get-default-alias";
+import { getDefaultAlias, getLedgerDefaultAlias } from "@/lib/domains/wallet/utils/get-default-alias";
 import { WalletData } from "./wallet.enum";
 
 export class WalletAliasProvider {

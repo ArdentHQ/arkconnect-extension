@@ -1,0 +1,9 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Environment Context > should render the wrapper properly 1`] = `
+<DocumentFragment>
+  <span>
+    Provider testing
+  </span>
+</DocumentFragment>
+`;

@@ -26,6 +26,14 @@
             "@/*": ["./src/*"]
         }
     },
+	"exclude": [
+		"**/tests/**",
+		"src/utils/testing-library.tsx",
+		// "src/utils/e2e-utils.ts",
+		// "src/utils/e2e-interfaces.ts",
+		// "src/setupTests.ts",
+		"dist/**/*"
+	],
     "include": ["src"],
     "references": [{ "path": "./tsconfig.node.json" }]
 }

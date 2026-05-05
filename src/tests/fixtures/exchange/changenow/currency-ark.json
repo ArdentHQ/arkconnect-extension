@@ -1,0 +1,14 @@
+{
+	"data": {
+		"coin": "ark",
+		"name": "Ark",
+		"warnings": {
+			"to": "",
+			"from": ""
+		},
+		"hasExternalId": false,
+		"externalIdName": null,
+		"addressExplorerMask": "https://live.arkscan.io/wallets/{}",
+		"transactionExplorerMask": "https://live.arkscan.io/transaction/{}"
+	}
+}

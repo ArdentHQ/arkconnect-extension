@@ -6,8 +6,8 @@ import { TransactionFeeService } from "./transaction-fee.service";
 import { TransactionFee } from "./fee.contract";
 import { assertNumber, assertWallet } from "@/utils/assertions";
 import { ExtendedSignedTransactionData } from "@/lib/profiles/signed-transaction.dto";
-import { DISPLAY_DECIMALS, handleBroadcastError } from "@/domains/transaction/utils";
-import { calculateGasFee } from "@/domains/transaction/components/InputFee/InputFee";
+import { DISPLAY_DECIMALS, handleBroadcastError } from "@/lib/domains/transaction/utils";
+import { calculateGasFee } from "@/lib/domains/transaction/components/InputFee/InputFee";
 
 export interface RecipientItem {
 	address: string;

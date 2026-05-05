@@ -1,0 +1,71 @@
+import React, { ReactElement } from "react";
+import { useTranslation } from "react-i18next";
+import { DTO } from "@/app/lib/mainsail";
+import { Contracts } from "@/app/lib/profiles";
+import { DetailLabelText, DetailWrapper } from "@/app/components/DetailWrapper";
+import { useTimeFormat } from "@/app/hooks/use-time-format";
+import { Link } from "@/app/components/Link";
+import { useBlockHeight } from "@/domains/transaction/hooks/use-block-height";
+import { DateTime } from "@/app/lib/intl/datetime";
+
+export const TransactionDetails = ({
+	transaction,
+	labelClassName,
+}: {
+	transaction: DTO.RawTransactionData;
+	labelClassName?: string;
+	isConfirmed?: boolean;
+}): ReactElement => {
+	const { t } = useTranslation();
+	const format = useTimeFormat();
+
+	const transactionWallet: Contracts.IReadWriteWallet = transaction.wallet();
+
+	const timestamp = DateTime.make(
+		transaction.timestamp(),
+		"en",
+		Intl.DateTimeFormat().resolvedOptions().timeZone,
+	).format(format);
+
+	const { blockHeight } = useBlockHeight({
+		blockHash: transaction.blockHash(),
+		network: transactionWallet.network(),
+	});
+
+	return (
+		<DetailWrapper label={t("TRANSACTION.TRANSACTION_DETAILS")}>
+			<div className="space-y-3">
+				<div className="flex w-full justify-between gap-2 sm:justify-start">
+					<DetailLabelText className={labelClassName}>{t("COMMON.TIMESTAMP")}</DetailLabelText>
+					<div className="text-sm leading-[17px] font-semibold sm:text-base sm:leading-5">{timestamp}</div>
+				</div>
+
+				<div className="flex w-full justify-between gap-2 sm:justify-start">
+					<DetailLabelText className={labelClassName}>{t("COMMON.BLOCK")}</DetailLabelText>
+					{transaction.blockHash() && (
+						<Link
+							isExternal
+							to={transactionWallet.link().block(transaction.blockHash())}
+							className="h-5 text-sm leading-[17px] sm:text-base sm:leading-5"
+						>
+							{blockHeight}
+						</Link>
+					)}
+
+					{!transaction.blockHash() && (
+						<p className="text-theme-secondary-500 dim:text-theme-dim-200 text-sm leading-[17px] font-semibold sm:text-base sm:leading-5">
+							{t("COMMON.NOT_AVAILABLE")}
+						</p>
+					)}
+				</div>
+
+				<div className="flex w-full justify-between gap-2 sm:justify-start">
+					<DetailLabelText className={labelClassName}>{t("COMMON.NONCE")}</DetailLabelText>
+					<div className="text-sm leading-[17px] font-semibold sm:text-base sm:leading-5">
+						{transaction.nonce().toString()}
+					</div>
+				</div>
+			</div>
+		</DetailWrapper>
+	);
+};

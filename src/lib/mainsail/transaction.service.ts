@@ -25,7 +25,7 @@ import { SignedTransactionData } from "./signed-transaction.dto";
 import { HDWalletService } from "@/lib/mainsail/hd-wallet.service";
 import { NetworkConfig } from "@/lib/mainsail/network-config";
 import { assertToken } from "@/utils/assertions.js";
-import { closeDevices, openTransport } from "@/app/contexts/Ledger/transport.js";
+import { closeDevices, openTransport } from "@/lib/contexts/Ledger/transport.js";
 import { LedgerService } from "./ledger.service.js";
 
 interface ValidatedTransferInput extends Services.TransferInput {
