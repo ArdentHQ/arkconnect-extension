@@ -65,7 +65,7 @@ export const InputFeeAdvancedAddon: React.FC<Properties> = ({
 				data-testid={`${name}__up`}
 				className="border-r sm:border-r-0"
 			>
-				<Icon name="ChevronUpSmall" size="sm" />
+				<span className="text-xs font-bold">+</span>
 			</ArrowButtonStyled>
 			<ArrowButtonStyled
 				onClick={onClickDown}
@@ -73,7 +73,7 @@ export const InputFeeAdvancedAddon: React.FC<Properties> = ({
 				isDownArrow
 				data-testid={`${name}__down`}
 			>
-				<Icon name="ChevronDownSmall" size="sm" />
+				<span className="text-xs font-bold">-</span>
 			</ArrowButtonStyled>
 		</div>
 	</div>

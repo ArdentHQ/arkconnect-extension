@@ -15,15 +15,15 @@ import {
 	IWalletFactory,
 	WalletData,
 	WalletImportMethod,
-} from "./contracts.js";
-import { WalletFlag } from "./wallet.enum.js";
-import { IMnemonicDerivativeOptions, ISecretOptions } from "./wallet.factory.contract.js";
-import { Wallet } from "./wallet.js";
+} from "./contracts";
+import { WalletFlag } from "./wallet.enum";
+import { IMnemonicDerivativeOptions, ISecretOptions } from "./wallet.factory.contract";
+import { Wallet } from "./wallet";
 import { PublicKeyService } from "@/lib/mainsail/public-key.service";
 import { AddressService } from "@/lib/mainsail/address.service";
 import { HDWalletService } from "@/lib/mainsail/hd-wallet.service";
-import { Contracts } from "./index.js";
-import { WalletAliasProvider } from "./profile.wallet.alias.js";
+import { Contracts } from "./index";
+import { WalletAliasProvider } from "./profile.wallet.alias";
 
 export class WalletFactory implements IWalletFactory {
 	readonly #profile: IProfile;

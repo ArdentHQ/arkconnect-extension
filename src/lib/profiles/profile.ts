@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { Networks } from "@/lib/mainsail";
 
-import { AppearanceService } from "./appearance.service.js";
-import { Authenticator } from "./authenticator.js";
-import { ContactRepository } from "./contact.repository.js";
+import { AppearanceService } from "./appearance.service";
+import { Authenticator } from "./authenticator";
+import { ContactRepository } from "./contact.repository";
 import {
 	IAppearanceService,
 	IAuthenticator,
@@ -24,37 +24,37 @@ import {
 	IWalletRepository,
 	ProfileData,
 	ProfileSetting,
-} from "./contracts.js";
-import { CountAggregate } from "./count.aggregate.js";
-import { DataRepository } from "./data.repository.js";
-import { ExchangeTransactionRepository } from "./exchange-transaction.repository.js";
-import { AttributeBag } from "./helpers/attribute-bag.js";
-import { Avatar } from "./helpers/avatar.js";
-import { IHostRepository } from "./host.repository.contract.js";
-import { HostRepository } from "./host.repository.js";
-import { NetworkRepository } from "./network.repository.js";
-import { IProfileNotificationService } from "./notification.repository.contract.js";
-import { ProfileNotificationService } from "./notification.service.js";
-import { PasswordManager } from "./password.js";
-import { ProfileInitialiser } from "./profile.initialiser.js";
-import { ProfileStatus } from "./profile.status.js";
-import { RegistrationAggregate } from "./registration.aggregate.js";
-import { SettingRepository } from "./setting.repository.js";
-import { TransactionAggregate } from "./transaction.aggregate.js";
-import { WalletAggregate } from "./wallet.aggregate.js";
-import { WalletFactory } from "./wallet.factory.js";
-import { WalletRepository } from "./wallet.repository.js";
-import { Contracts, Environment } from "./index.js";
-import { UsernamesService } from "./usernames.service.js";
-import { LedgerService } from "@/lib/mainsail/ledger.service.js";
-import { ValidatorService } from "./validator.service.js";
-import { KnownWalletService } from "./known-wallet.service.js";
-import { ExchangeRateService } from "./exchange-rate.service.js";
-import { BigNumber } from "@/lib/helpers/bignumber.js";
-import { WalletAliasProvider } from "./profile.wallet.alias.js";
+} from "./contracts";
+import { CountAggregate } from "./count.aggregate";
+import { DataRepository } from "./data.repository";
+import { ExchangeTransactionRepository } from "./exchange-transaction.repository";
+import { AttributeBag } from "./helpers/attribute-bag";
+import { Avatar } from "./helpers/avatar";
+import { IHostRepository } from "./host.repository.contract";
+import { HostRepository } from "./host.repository";
+import { NetworkRepository } from "./network.repository";
+import { IProfileNotificationService } from "./notification.repository.contract";
+import { ProfileNotificationService } from "./notification.service";
+import { PasswordManager } from "./password";
+import { ProfileInitialiser } from "./profile.initialiser";
+import { ProfileStatus } from "./profile.status";
+import { RegistrationAggregate } from "./registration.aggregate";
+import { SettingRepository } from "./setting.repository";
+import { TransactionAggregate } from "./transaction.aggregate";
+import { WalletAggregate } from "./wallet.aggregate";
+import { WalletFactory } from "./wallet.factory";
+import { WalletRepository } from "./wallet.repository";
+import { Contracts, Environment } from "./index";
+import { UsernamesService } from "./usernames.service";
+import { LedgerService } from "@/lib/mainsail/ledger.service";
+import { ValidatorService } from "./validator.service";
+import { KnownWalletService } from "./known-wallet.service";
+import { ExchangeRateService } from "./exchange-rate.service";
+import { BigNumber } from "@/lib/helpers/bignumber";
+import { WalletAliasProvider } from "./profile.wallet.alias";
 import { isPreview } from "@/utils/test-helpers";
-import { DraftTransactionFactory } from "@/lib/mainsail/draft-transaction.factory.js";
-import { TokenService } from "./token.service.js";
+import { DraftTransactionFactory } from "@/lib/mainsail/draft-transaction.factory";
+import { TokenService } from "./token.service";
 
 export class Profile implements IProfile {
 	/**

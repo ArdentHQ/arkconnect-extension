@@ -1,1 +1,1 @@
-export * from "./StubStorage";
+export * from './StubStorage';

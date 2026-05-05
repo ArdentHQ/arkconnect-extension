@@ -98,7 +98,7 @@ export const TransactionBody = ({
                 <TrasactionItem title={t('COMMON.TRANSACTION_FEE')}>
                     <div className='flex w-full items-center justify-between'>
                         {renderAmount({
-                            value: transaction.fee(),
+                            value: Number((transaction.fee() as any)?.toNumber?.() ?? transaction.fee() ?? 0),
                             isNegative: false,
                             showSign: false,
                             primaryCurrency: primaryWallet?.currency() ?? 'ARK',
@@ -106,7 +106,7 @@ export const TransactionBody = ({
                         {!primaryWallet?.network().isTest() && (
                             <span className='text-theme-secondary-500 dark:text-theme-secondary-300'>
                                 <Amount
-                                    value={convert(transaction.fee())}
+                                    value={convert(Number((transaction.fee() as any)?.toNumber?.() ?? transaction.fee() ?? 0))}
                                     ticker={primaryWallet?.exchangeCurrency() ?? 'USD'}
                                     underlineOnHover={true}
                                 />

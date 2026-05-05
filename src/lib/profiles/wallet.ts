@@ -22,21 +22,21 @@ import {
 	WalletFlag,
 	WalletImportMethod,
 	WalletSetting,
-} from "./contracts.js";
+} from "./contracts";
 import { DataRepository } from "./data.repository";
-import { AttributeBag } from "./helpers/attribute-bag.js";
-import { WalletSerialiser } from "./serialiser.js";
+import { AttributeBag } from "./helpers/attribute-bag";
+import { WalletSerialiser } from "./serialiser";
 import { SettingRepository } from "./setting.repository";
-import { SignatoryFactory } from "./signatory.factory.js";
-import { TransactionIndex } from "./transaction-index.js";
-import { VoteRegistry } from "./vote-registry.js";
-import { WalletBalanceType, WalletDerivationMethod } from "./wallet.contract.js";
+import { SignatoryFactory } from "./signatory.factory";
+import { TransactionIndex } from "./transaction-index";
+import { VoteRegistry } from "./vote-registry";
+import { WalletBalanceType, WalletDerivationMethod } from "./wallet.contract";
 import { WalletLedgerModel } from "./wallet.enum";
 import { WalletGate } from "./wallet.gate";
 import { WalletMutator } from "./wallet.mutator";
 import { WalletSynchroniser } from "./wallet.synchroniser";
 import { TransactionService as WalletTransactionService } from "./wallet-transaction.service";
-import { WalletImportFormat } from "./wif.js";
+import { WalletImportFormat } from "./wif";
 import { LinkService } from "@/lib/mainsail/link.service";
 import { MessageService } from "@/lib/mainsail/message.service";
 import { Manifest } from "@/lib/mainsail/manifest.class";
@@ -45,12 +45,12 @@ import { LedgerService } from "@/lib/mainsail/ledger.service";
 import { ClientService } from "@/lib/mainsail/client.service";
 import { AddressService } from "@/lib/mainsail/address.service";
 import { PublicKeyService } from "@/lib/mainsail/public-key.service";
-import { SignatoryService } from "@/lib/mainsail/signatory.service.js";
-import { TransactionService } from "@/lib/mainsail/transaction.service.js";
-import { ValidatorService } from "./validator.service.js";
-import { ExchangeRateService } from "./exchange-rate.service.js";
-import { WalletAliasProvider } from "./profile.wallet.alias.js";
-import { WalletTokenRepository } from "./wallet-token.repository.js";
+import { SignatoryService } from "@/lib/mainsail/signatory.service";
+import { TransactionService } from "@/lib/mainsail/transaction.service";
+import { ValidatorService } from "./validator.service";
+import { ExchangeRateService } from "./exchange-rate.service";
+import { WalletAliasProvider } from "./profile.wallet.alias";
+import { WalletTokenRepository } from "./wallet-token.repository";
 
 const ERR_NOT_SYNCED =
 	"This wallet has not been synchronized yet. Please call [synchroniser().identity()] before using it.";

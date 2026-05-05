@@ -1,5 +1,13 @@
-import { Http } from "@/app/lib/mainsail";
-import { ToastService } from "./ToastService";
+import { Http } from '@/lib/mainsail';
 
 export const httpClient = new Http.HttpClient(10);
-export const toasts = new ToastService();
+
+export const toasts = {
+    dismiss: (_id?: unknown) => undefined,
+    error: (_message: string) => 'toast-error',
+    info: (_message: string) => 'toast-info',
+    isActive: (_id?: unknown) => false,
+    success: (_message: string) => 'toast-success',
+    update: (_id: unknown, _type: string, _content: string) => undefined,
+    warning: (_message: string) => 'toast-warning',
+};

@@ -3,7 +3,6 @@ import path from 'path';
 
 // Directories to scan
 const dirsToScan = [
-    'src/lib/domains',
     'src/lib/helpers',
     'src/lib/intl',
     'src/lib/mainsail',
@@ -23,7 +22,7 @@ function deleteTestFiles(dir) {
 
         if (stats.isDirectory()) {
             deleteTestFiles(fullPath); // recurse into subdirectory
-        } else if (stats.isFile() && /\.test\.tsx?$/.test(file)) {
+        } else if (stats.isFile() && /\.test\.ts$/.test(file)) {
             fs.unlinkSync(fullPath);
             console.log(`Deleted: ${fullPath}`);
         }

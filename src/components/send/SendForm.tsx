@@ -12,6 +12,7 @@ import { BigNumber } from '@/lib/helpers';
 
 export const SendForm = ({ formik }: { formik: FormikProps<SendFormik> }) => {
     const primaryWallet = usePrimaryWallet();
+    const primaryWalletBalance = Number((primaryWallet?.balance() as any)?.toNumber?.() ?? primaryWallet?.balance?.() ?? 0);
     const { t } = useTranslation();
 
     const handleMaxClick = () => {
@@ -88,7 +89,7 @@ export const SendForm = ({ formik }: { formik: FormikProps<SendFormik> }) => {
                             showSign={false}
                             isNegative={false}
                             maxDigits={20}
-                            displayTooltip={primaryWallet && primaryWallet.balance() > 0}
+                            displayTooltip={primaryWalletBalance > 0}
                             maxDecimals={2}
                             hideSmallValues
                         />

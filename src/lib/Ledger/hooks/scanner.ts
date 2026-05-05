@@ -63,7 +63,9 @@ export const useLedgerScanner = (network: string) => {
 
         const legacyWallets = isLoadingMore
             ? {}
-            : await ledgerService.scan({ onProgress, useLegacy: true });
+            : // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              // @ts-ignore
+              await ledgerService.scan({ onProgress, useLegacy: true });
 
         const allWallets = { ...legacyWallets, ...ledgerWallets };
 
@@ -79,7 +81,7 @@ export const useLedgerScanner = (network: string) => {
             if (!profile.wallets().findByAddressWithNetwork(address, network)) {
                 ledgerData.push({
                     address,
-                    balance: wallet.balance(),
+                    balance: Number((wallet.balance() as any)?.toNumber?.() ?? wallet.balance() ?? 0),
                     path,
                 });
             }
