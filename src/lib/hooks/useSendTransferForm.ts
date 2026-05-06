@@ -204,9 +204,7 @@ export const useSendTransferForm = (
                 setFormValues((prevFormValues) => ({
                     ...prevFormValues,
                     senderAddress: wallet.address(),
-                    remainingBalance: Number(
-                        (wallet.balance() as any)?.toNumber?.() ?? wallet.balance() ?? 0,
-                    ),
+                    remainingBalance: wallet.balance().toNumber(),
                     network: wallet.network(),
                     gasPrice: customGasPrice ?? avg.toString(),
                     gasLimit: customGasLimit ?? defaultGasLimit,

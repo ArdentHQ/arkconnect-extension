@@ -12,13 +12,10 @@ import { BigNumber } from '@/lib/helpers';
 
 export const SendForm = ({ formik }: { formik: FormikProps<SendFormik> }) => {
     const primaryWallet = usePrimaryWallet();
-    const primaryWalletBalance = Number(
-        (primaryWallet?.balance() as any)?.toNumber?.() ?? primaryWallet?.balance?.() ?? 0,
-    );
     const { t } = useTranslation();
 
     const handleMaxClick = () => {
-        const balance = BigNumber.make(primaryWallet?.balance() ?? 0);
+        const balance = primaryWallet?.balance() ?? BigNumber.ZERO;
         const fee = BigNumber.make(calculateGasFee(formik.values.gasPrice, formik.values.gasLimit));
 
         if (balance.isLessThanOrEqualTo(fee)) {
@@ -91,7 +88,7 @@ export const SendForm = ({ formik }: { formik: FormikProps<SendFormik> }) => {
                             showSign={false}
                             isNegative={false}
                             maxDigits={20}
-                            displayTooltip={primaryWalletBalance > 0}
+                            displayTooltip={(primaryWallet?.balance().toNumber() ?? 0) > 0}
                             maxDecimals={2}
                             hideSmallValues
                         />

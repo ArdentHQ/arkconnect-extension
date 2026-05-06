@@ -21,9 +21,6 @@ export enum TransactionType {
     MULTIPAYMENT = 'multipayment',
 }
 
-const toNumericAmount = (amount: BigNumber | number | 0): number =>
-    amount instanceof BigNumber ? amount.toNumber() : Number(amount);
-
 export const getType = (transaction: ExtendedConfirmedTransactionData): string => {
     if (transaction.isMultiPayment()) {
         return TransactionType.MULTIPAYMENT;
@@ -62,13 +59,9 @@ export const getUniqueRecipients = (
             (r) => r.address === recipient.address,
         );
         if (existingRecipientIndex !== -1) {
-            const existingAmount = toNumericAmount(
-                uniqueRecipients[existingRecipientIndex].amount as BigNumber | number | 0,
-            );
-            const recipientAmount = toNumericAmount(recipient.amount as BigNumber | number | 0);
-            uniqueRecipients[existingRecipientIndex].amount = BigNumber.make(
-                existingAmount + recipientAmount,
-            );
+            uniqueRecipients[existingRecipientIndex].amount = uniqueRecipients[
+                existingRecipientIndex
+            ].amount.plus(recipient.amount);
         } else {
             uniqueRecipients.push({ address: recipient.address, amount: recipient.amount });
         }
@@ -81,8 +74,9 @@ export const getAmountByAddress = (
     recipients: ExtendedTransactionRecipient[],
     address?: string,
 ): number => {
-    const amount = recipients.find((recipient) => recipient.address === address)?.amount ?? 0;
-    return toNumericAmount(amount as BigNumber | number | 0);
+    return BigNumber.make(
+        recipients.find((recipient) => recipient.address === address)?.amount ?? 0,
+    ).toNumber();
 };
 
 export const getMultipaymentAmounts = (
@@ -91,7 +85,7 @@ export const getMultipaymentAmounts = (
 ): { selfAmount: number; sentAmount: number } => {
     const selfAmount = getAmountByAddress(recipients, address);
     const sentAmount = recipients.reduce(
-        (total, recipient) => total + toNumericAmount(recipient.amount as BigNumber | number | 0),
+        (total, recipient) => recipient.amount.plus(total).toNumber(),
         0,
     );
 

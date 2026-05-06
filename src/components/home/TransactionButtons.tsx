@@ -8,8 +8,7 @@ export const TransactionButtons = () => {
     const { t } = useTranslation();
     const primaryWallet = usePrimaryWallet();
     const navigate = useNavigate();
-    const walletBalanceRaw = primaryWallet?.balance() ?? 0;
-    const walletBalance = Number((walletBalanceRaw as any)?.toNumber?.() ?? walletBalanceRaw ?? 0);
+    const walletBalance = primaryWallet?.balance().toNumber() ?? 0;
 
     return (
         <div className='mx-4 grid grid-cols-2 items-center justify-center gap-2'>
