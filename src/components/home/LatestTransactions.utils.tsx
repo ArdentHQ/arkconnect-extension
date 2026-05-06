@@ -21,6 +21,9 @@ export enum TransactionType {
     MULTIPAYMENT = 'multipayment',
 }
 
+const toNumericAmount = (amount: BigNumber | number | 0): number =>
+    amount instanceof BigNumber ? amount.toNumber() : Number(amount);
+
 export const getType = (transaction: ExtendedConfirmedTransactionData): string => {
     if (transaction.isMultiPayment()) {
         return TransactionType.MULTIPAYMENT;
@@ -34,17 +37,11 @@ export const getType = (transaction: ExtendedConfirmedTransactionData): string =
             return TransactionType.RECEIVE;
         }
     }
-    if ((transaction as any).isVoteCombination?.()) {
-        return TransactionType.SWAP;
-    }
     if (transaction.isVote()) {
         return TransactionType.VOTE;
     }
     if (transaction.isUnvote()) {
         return TransactionType.UNVOTE;
-    }
-    if ((transaction as any).isSecondSignature?.()) {
-        return TransactionType.SECOND_SIGNATURE;
     }
     if (transaction.isValidatorRegistration()) {
         return TransactionType.REGISTRATION;
@@ -65,13 +62,11 @@ export const getUniqueRecipients = (
             (r) => r.address === recipient.address,
         );
         if (existingRecipientIndex !== -1) {
-            const existingAmount = Number(
-                (uniqueRecipients[existingRecipientIndex].amount as any)?.toNumber?.() ??
-                    uniqueRecipients[existingRecipientIndex].amount ??
-                    0,
+            const existingAmount = toNumericAmount(
+                uniqueRecipients[existingRecipientIndex].amount as BigNumber | number | 0,
             );
-            const recipientAmount = Number((recipient.amount as any)?.toNumber?.() ?? recipient.amount ?? 0);
-            uniqueRecipients[existingRecipientIndex].amount = BigNumber.make(existingAmount + recipientAmount) as any;
+            const recipientAmount = toNumericAmount(recipient.amount as BigNumber | number | 0);
+            uniqueRecipients[existingRecipientIndex].amount = BigNumber.make(existingAmount + recipientAmount);
         } else {
             uniqueRecipients.push({ address: recipient.address, amount: recipient.amount });
         }
@@ -85,7 +80,7 @@ export const getAmountByAddress = (
     address?: string,
 ): number => {
     const amount = recipients.find((recipient) => recipient.address === address)?.amount ?? 0;
-    return Number((amount as any)?.toNumber?.() ?? amount ?? 0);
+    return toNumericAmount(amount as BigNumber | number | 0);
 };
 
 export const getMultipaymentAmounts = (
@@ -94,7 +89,7 @@ export const getMultipaymentAmounts = (
 ): { selfAmount: number; sentAmount: number } => {
     const selfAmount = getAmountByAddress(recipients, address);
     const sentAmount = recipients.reduce(
-        (total, recipient) => total + Number((recipient.amount as any)?.toNumber?.() ?? recipient.amount ?? 0),
+        (total, recipient) => total + toNumericAmount(recipient.amount as BigNumber | number | 0),
         0,
     );
 
