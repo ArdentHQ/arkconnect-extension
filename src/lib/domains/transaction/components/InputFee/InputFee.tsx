@@ -12,20 +12,13 @@ import {
 
 import { InputFeeAdvanced } from './blocks/InputFeeAdvanced';
 import { InputFeeSimple } from './blocks/InputFeeSimple';
+import { calculateGasFee } from './InputFee.helpers';
 import { BigNumber, get } from '@/app/lib/helpers';
 import { Contracts } from '@/app/lib/profiles';
 import { Switch } from '@/shared/components';
 import { useExchangeRate } from '@/lib/hooks/use-exchange-rate';
 import { Network } from '@/app/lib/mainsail/network';
 import { DISPLAY_DECIMALS } from '@/lib/domains/transaction/utils';
-
-export const calculateGasFee = (gasPrice?: BigNumber, gasLimit?: BigNumber): BigNumber => {
-    if (!gasPrice || !gasLimit) {
-        return BigNumber.ZERO;
-    }
-
-    return BigNumber.make(UnitConverter.formatUnits(gasLimit.times(gasPrice).toString(), 'gwei'));
-};
 
 export const getFeeMinMax = (network: Network) => {
     const milestone = network.milestone();

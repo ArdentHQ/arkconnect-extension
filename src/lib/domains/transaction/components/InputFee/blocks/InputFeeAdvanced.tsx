@@ -4,11 +4,11 @@ import { useTranslation } from 'react-i18next';
 import { InputFeeAdvancedAddon } from './InputFeeAdvancedAddon';
 import { Amount, FormField, FormLabel, InputCurrency, useFormField } from '@/shared/components';
 import { InputFeeAdvancedProperties } from '@/lib/domains/transaction/components/InputFee/InputFee.contracts';
-import { useStepMath } from '@/lib/domains/transaction/components/InputFee/InputFee.helpers';
 import {
     calculateGasFee,
-    getFeeMinMax,
-} from '@/lib/domains/transaction/components/InputFee/InputFee';
+    useStepMath,
+} from '@/lib/domains/transaction/components/InputFee/InputFee.helpers';
+import { getFeeMinMax } from '@/lib/domains/transaction/components/InputFee/InputFee';
 import { BigNumber } from '@/app/lib/helpers';
 import { useConfirmationTimes } from '@/lib/domains/transaction/components/InputFee/use-confirmation-times';
 
