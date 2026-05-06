@@ -1,11 +1,4 @@
 import { useTranslation } from 'react-i18next';
-import {
-    TransactionAddress,
-    TransactionAmount,
-    TransactionUniqueRecipients,
-} from '../Transaction.blocks';
-import { TrasactionItem } from './TrasactionItem';
-import { CopyTransactionId } from './CopyTransactionId';
 import { Tooltip } from '@/shared/components';
 import { getType, renderAmount, TransactionType } from '@/components/home/LatestTransactions.utils';
 
@@ -16,6 +9,13 @@ import { useValidatorInfo } from '@/lib/hooks/useValidatorInfo';
 import { useExchangeRate } from '@/lib/hooks/useExchangeRate';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 import { ExtendedConfirmedTransactionData } from '@/lib/profiles/transaction.dto';
+import {
+    TransactionAddress,
+    TransactionAmount,
+    TransactionUniqueRecipients,
+} from '../Transaction.blocks';
+import { CopyTransactionId } from './CopyTransactionId';
+import { TrasactionItem } from './TrasactionItem';
 
 export const TransactionBody = ({
     transaction,
