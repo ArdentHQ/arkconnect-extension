@@ -73,7 +73,7 @@ export const LatestTransactions = () => {
 
     const tabs = useMemo(() => {
         if (tokenData && tokenData.transactions.length > 0) {
-            return ['TOKENS', 'TRANSACTIONS'];
+            // return ['TOKENS', 'TRANSACTIONS'];
         }
 
         return ['TRANSACTIONS'];
@@ -89,7 +89,7 @@ export const LatestTransactions = () => {
     const showTabs = !isLoadingTokens && tabs.length > 1;
 
     return (
-        <div className={classNames(['h-full w-full'], { 'mt-4': !showTabs })}>
+        <div className={classNames(['flex h-full w-full flex-col'], { 'mt-4': !showTabs })}>
             {showTabs && (
                 <TransactionsTabs>
                     {tabs.map((tab) => (
@@ -104,19 +104,30 @@ export const LatestTransactions = () => {
                 </TransactionsTabs>
             )}
 
-            <div className='h-full w-full rounded-t-xl bg-white dark:bg-subtle-black'>
+            <div
+                className={classNames([
+                    'h-full w-full flex-1 bg-white dark:bg-subtle-black',
+                    { 'rounded-t-xl': !showTabs },
+                ])}
+            >
                 {!showTabs && (
                     <div className='border-b border-b-theme-secondary-200 p-4 text-lg font-medium leading-tight text-light-black dark:border-b-theme-secondary-600 dark:text-white'>
                         {t('PAGES.HOME.LATEST_TRANSACTIONS')}
                     </div>
                 )}
 
-                {!isLoading && data ? (
+                {showTabs && activeTab === 'TOKENS' ? (
+                    <div className='h-auto w-full'></div>
+                ) : !isLoading && data ? (
                     <div className='h-auto w-full'>
                         {data.transactions.length > 0 ? (
                             <TransactionsList
                                 transactions={data.transactions}
                                 displayButton={data.hasMorePages}
+                                maxHeight={classNames({
+                                    'max-h-[237px]': showTabs,
+                                    'max-h-[270px]': !showTabs,
+                                })}
                             />
                         ) : (
                             <NoTransactions />
