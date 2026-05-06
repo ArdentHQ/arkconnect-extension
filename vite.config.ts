@@ -61,7 +61,7 @@ export default defineConfig(({ mode }) => {
                 globals: {
                     Buffer: true, // can also be 'build', 'dev', or false
                     global: true,
-                    process: false,
+                    process: true,
                 },
             }),
         ],
