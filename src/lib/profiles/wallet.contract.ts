@@ -6,6 +6,7 @@ import {
 	IProfile,
 	ISettingRepository,
 	ISignatoryFactory,
+	ITokenIndex,
 	ITransactionIndex,
 	ITransactionService,
 	IVoteRegistry,
@@ -624,6 +625,14 @@ export interface IReadWriteWallet {
 	 * @memberof IReadWriteWallet
 	 */
 	transactionIndex(): ITransactionIndex;
+
+	/**
+	 * Get the wallet token transaction index instance.
+	 *
+	 * @return {ITokenIndex}
+	 * @memberof IReadWriteWallet
+	 */
+	tokenIndex(): ITokenIndex;
 
 	/**
 	 * Get the wallet import format instance.

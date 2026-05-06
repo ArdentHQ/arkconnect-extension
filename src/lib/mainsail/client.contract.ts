@@ -76,6 +76,7 @@ export interface TokenTransfersQuery extends ClientPagination {
 	from?: string[];
 	to?: string[];
 	page?: number;
+	ignoreWhitelist?: boolean;
 }
 
 export interface ClientTransactionsInput extends ClientPagination {

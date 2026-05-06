@@ -2,12 +2,12 @@ import { useTranslation } from 'react-i18next';
 import { useEffect, useMemo, useState } from 'react';
 import { useQuery } from 'react-query';
 import classNames from 'classnames';
-import { NoTransactions, TransactionsList } from './LatestTransactions.blocks';
-import { TransactionsTabs, TransactionTab } from './TransactionsTabs';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 import { Loader } from '@/shared/components';
 import { ExtendedConfirmedTransactionData } from '@/lib/profiles/transaction.dto';
 import { IReadWriteWallet } from '@/lib/profiles/wallet.contract';
+import { TransactionsTabs, TransactionTab } from './TransactionsTabs';
+import { NoTransactions, TransactionsList } from './LatestTransactions.blocks';
 
 type TransactionResponse = {
     transactions: ExtendedConfirmedTransactionData[];
@@ -29,12 +29,17 @@ const fetchTransactions = async (
     }
 };
 
-// TODO: Implement fetching tokens when token index is implemented
-const fetchTokens = async (): Promise<TransactionResponse> => {
-    return {
-        transactions: [],
-        hasMorePages: false,
-    };
+const fetchTokens = async (primaryWallet?: IReadWriteWallet): Promise<TransactionResponse> => {
+    try {
+        const response = await primaryWallet?.tokenIndex().all({ limit: 10 });
+
+        return {
+            transactions: response?.items() || [],
+            hasMorePages: response?.hasMorePages() || false,
+        };
+    } catch (error) {
+        return { transactions: [], hasMorePages: false };
+    }
 };
 
 export const LatestTransactions = () => {
@@ -56,11 +61,15 @@ export const LatestTransactions = () => {
         data: tokenData,
         refetch: refetchTokens,
         isLoading: isLoadingTokens,
-    } = useQuery<TransactionResponse>(['tokens', primaryWallet?.address()], () => fetchTokens(), {
-        enabled: !!primaryWallet,
-        staleTime: 0,
-        refetchInterval: 60000,
-    });
+    } = useQuery<TransactionResponse>(
+        ['tokens', primaryWallet?.address()],
+        () => fetchTokens(primaryWallet),
+        {
+            enabled: !!primaryWallet,
+            staleTime: 0,
+            refetchInterval: 60000,
+        },
+    );
 
     const tabs = useMemo(() => {
         if (tokenData && tokenData.transactions.length > 0) {
