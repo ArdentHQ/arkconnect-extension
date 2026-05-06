@@ -2,12 +2,10 @@ import { useCallback, useMemo, useReducer, useRef, useState } from 'react';
 import { scannerReducer } from './scanner.state';
 import { Contracts } from '@/lib/mainsail';
 import { useLedgerContext } from '@/lib/Ledger';
-import { LedgerData } from '@/lib/Ledger/Ledger.contracts';
-import { omitBy, uniqBy } from '@/lib/helpers';
 import { Contracts as ProfilesContracts } from '@/lib/profiles';
 import { persistLedgerConnection } from '@/lib/Ledger/utils/connection';
 
-export const useLedgerScanner = (network: string) => {
+export const useLedgerScanner = (network: string, options?: { pageSize?: number }) => {
     const { setBusy, setIdle, resetConnectionState, disconnect } = useLedgerContext();
 
     const [state, dispatch] = useReducer(scannerReducer, {
@@ -15,7 +13,7 @@ export const useLedgerScanner = (network: string) => {
         wallets: [],
     });
 
-    const [loadedWallets, setLoadedWallets] = useState<Contracts.WalletData[]>([]);
+    const [loadedWallets] = useState<Contracts.WalletData[]>([]);
 
     const { selected, wallets, error } = state;
 
@@ -31,11 +29,7 @@ export const useLedgerScanner = (network: string) => {
     const [isScanningMore, setIsScanningMore] = useState(false);
     const abortRetryReference = useRef<boolean>(false);
 
-    const onProgress = (wallet: Contracts.WalletData) => {
-        setLoadedWallets(uniqBy([...loadedWallets, wallet], (wallet) => wallet.data.address));
-    };
-
-    const scanAddresses = async (profile: ProfilesContracts.IProfile, startPath?: string) => {
+    const scanAddresses = async (profile: ProfilesContracts.IProfile) => {
         const ledgerService = profile.ledger();
 
         setIdle();
@@ -57,47 +51,14 @@ export const useLedgerScanner = (network: string) => {
             options: { factor: 1, randomize: false, retries: 50 },
         });
 
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        const ledgerWallets = await ledgerService.scan({ onProgress, startPath });
+        const scannedData = await profile
+            .ledger()
+            .scanner({ scannedWallets: wallets })
+            .scan({ isLoadingMore, pageSize: options?.pageSize });
 
-        const legacyWallets = isLoadingMore
-            ? {}
-            : // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-              // @ts-ignore
-              await ledgerService.scan({ onProgress, useLegacy: true });
-
-        const allWallets = { ...legacyWallets, ...ledgerWallets };
-
-        let ledgerData: LedgerData[] = [];
-
-        for (const [path, data] of Object.entries(allWallets)) {
-            const address = data.address();
-
-            const wallet = await profile.walletFactory().fromAddress({ address });
-            await wallet.synchroniser().identity();
-
-            /* istanbul ignore next -- @preserve */
-            if (!profile.wallets().findByAddressWithNetwork(address, network)) {
-                ledgerData.push({
-                    address,
-                    balance: wallet.balance().toNumber(),
-                    path,
-                });
-            }
-        }
-
-        if (isLoadingMore) {
-            ledgerData = omitBy(ledgerData, (wallet) =>
-                wallets.some((w) => w.address === wallet.address),
-            );
-        } else {
-            ledgerData = uniqBy([...wallets, ...ledgerData], (wallet) => wallet.address);
-        }
-
-        if (abortRetryReference.current) {
-            return;
-        }
+        const ledgerData = scannedData.filter(
+            ({ address }) => !profile.wallets().findByAddressWithNetwork(address, network),
+        );
 
         dispatch({ payload: ledgerData, type: 'success' });
 
@@ -106,13 +67,13 @@ export const useLedgerScanner = (network: string) => {
         setIsScanningMore(false);
     };
 
-    const scan = async (profile: ProfilesContracts.IProfile, startPath?: string) => {
+    const scan = async (profile: ProfilesContracts.IProfile) => {
         try {
-            await scanAddresses(profile, startPath);
+            await scanAddresses(profile);
         } catch (error) {
             if (error?.message?.includes?.('busy')) {
                 await new Promise((resolve) => setTimeout(resolve, 1000));
-                await scan(profile, startPath);
+                await scan(profile);
                 return;
             }
 

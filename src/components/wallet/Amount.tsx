@@ -4,7 +4,7 @@ import constants from '@/constants';
 import cropToMaxDigits from '@/lib/utils/cropToMaxDigits';
 import { Tooltip } from '@/shared/components';
 import { Currency } from '@/lib/profiles/helpers';
-import { NumberLike } from '@/lib/helpers';
+import { BigNumber, NumberLike } from '@/lib/helpers';
 
 interface AmountProperties {
     ticker: string;
@@ -35,10 +35,7 @@ const Amount = ({
     hideSmallValues = false,
     className,
 }: AmountProperties) => {
-    const numericValue =
-        typeof value === 'number'
-            ? value
-            : Number((value as { toNumber?: () => number }).toNumber?.() ?? value ?? 0);
+    const numericValue = BigNumber.make(value).toNumber();
     let actualFormattedAmount = Currency.format(numericValue, ticker, { withTicker });
     const valueToFormat =
         hideSmallValues && numericValue !== 0 && numericValue < 0.01 ? 0.01 : numericValue;
