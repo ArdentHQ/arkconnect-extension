@@ -81,7 +81,9 @@ export const useLedgerScanner = (network: string) => {
             if (!profile.wallets().findByAddressWithNetwork(address, network)) {
                 ledgerData.push({
                     address,
-                    balance: Number((wallet.balance() as any)?.toNumber?.() ?? wallet.balance() ?? 0),
+                    balance: Number(
+                        (wallet.balance() as any)?.toNumber?.() ?? wallet.balance() ?? 0,
+                    ),
                     path,
                 });
             }

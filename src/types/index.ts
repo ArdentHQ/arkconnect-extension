@@ -1,60 +1,60 @@
-import { BigNumber } from "@/app/lib/helpers";
+import { BigNumber } from '@/app/lib/helpers';
 
-export type Color = "info" | "success" | "warning" | "danger" | "hint";
+export type Color = 'info' | 'success' | 'warning' | 'danger' | 'hint';
 
 export type Size =
-	| "3xs"
-	| "2xs"
-	| "xs"
-	| "sm"
-	| "md"
-	| "lg"
-	| "xl"
-	| "2xl"
-	| "3xl"
-	| "4xl"
-	| "5xl"
-	| "icon"
-	| "avatarMobile";
+    | '3xs'
+    | '2xs'
+    | 'xs'
+    | 'sm'
+    | 'md'
+    | 'lg'
+    | 'xl'
+    | '2xl'
+    | '3xl'
+    | '4xl'
+    | '5xl'
+    | 'icon'
+    | 'avatarMobile';
 
-export type LayoutBreakpoint = "sm" | "md" | "lg" | "xl";
+export type LayoutBreakpoint = 'sm' | 'md' | 'lg' | 'xl';
 
 export type Position =
-	| "top"
-	| "top-right"
-	| "right"
-	| "bottom-right"
-	| "bottom"
-	| "bottom-left"
-	| "left"
-	| "top-left"
-	| "top-center";
+    | 'top'
+    | 'top-right'
+    | 'right'
+    | 'bottom-right'
+    | 'bottom'
+    | 'bottom-left'
+    | 'left'
+    | 'top-left'
+    | 'top-center';
 
 export type ButtonVariant =
-	| "primary"
-	| "primary-transparent"
-	| "secondary"
-	| "danger"
-	| "warning"
-	| "transparent"
-	| "info"
-	| "reverse"
-	| "secondary-icon"
-	| "border";
+    | 'primary'
+    | 'primary-transparent'
+    | 'secondary'
+    | 'danger'
+    | 'warning'
+    | 'transparent'
+    | 'info'
+    | 'reverse'
+    | 'secondary-icon'
+    | 'border';
 
 export type ResponsiveButtonVariant = {
-	[key in LayoutBreakpoint]?: ButtonVariant;
+    [key in LayoutBreakpoint]?: ButtonVariant;
 };
 
-export type NavbarVariant = "full" | "logo-only";
+export type NavbarVariant = 'full' | 'logo-only';
 
-export type Theme = "system" | "dark" | "light" | "dim";
+export type Theme = 'system' | 'dark' | 'light' | 'dim';
 
 export interface TransactionFees {
-	max: BigNumber;
-	min: BigNumber;
-	avg: BigNumber;
+    max: BigNumber;
+    min: BigNumber;
+    avg: BigNumber;
 }
 export type ResponsiveButtonVariantStyles = {
-	[key in LayoutBreakpoint]?: string;
+    [key in LayoutBreakpoint]?: string;
 };

@@ -6,7 +6,9 @@ export const useWalletBalance = (primaryWallet: Contracts.IReadWriteWallet | und
     const { isLoading, rates } = useExchangeRates();
     const [convertedBalance, setConvertedBalance] = useState<number>(0);
 
-    const balance = Number((primaryWallet?.balance() as any)?.toNumber?.() ?? primaryWallet?.balance?.() ?? 0);
+    const balance = Number(
+        (primaryWallet?.balance() as any)?.toNumber?.() ?? primaryWallet?.balance?.() ?? 0,
+    );
     const currency = primaryWallet?.exchangeCurrency();
     const isTest = primaryWallet?.network().isTest();
 

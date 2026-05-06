@@ -12,7 +12,9 @@ import { BigNumber } from '@/lib/helpers';
 
 export const SendForm = ({ formik }: { formik: FormikProps<SendFormik> }) => {
     const primaryWallet = usePrimaryWallet();
-    const primaryWalletBalance = Number((primaryWallet?.balance() as any)?.toNumber?.() ?? primaryWallet?.balance?.() ?? 0);
+    const primaryWalletBalance = Number(
+        (primaryWallet?.balance() as any)?.toNumber?.() ?? primaryWallet?.balance?.() ?? 0,
+    );
     const { t } = useTranslation();
 
     const handleMaxClick = () => {

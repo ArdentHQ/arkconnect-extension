@@ -66,7 +66,9 @@ export const getUniqueRecipients = (
                 uniqueRecipients[existingRecipientIndex].amount as BigNumber | number | 0,
             );
             const recipientAmount = toNumericAmount(recipient.amount as BigNumber | number | 0);
-            uniqueRecipients[existingRecipientIndex].amount = BigNumber.make(existingAmount + recipientAmount);
+            uniqueRecipients[existingRecipientIndex].amount = BigNumber.make(
+                existingAmount + recipientAmount,
+            );
         } else {
             uniqueRecipients.push({ address: recipient.address, amount: recipient.amount });
         }

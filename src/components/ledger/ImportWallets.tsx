@@ -173,7 +173,11 @@ const ImportWallets = ({ goToNextStep, formik }: Props) => {
                                             </p>
                                             <span className='typeset-body'>
                                                 <AddressBalance
-                                                    balance={Number((wallet.balance as any)?.toNumber?.() ?? wallet.balance ?? 0)}
+                                                    balance={Number(
+                                                        (wallet.balance as any)?.toNumber?.() ??
+                                                            wallet.balance ??
+                                                            0,
+                                                    )}
                                                     currency={getNetworkCurrency(
                                                         profile.activeNetwork(),
                                                     )}

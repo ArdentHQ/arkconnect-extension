@@ -36,7 +36,9 @@ const Amount = ({
     className,
 }: AmountProperties) => {
     const numericValue =
-        typeof value === 'number' ? value : Number((value as { toNumber?: () => number }).toNumber?.() ?? value ?? 0);
+        typeof value === 'number'
+            ? value
+            : Number((value as { toNumber?: () => number }).toNumber?.() ?? value ?? 0);
     let actualFormattedAmount = Currency.format(numericValue, ticker, { withTicker });
     const valueToFormat =
         hideSmallValues && numericValue !== 0 && numericValue < 0.01 ? 0.01 : numericValue;
@@ -72,9 +74,12 @@ const Amount = ({
             placement={tooltipPlacement}
         >
             <span
-                className={cn({
-                    'underline-offset-2 hover:underline': !tooltipDisabled && underlineOnHover,
-                }, className)}
+                className={cn(
+                    {
+                        'underline-offset-2 hover:underline': !tooltipDisabled && underlineOnHover,
+                    },
+                    className,
+                )}
             >
                 {formattedAmount}
             </span>

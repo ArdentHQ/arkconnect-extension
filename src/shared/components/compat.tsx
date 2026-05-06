@@ -1,7 +1,6 @@
 import React, { createContext, useContext } from 'react';
 import cn from 'classnames';
 import { Input } from './input/Input';
-import { Button } from './button/Button';
 import AmountComponent from '@/components/wallet/Amount';
 
 export interface OptionProperties {
@@ -52,7 +51,14 @@ export const FormField = ({ name, children }: { name?: string; children: React.R
     </FormFieldContext.Provider>
 );
 
-export const FormLabel = ({ label, className }: { label: React.ReactNode; className?: string; id?: string }) => (
+export const FormLabel = ({
+    label,
+    className,
+}: {
+    label: React.ReactNode;
+    className?: string;
+    id?: string;
+}) => (
     <label data-testid='FormLabel' className={className}>
         {label}
     </label>
@@ -117,7 +123,9 @@ export const Toast = ({
     children: React.ReactNode;
     variant?: 'success' | 'warning' | 'danger' | 'info';
 }) => (
-    <div className={cn('rounded-lg border p-3', { 'border-theme-error-500': variant === 'danger' })}>
+    <div
+        className={cn('rounded-lg border p-3', { 'border-theme-error-500': variant === 'danger' })}
+    >
         {children}
     </div>
 );
