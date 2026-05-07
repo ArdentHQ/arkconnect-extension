@@ -1,7 +1,6 @@
 import js from '@eslint/js';
 import tseslint from 'typescript-eslint';
 import reactPlugin from 'eslint-plugin-react';
-import reactHooksPlugin from 'eslint-plugin-react-hooks';
 import importPlugin from 'eslint-plugin-import';
 import unusedImportsPlugin from 'eslint-plugin-unused-imports';
 import unicornPlugin from 'eslint-plugin-unicorn';
@@ -25,6 +24,10 @@ export default [
     },
     js.configs.recommended,
     ...tseslint.configs.recommended,
+    reactPlugin.configs.flat.recommended,
+    importPlugin.flatConfigs.errors,
+    importPlugin.flatConfigs.warnings,
+    importPlugin.flatConfigs.typescript,
     {
         files: ['src/**/*.{js,ts,jsx,tsx}'],
         languageOptions: {
@@ -39,9 +42,6 @@ export default [
             },
         },
         plugins: {
-            react: reactPlugin,
-            'react-hooks': reactHooksPlugin,
-            import: importPlugin,
             'unused-imports': unusedImportsPlugin,
             unicorn: unicornPlugin,
             sonarjs: sonarjsPlugin,
