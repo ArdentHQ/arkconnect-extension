@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { revertAll } from '@/lib/store/ui';
 import { RootState } from '@/lib/store';
 
@@ -93,8 +93,9 @@ export const primaryWalletIdChanged = createAsyncThunk(
 );
 
 export const selectWallets = (state: RootState) => state.wallet.wallets;
-export const selectWalletsIds = (state: RootState) =>
-    state.wallet.wallets.map((wallet) => wallet.walletId);
+export const selectWalletsIds = createSelector([selectWallets], (wallets) =>
+    wallets.map((wallet) => wallet.walletId),
+);
 export const selectPrimaryWalletId = (state: RootState) => state.wallet.primaryWalletId;
 export const selectWalletsLength = (state: RootState) => state.wallet.wallets.length;
 
