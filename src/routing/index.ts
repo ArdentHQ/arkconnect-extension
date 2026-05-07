@@ -34,7 +34,6 @@ import EditContact from '@/pages/EditContact';
 import Vote from '@/pages/Vote';
 
 type RouteData = {
-     
     Component: (...props: any[]) => JSX.Element;
     title: string;
     path: string;
