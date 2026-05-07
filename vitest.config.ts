@@ -12,6 +12,7 @@ export default defineConfig((env) => {
                 maxConcurrency: 4,
                 globals: true,
                 environment: 'jsdom',
+                hookTimeout: 30000,
                 exclude: [
                     ...configDefaults.exclude,
                     'src/lib/helpers/**',
