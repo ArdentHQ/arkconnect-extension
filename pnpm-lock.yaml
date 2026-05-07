@@ -48,8 +48,8 @@ importers:
         specifier: 2.1.0
         version: 2.1.0
       bignumber.js:
-        specifier: ^9.3.0
-        version: 9.3.0
+        specifier: ^11.1.1
+        version: 11.1.1
       classnames:
         specifier: ^2.5.1
         version: 2.5.1
@@ -1544,6 +1544,9 @@ packages:
   big-integer@1.6.52:
     resolution: {integrity: sha512-QxD8cf2eVqJOOz63z6JIN9BzvVs/dlySa5HGSBH5xtR8dPteIRQnBxxKqkNTiT6jbDTF6jAfrd4oMcND9RGbQg==}
     engines: {node: '>=0.6'}
+
+  bignumber.js@11.1.1:
+    resolution: {integrity: sha512-LNkCYMieJqAts/Sj5094B92c5q+yRPlXWpABJnHMbUjB/F8AUjELmSmYX5mxbNiY/QnGnJvJIrnRuW5gUqbW5Q==}
 
   bignumber.js@9.3.0:
     resolution: {integrity: sha512-EM7aMFTXbptt/wZdMlBv2t8IViwQL+h6SLHosp8Yf0dqJMTnY6iL32opnAB6kAdL0SZPuvcAzFr31o0c/R3/RA==}
@@ -6564,6 +6567,8 @@ snapshots:
   bcryptjs@3.0.2: {}
 
   big-integer@1.6.52: {}
+
+  bignumber.js@11.1.1: {}
 
   bignumber.js@9.3.0: {}
 
