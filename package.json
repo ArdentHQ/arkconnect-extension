@@ -29,7 +29,7 @@
         "@ledgerhq/hw-transport-webusb": "^6.29.7",
         "@mainsail/evm-contracts": "0.0.1-evm.18",
         "@reduxjs/toolkit": "^2.11.2",
-        "@sentry/react": "^7.118.0",
+        "@sentry/react": "^10.51.0",
         "@tippyjs/react": "^4.2.6",
         "@types/file-saver": "^2.0.7",
         "assert": "2.1.0",
