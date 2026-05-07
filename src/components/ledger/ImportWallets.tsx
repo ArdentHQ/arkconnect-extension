@@ -42,7 +42,7 @@ const ImportWallets = ({ goToNextStep, formik }: Props) => {
 
     const showLoader = (isScanning || (isBusy && wallets.length === 0)) && !isScanningMore;
 
-    // eslint-disable-next-line arrow-body-style
+     
     useEffect(() => {
         return () => {
             abortScanner();

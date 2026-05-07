@@ -33,7 +33,7 @@ import EditContact from '@/pages/EditContact';
 import Vote from '@/pages/Vote';
 
 type RouteData = {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+     
     Component: (...props: any[]) => JSX.Element;
     title: string;
     path: string;

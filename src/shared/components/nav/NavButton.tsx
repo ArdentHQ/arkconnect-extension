@@ -2,7 +2,7 @@ import cn from 'classnames';
 import { twMerge } from 'tailwind-merge';
 import { isFirefox } from '@/lib/utils/isFirefox';
 
-interface Properties extends React.ButtonHTMLAttributes<HTMLButtonElement> {}
+type Properties = React.ButtonHTMLAttributes<HTMLButtonElement>;
 
 export const NavButton = ({ className, ...properties }: Properties) => {
     return (
