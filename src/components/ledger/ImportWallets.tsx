@@ -42,7 +42,6 @@ const ImportWallets = ({ goToNextStep, formik }: Props) => {
 
     const showLoader = (isScanning || (isBusy && wallets.length === 0)) && !isScanningMore;
 
-     
     useEffect(() => {
         return () => {
             abortScanner();

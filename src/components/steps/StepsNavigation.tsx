@@ -1,4 +1,3 @@
- 
 import { ComponentType, useState } from 'react';
 
 import { FormikProps } from 'formik';
