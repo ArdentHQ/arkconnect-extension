@@ -24,7 +24,7 @@ export class Money {
 		const currency = { code, base: 10, exponent: 2 } as const;
 		const decimal = Number(toDecimal(dinero({ amount: this.#amount, currency })));
 
-		return new Intl.NumberFormat(this.#locale, {
+		return new Intl.NumberFormat(this.#locale ?? "en-US", {
 			style: "currency",
 			currency: code,
 		}).format(decimal);
