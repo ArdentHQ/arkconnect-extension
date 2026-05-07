@@ -1,3 +1,4 @@
+import { type JSX } from 'react';
 import Home from '@/pages/Home';
 import Connections from '@/pages/Connections';
 import Onboarding from '@/pages/Onboarding';
