@@ -22,7 +22,7 @@ type Props = {
 
 const ImportWallets = ({ goToNextStep, formik }: Props) => {
     const onError = useOnError();
-    const retryFunctionReference = useRef<() => void>();
+    const retryFunctionReference = useRef<(() => void) | undefined>(undefined);
     const { profile } = useProfileContext();
     const ledgerScanner = useLedgerScanner(profile.activeNetwork().id());
     const { isBusy, importLedgerWallets } = useLedgerContext();

@@ -25,7 +25,11 @@ type Action =
     | { type: 'removeErrors' }
     | { type: 'accessDenied' };
 
-export const defaultConnectionState = { isBusy: false, isConnected: false, isWaiting: false };
+export const defaultConnectionState: LedgerConnectionState = {
+    isBusy: false,
+    isConnected: false,
+    isWaiting: false,
+};
 
 export const connectionReducer = (
     state: LedgerConnectionState,
