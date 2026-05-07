@@ -67,7 +67,7 @@
         "react-qr-code": "^2.0.21",
         "react-query": "^3.39.3",
         "react-redux": "^9.2.0",
-        "react-router-dom": "^6.26.0",
+        "react-router-dom": "^7.15.0",
         "redux": "^5.0.1",
         "redux-persist": "^6.0.0",
         "seedrandom": "^3.0.5",
