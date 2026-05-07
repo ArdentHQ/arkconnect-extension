@@ -65,7 +65,7 @@ export const FeeBanner = ({
     return (
         <div className='absolute flex w-full flex-row items-center justify-between gap-4 border-b border-theme-warning-500 bg-theme-warning-50 px-4 py-2 text-theme-warning-600 dark:border-theme-warning-400 dark:bg-[#4B4133] dark:text-theme-warning-400'>
             <div className='flex items-center gap-2'>
-                <Icon icon='information-circle' className='h-5 w-5 flex-shrink-0' />
+                <Icon icon='information-circle' className='h-5 w-5 shrink-0' />
                 <span className='text-sm leading-[17.5px]'>
                     {t('MISC.FEE_WARNING.TOP_LINE', {
                         state: customFeeState?.toLowerCase(),

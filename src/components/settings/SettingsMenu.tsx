@@ -145,7 +145,7 @@ export const SettingsMenu = ({
                                     className={classNames(
                                         'flex h-5 w-5 items-center justify-center rounded-full',
                                         {
-                                            'bg-theme-navy-100 outline outline-1 outline-theme-navy-600 dark:bg-theme-navy-900':
+                                            'bg-theme-navy-100 outline-1 outline-theme-navy-600 dark:bg-theme-navy-900':
                                                 currentThemeAccent === ThemeAccent.NAVY,
                                             'bg-theme-secondary-200 dark:bg-theme-secondary-700':
                                                 currentThemeAccent !== ThemeAccent.NAVY,
@@ -160,7 +160,7 @@ export const SettingsMenu = ({
                                     className={classNames(
                                         'flex h-5 w-5 items-center justify-center rounded-full',
                                         {
-                                            'bg-theme-green-100 outline outline-1 outline-theme-green-600 dark:bg-theme-green-900':
+                                            'bg-theme-green-100 outline-1 outline-theme-green-600 dark:bg-theme-green-900':
                                                 currentThemeAccent === ThemeAccent.GREEN,
                                             'bg-theme-secondary-200 dark:bg-theme-secondary-700':
                                                 currentThemeAccent !== ThemeAccent.GREEN,

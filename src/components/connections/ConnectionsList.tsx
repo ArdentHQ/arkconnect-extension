@@ -71,7 +71,7 @@ const ConnectionsList = () => {
                             className='relative flex min-h-[58px] w-full items-center justify-between gap-3 rounded-2xl bg-white p-3 shadow-light dark:bg-subtle-black'
                             key={session.id}
                         >
-                            <div className='flex h-10 w-10 flex-shrink-0 items-center justify-center overflow-hidden rounded-full bg-theme-secondary-50 dark:bg-black'>
+                            <div className='flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-full bg-theme-secondary-50 dark:bg-black'>
                                 <ConnectionLogoImage
                                     appLogo={session.logo}
                                     alt={session.domain}
@@ -117,7 +117,7 @@ const ConnectionsList = () => {
                                 <button
                                     type='button'
                                     className={cn(
-                                        'flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full text-theme-error-500 hover:bg-theme-secondary-50 dark:text-theme-error-600 dark:hover:bg-theme-secondary-700',
+                                        'flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-theme-error-500 hover:bg-theme-secondary-50 dark:text-theme-error-600 dark:hover:bg-theme-secondary-700',
                                         {
                                             'transition-smoothEase': !isFirefox,
                                             'transition-firefoxSmoothEase': isFirefox,

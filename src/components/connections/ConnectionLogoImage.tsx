@@ -32,7 +32,7 @@ const ConnectionLogoImage = ({
                         <div
                             className={twMerge(
                                 cn(
-                                    'h-5 w-5 flex-shrink-0 overflow-hidden bg-white dark:bg-light-black',
+                                    'h-5 w-5 shrink-0 overflow-hidden bg-white dark:bg-light-black',
                                     {
                                         'border-[10px] border-solid': withBorder,
                                         'border-theme-secondary-50 dark:border-light-black':

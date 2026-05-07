@@ -74,7 +74,7 @@ export const Checkbox: FC<CheckboxProps> = ({
                 className={cn('checkbox-indicator', {
                     'transition-firefoxSmoothEase': isFirefox,
                     'transition-smoothEase': !isFirefox,
-                    'outline outline-2 outline-offset-2 outline-theme-primary-600': isFocusWithin,
+                    'outline-2 outline-offset-2 outline-theme-primary-600': isFocusWithin,
                     'cursor-not-allowed': disabled,
                 })}
             />

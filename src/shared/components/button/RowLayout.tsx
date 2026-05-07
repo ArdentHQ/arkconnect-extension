@@ -106,7 +106,7 @@ export const RowLayout = forwardRef(function RowLayout(
         {
             'cursor-pointer': hasPointer,
             'cursor-auto': !hasPointer,
-            'rounded-2xl bg-white dark:bg-subtle-black shadow-light hover:shadow-[0_0_0_1px] hover:shadow-theme-secondary-200 hover:dark:shadow-theme-secondary-600':
+            'rounded-2xl bg-white dark:bg-subtle-black shadow-light hover:shadow-[0_0_0_1px_rgb(var(--theme-color-secondary-200))] hover:dark:shadow-[0_0_0_1px_rgb(var(--theme-color-secondary-600))]':
                 variant === 'primary',
             'rounded-2.5xl bg-white dark:bg-subtle-black shadow-light border border-solid border-theme-primary-700 dark:border-theme-primary-650':
                 variant === 'errorFree',

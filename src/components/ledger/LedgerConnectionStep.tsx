@@ -12,7 +12,7 @@ import ThemedIcon from '@/shared/components/icon/ThemedIcon';
 const ConnectionStep = ({ children, ready }: { children: React.ReactNode; ready: boolean }) => {
     return (
         <li className='flex justify-start space-x-2 text-light-black dark:text-white'>
-            <span className='mt-px flex flex-shrink-0'>
+            <span className='mt-px flex shrink-0'>
                 {ready ? (
                     <span className='flex h-5 w-5 items-center justify-center rounded-full bg-theme-primary-700 dark:bg-theme-primary-600'>
                         <Icon icon='check' className='h-4 w-4 text-white dark:text-subtle-black' />

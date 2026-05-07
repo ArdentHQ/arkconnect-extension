@@ -96,7 +96,7 @@ export const Header = ({ hideNavbar = false }: HeaderProps) => {
                                 <Icon
                                     icon='arrow-down'
                                     className={cn(
-                                        'h-4 w-4 flex-shrink-0 text-light-black transition-transform ease-in-out dark:text-white',
+                                        'h-4 w-4 shrink-0 text-light-black transition-transform ease-in-out dark:text-white',
                                         {
                                             'rotate-180 transform': showAddressesDropdown,
                                         },

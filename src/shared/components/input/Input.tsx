@@ -86,7 +86,7 @@ export const Input = ({
                             'text-input-primary': variant === 'primary',
                             'text-input-destructive': variant === 'destructive',
                             'text-input-errorFree': variant === 'errorFree',
-                            '!text-transparent': !focused && displayValue,
+                            'text-transparent!': !focused && displayValue,
                         },
                         className,
                     )}
