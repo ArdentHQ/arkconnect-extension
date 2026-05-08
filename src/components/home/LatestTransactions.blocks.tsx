@@ -3,6 +3,7 @@ import dayjs from 'dayjs';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import classNames from 'classnames';
+import seedrandom from 'seedrandom';
 import { TransactionAmount } from '../transaction/Transaction.blocks';
 import {
     getTransactionIcon,
@@ -22,7 +23,6 @@ import { isFirefox } from '@/lib/utils/isFirefox';
 import { ExtendedConfirmedTransactionData } from '@/lib/profiles/transaction.dto';
 import { IReadWriteWallet } from '@/lib/profiles/wallet.contract';
 import { WalletToken } from '@/lib/profiles/wallet-token';
-import seedrandom from 'seedrandom';
 
 export const TransactionTitle = ({
     type,
