@@ -21,6 +21,8 @@ import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 import { isFirefox } from '@/lib/utils/isFirefox';
 import { ExtendedConfirmedTransactionData } from '@/lib/profiles/transaction.dto';
 import { IReadWriteWallet } from '@/lib/profiles/wallet.contract';
+import { WalletToken } from '@/lib/profiles/wallet-token';
+import seedrandom from 'seedrandom';
 
 export const TransactionTitle = ({
     type,
@@ -303,4 +305,103 @@ export const LatestTransactionAmount = ({
     }
 
     return <TransactionAmount transaction={transaction} displayFiat={false} />;
+};
+
+const TOKEN_AVATAR_COLORS = [
+    '4381C0',
+    '45A2EB',
+    '00B2AA',
+    '6E6CEF',
+    '289548',
+    'FC9F0F',
+    '2A64E6',
+    '3898F9',
+    '5CA481',
+    '5EB8FC',
+    'EF7C6D',
+    'FA9EDC',
+];
+
+const tokenAvatarColor = (seed: string): string => {
+    const rng = seedrandom(seed);
+    return TOKEN_AVATAR_COLORS[Math.floor(rng() * TOKEN_AVATAR_COLORS.length)];
+};
+
+const TokenAvatar = ({ token }: { token: WalletToken }) => {
+    const symbol = token.token().symbol() || token.token().name();
+    const initial = symbol.slice(0, 1).toUpperCase();
+    const color = tokenAvatarColor(symbol);
+
+    return (
+        <div
+            className='flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-sm font-semibold text-white'
+            style={{ backgroundColor: `#${color}` }}
+        >
+            {initial}
+        </div>
+    );
+};
+
+const TokenListItem = ({ token }: { token: WalletToken }) => {
+    const balance = token.balance();
+    const isZero = balance.isZero();
+    const balanceStr = balance.toString();
+
+    return (
+        <div className='flex items-center gap-3 px-4 py-3'>
+            <TokenAvatar token={token} />
+            <div className='flex min-w-0 flex-1 items-center gap-1.5'>
+                <span className='typeset-headline truncate text-light-black dark:text-white'>
+                    {token.token().name()}
+                </span>
+                <span className='typeset-body shrink-0 text-theme-secondary-500 dark:text-theme-secondary-300'>
+                    {token.token().displaySymbol()}
+                </span>
+            </div>
+            <span
+                className={cn('typeset-headline shrink-0', {
+                    'text-light-black dark:text-white': !isZero,
+                    'text-theme-secondary-500 dark:text-theme-secondary-300': isZero,
+                })}
+            >
+                {balanceStr}
+            </span>
+        </div>
+    );
+};
+
+export const TokensList = ({ tokens }: { tokens: WalletToken[] }) => {
+    const { t } = useTranslation();
+    const primaryWallet = usePrimaryWallet();
+
+    return (
+        <div className='flex flex-col'>
+            <div className='flex items-center justify-between bg-theme-secondary-50 px-4 py-2.5 text-sm text-theme-secondary-500 dark:bg-theme-secondary-700 dark:text-theme-secondary-300'>
+                <span>{t('PAGES.HOME.TOKENS_LIST.NAME')}</span>
+                <span>{t('PAGES.HOME.TOKENS_LIST.TOKEN_BALANCE')}</span>
+            </div>
+            <div className='custom-scroll max-h-[237px] overflow-auto'>
+                {tokens.map((token) => (
+                    <TokenListItem key={token.token().address()} token={token} />
+                ))}
+                <div className='p-4'>
+                    <ExternalLink
+                        href={getExplorerDomain(
+                            primaryWallet?.network().isLive() ?? false,
+                            primaryWallet?.address() ?? '',
+                        )}
+                        className='group hover:no-underline'
+                        tabIndex={0}
+                    >
+                        <Button
+                            variant='secondary'
+                            className='group-focus-visible:shadow-focus dark:group-focus-visible:shadow-focus-dark'
+                        >
+                            {t('COMMON.VIEW_MORE_ON_ARKSCAN')}
+                        </Button>
+                    </ExternalLink>
+                </div>
+            </div>
+        </div>
+    );
 };
