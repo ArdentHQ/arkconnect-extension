@@ -37,7 +37,7 @@ export const FeeWarning = ({
             <span>
                 <Icon
                     icon='warning-triangle'
-                    className='h-[18px] w-[18px] text-theme-warning-500 dark:text-theme-warning-400'
+                    className='text-theme-warning-500 dark:text-theme-warning-400 h-[18px] w-[18px]'
                 />
             </span>
         </Tooltip>
@@ -63,7 +63,7 @@ export const FeeBanner = ({
     });
 
     return (
-        <div className='absolute flex w-full flex-row items-center justify-between gap-4 border-b border-theme-warning-500 bg-theme-warning-50 px-4 py-2 text-theme-warning-600 dark:border-theme-warning-400 dark:bg-[#4B4133] dark:text-theme-warning-400'>
+        <div className='border-theme-warning-500 bg-theme-warning-50 text-theme-warning-600 dark:border-theme-warning-400 dark:text-theme-warning-400 absolute flex w-full flex-row items-center justify-between gap-4 border-b px-4 py-2 dark:bg-[#4B4133]'>
             <div className='flex items-center gap-2'>
                 <Icon icon='information-circle' className='h-5 w-5 shrink-0' />
                 <span className='text-sm leading-[17.5px]'>
@@ -77,7 +77,7 @@ export const FeeBanner = ({
                 </span>
             </div>
             <button onClick={onClose}>
-                <Icon icon='x' className='h-4.5 w-4.5 dark:text-theme-warning-500' />
+                <Icon icon='x' className='dark:text-theme-warning-500 h-4.5 w-4.5' />
             </button>
         </div>
     );

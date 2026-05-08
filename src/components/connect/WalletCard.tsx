@@ -18,19 +18,19 @@ export const WalletCard = ({ wallet }: Props) => {
     const ledgerIndicator = wallet.isLedger();
 
     return (
-        <div className='relative flex max-h-[74px] w-full gap-3 rounded-2.5xl border border-solid border-theme-primary-700 bg-white p-4 shadow-light disabled:pointer-events-none disabled:cursor-not-allowed dark:border-theme-primary-600 dark:bg-subtle-black'>
+        <div className='rounded-2.5xl border-theme-primary-700 shadow-light dark:border-theme-primary-600 dark:bg-subtle-black relative flex max-h-[74px] w-full gap-3 border border-solid bg-white p-4 disabled:pointer-events-none disabled:cursor-not-allowed'>
             <div className='flex w-full items-start gap-3'>
                 <div className='flex w-full items-center justify-between'>
                     <div className='flex flex-col items-start gap-1'>
                         <div className='flex flex-row items-center gap-1.5 leading-none'>
-                            <div className='font-medium text-light-black dark:text-white'>
+                            <div className='text-light-black font-medium dark:text-white'>
                                 {title}
                             </div>
 
                             {ledgerIndicator && <LedgerIcon />}
                         </div>
 
-                        <div className='flex items-center gap-1.25 text-left text-sm leading-[18px] text-theme-secondary-500 dark:text-theme-secondary-300'>
+                        <div className='text-theme-secondary-500 dark:text-theme-secondary-300 flex items-center gap-1.25 text-left text-sm leading-[18px]'>
                             {hasAlias && (
                                 <>
                                     <Address

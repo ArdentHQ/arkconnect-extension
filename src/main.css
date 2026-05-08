@@ -5,7 +5,7 @@
 @import './css/inputs.css';
 @import './css/buttons.css';
 @import './css/skeletons.css';
-@config "../tailwind.config.js";
+@config '../tailwind.config.js';
 
 @variant dark (.dark &);
 @variant green (.accent-green &);
@@ -82,7 +82,7 @@ body {
 
 html,
 body {
-    @apply m-0 min-h-[600px] w-extension-screen p-0 text-base;
+    @apply w-extension-screen m-0 min-h-[600px] p-0 text-base;
 }
 
 b,
@@ -99,7 +99,7 @@ header {
 }
 
 *:focus-visible:not(input, textarea) {
-    @apply outline-2 outline-theme-primary-600;
+    @apply outline-theme-primary-600 outline-2;
     transition: outline-width 0s !important;
 }
 
@@ -150,7 +150,7 @@ header {
 }
 
 #scrollable-container {
-    @apply h-screen w-extension-screen max-w-extension-screen overflow-y-auto overflow-x-hidden;
+    @apply w-extension-screen max-w-extension-screen h-screen overflow-x-hidden overflow-y-auto;
 }
 
 .main-container {
@@ -174,7 +174,7 @@ header {
 }
 
 .tippy-box[data-theme~='ark-dark'] {
-    @apply bg-white text-subtle-black;
+    @apply text-subtle-black bg-white;
 }
 
 .tippy-box[data-theme~='ark-light'] .tippy-svg-arrow {
@@ -213,11 +213,11 @@ header {
 }
 
 .custom-scroll::-webkit-scrollbar-thumb {
-    @apply rounded-[50px] bg-theme-primary-700;
+    @apply bg-theme-primary-700 rounded-[50px];
 }
 
 .compensate-scroll {
-    @apply overflow-x-hidden overflow-y-scroll pl-2 pr-0;
+    @apply overflow-x-hidden overflow-y-scroll pr-0 pl-2;
     margin-left: calc(100vw - 100% - 8px);
     width: calc(100vw + 8px);
 }

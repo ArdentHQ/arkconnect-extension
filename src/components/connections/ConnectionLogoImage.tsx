@@ -32,7 +32,7 @@ const ConnectionLogoImage = ({
                         <div
                             className={twMerge(
                                 cn(
-                                    'h-5 w-5 shrink-0 overflow-hidden bg-white dark:bg-light-black',
+                                    'dark:bg-light-black h-5 w-5 shrink-0 overflow-hidden bg-white',
                                     {
                                         'border-[10px] border-solid': withBorder,
                                         'border-theme-secondary-50 dark:border-light-black':
@@ -63,7 +63,7 @@ const ConnectionLogoImage = ({
     return (
         <Icon
             icon={defaultFavicon}
-            className='h-3.75 w-3.75 text-theme-primary-700 dark:text-theme-primary-650'
+            className='text-theme-primary-700 dark:text-theme-primary-650 h-3.75 w-3.75'
         />
     );
 };

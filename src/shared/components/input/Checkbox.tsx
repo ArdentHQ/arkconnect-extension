@@ -36,12 +36,12 @@ export const Checkbox: FC<CheckboxProps> = ({
         >
             <span className='ml-7 flex flex-col items-start gap-1.25'>
                 {title && (
-                    <span className='typeset-heading font-normal leading-tight text-subtle-black dark:text-white'>
+                    <span className='typeset-heading text-subtle-black leading-tight font-normal dark:text-white'>
                         {title}
                     </span>
                 )}
                 {helperText && (
-                    <span className='typeset-body font-normal leading-tight text-theme-secondary-600 dark:text-theme-secondary-300'>
+                    <span className='typeset-body text-theme-secondary-600 dark:text-theme-secondary-300 leading-tight font-normal'>
                         {helperText}
                     </span>
                 )}
@@ -74,7 +74,7 @@ export const Checkbox: FC<CheckboxProps> = ({
                 className={cn('checkbox-indicator', {
                     'transition-firefoxSmoothEase': isFirefox,
                     'transition-smoothEase': !isFirefox,
-                    'outline-2 outline-offset-2 outline-theme-primary-600': isFocusWithin,
+                    'outline-theme-primary-600 outline-2 outline-offset-2': isFocusWithin,
                     'cursor-not-allowed': disabled,
                 })}
             />

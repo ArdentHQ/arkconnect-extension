@@ -87,7 +87,7 @@ export const FeeSection = ({
     return (
         <div className='flex flex-col gap-2'>
             <div className='flex w-full flex-row items-center justify-between'>
-                <span className='text-sm font-medium text-theme-secondary-500 dark:text-theme-secondary-200'>
+                <span className='text-theme-secondary-500 dark:text-theme-secondary-200 text-sm font-medium'>
                     {t('COMMON.TRANSACTION_FEE')}
                 </span>
 

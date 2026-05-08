@@ -39,7 +39,7 @@ type ModalProps = {
 const ModalCloseIcon = ({ onClose }: { onClose: () => void }) => {
     return (
         <button onClick={onClose}>
-            <Icon icon='x' className='h-4.5 w-4.5 text-light-black dark:text-white' />
+            <Icon icon='x' className='text-light-black h-4.5 w-4.5 dark:text-white' />
         </button>
     );
 };
@@ -59,7 +59,7 @@ export const ModalIcon = ({
         <div
             className={twMerge(
                 cn(
-                    'relative flex h-13 w-13 items-center justify-center rounded-lg border border-solid border-theme-secondary-200 shadow-light dark:border-theme-secondary-600',
+                    'border-theme-secondary-200 shadow-light dark:border-theme-secondary-600 relative flex h-13 w-13 items-center justify-center rounded-lg border border-solid',
                     {
                         'text-theme-error-600 dark:text-theme-error-500': variant === 'danger',
                         'text-subtle-black dark:text-subtle-white': variant !== 'danger',
@@ -98,7 +98,7 @@ const Modal = ({
     return (
         <Portal>
             <FocusTrap active={activateFocusTrap} focusTrapOptions={focusTrapOptions}>
-                <div className='fixed bottom-0 left-0 right-0 top-0 z-50 flex items-center justify-center overflow-hidden outline-none'>
+                <div className='fixed top-0 right-0 bottom-0 left-0 z-50 flex items-center justify-center overflow-hidden outline-none'>
                     <div className={twMerge('relative mx-4 my-auto w-auto max-w-max', className)}>
                         <div
                             className='relative flex w-full flex-col rounded-xl border-none outline-none'
@@ -106,7 +106,7 @@ const Modal = ({
                         >
                             <div
                                 className={twMerge(
-                                    cn('flex flex-col gap-6 bg-white dark:bg-light-black', {
+                                    cn('dark:bg-light-black flex flex-col gap-6 bg-white', {
                                         'p-4': !containerClassName,
                                         'rounded-xl': !errorMessage,
                                         'rounded-t-xl': errorMessage,
@@ -135,7 +135,7 @@ const Modal = ({
                                             </>
                                         )}
                                         {title && (
-                                            <h2 className='text-lg font-medium text-light-black dark:text-white'>
+                                            <h2 className='text-light-black text-lg font-medium dark:text-white'>
                                                 {title}
                                             </h2>
                                         )}
@@ -176,7 +176,7 @@ const Modal = ({
                                 )}
                             </div>
                             {errorMessage && (
-                                <div className='flex flex-row items-center gap-2 rounded-b-xl border-t border-t-theme-error-600 bg-theme-error-100 px-4 py-3 text-theme-error-600 dark:border-t-theme-error-500 dark:bg-theme-error-800 dark:text-theme-error-100'>
+                                <div className='border-t-theme-error-600 bg-theme-error-100 text-theme-error-600 dark:border-t-theme-error-500 dark:bg-theme-error-800 dark:text-theme-error-100 flex flex-row items-center gap-2 rounded-b-xl border-t px-4 py-3'>
                                     <Icon icon='information-circle' className='h-5 w-5 flex-none' />
                                     <span className='text-xs font-normal'>{errorMessage}</span>
                                 </div>
@@ -186,7 +186,7 @@ const Modal = ({
                 </div>
             </FocusTrap>
 
-            <div className='fixed bottom-0 left-0 top-0 w-full bg-[#030303] opacity-50' />
+            <div className='fixed top-0 bottom-0 left-0 w-full bg-[#030303] opacity-50' />
         </Portal>
     );
 };

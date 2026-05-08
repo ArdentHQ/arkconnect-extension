@@ -9,7 +9,7 @@ export const NavButton = ({ className, ...properties }: Properties) => {
         <button
             className={twMerge(
                 cn(
-                    'rounded-[50px] p-1.75 enabled:hover:bg-theme-secondary-100 dark:enabled:hover:bg-theme-secondary-700',
+                    'enabled:hover:bg-theme-secondary-100 dark:enabled:hover:bg-theme-secondary-700 rounded-[50px] p-1.75',
                     {
                         'transition-firefoxSmoothEase': isFirefox,
                         'transition-smoothEase': !isFirefox,

@@ -54,7 +54,7 @@ const RowLayoutWrapper = forwardRef(function RowLayoutWrapper(
                 rel={rel}
                 className={twMerge(
                     className,
-                    'cursor-pointer no-underline hover:underline focus-visible:outline-2 focus-visible:outline-theme-primary-600',
+                    'focus-visible:outline-theme-primary-600 cursor-pointer no-underline hover:underline focus-visible:outline-2',
                 )}
             >
                 {children}
@@ -151,7 +151,7 @@ export const RowLayout = forwardRef(function RowLayout(
                         </span>
 
                         {helperText && (
-                            <span className='flex items-center gap-1.25 text-left text-sm leading-[18px] text-theme-secondary-500 dark:text-theme-secondary-300'>
+                            <span className='text-theme-secondary-500 dark:text-theme-secondary-300 flex items-center gap-1.25 text-left text-sm leading-[18px]'>
                                 {address && (
                                     <>
                                         <Address

@@ -27,7 +27,7 @@ export const TransactionIcon = ({ type }: { type: TransactionType }) => {
     ].includes(type);
 
     return (
-        <div className='flex h-11 min-w-11 items-center justify-center rounded-xl border border-theme-secondary-200 bg-white text-theme-secondary-500 dark:border-theme-secondary-600 dark:bg-subtle-black dark:text-theme-secondary-300'>
+        <div className='border-theme-secondary-200 text-theme-secondary-500 dark:border-theme-secondary-600 dark:bg-subtle-black dark:text-theme-secondary-300 flex h-11 min-w-11 items-center justify-center rounded-xl border bg-white'>
             <Icon
                 className={cn({
                     'h-5 w-5': isSpecialTransaction,
@@ -157,7 +157,7 @@ export const TransactionAmount = ({
                 selfAmount={selfAmount}
             />
             {!isDevnet && displayFiat && (
-                <span className='pl-0.5 text-theme-secondary-500 dark:text-theme-secondary-300'>
+                <span className='text-theme-secondary-500 dark:text-theme-secondary-300 pl-0.5'>
                     <Amount
                         value={convert(value)}
                         ticker={primaryWallet?.exchangeCurrency() ?? 'USD'}

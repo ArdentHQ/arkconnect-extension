@@ -22,7 +22,7 @@ const InitialImportWallet = () => {
                 iconTrailing='arrow-right'
                 title='Enter Passphrase'
                 helperText='Use your 12 or 24-word passphrase to securely access your address.'
-                className='mb-2 text-theme-primary-700 dark:text-theme-primary-650'
+                className='text-theme-primary-700 dark:text-theme-primary-650 mb-2'
                 onClick={() => navigate('/wallet/import')}
             />
 

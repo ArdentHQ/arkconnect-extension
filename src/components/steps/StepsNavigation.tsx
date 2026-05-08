@@ -63,16 +63,16 @@ const StepsNavigation = <T extends Record<string, any>>({
         <>
             <div
                 className={twMerge(
-                    'flex items-center justify-between gap-4 pb-6 text-light-black dark:text-white',
+                    'text-light-black flex items-center justify-between gap-4 pb-6 dark:text-white',
                     className,
                 )}
                 {...stepsProps}
             >
                 <ArrowButton disabled={isPrevDisabled} onClick={handleStepBack} />
-                <div className='flex h-2 w-[242px] overflow-hidden rounded-lg bg-theme-secondary-200 dark:bg-theme-secondary-600'>
+                <div className='bg-theme-secondary-200 dark:bg-theme-secondary-600 flex h-2 w-[242px] overflow-hidden rounded-lg'>
                     <div
                         style={{ width: `${((currentStep + 1) / totalSteps) * 100}%` }}
-                        className='rounded-lg bg-theme-primary-700 dark:bg-theme-primary-650'
+                        className='bg-theme-primary-700 dark:bg-theme-primary-650 rounded-lg'
                     />
                 </div>
                 <div className='p-1.5'>

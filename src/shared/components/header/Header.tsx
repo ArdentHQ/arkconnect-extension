@@ -47,11 +47,11 @@ export const Header = ({ hideNavbar = false }: HeaderProps) => {
                 <div className='logo flex items-center gap-2'>
                     <Icon
                         icon='logo-inverted'
-                        className='h-6 w-6 text-theme-primary-700 dark:text-theme-primary-650'
+                        className='text-theme-primary-700 dark:text-theme-primary-650 h-6 w-6'
                     />
                     <Icon
                         icon='logo-text'
-                        className='h-3 w-[122px] text-theme-primary-700 dark:text-theme-primary-650'
+                        className='text-theme-primary-700 dark:text-theme-primary-650 h-3 w-[122px]'
                     />
                 </div>
             </HeaderWrapper>
@@ -85,18 +85,18 @@ export const Header = ({ hideNavbar = false }: HeaderProps) => {
                                 ref={addressesTriggerRef}
                                 className='ml-2 px-2 py-1.5'
                             >
-                                <span className='max-w-[124px] truncate text-sm font-medium text-light-black dark:text-white'>
+                                <span className='text-light-black max-w-[124px] truncate text-sm font-medium dark:text-white'>
                                     {primaryWallet.alias()}
                                 </span>
 
-                                <span className='whitespace-nowrap text-sm text-theme-secondary-500 dark:text-theme-secondary-200'>
+                                <span className='text-theme-secondary-500 dark:text-theme-secondary-200 text-sm whitespace-nowrap'>
                                     {trimAddress(primaryWallet.address(), 7)}
                                 </span>
 
                                 <Icon
                                     icon='arrow-down'
                                     className={cn(
-                                        'h-4 w-4 shrink-0 text-light-black transition-transform ease-in-out dark:text-white',
+                                        'text-light-black h-4 w-4 shrink-0 transition-transform ease-in-out dark:text-white',
                                         {
                                             'rotate-180 transform': showAddressesDropdown,
                                         },
