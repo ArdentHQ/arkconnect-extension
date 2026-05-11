@@ -2,7 +2,6 @@ import cn from 'classnames';
 import dayjs from 'dayjs';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import classNames from 'classnames';
 import seedrandom from 'seedrandom';
 import { TransactionAmount } from '../transaction/Transaction.blocks';
 import {
@@ -257,7 +256,7 @@ export const TransactionsList = ({
     const { t } = useTranslation();
 
     return (
-        <div className={classNames(['custom-scroll overflow-auto', maxHeight])}>
+        <div className={cn(['custom-scroll overflow-auto', maxHeight])}>
             {transactions.map((transaction, index) => (
                 <TransactionListItem key={index} transaction={transaction} />
             ))}
