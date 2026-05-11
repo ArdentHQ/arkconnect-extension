@@ -68,7 +68,6 @@ export interface WalletTokensQuery extends ClientPagination {
 	page?: number;
 	minBalance?: string;
 	whitelist?: string[];
-	ignoreWhitelist?: boolean;
 }
 
 export interface TokenTransfersQuery extends ClientPagination {

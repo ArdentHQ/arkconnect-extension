@@ -39,7 +39,6 @@ const fetchTokens = async (primaryWallet?: IReadWriteWallet): Promise<WalletToke
         const collection = await primaryWallet.client().tokenAddresses({
             addresses: [primaryWallet.address()],
             minBalance: '0',
-            ignoreWhitelist: true,
         });
 
         return collection.items().slice(0, TOKENS_LIMIT);
