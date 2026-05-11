@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef } from 'react';
+import { useEffect, useMemo } from 'react';
 import { FormikProps } from 'formik';
 import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
@@ -22,7 +22,6 @@ type Props = {
 
 const ImportWallets = ({ goToNextStep, formik }: Props) => {
     const onError = useOnError();
-    const retryFunctionReference = useRef<(() => void) | undefined>(undefined);
     const { profile } = useProfileContext();
     const ledgerScanner = useLedgerScanner(profile.activeNetwork().id());
     const { isBusy, importLedgerWallets } = useLedgerContext();
@@ -31,7 +30,6 @@ const ImportWallets = ({ goToNextStep, formik }: Props) => {
     const {
         scan,
         selectedWallets,
-        canRetry,
         isScanning,
         abortScanner,
         wallets,
@@ -61,22 +59,6 @@ const ImportWallets = ({ goToNextStep, formik }: Props) => {
                 BIP44.parse(a!).addressIndex > BIP44.parse(b!).addressIndex ? -1 : 1,
             )[0];
     }, [profile, wallets]);
-
-    const setRetryFn = useCallback(
-        (callback?: () => void) => {
-            retryFunctionReference.current = callback;
-        },
-        [retryFunctionReference],
-    );
-
-    useEffect(() => {
-        if (canRetry) {
-            setRetryFn?.(() => scan(profile, lastPath));
-        } else {
-            setRetryFn?.(undefined);
-        }
-        return () => setRetryFn?.(undefined);
-    }, [setRetryFn, scan, canRetry, profile, lastPath]);
 
     useEffect(() => {
         scan(profile, lastPath);
