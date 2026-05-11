@@ -36,7 +36,7 @@ export function TransactionsTabs({ children }: { children: React.ReactNode }) {
                     {children}
                 </div>
 
-                <div className='mt-4 flex items-center justify-between border-t border-theme-secondary-200 bg-theme-secondary-50 px-4 text-theme-secondary-500 dark:border-theme-secondary-600 dark:bg-theme-secondary-800 dark:text-theme-secondary-300'>
+                <div className='typeset-body mt-4 flex items-center justify-between bg-theme-secondary-50 px-4 py-1 text-theme-secondary-500 dark:bg-theme-secondary-800 dark:text-theme-secondary-300'>
                     <span>Name</span>
                     <span>Token Balance</span>
                 </div>

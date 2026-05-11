@@ -8,10 +8,6 @@ export default {
             TOKENS: 'Tokens',
             TRANSACTIONS: 'Transactions',
         },
-        TOKENS_LIST: {
-            NAME: 'Name',
-            TOKEN_BALANCE: 'Token Balance',
-        },
     },
     CONNECT: {
         CONNECT_TO_APP: 'Connect to App',
