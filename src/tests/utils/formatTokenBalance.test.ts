@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { formatTokenBalance } from './formatTokenBalance';
+import { formatTokenBalance } from '@/lib/utils/formatTokenBalance';
 import { BigNumber } from '@/lib/helpers';
 
 describe('formatTokenBalance', () => {

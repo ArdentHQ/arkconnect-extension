@@ -14,7 +14,10 @@ export const formatTokenBalance = (balance: BigNumber, locale = 'en-US'): string
 
     if (integerDigits > COMPACT_THRESHOLD_DIGITS) {
         const { value, suffix } = numeral.formatCompact(balance);
-        return `${numeral.format(value)}${suffix ?? ''}`;
+        const formatted = new Intl.NumberFormat(locale, {
+            maximumFractionDigits: 2,
+        }).format(value);
+        return `${formatted}${suffix ?? ''}`;
     }
 
     return new Intl.NumberFormat(locale, {
