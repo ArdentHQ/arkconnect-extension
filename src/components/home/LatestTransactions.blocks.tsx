@@ -343,7 +343,6 @@ const TokenAvatar = ({ token }: { token: WalletToken }) => {
     );
 };
 
-
 const TokenListItem = ({ token }: { token: WalletToken }) => {
     const balance = token.balance();
     const isZero = balance.isZero();
