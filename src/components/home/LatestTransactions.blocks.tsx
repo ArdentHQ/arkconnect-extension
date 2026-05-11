@@ -2,7 +2,6 @@ import cn from 'classnames';
 import dayjs from 'dayjs';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import seedrandom from 'seedrandom';
 import { TransactionAmount } from '../transaction/Transaction.blocks';
 import {
     getTransactionIcon,
@@ -307,36 +306,12 @@ export const LatestTransactionAmount = ({
     return <TransactionAmount transaction={transaction} displayFiat={false} />;
 };
 
-const TOKEN_AVATAR_COLORS = [
-    '4381C0',
-    '45A2EB',
-    '00B2AA',
-    '6E6CEF',
-    '289548',
-    'FC9F0F',
-    '2A64E6',
-    '3898F9',
-    '5CA481',
-    '5EB8FC',
-    'EF7C6D',
-    'FA9EDC',
-];
-
-const tokenAvatarColor = (seed: string): string => {
-    const rng = seedrandom(seed);
-    return TOKEN_AVATAR_COLORS[Math.floor(rng() * TOKEN_AVATAR_COLORS.length)];
-};
-
 const TokenAvatar = ({ token }: { token: WalletToken }) => {
     const symbol = token.token().symbol() || token.token().name();
     const initial = symbol.slice(0, 1).toUpperCase();
-    const color = tokenAvatarColor(symbol);
 
     return (
-        <div
-            className='flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-lg font-semibold leading-none text-white'
-            style={{ backgroundColor: `#${color}` }}
-        >
+        <div className='flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-theme-primary-600 text-lg font-semibold leading-none text-white'>
             {initial}
         </div>
     );
