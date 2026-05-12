@@ -318,22 +318,29 @@ const TokenAvatar = ({ token }: { token: WalletToken }) => {
 };
 
 const TokenListItem = ({ token }: { token: WalletToken }) => {
+    const navigate = useNavigate();
     const balance = token.balance();
     const isZero = balance.isZero();
 
     return (
-        <div className='flex h-16 items-center justify-between gap-[15px] bg-white p-4 dark:bg-subtle-black'>
+        <div
+            className='transition-smoothEase flex h-16 cursor-pointer items-center justify-between gap-[15px] bg-white p-4 hover:bg-theme-secondary-50 dark:bg-subtle-black dark:hover:bg-theme-secondary-700'
+            onClick={() => navigate(`/token/${token.token().address()}`)}
+        >
             <div className='flex min-w-0 flex-1 items-center gap-3'>
                 <TokenAvatar token={token} />
+
                 <div className='flex min-w-0 items-center gap-2 overflow-hidden'>
                     <span className='typeset-headline min-w-0 truncate font-medium text-light-black dark:text-white'>
                         {token.token().name()}
                     </span>
+
                     <span className='typeset-headline shrink-0 font-medium text-theme-secondary-500 dark:text-theme-secondary-300'>
                         {token.token().displaySymbol()}
                     </span>
                 </div>
             </div>
+
             <span
                 className={cn('typeset-headline shrink-0 font-medium', {
                     'text-light-black dark:text-white': !isZero,
