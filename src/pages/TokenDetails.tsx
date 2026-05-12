@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useQuery } from 'react-query';
+import { Loader } from '../shared/components/loader/Loader';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 import SubPageLayout from '@/components/settings/SubPageLayout';
 import { TokenHeader } from '@/components/token/TokenHeader';
@@ -10,7 +11,6 @@ import { Button } from '@/shared/components';
 import { Footer } from '@/shared/components/layout/Footer';
 import { IReadWriteWallet } from '@/lib/profiles/wallet.contract';
 import { WalletToken } from '@/lib/profiles/wallet-token';
-import { Loader } from '../shared/components/loader/Loader';
 
 const fetchToken = async (
     primaryWallet?: IReadWriteWallet,

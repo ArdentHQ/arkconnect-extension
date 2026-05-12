@@ -1,5 +1,5 @@
-import { WalletToken } from '@/lib/profiles/wallet-token';
 import { TokenAvatar } from './TokenAvatar';
+import { WalletToken } from '@/lib/profiles/wallet-token';
 
 export const TokenHeader = ({ token }: { token: WalletToken }) => {
     return (

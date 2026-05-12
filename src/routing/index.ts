@@ -1,3 +1,4 @@
+import TokenDetails from '../pages/TokenDetails';
 import Home from '@/pages/Home';
 import Connections from '@/pages/Connections';
 import Onboarding from '@/pages/Onboarding';
@@ -31,7 +32,6 @@ import AddressBook from '@/pages/AddressBook';
 import CreateContact from '@/pages/CreateContact';
 import EditContact from '@/pages/EditContact';
 import Vote from '@/pages/Vote';
-import TokenDetails from "../pages/TokenDetails";
 
 type RouteData = {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

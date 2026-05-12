@@ -1,10 +1,10 @@
 import { useTranslation } from 'react-i18next';
+import { TokenItem } from './TokenItem';
 import { WalletToken } from '@/lib/profiles/wallet-token';
 import { ExternalLink, Icon, Tooltip } from '@/shared/components';
 import useClipboard from '@/lib/hooks/useClipboard';
 import trimAddress from '@/lib/utils/trimAddress';
 import { formatTokenBalance } from '@/app/lib/utils/formatTokenBalance';
-import { TokenItem } from './TokenItem';
 
 const TokenSection = ({ children, label }: { children: React.ReactNode; label: string }) => (
     <>
