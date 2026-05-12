@@ -19,5 +19,7 @@ export const calculateGasFee = (gasPrice?: BigNumber, gasLimit?: BigNumber): Big
         return BigNumber.ZERO;
     }
 
-    return BigNumber.make(String(UnitConverter.formatUnits(gasLimit.times(gasPrice).toString(), 'gwei')));
+    return BigNumber.make(
+        String(UnitConverter.formatUnits(gasLimit.times(gasPrice).toString(), 'gwei')),
+    );
 };
