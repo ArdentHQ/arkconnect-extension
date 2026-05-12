@@ -127,16 +127,18 @@ export const AssetSelector = ({
             <button
                 type='button'
                 onClick={() => setIsOpen(true)}
-                className='transition-smoothEase flex items-center justify-between gap-2 rounded-lg border border-theme-secondary-200 bg-white p-3 text-left shadow-secondary-dark outline-none hover:border-theme-secondary-300 dark:border-theme-secondary-600 dark:bg-subtle-black dark:hover:border-theme-secondary-500'
+                className='transition-smoothEase flex w-full items-center justify-between gap-2 overflow-hidden rounded-lg border border-theme-secondary-200 bg-white p-3 text-left shadow-secondary-dark outline-none hover:border-theme-secondary-300 dark:border-theme-secondary-600 dark:bg-subtle-black dark:hover:border-theme-secondary-500'
             >
-                <div className='flex min-w-0 items-center gap-2'>
+                <div className='flex min-w-0 flex-1 items-center gap-2 overflow-hidden'>
                     <AssetAvatar label={selectedSymbol || selectedName} />
-                    <span className='typeset-headline font-medium text-light-black dark:text-white'>
+                    <span className='typeset-headline min-w-0 truncate font-medium text-light-black dark:text-white'>
                         {selectedName}
                     </span>
                 </div>
                 <div className='flex shrink-0 items-center gap-2 text-theme-secondary-500 dark:text-theme-secondary-300'>
-                    <span className='typeset-headline font-medium'>{selectedSymbol}</span>
+                    <span className='typeset-headline max-w-[80px] truncate font-medium'>
+                        {selectedSymbol}
+                    </span>
                     <Icon icon='arrow-down' className='h-4 w-4' />
                 </div>
             </button>
