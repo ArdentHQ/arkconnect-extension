@@ -24,6 +24,7 @@ export type SendFormik = {
     gasLimit: string;
     receiverAddress: string;
     feeClass?: string;
+    tokenAddress?: string;
     errors?: any;
 };
 
@@ -127,6 +128,10 @@ const Send = () => {
                 lastVisitedPage?.data?.feeClass ||
                 constants.FEE_AVERAGE,
             receiverAddress: lastVisitedPage?.data?.receiverAddress || '',
+            tokenAddress:
+                searchParams.get('token') ||
+                lastVisitedPage?.data?.tokenAddress ||
+                undefined,
         },
         validationSchema: validationSchema,
         validateOnMount: true,
