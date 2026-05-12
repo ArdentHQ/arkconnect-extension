@@ -1,6 +1,7 @@
 import { FormikProps } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { AddressDropdown } from '@/components/send/AddressDropdown';
+import { AssetSelector } from '@/components/send/AssetSelector';
 import Amount from '@/components/wallet/Amount';
 import constants from '@/constants';
 import { FeeSection } from '@/components/fees';
@@ -74,6 +75,10 @@ export const SendForm = ({ formik }: { formik: FormikProps<SendFormik> }) => {
                 value={formik.values.receiverAddress}
                 setValue={(value: string) => formik.setFieldValue('receiverAddress', value)}
                 handleValidation={handleValidation}
+            />
+            <AssetSelector
+                value={formik.values.tokenAddress}
+                onChange={(tokenAddress) => formik.setFieldValue('tokenAddress', tokenAddress)}
             />
             <Input
                 name='amount'
