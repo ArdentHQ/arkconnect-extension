@@ -1,5 +1,5 @@
 import { UnitConverter } from '@arkecosystem/typescript-crypto';
-import { BigNumber } from '@/app/lib/helpers';
+import { BigNumber } from '@/lib/helpers';
 
 export const useStepMath = (step: number, value: number | string) => ({
     decrement: () =>
@@ -19,5 +19,5 @@ export const calculateGasFee = (gasPrice?: BigNumber, gasLimit?: BigNumber): Big
         return BigNumber.ZERO;
     }
 
-    return BigNumber.make(UnitConverter.formatUnits(gasLimit.times(gasPrice).toString(), 'gwei'));
+    return BigNumber.make(String(UnitConverter.formatUnits(gasLimit.times(gasPrice).toString(), 'gwei')));
 };
