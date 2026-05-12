@@ -61,7 +61,9 @@ const TokenDetails = () => {
                         variant='primary'
                         disabled={!token}
                         onClick={() =>
-                            navigate(`/transaction/send?token=${encodeURIComponent(contractAddress ?? '')}`)
+                            navigate(
+                                `/transaction/send?token=${encodeURIComponent(contractAddress ?? '')}`,
+                            )
                         }
                     >
                         {t('PAGES.TOKEN_DETAILS.SEND_TOKEN')}

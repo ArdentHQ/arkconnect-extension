@@ -129,9 +129,7 @@ const Send = () => {
                 constants.FEE_AVERAGE,
             receiverAddress: lastVisitedPage?.data?.receiverAddress || '',
             tokenAddress:
-                searchParams.get('token') ||
-                lastVisitedPage?.data?.tokenAddress ||
-                undefined,
+                searchParams.get('token') || lastVisitedPage?.data?.tokenAddress || undefined,
         },
         validationSchema: validationSchema,
         validateOnMount: true,

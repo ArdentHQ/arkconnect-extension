@@ -49,8 +49,7 @@ const AssetRow = ({
     isSelected: boolean;
 }) => {
     const name = option.kind === 'native' ? option.name : option.token.token().name();
-    const symbol =
-        option.kind === 'native' ? option.ticker : option.token.token().displaySymbol();
+    const symbol = option.kind === 'native' ? option.ticker : option.token.token().displaySymbol();
 
     return (
         <button
@@ -115,8 +114,7 @@ export const AssetSelector = ({
         setIsOpen(false);
     };
 
-    const selectedName =
-        selected.kind === 'native' ? selected.name : selected.token.token().name();
+    const selectedName = selected.kind === 'native' ? selected.name : selected.token.token().name();
     const selectedSymbol =
         selected.kind === 'native' ? selected.ticker : selected.token.token().displaySymbol();
 
