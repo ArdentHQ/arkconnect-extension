@@ -4,6 +4,7 @@ import {
     ExtendedConfirmedTransactionData,
     ExtendedTransactionRecipient,
 } from '@/lib/profiles/transaction.dto';
+import { BigNumber } from '@/lib/helpers';
 
 export enum TransactionType {
     SEND = 'send',
@@ -33,17 +34,11 @@ export const getType = (transaction: ExtendedConfirmedTransactionData): string =
             return TransactionType.RECEIVE;
         }
     }
-    if (transaction.isVoteCombination()) {
-        return TransactionType.SWAP;
-    }
     if (transaction.isVote()) {
         return TransactionType.VOTE;
     }
     if (transaction.isUnvote()) {
         return TransactionType.UNVOTE;
-    }
-    if (transaction.isSecondSignature()) {
-        return TransactionType.SECOND_SIGNATURE;
     }
     if (transaction.isValidatorRegistration()) {
         return TransactionType.REGISTRATION;
@@ -64,8 +59,9 @@ export const getUniqueRecipients = (
             (r) => r.address === recipient.address,
         );
         if (existingRecipientIndex !== -1) {
-            uniqueRecipients[existingRecipientIndex].amount =
-                uniqueRecipients[existingRecipientIndex].amount + recipient.amount;
+            uniqueRecipients[existingRecipientIndex].amount = uniqueRecipients[
+                existingRecipientIndex
+            ].amount.plus(recipient.amount);
         } else {
             uniqueRecipients.push({ address: recipient.address, amount: recipient.amount });
         }
@@ -78,7 +74,9 @@ export const getAmountByAddress = (
     recipients: ExtendedTransactionRecipient[],
     address?: string,
 ): number => {
-    return recipients.find((recipient) => recipient.address === address)?.amount ?? 0;
+    return BigNumber.make(
+        recipients.find((recipient) => recipient.address === address)?.amount ?? 0,
+    ).toNumber();
 };
 
 export const getMultipaymentAmounts = (
@@ -86,7 +84,10 @@ export const getMultipaymentAmounts = (
     address: string = '',
 ): { selfAmount: number; sentAmount: number } => {
     const selfAmount = getAmountByAddress(recipients, address);
-    const sentAmount = recipients.reduce((total, recipient) => total + recipient.amount, 0);
+    const sentAmount = recipients.reduce(
+        (total, recipient) => recipient.amount.plus(total).toNumber(),
+        0,
+    );
 
     return { selfAmount, sentAmount: sentAmount - selfAmount };
 };

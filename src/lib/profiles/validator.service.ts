@@ -1,13 +1,13 @@
-import { Contracts, Networks } from "@/app/lib/mainsail";
+import { Contracts, Networks } from "@/lib/mainsail";
 
 import { IDataRepository, IValidatorService, IProfile, IReadOnlyWallet, IReadWriteWallet } from "./contracts.js";
 import { DataRepository } from "./data.repository";
 import { IValidatorSyncer, ParallelValidatorSyncer, SerialValidatorSyncer } from "./validator-syncer.service.js";
 import { pqueueSettled } from "./helpers/queue.js";
 import { ReadOnlyWallet } from "./read-only-wallet.js";
-import { ClientService } from "@/app/lib/mainsail/client.service.js";
-import { LinkService } from "@/app/lib/mainsail/link.service.js";
-import { Cache } from "@/app/lib/mainsail/cache.js";
+import { ClientService } from "@/lib/mainsail/client.service.js";
+import { LinkService } from "@/lib/mainsail/link.service.js";
+import { Cache } from "@/lib/mainsail/cache.js";
 
 export class ValidatorService implements IValidatorService {
 	readonly #dataRepository: IDataRepository = new DataRepository();
@@ -59,7 +59,7 @@ export class ValidatorService implements IValidatorService {
 				config: this.#profile.activeNetwork().config(),
 				profile: this.#profile,
 			});
-			const syncer: IValidatorSyncer = this.#profile.activeNetwork().meta().fastValidatorSync
+			const syncer: IValidatorSyncer = this.#profile.activeNetwork().meta().fastDelegateSync
 				? new ParallelValidatorSyncer(clientService)
 				: new SerialValidatorSyncer(clientService);
 

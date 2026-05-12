@@ -1,9 +1,9 @@
 import { ConfirmedTransactionDataCollection, UsernameDataCollection, WalletDataCollection } from "./collections";
 import { EvmCallData, EvmCallResponse, KeyValuePair, SignedTransactionData, WalletData } from "./contracts";
 
-import { BigNumber } from "@/app/lib/helpers";
-import { ConfirmedTransactionData } from "@/app/lib/mainsail/confirmed-transaction.dto";
-import { DateTime } from "@/app/lib/intl";
+import { BigNumber } from "@/lib/helpers";
+import { ConfirmedTransactionData } from "@/lib/mainsail/confirmed-transaction.dto";
+import { DateTime } from "@/lib/intl";
 import { TransactionType } from "./networks";
 
 export type ClientPaginatorCursor = string | number | undefined;
@@ -13,6 +13,7 @@ export interface MetaPagination {
 	self: ClientPaginatorCursor;
 	next: ClientPaginatorCursor;
 	last: ClientPaginatorCursor;
+	totalCount?: ClientPaginatorCursor;
 }
 
 export interface BroadcastResponse {
@@ -60,6 +61,21 @@ export interface ClientPagination {
 export interface RangeCriteria {
 	from?: number;
 	to?: number;
+}
+
+export interface WalletTokensQuery extends ClientPagination {
+	addresses: string[];
+	page?: number;
+	minBalance?: string;
+	whitelist?: string[];
+}
+
+export interface TokenTransfersQuery extends ClientPagination {
+	addresses?: string[];
+	whitelist?: string[];
+	from?: string[];
+	to?: string[];
+	page?: number;
 }
 
 export interface ClientTransactionsInput extends ClientPagination {

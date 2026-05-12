@@ -1,12 +1,17 @@
 import { AbiType, decodeFunctionData } from "./helpers/decode-function-data";
-import { Address, UnitConverter } from "@arkecosystem/typescript-crypto";
-import { MultiPaymentItem, MultiPaymentRecipient } from "@/app/lib/mainsail/confirmed-transaction.dto.contract";
-import { RawTransactionData, SignedTransactionObject } from "@/app/lib/mainsail/signed-transaction.dto.contract";
+import { Address, TransactionTypeIdentifier, UnitConverter } from "@arkecosystem/typescript-crypto";
+import {
+	ApproveDetails,
+	MultiPaymentItem,
+	MultiPaymentRecipient,
+} from "@/lib/mainsail/confirmed-transaction.dto.contract";
+import { RawTransactionData, SignedTransactionObject } from "@/lib/mainsail/signed-transaction.dto.contract";
 
-import { BigNumber } from "@/app/lib/helpers";
-import { DateTime } from "@/app/lib/intl";
+import { BigNumber } from "@/lib/helpers";
+import { DateTime } from "@/lib/intl";
 import { Hex } from "viem";
-import { TransactionTypeService } from "./transaction-type.service";
+import { TransactionToken } from "@/lib/profiles/transaction-token";
+import { TransactionTokenData } from "@/lib/profiles/token.contracts";
 
 export class SignedTransactionData {
 	protected identifier!: string;
@@ -15,7 +20,6 @@ export class SignedTransactionData {
 
 	readonly #types = [
 		{ method: "isMultiPayment", type: "multiPayment" },
-		{ method: "isSecondSignature", type: "secondSignature" },
 		{ method: "isTransfer", type: "transfer" },
 		{ method: "isUsernameRegistration", type: "usernameRegistration" },
 		{ method: "isUsernameResignation", type: "usernameResignation" },
@@ -23,7 +27,6 @@ export class SignedTransactionData {
 		{ method: "isValidatorRegistration", type: "validatorRegistration" },
 		{ method: "isValidatorResignation", type: "validatorResignation" },
 		{ method: "isVote", type: "vote" },
-		{ method: "isVoteCombination", type: "voteCombination" },
 		{ method: "isUpdateValidator", type: "updateValidator" },
 	];
 
@@ -37,10 +40,6 @@ export class SignedTransactionData {
 		}
 
 		return this;
-	}
-
-	public usesMultiSignature(): boolean {
-		return false;
 	}
 
 	public memo(): string {
@@ -84,11 +83,11 @@ export class SignedTransactionData {
 			return BigNumber.sum(this.payments().map(({ amount }) => amount));
 		}
 
-		return BigNumber.make(UnitConverter.formatUnits(this.signedData.value, "ark"));
+		return BigNumber.make(String(UnitConverter.formatUnits(this.signedData.value, "ark")));
 	}
 
 	public fee(): BigNumber {
-		const gasPrice = BigNumber.make(UnitConverter.formatUnits(this.signedData.gasPrice, "ark"));
+		const gasPrice = BigNumber.make(String(UnitConverter.formatUnits(this.signedData.gasPrice, "ark")));
 		return gasPrice.times(this.signedData.gasLimit);
 	}
 
@@ -117,39 +116,31 @@ export class SignedTransactionData {
 	}
 
 	public isTransfer(): boolean {
-		return TransactionTypeService.isTransfer(this.signedData);
-	}
-
-	public isSecondSignature(): boolean {
-		return false;
+		return TransactionTypeIdentifier.isTransfer(this.signedData.data);
 	}
 
 	public isUsernameRegistration(): boolean {
-		return TransactionTypeService.isUsernameRegistration(this.signedData);
+		return TransactionTypeIdentifier.isUsernameRegistration(this.signedData.data);
 	}
 
 	public isUsernameResignation(): boolean {
-		return TransactionTypeService.isUsernameResignation(this.signedData);
+		return TransactionTypeIdentifier.isUsernameResignation(this.signedData.data);
 	}
 
 	public isValidatorRegistration(): boolean {
-		return TransactionTypeService.isValidatorRegistration(this.signedData);
+		return TransactionTypeIdentifier.isValidatorRegistration(this.signedData.data);
 	}
 
 	public isUpdateValidator(): boolean {
-		return TransactionTypeService.isUpdateValidator(this.signedData);
-	}
-
-	public isVoteCombination(): boolean {
-		return TransactionTypeService.isVoteCombination(this.signedData);
+		return TransactionTypeIdentifier.isUpdateValidator(this.signedData.data);
 	}
 
 	public isVote(): boolean {
-		return TransactionTypeService.isVote(this.signedData);
+		return TransactionTypeIdentifier.isVote(this.signedData.data);
 	}
 
 	public isUnvote(): boolean {
-		return TransactionTypeService.isUnvote(this.signedData);
+		return TransactionTypeIdentifier.isUnvote(this.signedData.data);
 	}
 
 	// Multi-Payment
@@ -160,7 +151,7 @@ export class SignedTransactionData {
 
 		for (const index in recipients) {
 			payments[index] = {
-				amount: BigNumber.make(UnitConverter.formatUnits(amounts[index], "ark")),
+				amount: BigNumber.make(String(UnitConverter.formatUnits(amounts[index], "ark"))),
 				recipientId: recipients[index],
 			};
 		}
@@ -177,12 +168,17 @@ export class SignedTransactionData {
 		return key.slice(2); // removes 0x part
 	}
 
+	public approveDetails(): ApproveDetails {
+		const [address, amount] = decodeFunctionData(this.normalizedData() as Hex, AbiType.Token).args;
+		return { address, amount };
+	}
+
 	public isMultiPayment(): boolean {
-		return TransactionTypeService.isMultiPayment(this.signedData);
+		return TransactionTypeIdentifier.isMultiPayment(this.signedData.data);
 	}
 
 	public isValidatorResignation(): boolean {
-		return TransactionTypeService.isValidatorResignation(this.signedData);
+		return TransactionTypeIdentifier.isValidatorResignation(this.signedData.data);
 	}
 
 	public methodHash(): string {
@@ -195,6 +191,19 @@ export class SignedTransactionData {
 
 	public toBroadcast() {
 		return this.serialized;
+	}
+
+	public token(): TransactionToken | undefined {
+		const tokens = this.tokens();
+		if (tokens) {
+			return tokens[0];
+		}
+	}
+
+	public tokens(): TransactionToken[] | undefined {
+		if (this.isTokenTransfer() && this.data().tokens) {
+			return this.data().tokens.map((token: TransactionTokenData) => new TransactionToken(token));
+		}
 	}
 
 	private normalizedData() {
@@ -265,15 +274,11 @@ export class SignedTransactionData {
 	}
 
 	public type(): string {
-		if (this.isVoteCombination()) {
-			return "voteCombination";
+		if (this.isTokenTransfer()) {
+			return "transfer";
 		}
 
 		for (const { type, method } of this.#types) {
-			if (type === "voteCombination") {
-				continue;
-			}
-
 			if (this[method]()) {
 				return type;
 			}
@@ -287,6 +292,37 @@ export class SignedTransactionData {
 	}
 
 	public gasUsed(): number {
-		return BigNumber.make(UnitConverter.formatUnits(this.signedData.gasPrice, "gwei")).toNumber();
+		return BigNumber.make(String(UnitConverter.formatUnits(this.signedData.gasPrice, "gwei"))).toNumber();
+	}
+
+	public isTokenTransfer(): boolean {
+		return TransactionTypeIdentifier.isTokenTransfer(this.signedData.data);
+	}
+
+	public isContractTransaction(): boolean {
+		return [
+			this.isValidatorRegistration(),
+			this.isValidatorResignation(),
+			this.isVote(),
+			this.isUnvote(),
+			this.isUsernameRegistration(),
+			this.isUsernameResignation(),
+		].some(Boolean);
+	}
+
+	public isContractDeployment() {
+		return [!this.isContractTransaction(), !this.to()].every(Boolean);
+	}
+
+	public isApprove(): boolean {
+		return TransactionTypeIdentifier.isApprove(this.signedData.data);
+	}
+
+	public isRevoke(): boolean {
+		return TransactionTypeIdentifier.isRevoke(this.signedData.data);
+	}
+
+	public isBatchTransfer(): boolean {
+		return TransactionTypeIdentifier.isBatchTransfer(this.signedData.data);
 	}
 }

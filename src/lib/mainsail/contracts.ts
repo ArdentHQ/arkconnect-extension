@@ -1,4 +1,4 @@
-import { BigNumber } from "@/app/lib/helpers";
+import { BigNumber } from "@/lib/helpers";
 
 export type KeyValuePair = Record<string, any>;
 
@@ -10,17 +10,6 @@ export interface WalletBalance {
 	lockedVotes?: BigNumber;
 	lockedUnvotes?: BigNumber;
 	tokens?: Record<string, BigNumber>;
-}
-
-export interface WalletMultiSignature {
-	// Standard
-	min?: number;
-	publicKeys?: string[];
-	limit?: number;
-	// Advanced
-	mandatoryKeys?: string[];
-	numberOfSignatures?: number;
-	optionalKeys?: string[];
 }
 
 export interface WalletData {
@@ -48,6 +37,8 @@ export interface WalletData {
 	validatorFee(): number | undefined;
 
 	rank(): number | undefined;
+
+	tokenCount(): number;
 
 	votes(): BigNumber | undefined;
 

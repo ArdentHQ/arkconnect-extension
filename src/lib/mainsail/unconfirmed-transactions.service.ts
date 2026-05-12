@@ -1,7 +1,7 @@
 import { ClientService } from "./client.service.js";
-import type { ConfigRepository } from "@/app/lib/mainsail";
-import type { IProfile } from "@/app/lib/profiles/profile.contract";
-import { Cache } from "@/app/lib/mainsail/cache";
+import type { ConfigRepository } from "@/lib/mainsail";
+import type { IProfile } from "@/lib/profiles/profile.contract";
+import { Cache } from "@/lib/mainsail/cache";
 
 export class UnconfirmedTransactionsService {
 	#config: ConfigRepository;

@@ -1,4 +1,4 @@
-import { Enums } from "@/app/lib/mainsail";
+import { Enums } from "@/lib/mainsail";
 import { BIP39, UUID } from "@ardenthq/arkvault-crypto";
 import {
 	BIP44CoinType,
@@ -15,13 +15,15 @@ import {
 	IWalletFactory,
 	WalletData,
 	WalletImportMethod,
-} from "./contracts.js";
-import { WalletFlag } from "./wallet.enum.js";
-import { IMnemonicDerivativeOptions, ISecretOptions } from "./wallet.factory.contract.js";
-import { Wallet } from "./wallet.js";
-import { PublicKeyService } from "@/app/lib/mainsail/public-key.service";
-import { AddressService } from "@/app/lib/mainsail/address.service";
-import { HDWalletService } from "@/app/lib/mainsail/hd-wallet.service";
+} from "./contracts";
+import { WalletFlag } from "./wallet.enum";
+import { IMnemonicDerivativeOptions, ISecretOptions } from "./wallet.factory.contract";
+import { Wallet } from "./wallet";
+import { PublicKeyService } from "@/lib/mainsail/public-key.service";
+import { AddressService } from "@/lib/mainsail/address.service";
+import { HDWalletService } from "@/lib/mainsail/hd-wallet.service";
+import { Contracts } from "./index";
+import { WalletAliasProvider } from "./profile.wallet.alias";
 
 export class WalletFactory implements IWalletFactory {
 	readonly #profile: IProfile;
@@ -234,6 +236,8 @@ export class WalletFactory implements IWalletFactory {
 			throw new Error(`The configured network does not support ${input.derivationType.toUpperCase()}.`);
 		}
 
+		// TODO: Revisit implementation.
+		/* istanbul ignore next -- @preserve */
 		if (wallet.network().usesExtendedPublicKey()) {
 			//if (!input.options.levels) {
 			//	throw new Error("Please specify the levels and try again.");
@@ -262,5 +266,9 @@ export class WalletFactory implements IWalletFactory {
 		}
 
 		return wallet;
+	}
+
+	public generateAlias(wallet: Contracts.IReadWriteWallet, path?: string): string {
+		return new WalletAliasProvider(this.#profile).generateAlias(wallet, path);
 	}
 }

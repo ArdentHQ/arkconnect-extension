@@ -25,7 +25,7 @@ const Home = () => {
                 <div className='rounded-2.5xl bg-theme-primary-600 text-white green:bg-theme-primary-700 green:dark:bg-theme-primary-650'>
                     <div className='p-4'>
                         <Balance
-                            balance={primaryWallet?.balance() ?? 0}
+                            balance={primaryWallet?.balance().toNumber() ?? 0}
                             currency={primaryWallet?.currency() ?? 'ARK'}
                             exchangeCurrency={primaryWallet?.exchangeCurrency() ?? 'USD'}
                             convertedBalance={convertedBalance}

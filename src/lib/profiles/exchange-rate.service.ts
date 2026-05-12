@@ -1,11 +1,11 @@
-import { NumberLike } from "@/app/lib/helpers";
-import { DateTime } from "@/app/lib/intl";
-import { MarketService } from "@/app/lib/markets";
+import { NumberLike } from "@/lib/helpers";
+import { DateTime } from "@/lib/intl";
+import { MarketService } from "@/lib/markets";
 
 import { IExchangeRateService, IProfile, IReadWriteWallet, ProfileSetting } from "./contracts.js";
 import { DataRepository } from "./data.repository";
 import { Storage } from "./environment.models.js";
-import { HttpClient } from "@/app/lib/mainsail/http-client.js";
+import { HttpClient } from "@/lib/mainsail/http-client.js";
 
 export class ExchangeRateService implements IExchangeRateService {
 	readonly #storageKey: string = "EXCHANGE_RATE_SERVICE";
@@ -33,7 +33,6 @@ export class ExchangeRateService implements IExchangeRateService {
 
 		await this.#fetchDailyRate(profile, currency, exchangeCurrency);
 
-		/* istanbul ignore next */
 		if (this.#hasFetchedHistoricalRates(currency, exchangeCurrency)) {
 			return;
 		}

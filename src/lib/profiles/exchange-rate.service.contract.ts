@@ -1,5 +1,5 @@
-import { NumberLike } from "@/app/lib/helpers";
-import { DateTime } from "@/app/lib/intl";
+import { NumberLike } from "@/lib/helpers";
+import { DateTime } from "@/lib/intl";
 
 import { IProfile } from "./contracts.js";
 

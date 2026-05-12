@@ -1,11 +1,11 @@
-import { Services } from "@/app/lib/mainsail";
+import { Services } from "@/lib/mainsail";
 
 import { IReadWriteWallet, ITransactionIndex, WalletData } from "./contracts.js";
 import { ExtendedConfirmedTransactionDataCollection } from "./transaction.collection.js";
 import { ExtendedConfirmedTransactionData } from "./transaction.dto.js";
 import { transformConfirmedTransactionDataCollection, transformTransactionData } from "./transaction.mapper";
 import { WalletFlag } from "./wallet.enum";
-import { UnconfirmedTransactionDataCollection } from "@/app/lib/mainsail/unconfirmed-transactions.collection";
+import { UnconfirmedTransactionDataCollection } from "@/lib/mainsail/unconfirmed-transactions.collection";
 
 export class TransactionIndex implements ITransactionIndex {
 	readonly #wallet: IReadWriteWallet;

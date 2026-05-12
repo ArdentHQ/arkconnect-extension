@@ -207,7 +207,7 @@ export const TransactionAmount = ({
           : AmountBadgeType.NEGATIVE;
 
     return renderAmountBadge({
-        value: transaction.value(),
+        value: transaction.value().toNumber(),
         isNegative: transaction.isSent(),
         showSign: !transaction.isReturn(),
         type: badgeType,

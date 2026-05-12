@@ -1,7 +1,7 @@
 import cn from 'classnames';
 import { ReactNode } from 'react';
 
-export const TrasactionItem = ({
+export const TransactionItem = ({
     children,
     className,
     title,

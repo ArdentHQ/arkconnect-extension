@@ -1,7 +1,8 @@
 export interface LedgerData {
     address: string;
     path: string;
-    balance?: number;
+    balance?: number | { toNumber: () => number };
+    hasSyncedWithNetwork?: boolean;
     isNew?: boolean;
 }
 

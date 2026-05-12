@@ -1,8 +1,7 @@
-import { useEffect, useMemo } from 'react';
+import { useEffect } from 'react';
 import { FormikProps } from 'formik';
 import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
-import { BIP44 } from '@ardenthq/arkvault-crypto';
 import { Button, Checkbox, Heading, Tooltip } from '@/shared/components';
 import trimAddress from '@/lib/utils/trimAddress';
 import { useLedgerContext, useLedgerScanner } from '@/lib/Ledger';
@@ -13,7 +12,6 @@ import useOnError from '@/lib/hooks';
 import { getNetworkCurrency } from '@/lib/utils/getActiveCoin';
 import { AddressBalance } from '@/components/wallet/address/Address.blocks';
 import { handleSubmitKeyAction } from '@/lib/utils/handleKeyAction';
-import { WalletData } from '@/lib/profiles/wallet.enum';
 
 type Props = {
     goToNextStep: () => void;
@@ -46,22 +44,8 @@ const ImportWallets = ({ goToNextStep, formik }: Props) => {
         };
     }, [abortScanner]);
 
-    const lastPath = useMemo(() => {
-        const ledgerPaths = wallets.map(({ path }) => path);
-        const profileWalletsPaths = profile
-            .wallets()
-            .values()
-            .map((wallet) => wallet.data().get<string>(WalletData.DerivationPath));
-
-        return [...profileWalletsPaths, ...ledgerPaths]
-            .filter(Boolean)
-            .sort((a, b) =>
-                BIP44.parse(a!).addressIndex > BIP44.parse(b!).addressIndex ? -1 : 1,
-            )[0];
-    }, [profile, wallets]);
-
     useEffect(() => {
-        scan(profile, lastPath);
+        scan(profile);
     }, []);
 
     const showImportedWalletsLength = () => {
@@ -154,7 +138,11 @@ const ImportWallets = ({ goToNextStep, formik }: Props) => {
                                             </p>
                                             <span className='typeset-body'>
                                                 <AddressBalance
-                                                    balance={wallet.balance ?? 0}
+                                                    balance={
+                                                        typeof wallet.balance === 'number'
+                                                            ? wallet.balance
+                                                            : (wallet.balance?.toNumber?.() ?? 0)
+                                                    }
                                                     currency={getNetworkCurrency(
                                                         profile.activeNetwork(),
                                                     )}

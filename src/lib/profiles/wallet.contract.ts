@@ -1,5 +1,5 @@
-import { Contracts, Networks, Services } from "@/app/lib/mainsail";
-import { BigNumber } from "@/app/lib/helpers";
+import { Contracts, Networks, Services } from "@/lib/mainsail";
+import { BigNumber } from "@/lib/helpers";
 
 import {
 	IDataRepository,
@@ -15,15 +15,16 @@ import {
 	IWalletSynchroniser,
 } from "./contracts.js";
 import { AttributeBag } from "./helpers/attribute-bag.js";
-import { MessageService } from "@/app/lib/mainsail/message.service.js";
-import { ClientService } from "@/app/lib/mainsail/client.service.js";
-import { AddressService } from "@/app/lib/mainsail/address.service.js";
-import { PublicKeyService } from "@/app/lib/mainsail/public-key.service.js";
-import { TransactionService } from "@/app/lib/mainsail/transaction.service.js";
+import { MessageService } from "@/lib/mainsail/message.service.js";
+import { ClientService } from "@/lib/mainsail/client.service.js";
+import { AddressService } from "@/lib/mainsail/address.service.js";
+import { PublicKeyService } from "@/lib/mainsail/public-key.service.js";
+import { TransactionService } from "@/lib/mainsail/transaction.service.js";
 import { ValidatorService } from "./validator.service.js";
 import { ExchangeRateService } from "./exchange-rate.service.js";
-import { SignatoryService } from "@/app/lib/mainsail/signatory.service.js";
-import { Manifest } from "@/app/lib/mainsail/manifest.class";
+import { SignatoryService } from "@/lib/mainsail/signatory.service.js";
+import { Manifest } from "@/lib/mainsail/manifest.class";
+import { WalletTokenRepository } from "./wallet-token.repository.js";
 
 export type WalletBalanceType = keyof Contracts.WalletBalance;
 
@@ -181,10 +182,10 @@ export interface IReadWriteWallet {
 	/**
 	 * Get the balance.
 	 *
-	 * @return {number}
+	 * @return {BigNumber}
 	 * @memberof IReadWriteWallet
 	 */
-	balance(type?: WalletBalanceType): number;
+	balance(type?: WalletBalanceType): BigNumber;
 
 	/**
 	 * Get the converted balance.
@@ -241,6 +242,14 @@ export interface IReadWriteWallet {
 	 * @memberof IReadWriteWallet
 	 */
 	toObject(): IWalletData;
+
+	/**
+	 * Get token count
+	 *
+	 * @return {number}
+	 * @memberof IReadWriteWallet
+	 */
+	tokenCount(): number;
 
 	/**
 	 * Get the known name.
@@ -751,4 +760,20 @@ export interface IReadWriteWallet {
 	 * @memberof IReadWriteWallet
 	 */
 	isSelected(): boolean;
+
+	/**
+	 * Generates a new alias based on existing wallets.
+	 *
+	 * @return {string}
+	 * @memberof IReadWriteWallet
+	 */
+	generateAlias(): string;
+
+	/**
+	 * Returns wallet tokens repository.
+	 *
+	 * @return {WalletTokenRepository}
+	 * @memberof IReadWriteWallet
+	 */
+	tokens(): WalletTokenRepository;
 }
