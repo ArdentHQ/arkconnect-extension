@@ -5,7 +5,7 @@ import {
     TransactionUniqueRecipients,
 } from '../Transaction.blocks';
 import { CopyTransactionId } from './CopyTransactionId';
-import { TrasactionItem } from './TrasactionItem';
+import { TransactionItem } from './TransactionItem';
 import { Tooltip } from '@/shared/components';
 import { getType, renderAmount, TransactionType } from '@/components/home/LatestTransactions.utils';
 
@@ -41,61 +41,61 @@ export const TransactionBody = ({
     return (
         <div className='flex flex-col gap-4 pb-4'>
             <div>
-                <TrasactionItem title={t('COMMON.SENDER')}>
+                <TransactionItem title={t('COMMON.SENDER')}>
                     <TransactionAddress address={transaction.from()} />
-                </TrasactionItem>
+                </TransactionItem>
 
                 {paymentTypes.includes(type) && (
-                    <TrasactionItem title={t('COMMON.RECIPIENT')}>
+                    <TransactionItem title={t('COMMON.RECIPIENT')}>
                         {type === TransactionType.MULTIPAYMENT ? (
                             <TransactionUniqueRecipients transaction={transaction} />
                         ) : (
                             <TransactionAddress address={transaction.to()} />
                         )}
-                    </TrasactionItem>
+                    </TransactionItem>
                 )}
 
                 {paymentTypes.includes(type) && (
-                    <TrasactionItem title={t('COMMON.AMOUNT')}>
+                    <TransactionItem title={t('COMMON.AMOUNT')}>
                         <TransactionAmount transaction={transaction} />
-                    </TrasactionItem>
+                    </TransactionItem>
                 )}
 
                 {[TransactionType.UNVOTE, TransactionType.SWAP].includes(type) && (
-                    <TrasactionItem title={t('COMMON.UNVOTE')}>
+                    <TransactionItem title={t('COMMON.UNVOTE')}>
                         {unvoteValidator.name}
                         <Tooltip content={unvoteValidator.address} className='break-words'>
                             <span className='text-theme-secondary-500 dark:text-theme-secondary-300'>
                                 {trimAddress(unvoteValidator.address, 10)}
                             </span>
                         </Tooltip>
-                    </TrasactionItem>
+                    </TransactionItem>
                 )}
 
                 {[TransactionType.VOTE, TransactionType.SWAP].includes(type) && (
-                    <TrasactionItem title={t('COMMON.VOTE')}>
+                    <TransactionItem title={t('COMMON.VOTE')}>
                         {voteValidator.name}
                         <Tooltip content={voteValidator.address} className='break-words'>
                             <span className='text-theme-secondary-500 dark:text-theme-secondary-300'>
                                 {trimAddress(voteValidator.address, 10)}
                             </span>
                         </Tooltip>
-                    </TrasactionItem>
+                    </TransactionItem>
                 )}
 
                 {type === TransactionType.REGISTRATION && (
-                    <TrasactionItem title={t('COMMON.VALIDATOR_NAME')}>
+                    <TransactionItem title={t('COMMON.VALIDATOR_NAME')}>
                         {transaction.username() ?? ''}
-                    </TrasactionItem>
+                    </TransactionItem>
                 )}
 
                 {type === TransactionType.RESIGNATION && (
-                    <TrasactionItem title={t('COMMON.VALIDATOR_NAME')}>
+                    <TransactionItem title={t('COMMON.VALIDATOR_NAME')}>
                         {transaction.wallet().username() ?? ''}
-                    </TrasactionItem>
+                    </TransactionItem>
                 )}
 
-                <TrasactionItem title={t('COMMON.TRANSACTION_FEE')}>
+                <TransactionItem title={t('COMMON.TRANSACTION_FEE')}>
                     <div className='flex w-full items-center justify-between'>
                         {renderAmount({
                             value: transaction.fee().toNumber(),
@@ -113,44 +113,44 @@ export const TransactionBody = ({
                             </span>
                         )}
                     </div>
-                </TrasactionItem>
+                </TransactionItem>
 
                 {type === TransactionType.OTHER && (
-                    <TrasactionItem title={t('COMMON.IPFS_HASH')}>
+                    <TransactionItem title={t('COMMON.IPFS_HASH')}>
                         <span className='[overflow-wrap:anywhere]'>{transaction.hash()}</span>
-                    </TrasactionItem>
+                    </TransactionItem>
                 )}
 
-                <TrasactionItem title={t('COMMON.TIMESTAMP')}>
+                <TransactionItem title={t('COMMON.TIMESTAMP')}>
                     {formatUnixTimestamp(transaction.timestamp()?.toUNIX() ?? 0)}
-                </TrasactionItem>
+                </TransactionItem>
 
                 {type === TransactionType.MULTISIGNATURE && (
-                    <TrasactionItem title={t('COMMON.MULTISIGNATURE_PARTICIPANTS')}>
+                    <TransactionItem title={t('COMMON.MULTISIGNATURE_PARTICIPANTS')}>
                         {t('COMMON.PARTICIPANT', { count: transaction.publicKeys().length })}
-                    </TrasactionItem>
+                    </TransactionItem>
                 )}
 
                 {type === TransactionType.MULTISIGNATURE && (
-                    <TrasactionItem title={t('COMMON.MINIMUN_REQUIRED_SIGNATURES')}>
+                    <TransactionItem title={t('COMMON.MINIMUN_REQUIRED_SIGNATURES')}>
                         {transaction.min()} / {transaction.publicKeys().length}
-                    </TrasactionItem>
+                    </TransactionItem>
                 )}
 
                 {type === TransactionType.MULTISIGNATURE && (
-                    <TrasactionItem title={t('COMMON.MULTISIGNATURE_ADDRESS')}>
+                    <TransactionItem title={t('COMMON.MULTISIGNATURE_ADDRESS')}>
                         {trimAddress(transaction.from(), 'short')}
-                    </TrasactionItem>
+                    </TransactionItem>
                 )}
 
-                <TrasactionItem title={t('COMMON.TRANSACTION_ID')}>
+                <TransactionItem title={t('COMMON.TRANSACTION_ID')}>
                     <div className='flex w-full flex-row items-center justify-between'>
                         <Tooltip content={transaction.hash()} className='break-words'>
                             <span>{trimAddress(transaction.hash(), 'longest')}</span>
                         </Tooltip>
                         <CopyTransactionId transactionId={transaction.hash()} />
                     </div>
-                </TrasactionItem>
+                </TransactionItem>
             </div>
         </div>
     );
