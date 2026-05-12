@@ -114,7 +114,11 @@ export const SendForm = ({ formik }: { formik: FormikProps<SendFormik> }) => {
             />
             <AssetSelector
                 value={formik.values.tokenAddress}
-                onChange={(tokenAddress) => formik.setFieldValue('tokenAddress', tokenAddress)}
+                onChange={(tokenAddress) => {
+                    formik.setFieldValue('tokenAddress', tokenAddress);
+                    formik.setFieldValue('amount', '');
+                    formik.validateField('amount');
+                }}
             />
             <Input
                 name='amount'
