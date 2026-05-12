@@ -214,7 +214,7 @@ const ApproveTransaction = ({
             gasLimit: customGasLimit,
             feeClass,
         });
-        isNative ? navigate(`/transaction/send?${params.toString()}`) : navigate('/');
+        navigate(isNative ? `/transaction/send?${params.toString()}` : '/');
     };
 
     return (

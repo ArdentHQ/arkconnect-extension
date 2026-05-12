@@ -1,3 +1,4 @@
+import { type JSX } from 'react';
 import cn from 'classnames';
 import dayjs from 'dayjs';
 import { useTranslation } from 'react-i18next';

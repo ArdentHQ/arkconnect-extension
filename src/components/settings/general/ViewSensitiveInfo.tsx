@@ -69,7 +69,7 @@ const ViewSensitiveInfo = () => {
 
                     setPrivateKey(privateKeyDto.privateKey);
                     setPassphrase(mnemonic);
-                } catch (error) {
+                } catch {
                     formikHelpers.setFieldError('password', t('MISC.INCORRECT_PASSWORD'));
                 }
             } catch (error) {

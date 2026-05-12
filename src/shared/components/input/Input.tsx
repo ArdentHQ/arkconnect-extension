@@ -1,4 +1,4 @@
-import { MutableRefObject, ReactNode, useState } from 'react';
+import { ReactNode, RefObject, useState } from 'react';
 
 import cn from 'classnames';
 
@@ -8,7 +8,7 @@ type InputProps = React.ComponentPropsWithRef<'input'> & {
     disabled?: boolean;
     labelText?: string;
     helperText?: string;
-    innerRef?: MutableRefObject<HTMLInputElement | null>;
+    innerRef?: RefObject<HTMLInputElement | null>;
     variant?: 'primary' | 'destructive' | 'errorFree';
     className?: string;
     hasFocus?: boolean;
