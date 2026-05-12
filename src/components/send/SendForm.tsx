@@ -112,14 +112,17 @@ export const SendForm = ({ formik }: { formik: FormikProps<SendFormik> }) => {
                 setValue={(value: string) => formik.setFieldValue('receiverAddress', value)}
                 handleValidation={handleValidation}
             />
-            <AssetSelector
-                value={formik.values.tokenAddress}
-                onChange={(tokenAddress) => {
-                    formik.setFieldValue('tokenAddress', tokenAddress);
-                    formik.setFieldValue('amount', '');
-                    formik.validateField('amount');
-                }}
-            />
+            {tokens.length > 0 && (
+                <AssetSelector
+                    value={formik.values.tokenAddress}
+                    tokens={tokens}
+                    onChange={(tokenAddress) => {
+                        formik.setFieldValue('tokenAddress', tokenAddress);
+                        formik.setFieldValue('amount', '');
+                        formik.validateField('amount');
+                    }}
+                />
+            )}
             <Input
                 name='amount'
                 labelText={t('COMMON.AMOUNT')}

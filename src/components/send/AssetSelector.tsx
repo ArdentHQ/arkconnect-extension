@@ -1,33 +1,14 @@
 import { useMemo, useState } from 'react';
 import cn from 'classnames';
-import { useQuery } from 'react-query';
 import { useTranslation } from 'react-i18next';
 import Modal from '@/shared/components/modal/Modal';
-import { Icon, Loader } from '@/shared/components';
+import { Icon } from '@/shared/components';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
-import { IReadWriteWallet } from '@/lib/profiles/wallet.contract';
 import { WalletToken } from '@/lib/profiles/wallet-token';
 
 type AssetOption =
     | { kind: 'native'; ticker: string; name: string }
     | { kind: 'token'; token: WalletToken };
-
-const TOKENS_LIMIT = 50;
-
-const fetchTokens = async (primaryWallet?: IReadWriteWallet): Promise<WalletToken[]> => {
-    if (!primaryWallet) return [];
-
-    try {
-        const collection = await primaryWallet.client().tokenAddresses({
-            addresses: [primaryWallet.address()],
-            minBalance: '0',
-        });
-
-        return collection.items().slice(0, TOKENS_LIMIT);
-    } catch {
-        return [];
-    }
-};
 
 const AssetAvatar = ({ label }: { label: string }) => {
     const initial = label.slice(0, 1).toUpperCase();
@@ -77,20 +58,16 @@ const AssetRow = ({
 
 export const AssetSelector = ({
     value,
+    tokens,
     onChange,
 }: {
     value?: string;
+    tokens: WalletToken[];
     onChange: (tokenAddress?: string) => void;
 }) => {
     const { t } = useTranslation();
     const primaryWallet = usePrimaryWallet();
     const [isOpen, setIsOpen] = useState(false);
-
-    const { data: tokens = [], isLoading } = useQuery<WalletToken[]>(
-        ['send-tokens', primaryWallet?.address()],
-        () => fetchTokens(primaryWallet),
-        { enabled: !!primaryWallet, staleTime: 0 },
-    );
 
     const nativeTicker = primaryWallet?.currency() ?? 'ARK';
     const nativeName = primaryWallet?.network().coinName() ?? 'ARK';
@@ -152,31 +129,25 @@ export const AssetSelector = ({
                     title={t('PAGES.SEND.SELECT_ASSET')}
                 >
                     <div className='max-h-[300px] overflow-auto'>
-                        {isLoading ? (
-                            <div className='flex h-32 items-center justify-center'>
-                                <Loader variant='big' />
-                            </div>
-                        ) : (
-                            options.map((option) => {
-                                const key =
-                                    option.kind === 'native'
-                                        ? `native:${option.ticker}`
-                                        : option.token.token().address();
-                                const isSelected =
-                                    option.kind === 'native'
-                                        ? !value
-                                        : option.token.token().address() === value;
+                        {options.map((option) => {
+                            const key =
+                                option.kind === 'native'
+                                    ? `native:${option.ticker}`
+                                    : option.token.token().address();
+                            const isSelected =
+                                option.kind === 'native'
+                                    ? !value
+                                    : option.token.token().address() === value;
 
-                                return (
-                                    <AssetRow
-                                        key={key}
-                                        option={option}
-                                        onSelect={() => handleSelect(option)}
-                                        isSelected={isSelected}
-                                    />
-                                );
-                            })
-                        )}
+                            return (
+                                <AssetRow
+                                    key={key}
+                                    option={option}
+                                    onSelect={() => handleSelect(option)}
+                                    isSelected={isSelected}
+                                />
+                            );
+                        })}
                     </div>
                 </Modal>
             )}
