@@ -129,7 +129,7 @@ export const UploadQRModal = ({
                             {t('COMMON.CANCEL')}
                         </Button>
                         <FileUploader
-                            onSelect={handleDragAndDropChange}
+                            onSelect={(file) => handleDragAndDropChange(file as File)}
                             onDrop={undefined}
                             name='qr-code'
                             types={fileTypes}
@@ -151,7 +151,7 @@ export const UploadQRModal = ({
         >
             <div className='flex flex-col gap-1.5'>
                 <FileUploader
-                    handleChange={handleDragAndDropChange}
+                    handleChange={(file: File | File[]) => handleDragAndDropChange(file as File)}
                     name='qr-code'
                     types={fileTypes}
                     multiple={false}

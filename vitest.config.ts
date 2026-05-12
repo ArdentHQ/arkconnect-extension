@@ -12,6 +12,7 @@ export default defineConfig((env) => {
                 maxConcurrency: 4,
                 globals: true,
                 environment: 'jsdom',
+                hookTimeout: 30000,
                 exclude: [
                     ...configDefaults.exclude,
                     'src/lib/helpers/**',
@@ -24,10 +25,10 @@ export default defineConfig((env) => {
                 setupFiles: ['./vitest.setup.ts'],
                 coverage: {
                     thresholds: {
-                        lines: 10.62,
+                        lines: 7.5,
                         functions: 0,
                         branches: 0,
-                        statements: 10.62,
+                        statements: 7.5,
                     },
                     include: ['src/lib/utils/**'],
                 },

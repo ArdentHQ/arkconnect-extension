@@ -2,7 +2,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { useRef, useState } from 'react';
 
 import cn from 'classnames';
-import FocusTrap from 'focus-trap-react';
+import { FocusTrap } from 'focus-trap-react';
 import { useTranslation } from 'react-i18next';
 import { HeaderButton } from './HeaderButton';
 import { HeaderWrapper } from './HeaderWrapper';

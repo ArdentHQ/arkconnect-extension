@@ -26,7 +26,7 @@ const fetchTransactionDetails = async (
             transaction.setMeta('publicKey', primaryWallet?.publicKey());
         }
         return transaction;
-    } catch (error) {
+    } catch {
         throw new Error('Error fetching transaction details');
     }
 };

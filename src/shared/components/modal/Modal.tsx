@@ -1,5 +1,5 @@
 import { ReactNode, useRef } from 'react';
-import FocusTrap from 'focus-trap-react';
+import { FocusTrap, type FocusTrapProps } from 'focus-trap-react';
 import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
 import { twMerge } from 'tailwind-merge';
@@ -31,7 +31,7 @@ type ModalProps = {
     containerClassName?: string;
     contentStyles?: React.CSSProperties;
     activateFocusTrap?: boolean;
-    focusTrapOptions?: FocusTrap.Props['focusTrapOptions'];
+    focusTrapOptions?: FocusTrapProps['focusTrapOptions'];
     title?: string;
     errorMessage?: string;
 };
