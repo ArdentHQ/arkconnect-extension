@@ -136,7 +136,8 @@ const TransactionApproved = () => {
                             totalAmount={state?.transaction.total}
                             convertedTotalAmount={state?.transaction.convertedTotal as number}
                             amountTicker={
-                                state?.transaction.tokenSymbol ?? getActiveCoin(state?.walletNetwork)
+                                state?.transaction.tokenSymbol ??
+                                getActiveCoin(state?.walletNetwork)
                             }
                             feeTicker={
                                 state?.transaction.tokenAddress
