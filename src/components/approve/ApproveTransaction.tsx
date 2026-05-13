@@ -56,6 +56,7 @@ const ApproveTransaction = ({
         gasPrice: customGasPrice,
         gasLimit: customGasLimit,
         feeClass,
+        tokenAddress,
     } = location.state;
     const { profile } = useProfileContext();
     const { env } = useEnvironmentContext();
@@ -189,6 +190,7 @@ const ApproveTransaction = ({
                     gasPrice: customGasPrice,
                     gasLimit: customGasLimit,
                     receiverAddress,
+                    tokenAddress,
                 },
             });
             loadingModal.close();
@@ -213,6 +215,7 @@ const ApproveTransaction = ({
             gasPrice: customGasPrice,
             gasLimit: customGasLimit,
             feeClass,
+            ...(tokenAddress ? { token: tokenAddress } : {}),
         });
         isNative ? navigate(`/transaction/send?${params.toString()}`) : navigate('/');
     };

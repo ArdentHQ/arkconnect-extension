@@ -71,6 +71,7 @@ const Send = () => {
                 gasPrice: lastVisitedPage.data.gasPrice,
                 gasLimit: lastVisitedPage.data.gasLimit,
                 receiverAddress: lastVisitedPage.data.receiverAddress,
+                tokenAddress: lastVisitedPage.data.tokenAddress,
                 session: lastVisitedPage.data.session,
             },
         });
@@ -181,6 +182,7 @@ const Send = () => {
                     gasPrice: values.gasPrice,
                     gasLimit: values.gasLimit,
                     receiverAddress: values.receiverAddress,
+                    tokenAddress: values.tokenAddress,
                     session: {
                         walletId: primaryWallet?.id(),
                         logo: 'icon/128.png',
