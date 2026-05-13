@@ -22,6 +22,7 @@ import { Network } from '@/lib/mainsail/network';
 import { TransferInput } from '@/lib/mainsail/transaction.contract';
 import { calculateGasFee, GasLimit } from '@/lib/hooks/useNetworkFees';
 import { httpClient } from '@/lib/services';
+import { WalletToken } from '@/lib/profiles/wallet-token';
 
 export interface RecipientItem {
     address: string;
@@ -57,6 +58,7 @@ type ApproveRequest = {
     receiverAddress: string;
     customGasPrice?: string;
     customGasLimit?: string;
+    tokenAddress?: string;
 };
 
 const defaultState = {
@@ -94,6 +96,28 @@ const prepareLedger = async (wallet: Contracts.IReadWriteWallet) => {
     };
 };
 
+const resolveToken = async (
+    wallet: Contracts.IReadWriteWallet,
+    tokenAddress?: string,
+): Promise<WalletToken | undefined> => {
+    if (!tokenAddress) return undefined;
+
+    let token = wallet.tokens().findByTokenAddress(tokenAddress);
+
+    if (!token) {
+        await wallet.profile().tokens().sync();
+        token = wallet.tokens().findByTokenAddress(tokenAddress);
+    }
+
+    if (!token) {
+        throw new Error(
+            `[useSendTransferForm] Token ${tokenAddress} not found for wallet ${wallet.address()}`,
+        );
+    }
+
+    return token;
+};
+
 export const useSendTransferForm = (
     wallet: Contracts.IReadWriteWallet,
     request: ApproveRequest,
@@ -115,6 +139,8 @@ export const useSendTransferForm = (
         assertWallet(wallet);
 
         const { gasPrice, gasLimit, recipients } = formValues;
+        const token = await resolveToken(wallet, request.tokenAddress);
+        const isTokenTransfer = !!token;
 
         if (wallet.isLedger()) {
             const abortSignal = abortReference.signal;
@@ -125,6 +151,7 @@ export const useSendTransferForm = (
 
             const data = await buildTransferData({
                 recipients,
+                preserveAmountPrecision: isTokenTransfer,
             });
 
             // Ensures the cache is flushed so it always fetches the latest wallet nonce
@@ -135,9 +162,13 @@ export const useSendTransferForm = (
                 gasLimit: BigNumber.make(gasLimit),
                 gasPrice: BigNumber.make(gasPrice),
                 signatory,
+                token,
             };
 
-            const uuid = await wallet.transaction().signTransfer(transactionInput);
+            const uuid = isTokenTransfer
+                ? await wallet.transaction().signTransferToken(transactionInput)
+                : await wallet.transaction().signTransfer(transactionInput);
+
             const response = await wallet.transaction().broadcast(uuid);
 
             handleBroadcastError(response);
@@ -158,6 +189,7 @@ export const useSendTransferForm = (
                 recipients,
                 gasLimit,
                 gasPrice,
+                tokenAddress: request.tokenAddress,
             },
         });
 

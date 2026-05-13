@@ -6,6 +6,7 @@ import { BroadcastResponse as BroadcastResponseData } from '@/lib/mainsail/clien
 import { TransferInput, VoteInput } from '@/lib/mainsail/transaction.contract';
 import { RawTransactionData } from '@/lib/mainsail/signed-transaction.dto.contract';
 import { BigNumber } from '@/lib/helpers';
+import { WalletToken } from '@/lib/profiles/wallet-token';
 
 interface RecipientItem {
     address: string;
@@ -21,6 +22,7 @@ interface BroadcastResponse {
 
 export interface SendTransferInput extends TransferInput {
     recipients: RecipientItem[];
+    tokenAddress?: string;
 }
 
 function BroadcastResponse({
@@ -88,17 +90,40 @@ export function Wallet({ wallet }: { wallet: Contracts.IReadWriteWallet }) {
                 mnemonic: await wallet.confirmKey().get(wallet.profile().password().get()),
             });
 
+            let token: WalletToken | undefined;
+
+            if (input.tokenAddress) {
+                token = wallet.tokens().findByTokenAddress(input.tokenAddress);
+
+                if (!token) {
+                    await wallet.profile().tokens().sync();
+                    token = wallet.tokens().findByTokenAddress(input.tokenAddress);
+                }
+
+                if (!token) {
+                    throw new Error(
+                        `[sendTransfer] Token ${input.tokenAddress} not found for wallet ${wallet.address()}`,
+                    );
+                }
+            }
+
+            const isTokenTransfer = !!token;
+
             const transactionInput = {
                 data: await buildTransferData({
                     isMultiSignature: false,
                     recipients: input.recipients,
+                    preserveAmountPrecision: isTokenTransfer,
                 }),
                 gasPrice: input.gasPrice ? BigNumber.make(input.gasPrice) : undefined,
                 gasLimit: input.gasLimit ? BigNumber.make(input.gasLimit) : undefined,
                 signatory,
+                token,
             };
 
-            const uuid = await wallet.transaction().signTransfer(transactionInput);
+            const uuid = isTokenTransfer
+                ? await wallet.transaction().signTransferToken(transactionInput)
+                : await wallet.transaction().signTransfer(transactionInput);
             const response = await wallet.transaction().broadcast(uuid);
 
             return await BroadcastResponse({ uuid, wallet, response }).toData();
