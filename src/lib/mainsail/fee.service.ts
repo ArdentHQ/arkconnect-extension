@@ -42,6 +42,7 @@ export class FeeService {
 			validatorResignation: fees,
 			multiPayment: fees,
 			secondSignature: fees,
+			tokenTransfer: fees,
 			transfer: fees,
 			usernameRegistration: fees,
 			usernameResignation: fees,

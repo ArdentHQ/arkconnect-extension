@@ -215,16 +215,20 @@ export const useSendTransferForm = (
 
                 const passphrase = walletData?.passphrase;
 
+                const isTokenTransfer = !!request.tokenAddress;
+
                 const { min, avg, max } = await getGasPrices({
                     network: wallet.network().id(),
-                    type: ApproveActionType.TRANSACTION,
+                    type: isTokenTransfer ? 'tokenTransfer' : ApproveActionType.TRANSACTION,
                 });
 
                 const { customGasLimit, customGasPrice } = request;
 
                 const hasCustomFee = !!(customGasLimit && customGasPrice);
 
-                const defaultGasLimit = GasLimit.transfer.toString();
+                const defaultGasLimit = (
+                    isTokenTransfer ? GasLimit.tokenTransfer : GasLimit.transfer
+                ).toString();
 
                 const customFee = BigNumber.make(calculateGasFee(customGasPrice, customGasLimit));
                 const maxFee = BigNumber.make(calculateGasFee(max.toString(), defaultGasLimit));
