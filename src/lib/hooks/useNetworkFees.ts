@@ -103,10 +103,12 @@ export const calculateGasFee = (gasPrice?: string, gasLimit?: string): BigNumber
         return BigNumber.ZERO;
     }
 
-    return BigNumber.make(UnitConverter.formatUnits(
-        BigNumber.make(gasLimit).times(BigNumber.make(gasPrice)).toString(),
-        'gwei',
-    ));
+    return BigNumber.make(
+        UnitConverter.formatUnits(
+            BigNumber.make(gasLimit).times(BigNumber.make(gasPrice)).toString(),
+            'gwei',
+        ),
+    );
 };
 
 export const useNetworkFees = ({

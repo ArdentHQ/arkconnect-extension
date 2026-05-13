@@ -1,11 +1,11 @@
 import packageData from '../package.json';
+import { BigNumber } from './lib/helpers';
 import { ExtensionSupportedEvents } from '@/lib/events';
 import {
     assertPositiveNumberLike,
     getLogoOrFaviconUrl,
     isValidObjectByType,
 } from '@/inpage.helpers';
-import { BigNumber } from "./lib/helpers";
 
 type OnEvent = {
     type: Events;

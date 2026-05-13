@@ -2,6 +2,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useEffect } from 'react';
 import { runtime } from 'webextension-polyfill';
+import { BigNumber } from '../lib/helpers';
 import { ApproveActionType } from './Approve';
 import constants from '@/constants';
 import removeWindowInstance from '@/lib/utils/removeWindowInstance';
@@ -14,7 +15,6 @@ import getActiveCoin from '@/lib/utils/getActiveCoin';
 import { useConfirmedTransaction } from '@/lib/hooks/useConfirmedTransaction';
 import { ApproveLayout } from '@/components/approve/ApproveLayout';
 import { Footer } from '@/shared/components/layout/Footer';
-import { BigNumber } from '../lib/helpers';
 
 const VoteApprovedFooter = ({
     onClose,

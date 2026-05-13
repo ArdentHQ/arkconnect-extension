@@ -1,5 +1,5 @@
-import { BigNumber } from '@/app/lib/helpers';
 import Amount from './Amount';
+import { BigNumber } from '@/app/lib/helpers';
 import { Heading } from '@/shared/components';
 
 type BalanceProps = {
