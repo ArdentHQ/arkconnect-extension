@@ -9,6 +9,7 @@ import { useSendTransferForm } from '@/lib/hooks/useSendTransferForm';
 import { useVoteForm } from '@/lib/hooks/useVoteForm';
 import * as SessionStore from '@/lib/store/session';
 import { calculateGasFee } from '@/lib/hooks/useNetworkFees';
+import { BigNumber } from '@/app/lib/helpers';
 
 type VoteDelegateProperties = {
     address: string;
@@ -17,7 +18,7 @@ type VoteDelegateProperties = {
 interface Props {
     wallet: Contracts.IReadWriteWallet;
     state: {
-        amount: string;
+        amount: BigNumber;
         receiverAddress: string;
         domain: string;
         session: SessionStore.Session;
@@ -46,7 +47,7 @@ export const VoteLedgerApprovalBody = ({ wallet, state }: Props) => {
             isApproved={false}
             showFiat={wallet.network().isLive()}
             wallet={wallet}
-            fee={+fee}
+            fee={fee}
             convertedFee={convert(+fee)}
             exchangeCurrency={wallet.exchangeCurrency() ?? 'USD'}
             network={getNetworkCurrency(wallet.network())}
@@ -100,12 +101,12 @@ export const TransactionLedgerApprovalBody = ({ wallet, state }: Props) => {
         <ActionBody
             isApproved={false}
             showFiat={withFiat}
-            amount={+amount}
+            amount={amount}
             amountTicker={coin}
             convertedAmount={convert(+amount)}
             exchangeCurrency={exchangeCurrency}
             network={getNetworkCurrency(wallet.network())}
-            fee={+fee}
+            fee={fee}
             convertedFee={convert(+fee)}
             receiver={trimAddress(receiverAddress as string, 10)}
             totalAmount={total}

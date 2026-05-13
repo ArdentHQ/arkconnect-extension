@@ -84,7 +84,7 @@ const NextPageMiddleware = ({ children }: Props) => {
             | undefined;
 
         if (isProfileReady && profile.wallets().count() === 0) {
-            lastVisitedPage ? navigate('/onboarding') : navigate('/splash-screen');
+            navigate(lastVisitedPage ? '/onboarding' : '/splash-screen');
 
             // This is needed to push an additional route to the history stack
             // to handle the back button navigation during onboarding

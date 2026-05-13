@@ -1,6 +1,6 @@
-import { Exceptions } from "@/app/lib/mainsail";
+import { Exceptions } from "@/lib/mainsail";
 import { TransactionData, KeyValuePair } from "./transaction-data.dto";
-import { BigNumber } from "@/app/lib/helpers";
+import { BigNumber } from "@/lib/helpers";
 import { TransactionReceipt } from "./transaction.receipt";
 
 export class ConfirmedTransactionData extends TransactionData {

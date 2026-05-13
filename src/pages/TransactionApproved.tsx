@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { BigNumber } from '../lib/helpers';
 import constants from '@/constants';
 import { useEnvironmentContext } from '@/lib/context/Environment';
 import { useProfileContext } from '@/lib/context/Profile';
@@ -126,15 +127,15 @@ const TransactionApproved = () => {
                             isApproved={true}
                             sender={state?.transaction.sender}
                             amount={state?.transaction.amount}
-                            convertedAmount={state?.transaction.convertedAmount as number}
+                            convertedAmount={state?.transaction.convertedAmount as BigNumber}
                             exchangeCurrency={state?.transaction.exchangeCurrency as string}
                             network={getActiveCoin(state?.walletNetwork)}
                             showFiat={showFiat}
                             receiver={state?.transaction.receiver}
                             fee={state?.transaction.fee}
-                            convertedFee={state?.transaction.convertedFee as number}
+                            convertedFee={state?.transaction.convertedFee as BigNumber}
                             totalAmount={state?.transaction.total}
-                            convertedTotalAmount={state?.transaction.convertedTotal as number}
+                            convertedTotalAmount={state?.transaction.convertedTotal as BigNumber}
                             amountTicker={getActiveCoin(state?.walletNetwork)}
                             transactionId={
                                 isTransactionConfirmed ? state?.transaction.id : undefined

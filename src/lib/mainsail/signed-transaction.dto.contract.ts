@@ -1,5 +1,5 @@
-import { BigNumber } from "@/app/lib/helpers";
-import { DateTime } from "@/app/lib/intl";
+import { BigNumber } from "@/lib/helpers";
+import { DateTime } from "@/lib/intl";
 
 import { MultiPaymentItem, MultiPaymentRecipient } from "./confirmed-transaction.dto.contract";
 
@@ -34,19 +34,15 @@ export interface SignedTransactionData {
 
 	// Types
 	isTransfer(): boolean;
-	isSecondSignature(): boolean;
 	isValidatorRegistration(): boolean;
 	isUsernameRegistration(): boolean;
 	isUsernameResignation(): boolean;
 	isValidatorResignation(): boolean;
-	isVoteCombination(): boolean;
 	isVote(): boolean;
 	isUnvote(): boolean;
 	isMultiPayment(): boolean;
 
 	methodHash(): string;
-	usesMultiSignature(): boolean;
-	isMultiSignatureRegistration(): boolean;
 
 	// Access & serialization
 	get<T = string>(key: string): T;

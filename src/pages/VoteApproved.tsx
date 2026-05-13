@@ -2,6 +2,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useEffect } from 'react';
 import { runtime } from 'webextension-polyfill';
+import { BigNumber } from '../lib/helpers';
 import { ApproveActionType } from './Approve';
 import constants from '@/constants';
 import removeWindowInstance from '@/lib/utils/removeWindowInstance';
@@ -138,7 +139,7 @@ const VoteApproved = () => {
                         sender={state?.vote.sender}
                         showFiat={showFiat}
                         fee={state?.vote.fee}
-                        convertedFee={state?.vote.convertedFee as number}
+                        convertedFee={state?.vote.convertedFee as BigNumber}
                         exchangeCurrency={state?.vote.exchangeCurrency as string}
                         network={getActiveCoin(state?.walletNetwork)}
                         unvote={{

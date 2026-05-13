@@ -1,9 +1,9 @@
-import { Services } from "@/app/lib/mainsail";
+import { Services } from "@/lib/mainsail";
 import { BIP39 } from "@ardenthq/arkvault-crypto";
 
 import { IReadWriteWallet, IWalletMutator, WalletData, WalletImportMethod, WalletSetting } from "./contracts.js";
 import { Avatar } from "./helpers/avatar.js";
-import { AddressService } from "@/app/lib/mainsail/address.service";
+import { AddressService } from "@/lib/mainsail/address.service";
 
 export class WalletMutator implements IWalletMutator {
 	readonly #wallet: IReadWriteWallet;

@@ -1,4 +1,4 @@
-import { MarketDataCollection } from "@/app/lib/markets/contracts";
+import { MarketDataCollection } from "@/lib/markets/contracts";
 
 /**
  * Implements a transformer for historical market data.

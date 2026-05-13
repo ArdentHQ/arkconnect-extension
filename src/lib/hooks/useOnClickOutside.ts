@@ -1,8 +1,7 @@
 import { useEffect } from 'react';
 
 const useOnClickOutside = (
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    ref: React.MutableRefObject<any>,
+    ref: React.RefObject<any>,
     handler: (event: MouseEvent | TouchEvent) => void,
     currentRef?: React.RefObject<HTMLElement>,
 ) => {

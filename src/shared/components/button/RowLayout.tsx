@@ -6,6 +6,7 @@ import constants from '@/constants';
 import { Address, LedgerIcon } from '@/components/wallet/address/Address.blocks';
 import { isFirefox } from '@/lib/utils/isFirefox';
 import Amount from '@/components/wallet/Amount';
+import { BigNumber } from '@/app/lib/helpers';
 
 type RowLayoutProps = React.ComponentPropsWithRef<'button'> & {
     iconLeading?: React.ReactNode;
@@ -166,7 +167,7 @@ export const RowLayout = forwardRef(function RowLayout(
                                           if (index === 0) {
                                               return (
                                                   <Amount
-                                                      value={Number(item)}
+                                                      value={BigNumber.make(item)}
                                                       maxDigits={
                                                           constants.MAX_CURRENCY_DIGITS_ALLOWED
                                                       }

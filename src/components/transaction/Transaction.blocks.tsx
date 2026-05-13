@@ -1,3 +1,4 @@
+import { type JSX } from 'react';
 import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
 import { AmountBadge, AmountBadgeType } from './details/AmountBadge';
@@ -16,13 +17,13 @@ import { useExchangeRate } from '@/lib/hooks/useExchangeRate';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 import { useProfileContext } from '@/lib/context/Profile';
 import { ExtendedConfirmedTransactionData } from '@/lib/profiles/transaction.dto';
+import { BigNumber } from '@/app/lib/helpers';
 
 export const TransactionIcon = ({ type }: { type: TransactionType }) => {
     const isSpecialTransaction = [
         TransactionType.REGISTRATION,
         TransactionType.RESIGNATION,
         TransactionType.OTHER,
-        TransactionType.SECOND_SIGNATURE,
         TransactionType.MULTISIGNATURE,
     ].includes(type);
 
@@ -136,7 +137,7 @@ export const TransactionAmount = ({
         isDevnet,
         displayFiat,
     }: {
-        value: number;
+        value: BigNumber;
         isNegative: boolean;
         showSign: boolean;
         type: AmountBadgeType;
@@ -180,8 +181,11 @@ export const TransactionAmount = ({
             return renderAmountBadge({
                 value: sentAmount,
                 isNegative: true,
-                showSign: sentAmount !== 0,
-                type: sentAmount !== 0 ? AmountBadgeType.NEGATIVE : AmountBadgeType.DEFAULT,
+                showSign: sentAmount !== BigNumber.ZERO,
+                type:
+                    sentAmount !== BigNumber.ZERO
+                        ? AmountBadgeType.NEGATIVE
+                        : AmountBadgeType.DEFAULT,
                 selfAmount: isSenderAndRecipient ? `${selfAmount} ${primaryCurrency}` : undefined,
                 isDevnet: primaryWallet?.network().isTest(),
                 displayFiat,

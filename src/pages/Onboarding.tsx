@@ -29,7 +29,7 @@ const Onboarding = () => {
 
     const navigate = useNavigate();
 
-    const interval = useRef<ReturnType<typeof setInterval> | undefined>();
+    const interval = useRef<ReturnType<typeof setInterval> | undefined>(undefined);
 
     const [activeIndex, setActiveIndex] = useState<number>(0);
     const [filledSegments, setFilledSegments] = useState<boolean[]>(Array(4).fill(false));

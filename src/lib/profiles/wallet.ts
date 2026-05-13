@@ -1,6 +1,6 @@
-import { Contracts, Networks, Services } from "@/app/lib/mainsail";
-import { BigNumber } from "@/app/lib/helpers";
-import { DateTime } from "@/app/lib/intl";
+import { Contracts, Networks, Services } from "@/lib/mainsail";
+import { BigNumber } from "@/lib/helpers";
+import { DateTime } from "@/lib/intl";
 
 import {
 	IDataRepository,
@@ -22,34 +22,35 @@ import {
 	WalletFlag,
 	WalletImportMethod,
 	WalletSetting,
-} from "./contracts.js";
+} from "./contracts";
 import { DataRepository } from "./data.repository";
-import { AttributeBag } from "./helpers/attribute-bag.js";
-import { WalletSerialiser } from "./serialiser.js";
+import { AttributeBag } from "./helpers/attribute-bag";
+import { WalletSerialiser } from "./serialiser";
 import { SettingRepository } from "./setting.repository";
-import { SignatoryFactory } from "./signatory.factory.js";
-import { TransactionIndex } from "./transaction-index.js";
-import { VoteRegistry } from "./vote-registry.js";
-import { WalletBalanceType, WalletDerivationMethod } from "./wallet.contract.js";
+import { SignatoryFactory } from "./signatory.factory";
+import { TransactionIndex } from "./transaction-index";
+import { VoteRegistry } from "./vote-registry";
+import { WalletBalanceType, WalletDerivationMethod } from "./wallet.contract";
 import { WalletLedgerModel } from "./wallet.enum";
 import { WalletGate } from "./wallet.gate";
 import { WalletMutator } from "./wallet.mutator";
 import { WalletSynchroniser } from "./wallet.synchroniser";
 import { TransactionService as WalletTransactionService } from "./wallet-transaction.service";
-import { WalletImportFormat } from "./wif.js";
-import { LinkService } from "@/app/lib/mainsail/link.service";
-import { MessageService } from "@/app/lib/mainsail/message.service";
-import { Manifest } from "@/app/lib/mainsail/manifest.class";
-import { manifest } from "@/app/lib/mainsail/index";
-import { LedgerService } from "@/app/lib/mainsail/ledger.service";
-import { ClientService } from "@/app/lib/mainsail/client.service";
-import { AddressService } from "@/app/lib/mainsail/address.service";
-import { PublicKeyService } from "@/app/lib/mainsail/public-key.service";
-import { SignatoryService } from "@/app/lib/mainsail/signatory.service.js";
-import { TransactionService } from "@/app/lib/mainsail/transaction.service.js";
-import { ValidatorService } from "./validator.service.js";
-import { ExchangeRateService } from "./exchange-rate.service.js";
-import { WalletAliasProvider } from "./profile.wallet.alias.js";
+import { WalletImportFormat } from "./wif";
+import { LinkService } from "@/lib/mainsail/link.service";
+import { MessageService } from "@/lib/mainsail/message.service";
+import { Manifest } from "@/lib/mainsail/manifest.class";
+import { manifest } from "@/lib/mainsail/index";
+import { LedgerService } from "@/lib/mainsail/ledger.service";
+import { ClientService } from "@/lib/mainsail/client.service";
+import { AddressService } from "@/lib/mainsail/address.service";
+import { PublicKeyService } from "@/lib/mainsail/public-key.service";
+import { SignatoryService } from "@/lib/mainsail/signatory.service";
+import { TransactionService } from "@/lib/mainsail/transaction.service";
+import { ValidatorService } from "./validator.service";
+import { ExchangeRateService } from "./exchange-rate.service";
+import { WalletAliasProvider } from "./profile.wallet.alias";
+import { WalletTokenRepository } from "./wallet-token.repository";
 
 const ERR_NOT_SYNCED =
 	"This wallet has not been synchronized yet. Please call [synchroniser().identity()] before using it.";
@@ -70,6 +71,7 @@ export class Wallet implements IReadWriteWallet {
 	readonly #signatoryFactory: ISignatoryFactory;
 	readonly #messageService: MessageService;
 	readonly #ledgerService: LedgerService;
+	readonly #tokens: WalletTokenRepository;
 
 	public constructor(id: string, initialState: any, profile: IProfile) {
 		this.#profile = profile;
@@ -92,6 +94,7 @@ export class Wallet implements IReadWriteWallet {
 		this.#signatoryFactory = new SignatoryFactory(this);
 		this.#messageService = new MessageService();
 		this.#ledgerService = profile.ledger();
+		this.#tokens = new WalletTokenRepository(profile.activeNetwork(), profile);
 
 		this.#restore();
 	}
@@ -169,20 +172,22 @@ export class Wallet implements IReadWriteWallet {
 	}
 
 	/** {@inheritDoc IReadWriteWallet.balance} */
-	public balance(type: WalletBalanceType = "available"): number {
+	public balance(type: WalletBalanceType = "available"): BigNumber {
 		const value: Contracts.WalletBalance | undefined = this.data().get(WalletData.Balance);
 
 		if (value && value[type]) {
-			return +BigNumber.make(value[type] as BigNumber, this.#decimals()).toHuman();
+			return BigNumber.make(value[type] as BigNumber, this.#decimals()).divide(
+				BigNumber.powerOfTen(this.#decimals()),
+			);
 		}
 
-		return 0;
+		return BigNumber.ZERO;
 	}
 
 	/** {@inheritDoc IReadWriteWallet.convertedBalance} */
-	public convertedBalance(type: WalletBalanceType = "available"): number {
+	public convertedBalance(type: WalletBalanceType = "available"): BigNumber {
 		if (this.network().isTest()) {
-			return 0;
+			return BigNumber.ZERO;
 		}
 
 		return this.exchangeRates().exchange(
@@ -248,6 +253,11 @@ export class Wallet implements IReadWriteWallet {
 	/** {@inheritDoc IReadWriteWallet.toObject} */
 	public toObject(): IWalletData {
 		return new WalletSerialiser(this).toJSON();
+	}
+
+	/** {@inheritDoc IReadWriteWallet.tokenCount} */
+	public tokenCount(): number {
+		return this.data().get(WalletData.TokenCount, 0) as number;
 	}
 
 	/** {@inheritDoc IReadWriteWallet.knownName} */
@@ -696,5 +706,13 @@ export class Wallet implements IReadWriteWallet {
 
 	public exchangeRates(): ExchangeRateService {
 		return this.#profile.exchangeRates();
+	}
+
+	public tokens(): WalletTokenRepository {
+		return this.#tokens;
+	}
+
+	public generateAlias(): string {
+		return new WalletAliasProvider(this.#profile).generateAlias(this);
 	}
 }

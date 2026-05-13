@@ -1,4 +1,4 @@
-import { BigNumber } from "@/app/lib/helpers";
+import { BigNumber } from "@/lib/helpers";
 
 import { SignedTransactionData } from "./dto";
 import { EncodeFunctionDataReturnType } from "viem";
@@ -18,6 +18,7 @@ export interface EstimateGasPayload {
 
 export interface TransactionFees {
 	// Core
+	contractDeployment: TransactionFee;
 	transfer: TransactionFee;
 	secondSignature: TransactionFee;
 	validatorRegistration: TransactionFee;

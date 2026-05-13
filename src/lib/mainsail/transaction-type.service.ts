@@ -50,10 +50,6 @@ export class TransactionTypeService {
 		return TransactionTypeService.#checkFunctionIdentifier("registerValidator", data);
 	}
 
-	public static isVoteCombination(data: TransactionData): boolean {
-		return false;
-	}
-
 	public static isVote(data: TransactionData): boolean {
 		return TransactionTypeService.#checkFunctionIdentifier("vote", data);
 	}

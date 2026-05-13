@@ -38,6 +38,7 @@ export class ProfileValidator implements IProfileValidator {
 				}),
 				[ProfileData.HasCompletedIntroductoryTutorial]: Joi.boolean(),
 				[ProfileData.HasAcceptedManualInstallationDisclaimer]: Joi.boolean(),
+				[ProfileData.WhitelistedContractAddresses]: Joi.array(),
 			}).required(),
 			exchangeTransactions: Joi.object()
 				.pattern(
@@ -74,6 +75,7 @@ export class ProfileValidator implements IProfileValidator {
 						body: Joi.string(),
 						icon: Joi.string(),
 						id: Joi.string().required(),
+						isRemoved: Joi.boolean(),
 						meta: Joi.object(),
 						name: Joi.string(),
 						read_at: Joi.number(),
@@ -111,6 +113,7 @@ export class ProfileValidator implements IProfileValidator {
 				[ProfileSetting.Sessions]: Joi.object(),
 				[ProfileSetting.LastVisitedPage]: Joi.object(),
 				[ProfileSetting.WalletSelectionMode]: Joi.string().allow("single", "multiple").default("single"),
+				[ProfileSetting.HideDustTokens]: Joi.boolean().optional().default(false),
 			}).required(),
 			wallets: Joi.object().pattern(
 				Joi.string().uuid(),

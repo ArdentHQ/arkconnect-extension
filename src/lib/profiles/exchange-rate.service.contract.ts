@@ -1,5 +1,5 @@
-import { NumberLike } from "@/app/lib/helpers";
-import { DateTime } from "@/app/lib/intl";
+import { BigNumber, NumberLike } from "@/lib/helpers";
+import { DateTime } from "@/lib/intl";
 
 import { IProfile } from "./contracts.js";
 
@@ -27,10 +27,10 @@ export interface IExchangeRateService {
 	 * @param {string} exchangeCurrency
 	 * @param {DateTime} date
 	 * @param {NumberLike} value
-	 * @return {number}
+	 * @return {BigNumber}
 	 * @memberof IExchangeRateService
 	 */
-	exchange(currency: string, exchangeCurrency: string, date: DateTime, value: NumberLike): number;
+	exchange(currency: string, exchangeCurrency: string, date: DateTime, value: NumberLike): BigNumber;
 
 	/**
 	 * Take a snapshot of the current data.

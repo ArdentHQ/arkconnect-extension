@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { runtime } from 'webextension-polyfill';
 import { useTranslation } from 'react-i18next';
+import { BigNumber } from '../lib/helpers';
 import Balance from '@/components/wallet/Balance';
 import { ExternalLink, Icon, Layout } from '@/shared/components';
 import constants from '@/constants';
@@ -25,7 +26,7 @@ const Home = () => {
                 <div className='rounded-2.5xl bg-theme-primary-600 green:bg-theme-primary-700 green:dark:bg-theme-primary-650 text-white'>
                     <div className='p-4'>
                         <Balance
-                            balance={primaryWallet?.balance() ?? 0}
+                            balance={primaryWallet?.balance() ?? BigNumber.ZERO}
                             currency={primaryWallet?.currency() ?? 'ARK'}
                             exchangeCurrency={primaryWallet?.exchangeCurrency() ?? 'USD'}
                             convertedBalance={convertedBalance}
