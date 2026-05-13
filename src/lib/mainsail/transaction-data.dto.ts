@@ -206,11 +206,11 @@ export abstract class TransactionData {
 			return BigNumber.sum(this.payments().map(({ amount }) => amount));
 		}
 
-		return BigNumber.make(String(UnitConverter.formatUnits(this.data.value, "ark")));
+		return BigNumber.make(UnitConverter.formatUnits(this.data.value, "ark"));
 	}
 
 	public fee(): BigNumber {
-		const gasPrice = BigNumber.make(String(UnitConverter.formatUnits(this.data.gasPrice, "ark")));
+		const gasPrice = BigNumber.make(UnitConverter.formatUnits(this.data.gasPrice, "ark"));
 		return gasPrice.times(this.data.gas);
 	}
 
@@ -303,7 +303,7 @@ export abstract class TransactionData {
 
 		for (const index in recipients) {
 			payments[index] = {
-				amount: BigNumber.make(String(UnitConverter.formatUnits(amounts[index], "ark"))),
+				amount: BigNumber.make(UnitConverter.formatUnits(amounts[index], "ark")),
 				recipientId: recipients[index],
 			};
 		}
