@@ -155,7 +155,7 @@ const AddressRow = ({
                         <AddressWithCopy address={address.address()} />
                         <div>•</div>
                         <AddressBalance
-                            balance={address.balance().toNumber()}
+                            balance={address.balance()}
                             currency={getNetworkCurrency(address.network())}
                         />
                     </div>

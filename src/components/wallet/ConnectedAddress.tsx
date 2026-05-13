@@ -71,7 +71,7 @@ const AddressRow = ({ address, logo }: { address: Contracts.IReadWriteWallet; lo
                     />
                     <div className='leading-[18px]'>•</div>
                     <AddressBalance
-                        balance={address.balance().toNumber()}
+                        balance={address.balance()}
                         currency={getNetworkCurrency(address.network())}
                         className='hover:text-light-black dark:hover:text-white'
                     />
