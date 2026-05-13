@@ -26,7 +26,7 @@ import { httpClient } from '@/lib/services';
 export interface RecipientItem {
     address: string;
     alias?: string;
-    amount?: string;
+    amount?: BigNumber;
     isValidator?: boolean;
 }
 
@@ -41,7 +41,7 @@ interface SendTransferForm {
     isSendAllSelected: string;
     network?: Network;
     recipients: RecipientItem[];
-    total: number;
+    total: BigNumber;
     mnemonic: string;
     secondMnemonic: string;
     encryptionPassword: string;
@@ -53,7 +53,7 @@ interface SendTransferForm {
 
 type ApproveRequest = {
     session: SessionStore.Session;
-    amount: string;
+    amount: BigNumber;
     receiverAddress: string;
     customGasPrice?: string;
     customGasLimit?: string;
@@ -72,7 +72,7 @@ const defaultState = {
     amount: 0,
     isSendAllSelected: '',
     recipients: [],
-    total: 0,
+    total: BigNumber.ZERO,
     mnemonic: '',
     secondMnemonic: '',
     encryptionPassword: '',
@@ -213,7 +213,7 @@ export const useSendTransferForm = (
                     hasLowerCustomFee:
                         hasCustomFee && customFee.isLessThan(minFee) ? minFee.toString() : null,
                     mnemonic: passphrase?.join(' ') || '',
-                    total: BigNumber.make(fee).plus(request.amount).toHuman(),
+                    total: BigNumber.make(fee).plus(request.amount),
                     recipients: [
                         {
                             address: request.receiverAddress,

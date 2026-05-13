@@ -10,12 +10,13 @@ import { LoadingFullScreen } from '@/shared/components/handleStates/LoadingFullS
 import { ProfileData } from '@/lib/background/contracts';
 import { useAppDispatch } from '@/lib/store';
 import { useWalletBalance } from '@/lib/hooks/useWalletBalance';
+import { BigNumber } from '../helpers';
 
 interface Context {
     profile: Contracts.IProfile;
     initProfile: () => Promise<void>;
     importProfile: (profileData: string) => Promise<Contracts.IProfile>;
-    convertedBalance?: number;
+    convertedBalance?: BigNumber;
     isProfileReady: boolean;
 }
 

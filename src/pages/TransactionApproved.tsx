@@ -13,6 +13,7 @@ import getActiveCoin from '@/lib/utils/getActiveCoin';
 import { useConfirmedTransaction } from '@/lib/hooks/useConfirmedTransaction';
 import { ApproveLayout } from '@/components/approve/ApproveLayout';
 import { Footer } from '@/shared/components/layout/Footer';
+import { BigNumber } from '../lib/helpers';
 
 const TransactionFooter = ({
     onClose,
@@ -126,15 +127,15 @@ const TransactionApproved = () => {
                             isApproved={true}
                             sender={state?.transaction.sender}
                             amount={state?.transaction.amount}
-                            convertedAmount={state?.transaction.convertedAmount as number}
+                            convertedAmount={state?.transaction.convertedAmount as BigNumber}
                             exchangeCurrency={state?.transaction.exchangeCurrency as string}
                             network={getActiveCoin(state?.walletNetwork)}
                             showFiat={showFiat}
                             receiver={state?.transaction.receiver}
                             fee={state?.transaction.fee}
-                            convertedFee={state?.transaction.convertedFee as number}
+                            convertedFee={state?.transaction.convertedFee as BigNumber}
                             totalAmount={state?.transaction.total}
-                            convertedTotalAmount={state?.transaction.convertedTotal as number}
+                            convertedTotalAmount={state?.transaction.convertedTotal as BigNumber}
                             amountTicker={getActiveCoin(state?.walletNetwork)}
                             transactionId={
                                 isTransactionConfirmed ? state?.transaction.id : undefined

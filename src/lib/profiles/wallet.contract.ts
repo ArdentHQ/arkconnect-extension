@@ -190,10 +190,10 @@ export interface IReadWriteWallet {
 	/**
 	 * Get the converted balance.
 	 *
-	 * @return {number}
+	 * @return {BigNumber}
 	 * @memberof IReadWriteWallet
 	 */
-	convertedBalance(type?: WalletBalanceType): number;
+	convertedBalance(type?: WalletBalanceType): BigNumber;
 
 	/**
 	 * Get the nonce.

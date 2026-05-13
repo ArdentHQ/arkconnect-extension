@@ -9,6 +9,7 @@ import { Tooltip } from '@/shared/components';
 import trimAddress from '@/lib/utils/trimAddress';
 import Amount from '@/components/wallet/Amount';
 import useAddressBook from '@/lib/hooks/useAddressBook';
+import { BigNumber } from '@/app/lib/helpers';
 
 interface ActionBodyRowProps {
     label: React.ReactNode;
@@ -39,8 +40,8 @@ export const ActionBodyRow = ({
 interface ActionAmountRowProps {
     label: React.ReactNode;
     showFiat: boolean;
-    amount: number;
-    convertedAmount: number;
+    amount: BigNumber;
+    convertedAmount: BigNumber;
     exchangeCurrency: string;
     amountTicker?: string;
     withTicker?: boolean;
@@ -85,7 +86,7 @@ export const ActionAmountRow = ({
                         />
                     ) : (
                         <span>
-                            {amount} {network}
+                            {amount.toNumber()} {network}
                         </span>
                     )}
                 </ActionDetailsValue>

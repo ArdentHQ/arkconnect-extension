@@ -177,7 +177,7 @@ const Vote = () => {
 
     const { isVoting, isUnvoting, isSwapping, actionLabel, disabled, currentlyVotedAddress } =
         useVote({
-            fee: isFeeValid ? fee : '',
+            fee: isFeeValid ? fee : BigNumber.ZERO,
             validatorAddress: formik.values.validatorAddress,
             votes: currentVotes,
             isValid: !!(hasValues && hasSufficientFunds),

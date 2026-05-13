@@ -5,6 +5,7 @@ import {
     getLogoOrFaviconUrl,
     isValidObjectByType,
 } from '@/inpage.helpers';
+import { BigNumber } from "./lib/helpers";
 
 type OnEvent = {
     type: Events;
@@ -96,7 +97,7 @@ type SignTransactionResponse = {
     amount: number;
     convertedAmount: number;
     fee: number;
-    convertedFee: number;
+    convertedFee: BigNumber;
     total: number;
     convertedTotal: number;
 };

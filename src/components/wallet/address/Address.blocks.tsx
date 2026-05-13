@@ -9,6 +9,7 @@ import trimAddress from '@/lib/utils/trimAddress';
 import { ToastPosition } from '@/components/toast/ToastContainer';
 import useClipboard from '@/lib/hooks/useClipboard';
 import { useIsTruncated } from '@/lib/hooks/useIsTruncated';
+import { BigNumber } from '@/app/lib/helpers';
 
 export const AddressAlias = ({
     alias,
@@ -120,7 +121,7 @@ export const AddressBalance = ({
     maxDigits = 5,
     className,
 }: {
-    balance: number;
+    balance: BigNumber;
     currency: string;
     maxDigits?: number;
     className?: string;

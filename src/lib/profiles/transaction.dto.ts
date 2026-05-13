@@ -64,7 +64,7 @@ export class ExtendedConfirmedTransactionData {
 		return this.#data.value();
 	}
 
-	public convertedAmount(): number {
+	public convertedAmount(): BigNumber {
 		return this.#convertAmount(this.value());
 	}
 
@@ -73,7 +73,7 @@ export class ExtendedConfirmedTransactionData {
 		return this.#data.fee();
 	}
 
-	public convertedFee(): number {
+	public convertedFee(): BigNumber {
 		return this.#convertAmount(this.fee());
 	}
 
@@ -256,7 +256,7 @@ export class ExtendedConfirmedTransactionData {
 		return total;
 	}
 
-	public convertedTotal(): number {
+	public convertedTotal(): BigNumber {
 		return this.#convertAmount(this.total());
 	}
 
@@ -275,11 +275,11 @@ export class ExtendedConfirmedTransactionData {
 		return this.#data as unknown as T;
 	}
 
-	#convertAmount(value: BigNumber): number {
+	#convertAmount(value: BigNumber): BigNumber {
 		const timestamp: DateTime | undefined = this.timestamp();
 
 		if (timestamp === undefined) {
-			return 0;
+			return BigNumber.ZERO;
 		}
 
 		return this.wallet()

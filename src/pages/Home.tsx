@@ -8,6 +8,7 @@ import { useProfileContext } from '@/lib/context/Profile';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 import { LatestTransactions } from '@/components/home/LatestTransactions';
 import { TransactionButtons } from '@/components/home/TransactionButtons';
+import { BigNumber } from '../lib/helpers';
 const Home = () => {
     const { convertedBalance } = useProfileContext();
 
@@ -25,7 +26,7 @@ const Home = () => {
                 <div className='rounded-2.5xl bg-theme-primary-600 text-white green:bg-theme-primary-700 green:dark:bg-theme-primary-650'>
                     <div className='p-4'>
                         <Balance
-                            balance={primaryWallet?.balance().toNumber() ?? 0}
+                            balance={primaryWallet?.balance() ?? BigNumber.ZERO}
                             currency={primaryWallet?.currency() ?? 'ARK'}
                             exchangeCurrency={primaryWallet?.exchangeCurrency() ?? 'USD'}
                             convertedBalance={convertedBalance}

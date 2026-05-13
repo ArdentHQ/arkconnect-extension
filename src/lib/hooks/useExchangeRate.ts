@@ -1,6 +1,7 @@
 import { useCallback } from 'react';
 import { useProfileContext } from '@/lib/context/Profile';
 import { DateTime } from '@/lib/intl';
+import { BigNumber, NumberLike } from "../helpers";
 
 interface Input {
     ticker?: string;
@@ -8,16 +9,16 @@ interface Input {
 }
 
 interface Output {
-    convert: (value?: number) => number;
+    convert: (value?: NumberLike) => BigNumber;
 }
 
 export const useExchangeRate = ({ ticker, exchangeTicker }: Input): Output => {
     const { profile } = useProfileContext();
 
     const convert = useCallback(
-        (value?: number) => {
+        (value?: NumberLike) => {
             if (!ticker || !exchangeTicker || !value) {
-                return 0;
+                return BigNumber.ZERO;
             }
 
             return profile.exchangeRates().exchange(ticker, exchangeTicker, DateTime.make(), value);

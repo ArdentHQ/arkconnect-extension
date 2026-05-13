@@ -1,11 +1,12 @@
+import { BigNumber } from '@/app/lib/helpers';
 import Amount from './Amount';
 import { Heading } from '@/shared/components';
 
 type BalanceProps = {
-    convertedBalance?: number;
+    convertedBalance?: BigNumber;
     exchangeCurrency: string;
     currency: string;
-    balance: number;
+    balance: BigNumber;
 };
 
 const Balance = ({ balance, currency, exchangeCurrency, convertedBalance }: BalanceProps) => {
@@ -14,6 +15,7 @@ const Balance = ({ balance, currency, exchangeCurrency, convertedBalance }: Bala
             <Heading level={2}>
                 <Amount value={balance} ticker={currency} />
             </Heading>
+
             {convertedBalance !== undefined && (
                 <p className='typeset-headline font-medium'>
                     <Amount value={convertedBalance} ticker={exchangeCurrency} withTicker />

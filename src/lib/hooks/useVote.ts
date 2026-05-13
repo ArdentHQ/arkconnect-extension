@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { useMemo } from 'react';
 import { Contracts } from '@/lib/profiles';
+import { BigNumber } from "../helpers";
 
 export const useVote = ({
     validatorAddress,
@@ -9,11 +10,11 @@ export const useVote = ({
     isValid,
 }: {
     validatorAddress?: string;
-    fee: string;
+    fee: BigNumber;
     votes: Contracts.VoteRegistryItem[];
     isValid: boolean;
 }) => {
-    const disabled = !isValid || validatorAddress === undefined || fee === '';
+    const disabled = !isValid || validatorAddress === undefined || fee.isZero();
 
     const currentlyVotedAddress = useMemo(() => {
         return votes[0]?.wallet?.address();

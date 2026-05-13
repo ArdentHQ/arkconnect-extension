@@ -14,6 +14,7 @@ import getActiveCoin from '@/lib/utils/getActiveCoin';
 import { useConfirmedTransaction } from '@/lib/hooks/useConfirmedTransaction';
 import { ApproveLayout } from '@/components/approve/ApproveLayout';
 import { Footer } from '@/shared/components/layout/Footer';
+import { BigNumber } from '../lib/helpers';
 
 const VoteApprovedFooter = ({
     onClose,
@@ -138,7 +139,7 @@ const VoteApproved = () => {
                         sender={state?.vote.sender}
                         showFiat={showFiat}
                         fee={state?.vote.fee}
-                        convertedFee={state?.vote.convertedFee as number}
+                        convertedFee={state?.vote.convertedFee as BigNumber}
                         exchangeCurrency={state?.vote.exchangeCurrency as string}
                         network={getActiveCoin(state?.walletNetwork)}
                         unvote={{

@@ -4,7 +4,7 @@ import {
     ExtendedConfirmedTransactionData,
     ExtendedTransactionRecipient,
 } from '@/lib/profiles/transaction.dto';
-import { BigNumber } from '@/lib/helpers';
+import { BigNumber, NumberLike } from '@/lib/helpers';
 
 export enum TransactionType {
     SEND = 'send',
@@ -13,7 +13,6 @@ export enum TransactionType {
     SWAP = 'swap',
     VOTE = 'vote',
     UNVOTE = 'unvote',
-    SECOND_SIGNATURE = 'second-signature',
     MULTISIGNATURE = 'multisignature',
     REGISTRATION = 'registration',
     RESIGNATION = 'resignation',
@@ -73,23 +72,23 @@ export const getUniqueRecipients = (
 export const getAmountByAddress = (
     recipients: ExtendedTransactionRecipient[],
     address?: string,
-): number => {
+): BigNumber => {
     return BigNumber.make(
         recipients.find((recipient) => recipient.address === address)?.amount ?? 0,
-    ).toNumber();
+    );
 };
 
 export const getMultipaymentAmounts = (
     recipients: ExtendedTransactionRecipient[],
     address: string = '',
-): { selfAmount: number; sentAmount: number } => {
+): { selfAmount: BigNumber; sentAmount: BigNumber } => {
     const selfAmount = getAmountByAddress(recipients, address);
     const sentAmount = recipients.reduce(
-        (total, recipient) => recipient.amount.plus(total).toNumber(),
-        0,
+        (total, recipient) => recipient.amount.plus(total),
+        BigNumber.ZERO,
     );
 
-    return { selfAmount, sentAmount: sentAmount - selfAmount };
+    return { selfAmount, sentAmount: sentAmount.minus(selfAmount) };
 };
 
 export const getTransactionIcon = (
@@ -111,7 +110,7 @@ export const renderAmount = ({
     primaryCurrency,
     displayTooltip = true,
 }: {
-    value: number;
+    value: BigNumber;
     isNegative: boolean;
     showSign: boolean;
     primaryCurrency: string;

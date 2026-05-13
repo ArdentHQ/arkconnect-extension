@@ -4,6 +4,7 @@ import Amount from '@/components/wallet/Amount';
 import constants from '@/constants';
 import { generateWalletHelperText } from '@/lib/utils/generateWalletHelperText';
 import trimAddress from '@/lib/utils/trimAddress';
+import { BigNumber } from '@/app/lib/helpers';
 
 type Props = {
     wallet: Contracts.IReadWriteWallet;
@@ -46,7 +47,7 @@ export const WalletCard = ({ wallet }: Props) => {
                                 if (index === 0) {
                                     return (
                                         <Amount
-                                            value={Number(item)}
+                                            value={BigNumber.make(item)}
                                             withTicker
                                             ticker={wallet.currency()}
                                             key={index}

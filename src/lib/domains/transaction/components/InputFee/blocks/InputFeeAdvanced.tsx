@@ -90,9 +90,9 @@ export const InputFeeAdvanced: React.FC<InputFeeAdvancedProperties> = ({
     };
 
     const gasFee = calculateGasFee(gasPrice, gasLimit);
-    const convertedGasFee = useMemo(() => convert(+gasFee), [convert, gasFee]);
+    const convertedGasFee = useMemo(() => convert(gasFee), [convert, gasFee]);
 
-    const convertedGasPrice = useMemo(() => convert(+gasPrice), [convert, gasPrice]);
+    const convertedGasPrice = useMemo(() => convert(gasPrice), [convert, gasPrice]);
 
     return (
         <div className='dim:border-theme-dim-700 -mx-4 overflow-hidden rounded-xl border border-theme-secondary-300 dark:border-theme-secondary-700'>
@@ -150,7 +150,7 @@ export const InputFeeAdvanced: React.FC<InputFeeAdvancedProperties> = ({
                                         onClickDown={handleGasLimitDecrement}
                                         onClickUp={handleGasLimitIncrement}
                                         showConvertedValue={false}
-                                        convertedValue={0}
+                                        convertedValue={BigNumber.ZERO}
                                         exchangeTicker=''
                                     />
                                 ),

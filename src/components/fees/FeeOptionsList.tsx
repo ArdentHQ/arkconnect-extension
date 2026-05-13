@@ -4,8 +4,8 @@ import { calculateGasFee, TransactionFees } from '@/lib/hooks/useNetworkFees';
 import constants from '@/constants';
 import { BigNumber } from '@/lib/helpers';
 
-export const formatFee = (fee: string) => {
-    return BigNumber.make(fee).decimalPlaces(7).toString();
+export const formatFee = (fee: BigNumber) => {
+    return fee.decimalPlaces(7).toString();
 };
 
 export const FeeOptionsList = ({
