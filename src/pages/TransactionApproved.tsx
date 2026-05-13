@@ -34,7 +34,7 @@ const TransactionFooter = ({
 
             {isTransactionConfirmed && (
                 <ExternalLink
-                    className='flex w-full items-center justify-center gap-3 text-light-black dark:text-white'
+                    className='text-light-black flex w-full items-center justify-center gap-3 dark:text-white'
                     href={
                         state?.isTestnet
                             ? `${constants.ARKSCAN_TESTNET_TRANSACTIONS}/${state?.transaction.id}`
@@ -104,13 +104,13 @@ const TransactionApproved = () => {
                         {isTransactionConfirmed ? (
                             <Icon
                                 icon='completed'
-                                className='h-6 w-6 text-theme-primary-700 dark:text-theme-primary-650'
+                                className='text-theme-primary-700 dark:text-theme-primary-650 h-6 w-6'
                             />
                         ) : (
-                            <div className='flex h-6 w-6 items-center justify-center rounded-full bg-theme-primary-700 dark:bg-theme-primary-650'>
+                            <div className='bg-theme-primary-700 dark:bg-theme-primary-650 flex h-6 w-6 items-center justify-center rounded-full'>
                                 <Icon
                                     icon='pending'
-                                    className='h-4 w-4 text-theme-primary-700 dark:text-theme-primary-650'
+                                    className='text-theme-primary-700 dark:text-theme-primary-650 h-4 w-4'
                                 />
                             </div>
                         )}

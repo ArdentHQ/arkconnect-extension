@@ -23,7 +23,7 @@ export const Accordion = ({
     return (
         <div
             className={twMerge(
-                'rounded-xl border border-theme-secondary-200 bg-white dark:border-theme-secondary-500 dark:bg-subtle-black dark:shadow-secondary-dark',
+                'border-theme-secondary-200 dark:border-theme-secondary-500 dark:bg-subtle-black dark:shadow-secondary-dark rounded-xl border bg-white',
                 className,
             )}
         >
@@ -34,7 +34,7 @@ export const Accordion = ({
                 {title}
                 <Icon
                     icon='arrow-down'
-                    className={cn('h-5 w-5 text-light-black dark:text-white', {
+                    className={cn('text-light-black h-5 w-5 dark:text-white', {
                         'rotate-180': isOpen,
                     })}
                 />

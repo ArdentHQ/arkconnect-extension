@@ -141,12 +141,12 @@ export const ActionAddressRow = ({
                     id='container'
                 >
                     <span
-                        className='w-fit text-right text-sm font-medium text-light-black dark:text-white'
+                        className='text-light-black w-fit text-right text-sm font-medium dark:text-white'
                         ref={nameRef}
                     >
                         {contact.name}
                     </span>
-                    <div className='flex flex-row justify-end text-sm font-medium text-theme-secondary-500 dark:text-theme-secondary-300'>
+                    <div className='text-theme-secondary-500 dark:text-theme-secondary-300 flex flex-row justify-end text-sm font-medium'>
                         (<Address address={address} tooltipPlacement='bottom-end' length={10} />)
                     </div>
                 </div>
@@ -160,7 +160,7 @@ export const ActionAddressRow = ({
                 address={address}
                 tooltipPlacement='bottom-end'
                 length={10}
-                className='font-medium leading-5 text-light-black dark:text-white'
+                className='text-light-black leading-5 font-medium dark:text-white'
             />
         </ActionDetailsRow>
     );

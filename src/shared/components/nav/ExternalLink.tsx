@@ -8,7 +8,7 @@ export const ExternalLink = ({ className, ...rest }: ExternalLinkProps) => {
     return (
         <a
             className={twMerge(
-                'cursor-pointer no-underline hover:underline focus-visible:outline-2 focus-visible:outline-theme-primary-600',
+                'focus-visible:outline-theme-primary-600 cursor-pointer no-underline hover:underline focus-visible:outline-2',
                 className,
             )}
             {...rest}

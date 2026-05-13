@@ -28,9 +28,9 @@ const ArrowButtonStyled = ({
         type={type}
         {...props}
         className={twMerge(
-            'dim:hover:bg-theme-dim-700 dim-hover:text-theme-dim-50 dim:disabled:border-theme-dim-800 dim:disabled:bg-theme-dim-800 dim:disabled:text-theme-dim-600 dim-hover:disabled:text-theme-dim-600 flex flex-1 cursor-pointer items-center justify-center hover:bg-theme-primary-100 hover:text-theme-primary-600 active:bg-theme-primary-700 active:text-white disabled:cursor-default disabled:border-theme-secondary-300 disabled:bg-theme-secondary-100 disabled:text-theme-secondary-400 dark:hover:bg-theme-secondary-800 dark:hover:text-theme-primary-200 dark:disabled:border-theme-secondary-700 dark:disabled:bg-theme-secondary-800 dark:disabled:text-theme-secondary-600',
+            'dim:hover:bg-theme-dim-700 dim-hover:text-theme-dim-50 dim:disabled:border-theme-dim-800 dim:disabled:bg-theme-dim-800 dim:disabled:text-theme-dim-600 dim-hover:disabled:text-theme-dim-600 hover:bg-theme-primary-100 hover:text-theme-primary-600 active:bg-theme-primary-700 disabled:border-theme-secondary-300 disabled:bg-theme-secondary-100 disabled:text-theme-secondary-400 dark:hover:bg-theme-secondary-800 dark:hover:text-theme-primary-200 dark:disabled:border-theme-secondary-700 dark:disabled:bg-theme-secondary-800 dark:disabled:text-theme-secondary-600 flex flex-1 cursor-pointer items-center justify-center active:text-white disabled:cursor-default',
             cn({
-                'dim:border-theme-dim-700 border-b border-theme-secondary-400 dark:border-theme-secondary-700':
+                'dim:border-theme-dim-700 border-theme-secondary-400 dark:border-theme-secondary-700 border-b':
                     !isDownArrow,
             }),
             props.className,
@@ -50,13 +50,13 @@ export const InputFeeAdvancedAddon: React.FC<Properties> = ({
 }: Properties) => (
     <div className='flex items-center'>
         {showConvertedValue && (
-            <div className='whitespace-no-break dark:text-theme-dark-500 dim:text-theme-dim-200 mr-3 text-sm font-semibold text-theme-secondary-500'>
+            <div className='whitespace-no-break dark:text-theme-dark-500 dim:text-theme-dim-200 text-theme-secondary-500 mr-3 text-sm font-semibold'>
                 <Amount ticker={exchangeTicker} value={convertedValue} />
             </div>
         )}
         <div
             className={cn(
-                'dark:text-theme-dark-200 dim:text-theme-dim-200 w-22 -mr-4 flex h-14 flex-row justify-between border-l text-theme-secondary-700 dark:border-theme-secondary-700 sm:w-10 sm:flex-col',
+                'dark:text-theme-dark-200 dim:text-theme-dim-200 text-theme-secondary-700 dark:border-theme-secondary-700 -mr-4 flex h-14 w-22 flex-row justify-between border-l sm:w-10 sm:flex-col',
                 disabled
                     ? 'dim:border-theme-dim-700 border-theme-secondary-300'
                     : 'dim:border-theme-dim-700 border-theme-secondary-400',

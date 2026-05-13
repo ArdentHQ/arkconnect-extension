@@ -1,13 +1,80 @@
+@import 'tailwindcss';
 @import './css/variables.css';
 @import './css/transitions.css';
 @import './css/general.css';
 @import './css/inputs.css';
 @import './css/buttons.css';
 @import './css/skeletons.css';
+@config '../tailwind.config.js';
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@variant dark (.dark &);
+@variant green (.accent-green &);
+
+@utility rounded-2\.5xl {
+    border-radius: 1.25rem;
+}
+
+@keyframes fadeInAndTransform {
+    0% {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes scale {
+    0% {
+        transform: scale(1);
+    }
+    100% {
+        transform: scale(0.9);
+    }
+}
+
+@keyframes slideUp {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(-100%);
+    }
+}
+
+@keyframes decreaseHeight {
+    0% {
+        height: 200px;
+    }
+    50% {
+        height: 100px;
+    }
+    75% {
+        height: 80px;
+    }
+    100% {
+        height: 60px;
+    }
+}
+
+@keyframes translateUp {
+    0% {
+        transform: translateY(100%);
+    }
+    100% {
+        transform: translateY(0%);
+    }
+}
+
+@keyframes fillProgressBar {
+    0% {
+        width: 0%;
+    }
+    100% {
+        width: 100%;
+    }
+}
 
 body {
     @apply relative overflow-x-hidden font-sans leading-none antialiased;
@@ -15,7 +82,7 @@ body {
 
 html,
 body {
-    @apply m-0 min-h-[600px] w-extension-screen p-0 text-base;
+    @apply w-extension-screen m-0 min-h-[600px] p-0 text-base;
 }
 
 b,
@@ -32,7 +99,7 @@ header {
 }
 
 *:focus-visible:not(input, textarea) {
-    @apply outline outline-2 outline-theme-primary-600;
+    @apply outline-theme-primary-600 outline-2;
     transition: outline-width 0s !important;
 }
 
@@ -83,7 +150,7 @@ header {
 }
 
 #scrollable-container {
-    @apply h-screen w-extension-screen max-w-extension-screen overflow-y-auto overflow-x-hidden;
+    @apply w-extension-screen max-w-extension-screen h-screen overflow-x-hidden overflow-y-auto;
 }
 
 .main-container {
@@ -107,7 +174,7 @@ header {
 }
 
 .tippy-box[data-theme~='ark-dark'] {
-    @apply bg-white text-subtle-black;
+    @apply text-subtle-black bg-white;
 }
 
 .tippy-box[data-theme~='ark-light'] .tippy-svg-arrow {
@@ -146,31 +213,31 @@ header {
 }
 
 .custom-scroll::-webkit-scrollbar-thumb {
-    @apply rounded-[50px] bg-theme-primary-700;
+    @apply bg-theme-primary-700 rounded-[50px];
 }
 
 .compensate-scroll {
-    @apply overflow-x-hidden overflow-y-scroll pl-2 pr-0;
+    @apply overflow-x-hidden overflow-y-scroll pr-0 pl-2;
     margin-left: calc(100vw - 100% - 8px);
     width: calc(100vw + 8px);
 }
 
 .logo path#ark {
-    @apply !fill-theme-primary-950 dark:fill-white;
+    @apply fill-theme-primary-950! dark:fill-white;
 }
 
 .dark .logo path#ark {
-    @apply !fill-white;
+    @apply fill-white!;
 }
 
 .logo path#connect,
 .logo #ark-logo {
-    @apply !fill-theme-primary-700 dark:fill-theme-primary-650;
+    @apply fill-theme-primary-700! dark:fill-theme-primary-650;
 }
 
 .dark .logo path#connect,
 .dark .logo #ark-logo {
-    @apply !fill-theme-primary-650;
+    @apply fill-theme-primary-650!;
 }
 
 .unlock-button #corner-down-left {

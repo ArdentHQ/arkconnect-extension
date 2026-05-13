@@ -39,7 +39,7 @@ export const PassphraseInput = forwardRef(function TextArea(
             {labelText && (
                 <label
                     htmlFor={id}
-                    className='typeset-body font-medium text-theme-secondary-500 dark:text-theme-secondary-300'
+                    className='typeset-body text-theme-secondary-500 dark:text-theme-secondary-300 font-medium'
                 >
                     {labelText}
                 </label>
@@ -49,7 +49,7 @@ export const PassphraseInput = forwardRef(function TextArea(
                 <textarea
                     className={twMerge(
                         cn(
-                            'transition-smoothEase w-full resize-none rounded-lg border-none p-3 text-base font-normal shadow-secondary-dark outline-none placeholder:text-theme-secondary-400 disabled:pointer-events-none disabled:cursor-not-allowed disabled:overflow-hidden disabled:bg-white dark:disabled:bg-subtle-black',
+                            'transition-smoothEase shadow-secondary-dark placeholder:text-theme-secondary-400 dark:disabled:bg-subtle-black w-full resize-none rounded-lg border-none p-3 text-base font-normal outline-none disabled:pointer-events-none disabled:cursor-not-allowed disabled:overflow-hidden disabled:bg-white',
                             {
                                 'passphrase-primary': variant === 'primary',
                                 'passphrase-destructive': variant === 'destructive',
