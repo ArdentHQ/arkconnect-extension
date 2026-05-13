@@ -198,7 +198,7 @@ export const useVoteForm = (wallet: Contracts.IReadWriteWallet, request: Approve
                 setFormValues((prevFormValues) => ({
                     ...prevFormValues,
                     senderAddress: wallet.address(),
-                    remainingBalance: wallet.balance(),
+                    remainingBalance: wallet.balance().toNumber(),
                     gasPrice: customGasPrice ?? avg.toString(),
                     gasLimit: customGasLimit ?? defaultGasLimit,
                     hasHigherCustomFee:

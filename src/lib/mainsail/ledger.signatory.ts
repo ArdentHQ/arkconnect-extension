@@ -1,6 +1,6 @@
 /* istanbul ignore file */
 
-import { IdentityOptions } from "@/app/lib/mainsail/shared.contract";
+import { IdentityOptions } from "@/lib/mainsail/shared.contract";
 
 export class LedgerSignatory {
 	readonly #signingKey: string;
@@ -17,5 +17,13 @@ export class LedgerSignatory {
 
 	public options(): IdentityOptions | undefined {
 		return this.#options;
+	}
+
+	public publicKey(): string | undefined {
+		return this.#options?.senderPublicKey;
+	}
+
+	public address(): string | undefined {
+		return this.#options?.address;
 	}
 }

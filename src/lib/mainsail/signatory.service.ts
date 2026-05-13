@@ -2,7 +2,7 @@
 /* eslint-disable */
 /* istanbul ignore file */
 
-import { IdentityOptions } from "@/app/lib/mainsail/shared.contract";
+import { IdentityOptions } from "@/lib/mainsail/shared.contract";
 import {
 	ConfirmationMnemonicSignatory,
 	ConfirmationSecretSignatory,
@@ -10,11 +10,11 @@ import {
 	MnemonicSignatory,
 	SecretSignatory,
 	Signatory,
-} from "@/app/lib/mainsail/signatories";
+} from "@/lib/mainsail/signatories";
 
 import { AddressService } from "./address.service";
 import { PublicKeyService } from "./public-key.service";
-import { Bip44MnemonicSignatory } from "@/app/lib/mainsail/bip44-mnemonic.signatory";
+import { Bip44MnemonicSignatory } from "@/lib/mainsail/bip44-mnemonic.signatory";
 
 export class SignatoryService {
 	readonly #addressService: AddressService;

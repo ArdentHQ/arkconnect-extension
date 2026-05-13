@@ -72,10 +72,10 @@ export const QRCodeContainer = () => {
     return (
         <div className='flex flex-col gap-4'>
             <div className='flex flex-col gap-1.5'>
-                <span className='text-sm font-medium text-theme-secondary-500 dark:text-theme-secondary-200'>
+                <span className='text-theme-secondary-500 dark:text-theme-secondary-200 text-sm font-medium'>
                     {t('COMMON.QR_CODE')}
                 </span>
-                <div className='flex w-full flex-col items-center justify-center gap-4 rounded-lg border border-theme-secondary-200 bg-white px-3 py-4 dark:border-theme-secondary-600 dark:bg-theme-secondary-800 dark:text-theme-secondary-400 dark:shadow-secondary-dark'>
+                <div className='border-theme-secondary-200 dark:border-theme-secondary-600 dark:bg-theme-secondary-800 dark:text-theme-secondary-400 dark:shadow-secondary-dark flex w-full flex-col items-center justify-center gap-4 rounded-lg border bg-white px-3 py-4'>
                     <div ref={qrRef}>
                         <QRCode
                             value={generatedUrl}
@@ -92,7 +92,7 @@ export const QRCodeContainer = () => {
                             text={t('COMMON.SAVE_WITH_NAME', { name: 'QR' })}
                             onClick={handleDownload}
                         />
-                        <hr className='h-5 w-px bg-theme-secondary-200 dark:bg-theme-secondary-600' />
+                        <hr className='bg-theme-secondary-200 dark:bg-theme-secondary-600 h-5 w-px' />
                         <QRActionButtons
                             icon='copy'
                             text={t('COMMON.COPY_with_name', { name: 'QR' })}
@@ -100,7 +100,7 @@ export const QRCodeContainer = () => {
                         />
                     </div>
                 </div>
-                <span className='text-sm font-normal text-theme-secondary-500 dark:text-theme-secondary-300'>
+                <span className='text-theme-secondary-500 dark:text-theme-secondary-300 text-sm font-normal'>
                     {t('PAGES.RECEIVE.QR_CODE_WILL_BE_UPDATED_AUTOMATICALLY')}
                 </span>
             </div>
@@ -110,7 +110,7 @@ export const QRCodeContainer = () => {
             <Accordion
                 className='mb-4'
                 title={
-                    <h3 className='text-base font-normal text-light-black dark:text-white'>
+                    <h3 className='text-light-black text-base font-normal dark:text-white'>
                         {t('PAGES.RECEIVE.SPECIFY_AMOUNT')}{' '}
                         <span className='text-theme-secondary-500 dark:text-theme-secondary-300'>
                             ({t('COMMON.OPTIONAL')})

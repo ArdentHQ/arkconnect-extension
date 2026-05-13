@@ -1,7 +1,7 @@
-import { Contracts } from "@/app/lib/mainsail";
-import { BigNumber, get, has } from "@/app/lib/helpers";
-import { KeyValuePair } from "@/app/lib/mainsail/contracts";
-import { ConfigKey, ConfigRepository } from "@/app/lib/mainsail";
+import { Contracts } from "@/lib/mainsail";
+import { BigNumber, get, has } from "@/lib/helpers";
+import { KeyValuePair } from "@/lib/mainsail/contracts";
+import { ConfigKey, ConfigRepository } from "@/lib/mainsail";
 
 export class WalletData {
 	protected data!: KeyValuePair;
@@ -122,6 +122,7 @@ export class WalletData {
 			nonce: this.nonce(),
 			publicKey: this.publicKey(),
 			rank: this.rank(),
+			tokenCount: this.tokenCount(),
 			username: this.username(),
 			votes: this.votes(),
 		};
@@ -158,6 +159,10 @@ export class WalletData {
 			...this.toObject(),
 			balance,
 		};
+	}
+
+	public tokenCount(): number {
+		return this.data.tokenCount ?? 0;
 	}
 
 	public raw(): KeyValuePair {

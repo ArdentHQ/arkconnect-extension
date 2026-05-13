@@ -24,33 +24,33 @@ const AboutARK = () => {
 
     return (
         <SubPageLayout title={t('PAGES.SETTINGS.ABOUT_ARK_CONNECT')}>
-            <div className='mb-6 mt-2 flex flex-col items-center gap-4'>
+            <div className='mt-2 mb-6 flex flex-col items-center gap-4'>
                 <div className='logo flex flex-col items-center gap-4'>
                     <Icon
                         icon='logo-inverted'
-                        className='h-13 w-13 text-theme-primary-700 dark:text-theme-primary-650'
+                        className='text-theme-primary-700 dark:text-theme-primary-650 h-13 w-13'
                     />
                     <Icon
                         icon='logo-text'
-                        className='h-[21px] w-[228px] text-theme-primary-700 dark:text-theme-primary-650'
+                        className='text-theme-primary-700 dark:text-theme-primary-650 h-[21px] w-[228px]'
                     />
                 </div>
                 <ExternalLink
                     href={`${constants.GITHUB_RELEASES_URL}${version}`}
                     tabIndex={-1}
-                    className='transition-smoothEase group flex flex-row items-center gap-2 text-theme-secondary-500 hover:text-theme-primary-700 dark:text-theme-secondary-300 dark:hover:text-theme-primary-700'
+                    className='transition-smoothEase group text-theme-secondary-500 hover:text-theme-primary-700 dark:text-theme-secondary-300 dark:hover:text-theme-primary-700 flex flex-row items-center gap-2'
                 >
                     <span className='typeset-body font-normal'>
                         {t('MISC.VERSION')} {version}
                     </span>
                     <Icon
                         icon='link-external'
-                        className='transition-smoothEase h-5 w-5 text-light-black group-hover:text-theme-primary-700 dark:text-white dark:group-hover:text-theme-primary-700'
+                        className='transition-smoothEase text-light-black group-hover:text-theme-primary-700 dark:group-hover:text-theme-primary-700 h-5 w-5 dark:text-white'
                     />
                 </ExternalLink>
             </div>
 
-            <div className='flex flex-col gap-2 text-light-black dark:text-white'>
+            <div className='text-light-black flex flex-col gap-2 dark:text-white'>
                 <RowLayout
                     href={constants.ARK_CONNECT_DEMO}
                     title={t('MISC.DEMO_APP')}
@@ -77,7 +77,7 @@ const AboutARK = () => {
                         type='button'
                         className='absolute right-0 mr-12'
                     >
-                        <Icon icon='copy' className='h-5 w-5 text-light-black dark:text-white' />
+                        <Icon icon='copy' className='text-light-black h-5 w-5 dark:text-white' />
                     </button>
                 </div>
 

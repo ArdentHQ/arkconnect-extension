@@ -1,5 +1,5 @@
-import { DateTime } from "@/app/lib/intl";
-import { HistoricalData, HistoricalTransformer } from "@/app/lib/markets/contracts";
+import { DateTime } from "@/lib/intl";
+import { HistoricalData, HistoricalTransformer } from "@/lib/markets/contracts";
 
 /**
  * Implements a transformer for historical price data.

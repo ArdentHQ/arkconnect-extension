@@ -1,6 +1,6 @@
-import { DateTime } from "@/app/lib/intl";
-import { convertToCurrency } from "@/app/lib/markets/drivers/coincap/utils";
-import { HistoricalData, HistoricalTransformer } from "@/app/lib/markets/contracts";
+import { DateTime } from "@/lib/intl";
+import { convertToCurrency } from "@/lib/markets/drivers/coincap/utils";
+import { HistoricalData, HistoricalTransformer } from "@/lib/markets/contracts";
 
 /**
  * Implements a transformer for historical volume data.

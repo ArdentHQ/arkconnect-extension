@@ -1,5 +1,12 @@
-import { RecipientItem } from '@/lib/hooks/useSendTransferForm';
+import { BigNumber } from '@/lib/helpers';
 import { BroadcastResponse } from '@/lib/mainsail/client.contract';
+
+interface RecipientItem {
+    address: string;
+    alias?: string;
+    amount?: BigNumber | string | number;
+    isValidator?: boolean;
+}
 
 interface BuildTransferDataProperties {
     isMultiSignature?: boolean;

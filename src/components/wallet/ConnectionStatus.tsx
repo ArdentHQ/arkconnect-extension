@@ -25,14 +25,14 @@ export const ConnectionStatus = () => {
         <>
             {tabSession ? (
                 <HeaderButton
-                    className='dark:thext-theme-primary-600 rounded-full text-theme-primary-700'
+                    className='dark:thext-theme-primary-600 text-theme-primary-700 rounded-full'
                     onClick={() => setIsModalOpen(true)}
                 >
                     <Icon
                         icon='globe-with-dot'
                         className={
                             currentThemeMode +
-                            ' globeIcon h-4 w-4 text-theme-primary-700 dark:text-theme-primary-600'
+                            ' globeIcon text-theme-primary-700 dark:text-theme-primary-600 h-4 w-4'
                         }
                     />
                 </HeaderButton>

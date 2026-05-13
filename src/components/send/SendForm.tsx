@@ -15,7 +15,7 @@ export const SendForm = ({ formik }: { formik: FormikProps<SendFormik> }) => {
     const { t } = useTranslation();
 
     const handleMaxClick = () => {
-        const balance = BigNumber.make(primaryWallet?.balance() ?? 0);
+        const balance = primaryWallet?.balance() ?? BigNumber.ZERO;
         const fee = BigNumber.make(calculateGasFee(formik.values.gasPrice, formik.values.gasLimit));
 
         if (balance.isLessThanOrEqualTo(fee)) {
@@ -82,13 +82,13 @@ export const SendForm = ({ formik }: { formik: FormikProps<SendFormik> }) => {
                     <span>
                         {`${t('COMMON.AVAILABLE')}: `}
                         <Amount
-                            value={primaryWallet?.balance() ?? 0}
+                            value={primaryWallet?.balance() ?? BigNumber.ZERO}
                             ticker={primaryWallet?.currency() || 'ARK'}
                             withTicker
                             showSign={false}
                             isNegative={false}
                             maxDigits={20}
-                            displayTooltip={primaryWallet && primaryWallet.balance() > 0}
+                            displayTooltip={(primaryWallet?.balance().toNumber() ?? 0) > 0}
                             maxDecimals={2}
                             hideSmallValues
                         />
@@ -98,7 +98,7 @@ export const SendForm = ({ formik }: { formik: FormikProps<SendFormik> }) => {
                 trailing={
                     <button
                         onClick={handleMaxClick}
-                        className='transition-smoothEase rounded p-1 capitalize text-theme-primary-700 hover:bg-theme-secondary-50 hover:text-theme-primary-600 dark:text-theme-primary-600 dark:shadow-secondary-dark dark:hover:bg-theme-secondary-700 dark:hover:text-theme-primary-650'
+                        className='transition-smoothEase text-theme-primary-700 hover:bg-theme-secondary-50 hover:text-theme-primary-600 dark:text-theme-primary-600 dark:shadow-secondary-dark dark:hover:bg-theme-secondary-700 dark:hover:text-theme-primary-650 rounded p-1 capitalize'
                     >
                         {t('COMMON.MAX')}
                     </button>

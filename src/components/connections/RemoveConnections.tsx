@@ -28,7 +28,7 @@ const RemoveConnections = ({ numberOfSessions, sessionDomain }: Props) => {
                         </span>
                     ) : (
                         <>
-                            <span className='typeset-headline font-medium text-light-black dark:text-white'>
+                            <span className='typeset-headline text-light-black font-medium dark:text-white'>
                                 {numberOfSessions}
                             </span>{' '}
                             {t('PAGES.CONNECTIONS.OF_YOUR_CONNECTIONS')}

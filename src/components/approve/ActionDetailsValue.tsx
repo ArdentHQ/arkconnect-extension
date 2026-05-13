@@ -8,7 +8,7 @@ export const ActionDetailsValue = forwardRef<
     return (
         <div
             ref={ref}
-            className={twMerge('text-sm font-medium text-light-black dark:text-white', className)}
+            className={twMerge('text-light-black text-sm font-medium dark:text-white', className)}
         >
             {children}
         </div>

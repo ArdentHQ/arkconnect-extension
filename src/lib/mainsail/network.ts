@@ -1,4 +1,4 @@
-import { get } from "@/app/lib/helpers";
+import { get } from "@/lib/helpers";
 import { randomHost } from "./helpers/hosts";
 import {
 	CoinManifest,
@@ -11,7 +11,7 @@ import {
 import { ConfigKey, ConfigRepository } from ".";
 import { ArkClient } from "@arkecosystem/typescript-client";
 import { FeeService } from "./fee.service";
-import { Contracts } from "@/app/lib/profiles";
+import { Contracts } from "@/lib/profiles";
 
 export class Network {
 	/**
@@ -430,7 +430,7 @@ export class Network {
 			index: 0,
 		};
 
-		if (!milestone || !milestones) {
+		if (!milestone.data) {
 			throw new Error("Milestone not found.");
 		}
 
@@ -462,5 +462,15 @@ export class Network {
 	 */
 	fees(): FeeService {
 		return this.#feeService;
+	}
+
+	/**
+	 * Returns the block time.
+	 *
+	 * @returns {number}
+	 * @memberof Network
+	 */
+	blockTime(): number {
+		return get(this.milestone(), "timeouts.blockTime");
 	}
 }

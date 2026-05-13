@@ -1,4 +1,4 @@
-import { Services, Signatories } from "@/app/lib/mainsail";
+import { Services, Signatories } from "@/lib/mainsail";
 
 import { ExtendedSignedTransactionData } from "./signed-transaction.dto.js";
 
@@ -45,6 +45,15 @@ export interface ITransactionService {
 	addSignature(id: string, signatory: Signatories.Signatory): Promise<Services.BroadcastResponse>;
 
 	/**
+	 * Sign a Token Transfer transaction.
+	 *
+	 * @param {Services.TransferInput} input
+	 * @return {Promise<string>}
+	 * @memberof ITransactionService
+	 */
+	signTransferToken(input: Services.TransferInput): Promise<string>;
+
+	/**
 	 * Sign a Transfer transaction.
 	 *
 	 * @param {Services.TransferInput} input
@@ -52,15 +61,6 @@ export interface ITransactionService {
 	 * @memberof ITransactionService
 	 */
 	signTransfer(input: Services.TransferInput): Promise<string>;
-
-	/**
-	 * Sign a Second-Signature Registration transaction.
-	 *
-	 * @param {Services.SecondSignatureInput} input
-	 * @return {Promise<string>}
-	 * @memberof ITransactionService
-	 */
-	signSecondSignature(input: Services.SecondSignatureInput): Promise<string>;
 
 	/**
 	 * Sign a Delegate Registration transaction.
@@ -108,6 +108,15 @@ export interface ITransactionService {
 	 * @memberof ITransactionService
 	 */
 	signUsernameResignation(input: Services.UsernameResignationInput): Promise<string>;
+
+	/**
+	 * Sign a Contract Deployment transaction.
+	 *
+	 * @param {Services.ContractDeploymentInput} input
+	 * @return {Promise<string>}
+	 * @memberof ITransactionService
+	 */
+	signContractDeployment(input: Services.ContractDeploymentInput): Promise<string>;
 
 	/**
 	 * Sign a Vote transaction.

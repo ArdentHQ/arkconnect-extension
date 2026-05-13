@@ -118,7 +118,7 @@ const NextPageMiddleware = ({ children }: Props) => {
     };
 
     return (
-        <div className='flex h-screen w-screen flex-col items-center justify-center bg-light-black dark:bg-subtle-white'>
+        <div className='bg-light-black dark:bg-subtle-white flex h-screen w-screen flex-col items-center justify-center'>
             <HandleLoadingState loading={isLoadingLocalData}>{children}</HandleLoadingState>
         </div>
     );

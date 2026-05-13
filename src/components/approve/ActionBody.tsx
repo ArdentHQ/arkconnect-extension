@@ -10,6 +10,7 @@ import {
 import { FeeWarning } from './CustomFeeAlerts.blocks';
 import { Contracts } from '@/lib/profiles';
 import trimAddress from '@/lib/utils/trimAddress';
+import { BigNumber } from '@/app/lib/helpers';
 
 type VoteData = {
     address?: string;
@@ -17,20 +18,20 @@ type VoteData = {
     publicKey?: string;
 };
 interface ActionBodyProps {
-    fee: number;
-    convertedFee: number;
+    fee: BigNumber;
+    convertedFee: BigNumber;
     exchangeCurrency: string;
     showFiat: boolean;
     network: string;
-    amount?: number;
+    amount?: BigNumber;
     amountTicker?: string;
-    convertedAmount?: number;
-    convertedTotalAmount?: number;
+    convertedAmount?: BigNumber;
+    convertedTotalAmount?: BigNumber;
     isApproved?: boolean;
     actionDetailsClassName?: string;
     receiver?: string;
     sender?: string;
-    totalAmount?: number;
+    totalAmount?: BigNumber;
     transactionId?: string;
     unvote?: VoteData;
     vote?: VoteData;
@@ -140,7 +141,7 @@ export const ActionBody = ({
                         </span>
                     }
                     tooltipContent={
-                        <span className='block w-65 break-words text-left'>
+                        <span className='block w-65 text-left break-words'>
                             {unvote.publicKey ?? ''}
                         </span>
                     }
@@ -167,7 +168,7 @@ export const ActionBody = ({
                         </span>
                     }
                     tooltipContent={
-                        <span className='block w-65 break-words text-left'>
+                        <span className='block w-65 text-left break-words'>
                             {vote.publicKey ?? ''}
                         </span>
                     }

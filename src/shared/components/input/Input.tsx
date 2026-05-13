@@ -48,14 +48,14 @@ export const Input = ({
                 {labelText && (
                     <label
                         htmlFor={id}
-                        className='text-sm font-medium leading-tight text-theme-secondary-500 dark:text-theme-secondary-200'
+                        className='text-theme-secondary-500 dark:text-theme-secondary-200 text-sm leading-tight font-medium'
                     >
                         {labelText}
                     </label>
                 )}
 
                 {secondaryText && (
-                    <span className='text-sm font-medium text-theme-secondary-500 dark:text-theme-secondary-200'>
+                    <span className='text-theme-secondary-500 dark:text-theme-secondary-200 text-sm font-medium'>
                         {secondaryText}
                     </span>
                 )}
@@ -70,7 +70,7 @@ export const Input = ({
 
                 {!focused && displayValue && (
                     <span
-                        className='absolute left-3 top-3.5 cursor-text'
+                        className='absolute top-3.5 left-3 cursor-text'
                         onClick={() => {
                             innerRef?.current?.click();
                             innerRef?.current?.focus();
@@ -81,12 +81,12 @@ export const Input = ({
                 )}
                 <input
                     className={cn(
-                        'transition-smoothEase text-input max-h-13 w-full rounded-lg border-none px-3 py-4 text-base font-normal outline-none placeholder:text-theme-secondary-400 disabled:pointer-events-none disabled:cursor-not-allowed',
+                        'transition-smoothEase text-input placeholder:text-theme-secondary-400 max-h-13 w-full rounded-lg border-none px-3 py-4 text-base font-normal outline-none disabled:pointer-events-none disabled:cursor-not-allowed',
                         {
                             'text-input-primary': variant === 'primary',
                             'text-input-destructive': variant === 'destructive',
                             'text-input-errorFree': variant === 'errorFree',
-                            '!text-transparent': !focused && displayValue,
+                            'text-transparent!': !focused && displayValue,
                         },
                         className,
                     )}
@@ -97,12 +97,12 @@ export const Input = ({
                     {...rest}
                 />
 
-                {trailing && <div className='absolute left-auto right-3'>{trailing}</div>}
+                {trailing && <div className='absolute right-3 left-auto'>{trailing}</div>}
             </div>
 
             {helperText && (
                 <p
-                    className={cn('text-sm font-normal leading-tight', {
+                    className={cn('text-sm leading-tight font-normal', {
                         'text-theme-error-500': variant === 'destructive',
                         'text-theme-secondary-500 dark:text-theme-secondary-300':
                             variant !== 'destructive',

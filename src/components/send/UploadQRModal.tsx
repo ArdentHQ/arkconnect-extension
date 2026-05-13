@@ -138,7 +138,7 @@ export const UploadQRModal = ({
                             maxSize={5}
                             onSizeError={handleSizeError}
                             onTypeError={handleTypeError}
-                            classes='focus-within:!outline-theme-primary-600 rounded-2xl'
+                            classes='focus-within:outline-theme-primary-600! rounded-2xl'
                         >
                             <Button variant='primary' tabIndex={-1}>
                                 {t('PAGES.SEND.QR_MODAL.UPLOAD_QR')}
@@ -159,9 +159,9 @@ export const UploadQRModal = ({
                     maxSize={5}
                     onSizeError={handleSizeError}
                     onTypeError={handleTypeError}
-                    classes='focus-within:!outline-theme-primary-600 rounded-2xl'
+                    classes='focus-within:outline-theme-primary-600! rounded-2xl'
                 >
-                    <div className='h-50 w-[306px] cursor-pointer rounded-2xl border border-dashed border-theme-secondary-200 bg-theme-secondary-25 dark:border-theme-secondary-600 dark:bg-theme-secondary-800'>
+                    <div className='border-theme-secondary-200 bg-theme-secondary-25 dark:border-theme-secondary-600 dark:bg-theme-secondary-800 h-50 w-[306px] cursor-pointer rounded-2xl border border-dashed'>
                         <div className='relative flex items-center justify-center overflow-hidden'>
                             <Icon
                                 icon={isDark() ? 'upload-background-dark' : 'upload-background'}
@@ -174,14 +174,14 @@ export const UploadQRModal = ({
                             />
 
                             {isLoading && (
-                                <div className='absolute mt-[3px] flex h-[192px] w-[298px] items-center justify-center rounded-xl bg-subtle-black/80 dark:bg-theme-secondary-900/70'>
+                                <div className='bg-subtle-black/80 dark:bg-theme-secondary-900/70 absolute mt-[3px] flex h-[192px] w-[298px] items-center justify-center rounded-xl'>
                                     <Loader variant='big' className='h-16 w-16' />
                                 </div>
                             )}
                         </div>
                     </div>
                 </FileUploader>
-                <span className='text-base font-normal leading-5 text-theme-secondary-500 dark:text-theme-secondary-300'>
+                <span className='text-theme-secondary-500 dark:text-theme-secondary-300 text-base leading-5 font-normal'>
                     {isLoading
                         ? t('PAGES.SEND.QR_MODAL.PROCESSING_IMAGE')
                         : t('PAGES.SEND.QR_MODAL.CHOOSE_YOUR_QR_CODE')}

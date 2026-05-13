@@ -1,5 +1,5 @@
 import { IProfile, IProfileData, IProfileMainsailMigrator, WalletData } from "./contracts.js";
-import { HttpClient } from "@/app/lib/mainsail/http-client.js";
+import { HttpClient } from "@/lib/mainsail/http-client.js";
 import { Avatar } from "./helpers/avatar.js";
 import { UUID } from "@ardenthq/arkvault-crypto";
 export class ProfileMainsailMigrator implements IProfileMainsailMigrator {

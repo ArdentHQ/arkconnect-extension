@@ -119,7 +119,7 @@ const SetupPassword = ({ formik }: Props) => {
                         <div className='flex'>
                             <label
                                 htmlFor='termsAndConditionsConfirmed'
-                                className='typeset-body font-medium text-light-black dark:text-white'
+                                className='typeset-body text-light-black font-medium dark:text-white'
                             >
                                 I accept the{' '}
                                 <ExternalLink

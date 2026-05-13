@@ -1,4 +1,4 @@
-import { sortBy, sortByDesc } from "@/app/lib/helpers";
+import { sortBy, sortByDesc } from "@/lib/helpers";
 import retry from "p-retry";
 
 import {
@@ -179,7 +179,8 @@ export class WalletRepository implements IWalletRepository {
 		// If the wallet to be deleted is a selected wallet,
 		// change the selection to the first available wallet before deleting.
 		const walletToBeDeleted = this.findById(id);
-		if (this.#profile.walletSelectionMode() === "single" && walletToBeDeleted.isSelected()) {
+		const selected = this.#profile.wallets().selected();
+		if (selected.length === 1 && walletToBeDeleted.isSelected()) {
 			const firstAvailable = this.#profile
 				.wallets()
 				.values()
@@ -226,7 +227,7 @@ export class WalletRepository implements IWalletRepository {
 				continue;
 			}
 
-			if (excludeEmptyWallets && wallet.balance() === 0) {
+			if (excludeEmptyWallets && wallet.balance().isZero()) {
 				continue;
 			}
 

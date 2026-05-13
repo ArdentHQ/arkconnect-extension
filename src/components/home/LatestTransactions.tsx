@@ -48,8 +48,8 @@ export const LatestTransactions = () => {
     }, [primaryWallet, refetch]);
 
     return (
-        <div className='mt-4 h-full w-full rounded-t-2xl bg-white dark:bg-subtle-black'>
-            <div className='border-b border-b-theme-secondary-200 p-4 text-lg font-medium leading-tight text-light-black dark:border-b-theme-secondary-600 dark:text-white'>
+        <div className='dark:bg-subtle-black mt-4 h-full w-full rounded-t-2xl bg-white'>
+            <div className='border-b-theme-secondary-200 text-light-black dark:border-b-theme-secondary-600 border-b p-4 text-lg leading-tight font-medium dark:text-white'>
                 {t('PAGES.HOME.LATEST_TRANSACTIONS')}
             </div>
 
