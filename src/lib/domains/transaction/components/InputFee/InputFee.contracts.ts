@@ -20,8 +20,8 @@ type InputFeeOptions = {
     [key in InputFeeOption]: {
         gasPrice: BigNumber;
         label: string;
-        displayValue: number;
-        displayValueConverted: number;
+        displayValue: BigNumber;
+        displayValueConverted: BigNumber;
     };
 };
 
@@ -29,7 +29,7 @@ type OnGasPriceChange = (value: BigNumber | string | number) => void;
 type OnGasLimitChange = (value: BigNumber | string | number) => void;
 
 interface InputFeeAdvancedProperties {
-    convert: (value?: number) => number;
+    convert: (value?: BigNumber) => BigNumber;
     disabled?: boolean;
     exchangeTicker: string;
     onChangeGasPrice: OnGasPriceChange;

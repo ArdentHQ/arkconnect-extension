@@ -12,6 +12,7 @@ import useOnError from '@/lib/hooks';
 import { getNetworkCurrency } from '@/lib/utils/getActiveCoin';
 import { AddressBalance } from '@/components/wallet/address/Address.blocks';
 import { handleSubmitKeyAction } from '@/lib/utils/handleKeyAction';
+import { BigNumber } from '@/app/lib/helpers';
 
 type Props = {
     goToNextStep: () => void;
@@ -138,11 +139,7 @@ const ImportWallets = ({ goToNextStep, formik }: Props) => {
                                             </p>
                                             <span className='typeset-body'>
                                                 <AddressBalance
-                                                    balance={
-                                                        typeof wallet.balance === 'number'
-                                                            ? wallet.balance
-                                                            : (wallet.balance?.toNumber?.() ?? 0)
-                                                    }
+                                                    balance={wallet.balance ?? BigNumber.ZERO}
                                                     currency={getNetworkCurrency(
                                                         profile.activeNetwork(),
                                                     )}

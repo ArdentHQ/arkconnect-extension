@@ -18,8 +18,8 @@ importers:
         specifier: ^0.18.0
         version: 0.18.0
       '@arkecosystem/typescript-crypto':
-        specifier: ^0.0.22
-        version: 0.0.22
+        specifier: ^0.0.26
+        version: 0.0.26
       '@ledgerhq/hw-app-eth':
         specifier: ^6.45.8
         version: 6.45.11
@@ -320,8 +320,8 @@ packages:
     resolution: {integrity: sha512-xaMSABZJhdfVIjwyEE8ig161JwYF7tyvRmL+1/irWOg8fAHKxWmVVTR1+RlOJ4c1WRHIUbJiTm9pYDe+t/7H0Q==}
     engines: {node: '>=20.12.2'}
 
-  '@arkecosystem/typescript-crypto@0.0.22':
-    resolution: {integrity: sha512-5RiJrrlJbaRRfKCH6nuVJ56FM+X1HNTfL8X1LewFUBMogz3ismbE8Wcr0cbbGaTF1ugJMjvsRgf92RosE26Xtg==}
+  '@arkecosystem/typescript-crypto@0.0.26':
+    resolution: {integrity: sha512-bXjgcfKVVwjG/cuhmyHlxtrNtnlj+fpuWRK+V7Fg3bKgCrasQ+AdScjVBcnCeNku+fP5zHmijW62QufvCBUDOA==}
     engines: {node: '>=20.12.2'}
 
   '@asamuzakjp/css-color@5.1.11':
@@ -914,8 +914,8 @@ packages:
     resolution: {integrity: sha512-jCs9ldd7NwzpgXDIf6P3+NrHh9/sD6CQdxHyjQI+h/6rDNo88ypBxxz45UDuZHz9r3tNz7N/VInSVoVdtXEI4A==}
     engines: {node: ^14.21.3 || >=16}
 
-  '@noble/secp256k1@2.3.0':
-    resolution: {integrity: sha512-0TQed2gcBbIrh7Ccyw+y/uZQvbJwm7Ao4scBUxqpBCcsOlZG0O4KGfjtNAy/li4W8n1xt3dxrwJ0beZ2h2G6Kw==}
+  '@noble/secp256k1@3.1.0':
+    resolution: {integrity: sha512-+F7iS7tUMaNGXcc9X3PjmjvuQnXEuSjCRNzVVA2xAcKXgCaP0dHYz4SFyt4FKNHef7sOP//xihowcySSS7PK9g==}
 
   '@nodelib/fs.scandir@2.1.5':
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}
@@ -2375,8 +2375,8 @@ packages:
     resolution: {integrity: sha512-aIL5Fx7mawVa300al2BnEE4iNvo1qETxLrPI/o05L7z6go7fCw1J6EQmbK4FmJ2AS7kgVF/KEZWufBfdClMcPg==}
     engines: {node: '>= 0.6'}
 
-  ethers@6.14.4:
-    resolution: {integrity: sha512-Jm/dzRs2Z9iBrT6e9TvGxyb5YVKAPLlpna7hjxH7KH/++DSh2T/JVmQUv7iHI5E55hDbp/gEVvstWYXVxXFzsA==}
+  ethers@6.16.0:
+    resolution: {integrity: sha512-U1wulmetNymijEhpSEQ7Ct/P/Jw9/e7R1j5XIbPRydgV2DjLVMsULDlNksq3RQnFgKoLlZf88ijYtWEXcPa07A==}
     engines: {node: '>=14.0.0'}
 
   eventemitter3@5.0.1:
@@ -4965,11 +4965,11 @@ snapshots:
 
   '@arkecosystem/typescript-client@0.18.0': {}
 
-  '@arkecosystem/typescript-crypto@0.0.22':
+  '@arkecosystem/typescript-crypto@0.0.26':
     dependencies:
-      '@noble/secp256k1': 2.3.0
-      bignumber.js: 9.3.0
-      ethers: 6.14.4
+      '@noble/secp256k1': 3.1.0
+      bignumber.js: 11.1.1
+      ethers: 6.16.0
       wif: 5.0.0
     transitivePeerDependencies:
       - bufferutil
@@ -5648,7 +5648,7 @@ snapshots:
 
   '@noble/hashes@1.8.0': {}
 
-  '@noble/secp256k1@2.3.0': {}
+  '@noble/secp256k1@3.1.0': {}
 
   '@nodelib/fs.scandir@2.1.5':
     dependencies:
@@ -7349,7 +7349,7 @@ snapshots:
 
   etag@1.8.1: {}
 
-  ethers@6.14.4:
+  ethers@6.16.0:
     dependencies:
       '@adraffy/ens-normalize': 1.10.1
       '@noble/curves': 1.2.0

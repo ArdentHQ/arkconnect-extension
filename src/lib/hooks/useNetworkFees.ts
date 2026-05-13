@@ -98,15 +98,17 @@ export function getEstimateGasParams(
     };
 }
 
-export const calculateGasFee = (gasPrice?: string, gasLimit?: string): string => {
+export const calculateGasFee = (gasPrice?: string, gasLimit?: string): BigNumber => {
     if (!gasPrice || !gasLimit) {
-        return '0';
+        return BigNumber.ZERO;
     }
 
-    return UnitConverter.formatUnits(
-        BigNumber.make(gasLimit).times(BigNumber.make(gasPrice)).toString(),
-        'gwei',
-    ).toString();
+    return BigNumber.make(
+        UnitConverter.formatUnits(
+            BigNumber.make(gasLimit).times(BigNumber.make(gasPrice)).toString(),
+            'gwei',
+        ),
+    );
 };
 
 export const useNetworkFees = ({

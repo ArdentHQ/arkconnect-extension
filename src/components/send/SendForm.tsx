@@ -82,7 +82,7 @@ export const SendForm = ({ formik }: { formik: FormikProps<SendFormik> }) => {
                     <span>
                         {`${t('COMMON.AVAILABLE')}: `}
                         <Amount
-                            value={primaryWallet?.balance() ?? 0}
+                            value={primaryWallet?.balance() ?? BigNumber.ZERO}
                             ticker={primaryWallet?.currency() || 'ARK'}
                             withTicker
                             showSign={false}
