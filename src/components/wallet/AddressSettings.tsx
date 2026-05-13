@@ -28,7 +28,7 @@ export const AddressSettings = () => {
         <SubPageLayout title={t('PAGES.ADDRESS_SETTINGS.TITLE')}>
             <AddressRow address={address} />
             <SafeOutlineOverflowContainer>
-                <div className='my-2 flex flex-col overflow-hidden rounded-2xl bg-white py-2 dark:bg-subtle-black'>
+                <div className='dark:bg-subtle-black my-2 flex flex-col overflow-hidden rounded-2xl bg-white py-2'>
                     <SettingsOption
                         iconLeading='pencil'
                         title={t('PAGES.ADDRESS_SETTINGS.OPTIONS.EDIT_NAME')}
@@ -164,7 +164,7 @@ export const AddressSettings = () => {
 
 const AddressRow = ({ address }: { address: Contracts.IReadWriteWallet }) => {
     return (
-        <div className='flex gap-3 rounded-2xl border border-solid border-theme-primary-600 bg-theme-primary-50 p-4 shadow-light dark:border-theme-primary-650 dark:bg-theme-primary-650/15'>
+        <div className='border-theme-primary-600 bg-theme-primary-50 shadow-light dark:border-theme-primary-650 dark:bg-theme-primary-650/15 flex gap-3 rounded-2xl border border-solid p-4'>
             <div className='flex flex-col gap-2'>
                 <div className='flex items-center gap-2'>
                     <AddressAlias alias={address.alias() ?? ''} isBold />
@@ -176,7 +176,7 @@ const AddressRow = ({ address }: { address: Contracts.IReadWriteWallet }) => {
                     {trimAddress(address.address(), 'longest')}
                 </p>
 
-                <p className='typeset-body cursor-pointer font-bold text-light-black dark:text-white'>
+                <p className='typeset-body text-light-black cursor-pointer font-bold dark:text-white'>
                     <Amount
                         ticker={getNetworkCurrency(address.network())}
                         maxDigits={5}

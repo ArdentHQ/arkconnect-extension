@@ -24,7 +24,7 @@ export const Switch = ({
     disabled?: boolean;
     size?: 'sm' | 'md';
 }) => (
-    <div className='inline-flex overflow-hidden rounded-md border border-theme-secondary-300'>
+    <div className='border-theme-secondary-300 inline-flex overflow-hidden rounded-md border'>
         {[leftOption, rightOption].map((option) => (
             <button
                 key={option.value}

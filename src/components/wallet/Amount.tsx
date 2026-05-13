@@ -4,11 +4,11 @@ import constants from '@/constants';
 import cropToMaxDigits from '@/lib/utils/cropToMaxDigits';
 import { Tooltip } from '@/shared/components';
 import { Currency } from '@/lib/profiles/helpers';
-import { BigNumber, NumberLike } from '@/lib/helpers';
+import { BigNumber } from '@/lib/helpers';
 
 interface AmountProperties {
     ticker: string;
-    value: NumberLike;
+    value: BigNumber;
     showSign?: boolean;
     withTicker?: boolean;
     isNegative?: boolean;

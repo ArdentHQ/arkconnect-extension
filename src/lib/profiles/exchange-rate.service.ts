@@ -1,4 +1,4 @@
-import { NumberLike } from "@/lib/helpers";
+import { BigNumber, NumberLike } from "@/lib/helpers";
 import { DateTime } from "@/lib/intl";
 import { MarketService } from "@/lib/markets";
 
@@ -60,15 +60,15 @@ export class ExchangeRateService implements IExchangeRateService {
 	}
 
 	/** {@inheritDoc IExchangeRateService.exchange} */
-	public exchange(currency: string, exchangeCurrency: string, date: DateTime, value: NumberLike): number {
+	public exchange(currency: string, exchangeCurrency: string, date: DateTime, value: NumberLike): BigNumber {
 		const exchangeRate: number =
 			this.#dataRepository.get(`${currency}.${exchangeCurrency}.${date.format("YYYY-MM-DD")}`) || 0;
 
 		if (exchangeRate === 0) {
-			return 0;
+			return BigNumber.ZERO;
 		}
 
-		return +value.toString() * exchangeRate;
+		return BigNumber.make(value).times(exchangeRate);
 	}
 
 	/** {@inheritDoc IExchangeRateService.snapshot} */

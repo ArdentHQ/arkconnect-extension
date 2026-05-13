@@ -25,11 +25,11 @@ export const AmountBadge = ({
             className={cn(
                 'flex items-center justify-center overflow-hidden rounded border text-sm font-bold',
                 {
-                    'border-theme-secondary-100 bg-theme-secondary-100 text-theme-secondary-500 dark:border-theme-secondary-600 dark:bg-transparent dark:text-theme-secondary-300':
+                    'border-theme-secondary-100 bg-theme-secondary-100 text-theme-secondary-500 dark:border-theme-secondary-600 dark:text-theme-secondary-300 dark:bg-transparent':
                         type === 'default',
                     'border-[#E2F0E6] bg-[#E2F0E6] text-[#307845] dark:border-[#307845] dark:bg-transparent dark:text-[#42B263]':
                         type === 'positive',
-                    'border-theme-warning-75 bg-theme-warning-75 text-theme-warning-750 dark:border-theme-error-350 dark:bg-transparent dark:text-theme-error-300':
+                    'border-theme-warning-75 bg-theme-warning-75 text-theme-warning-750 dark:border-theme-error-350 dark:text-theme-error-300 dark:bg-transparent':
                         type === 'negative',
                 },
             )}

@@ -84,7 +84,7 @@ const NextPageMiddleware = ({ children }: Props) => {
             | undefined;
 
         if (isProfileReady && profile.wallets().count() === 0) {
-            lastVisitedPage ? navigate('/onboarding') : navigate('/splash-screen');
+            navigate(lastVisitedPage ? '/onboarding' : '/splash-screen');
 
             // This is needed to push an additional route to the history stack
             // to handle the back button navigation during onboarding
@@ -118,7 +118,7 @@ const NextPageMiddleware = ({ children }: Props) => {
     };
 
     return (
-        <div className='flex h-screen w-screen flex-col items-center justify-center bg-light-black dark:bg-subtle-white'>
+        <div className='bg-light-black dark:bg-subtle-white flex h-screen w-screen flex-col items-center justify-center'>
             <HandleLoadingState loading={isLoadingLocalData}>{children}</HandleLoadingState>
         </div>
     );

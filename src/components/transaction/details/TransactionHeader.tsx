@@ -21,7 +21,7 @@ export const TransactionHeader = ({
     return (
         <div className={twMerge('flex flex-row items-center gap-3', className)}>
             <TransactionIcon type={subtype || (type as TransactionType)} />
-            <h4 className='text-base font-medium leading-5 text-light-black dark:text-white'>
+            <h4 className='text-light-black text-base leading-5 font-medium dark:text-white'>
                 <TransactionTitle type={type} isSender={transaction.isSent()} />{' '}
                 {type === TransactionType.MULTIPAYMENT && <MultipaymentBadge />}
             </h4>

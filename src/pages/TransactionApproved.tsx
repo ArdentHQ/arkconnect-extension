@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { BigNumber } from '../lib/helpers';
 import constants from '@/constants';
 import { useEnvironmentContext } from '@/lib/context/Environment';
 import { useProfileContext } from '@/lib/context/Profile';
@@ -33,7 +34,7 @@ const TransactionFooter = ({
 
             {isTransactionConfirmed && (
                 <ExternalLink
-                    className='flex w-full items-center justify-center gap-3 text-light-black dark:text-white'
+                    className='text-light-black flex w-full items-center justify-center gap-3 dark:text-white'
                     href={
                         state?.isTestnet
                             ? `${constants.ARKSCAN_TESTNET_TRANSACTIONS}/${state?.transaction.id}`
@@ -103,13 +104,13 @@ const TransactionApproved = () => {
                         {isTransactionConfirmed ? (
                             <Icon
                                 icon='completed'
-                                className='h-6 w-6 text-theme-primary-700 dark:text-theme-primary-650'
+                                className='text-theme-primary-700 dark:text-theme-primary-650 h-6 w-6'
                             />
                         ) : (
-                            <div className='flex h-6 w-6 items-center justify-center rounded-full bg-theme-primary-700 dark:bg-theme-primary-650'>
+                            <div className='bg-theme-primary-700 dark:bg-theme-primary-650 flex h-6 w-6 items-center justify-center rounded-full'>
                                 <Icon
                                     icon='pending'
-                                    className='h-4 w-4 text-theme-primary-700 dark:text-theme-primary-650'
+                                    className='text-theme-primary-700 dark:text-theme-primary-650 h-4 w-4'
                                 />
                             </div>
                         )}
@@ -126,15 +127,15 @@ const TransactionApproved = () => {
                             isApproved={true}
                             sender={state?.transaction.sender}
                             amount={state?.transaction.amount}
-                            convertedAmount={state?.transaction.convertedAmount as number}
+                            convertedAmount={state?.transaction.convertedAmount as BigNumber}
                             exchangeCurrency={state?.transaction.exchangeCurrency as string}
                             network={getActiveCoin(state?.walletNetwork)}
                             showFiat={showFiat}
                             receiver={state?.transaction.receiver}
                             fee={state?.transaction.fee}
-                            convertedFee={state?.transaction.convertedFee as number}
+                            convertedFee={state?.transaction.convertedFee as BigNumber}
                             totalAmount={state?.transaction.total}
-                            convertedTotalAmount={state?.transaction.convertedTotal as number}
+                            convertedTotalAmount={state?.transaction.convertedTotal as BigNumber}
                             amountTicker={getActiveCoin(state?.walletNetwork)}
                             transactionId={
                                 isTransactionConfirmed ? state?.transaction.id : undefined

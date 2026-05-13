@@ -11,7 +11,7 @@ export const CloseButton = () => {
 
     return (
         <NavButton onClick={handleNavigate}>
-            <Icon icon='x' className='h-4.5 w-4.5 text-light-black dark:text-white' />
+            <Icon icon='x' className='text-light-black h-4.5 w-4.5 dark:text-white' />
         </NavButton>
     );
 };

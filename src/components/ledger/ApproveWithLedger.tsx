@@ -61,13 +61,13 @@ const ApproveWithLedger = ({
     };
 
     return (
-        <div className='flex max-h-screen min-h-screen flex-col overflow-auto bg-subtle-white dark:bg-light-black'>
+        <div className='bg-subtle-white dark:bg-light-black flex max-h-screen min-h-screen flex-col overflow-auto'>
             <RequestedBy appDomain={formatDomain(appName) || ''} appLogo={appLogo} />
             <div className='custom-scroll flex flex-1 flex-col overflow-auto px-4 py-4'>
-                <div className='flex items-center justify-between gap-3 bg-subtle-white dark:bg-light-black'>
+                <div className='bg-subtle-white dark:bg-light-black flex items-center justify-between gap-3'>
                     <ArrowButton onClick={handleBackButtonClick} />
                 </div>
-                <Heading className='mb-2 mt-4' level={3}>
+                <Heading className='mt-4 mb-2' level={3}>
                     {t('PAGES.IMPORT_WITH_LEDGER.CONNECT_LEDGER_AND_SIGN_THE_REQUEST', {
                         action: getActionMessage(),
                     })}
@@ -86,20 +86,20 @@ const ApproveWithLedger = ({
                 </div>
             </div>
 
-            <div className='flex-none bg-white dark:bg-subtle-black'>
-                <div className='m-4 overflow-hidden rounded-2xl border border-solid border-theme-warning-400'>
+            <div className='dark:bg-subtle-black flex-none bg-white'>
+                <div className='border-theme-warning-400 m-4 overflow-hidden rounded-2xl border border-solid'>
                     {!!address && (
-                        <div className='flex justify-center bg-white p-[14px] dark:bg-light-black'>
+                        <div className='dark:bg-light-black flex justify-center bg-white p-[14px]'>
                             <p className='typeset-headline text-light-black dark:text-white'>
                                 {trimAddress(address, 'long')}
                             </p>
                         </div>
                     )}
 
-                    <div className='flex items-center justify-center space-x-2 rounded-b-2xl bg-theme-warning-50 px-4 py-2 dark:bg-theme-warning-500/10'>
-                        <Loader variant='warning' className='flex-shrink-0' />
+                    <div className='bg-theme-warning-50 dark:bg-theme-warning-500/10 flex items-center justify-center space-x-2 rounded-b-2xl px-4 py-2'>
+                        <Loader variant='warning' className='shrink-0' />
 
-                        <span className='typeset-body font-medium text-theme-warning-500'>
+                        <span className='typeset-body text-theme-warning-500 font-medium'>
                             {statusMessage}
                         </span>
                     </div>

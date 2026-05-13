@@ -31,11 +31,11 @@ export const ToggleSwitch: FC<ToggleSwitchProps> = ({
             })}
         >
             <div className='ml-11 flex flex-col items-start gap-1.25'>
-                <p className='text-base-black w-max text-base font-normal leading-tight dark:text-white'>
+                <p className='text-base-black w-max text-base leading-tight font-normal dark:text-white'>
                     {title}
                 </p>
                 {helperText && (
-                    <p className='text-sm font-normal leading-tight text-theme-secondary-600 dark:text-theme-secondary-300'>
+                    <p className='text-theme-secondary-600 dark:text-theme-secondary-300 text-sm leading-tight font-normal'>
                         {helperText}
                     </p>
                 )}

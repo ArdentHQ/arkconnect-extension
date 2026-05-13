@@ -68,28 +68,28 @@ export const VoteFee = ({ formik }: { formik: FormikProps<VoteFormik> }) => {
     }
 
     return (
-        <div className='flex h-[42px] items-center justify-between space-x-2 rounded-lg border border-theme-secondary-400 px-3 text-sm text-theme-secondary-500 dark:border-theme-secondary-500'>
-            <span className='truncate text-sm font-medium dark:text-theme-secondary-200'>
+        <div className='border-theme-secondary-400 text-theme-secondary-500 dark:border-theme-secondary-500 flex h-[42px] items-center justify-between space-x-2 rounded-lg border px-3 text-sm'>
+            <span className='dark:text-theme-secondary-200 truncate text-sm font-medium'>
                 {t('COMMON.TRANSACTION_FEE')}
             </span>
 
-            <div className='flex items-center space-x-1.5 dark:text-theme-secondary-500'>
+            <div className='dark:text-theme-secondary-500 flex items-center space-x-1.5'>
                 {disabled ? (
                     <span>- {activeNetwork.ticker()}</span>
                 ) : (
-                    <span className='whitespace-nowrap font-medium text-black dark:text-theme-secondary-200'>
-                        {fee} {activeNetwork.ticker()}
+                    <span className='dark:text-theme-secondary-200 font-medium whitespace-nowrap text-black'>
+                        {fee.toHuman()} {activeNetwork.ticker()}
                     </span>
                 )}
 
-                <span className='h-1 w-1 rounded-full bg-theme-secondary-400'></span>
+                <span className='bg-theme-secondary-400 h-1 w-1 rounded-full'></span>
 
                 {disabled ? (
                     <span className='font-medium'>{t('PAGES.VOTE.EDIT_FEE')}</span>
                 ) : (
                     <button
                         type='button'
-                        className='transition-smoothEase whitespace-nowrap font-medium text-theme-primary-700 hover:text-theme-primary-600 dark:text-theme-primary-600 dark:hover:text-theme-primary-650'
+                        className='transition-smoothEase text-theme-primary-700 hover:text-theme-primary-600 dark:text-theme-primary-600 dark:hover:text-theme-primary-650 font-medium whitespace-nowrap'
                         onClick={() => setIsEditing(true)}
                     >
                         {t('PAGES.VOTE.EDIT_FEE')}
