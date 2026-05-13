@@ -2,6 +2,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { runtime } from 'webextension-polyfill';
 import { useTranslation } from 'react-i18next';
+import { useQuery } from 'react-query';
 import { ApproveLayout } from './ApproveLayout';
 import { BigNumber } from '@/lib/helpers';
 import { Contracts } from '@/lib/profiles';
@@ -26,6 +27,7 @@ import { OneTimeEvents } from '@/OneTimeEventHandlers';
 import { ProfileData, ScreenName } from '@/lib/background/contracts';
 import constants from '@/constants';
 import { calculateGasFee } from '@/lib/hooks/useNetworkFees';
+import { WalletToken } from '@/lib/profiles/wallet-token';
 
 type Props = {
     abortReference: AbortController;
@@ -74,6 +76,23 @@ const ApproveTransaction = ({
     const withFiat = wallet.network().isLive();
     const isNative = session.domain === constants.APP_NAME;
 
+    const { data: token } = useQuery<WalletToken | undefined>(
+        ['approve-token', wallet?.address(), tokenAddress],
+        async () => {
+            if (!tokenAddress) return undefined;
+            let resolved = wallet.tokens().findByTokenAddress(tokenAddress);
+            if (!resolved) {
+                await profile.tokens().sync();
+                resolved = wallet.tokens().findByTokenAddress(tokenAddress);
+            }
+            return resolved;
+        },
+        { enabled: !!wallet && !!tokenAddress, staleTime: 0 },
+    );
+    const isTokenTransfer = !!tokenAddress;
+    const tokenSymbol = token ? token.token().displaySymbol() : undefined;
+    const amountTicker = isTokenTransfer ? (tokenSymbol ?? '') : coin;
+
     const {
         formValuesLoaded,
         resetForm,
@@ -85,18 +104,34 @@ const ApproveTransaction = ({
         receiverAddress,
         customGasPrice,
         customGasLimit,
+        tokenAddress,
     });
 
     const fee = calculateGasFee(gasPrice, gasLimit);
     const [showHigherCustomFeeBanner, setShowHigherCustomFeeBanner] = useState(true);
 
     useEffect(() => {
+        if (isTokenTransfer) {
+            if (BigNumber.make(fee).isGreaterThan(wallet.balance())) {
+                setError(t('PAGES.APPROVE.FEEDBACK.INSUFFICIENT_BALANCE'));
+                return;
+            }
+
+            if (token && BigNumber.make(amount).isGreaterThan(token.balance())) {
+                setError(t('PAGES.APPROVE.FEEDBACK.INSUFFICIENT_BALANCE'));
+                return;
+            }
+
+            setError(undefined);
+            return;
+        }
+
         if (BigNumber.make(amount).plus(fee).isGreaterThan(wallet.balance())) {
             setError(t('PAGES.APPROVE.FEEDBACK.INSUFFICIENT_BALANCE'));
         } else {
             setError(undefined);
         }
-    }, [wallet, fee, amount]);
+    }, [wallet, fee, amount, isTokenTransfer, token]);
 
     const reject = (message: string = t('PAGES.APPROVE.FEEDBACK.SIGN_TRANSACTION_DENIED')) => {
         runtime.sendMessage({
@@ -131,13 +166,15 @@ const ApproveTransaction = ({
                 id: response.hash as string,
                 exchangeCurrency: wallet.exchangeCurrency() ?? 'USD',
                 sender: response.from as string,
-                receiver: response.to as string,
-                amount: response.amount as number,
-                convertedAmount: convert(response.amount),
+                receiver: isTokenTransfer ? receiverAddress : (response.to as string),
+                amount: isTokenTransfer ? amount : (response.amount as number),
+                convertedAmount: isTokenTransfer ? 0 : convert(response.amount),
                 fee: response.fee as number,
                 convertedFee: convert(response.fee),
-                total: response.total as number,
-                convertedTotal: convert(response.total),
+                total: isTokenTransfer ? undefined : (response.total as number),
+                convertedTotal: isTokenTransfer ? undefined : convert(response.total),
+                tokenAddress: isTokenTransfer ? tokenAddress : undefined,
+                tokenSymbol: tokenSymbol,
             };
 
             if (wallet.isLedger()) {
@@ -243,17 +280,18 @@ const ApproveTransaction = ({
             <ApproveBody header={t('PAGES.APPROVE.SENDING_WITH')} wallet={wallet} error={error}>
                 <ActionBody
                     isApproved={false}
-                    showFiat={withFiat}
+                    showFiat={withFiat && !isTokenTransfer}
                     amount={amount}
-                    amountTicker={coin}
-                    convertedAmount={convert(amount)}
+                    amountTicker={amountTicker}
+                    feeTicker={isTokenTransfer ? coin : undefined}
+                    convertedAmount={isTokenTransfer ? 0 : convert(amount)}
                     exchangeCurrency={exchangeCurrency}
                     network={getNetworkCurrency(wallet.network())}
                     fee={+fee}
                     convertedFee={convert(+fee)}
                     receiver={receiverAddress}
-                    totalAmount={total}
-                    convertedTotalAmount={convert(total)}
+                    totalAmount={isTokenTransfer ? undefined : total}
+                    convertedTotalAmount={isTokenTransfer ? undefined : convert(total)}
                     hasHigherCustomFee={hasHigherCustomFee}
                     hasLowerCustomFee={hasLowerCustomFee}
                 />

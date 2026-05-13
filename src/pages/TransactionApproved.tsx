@@ -129,13 +129,20 @@ const TransactionApproved = () => {
                             convertedAmount={state?.transaction.convertedAmount as number}
                             exchangeCurrency={state?.transaction.exchangeCurrency as string}
                             network={getActiveCoin(state?.walletNetwork)}
-                            showFiat={showFiat}
+                            showFiat={showFiat && !state?.transaction.tokenAddress}
                             receiver={state?.transaction.receiver}
                             fee={state?.transaction.fee}
                             convertedFee={state?.transaction.convertedFee as number}
                             totalAmount={state?.transaction.total}
                             convertedTotalAmount={state?.transaction.convertedTotal as number}
-                            amountTicker={getActiveCoin(state?.walletNetwork)}
+                            amountTicker={
+                                state?.transaction.tokenSymbol ?? getActiveCoin(state?.walletNetwork)
+                            }
+                            feeTicker={
+                                state?.transaction.tokenAddress
+                                    ? getActiveCoin(state?.walletNetwork)
+                                    : undefined
+                            }
                             transactionId={
                                 isTransactionConfirmed ? state?.transaction.id : undefined
                             }
