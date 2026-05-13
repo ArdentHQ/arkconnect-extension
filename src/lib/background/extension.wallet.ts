@@ -10,7 +10,7 @@ import { BigNumber } from '@/lib/helpers';
 interface RecipientItem {
     address: string;
     alias?: string;
-    amount?: BigNumber;
+    amount?: string;
     isValidator?: boolean;
 }
 

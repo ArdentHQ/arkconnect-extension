@@ -155,7 +155,7 @@ export const useSendTransferForm = (
         const { response, error, transaction } = await runtime.sendMessage({
             type: 'SEND_TRANSACTION',
             data: {
-                recipients,
+                recipients: recipients.map((r) => ({ ...r, amount: r.amount?.toString() })),
                 gasLimit,
                 gasPrice,
             },
