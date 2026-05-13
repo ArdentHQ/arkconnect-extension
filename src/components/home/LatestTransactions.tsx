@@ -42,7 +42,7 @@ const fetchTokens = async (primaryWallet?: IReadWriteWallet): Promise<WalletToke
         });
 
         return collection.items().slice(0, TOKENS_LIMIT);
-    } catch (error) {
+    } catch {
         return [];
     }
 };
