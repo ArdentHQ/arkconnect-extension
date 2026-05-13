@@ -6,6 +6,7 @@ import { WalletToken } from "@/lib/profiles/wallet-token";
 export interface TransactionService {
 	// Core
 	transfer(input: TransferInput): Promise<SignedTransactionData>;
+	tokenTransfer(input: TransferInput): Promise<SignedTransactionData>;
 	secondSignature(input: SecondSignatureInput): Promise<SignedTransactionData>;
 	validatorRegistration(input: ValidatorRegistrationInput): Promise<SignedTransactionData>;
 	usernameRegistration(input: UsernameRegistrationInput): Promise<SignedTransactionData>;
@@ -33,7 +34,7 @@ export interface TransactionInput {
 
 export interface TransferInput extends TransactionInput {
 	data: {
-		amount: number;
+		amount: number | string;
 		to: string;
 		memo?: string;
 		expiration?: number;
