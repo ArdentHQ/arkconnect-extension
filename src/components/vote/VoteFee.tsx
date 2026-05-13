@@ -78,7 +78,7 @@ export const VoteFee = ({ formik }: { formik: FormikProps<VoteFormik> }) => {
                     <span>- {activeNetwork.ticker()}</span>
                 ) : (
                     <span className='whitespace-nowrap font-medium text-black dark:text-theme-secondary-200'>
-                        {fee} {activeNetwork.ticker()}
+                        {fee.toHuman()} {activeNetwork.ticker()}
                     </span>
                 )}
 

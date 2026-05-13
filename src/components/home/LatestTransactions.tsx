@@ -24,7 +24,7 @@ const fetchTransactions = async (
             transactions: response?.items() || [],
             hasMorePages: response?.hasMorePages() || false,
         };
-    } catch (error) {
+    } catch {
         return { transactions: [], hasMorePages: false };
     }
 };

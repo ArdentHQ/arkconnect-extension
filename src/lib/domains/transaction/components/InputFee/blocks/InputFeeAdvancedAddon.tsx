@@ -3,9 +3,10 @@ import React from 'react';
 
 import { twMerge } from 'tailwind-merge';
 import { Amount } from '@/shared/components';
+import { BigNumber } from '@/app/lib/helpers';
 
 interface Properties {
-    convertedValue: number;
+    convertedValue: BigNumber;
     disabled: boolean;
     exchangeTicker: string;
     isDownDisabled: boolean;

@@ -1,3 +1,4 @@
+import { type JSX } from 'react';
 import Home from '@/pages/Home';
 import Connections from '@/pages/Connections';
 import Onboarding from '@/pages/Onboarding';
@@ -33,7 +34,6 @@ import EditContact from '@/pages/EditContact';
 import Vote from '@/pages/Vote';
 
 type RouteData = {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     Component: (...props: any[]) => JSX.Element;
     title: string;
     path: string;

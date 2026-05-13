@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 import { FormikProps } from 'formik';
 import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
@@ -12,6 +12,7 @@ import useOnError from '@/lib/hooks';
 import { getNetworkCurrency } from '@/lib/utils/getActiveCoin';
 import { AddressBalance } from '@/components/wallet/address/Address.blocks';
 import { handleSubmitKeyAction } from '@/lib/utils/handleKeyAction';
+import { BigNumber } from '@/app/lib/helpers';
 
 type Props = {
     goToNextStep: () => void;
@@ -20,7 +21,6 @@ type Props = {
 
 const ImportWallets = ({ goToNextStep, formik }: Props) => {
     const onError = useOnError();
-    const retryFunctionReference = useRef<() => void>();
     const { profile } = useProfileContext();
     const ledgerScanner = useLedgerScanner(profile.activeNetwork().id());
     const { isBusy, importLedgerWallets } = useLedgerContext();
@@ -29,7 +29,6 @@ const ImportWallets = ({ goToNextStep, formik }: Props) => {
     const {
         scan,
         selectedWallets,
-        canRetry,
         isScanning,
         abortScanner,
         wallets,
@@ -40,28 +39,11 @@ const ImportWallets = ({ goToNextStep, formik }: Props) => {
 
     const showLoader = (isScanning || (isBusy && wallets.length === 0)) && !isScanningMore;
 
-    // eslint-disable-next-line arrow-body-style
     useEffect(() => {
         return () => {
             abortScanner();
         };
     }, [abortScanner]);
-
-    const setRetryFn = useCallback(
-        (callback?: () => void) => {
-            retryFunctionReference.current = callback;
-        },
-        [retryFunctionReference],
-    );
-
-    useEffect(() => {
-        if (canRetry) {
-            setRetryFn?.(() => scan(profile));
-        } else {
-            setRetryFn?.(undefined);
-        }
-        return () => setRetryFn?.(undefined);
-    }, [setRetryFn, scan, canRetry, profile]);
 
     useEffect(() => {
         scan(profile);
@@ -157,11 +139,7 @@ const ImportWallets = ({ goToNextStep, formik }: Props) => {
                                             </p>
                                             <span className='typeset-body'>
                                                 <AddressBalance
-                                                    balance={
-                                                        typeof wallet.balance === 'number'
-                                                            ? wallet.balance
-                                                            : (wallet.balance?.toNumber?.() ?? 0)
-                                                    }
+                                                    balance={wallet.balance ?? BigNumber.ZERO}
                                                     currency={getNetworkCurrency(
                                                         profile.activeNetwork(),
                                                     )}
