@@ -23,7 +23,7 @@ const ArrowButtons = ({
     return (
         <div className='flex flex-col'>
             <button
-                className='transition-smoothEase flex h-5 w-7 items-center justify-center rounded text-light-black hover:bg-theme-secondary-50 dark:text-white dark:hover:bg-theme-secondary-700'
+                className='transition-smoothEase text-light-black hover:bg-theme-secondary-50 dark:hover:bg-theme-secondary-700 flex h-5 w-7 items-center justify-center rounded dark:text-white'
                 onClick={() => {
                     const nextValue = BigNumber.make(value || 0).plus(step);
 
@@ -35,7 +35,7 @@ const ArrowButtons = ({
                 <Icon icon='arrow-down' className='h-5 w-5 rotate-180' />
             </button>
             <button
-                className='transition-smoothEase flex h-5 w-7 items-center justify-center rounded text-light-black hover:bg-theme-secondary-50 dark:text-white dark:hover:bg-theme-secondary-700'
+                className='transition-smoothEase text-light-black hover:bg-theme-secondary-50 dark:hover:bg-theme-secondary-700 flex h-5 w-7 items-center justify-center rounded dark:text-white'
                 onClick={() => {
                     let nextValue = BigNumber.make(value || 0).minus(step);
                     if (nextValue.isLessThan(0)) {

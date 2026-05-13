@@ -13,14 +13,14 @@ export const TransactionItem = ({
     return (
         <div
             className={cn(
-                'flex flex-col gap-2 border-t border-y-theme-secondary-200 py-4 last:border-b dark:border-theme-secondary-600',
+                'border-y-theme-secondary-200 dark:border-theme-secondary-600 flex flex-col gap-2 border-t py-4 last:border-b',
                 className,
             )}
         >
-            <div className='text-sm font-medium leading-tight text-theme-secondary-500 dark:text-theme-secondary-300'>
+            <div className='text-theme-secondary-500 dark:text-theme-secondary-300 text-sm leading-tight font-medium'>
                 {title}
             </div>
-            <div className='flex flex-row items-center gap-1.5 text-base font-normal text-light-black dark:text-white'>
+            <div className='text-light-black flex flex-row items-center gap-1.5 text-base font-normal dark:text-white'>
                 {children}
             </div>
         </div>

@@ -27,7 +27,7 @@ export const AddressAlias = ({
             <Tooltip content={alias} placement='top' disabled={!withTooltip || !isTruncated}>
                 <div
                     className={cn(
-                        'typeset-headline max-w-[180px] truncate text-light-black dark:text-white',
+                        'typeset-headline text-light-black max-w-[180px] truncate dark:text-white',
                         {
                             'font-bold': isBold,
                             'font-medium': !isBold,
@@ -45,7 +45,7 @@ export const AddressAlias = ({
 export const LedgerIcon = () => {
     return (
         <Tooltip content='Ledger Address' placement='top'>
-            <div className='flex text-theme-secondary-500 dark:text-theme-secondary-300'>
+            <div className='text-theme-secondary-500 dark:text-theme-secondary-300 flex'>
                 <Icon icon='ledger-address' className='h-3.5 w-3.5' />
             </div>
         </Tooltip>
@@ -56,7 +56,7 @@ export const TestnetIcon = () => {
     return (
         <div className='flex'>
             <Tooltip content='Testnet' placement='top'>
-                <div className='flex h-4 w-4 items-center justify-center rounded border border-solid border-theme-warning-500 bg-theme-warning-50 text-theme-warning-500 dark:border-theme-warning-400 dark:bg-theme-warning-500/10 dark:text-theme-warning-400'>
+                <div className='border-theme-warning-500 bg-theme-warning-50 text-theme-warning-500 dark:border-theme-warning-400 dark:bg-theme-warning-500/10 dark:text-theme-warning-400 flex h-4 w-4 items-center justify-center rounded border border-solid'>
                     <p className='typeset-small'> T </p>
                 </div>
             </Tooltip>
@@ -80,7 +80,7 @@ export const Address = ({
             <Tooltip content={address} placement={tooltipPlacement}>
                 <p
                     className={twMerge(
-                        'max-w-44 cursor-default text-sm font-normal leading-[17.5px] text-theme-secondary-500 underline-offset-2 hover:underline dark:text-theme-secondary-300',
+                        'text-theme-secondary-500 dark:text-theme-secondary-300 max-w-44 cursor-default text-sm leading-[17.5px] font-normal underline-offset-2 hover:underline',
                         className,
                     )}
                 >
@@ -130,7 +130,7 @@ export const AddressBalance = ({
         <div className='text-theme-secondary-500 dark:text-theme-primary-300'>
             <p
                 className={twMerge(
-                    'typeset-body cursor-pointer text-theme-secondary-500 dark:text-theme-secondary-300',
+                    'typeset-body text-theme-secondary-500 dark:text-theme-secondary-300 cursor-pointer',
                     className,
                 )}
             >

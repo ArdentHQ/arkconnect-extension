@@ -141,7 +141,7 @@ export const ActionBody = ({
                         </span>
                     }
                     tooltipContent={
-                        <span className='block w-65 break-words text-left'>
+                        <span className='block w-65 text-left break-words'>
                             {unvote.publicKey ?? ''}
                         </span>
                     }
@@ -168,7 +168,7 @@ export const ActionBody = ({
                         </span>
                     }
                     tooltipContent={
-                        <span className='block w-65 break-words text-left'>
+                        <span className='block w-65 text-left break-words'>
                             {vote.publicKey ?? ''}
                         </span>
                     }

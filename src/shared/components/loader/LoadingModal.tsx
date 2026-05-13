@@ -11,13 +11,13 @@ const LoadingModal = () => {
     if (!isOpen) return null;
 
     return (
-        <div className='fixed left-0 top-0 z-10 flex h-screen w-full items-center justify-center bg-subtle-white dark:bg-light-black'>
+        <div className='bg-subtle-white dark:bg-light-black fixed top-0 left-0 z-10 flex h-screen w-full items-center justify-center'>
             <div className='flex flex-col items-center gap-6 px-4'>
                 {!isLoading ? (
                     <>
                         <Icon
                             icon='completed'
-                            className='h-16 w-16 text-theme-primary-700 dark:text-theme-primary-650'
+                            className='text-theme-primary-700 dark:text-theme-primary-650 h-16 w-16'
                         />
                         <div className='flex flex-col items-center justify-center'>
                             <Heading level={3}>{completedMessage}</Heading>

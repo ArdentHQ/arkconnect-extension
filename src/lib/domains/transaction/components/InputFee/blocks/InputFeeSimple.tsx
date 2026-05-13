@@ -24,7 +24,7 @@ export const InputFeeSimple: React.FC<InputFeeSimpleProperties> = ({
     const { byFeeType } = useConfirmationTimes({ blockTime });
 
     return (
-        <ButtonGroup className='flex-col space-y-2 sm:flex-row sm:space-x-2 sm:space-y-0'>
+        <ButtonGroup className='flex-col space-y-2 sm:flex-row sm:space-y-0 sm:space-x-2'>
             {Object.entries(options).map(
                 ([optionValue, { label, displayValue, displayValueConverted }]) => {
                     const isSelected = optionValue === selectedOption;
@@ -39,7 +39,7 @@ export const InputFeeSimple: React.FC<InputFeeSimpleProperties> = ({
                         >
                             <div
                                 className={cn(
-                                    'dark:text-theme-dark-200 dim:text-theme-dim-200 flex w-full flex-col text-theme-secondary-700 transition-all',
+                                    'dark:text-theme-dark-200 dim:text-theme-dim-200 text-theme-secondary-700 flex w-full flex-col transition-all',
                                     {
                                         'dark:group-hover:text-theme-dark-50 dim:text-theme-dim-navy-50':
                                             !isSelected,
@@ -73,7 +73,7 @@ export const InputFeeSimple: React.FC<InputFeeSimpleProperties> = ({
                                             )}
                                             <span
                                                 className={cn(
-                                                    'ml-1 text-xs leading-[15px] text-theme-secondary-500 transition-all sm:hidden',
+                                                    'text-theme-secondary-500 ml-1 text-xs leading-[15px] transition-all sm:hidden',
                                                     {
                                                         'dark:text-theme-dark-500 dim:text-theme-dim-200':
                                                             !isSelected,
@@ -100,7 +100,7 @@ export const InputFeeSimple: React.FC<InputFeeSimpleProperties> = ({
                                             />
                                             <span
                                                 className={cn(
-                                                    'text-xs leading-[15px] text-theme-secondary-500 transition-all sm:hidden',
+                                                    'text-theme-secondary-500 text-xs leading-[15px] transition-all sm:hidden',
                                                     {
                                                         'dark:text-theme-dark-500 dim:text-theme-dim-200':
                                                             !isSelected,
@@ -116,7 +116,7 @@ export const InputFeeSimple: React.FC<InputFeeSimpleProperties> = ({
                                 </div>
                                 <div
                                     className={cn(
-                                        'dark:text-theme-dark-200 flex w-full justify-between px-3 py-2 text-xs font-semibold leading-[15px] text-theme-secondary-700 transition-all',
+                                        'dark:text-theme-dark-200 text-theme-secondary-700 flex w-full justify-between px-3 py-2 text-xs leading-[15px] font-semibold transition-all',
                                         {
                                             'dark:bg-theme-dark-500 dim:bg-theme-dim-navy-900 dim:text-theme-dim-navy-400 bg-theme-navy-100':
                                                 isSelected,
