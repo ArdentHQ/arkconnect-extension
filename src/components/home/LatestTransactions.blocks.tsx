@@ -309,7 +309,7 @@ const TokenAvatar = ({ token }: { token: WalletToken }) => {
     const initial = symbol.slice(0, 1).toUpperCase();
 
     return (
-        <div className='flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-theme-primary-600 text-lg font-semibold leading-none text-white'>
+        <div className='bg-theme-primary-600 flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-lg leading-none font-semibold text-white'>
             {initial}
         </div>
     );
@@ -320,14 +320,14 @@ const TokenListItem = ({ token }: { token: WalletToken }) => {
     const isZero = balance.isZero();
 
     return (
-        <div className='flex h-16 items-center justify-between gap-[15px] bg-white p-4 dark:bg-subtle-black'>
+        <div className='dark:bg-subtle-black flex h-16 items-center justify-between gap-[15px] bg-white p-4'>
             <div className='flex min-w-0 flex-1 items-center gap-3'>
                 <TokenAvatar token={token} />
                 <div className='flex min-w-0 items-center gap-2 overflow-hidden'>
-                    <span className='typeset-headline min-w-0 truncate font-medium text-light-black dark:text-white'>
+                    <span className='typeset-headline text-light-black min-w-0 truncate font-medium dark:text-white'>
                         {token.token().name()}
                     </span>
-                    <span className='typeset-headline shrink-0 font-medium text-theme-secondary-500 dark:text-theme-secondary-300'>
+                    <span className='typeset-headline text-theme-secondary-500 dark:text-theme-secondary-300 shrink-0 font-medium'>
                         {token.token().displaySymbol()}
                     </span>
                 </div>
