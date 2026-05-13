@@ -73,7 +73,7 @@ export const LatestTransactions = () => {
 
     const tabs = useMemo(() => {
         if (tokenData && tokenData.transactions.length > 0) {
-            // return ['TOKENS', 'TRANSACTIONS'];
+            return ['TOKENS', 'TRANSACTIONS'];
         }
 
         return ['TRANSACTIONS'];
