@@ -4,7 +4,7 @@ import {
     ExtendedConfirmedTransactionData,
     ExtendedTransactionRecipient,
 } from '@/lib/profiles/transaction.dto';
-import { BigNumber, NumberLike } from '@/lib/helpers';
+import { BigNumber } from '@/lib/helpers';
 
 export enum TransactionType {
     SEND = 'send',

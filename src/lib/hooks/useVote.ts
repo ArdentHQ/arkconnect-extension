@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { useMemo } from 'react';
+import { BigNumber } from '../helpers';
 import { Contracts } from '@/lib/profiles';
-import { BigNumber } from "../helpers";
 
 export const useVote = ({
     validatorAddress,

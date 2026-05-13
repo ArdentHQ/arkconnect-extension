@@ -1,4 +1,4 @@
-import { BigNumber } from "../helpers";
+import { BigNumber } from '../helpers';
 
 export interface LedgerData {
     address: string;

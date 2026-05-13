@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
+import { BigNumber } from '../helpers';
 import { getLocalValues, setLocalValue } from '@/lib/utils/localStorage';
 import { general } from '@/lib/data/general';
-import { BigNumber } from "../helpers";
 
 const ONE_MINUTE_IN_MS = 60000;
 const COINGECKO_API_URL = 'https://api.coingecko.com/api/v3/simple/price';
@@ -38,17 +38,27 @@ export const useExchangeRates = () => {
                     rates: rates,
                 });
 
-                setRates(Object.entries(rates).reduce((acc: Record<string, BigNumber>, [currency, value]) => {
-                    acc[currency] = BigNumber.make(value);
+                setRates(
+                    Object.entries(rates).reduce(
+                        (acc: Record<string, BigNumber>, [currency, value]) => {
+                            acc[currency] = BigNumber.make(value);
 
-                    return acc;
-                }, {}));
+                            return acc;
+                        },
+                        {},
+                    ),
+                );
             } else {
-                setRates(Object.entries(ratesCache.rates).reduce((acc: Record<string, BigNumber>, [currency, value]) => {
-                    acc[currency] = BigNumber.make(value);
+                setRates(
+                    Object.entries(ratesCache.rates).reduce(
+                        (acc: Record<string, BigNumber>, [currency, value]) => {
+                            acc[currency] = BigNumber.make(value);
 
-                    return acc;
-                }, {}));
+                            return acc;
+                        },
+                        {},
+                    ),
+                );
             }
 
             setLoading(false);

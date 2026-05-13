@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
+import { BigNumber } from '../helpers';
 import { Contracts } from '@/lib/profiles';
 import { useExchangeRates } from '@/lib/hooks/useExchangeRates';
-import { BigNumber } from "../helpers";
 
 export const useWalletBalance = (primaryWallet: Contracts.IReadWriteWallet | undefined) => {
     const { isLoading, rates } = useExchangeRates();

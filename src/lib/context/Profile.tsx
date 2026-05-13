@@ -1,5 +1,6 @@
 import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
 import { runtime } from 'webextension-polyfill';
+import { BigNumber } from '../helpers';
 import { useEnvironmentContext } from './Environment';
 import { useErrorHandlerContext } from './ErrorHandler';
 import { Contracts } from '@/lib/profiles';
@@ -10,7 +11,6 @@ import { LoadingFullScreen } from '@/shared/components/handleStates/LoadingFullS
 import { ProfileData } from '@/lib/background/contracts';
 import { useAppDispatch } from '@/lib/store';
 import { useWalletBalance } from '@/lib/hooks/useWalletBalance';
-import { BigNumber } from '../helpers';
 
 interface Context {
     profile: Contracts.IProfile;
