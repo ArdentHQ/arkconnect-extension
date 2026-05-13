@@ -1,4 +1,4 @@
-import { Services } from "@/app/lib/mainsail";
+import { Services } from "@/lib/mainsail";
 
 /**
  * Defines the implementation contract for the wallet mutator.

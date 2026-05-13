@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { Networks } from "@/app/lib/mainsail";
+import { Networks } from "@/lib/mainsail";
 
-import { AppearanceService } from "./appearance.service.js";
-import { Authenticator } from "./authenticator.js";
-import { ContactRepository } from "./contact.repository.js";
+import { AppearanceService } from "./appearance.service";
+import { Authenticator } from "./authenticator";
+import { ContactRepository } from "./contact.repository";
 import {
 	IAppearanceService,
 	IAuthenticator,
@@ -24,35 +24,37 @@ import {
 	IWalletRepository,
 	ProfileData,
 	ProfileSetting,
-} from "./contracts.js";
-import { CountAggregate } from "./count.aggregate.js";
-import { DataRepository } from "./data.repository.js";
-import { ExchangeTransactionRepository } from "./exchange-transaction.repository.js";
-import { AttributeBag } from "./helpers/attribute-bag.js";
-import { Avatar } from "./helpers/avatar.js";
-import { IHostRepository } from "./host.repository.contract.js";
-import { HostRepository } from "./host.repository.js";
-import { NetworkRepository } from "./network.repository.js";
-import { IProfileNotificationService } from "./notification.repository.contract.js";
-import { ProfileNotificationService } from "./notification.service.js";
-import { PasswordManager } from "./password.js";
-import { ProfileInitialiser } from "./profile.initialiser.js";
-import { ProfileStatus } from "./profile.status.js";
-import { RegistrationAggregate } from "./registration.aggregate.js";
-import { SettingRepository } from "./setting.repository.js";
-import { TransactionAggregate } from "./transaction.aggregate.js";
-import { WalletAggregate } from "./wallet.aggregate.js";
-import { WalletFactory } from "./wallet.factory.js";
-import { WalletRepository } from "./wallet.repository.js";
-import { Contracts, Environment } from "./index.js";
-import { UsernamesService } from "./usernames.service.js";
-import { LedgerService } from "@/app/lib/mainsail/ledger.service.js";
-import { ValidatorService } from "./validator.service.js";
-import { KnownWalletService } from "./known-wallet.service.js";
-import { ExchangeRateService } from "./exchange-rate.service.js";
-import { BigNumber } from "@/app/lib/helpers/bignumber.js";
-import { WalletAliasProvider } from "./profile.wallet.alias.js";
+} from "./contracts";
+import { CountAggregate } from "./count.aggregate";
+import { DataRepository } from "./data.repository";
+import { ExchangeTransactionRepository } from "./exchange-transaction.repository";
+import { AttributeBag } from "./helpers/attribute-bag";
+import { Avatar } from "./helpers/avatar";
+import { IHostRepository } from "./host.repository.contract";
+import { HostRepository } from "./host.repository";
+import { NetworkRepository } from "./network.repository";
+import { IProfileNotificationService } from "./notification.repository.contract";
+import { ProfileNotificationService } from "./notification.service";
+import { PasswordManager } from "./password";
+import { ProfileInitialiser } from "./profile.initialiser";
+import { ProfileStatus } from "./profile.status";
+import { RegistrationAggregate } from "./registration.aggregate";
+import { SettingRepository } from "./setting.repository";
+import { TransactionAggregate } from "./transaction.aggregate";
+import { WalletAggregate } from "./wallet.aggregate";
+import { WalletFactory } from "./wallet.factory";
+import { WalletRepository } from "./wallet.repository";
+import { Contracts, Environment } from "./index";
+import { UsernamesService } from "./usernames.service";
+import { LedgerService } from "@/lib/mainsail/ledger.service";
+import { ValidatorService } from "./validator.service";
+import { KnownWalletService } from "./known-wallet.service";
+import { ExchangeRateService } from "./exchange-rate.service";
+import { BigNumber } from "@/lib/helpers/bignumber";
+import { WalletAliasProvider } from "./profile.wallet.alias";
 import { isPreview } from "@/utils/test-helpers";
+import { DraftTransactionFactory } from "@/lib/mainsail/draft-transaction.factory";
+import { TokenService } from "./token.service";
 
 export class Profile implements IProfile {
 	/**
@@ -240,12 +242,28 @@ export class Profile implements IProfile {
 	readonly #ledgerService: LedgerService;
 
 	/**
+	 * Draft transaction factory.
+	 *
+	 * @type {DraftTransactionFactory}
+	 * @memberof Profile
+	 */
+	readonly #draftTransactionFactory: DraftTransactionFactory;
+
+	/**
 	 * The status service.
 	 *
 	 * @type {IProfileStatus}
 	 * @memberof Profile
 	 */
 	readonly #status: IProfileStatus;
+
+	/**
+	 * The token service.
+	 *
+	 * @type {TokenService}
+	 * @memberof Profile
+	 */
+	readonly #tokenService: TokenService;
 
 	public constructor(data: IProfileInput, env: Environment) {
 		this.#attributes = new AttributeBag<IProfileInput>(data);
@@ -270,7 +288,9 @@ export class Profile implements IProfile {
 		this.#knownWalletService = new KnownWalletService();
 		this.#usernameService = new UsernamesService({ config: this.activeNetwork().config(), profile: this });
 		this.#exchangeRateService = new ExchangeRateService({ storage: env.storage() });
-		this.#ledgerService = new LedgerService({ config: this.activeNetwork().config() });
+		this.#ledgerService = new LedgerService({ config: this.activeNetwork().config(), profile: this });
+		this.#draftTransactionFactory = new DraftTransactionFactory({ env, profile: this });
+		this.#tokenService = new TokenService({ network: this.activeNetwork(), profile: this });
 	}
 
 	/** {@inheritDoc IProfile.id} */
@@ -394,18 +414,14 @@ export class Profile implements IProfile {
 		const activeNetwork = this.networks()
 			.availableNetworks()
 			.find((network) => {
-				if (!network) {
-					return;
-				}
-
 				/* istanbul ignore next -- @preserve */
-				if (activeNetworkId === network.id()) {
+				if (activeNetworkId === network?.id()) {
 					/* istanbul ignore next -- @preserve */
 					return network;
 				}
 
 				// @TODO: Return mainnet as the default network once it will be available.
-				return network.isTest();
+				return network?.isTest();
 			});
 
 		if (!activeNetwork) {
@@ -580,5 +596,49 @@ export class Profile implements IProfile {
 
 	public findAliasByAddress(address: string, networkId?: string): string | undefined {
 		return new WalletAliasProvider(this).findAliasByAddress(address, networkId);
+	}
+
+	public draftTransactionFactory(): DraftTransactionFactory {
+		return this.#draftTransactionFactory;
+	}
+
+	public tokens(): TokenService {
+		return this.#tokenService;
+	}
+
+	/** {@inheritDoc IProfile.whitelistedContractAddresses} */
+	public whitelistedContractAddresses(): string[] {
+		return this.data().get(ProfileData.WhitelistedContractAddresses, []) as string[];
+	}
+
+	/** {@inheritDoc IProfile.whitelistContractAddress} */
+	public whitelistContractAddress(address: string): string[] {
+		const existingContractAddresses = this.whitelistedContractAddresses();
+
+		// do nothing if address is already in the list
+		if (existingContractAddresses.some((a) => a.toLowerCase() === address.toLowerCase())) {
+			return existingContractAddresses;
+		}
+
+		const updatedList = [...existingContractAddresses, address];
+
+		this.data().set(ProfileData.WhitelistedContractAddresses, updatedList);
+
+		this.status().markAsDirty();
+
+		return updatedList;
+	}
+
+	/** {@inheritDoc IProfile.removeWhitelistedContractAddress} */
+	public removeWhitelistedContractAddress(address: string): string[] {
+		const updatedList = this.whitelistedContractAddresses().filter(
+			(a) => a.toLowerCase() !== address.toLowerCase(),
+		);
+
+		this.data().set(ProfileData.WhitelistedContractAddresses, updatedList);
+
+		this.status().markAsDirty();
+
+		return updatedList;
 	}
 }

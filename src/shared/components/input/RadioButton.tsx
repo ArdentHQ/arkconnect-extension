@@ -62,12 +62,12 @@ export const RadioButton: FC<RadioButtonProps> = ({
                     setIsFocusWithin(false);
                 }}
                 className={cn('h-0 w-0 opacity-0', {
-                    'focus-visible:outline-solid focus-visible:outline-2': isFirefox,
+                    'focus-visible:outline-2 focus-visible:outline-solid': isFirefox,
                 })}
             />
             <div
                 className={cn('radio-indicator', {
-                    'outline outline-2 outline-offset-2 outline-theme-primary-600': isFocusWithin,
+                    'outline-theme-primary-600 outline-2 outline-offset-2': isFocusWithin,
                 })}
             />
         </label>

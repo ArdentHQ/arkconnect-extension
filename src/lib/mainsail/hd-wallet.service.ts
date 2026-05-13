@@ -1,7 +1,7 @@
 import { BIP39 } from "@ardenthq/arkvault-crypto";
 import { Account, HDKey, hdKeyToAccount } from "viem/accounts";
 import { parseTransaction } from "viem";
-import { ConfigRepository } from "@/app/lib/mainsail/config.repository";
+import { ConfigRepository } from "@/lib/mainsail/config.repository";
 
 export class HDWalletService {
 	#config: ConfigRepository;

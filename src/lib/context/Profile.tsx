@@ -1,5 +1,6 @@
 import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
 import { runtime } from 'webextension-polyfill';
+import { BigNumber } from '../helpers';
 import { useEnvironmentContext } from './Environment';
 import { useErrorHandlerContext } from './ErrorHandler';
 import { Contracts } from '@/lib/profiles';
@@ -15,7 +16,7 @@ interface Context {
     profile: Contracts.IProfile;
     initProfile: () => Promise<void>;
     importProfile: (profileData: string) => Promise<Contracts.IProfile>;
-    convertedBalance?: number;
+    convertedBalance?: BigNumber;
     isProfileReady: boolean;
 }
 

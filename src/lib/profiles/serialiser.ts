@@ -1,7 +1,7 @@
-import { Contracts } from "@/app/lib/mainsail";
+import { Contracts } from "@/lib/mainsail";
 
 import { IReadWriteWallet, IWalletData, WalletData, WalletFlag } from "./contracts";
-import { BigNumber } from "@/app/lib/helpers/bignumber";
+import { BigNumber } from "@/lib/helpers/bignumber";
 
 interface SerializedBalance {
 	available: string;
@@ -39,7 +39,6 @@ export class WalletSerialiser {
 				[WalletData.ImportMethod]: this.#wallet.data().get(WalletData.ImportMethod),
 				[WalletData.Sequence]: this.#wallet.nonce().toFixed(0),
 				[WalletData.SignedTransactions]: this.#wallet.data().get(WalletData.SignedTransactions, []),
-				[WalletData.PendingMultiSignatures]: this.#wallet.data().get(WalletData.PendingMultiSignatures, []),
 				[WalletData.Votes]: this.#wallet.data().get(WalletData.Votes, []),
 				[WalletData.VotesAvailable]: this.#wallet.data().get(WalletData.VotesAvailable, 0),
 				[WalletData.VotesUsed]: this.#wallet.data().get(WalletData.VotesUsed, 0),
@@ -50,6 +49,7 @@ export class WalletSerialiser {
 				[WalletData.Status]: this.#wallet.data().get(WalletData.Status),
 				[WalletData.IsPrimary]: this.#wallet.data().get(WalletData.IsPrimary, false),
 				[WalletData.AddressIndex]: this.#wallet.data().get(WalletData.AddressIndex),
+				[WalletData.TokenCount]: this.#wallet.tokenCount(),
 			},
 			id: this.#wallet.id(),
 			settings: this.#wallet.settings().all(),

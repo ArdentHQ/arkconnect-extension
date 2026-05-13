@@ -11,6 +11,7 @@ export class LocalStorage implements Storage {
 	public constructor(driver: string) {
 		this.#storage = localForage.createInstance({
 			driver:
+				process.env.LFD ??
 				{
 					indexeddb: localForage.INDEXEDDB,
 					localstorage: localForage.LOCALSTORAGE,
@@ -33,7 +34,7 @@ export class LocalStorage implements Storage {
 		return this.#storage.getItem(key);
 	}
 
-	public async set(key: string, value: string | object): Promise<void> {
+	public async set(key: string, value: string | object | number | boolean): Promise<void> {
 		await this.#storage.setItem(key, value);
 	}
 

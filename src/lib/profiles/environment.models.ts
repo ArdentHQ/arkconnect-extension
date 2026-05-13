@@ -1,4 +1,4 @@
-import { Http, Networks, Services } from "@/app/lib/mainsail";
+import { Http, Networks, Services } from "@/lib/mainsail";
 
 import { IProfile } from "./profile.contract.js";
 

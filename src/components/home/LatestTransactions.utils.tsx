@@ -4,6 +4,7 @@ import {
     ExtendedConfirmedTransactionData,
     ExtendedTransactionRecipient,
 } from '@/lib/profiles/transaction.dto';
+import { BigNumber } from '@/lib/helpers';
 
 export enum TransactionType {
     SEND = 'send',
@@ -12,7 +13,6 @@ export enum TransactionType {
     SWAP = 'swap',
     VOTE = 'vote',
     UNVOTE = 'unvote',
-    SECOND_SIGNATURE = 'second-signature',
     MULTISIGNATURE = 'multisignature',
     REGISTRATION = 'registration',
     RESIGNATION = 'resignation',
@@ -33,17 +33,11 @@ export const getType = (transaction: ExtendedConfirmedTransactionData): string =
             return TransactionType.RECEIVE;
         }
     }
-    if (transaction.isVoteCombination()) {
-        return TransactionType.SWAP;
-    }
     if (transaction.isVote()) {
         return TransactionType.VOTE;
     }
     if (transaction.isUnvote()) {
         return TransactionType.UNVOTE;
-    }
-    if (transaction.isSecondSignature()) {
-        return TransactionType.SECOND_SIGNATURE;
     }
     if (transaction.isValidatorRegistration()) {
         return TransactionType.REGISTRATION;
@@ -64,8 +58,9 @@ export const getUniqueRecipients = (
             (r) => r.address === recipient.address,
         );
         if (existingRecipientIndex !== -1) {
-            uniqueRecipients[existingRecipientIndex].amount =
-                uniqueRecipients[existingRecipientIndex].amount + recipient.amount;
+            uniqueRecipients[existingRecipientIndex].amount = uniqueRecipients[
+                existingRecipientIndex
+            ].amount.plus(recipient.amount);
         } else {
             uniqueRecipients.push({ address: recipient.address, amount: recipient.amount });
         }
@@ -77,18 +72,23 @@ export const getUniqueRecipients = (
 export const getAmountByAddress = (
     recipients: ExtendedTransactionRecipient[],
     address?: string,
-): number => {
-    return recipients.find((recipient) => recipient.address === address)?.amount ?? 0;
+): BigNumber => {
+    return BigNumber.make(
+        recipients.find((recipient) => recipient.address === address)?.amount ?? 0,
+    );
 };
 
 export const getMultipaymentAmounts = (
     recipients: ExtendedTransactionRecipient[],
     address: string = '',
-): { selfAmount: number; sentAmount: number } => {
+): { selfAmount: BigNumber; sentAmount: BigNumber } => {
     const selfAmount = getAmountByAddress(recipients, address);
-    const sentAmount = recipients.reduce((total, recipient) => total + recipient.amount, 0);
+    const sentAmount = recipients.reduce(
+        (total, recipient) => recipient.amount.plus(total),
+        BigNumber.ZERO,
+    );
 
-    return { selfAmount, sentAmount: sentAmount - selfAmount };
+    return { selfAmount, sentAmount: sentAmount.minus(selfAmount) };
 };
 
 export const getTransactionIcon = (
@@ -110,7 +110,7 @@ export const renderAmount = ({
     primaryCurrency,
     displayTooltip = true,
 }: {
-    value: number;
+    value: BigNumber;
     isNegative: boolean;
     showSign: boolean;
     primaryCurrency: string;

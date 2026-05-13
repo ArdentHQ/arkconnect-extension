@@ -44,8 +44,6 @@ export const TransactionTitle = ({
             return t('COMMON.VOTE');
         case TransactionType.UNVOTE:
             return t('COMMON.UNVOTE');
-        case TransactionType.SECOND_SIGNATURE:
-            return t('COMMON.SECOND_SIGNATURE');
         case TransactionType.REGISTRATION:
             return t('COMMON.REGISTRATION');
         case TransactionType.RESIGNATION:
@@ -140,7 +138,7 @@ export const NoTransactions = () => {
     return (
         <div className='mt-12 flex flex-col items-center justify-center gap-6'>
             <EmptyConnectionsIcon />
-            <div className='max-w-40 text-center text-base font-normal leading-tight dark:text-white'>
+            <div className='max-w-40 text-center text-base leading-tight font-normal dark:text-white'>
                 {t('PAGES.HOME.NO_TRANSACTIONS')}
             </div>
         </div>
@@ -151,7 +149,7 @@ export const MultipaymentBadge = () => {
     const { t } = useTranslation();
 
     return (
-        <span className='rounded bg-theme-secondary-200 px-1.5 py-0.5 text-xs font-medium leading-[15px] text-theme-secondary-600 dark:bg-theme-secondary-600 dark:text-theme-secondary-200'>
+        <span className='bg-theme-secondary-200 text-theme-secondary-600 dark:bg-theme-secondary-600 dark:text-theme-secondary-200 rounded px-1.5 py-0.5 text-xs leading-[15px] font-medium'>
             {t('COMMON.MULTI')}
         </span>
     );
@@ -173,7 +171,6 @@ const TransactionListItem = ({
         TransactionType.REGISTRATION,
         TransactionType.RESIGNATION,
         TransactionType.OTHER,
-        TransactionType.SECOND_SIGNATURE,
         TransactionType.MULTISIGNATURE,
     ].includes(type as TransactionType);
 
@@ -185,8 +182,8 @@ const TransactionListItem = ({
             })}
             tabIndex={0}
         >
-            <div className='transition-smoothEase flex h-[76px] w-full flex-row items-center justify-center gap-3 p-4 hover:bg-theme-secondary-50 dark:hover:bg-theme-secondary-700'>
-                <div className='flex h-11 min-w-11 items-center justify-center rounded-xl border border-theme-secondary-200 bg-white text-theme-secondary-500 dark:border-theme-secondary-600 dark:bg-subtle-black dark:text-theme-secondary-300'>
+            <div className='transition-smoothEase hover:bg-theme-secondary-50 dark:hover:bg-theme-secondary-700 flex h-[76px] w-full flex-row items-center justify-center gap-3 p-4'>
+                <div className='border-theme-secondary-200 text-theme-secondary-500 dark:border-theme-secondary-600 dark:bg-subtle-black dark:text-theme-secondary-300 flex h-11 min-w-11 items-center justify-center rounded-xl border bg-white'>
                     <Icon
                         className={cn({
                             'h-5 w-5': isSpecialTransaction,
@@ -200,7 +197,7 @@ const TransactionListItem = ({
 
                 <div className='flex w-full flex-row items-center justify-between'>
                     <div className='flex flex-col gap-1.5'>
-                        <span className='text-left text-base font-medium leading-tight text-light-black dark:text-white'>
+                        <span className='text-light-black text-left text-base leading-tight font-medium dark:text-white'>
                             <TransactionTitle type={type} isSender={transaction.isSent()} />
                             {type === TransactionType.MULTIPAYMENT && (
                                 <span className='ml-1.5'>
@@ -209,7 +206,7 @@ const TransactionListItem = ({
                             )}
                         </span>
                         {type !== TransactionType.UNVOTE && (
-                            <span className='text-left text-sm font-normal leading-tight text-theme-secondary-500 dark:text-theme-secondary-300'>
+                            <span className='text-theme-secondary-500 dark:text-theme-secondary-300 text-left text-sm leading-tight font-normal'>
                                 <TransactionSecondaryText
                                     transaction={transaction}
                                     type={type}
@@ -221,10 +218,10 @@ const TransactionListItem = ({
                     </div>
 
                     <div className='flex flex-col items-end gap-1'>
-                        <span className='text-base font-medium leading-tight text-light-black dark:text-white'>
+                        <span className='text-light-black text-base leading-tight font-medium dark:text-white'>
                             <LatestTransactionAmount transaction={transaction} />
                         </span>
-                        <span className='text-sm font-normal leading-tight text-theme-secondary-500 dark:text-theme-secondary-300'>
+                        <span className='text-theme-secondary-500 dark:text-theme-secondary-300 text-sm leading-tight font-normal'>
                             <Tooltip
                                 content={formattedTimestamp}
                                 popperOptions={{
@@ -294,7 +291,7 @@ export const LatestTransactionAmount = ({
     ];
     if (!paymentTypes.includes(type as TransactionType)) {
         return (
-            <span className='flex items-center justify-center rounded bg-theme-secondary-100 px-1.5 py-0.5 font-semibold text-theme-secondary-300 dark:bg-theme-secondary-700 dark:text-theme-secondary-500'>
+            <span className='bg-theme-secondary-100 text-theme-secondary-300 dark:bg-theme-secondary-700 dark:text-theme-secondary-500 flex items-center justify-center rounded px-1.5 py-0.5 font-semibold'>
                 -
             </span>
         );

@@ -124,18 +124,18 @@ const Onboarding = () => {
             <Header />
             <ProgressBar activeIndex={activeIndex} filledSegments={filledSegments} />
             <div className='relative h-[410px]'>
-                <div className='absolute left-4 top-1/2 z-1'>
+                <div className='absolute top-1/2 left-4 z-1'>
                     <button
                         onClick={() => goToPreviousScreen()}
-                        className='h-6 w-6 rounded-full text-theme-secondary-500 transition hover:bg-theme-secondary-100 hover:text-black dark:text-theme-secondary-300 dark:hover:bg-theme-secondary-700 dark:hover:text-white'
+                        className='text-theme-secondary-500 hover:bg-theme-secondary-100 dark:text-theme-secondary-300 dark:hover:bg-theme-secondary-700 h-6 w-6 rounded-full transition hover:text-black dark:hover:text-white'
                     >
                         <Icon icon='chevron-left' className='h-6 w-6' />
                     </button>
                 </div>
-                <div className='absolute right-4 top-1/2 z-1'>
+                <div className='absolute top-1/2 right-4 z-1'>
                     <button
                         onClick={() => goToNextScreen()}
-                        className='h-6 w-6 rounded-full text-theme-secondary-500 transition hover:bg-theme-secondary-100 hover:text-black dark:text-theme-secondary-300 dark:hover:bg-theme-secondary-700 dark:hover:text-white'
+                        className='text-theme-secondary-500 hover:bg-theme-secondary-100 dark:text-theme-secondary-300 dark:hover:bg-theme-secondary-700 h-6 w-6 rounded-full transition hover:text-black dark:hover:text-white'
                     >
                         <Icon icon='chevron-right' className='h-6 w-6' />
                     </button>
@@ -143,7 +143,7 @@ const Onboarding = () => {
                 {onboardingScreens.map((screen, index) => (
                     <div
                         className={cn(
-                            'absolute left-0 top-[70px] flex w-full items-center justify-center gap-6 px-9 transition-all duration-1000 ease-in-out',
+                            'absolute top-[70px] left-0 flex w-full items-center justify-center gap-6 px-9 transition-all duration-1000 ease-in-out',
                             {
                                 'translate-x-0 opacity-100': activeIndex === index,
                                 '-translate-x-full opacity-0': activeIndex > index,

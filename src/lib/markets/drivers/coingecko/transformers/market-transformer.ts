@@ -1,5 +1,5 @@
-import { CURRENCIES } from "@/app/lib/intl";
-import { MarketDataCollection } from "@/app/lib/markets/contracts";
+import { CURRENCIES } from "@/lib/intl";
+import { MarketDataCollection } from "@/lib/markets/contracts";
 
 /**
  * Implements a transformer for historical market data.

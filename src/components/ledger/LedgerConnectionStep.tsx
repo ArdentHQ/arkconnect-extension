@@ -11,14 +11,14 @@ import ThemedIcon from '@/shared/components/icon/ThemedIcon';
 
 const ConnectionStep = ({ children, ready }: { children: React.ReactNode; ready: boolean }) => {
     return (
-        <li className='flex justify-start space-x-2 text-light-black dark:text-white'>
-            <span className='mt-px flex flex-shrink-0'>
+        <li className='text-light-black flex justify-start space-x-2 dark:text-white'>
+            <span className='mt-px flex shrink-0'>
                 {ready ? (
-                    <span className='flex h-5 w-5 items-center justify-center rounded-full bg-theme-primary-700 dark:bg-theme-primary-600'>
-                        <Icon icon='check' className='h-4 w-4 text-white dark:text-subtle-black' />
+                    <span className='bg-theme-primary-700 dark:bg-theme-primary-600 flex h-5 w-5 items-center justify-center rounded-full'>
+                        <Icon icon='check' className='dark:text-subtle-black h-4 w-4 text-white' />
                     </span>
                 ) : (
-                    <Loader className='typeset-body h-5 w-5 border-2 border-theme-secondary-400 border-t-theme-secondary-200 dark:border-theme-secondary-300 dark:border-t-theme-secondary-600' />
+                    <Loader className='typeset-body border-theme-secondary-400 border-t-theme-secondary-200 dark:border-theme-secondary-300 dark:border-t-theme-secondary-600 h-5 w-5 border-2' />
                 )}
             </span>
 
@@ -148,7 +148,7 @@ export const LedgerConnectionStep = ({
                 )}
             </div>
             <ExternalLink
-                className='flex w-full items-center justify-center gap-3 text-theme-primary-700 dark:text-theme-primary-650'
+                className='text-theme-primary-700 dark:text-theme-primary-650 flex w-full items-center justify-center gap-3'
                 href={`mailto:${constants.SUPPORT_EMAIL}?subject=${encodeURIComponent(t('MISC.ARK_CONNECT_SUPPORT_LEDGER'))}`}
             >
                 <p className='typeset-headline font-medium'>{t('MISC.SUPPORT_EMAIL')}</p>

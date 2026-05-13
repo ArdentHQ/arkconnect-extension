@@ -1,4 +1,4 @@
-import { Contracts } from '@/app/lib/mainsail';
+import { Contracts } from '@/lib/mainsail';
 import { LedgerTransportFactory } from '@/lib/Ledger/ledger.transport.factory';
 
 export const supportedTransport = async () =>

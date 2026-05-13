@@ -1,4 +1,4 @@
-import { Signatories } from "@/app/lib/mainsail";
+import { Signatories } from "@/lib/mainsail";
 
 export interface SignatoryInput {
 	encryptionPassword?: string;
@@ -17,4 +17,16 @@ export interface ISignatoryFactory {
 	 * @return {Services.SignatoryService}
 	 */
 	make(input: SignatoryInput): Promise<Signatories.Signatory>;
+	/**
+	 * Get signatory based on signing keys (mnemonic or secret).
+	 *
+	 * @param {SignatoryInput} input
+	 * @memberof ISignatoryFactory
+	 * @return {Services.SignatoryService}
+	 */
+	fromSigningKeys(input?: {
+		key?: string;
+		secondKey?: string;
+		encryptionPassword?: string;
+	}): Promise<Signatories.Signatory>;
 }

@@ -11,7 +11,7 @@ const EyeButton = ({ showPassword, onClick }: { showPassword: boolean; onClick: 
     return (
         <button
             className={cn(
-                'flex h-7 w-7 cursor-pointer items-center justify-center rounded-full text-light-black dark:text-white',
+                'text-light-black flex h-7 w-7 cursor-pointer items-center justify-center rounded-full dark:text-white',
                 {
                     'focus-visible:outline focus-visible:outline-2': isFirefox,
                 },
@@ -19,7 +19,7 @@ const EyeButton = ({ showPassword, onClick }: { showPassword: boolean; onClick: 
             onClick={onClick}
         >
             <Icon
-                className='h-5 w-5 text-light-black dark:text-white'
+                className='text-light-black h-5 w-5 dark:text-white'
                 icon={showPassword ? 'eye-off' : 'eye'}
             />
         </button>
@@ -33,7 +33,7 @@ export const PasswordInput = ({ labelText, ...props }: Props) => {
     };
 
     return (
-        <div className='relative text-light-black dark:text-white'>
+        <div className='text-light-black relative dark:text-white'>
             <Input
                 type={showPassword ? 'text' : 'password'}
                 labelText={labelText}
