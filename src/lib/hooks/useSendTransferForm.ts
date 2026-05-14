@@ -191,7 +191,7 @@ export const useSendTransferForm = (
             };
         }
 
-        const { response, error, transaction } = await runtime.sendMessage({
+        const { response, error, errorStack, transaction } = await runtime.sendMessage({
             type: 'SEND_TRANSACTION',
             data: {
                 recipients,
@@ -202,8 +202,13 @@ export const useSendTransferForm = (
         });
 
         if (error) {
-            onError(error);
-            return;
+            const message =
+                errorStack?.message ||
+                (typeof errorStack === 'string' ? errorStack : undefined) ||
+                error;
+            const propagated = new Error(message);
+            onError(propagated);
+            throw propagated;
         }
 
         handleBroadcastError(response);

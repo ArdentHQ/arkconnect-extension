@@ -8,6 +8,17 @@ import { RawTransactionData } from '@/lib/mainsail/signed-transaction.dto.contra
 import { BigNumber } from '@/lib/helpers';
 import { WalletToken } from '@/lib/profiles/wallet-token';
 
+// `actsWithSecret()` only returns true for wallets created via `WalletFactory.fromSecret`,
+// which is exclusively used by the dev seeder (src/dev/utils/dev.ts). Production onboarding
+// always goes through BIP39 mnemonic, so this branch is unreachable in real installs and
+// safely routes dev-only non-BIP39 passphrases through the secret signatory.
+const buildSignatoryInput = (wallet: Contracts.IReadWriteWallet, passphrase: string) => {
+    if (wallet.actsWithSecret()) {
+        return { secret: passphrase };
+    }
+    return { mnemonic: passphrase };
+};
+
 interface RecipientItem {
     address: string;
     alias?: string;
@@ -64,9 +75,10 @@ export function Wallet({ wallet }: { wallet: Contracts.IReadWriteWallet }) {
 
             await wallet.network().sync();
 
-            const signatory = await wallet.signatoryFactory().make({
-                mnemonic: await wallet.confirmKey().get(wallet.profile().password().get()),
-            });
+            const passphrase = await wallet.confirmKey().get(wallet.profile().password().get());
+            const signatory = await wallet
+                .signatoryFactory()
+                .make(buildSignatoryInput(wallet, passphrase));
 
             const uuid = await wallet.transaction().signVote({
                 ...input,
@@ -86,9 +98,10 @@ export function Wallet({ wallet }: { wallet: Contracts.IReadWriteWallet }) {
         async sendTransfer(input: SendTransferInput): Promise<BroadcastResponse> {
             await wallet.network().sync();
 
-            const signatory = await wallet.signatoryFactory().make({
-                mnemonic: await wallet.confirmKey().get(wallet.profile().password().get()),
-            });
+            const passphrase = await wallet.confirmKey().get(wallet.profile().password().get());
+            const signatory = await wallet
+                .signatoryFactory()
+                .make(buildSignatoryInput(wallet, passphrase));
 
             let token: WalletToken | undefined;
 
