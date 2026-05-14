@@ -13,15 +13,15 @@ export const TokenItem = ({
     return (
         <div
             className={cn(
-                'border-t-1 dark:border-theme-subtle-black border-inset flex flex-row items-center justify-between border-theme-secondary-200 py-3 first:border-none dark:border-theme-secondary-700',
+                'dark:border-theme-subtle-black border-inset border-theme-secondary-200 dark:border-theme-secondary-700 flex flex-row items-center justify-between border-t-1 py-3 first:border-none',
                 className,
             )}
         >
-            <span className='text-sm font-medium leading-[1.125rem] text-theme-secondary-500 dark:text-theme-secondary-300'>
+            <span className='text-theme-secondary-500 dark:text-theme-secondary-300 text-sm leading-[1.125rem] font-medium'>
                 {label}
             </span>
 
-            <span className='flex items-center text-sm font-medium leading-[1.125rem] text-light-black dark:text-white'>
+            <span className='text-light-black flex items-center text-sm leading-[1.125rem] font-medium dark:text-white'>
                 {children}
             </span>
         </div>

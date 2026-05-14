@@ -74,7 +74,7 @@ const TokenDetails = () => {
                 </div>
             ) : (
                 <div className='flex h-full w-full items-center justify-center'>
-                    <p className='text-sm text-theme-secondary-500 dark:text-theme-secondary-300'>
+                    <p className='text-theme-secondary-500 dark:text-theme-secondary-300 text-sm'>
                         {t('PAGES.TOKEN_DETAILS.NOT_FOUND')}
                     </p>
                 </div>
