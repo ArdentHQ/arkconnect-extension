@@ -96,8 +96,18 @@ export function Wallet({ wallet }: { wallet: Contracts.IReadWriteWallet }) {
                 token = wallet.tokens().findByTokenAddress(input.tokenAddress);
 
                 if (!token) {
-                    await wallet.profile().tokens().sync();
-                    token = wallet.tokens().findByTokenAddress(input.tokenAddress);
+                    const collection = await wallet.client().tokenAddresses({
+                        addresses: [wallet.address()],
+                        minBalance: '0',
+                    });
+
+                    token = collection
+                        .items()
+                        .find((item) => item.token().address() === input.tokenAddress);
+
+                    if (token) {
+                        wallet.tokens().push(token);
+                    }
                 }
 
                 if (!token) {

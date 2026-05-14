@@ -80,11 +80,24 @@ const ApproveTransaction = ({
         ['approve-token', wallet?.address(), tokenAddress],
         async () => {
             if (!tokenAddress) return undefined;
+
             let resolved = wallet.tokens().findByTokenAddress(tokenAddress);
+
             if (!resolved) {
-                await profile.tokens().sync();
-                resolved = wallet.tokens().findByTokenAddress(tokenAddress);
+                const collection = await wallet.client().tokenAddresses({
+                    addresses: [wallet.address()],
+                    minBalance: '0',
+                });
+
+                resolved = collection
+                    .items()
+                    .find((item) => item.token().address() === tokenAddress);
+
+                if (resolved) {
+                    wallet.tokens().push(resolved);
+                }
             }
+
             return resolved;
         },
         { enabled: !!wallet && !!tokenAddress, staleTime: 0 },

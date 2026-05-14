@@ -105,8 +105,16 @@ const resolveToken = async (
     let token = wallet.tokens().findByTokenAddress(tokenAddress);
 
     if (!token) {
-        await wallet.profile().tokens().sync();
-        token = wallet.tokens().findByTokenAddress(tokenAddress);
+        const collection = await wallet.client().tokenAddresses({
+            addresses: [wallet.address()],
+            minBalance: '0',
+        });
+
+        token = collection.items().find((item) => item.token().address() === tokenAddress);
+
+        if (token) {
+            wallet.tokens().push(token);
+        }
     }
 
     if (!token) {
