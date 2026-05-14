@@ -137,7 +137,7 @@ type SignTransactionResponse = {
   amount: number;
   convertedAmount: number;
   fee: number;
-  convertedFee: number;
+  convertedFee: BigNumber;
   total: number;
   convertedTotal: number;
 };

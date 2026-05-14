@@ -81,7 +81,7 @@ const CreateOrImportAddress = () => {
 
 const LeadingIcon = ({ icon }: { icon: IconDefinition }) => {
     return (
-        <span className='text-theme-seoncdary-500 flex items-center justify-center self-center dark:text-theme-secondary-300'>
+        <span className='text-theme-seoncdary-500 dark:text-theme-secondary-300 flex items-center justify-center self-center'>
             <Icon className='h-5 w-5' icon={icon} />
         </span>
     );

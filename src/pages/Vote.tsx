@@ -177,7 +177,7 @@ const Vote = () => {
 
     const { isVoting, isUnvoting, isSwapping, actionLabel, disabled, currentlyVotedAddress } =
         useVote({
-            fee: isFeeValid ? fee : '',
+            fee: isFeeValid ? fee : BigNumber.ZERO,
             validatorAddress: formik.values.validatorAddress,
             votes: currentVotes,
             isValid: !!(hasValues && hasSufficientFunds),
@@ -244,7 +244,7 @@ const Vote = () => {
 
             {!searchQuery && (
                 <div className='mt-4'>
-                    <p className='w-full text-center text-sm text-theme-secondary-500 dark:text-theme-secondary-300'>
+                    <p className='text-theme-secondary-500 dark:text-theme-secondary-300 w-full text-center text-sm'>
                         {t('PAGES.VOTE.USE_SEARCH_TO_FIND_VALIDATORS')}
                     </p>
                 </div>

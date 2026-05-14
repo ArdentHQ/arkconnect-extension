@@ -214,7 +214,7 @@ const ApproveTransaction = ({
             gasLimit: customGasLimit,
             feeClass,
         });
-        isNative ? navigate(`/transaction/send?${params.toString()}`) : navigate('/');
+        navigate(isNative ? `/transaction/send?${params.toString()}` : '/');
     };
 
     return (
@@ -246,7 +246,7 @@ const ApproveTransaction = ({
                     convertedAmount={convert(amount)}
                     exchangeCurrency={exchangeCurrency}
                     network={getNetworkCurrency(wallet.network())}
-                    fee={+fee}
+                    fee={fee}
                     convertedFee={convert(+fee)}
                     receiver={receiverAddress}
                     totalAmount={total}

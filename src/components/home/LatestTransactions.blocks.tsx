@@ -1,3 +1,4 @@
+import { type JSX } from 'react';
 import cn from 'classnames';
 import dayjs from 'dayjs';
 import { useTranslation } from 'react-i18next';
@@ -45,8 +46,6 @@ export const TransactionTitle = ({
             return t('COMMON.VOTE');
         case TransactionType.UNVOTE:
             return t('COMMON.UNVOTE');
-        case TransactionType.SECOND_SIGNATURE:
-            return t('COMMON.SECOND_SIGNATURE');
         case TransactionType.REGISTRATION:
             return t('COMMON.REGISTRATION');
         case TransactionType.RESIGNATION:
@@ -174,7 +173,6 @@ const TransactionListItem = ({
         TransactionType.REGISTRATION,
         TransactionType.RESIGNATION,
         TransactionType.OTHER,
-        TransactionType.SECOND_SIGNATURE,
         TransactionType.MULTISIGNATURE,
     ].includes(type as TransactionType);
 

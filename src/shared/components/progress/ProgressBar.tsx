@@ -20,11 +20,11 @@ export const ProgressBar = ({
         return (
             <div
                 key={index}
-                className='relative h-1.25 w-full overflow-hidden rounded-2.5xl bg-theme-secondary-200 dark:bg-theme-secondary-600'
+                className='rounded-2.5xl bg-theme-secondary-200 dark:bg-theme-secondary-600 relative h-1.25 w-full overflow-hidden'
             >
                 <div
                     className={cn(
-                        'h-full rounded-3xl bg-theme-primary-700 dark:bg-theme-primary-650',
+                        'bg-theme-primary-700 dark:bg-theme-primary-650 h-full rounded-3xl',
                         {
                             'w-full': (isFilled && shouldAnimate) || index < activeIndex,
                             'w-0': !isFilled || (isFilled && !shouldAnimate),

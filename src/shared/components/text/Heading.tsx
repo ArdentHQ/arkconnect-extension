@@ -9,7 +9,7 @@ export const Heading = ({ level, className, ...properties }: Props) => {
         return (
             <h4
                 className={twMerge(
-                    'text-lg font-medium leading-[23px] text-light-black dark:text-white',
+                    'text-light-black text-lg leading-[23px] font-medium dark:text-white',
                     className,
                 )}
                 {...properties}
@@ -21,7 +21,7 @@ export const Heading = ({ level, className, ...properties }: Props) => {
         return (
             <h3
                 className={twMerge(
-                    'text-xl font-bold leading-[25px] text-light-black dark:text-white',
+                    'text-light-black text-xl leading-[25px] font-bold dark:text-white',
                     className,
                 )}
                 {...properties}
@@ -30,6 +30,6 @@ export const Heading = ({ level, className, ...properties }: Props) => {
     }
 
     return (
-        <h2 className={twMerge('text-2xl font-bold leading-[30px]', className)} {...properties} />
+        <h2 className={twMerge('text-2xl leading-[30px] font-bold', className)} {...properties} />
     );
 };

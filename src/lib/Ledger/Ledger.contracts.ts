@@ -1,7 +1,9 @@
+import { BigNumber } from '../helpers';
+
 export interface LedgerData {
     address: string;
     path: string;
-    balance?: number | { toNumber: () => number };
+    balance?: BigNumber;
     hasSyncedWithNetwork?: boolean;
     isNew?: boolean;
 }

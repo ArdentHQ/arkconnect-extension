@@ -6,6 +6,7 @@ import constants from '@/constants';
 import { Address, LedgerIcon } from '@/components/wallet/address/Address.blocks';
 import { isFirefox } from '@/lib/utils/isFirefox';
 import Amount from '@/components/wallet/Amount';
+import { BigNumber } from '@/app/lib/helpers';
 
 type RowLayoutProps = React.ComponentPropsWithRef<'button'> & {
     iconLeading?: React.ReactNode;
@@ -54,7 +55,7 @@ const RowLayoutWrapper = forwardRef(function RowLayoutWrapper(
                 rel={rel}
                 className={twMerge(
                     className,
-                    'cursor-pointer no-underline hover:underline focus-visible:outline-2 focus-visible:outline-theme-primary-600',
+                    'focus-visible:outline-theme-primary-600 cursor-pointer no-underline hover:underline focus-visible:outline-2',
                 )}
             >
                 {children}
@@ -106,7 +107,7 @@ export const RowLayout = forwardRef(function RowLayout(
         {
             'cursor-pointer': hasPointer,
             'cursor-auto': !hasPointer,
-            'rounded-2xl bg-white dark:bg-subtle-black shadow-light hover:shadow-[0_0_0_1px] hover:shadow-theme-secondary-200 hover:dark:shadow-theme-secondary-600':
+            'rounded-2xl bg-white dark:bg-subtle-black shadow-light hover:shadow-[0_0_0_1px_rgb(var(--theme-color-secondary-200))] hover:dark:shadow-[0_0_0_1px_rgb(var(--theme-color-secondary-600))]':
                 variant === 'primary',
             'rounded-2.5xl bg-white dark:bg-subtle-black shadow-light border border-solid border-theme-primary-700 dark:border-theme-primary-650':
                 variant === 'errorFree',
@@ -151,7 +152,7 @@ export const RowLayout = forwardRef(function RowLayout(
                         </span>
 
                         {helperText && (
-                            <span className='flex items-center gap-1.25 text-left text-sm leading-[18px] text-theme-secondary-500 dark:text-theme-secondary-300'>
+                            <span className='text-theme-secondary-500 dark:text-theme-secondary-300 flex items-center gap-1.25 text-left text-sm leading-[18px]'>
                                 {address && (
                                     <>
                                         <Address
@@ -166,7 +167,7 @@ export const RowLayout = forwardRef(function RowLayout(
                                           if (index === 0) {
                                               return (
                                                   <Amount
-                                                      value={Number(item)}
+                                                      value={BigNumber.make(item)}
                                                       maxDigits={
                                                           constants.MAX_CURRENCY_DIGITS_ALLOWED
                                                       }

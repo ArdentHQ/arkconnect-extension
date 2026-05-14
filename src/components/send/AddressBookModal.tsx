@@ -17,25 +17,25 @@ const ContactItem = ({
             className={cn(
                 'transition-smoothEase flex h-[66px] w-[306px] flex-row items-center justify-between px-4 py-3',
                 {
-                    'rounded-lg bg-theme-primary-50 dark:bg-theme-primary-800/25': isSelected,
-                    'dark:bg-light-black-black border-b border-b-theme-secondary-200 hover:rounded-lg hover:border-transparent hover:bg-theme-secondary-50 dark:border-b-theme-secondary-700 dark:hover:bg-theme-secondary-700':
+                    'bg-theme-primary-50 dark:bg-theme-primary-800/25 rounded-lg': isSelected,
+                    'dark:bg-light-black-black border-b-theme-secondary-200 hover:bg-theme-secondary-50 dark:border-b-theme-secondary-700 dark:hover:bg-theme-secondary-700 border-b hover:rounded-lg hover:border-transparent':
                         !isSelected,
                 },
             )}
             onClick={() => onSelect(contact.address)}
         >
             <span className='flex flex-col items-start gap-1'>
-                <span className='text-base font-medium leading-5 text-light-black dark:text-white'>
+                <span className='text-light-black text-base leading-5 font-medium dark:text-white'>
                     {contact.name}
                 </span>
-                <span className='text-sm font-normal text-theme-secondary-500 dark:text-theme-secondary-300'>
+                <span className='text-theme-secondary-500 dark:text-theme-secondary-300 text-sm font-normal'>
                     {trimAddress(contact.address, 10)}
                 </span>
             </span>
             {isSelected && (
                 <Icon
                     icon='check'
-                    className='h-5 w-5 text-theme-primary-700 dark:text-theme-primary-600'
+                    className='text-theme-primary-700 dark:text-theme-primary-600 h-5 w-5'
                 />
             )}
         </button>
@@ -52,7 +52,7 @@ export const AddressBookModal = ({
     selectedAddress?: string;
 }) => {
     return (
-        <div className='custom-scroll max-h-[330px] overflow-y-auto overflow-x-hidden'>
+        <div className='custom-scroll max-h-[330px] overflow-x-hidden overflow-y-auto'>
             {addressBook.map((contact: Contact, index) => {
                 return (
                     <ContactItem

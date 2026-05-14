@@ -114,7 +114,7 @@ const ChangeLocalPassword = () => {
                 </HeadingDescription>
 
                 <div className='h-full'>
-                    <div className='mb-4 border-b border-solid border-b-theme-secondary-200 pb-4 dark:border-b-theme-secondary-600'>
+                    <div className='border-b-theme-secondary-200 dark:border-b-theme-secondary-600 mb-4 border-b border-solid pb-4'>
                         <PasswordInput
                             name='oldPassword'
                             variant={formik.errors.oldPassword ? 'destructive' : 'primary'}

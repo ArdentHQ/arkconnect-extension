@@ -63,7 +63,7 @@ export const ValidatorsListItem = ({
                     <Tooltip content={validatorAddress} disabled={disableTooltip}>
                         <span
                             ref={addressRef}
-                            className='block w-full overflow-hidden text-ellipsis whitespace-nowrap font-medium dark:text-white'
+                            className='block w-full overflow-hidden font-medium text-ellipsis whitespace-nowrap dark:text-white'
                         >
                             {validatorAddress}
                         </span>
