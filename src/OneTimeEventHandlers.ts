@@ -62,7 +62,6 @@ export function OneTimeEventHandlers(extension: ReturnType<typeof Extension>) {
                     .wallet()
                     .sendTransfer(request.data as SendTransferInput);
             } catch (error) {
-                console.error('[SEND_TRANSACTION] failed', error);
                 return {
                     error: 'FAILED_TO_BROADCAST',
                     errorStack: {
