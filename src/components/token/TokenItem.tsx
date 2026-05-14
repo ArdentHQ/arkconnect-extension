@@ -13,7 +13,7 @@ export const TokenItem = ({
     return (
         <div
             className={cn(
-                'border-t-1 dark:border-theme-subtle-black border-inset flex flex-row items-center justify-between border-theme-secondary-200 py-3 first:border-none',
+                'border-t-1 dark:border-theme-subtle-black border-inset flex flex-row items-center justify-between border-theme-secondary-200 py-3 first:border-none dark:border-theme-secondary-700',
                 className,
             )}
         >
