@@ -276,7 +276,7 @@ const ApproveTransaction = ({
             appLogo={session.logo}
             footer={
                 <ApproveFooter
-                    disabled={!!error || !formValuesLoaded}
+                    disabled={!!error || !formValuesLoaded || (isTokenTransfer && !token)}
                     onSubmit={onSubmit}
                     onCancel={onCancel}
                     isNative={isNative}
