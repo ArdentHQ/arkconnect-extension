@@ -1,13 +1,13 @@
 /* eslint unicorn/no-abusive-eslint-disable: "off" */
 /* eslint-disable */
 import { ConfigRepository, Contracts, Services } from "@/lib/mainsail";
-import { BigNumber } from "@/lib/helpers";
-
-import { ArkClient } from "@arkecosystem/typescript-client";
-import { IProfile } from "@/lib/profiles/profile.contract";
 import { EstimateGasPayload, TransactionFee } from "@/lib/mainsail/fee.contract";
-import { hexToBigInt } from "viem";
+
+import { BigNumber } from "@/lib/helpers";
+import { Client } from "@arkecosystem/typescript-client";
+import { IProfile } from "@/lib/profiles/profile.contract";
 import { UnitConverter } from "@arkecosystem/typescript-crypto";
+import { hexToBigInt } from "viem";
 
 interface Fees {
 	min: string;
@@ -20,14 +20,14 @@ type ConfirmationFeeType = "Slow" | "Average" | "Fast";
 const defaultBlockTime = 8000;
 
 export class FeeService {
-	readonly #client: ArkClient;
+	readonly #client: Client;
 	#config: ConfigRepository;
 
 	constructor({ config, profile }: { config: ConfigRepository; profile: IProfile }) {
 		this.#config = config;
 		const api = this.#config.host("full", profile);
 		const evm = this.#config.host("evm", profile);
-		this.#client = new ArkClient({ api, evm });
+		this.#client = new Client({ api, evm });
 	}
 
 	public async all(): Promise<Services.TransactionFees> {
@@ -41,7 +41,6 @@ export class FeeService {
 			validatorRegistration: fees,
 			validatorResignation: fees,
 			multiPayment: fees,
-			secondSignature: fees,
 			transfer: fees,
 			usernameRegistration: fees,
 			usernameResignation: fees,
