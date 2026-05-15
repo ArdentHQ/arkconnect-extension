@@ -241,15 +241,17 @@ const TransactionListItem = ({
 export const TransactionsList = ({
     transactions,
     displayButton,
+    maxHeight = 'max-h-[237px]',
 }: {
     transactions: ExtendedConfirmedTransactionData[];
     displayButton: boolean;
+    maxHeight?: string;
 }) => {
     const primaryWallet = usePrimaryWallet();
     const { t } = useTranslation();
 
     return (
-        <div className='custom-scroll max-h-[270px] overflow-auto'>
+        <div className={cn(['custom-scroll overflow-auto', maxHeight])}>
             {transactions.map((transaction, index) => (
                 <TransactionListItem key={index} transaction={transaction} />
             ))}

@@ -95,7 +95,8 @@ export class ByteBuffer {
 			throw new Error("Write over buffer boundary");
 		}
 
-		this.offset += value.copy(this.buff, this.offset);
+		this.buff.set(value, this.offset);
+		this.offset += value.length;
 	}
 
 	public readInt8(): number {

@@ -4,6 +4,10 @@ export default {
         INSUFFICIENT_FUNDS: 'Insufficient funds to send',
         LATEST_TRANSACTIONS: 'Latest Transactions',
         NO_TRANSACTIONS: 'You don’t have any transactions',
+        TABS: {
+            TOKENS: 'Tokens',
+            TRANSACTIONS: 'Transactions',
+        },
     },
     CONNECT: {
         CONNECT_TO_APP: 'Connect to App',
