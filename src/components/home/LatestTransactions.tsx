@@ -3,16 +3,19 @@ import { useEffect, useMemo, useState } from 'react';
 import { useQuery } from 'react-query';
 import classNames from 'classnames';
 import { TransactionsTabs, TransactionTab } from './TransactionsTabs';
-import { NoTransactions, TransactionsList } from './LatestTransactions.blocks';
+import { NoTransactions, TokensList, TransactionsList } from './LatestTransactions.blocks';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 import { Loader } from '@/shared/components';
 import { ExtendedConfirmedTransactionData } from '@/lib/profiles/transaction.dto';
 import { IReadWriteWallet } from '@/lib/profiles/wallet.contract';
+import { WalletToken } from '@/lib/profiles/wallet-token';
 
 type TransactionResponse = {
     transactions: ExtendedConfirmedTransactionData[];
     hasMorePages: boolean;
 };
+
+const TOKENS_LIMIT = 10;
 
 const fetchTransactions = async (
     primaryWallet?: IReadWriteWallet,
@@ -29,16 +32,18 @@ const fetchTransactions = async (
     }
 };
 
-const fetchTokens = async (primaryWallet?: IReadWriteWallet): Promise<TransactionResponse> => {
-    try {
-        const response = await primaryWallet?.tokenIndex().all({ limit: 10 });
+const fetchTokens = async (primaryWallet?: IReadWriteWallet): Promise<WalletToken[]> => {
+    if (!primaryWallet) return [];
 
-        return {
-            transactions: response?.items() || [],
-            hasMorePages: response?.hasMorePages() || false,
-        };
+    try {
+        const collection = await primaryWallet.client().tokenAddresses({
+            addresses: [primaryWallet.address()],
+            minBalance: '0',
+        });
+
+        return collection.items().slice(0, TOKENS_LIMIT);
     } catch {
-        return { transactions: [], hasMorePages: false };
+        return [];
     }
 };
 
@@ -61,7 +66,7 @@ export const LatestTransactions = () => {
         data: tokenData,
         refetch: refetchTokens,
         isLoading: isLoadingTokens,
-    } = useQuery<TransactionResponse>(
+    } = useQuery<WalletToken[]>(
         ['tokens', primaryWallet?.address()],
         () => fetchTokens(primaryWallet),
         {
@@ -72,7 +77,7 @@ export const LatestTransactions = () => {
     );
 
     const tabs = useMemo(() => {
-        if (tokenData && tokenData.transactions.length > 0) {
+        if (tokenData && tokenData.length > 0) {
             return ['TOKENS', 'TRANSACTIONS'];
         }
 
@@ -117,7 +122,7 @@ export const LatestTransactions = () => {
                 )}
 
                 {showTabs && activeTab === 'TOKENS' ? (
-                    <div className='h-auto w-full'></div>
+                    <TokensList tokens={tokenData ?? []} />
                 ) : !isLoading && data ? (
                     <div className='h-auto w-full'>
                         {data.transactions.length > 0 ? (
