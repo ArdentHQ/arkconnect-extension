@@ -1,5 +1,3 @@
-import { get } from "@/lib/helpers";
-import { randomHost } from "./helpers/hosts";
 import {
 	CoinManifest,
 	ExpirationType,
@@ -9,9 +7,12 @@ import {
 	VotingMethod,
 } from "./network.models";
 import { ConfigKey, ConfigRepository } from ".";
-import { ArkClient } from "@arkecosystem/typescript-client";
-import { FeeService } from "./fee.service";
+
+import { Client } from "@arkecosystem/typescript-client";
 import { Contracts } from "@/lib/profiles";
+import { FeeService } from "./fee.service";
+import { get } from "@/lib/helpers";
+import { randomHost } from "./helpers/hosts";
 
 export class Network {
 	/**
@@ -388,7 +389,7 @@ export class Network {
 			throw new Error(`Expected network host to be a url but received ${typeof host}`);
 		}
 
-		const client = new ArkClient(host.host);
+		const client = new Client(host.host);
 		const [crypto, status] = await Promise.all([client.node().crypto(), client.node().syncing()]);
 
 		const dataCrypto = crypto.data;
@@ -415,7 +416,7 @@ export class Network {
 	 * @memberof Network
 	 */
 	public async evaluateUrl(host: string): Promise<boolean> {
-		const client = new ArkClient(host);
+		const client = new Client(host);
 		const { data } = await client.node().crypto();
 		return data.network.client.token === this.config().get(ConfigKey.CurrencyTicker);
 	}
