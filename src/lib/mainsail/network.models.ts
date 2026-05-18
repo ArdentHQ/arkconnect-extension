@@ -17,7 +17,6 @@ export type TransactionType =
 	| "validatorRegistration"
 	| "updateValidator"
 	| "multiPayment"
-	| "secondSignature"
 	| "transfer"
 	| "vote";
 
@@ -257,10 +256,6 @@ export type TransactionMethod =
 	| "multiPayment.ledgerX"
 	| "multiPayment.musig"
 	| "multiPayment"
-	| "secondSignature.ledgerS"
-	| "secondSignature.ledgerX"
-	| "secondSignature.musig"
-	| "secondSignature"
 	| "transfer.ledgerS"
 	| "transfer.ledgerX"
 	| "transfer.musig"
