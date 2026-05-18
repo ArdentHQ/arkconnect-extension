@@ -11,14 +11,14 @@ type Props = {
 const RequestedBy = ({ appDomain, appLogo }: Props) => {
     const { t } = useTranslation();
     return (
-        <div className='flex w-full flex-row items-center justify-center bg-white p-4 shadow-light dark:bg-subtle-black'>
+        <div className='shadow-light dark:bg-subtle-black flex w-full flex-row items-center justify-center bg-white p-4'>
             <ConnectionLogoImage appLogo={appLogo} appName={appDomain} roundCorners />
 
-            <span className='ml-2 whitespace-nowrap text-sm text-theme-secondary-500 dark:text-theme-secondary-300'>
+            <span className='text-theme-secondary-500 dark:text-theme-secondary-300 ml-2 text-sm whitespace-nowrap'>
                 {t('COMMON.REQUESTED_BY')}
             </span>
 
-            <span className='inline truncate text-sm text-light-black dark:text-white'>
+            <span className='text-light-black inline truncate text-sm dark:text-white'>
                 &nbsp;
                 {formatDomain(appDomain, false)}
             </span>

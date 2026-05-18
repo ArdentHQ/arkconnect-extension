@@ -111,11 +111,11 @@ const ImportWithLedger = () => {
     }, []);
 
     return (
-        <div className='min-h-screen w-screen bg-subtle-white dark:bg-light-black'>
+        <div className='bg-subtle-white dark:bg-light-black min-h-screen w-screen'>
             <Header hideNavbar />
             <div className='flex min-h-screen w-full items-center justify-center pt-14'>
                 <div className='flex h-full items-center justify-center'>
-                    <div className='w-[355px] rounded-lg bg-white py-6 dark:bg-subtle-black'>
+                    <div className='dark:bg-subtle-black w-[355px] rounded-lg bg-white py-6'>
                         <StepsNavigation
                             steps={steps}
                             formik={formik}
@@ -125,12 +125,12 @@ const ImportWithLedger = () => {
                     </div>
                 </div>
                 {error && (
-                    <div className='fixed bottom-0 left-0 z-20 flex w-full items-center justify-center border-t border-t-theme-error-300 bg-theme-error-50 px-2 py-2 dark:border-t-theme-error-500 dark:bg-[rgba(255,86,74,0.26)]'>
+                    <div className='border-t-theme-error-300 bg-theme-error-50 dark:border-t-theme-error-500 fixed bottom-0 left-0 z-20 flex w-full items-center justify-center border-t px-2 py-2 dark:bg-[rgba(255,86,74,0.26)]'>
                         <div className='flex h-8 items-center gap-4'>
                             <div className='flex items-center gap-2'>
                                 <Icon
                                     icon='information-circle'
-                                    className='h-5 w-5 text-theme-error-600 dark:text-white'
+                                    className='text-theme-error-600 h-5 w-5 dark:text-white'
                                 />
                                 <p className='typeset-body text-theme-error-600 dark:text-white'>
                                     {error && error.message ? error.message : error}
@@ -139,7 +139,7 @@ const ImportWithLedger = () => {
                             <div className='p-2' onClick={removeErrors}>
                                 <Icon
                                     icon='x'
-                                    className='h-4 w-4 cursor-pointer text-theme-error-600 dark:text-white'
+                                    className='text-theme-error-600 h-4 w-4 cursor-pointer dark:text-white'
                                 />
                             </div>
                         </div>

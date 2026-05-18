@@ -12,7 +12,7 @@ export const InternalLink = ({ className, ...rest }: InternalLinkProps) => {
         <Link
             className={twMerge(
                 cn('cursor-pointer no-underline hover:underline', {
-                    'outline outline-2': isFirefox,
+                    'outline-2': isFirefox,
                 }),
                 className,
             )}

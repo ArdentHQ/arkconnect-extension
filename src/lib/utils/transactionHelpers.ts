@@ -1,5 +1,12 @@
-import { RecipientItem } from '@/lib/hooks/useSendTransferForm';
+import { BigNumber } from '@/lib/helpers';
 import { BroadcastResponse } from '@/lib/mainsail/client.contract';
+
+interface RecipientItem {
+    address: string;
+    alias?: string;
+    amount?: BigNumber | string | number;
+    isValidator?: boolean;
+}
 
 interface BuildTransferDataProperties {
     isMultiSignature?: boolean;
@@ -38,11 +45,14 @@ interface BuildTransferData {
     expiration?: number;
 }
 
-const normalizeAmount = (amount: string | undefined, preserve: boolean): number | string => {
+const normalizeAmount = (
+    amount: BigNumber | string | number | undefined,
+    preserve: boolean,
+): number | string => {
     if (preserve) {
-        return amount ?? '0';
+        return amount?.toString() ?? '0';
     }
-    return +(amount ?? 0);
+    return Number(amount ?? 0);
 };
 
 export const buildTransferData = async ({

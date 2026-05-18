@@ -13,11 +13,11 @@ import {
 import { InputFeeAdvanced } from './blocks/InputFeeAdvanced';
 import { InputFeeSimple } from './blocks/InputFeeSimple';
 import { calculateGasFee } from './InputFee.helpers';
-import { BigNumber, get } from '@/app/lib/helpers';
-import { Contracts } from '@/app/lib/profiles';
+import { BigNumber, get } from '@/lib/helpers';
+import { Contracts } from '@/lib/profiles';
 import { Switch } from '@/shared/components';
 import { useExchangeRate } from '@/lib/hooks/use-exchange-rate';
-import { Network } from '@/app/lib/mainsail/network';
+import { Network } from '@/lib/mainsail/network';
 import { DISPLAY_DECIMALS } from '@/lib/domains/transaction/utils';
 
 export const getFeeMinMax = (network: Network) => {
@@ -77,25 +77,25 @@ export const InputFee: React.FC<InputFeeProperties> = memo(
 
         const options: InputFeeOptions = {
             [InputFeeOption.Slow]: {
-                displayValue: BigNumber.make(calculateGasFee(min, gasLimit))
-                    .decimalPlaces(DISPLAY_DECIMALS)
-                    .toNumber(),
+                displayValue: BigNumber.make(calculateGasFee(min, gasLimit)).decimalPlaces(
+                    DISPLAY_DECIMALS,
+                ),
                 displayValueConverted: convert(calculateGasFee(min, gasLimit)),
                 gasPrice: min,
                 label: t('TRANSACTION.FEES.SLOW'),
             },
             [InputFeeOption.Average]: {
-                displayValue: BigNumber.make(calculateGasFee(avg, gasLimit))
-                    .decimalPlaces(DISPLAY_DECIMALS)
-                    .toNumber(),
+                displayValue: BigNumber.make(calculateGasFee(avg, gasLimit)).decimalPlaces(
+                    DISPLAY_DECIMALS,
+                ),
                 displayValueConverted: convert(calculateGasFee(avg, gasLimit)),
                 gasPrice: avg,
                 label: t('TRANSACTION.FEES.AVERAGE'),
             },
             [InputFeeOption.Fast]: {
-                displayValue: BigNumber.make(calculateGasFee(max, gasLimit))
-                    .decimalPlaces(DISPLAY_DECIMALS)
-                    .toNumber(),
+                displayValue: BigNumber.make(calculateGasFee(max, gasLimit)).decimalPlaces(
+                    DISPLAY_DECIMALS,
+                ),
                 displayValueConverted: convert(calculateGasFee(max, gasLimit)),
                 gasPrice: max,
                 label: t('TRANSACTION.FEES.FAST'),

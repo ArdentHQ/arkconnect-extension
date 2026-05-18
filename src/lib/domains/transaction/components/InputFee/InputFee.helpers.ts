@@ -1,5 +1,5 @@
 import { UnitConverter } from '@arkecosystem/typescript-crypto';
-import { BigNumber } from '@/app/lib/helpers';
+import { BigNumber } from '@/lib/helpers';
 
 export const useStepMath = (step: number, value: number | string) => ({
     decrement: () =>

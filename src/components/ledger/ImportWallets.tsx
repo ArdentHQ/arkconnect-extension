@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 import { FormikProps } from 'formik';
 import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
@@ -12,6 +12,7 @@ import useOnError from '@/lib/hooks';
 import { getNetworkCurrency } from '@/lib/utils/getActiveCoin';
 import { AddressBalance } from '@/components/wallet/address/Address.blocks';
 import { handleSubmitKeyAction } from '@/lib/utils/handleKeyAction';
+import { BigNumber } from '@/app/lib/helpers';
 
 type Props = {
     goToNextStep: () => void;
@@ -20,7 +21,6 @@ type Props = {
 
 const ImportWallets = ({ goToNextStep, formik }: Props) => {
     const onError = useOnError();
-    const retryFunctionReference = useRef<() => void>();
     const { profile } = useProfileContext();
     const ledgerScanner = useLedgerScanner(profile.activeNetwork().id());
     const { isBusy, importLedgerWallets } = useLedgerContext();
@@ -29,7 +29,6 @@ const ImportWallets = ({ goToNextStep, formik }: Props) => {
     const {
         scan,
         selectedWallets,
-        canRetry,
         isScanning,
         abortScanner,
         wallets,
@@ -40,28 +39,11 @@ const ImportWallets = ({ goToNextStep, formik }: Props) => {
 
     const showLoader = (isScanning || (isBusy && wallets.length === 0)) && !isScanningMore;
 
-    // eslint-disable-next-line arrow-body-style
     useEffect(() => {
         return () => {
             abortScanner();
         };
     }, [abortScanner]);
-
-    const setRetryFn = useCallback(
-        (callback?: () => void) => {
-            retryFunctionReference.current = callback;
-        },
-        [retryFunctionReference],
-    );
-
-    useEffect(() => {
-        if (canRetry) {
-            setRetryFn?.(() => scan(profile));
-        } else {
-            setRetryFn?.(undefined);
-        }
-        return () => setRetryFn?.(undefined);
-    }, [setRetryFn, scan, canRetry, profile]);
 
     useEffect(() => {
         scan(profile);
@@ -105,10 +87,10 @@ const ImportWallets = ({ goToNextStep, formik }: Props) => {
                     {t('PAGES.IMPORT_WITH_LEDGER.SELECT_ADDRESSES_TO_IMPORT')}
                 </Heading>
             </div>
-            <p className='typeset-body mb-6 px-6 text-theme-secondary-500 dark:text-theme-secondary-300'>
+            <p className='typeset-body text-theme-secondary-500 dark:text-theme-secondary-300 mb-6 px-6'>
                 {t('PAGES.IMPORT_WITH_LEDGER.MULTIPLE_ADDRESSES_CAN_BE_IMPORTED')}
             </p>
-            <div className='custom-scroll h-65 max-h-65 overflow-y-scroll border-b border-t border-solid border-b-theme-secondary-200 border-t-theme-secondary-200 dark:border-b-theme-secondary-700 dark:border-t-theme-secondary-700'>
+            <div className='custom-scroll border-b-theme-secondary-200 border-t-theme-secondary-200 dark:border-b-theme-secondary-700 dark:border-t-theme-secondary-700 h-65 max-h-65 overflow-y-scroll border-t border-b border-solid'>
                 <HandleLoadingState loading={showLoader}>
                     {wallets.map((wallet) => {
                         const isImported = isWalletImported(wallet.address);
@@ -116,7 +98,7 @@ const ImportWallets = ({ goToNextStep, formik }: Props) => {
                         return (
                             <div
                                 className={cn(
-                                    'flex cursor-pointer justify-between transition-all duration-500 ease-in-out hover:bg-theme-secondary-50',
+                                    'hover:bg-theme-secondary-50 flex cursor-pointer justify-between transition-all duration-500 ease-in-out',
                                     {
                                         'bg-theme-secondary-100 text-theme-secondary-500 dark:bg-light-black dark:text-theme-secondary-300':
                                             isImported,
@@ -157,11 +139,7 @@ const ImportWallets = ({ goToNextStep, formik }: Props) => {
                                             </p>
                                             <span className='typeset-body'>
                                                 <AddressBalance
-                                                    balance={
-                                                        typeof wallet.balance === 'number'
-                                                            ? wallet.balance
-                                                            : (wallet.balance?.toNumber?.() ?? 0)
-                                                    }
+                                                    balance={wallet.balance ?? BigNumber.ZERO}
                                                     currency={getNetworkCurrency(
                                                         profile.activeNetwork(),
                                                     )}

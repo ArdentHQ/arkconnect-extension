@@ -189,9 +189,9 @@ export class Wallet implements IReadWriteWallet {
 	}
 
 	/** {@inheritDoc IReadWriteWallet.convertedBalance} */
-	public convertedBalance(type: WalletBalanceType = "available"): number {
+	public convertedBalance(type: WalletBalanceType = "available"): BigNumber {
 		if (this.network().isTest()) {
-			return 0;
+			return BigNumber.ZERO;
 		}
 
 		return this.exchangeRates().exchange(

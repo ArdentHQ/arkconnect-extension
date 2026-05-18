@@ -153,7 +153,7 @@ const Logout = () => {
                     {walletsToLogout && walletsToLogout.length > 1 ? (
                         <span className='typeset-headline'>
                             {t('PAGES.LOGOUT.ARE_YOU_SURE_YOU_WANT_TO_REMOVE_1')}
-                            <span className='typeset-headline inline-block text-light-black dark:text-white'>
+                            <span className='typeset-headline text-light-black inline-block dark:text-white'>
                                 {walletsToLogout.length}{' '}
                                 {t('PAGES.LOGOUT.ARE_YOU_SURE_YOU_WANT_TO_REMOVE_2')}
                             </span>{' '}
@@ -172,7 +172,7 @@ const Logout = () => {
 
                 <div className='flex flex-1 flex-col justify-between'>
                     <div className='mt-[18px] flex flex-col gap-1.5'>
-                        <p className='typeset-headline font-medium text-subtle-black dark:text-theme-secondary-200'>
+                        <p className='typeset-headline text-subtle-black dark:text-theme-secondary-200 font-medium'>
                             {t('PAGES.LOGOUT.ENTER_PASSWORD')}
                         </p>
                         <PasswordInput

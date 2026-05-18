@@ -62,7 +62,6 @@ export default {
     RETURN: 'Return',
     SAVE: 'Save',
     SAVE_WITH_NAME: 'Save {{name}}',
-    SECOND_SIGNATURE: 'Second Signature',
     SEND: 'Send',
     SENDER: 'Sender',
     SENT: 'Sent',

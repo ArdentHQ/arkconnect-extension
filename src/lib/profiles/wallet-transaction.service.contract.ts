@@ -63,15 +63,6 @@ export interface ITransactionService {
 	signTransfer(input: Services.TransferInput): Promise<string>;
 
 	/**
-	 * Sign a Second-Signature Registration transaction.
-	 *
-	 * @param {Services.SecondSignatureInput} input
-	 * @return {Promise<string>}
-	 * @memberof ITransactionService
-	 */
-	signSecondSignature(input: Services.SecondSignatureInput): Promise<string>;
-
-	/**
 	 * Sign a Delegate Registration transaction.
 	 *
 	 * @deprecated

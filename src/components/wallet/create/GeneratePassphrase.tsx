@@ -45,10 +45,10 @@ const GeneratePassphrase = ({ goToNextStep, formik }: Props) => {
                 })}
                 key={index}
             >
-                <p className='typeset-body w-auto text-theme-secondary-500 dark:text-theme-secondary-300'>
+                <p className='typeset-body text-theme-secondary-500 dark:text-theme-secondary-300 w-auto'>
                     {index + 1}
                 </p>
-                <p className='typeset-headline font-medium text-light-black dark:text-white'>
+                <p className='typeset-headline text-light-black font-medium dark:text-white'>
                     {isHidden ? '•'.repeat(wordLength) : word}
                 </p>
             </div>
@@ -66,9 +66,9 @@ const GeneratePassphrase = ({ goToNextStep, formik }: Props) => {
             </HeadingDescription>
 
             {formik.values.passphrase && (
-                <div className='mb-4 max-h-[226px] rounded-lg border border-solid border-theme-secondary-100 bg-white p-3 dark:border-theme-secondary-400 dark:bg-subtle-black'>
+                <div className='border-theme-secondary-100 dark:border-theme-secondary-400 dark:bg-subtle-black mb-4 max-h-[226px] rounded-lg border border-solid bg-white p-3'>
                     <div className='grid grid-cols-3 gap-2.5'>
-                        <div className='flex flex-1 flex-col border-r border-solid border-r-theme-secondary-200 pr-2.5 dark:border-r-theme-secondary-600'>
+                        <div className='border-r-theme-secondary-200 dark:border-r-theme-secondary-600 flex flex-1 flex-col border-r border-solid pr-2.5'>
                             {formik.values.passphrase
                                 .slice(0, 8)
                                 .map((word: string, index: number) =>
@@ -76,7 +76,7 @@ const GeneratePassphrase = ({ goToNextStep, formik }: Props) => {
                                 )}
                         </div>
 
-                        <div className='flex flex-1 flex-col border-r border-solid border-r-theme-secondary-200 pr-2.5 dark:border-r-theme-secondary-600'>
+                        <div className='border-r-theme-secondary-200 dark:border-r-theme-secondary-600 flex flex-1 flex-col border-r border-solid pr-2.5'>
                             {formik.values.passphrase
                                 .slice(8, 16)
                                 .map((word: string, index: number) =>
@@ -104,14 +104,14 @@ const GeneratePassphrase = ({ goToNextStep, formik }: Props) => {
 
                 <button
                     type='button'
-                    className='flex h-5 items-center gap-2 overflow-hidden text-theme-primary-700 dark:text-theme-primary-650'
+                    className='text-theme-primary-700 dark:text-theme-primary-650 flex h-5 items-center gap-2 overflow-hidden'
                     onClick={copyPassphraseToClipboard}
                 >
                     <span className='inline-block'>
                         <Icon icon='copy' className='h-4.5 w-4.5' />
                     </span>
 
-                    <span className='typeset-headline inline-block font-medium leading-[18px]'>
+                    <span className='typeset-headline inline-block leading-[18px] font-medium'>
                         {t('ACTION.COPY')}
                     </span>
                 </button>

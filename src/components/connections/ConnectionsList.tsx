@@ -68,10 +68,10 @@ const ConnectionsList = () => {
                 {Object.values(sessions).map((session) => {
                     return (
                         <div
-                            className='relative flex min-h-[58px] w-full items-center justify-between gap-3 rounded-2xl bg-white p-3 shadow-light dark:bg-subtle-black'
+                            className='shadow-light dark:bg-subtle-black relative flex min-h-[58px] w-full items-center justify-between gap-3 rounded-2xl bg-white p-3'
                             key={session.id}
                         >
-                            <div className='flex h-10 w-10 flex-shrink-0 items-center justify-center overflow-hidden rounded-full bg-theme-secondary-50 dark:bg-black'>
+                            <div className='bg-theme-secondary-50 flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-full dark:bg-black'>
                                 <ConnectionLogoImage
                                     appLogo={session.logo}
                                     alt={session.domain}
@@ -91,13 +91,13 @@ const ConnectionsList = () => {
                                         }
                                         placement='top'
                                     >
-                                        <p className='typeset-headline font-medium text-light-black dark:text-white'>
+                                        <p className='typeset-headline text-light-black font-medium dark:text-white'>
                                             {formatDomain(session.domain, false)}
                                         </p>
                                     </Tooltip>
                                 </div>
 
-                                <span className='typeset-body mt-1 text-theme-secondary-500 dark:text-theme-secondary-300'>
+                                <span className='typeset-body text-theme-secondary-500 dark:text-theme-secondary-300 mt-1'>
                                     {t('PAGES.CONNECTIONS.CONNECTED_WITH')}{' '}
                                     <Tooltip
                                         content={profile
@@ -106,7 +106,7 @@ const ConnectionsList = () => {
                                             .address()}
                                         placement='bottom-start'
                                     >
-                                        <strong className='text-theme-secondary-700 underline-offset-2 hover:underline dark:text-theme-secondary-200'>
+                                        <strong className='text-theme-secondary-700 dark:text-theme-secondary-200 underline-offset-2 hover:underline'>
                                             {trimAddress(getWalletName(session.walletId), 14)}
                                         </strong>
                                     </Tooltip>
@@ -117,7 +117,7 @@ const ConnectionsList = () => {
                                 <button
                                     type='button'
                                     className={cn(
-                                        'flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full text-theme-error-500 hover:bg-theme-secondary-50 dark:text-theme-error-600 dark:hover:bg-theme-secondary-700',
+                                        'text-theme-error-500 hover:bg-theme-secondary-50 dark:text-theme-error-600 dark:hover:bg-theme-secondary-700 flex h-8 w-8 shrink-0 items-center justify-center rounded-full',
                                         {
                                             'transition-smoothEase': !isFirefox,
                                             'transition-firefoxSmoothEase': isFirefox,
@@ -129,7 +129,7 @@ const ConnectionsList = () => {
                                 >
                                     <Icon
                                         icon='slash'
-                                        className='h-4.5 w-4.5 text-theme-error-600 dark:text-theme-error-500'
+                                        className='text-theme-error-600 dark:text-theme-error-500 h-4.5 w-4.5'
                                     />
                                 </button>
                             </Tooltip>

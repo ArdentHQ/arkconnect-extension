@@ -181,7 +181,7 @@ const ApproveTransaction = ({
                 sender: response.from as string,
                 receiver: isTokenTransfer ? receiverAddress : (response.to as string),
                 amount: isTokenTransfer ? amount : (response.amount as number),
-                convertedAmount: isTokenTransfer ? 0 : convert(response.amount),
+                convertedAmount: isTokenTransfer ? undefined : convert(response.amount),
                 fee: response.fee as number,
                 convertedFee: convert(response.fee),
                 total: isTokenTransfer ? undefined : (response.total as number),
@@ -267,7 +267,7 @@ const ApproveTransaction = ({
             feeClass,
             ...(tokenAddress ? { token: tokenAddress } : {}),
         });
-        isNative ? navigate(`/transaction/send?${params.toString()}`) : navigate('/');
+        navigate(isNative ? `/transaction/send?${params.toString()}` : '/');
     };
 
     return (
@@ -297,10 +297,10 @@ const ApproveTransaction = ({
                     amount={amount}
                     amountTicker={amountTicker}
                     feeTicker={isTokenTransfer ? coin : undefined}
-                    convertedAmount={isTokenTransfer ? 0 : convert(amount)}
+                    convertedAmount={isTokenTransfer ? undefined : convert(amount)}
                     exchangeCurrency={exchangeCurrency}
                     network={getNetworkCurrency(wallet.network())}
-                    fee={+fee}
+                    fee={fee}
                     convertedFee={convert(+fee)}
                     receiver={receiverAddress}
                     totalAmount={isTokenTransfer ? undefined : total}
