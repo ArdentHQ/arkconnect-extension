@@ -21,6 +21,8 @@ import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 import { isFirefox } from '@/lib/utils/isFirefox';
 import { ExtendedConfirmedTransactionData } from '@/lib/profiles/transaction.dto';
 import { IReadWriteWallet } from '@/lib/profiles/wallet.contract';
+import { WalletToken } from '@/lib/profiles/wallet-token';
+import { formatTokenBalance } from '@/lib/utils/formatTokenBalance';
 
 export const TransactionTitle = ({
     type,
@@ -241,15 +243,17 @@ const TransactionListItem = ({
 export const TransactionsList = ({
     transactions,
     displayButton,
+    maxHeight = 'max-h-[237px]',
 }: {
     transactions: ExtendedConfirmedTransactionData[];
     displayButton: boolean;
+    maxHeight?: string;
 }) => {
     const primaryWallet = usePrimaryWallet();
     const { t } = useTranslation();
 
     return (
-        <div className='custom-scroll max-h-[270px] overflow-auto'>
+        <div className={cn(['custom-scroll overflow-auto', maxHeight])}>
             {transactions.map((transaction, index) => (
                 <TransactionListItem key={index} transaction={transaction} />
             ))}
@@ -298,4 +302,76 @@ export const LatestTransactionAmount = ({
     }
 
     return <TransactionAmount transaction={transaction} displayFiat={false} />;
+};
+
+const TokenAvatar = ({ token }: { token: WalletToken }) => {
+    const symbol = token.token().symbol() || token.token().name();
+    const initial = symbol.slice(0, 1).toUpperCase();
+
+    return (
+        <div className='bg-theme-primary-600 flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-lg leading-none font-semibold text-white'>
+            {initial}
+        </div>
+    );
+};
+
+const TokenListItem = ({ token }: { token: WalletToken }) => {
+    const balance = token.balance();
+    const isZero = balance.isZero();
+
+    return (
+        <div className='dark:bg-subtle-black flex h-16 items-center justify-between gap-[15px] bg-white p-4'>
+            <div className='flex min-w-0 flex-1 items-center gap-3'>
+                <TokenAvatar token={token} />
+                <div className='flex min-w-0 items-center gap-2 overflow-hidden'>
+                    <span className='typeset-headline text-light-black min-w-0 truncate font-medium dark:text-white'>
+                        {token.token().name()}
+                    </span>
+                    <span className='typeset-headline text-theme-secondary-500 dark:text-theme-secondary-300 shrink-0 font-medium'>
+                        {token.token().displaySymbol()}
+                    </span>
+                </div>
+            </div>
+            <span
+                className={cn('typeset-headline shrink-0 font-medium', {
+                    'text-light-black dark:text-white': !isZero,
+                    'text-theme-secondary-500 dark:text-theme-secondary-300': isZero,
+                })}
+            >
+                {formatTokenBalance(balance)}
+            </span>
+        </div>
+    );
+};
+
+export const TokensList = ({ tokens }: { tokens: WalletToken[] }) => {
+    const { t } = useTranslation();
+    const primaryWallet = usePrimaryWallet();
+
+    return (
+        <div className='flex flex-col'>
+            <div className='custom-scroll max-h-[237px] overflow-auto'>
+                {tokens.map((token) => (
+                    <TokenListItem key={token.token().address()} token={token} />
+                ))}
+                <div className='p-4'>
+                    <ExternalLink
+                        href={getExplorerDomain(
+                            primaryWallet?.network().isLive() ?? false,
+                            primaryWallet?.address() ?? '',
+                        )}
+                        className='group hover:no-underline'
+                        tabIndex={0}
+                    >
+                        <Button
+                            variant='secondary'
+                            className='group-focus-visible:shadow-focus dark:group-focus-visible:shadow-focus-dark'
+                        >
+                            {t('COMMON.VIEW_MORE_ON_ARKSCAN')}
+                        </Button>
+                    </ExternalLink>
+                </div>
+            </div>
+        </div>
+    );
 };
