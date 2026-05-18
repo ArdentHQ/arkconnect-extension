@@ -10,10 +10,9 @@ const srcDir = resolve(__dirname, 'src');
 let hasProcessedInPage = false;
 const makeInpageScriptIife = {
     name: 'make-inpage-script-in-iife',
-    generateBundle(_outputOptions: unknown, bundle: Record<string, any>) {
-        for (const fileName of Object.keys(bundle)) {
-            const file = bundle[fileName];
-            if (!hasProcessedInPage && fileName.includes('inpage') && 'code' in file) {
+    generateBundle(_outputOptions: unknown, bundle: Record<string, { code?: string }>) {
+        for (const [fileName, file] of Object.entries(bundle)) {
+            if (!hasProcessedInPage && fileName.includes('inpage') && file.code != null) {
                 file.code = `(() => {\n${file.code}})()`;
                 hasProcessedInPage = true;
             }
@@ -24,11 +23,10 @@ const makeInpageScriptIife = {
 // https://wxt.dev/api/config.html
 export default defineConfig({
     modules: ['@wxt-dev/module-react'],
-    srcDir: '.',
+    srcDir: 'src',
     outDir: 'dist',
-    // vite-node runs the vite pipeline (incl. nodePolyfills) when analyzing
-    // entrypoints, which breaks WXT's internal fetch. jiti sidesteps that.
-    entrypointLoader: 'jiti',
+    // public/ lives at the repo root, not under srcDir.
+    publicDir: resolve(__dirname, 'public'),
     alias: {
         '@/app': srcDir,
         '@': srcDir,
