@@ -1,4 +1,4 @@
-import { ComponentProps } from 'react';
+import { type ComponentProps, type JSX } from 'react';
 import { twMerge } from 'tailwind-merge';
 
 interface Props extends ComponentProps<'div'> {

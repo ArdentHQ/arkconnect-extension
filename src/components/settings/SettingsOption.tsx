@@ -68,7 +68,7 @@ export const SettingsOption = forwardRef(function RowLayout(
                 >
                     <span
                         className={cn(
-                            'h-5 w-5 text-theme-secondary-500 dark:text-theme-secondary-300',
+                            'text-theme-secondary-500 dark:text-theme-secondary-300 h-5 w-5',
                             {
                                 'transition-smoothEase group-hover:text-theme-error-500':
                                     variant === 'error',

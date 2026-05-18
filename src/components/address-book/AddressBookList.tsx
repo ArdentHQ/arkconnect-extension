@@ -34,20 +34,20 @@ const AddressBookItem = ({
 
     const trimmedAddress = trimAddress(address, 10);
     return (
-        <div className='transition-smoothEase flex w-full flex-row items-center justify-between px-4 py-3 hover:bg-theme-secondary-50 dark:hover:bg-theme-secondary-700'>
+        <div className='transition-smoothEase hover:bg-theme-secondary-50 dark:hover:bg-theme-secondary-700 flex w-full flex-row items-center justify-between px-4 py-3'>
             <div className='flex flex-col gap-1'>
                 <div className='flex flex-row items-center gap-1.5'>
                     <Tooltip content={<span>{name}</span>} disabled={!displayTooltip}>
                         <span
                             ref={nameRef}
-                            className='max-w-50 overflow-hidden text-ellipsis text-base font-medium leading-5 text-light-black dark:text-white'
+                            className='text-light-black max-w-50 overflow-hidden text-base leading-5 font-medium text-ellipsis dark:text-white'
                         >
                             {name}
                         </span>
                     </Tooltip>
                 </div>
                 <Tooltip content={<span>{address}</span>}>
-                    <span className='flex cursor-default flex-row gap-0.5 text-sm font-normal text-theme-secondary-500 dark:text-theme-secondary-300'>
+                    <span className='text-theme-secondary-500 dark:text-theme-secondary-300 flex cursor-default flex-row gap-0.5 text-sm font-normal'>
                         {trimmedAddress}
                         <span
                             className='flex h-5 w-5 cursor-pointer items-center justify-center'
@@ -84,7 +84,7 @@ export const AddressBookList = ({
     addressBook: Contact[];
 }) => {
     return (
-        <div className='flex w-full flex-col overflow-hidden rounded-2xl bg-white py-2 shadow-address-book dark:bg-subtle-black'>
+        <div className='shadow-address-book dark:bg-subtle-black flex w-full flex-col overflow-hidden rounded-2xl bg-white py-2'>
             {addressBook.map((contact, index) => (
                 <AddressBookItem
                     key={index}

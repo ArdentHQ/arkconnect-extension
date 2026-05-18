@@ -14,11 +14,11 @@ export function TransactionTab({
             onClick={onClick}
             className={classNames(
                 [
-                    'transition-smoothEase flex h-6 flex-1 select-none items-center justify-center rounded-lg',
+                    'transition-smoothEase flex h-6 flex-1 items-center justify-center rounded-lg select-none',
                 ],
                 {
-                    'bg-white text-light-black dark:bg-subtle-black dark:text-white': active,
-                    'cursor-pointer text-theme-secondary-500 hover:bg-theme-secondary-300 hover:text-light-black dark:bg-theme-secondary-800 dark:text-theme-secondary-300 dark:hover:bg-theme-secondary-700 dark:hover:text-white':
+                    'text-light-black dark:bg-subtle-black bg-white dark:text-white': active,
+                    'text-theme-secondary-500 hover:bg-theme-secondary-300 hover:text-light-black dark:bg-theme-secondary-800 dark:text-theme-secondary-300 dark:hover:bg-theme-secondary-700 cursor-pointer dark:hover:text-white':
                         !active,
                 },
             )}
@@ -31,12 +31,12 @@ export function TransactionTab({
 export function TransactionsTabs({ children }: { children: React.ReactNode }) {
     return (
         <div className='pt-4'>
-            <div className='rounded-xl bg-white pt-4 dark:bg-subtle-black'>
-                <div className='mx-4 flex space-x-1 rounded-xl bg-theme-secondary-200 p-1 text-sm font-medium dark:bg-theme-secondary-800'>
+            <div className='dark:bg-subtle-black rounded-xl bg-white pt-4'>
+                <div className='bg-theme-secondary-200 dark:bg-theme-secondary-800 mx-4 flex space-x-1 rounded-xl p-1 text-sm font-medium'>
                     {children}
                 </div>
 
-                <div className='typeset-body mt-4 flex items-center justify-between bg-theme-secondary-50 px-4 py-1 text-theme-secondary-500 dark:bg-theme-secondary-800 dark:text-theme-secondary-300'>
+                <div className='typeset-body bg-theme-secondary-50 text-theme-secondary-500 dark:bg-theme-secondary-800 dark:text-theme-secondary-300 mt-4 flex items-center justify-between px-4 py-1'>
                     <span>Name</span>
                     <span>Token Balance</span>
                 </div>

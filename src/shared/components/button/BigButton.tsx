@@ -23,7 +23,7 @@ export const BigButton = ({
         <button
             className={twMerge(
                 cn(
-                    'box-border flex max-h-24 w-full cursor-pointer gap-3 rounded-2.5xl border border-solid border-transparent bg-white p-4 shadow-light hover:border hover:border-solid hover:border-theme-primary-800 disabled:pointer-events-none disabled:cursor-not-allowed dark:bg-subtle-black hover:dark:border-theme-primary-600',
+                    'rounded-2.5xl shadow-light hover:border-theme-primary-800 dark:bg-subtle-black hover:dark:border-theme-primary-600 box-border flex max-h-24 w-full cursor-pointer gap-3 border border-solid border-transparent bg-white p-4 hover:border hover:border-solid disabled:pointer-events-none disabled:cursor-not-allowed',
                     {
                         'transition-firefoxSmoothEase focus-visible:outline focus-visible:outline-2':
                             isFirefox,
@@ -40,18 +40,18 @@ export const BigButton = ({
                 <span className='flex w-full items-center justify-between'>
                     <span className='flex w-full flex-col items-start gap-2'>
                         {title && (
-                            <span className='typeset-heading font-medium text-subtle-black dark:text-white'>
+                            <span className='typeset-heading text-subtle-black font-medium dark:text-white'>
                                 {title}
                             </span>
                         )}
                         {helperText && (
-                            <span className='typeset-body text-left font-normal text-theme-secondary-600 dark:text-theme-secondary-300'>
+                            <span className='typeset-body text-theme-secondary-600 dark:text-theme-secondary-300 text-left font-normal'>
                                 {helperText}
                             </span>
                         )}
                     </span>
 
-                    <span className='flex h-full flex-col items-center justify-center text-light-black dark:text-white'>
+                    <span className='text-light-black flex h-full flex-col items-center justify-center dark:text-white'>
                         {iconTrailing && <Icon className='h-5 w-5' icon={iconTrailing} />}
                     </span>
                 </span>

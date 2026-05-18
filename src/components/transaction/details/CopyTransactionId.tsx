@@ -10,7 +10,7 @@ export const CopyTransactionId = ({ transactionId }: { transactionId: string }) 
         <Tooltip content={t('COMMON.COPY_with_name', { name: 'TxID' })}>
             <button
                 type='button'
-                className='transition-smoothEase block rounded-full bg-transparent p-2 text-light-black hover:bg-theme-secondary-100 dark:text-white dark:hover:bg-theme-secondary-700'
+                className='transition-smoothEase text-light-black hover:bg-theme-secondary-100 dark:hover:bg-theme-secondary-700 block rounded-full bg-transparent p-2 dark:text-white'
                 onClick={() => copy(transactionId, t('COMMON.TRANSACTION_ID'))}
             >
                 <Icon icon='copy' className='h-4 w-4' />

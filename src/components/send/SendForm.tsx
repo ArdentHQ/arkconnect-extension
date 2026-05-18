@@ -146,7 +146,7 @@ export const SendForm = ({ formik }: { formik: FormikProps<SendFormik> }) => {
                 trailing={
                     <button
                         onClick={handleMaxClick}
-                        className='transition-smoothEase rounded p-1 capitalize text-theme-primary-700 hover:bg-theme-secondary-50 hover:text-theme-primary-600 dark:text-theme-primary-600 dark:shadow-secondary-dark dark:hover:bg-theme-secondary-700 dark:hover:text-theme-primary-650'
+                        className='transition-smoothEase text-theme-primary-700 hover:bg-theme-secondary-50 hover:text-theme-primary-600 dark:text-theme-primary-600 dark:shadow-secondary-dark dark:hover:bg-theme-secondary-700 dark:hover:text-theme-primary-650 rounded p-1 capitalize'
                     >
                         {t('COMMON.MAX')}
                     </button>

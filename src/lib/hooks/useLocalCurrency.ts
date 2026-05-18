@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import LocaleCurrency from 'locale-currency';
+import { getCurrency } from 'locale-currency';
 import { useCurrencyOptions } from './useCurrencyOptions';
 
 const useLocaleCurrency = () => {
@@ -12,7 +12,7 @@ const useLocaleCurrency = () => {
             locale = navigator.language;
         }
 
-        let currency = LocaleCurrency.getCurrency(locale) as string | null;
+        let currency = getCurrency(locale) as string | null;
 
         if (!currency) {
             currency = 'USD';

@@ -27,7 +27,7 @@ const fetchTransactions = async (
             transactions: response?.items() || [],
             hasMorePages: response?.hasMorePages() || false,
         };
-    } catch (error) {
+    } catch {
         return { transactions: [], hasMorePages: false };
     }
 };
@@ -42,7 +42,7 @@ const fetchTokens = async (primaryWallet?: IReadWriteWallet): Promise<WalletToke
         });
 
         return collection.items().slice(0, TOKENS_LIMIT);
-    } catch (error) {
+    } catch {
         return [];
     }
 };
@@ -111,12 +111,12 @@ export const LatestTransactions = () => {
 
             <div
                 className={classNames([
-                    'h-full w-full flex-1 bg-white dark:bg-subtle-black',
+                    'dark:bg-subtle-black h-full w-full flex-1 bg-white',
                     { 'rounded-t-xl': !showTabs },
                 ])}
             >
                 {!showTabs && (
-                    <div className='border-b border-b-theme-secondary-200 p-4 text-lg font-medium leading-tight text-light-black dark:border-b-theme-secondary-600 dark:text-white'>
+                    <div className='border-b-theme-secondary-200 text-light-black dark:border-b-theme-secondary-600 border-b p-4 text-lg leading-tight font-medium dark:text-white'>
                         {t('PAGES.HOME.LATEST_TRANSACTIONS')}
                     </div>
                 )}

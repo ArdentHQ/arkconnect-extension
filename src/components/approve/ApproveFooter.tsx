@@ -17,7 +17,7 @@ const ApproveFooter = ({ disabled, onSubmit, onCancel, isNative }: Props) => {
     };
 
     return (
-        <div className='grid h-full w-full grid-cols-2 items-center gap-2 bg-white px-4 py-4 shadow-button-container dark:bg-subtle-black dark:shadow-button-container-dark'>
+        <div className='shadow-button-container dark:bg-subtle-black dark:shadow-button-container-dark grid h-full w-full grid-cols-2 items-center gap-2 bg-white px-4 py-4'>
             <Button variant='secondaryBlack' onClick={onCancel}>
                 {isNative ? t('ACTION.BACK') : t('ACTION.REFUSE')}
             </Button>

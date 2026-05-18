@@ -11,14 +11,14 @@ interface Input {
 }
 
 interface Output {
-    convert: (value?: number | string | BigNumber) => number;
+    convert: (value?: number | string | BigNumber) => BigNumber;
 }
 
 export const useExchangeRate = ({ profile, ticker, exchangeTicker }: Input): Output => {
     const convert = useCallback(
         (value?: number | string | BigNumber) => {
             if (!ticker || !exchangeTicker || !value) {
-                return 0;
+                return BigNumber.ZERO;
             }
 
             return profile

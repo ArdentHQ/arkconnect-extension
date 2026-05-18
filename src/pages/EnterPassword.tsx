@@ -69,7 +69,7 @@ const EnterPassword = () => {
                             'mb-11': validationVariant !== 'destructive',
                         })}
                     >
-                        <p className='typeset-headline font-medium text-subtle-black dark:text-theme-secondary-200'>
+                        <p className='typeset-headline text-subtle-black dark:text-theme-secondary-200 font-medium'>
                             {t('PAGES.ENTER_PASSWORD.ENTER_PASSWORD_TO_UNLOCK')}
                         </p>
                         <PasswordInput
@@ -96,7 +96,7 @@ const EnterPassword = () => {
 
                         <span
                             className={cn(
-                                'unlock-button absolute right-4 top-1/2 h-5 w-5 -translate-y-1/2',
+                                'unlock-button absolute top-1/2 right-4 h-5 w-5 -translate-y-1/2',
                                 {
                                     disabled:
                                         !password.length || validationVariant === 'destructive',
@@ -108,9 +108,9 @@ const EnterPassword = () => {
                     </Button>
                     <InternalLink
                         to='/forgot-password'
-                        className='flex w-full items-center justify-center text-light-black dark:text-white'
+                        className='text-light-black flex w-full items-center justify-center dark:text-white'
                     >
-                        <span className='typeset-headline font-medium text-light-black dark:text-white'>
+                        <span className='typeset-headline text-light-black font-medium dark:text-white'>
                             {t('PAGES.ENTER_PASSWORD.FORGOT_PASSWORD')}
                         </span>
                     </InternalLink>

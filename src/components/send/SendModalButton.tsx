@@ -15,7 +15,7 @@ const SendModalButton = ({ onClick }: { onClick: MouseEventHandler<HTMLButtonEle
             <div>
                 <Button
                     variant='secondaryBlack'
-                    className='!h-fit !w-fit !px-3 !py-1.5 !text-sm !font-medium'
+                    className='h-fit! w-fit! px-3! py-1.5! text-sm! font-medium!'
                     iconTrailing='qr-code'
                     iconClass='h-4 w-4'
                     onClick={onClick}
