@@ -14,7 +14,7 @@ const AssetAvatar = ({ label }: { label: string }) => {
     const initial = label.slice(0, 1).toUpperCase();
 
     return (
-        <div className='flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-theme-primary-600 text-lg font-semibold leading-none text-white'>
+        <div className='bg-theme-primary-600 flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-lg leading-none font-semibold text-white'>
             {initial}
         </div>
     );
@@ -37,7 +37,7 @@ const AssetRow = ({
             type='button'
             onClick={onSelect}
             className={cn(
-                'flex h-16 w-full items-center gap-3 px-4 py-3 text-left transition-colors hover:bg-theme-secondary-50 dark:hover:bg-theme-secondary-700',
+                'hover:bg-theme-secondary-50 dark:hover:bg-theme-secondary-700 flex h-16 w-full items-center gap-3 px-4 py-3 text-left transition-colors',
                 {
                     'bg-theme-secondary-50 dark:bg-theme-secondary-700': isSelected,
                 },
@@ -45,10 +45,10 @@ const AssetRow = ({
         >
             <AssetAvatar label={symbol || name} />
             <div className='flex min-w-0 flex-1 items-center gap-2 overflow-hidden'>
-                <span className='typeset-headline min-w-0 truncate font-medium text-light-black dark:text-white'>
+                <span className='typeset-headline text-light-black min-w-0 truncate font-medium dark:text-white'>
                     {name}
                 </span>
-                <span className='typeset-headline shrink-0 font-medium text-theme-secondary-500 dark:text-theme-secondary-300'>
+                <span className='typeset-headline text-theme-secondary-500 dark:text-theme-secondary-300 shrink-0 font-medium'>
                     {symbol}
                 </span>
             </div>
@@ -97,22 +97,22 @@ export const AssetSelector = ({
 
     return (
         <div className='flex flex-col gap-1.5'>
-            <label className='typeset-body font-medium text-theme-secondary-500 dark:text-theme-secondary-300'>
+            <label className='typeset-body text-theme-secondary-500 dark:text-theme-secondary-300 font-medium'>
                 {t('PAGES.SEND.ASSET')}
             </label>
 
             <button
                 type='button'
                 onClick={() => setIsOpen(true)}
-                className='transition-smoothEase flex w-full items-center justify-between gap-2 overflow-hidden rounded-lg border border-theme-secondary-200 bg-white p-3 text-left shadow-secondary-dark outline-none hover:border-theme-secondary-300 dark:border-theme-secondary-600 dark:bg-subtle-black dark:hover:border-theme-secondary-500'
+                className='transition-smoothEase border-theme-secondary-200 shadow-secondary-dark hover:border-theme-secondary-300 dark:border-theme-secondary-600 dark:bg-subtle-black dark:hover:border-theme-secondary-500 flex w-full items-center justify-between gap-2 overflow-hidden rounded-lg border bg-white p-3 text-left outline-none'
             >
                 <div className='flex min-w-0 flex-1 items-center gap-2 overflow-hidden'>
                     <AssetAvatar label={selectedSymbol || selectedName} />
-                    <span className='typeset-headline min-w-0 truncate font-medium text-light-black dark:text-white'>
+                    <span className='typeset-headline text-light-black min-w-0 truncate font-medium dark:text-white'>
                         {selectedName}
                     </span>
                 </div>
-                <div className='flex shrink-0 items-center gap-2 text-theme-secondary-500 dark:text-theme-secondary-300'>
+                <div className='text-theme-secondary-500 dark:text-theme-secondary-300 flex shrink-0 items-center gap-2'>
                     <span className='typeset-headline max-w-[80px] truncate font-medium'>
                         {selectedSymbol}
                     </span>
