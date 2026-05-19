@@ -83,11 +83,13 @@ export class SignedTransactionData {
 			return BigNumber.sum(this.payments().map(({ amount }) => amount));
 		}
 
-		return BigNumber.make(UnitConverter.formatUnits(this.signedData.value, "ark"));
+		return BigNumber.make(UnitConverter.formatUnits(this.signedData.value, "ark").toString());
 	}
 
 	public fee(): BigNumber {
-		const gasPrice = BigNumber.make(UnitConverter.formatUnits(this.signedData.gasPrice, "ark"));
+		const gasPrice = BigNumber.make(
+			UnitConverter.formatUnits(this.signedData.gasPrice, "ark").toString(),
+		);
 		return gasPrice.times(this.signedData.gasLimit);
 	}
 
@@ -151,7 +153,7 @@ export class SignedTransactionData {
 
 		for (const index in recipients) {
 			payments[index] = {
-				amount: BigNumber.make(UnitConverter.formatUnits(amounts[index], "ark")),
+				amount: BigNumber.make(UnitConverter.formatUnits(amounts[index], "ark").toString()),
 				recipientId: recipients[index],
 			};
 		}
@@ -292,7 +294,9 @@ export class SignedTransactionData {
 	}
 
 	public gasUsed(): number {
-		return BigNumber.make(UnitConverter.formatUnits(this.signedData.gasPrice, "gwei")).toNumber();
+		return BigNumber.make(
+			UnitConverter.formatUnits(this.signedData.gasPrice, "gwei").toString(),
+		).toNumber();
 	}
 
 	public isTokenTransfer(): boolean {

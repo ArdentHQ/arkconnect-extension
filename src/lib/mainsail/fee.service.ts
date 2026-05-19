@@ -67,9 +67,9 @@ export class FeeService {
 
 	#transform(fees: Fees): Services.TransactionFee {
 		return {
-			avg: BigNumber.make(UnitConverter.formatUnits(fees.avg ?? "0", "gwei")),
-			max: BigNumber.make(UnitConverter.formatUnits(fees.max ?? "0", "gwei")),
-			min: BigNumber.make(UnitConverter.formatUnits(fees.min ?? "0", "gwei")),
+			avg: BigNumber.make(UnitConverter.formatUnits(fees.avg ?? "0", "gwei").toString()),
+			max: BigNumber.make(UnitConverter.formatUnits(fees.max ?? "0", "gwei").toString()),
+			min: BigNumber.make(UnitConverter.formatUnits(fees.min ?? "0", "gwei").toString()),
 		};
 	}
 
