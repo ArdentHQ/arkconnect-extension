@@ -257,6 +257,11 @@ export default {
     TRANSACTION_DETAILS: {
         PAGE_TITLE: 'Transaction Details',
     },
+    TOKEN_DETAILS: {
+        PAGE_TITLE: 'Token Details',
+        SEND_TOKEN: 'Send Token',
+        NOT_FOUND: 'Token not found.',
+    },
     RECEIVE: {
         QR_CODE_WILL_BE_UPDATED_AUTOMATICALLY: 'The QR-code will be updated automatically.',
         SPECIFY_AMOUNT: 'Specify Amount',
