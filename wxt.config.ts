@@ -5,12 +5,11 @@ import pkg from './package.json';
 
 const srcDir = resolve(__dirname, 'src');
 
-// Wraps the injected inpage script in an IIFE so its top-level `var inpage`
-// (wxt builds unlisted scripts as a named IIFE) doesn't leak onto the page's
-// window. Must run `post`: wxt appends a trailing `inpage;` footer after the
-// chunk is generated, so wrapping in a normal generateBundle pass leaves that
-// footer outside the closure -> "inpage is not defined". Running post wraps
-// the full final code (declaration + footer) together.
+// wxt builds the unlisted inpage script as a named IIFE (`var inpage = ...`)
+// followed by a trailing `inpage;` footer that is appended after the chunk is
+// generated. Wrapping the final code in an IIFE keeps top-level `var inpage`
+// off the page's window. Runs `post` so it also encloses that footer —
+// otherwise the footer sits outside the wrapper and `inpage` is undefined.
 const makeInpageScriptIife = {
     name: 'make-inpage-script-in-iife',
     enforce: 'post' as const,
@@ -92,11 +91,9 @@ export default defineConfig({
                 globals: {
                     Buffer: true,
                     global: true,
-                    // Must be polyfilled in production too: the MV3 service
-                    // worker has no `process`, and deps like localForage
-                    // reference it at runtime in background.js. Gating this on
-                    // dev (serve) broke `pnpm build` with "process is not
-                    // defined" while `pnpm dev` worked.
+                    // The MV3 service worker has no `process`, and deps like
+                    // localForage reference it at runtime in background.js, so
+                    // it must be polyfilled in production builds too.
                     process: true,
                 },
             }),
