@@ -165,6 +165,7 @@ export const SendForm = ({ formik }: { formik: FormikProps<SendFormik> }) => {
                 onBlur={formik.handleBlur}
                 values={formik.values}
                 errors={formik.errors}
+                feeType={selectedToken ? 'tokenTransfer' : 'transfer'}
                 handleFeeClassChange={(value: string) => formik.setFieldValue('feeClass', value)}
                 onGasLimitChange={handleGasLimitChange}
                 onGasPriceChange={handleGasPriceChange}

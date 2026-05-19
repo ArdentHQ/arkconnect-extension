@@ -20,6 +20,7 @@ export interface TransactionFees {
 	// Core
 	contractDeployment: TransactionFee;
 	transfer: TransactionFee;
+	tokenTransfer: TransactionFee;
 	validatorRegistration: TransactionFee;
 	usernameRegistration: TransactionFee;
 	usernameResignation: TransactionFee;
