@@ -7,7 +7,6 @@ export interface TransactionService {
 	// Core
 	transfer(input: TransferInput): Promise<SignedTransactionData>;
 	tokenTransfer(input: TransferInput): Promise<SignedTransactionData>;
-	secondSignature(input: SecondSignatureInput): Promise<SignedTransactionData>;
 	validatorRegistration(input: ValidatorRegistrationInput): Promise<SignedTransactionData>;
 	usernameRegistration(input: UsernameRegistrationInput): Promise<SignedTransactionData>;
 	usernameResignation(input: UsernameResignationInput): Promise<SignedTransactionData>;
@@ -40,10 +39,6 @@ export interface TransferInput extends TransactionInput {
 		expiration?: number;
 	};
 	token?: WalletToken;
-}
-
-export interface SecondSignatureInput extends TransactionInput {
-	data: { mnemonic: string };
 }
 
 export interface UsernameRegistrationInput extends TransactionInput {

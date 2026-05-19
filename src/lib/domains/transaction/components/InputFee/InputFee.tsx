@@ -27,14 +27,14 @@ export const getFeeMinMax = (network: Network) => {
         UnitConverter.formatUnits(
             BigNumber.make(milestone['gas']['minimumGasPrice'] ?? 0).toString(),
             'gwei',
-        ),
+        ).toString(),
     );
 
     const maxGasPrice = BigNumber.make(
         UnitConverter.formatUnits(
             BigNumber.make(milestone['gas']['maximumGasPrice'] ?? 0).toString(),
             'gwei',
-        ),
+        ).toString(),
     );
 
     const minGasLimit = BigNumber.make(milestone['gas']['minimumGasLimit'] ?? 0);
