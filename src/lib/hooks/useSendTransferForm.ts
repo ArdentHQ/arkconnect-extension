@@ -22,6 +22,7 @@ import { Network } from '@/lib/mainsail/network';
 import { TransferInput } from '@/lib/mainsail/transaction.contract';
 import { calculateGasFee, GasLimit } from '@/lib/hooks/useNetworkFees';
 import { httpClient } from '@/lib/services';
+import { WalletToken } from '@/lib/profiles/wallet-token';
 
 export interface RecipientItem {
     address: string;
@@ -57,6 +58,7 @@ type ApproveRequest = {
     receiverAddress: string;
     customGasPrice?: string;
     customGasLimit?: string;
+    tokenAddress?: string;
 };
 
 const defaultState = {
@@ -94,6 +96,36 @@ const prepareLedger = async (wallet: Contracts.IReadWriteWallet) => {
     };
 };
 
+const resolveToken = async (
+    wallet: Contracts.IReadWriteWallet,
+    tokenAddress?: string,
+): Promise<WalletToken | undefined> => {
+    if (!tokenAddress) return undefined;
+
+    let token = wallet.tokens().findByTokenAddress(tokenAddress);
+
+    if (!token) {
+        const collection = await wallet.client().tokenAddresses({
+            addresses: [wallet.address()],
+            minBalance: '0',
+        });
+
+        token = collection.items().find((item) => item.token().address() === tokenAddress);
+
+        if (token) {
+            wallet.tokens().push(token);
+        }
+    }
+
+    if (!token) {
+        throw new Error(
+            `[useSendTransferForm] Token ${tokenAddress} not found for wallet ${wallet.address()}`,
+        );
+    }
+
+    return token;
+};
+
 export const useSendTransferForm = (
     wallet: Contracts.IReadWriteWallet,
     request: ApproveRequest,
@@ -115,6 +147,8 @@ export const useSendTransferForm = (
         assertWallet(wallet);
 
         const { gasPrice, gasLimit, recipients } = formValues;
+        const token = await resolveToken(wallet, request.tokenAddress);
+        const isTokenTransfer = !!token;
 
         if (wallet.isLedger()) {
             const abortSignal = abortReference.signal;
@@ -125,6 +159,7 @@ export const useSendTransferForm = (
 
             const data = await buildTransferData({
                 recipients,
+                preserveAmountPrecision: isTokenTransfer,
             });
 
             // Ensures the cache is flushed so it always fetches the latest wallet nonce
@@ -135,9 +170,13 @@ export const useSendTransferForm = (
                 gasLimit: BigNumber.make(gasLimit),
                 gasPrice: BigNumber.make(gasPrice),
                 signatory,
+                token,
             };
 
-            const uuid = await wallet.transaction().signTransfer(transactionInput);
+            const uuid = isTokenTransfer
+                ? await wallet.transaction().signTransferToken(transactionInput)
+                : await wallet.transaction().signTransfer(transactionInput);
+
             const response = await wallet.transaction().broadcast(uuid);
 
             handleBroadcastError(response);
@@ -152,18 +191,24 @@ export const useSendTransferForm = (
             };
         }
 
-        const { response, error, transaction } = await runtime.sendMessage({
+        const { response, error, errorStack, transaction } = await runtime.sendMessage({
             type: 'SEND_TRANSACTION',
             data: {
                 recipients: recipients.map((r) => ({ ...r, amount: r.amount?.toString() })),
                 gasLimit,
                 gasPrice,
+                tokenAddress: request.tokenAddress,
             },
         });
 
         if (error) {
-            onError(error);
-            return;
+            const message =
+                errorStack?.message ||
+                (typeof errorStack === 'string' ? errorStack : undefined) ||
+                error;
+            const propagated = new Error(message);
+            onError(propagated);
+            throw propagated;
         }
 
         handleBroadcastError(response);
@@ -183,16 +228,20 @@ export const useSendTransferForm = (
 
                 const passphrase = walletData?.passphrase;
 
+                const isTokenTransfer = !!request.tokenAddress;
+
                 const { min, avg, max } = await getGasPrices({
                     network: wallet.network().id(),
-                    type: ApproveActionType.TRANSACTION,
+                    type: isTokenTransfer ? 'tokenTransfer' : ApproveActionType.TRANSACTION,
                 });
 
                 const { customGasLimit, customGasPrice } = request;
 
                 const hasCustomFee = !!(customGasLimit && customGasPrice);
 
-                const defaultGasLimit = GasLimit.transfer.toString();
+                const defaultGasLimit = (
+                    isTokenTransfer ? GasLimit.tokenTransfer : GasLimit.transfer
+                ).toString();
 
                 const customFee = BigNumber.make(calculateGasFee(customGasPrice, customGasLimit));
                 const maxFee = BigNumber.make(calculateGasFee(max.toString(), defaultGasLimit));

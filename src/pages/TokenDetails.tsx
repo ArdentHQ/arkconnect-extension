@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useQuery } from 'react-query';
 import { Loader } from '../shared/components/loader/Loader';
@@ -28,6 +28,7 @@ const fetchToken = async (
 
 const TokenDetails = () => {
     const { t } = useTranslation();
+    const navigate = useNavigate();
     const primaryWallet = usePrimaryWallet();
     const { contractAddress } = useParams<{ contractAddress: string }>();
 
@@ -56,7 +57,15 @@ const TokenDetails = () => {
             title={t('PAGES.TOKEN_DETAILS.PAGE_TITLE')}
             footer={
                 <Footer>
-                    <Button variant='primary' disabled>
+                    <Button
+                        variant='primary'
+                        disabled={!token}
+                        onClick={() =>
+                            navigate(
+                                `/transaction/send?token=${encodeURIComponent(contractAddress ?? '')}`,
+                            )
+                        }
+                    >
                         {t('PAGES.TOKEN_DETAILS.SEND_TOKEN')}
                     </Button>
                 </Footer>

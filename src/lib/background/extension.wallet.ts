@@ -6,6 +6,19 @@ import { BroadcastResponse as BroadcastResponseData } from '@/lib/mainsail/clien
 import { TransferInput, VoteInput } from '@/lib/mainsail/transaction.contract';
 import { RawTransactionData } from '@/lib/mainsail/signed-transaction.dto.contract';
 import { BigNumber } from '@/lib/helpers';
+import { WalletToken } from '@/lib/profiles/wallet-token';
+import { httpClient } from '@/lib/services';
+
+// `actsWithSecret()` only returns true for wallets created via `WalletFactory.fromSecret`,
+// which is exclusively used by the dev seeder (src/dev/utils/dev.ts). Production onboarding
+// always goes through BIP39 mnemonic, so this branch is unreachable in real installs and
+// safely routes dev-only non-BIP39 passphrases through the secret signatory.
+const buildSignatoryInput = (wallet: Contracts.IReadWriteWallet, passphrase: string) => {
+    if (wallet.actsWithSecret()) {
+        return { secret: passphrase };
+    }
+    return { mnemonic: passphrase };
+};
 
 interface RecipientItem {
     address: string;
@@ -21,6 +34,7 @@ interface BroadcastResponse {
 
 export interface SendTransferInput extends TransferInput {
     recipients: RecipientItem[];
+    tokenAddress?: string;
 }
 
 function BroadcastResponse({
@@ -62,9 +76,12 @@ export function Wallet({ wallet }: { wallet: Contracts.IReadWriteWallet }) {
 
             await wallet.network().sync();
 
-            const signatory = await wallet.signatoryFactory().make({
-                mnemonic: await wallet.confirmKey().get(wallet.profile().password().get()),
-            });
+            const passphrase = await wallet.confirmKey().get(wallet.profile().password().get());
+            const signatory = await wallet
+                .signatoryFactory()
+                .make(buildSignatoryInput(wallet, passphrase));
+
+            httpClient.forgetWalletCache(wallet);
 
             const uuid = await wallet.transaction().signVote({
                 ...input,
@@ -84,21 +101,57 @@ export function Wallet({ wallet }: { wallet: Contracts.IReadWriteWallet }) {
         async sendTransfer(input: SendTransferInput): Promise<BroadcastResponse> {
             await wallet.network().sync();
 
-            const signatory = await wallet.signatoryFactory().make({
-                mnemonic: await wallet.confirmKey().get(wallet.profile().password().get()),
-            });
+            const passphrase = await wallet.confirmKey().get(wallet.profile().password().get());
+            const signatory = await wallet
+                .signatoryFactory()
+                .make(buildSignatoryInput(wallet, passphrase));
+
+            let token: WalletToken | undefined;
+
+            if (input.tokenAddress) {
+                token = wallet.tokens().findByTokenAddress(input.tokenAddress);
+
+                if (!token) {
+                    const collection = await wallet.client().tokenAddresses({
+                        addresses: [wallet.address()],
+                        minBalance: '0',
+                    });
+
+                    token = collection
+                        .items()
+                        .find((item) => item.token().address() === input.tokenAddress);
+
+                    if (token) {
+                        wallet.tokens().push(token);
+                    }
+                }
+
+                if (!token) {
+                    throw new Error(
+                        `[sendTransfer] Token ${input.tokenAddress} not found for wallet ${wallet.address()}`,
+                    );
+                }
+            }
+
+            const isTokenTransfer = !!token;
 
             const transactionInput = {
                 data: await buildTransferData({
                     isMultiSignature: false,
                     recipients: input.recipients,
+                    preserveAmountPrecision: isTokenTransfer,
                 }),
                 gasPrice: input.gasPrice ? BigNumber.make(input.gasPrice) : undefined,
                 gasLimit: input.gasLimit ? BigNumber.make(input.gasLimit) : undefined,
                 signatory,
+                token,
             };
 
-            const uuid = await wallet.transaction().signTransfer(transactionInput);
+            httpClient.forgetWalletCache(wallet);
+
+            const uuid = isTokenTransfer
+                ? await wallet.transaction().signTransferToken(transactionInput)
+                : await wallet.transaction().signTransfer(transactionInput);
             const response = await wallet.transaction().broadcast(uuid);
 
             return await BroadcastResponse({ uuid, wallet, response }).toData();

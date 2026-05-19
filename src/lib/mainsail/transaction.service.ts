@@ -3,6 +3,7 @@ import {
 	ContractAddresses,
 	EvmCallBuilder,
 	MultipaymentBuilder,
+	TokenTransferBuilder,
 	TransferBuilder,
 	UnitConverter,
 	UnvoteBuilder,
@@ -21,6 +22,7 @@ import { IProfile } from "@/app/lib/profiles/profile.contract.js";
 import { Services } from "@/app/lib/mainsail";
 import { SignedTransactionData } from "./signed-transaction.dto";
 import { HDWalletService } from "@/app/lib/mainsail/hd-wallet.service";
+import { assertToken } from "@/utils/assertions";
 
 interface ValidatedTransferInput extends Services.TransferInput {
 	gasPrice: BigNumber;
@@ -80,6 +82,30 @@ export class TransactionService {
 			.nonce(nonce)
 			.gasPrice(UnitConverter.parseUnits(input.gasPrice.toString(), "gwei"))
 			// @TODO https://app.clickup.com/t/86dwvx1ya get rid of .toString() for all `gas` calls
+			.gasLimit(input.gasLimit.toString());
+
+		await this.#sign(input, builder);
+
+		return new SignedTransactionData().configure(
+			builder.transaction.data,
+			builder.transaction.serialize().toString("hex"),
+		);
+	}
+
+	public async tokenTransfer(input: Services.TransferInput): Promise<SignedTransactionData> {
+		this.#assertGasFee(input);
+		this.#assertAmount(input);
+		assertToken(input.token);
+
+		const token = input.token;
+		const nonce = await this.#generateNonce(input);
+		const amount = BigNumber.make(input.data.amount, token.token().decimals()).toSatoshi();
+
+		const builder = TokenTransferBuilder.new()
+			.contractAddress(token.token().address())
+			.recipient(input.data.to, BigInt(amount.toFixed(0)))
+			.nonce(nonce)
+			.gasPrice(UnitConverter.parseUnits(input.gasPrice.toString(), "gwei"))
 			.gasLimit(input.gasLimit.toString());
 
 		await this.#sign(input, builder);

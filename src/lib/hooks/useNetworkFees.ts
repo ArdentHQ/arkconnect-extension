@@ -44,6 +44,7 @@ interface CalculateProperties {
 
 export const GasLimit: Record<string, BigNumber> = {
     multiPayment: BigNumber.make(21_000),
+    tokenTransfer: BigNumber.make(65_000),
     transfer: BigNumber.make(21_000),
     vote: BigNumber.make(200_000),
 };

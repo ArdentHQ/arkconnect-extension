@@ -25,6 +25,7 @@ interface ActionBodyProps {
     network: string;
     amount?: BigNumber;
     amountTicker?: string;
+    feeTicker?: string;
     convertedAmount?: BigNumber;
     convertedTotalAmount?: BigNumber;
     isApproved?: boolean;
@@ -57,6 +58,7 @@ export const ActionBody = ({
     convertedAmount,
     receiver,
     amountTicker,
+    feeTicker,
     totalAmount,
     convertedTotalAmount,
     hasHigherCustomFee = null,
@@ -70,6 +72,8 @@ export const ActionBody = ({
             ? t('COMMON.HIGHER')
             : t('COMMON.LOWER')
         : null;
+    const resolvedFeeTicker = feeTicker ?? amountTicker;
+    const tickersDiffer = !!feeTicker && feeTicker !== amountTicker;
 
     return (
         <ActionDetails className={actionDetailsClassName}>
@@ -99,10 +103,10 @@ export const ActionBody = ({
                 label={
                     <span className='flex items-center gap-1'>
                         {t('COMMON.TRANSACTION_FEE')}{' '}
-                        {customFee && amountTicker && (
+                        {customFee && resolvedFeeTicker && (
                             <FeeWarning
                                 averageFee={customFee}
-                                coin={amountTicker}
+                                coin={resolvedFeeTicker}
                                 customFeeState={customFeeState}
                             />
                         )}
@@ -110,13 +114,13 @@ export const ActionBody = ({
                 }
                 showFiat={showFiat}
                 amount={fee}
-                amountTicker={amountTicker}
+                amountTicker={resolvedFeeTicker}
                 convertedAmount={convertedFee}
                 exchangeCurrency={exchangeCurrency}
                 network={network}
             />
 
-            {totalAmount !== undefined && convertedTotalAmount !== undefined && (
+            {!tickersDiffer && totalAmount !== undefined && convertedTotalAmount !== undefined && (
                 <ActionAmountRow
                     label={t('COMMON.TOTAL_AMOUNT')}
                     amount={totalAmount}
