@@ -1,6 +1,7 @@
 import { runtime } from 'webextension-polyfill';
 import { longLivedConnectionHandlers } from './lib/background/eventListenerHandlers';
 import { ExtensionEvents } from './lib/events';
+import constants from '@/constants';
 
 const port = runtime.connect({ name: 'ark-content-script' });
 
@@ -58,7 +59,7 @@ runtime.onMessage.addListener(function (request) {
 });
 
 const init = () => {
-    injectScript('src/inpage.js');
+    injectScript(constants.INPAGE_SCRIPT);
     setupEventListeners();
 };
 
