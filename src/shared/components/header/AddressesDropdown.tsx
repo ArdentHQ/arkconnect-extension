@@ -18,6 +18,7 @@ import { useEnvironmentContext } from '@/lib/context/Environment';
 import useOnClickOutside from '@/lib/hooks/useOnClickOutside';
 import { useProfileContext } from '@/lib/context/Profile';
 import useToast from '@/lib/hooks/useToast';
+import { ProfileData } from '@/lib/background/contracts';
 
 export const AddressesDropdown = ({
     addresses,
@@ -66,6 +67,7 @@ export const AddressesDropdown = ({
             wallet.data().set(Contracts.WalletData.IsPrimary, false);
         }
 
+        profile.settings().forget(ProfileData.LastVisitedPage);
         await persist();
         await initProfile();
 

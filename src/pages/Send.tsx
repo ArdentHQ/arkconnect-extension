@@ -2,6 +2,7 @@ import { object, string } from 'yup';
 import { useEffect, useState } from 'react';
 import { runtime } from 'webextension-polyfill';
 import { useFormik } from 'formik';
+import { useQuery } from 'react-query';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
@@ -17,6 +18,21 @@ import SendModalButton from '@/components/send/SendModalButton';
 import { UploadQRModal } from '@/components/send/UploadQRModal';
 import { calculateGasFee } from '@/lib/hooks/useNetworkFees';
 import { FeeLimits } from '@/components/fees';
+import { WalletToken } from '@/lib/profiles/wallet-token';
+import { IReadWriteWallet } from '@/lib/profiles/wallet.contract';
+
+const fetchTokens = async (primaryWallet?: IReadWriteWallet): Promise<WalletToken[]> => {
+    if (!primaryWallet) return [];
+    try {
+        const collection = await primaryWallet.client().tokenAddresses({
+            addresses: [primaryWallet.address()],
+            minBalance: '0',
+        });
+        return collection.items();
+    } catch {
+        return [];
+    }
+};
 
 export type SendFormik = {
     amount?: string;
@@ -24,6 +40,7 @@ export type SendFormik = {
     gasLimit: string;
     receiverAddress: string;
     feeClass?: string;
+    tokenAddress?: string;
     errors?: any;
 };
 
@@ -54,12 +71,27 @@ const Send = () => {
                 gasPrice: lastVisitedPage.data.gasPrice,
                 gasLimit: lastVisitedPage.data.gasLimit,
                 receiverAddress: lastVisitedPage.data.receiverAddress,
+                tokenAddress: lastVisitedPage.data.tokenAddress,
                 session: lastVisitedPage.data.session,
             },
         });
     }
 
     const [isValidAddress, setIsValidAddress] = useState<boolean>(true);
+
+    const { data: tokens = [] } = useQuery<WalletToken[]>(
+        ['send-tokens', primaryWallet?.address()],
+        () => fetchTokens(primaryWallet),
+        { enabled: !!primaryWallet, staleTime: 0 },
+    );
+
+    const getAssetBalance = (tokenAddress?: string): BigNumber => {
+        if (tokenAddress) {
+            const token = tokens.find((t) => t.token().address() === tokenAddress);
+            return token ? token.balance() : BigNumber.ZERO;
+        }
+        return BigNumber.make(primaryWallet?.balance() || 0);
+    };
 
     const validationSchema = object().shape({
         amount: string()
@@ -69,19 +101,25 @@ const Send = () => {
             })
             .test('max-balance', t('ERROR.BALANCE_TOO_LOW'), (value) => {
                 if (!value) return true;
-                const userBalance = BigNumber.make(primaryWallet?.balance() || 0);
-                return BigNumber.make(value).isLessThanOrEqualTo(userBalance);
+                const assetBalance = getAssetBalance(formik.values.tokenAddress);
+                return BigNumber.make(value).isLessThanOrEqualTo(assetBalance);
             })
             .test(
                 'total-check',
                 t('ERROR.IS_EXCEEDING_BALANCE', { name: 'fee + amount' }),
                 (value) => {
                     if (!value || !formik.values.gasLimit || !formik.values.gasPrice) return true;
-                    const userBalance = BigNumber.make(primaryWallet?.balance() || 0);
+
+                    const isTokenTransfer = !!formik.values.tokenAddress;
+                    const nativeBalance = BigNumber.make(primaryWallet?.balance() || 0);
                     const fee = calculateGasFee(formik.values.gasPrice, formik.values.gasLimit);
 
+                    if (isTokenTransfer) {
+                        return BigNumber.make(fee).isLessThanOrEqualTo(nativeBalance);
+                    }
+
                     const sum: BigNumber = BigNumber.make(value).plus(BigNumber.make(fee));
-                    return sum.isLessThanOrEqualTo(userBalance);
+                    return sum.isLessThanOrEqualTo(nativeBalance);
                 },
             )
             .trim(),
@@ -127,6 +165,8 @@ const Send = () => {
                 lastVisitedPage?.data?.feeClass ||
                 constants.FEE_AVERAGE,
             receiverAddress: lastVisitedPage?.data?.receiverAddress || '',
+            tokenAddress:
+                searchParams.get('token') || lastVisitedPage?.data?.tokenAddress || undefined,
         },
         validationSchema: validationSchema,
         validateOnMount: true,
@@ -142,6 +182,7 @@ const Send = () => {
                     gasPrice: values.gasPrice,
                     gasLimit: values.gasLimit,
                     receiverAddress: values.receiverAddress,
+                    tokenAddress: values.tokenAddress,
                     session: {
                         walletId: primaryWallet?.id(),
                         logo: 'icon/128.png',
