@@ -1,9 +1,10 @@
-// Thin wrapper around the existing content script. Proper restructure (and
-// fixing the hardcoded src/inpage.js inject path) happens in later subtasks.
 export default defineContentScript({
     matches: ['https://*/*'],
     runAt: 'document_start',
-    main() {
-        import('@/content');
+    async main() {
+        // Dynamic import keeps the heavy app graph (axios/ledger) out of wxt's
+        // config loader, which evaluates this file under vite-node (no DOM).
+        const { startContentScript } = await import('@/content');
+        startContentScript();
     },
 });
