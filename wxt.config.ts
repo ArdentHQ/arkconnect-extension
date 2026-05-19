@@ -64,7 +64,7 @@ export default defineConfig({
             },
         },
     }),
-    vite: (env) => ({
+    vite: () => ({
         define: {
             'process.env.NODE_DEBUG': process.env.NODE_DEBUG ? true : false,
             'process.env.VITE_SEED_ADDRESSES': process.env.VITE_SEED_ADDRESSES ? true : false,
@@ -89,8 +89,12 @@ export default defineConfig({
                 globals: {
                     Buffer: true,
                     global: true,
-                    // dev kept process:true, prod build used process:false
-                    process: env.command === 'serve',
+                    // Must be polyfilled in production too: the MV3 service
+                    // worker has no `process`, and deps like localForage
+                    // reference it at runtime in background.js. Gating this on
+                    // dev (serve) broke `pnpm build` with "process is not
+                    // defined" while `pnpm dev` worked.
+                    process: true,
                 },
             }),
             makeInpageScriptIife,
