@@ -1,6 +1,8 @@
 import { FormikProps } from 'formik';
 import { useTranslation } from 'react-i18next';
+import { useQuery } from 'react-query';
 import { AddressDropdown } from '@/components/send/AddressDropdown';
+import { AssetSelector } from '@/components/send/AssetSelector';
 import Amount from '@/components/wallet/Amount';
 import constants from '@/constants';
 import { FeeSection } from '@/components/fees';
@@ -9,21 +11,56 @@ import { SendFormik } from '@/pages/Send';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 import { calculateGasFee } from '@/lib/hooks/useNetworkFees';
 import { BigNumber } from '@/lib/helpers';
+import { WalletToken } from '@/lib/profiles/wallet-token';
+import { IReadWriteWallet } from '@/lib/profiles/wallet.contract';
+
+const fetchTokens = async (primaryWallet?: IReadWriteWallet): Promise<WalletToken[]> => {
+    if (!primaryWallet) return [];
+    try {
+        const collection = await primaryWallet.client().tokenAddresses({
+            addresses: [primaryWallet.address()],
+            minBalance: '0',
+        });
+        return collection.items();
+    } catch {
+        return [];
+    }
+};
 
 export const SendForm = ({ formik }: { formik: FormikProps<SendFormik> }) => {
     const primaryWallet = usePrimaryWallet();
     const { t } = useTranslation();
 
+    const { data: tokens = [] } = useQuery<WalletToken[]>(
+        ['send-tokens', primaryWallet?.address()],
+        () => fetchTokens(primaryWallet),
+        { enabled: !!primaryWallet, staleTime: 0 },
+    );
+
+    const selectedToken = formik.values.tokenAddress
+        ? tokens.find((t) => t.token().address() === formik.values.tokenAddress)
+        : undefined;
+
+    const nativeTicker = primaryWallet?.currency() ?? 'ARK';
+    const assetTicker = selectedToken ? selectedToken.token().displaySymbol() : nativeTicker;
+    const assetBalance = selectedToken
+        ? selectedToken.balance()
+        : (primaryWallet?.balance() ?? BigNumber.ZERO);
+
     const handleMaxClick = () => {
-        const balance = primaryWallet?.balance() ?? BigNumber.ZERO;
+        if (selectedToken) {
+            formik.setFieldValue('amount', assetBalance.toString());
+            return;
+        }
+
         const fee = BigNumber.make(calculateGasFee(formik.values.gasPrice, formik.values.gasLimit));
 
-        if (balance.isLessThanOrEqualTo(fee)) {
+        if (assetBalance.isLessThanOrEqualTo(fee)) {
             formik.setFieldValue('amount', 0);
             return;
         }
 
-        const maxValue = balance.minus(fee);
+        const maxValue = assetBalance.minus(fee);
         formik.setFieldValue(
             'amount',
             maxValue.isNegative() ? 0 : maxValue.decimalPlaces(18).toString(),
@@ -75,6 +112,17 @@ export const SendForm = ({ formik }: { formik: FormikProps<SendFormik> }) => {
                 setValue={(value: string) => formik.setFieldValue('receiverAddress', value)}
                 handleValidation={handleValidation}
             />
+            {tokens.length > 0 && (
+                <AssetSelector
+                    value={formik.values.tokenAddress}
+                    tokens={tokens}
+                    onChange={(tokenAddress) => {
+                        formik.setFieldValue('tokenAddress', tokenAddress);
+                        formik.setFieldValue('amount', '');
+                        formik.validateField('amount');
+                    }}
+                />
+            )}
             <Input
                 name='amount'
                 labelText={t('COMMON.AMOUNT')}
@@ -82,13 +130,13 @@ export const SendForm = ({ formik }: { formik: FormikProps<SendFormik> }) => {
                     <span>
                         {`${t('COMMON.AVAILABLE')}: `}
                         <Amount
-                            value={primaryWallet?.balance() ?? BigNumber.ZERO}
-                            ticker={primaryWallet?.currency() || 'ARK'}
+                            value={assetBalance}
+                            ticker={assetTicker}
                             withTicker
                             showSign={false}
                             isNegative={false}
                             maxDigits={20}
-                            displayTooltip={(primaryWallet?.balance().toNumber() ?? 0) > 0}
+                            displayTooltip={assetBalance.toNumber() > 0}
                             maxDecimals={2}
                             hideSmallValues
                         />

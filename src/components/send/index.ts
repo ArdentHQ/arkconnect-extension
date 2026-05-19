@@ -1,4 +1,5 @@
 export * from './AddressBookModal';
 export * from './AddressDropdown';
+export * from './AssetSelector';
 export * from './SendButton';
 export * from './SendForm';
