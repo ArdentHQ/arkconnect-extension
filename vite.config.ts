@@ -1,21 +1,16 @@
 /// <reference types="vitest" />
 
-import { defineConfig, loadEnv } from 'vite';
+import { defineConfig } from 'vite';
 
 import { nodePolyfills } from 'vite-plugin-node-polyfills';
-import chromeManifest from './src/manifest.chrome.json';
-import firefoxManifest from './src/manifest.firefox.json';
 import path from 'node:path';
-import pkg from './package.json';
 import react from '@vitejs/plugin-react';
-import webExtension from 'vite-plugin-web-extension';
 
-const manifest = process.env.BROWSER === 'firefox' ? firefoxManifest : chromeManifest;
-
+// The extension build is owned by wxt (see wxt.config.ts). This config only
+// backs the vitest run, so it deliberately drops the web-extension plugin and
+// manifest wiring — vitest just needs the React/polyfill plugins and aliases.
 // https://vitejs.dev/config/
-export default defineConfig(({ mode }) => {
-    process.env = { ...process.env, ...loadEnv(mode, process.cwd()) }; // Combine passed vars + .env
-
+export default defineConfig(() => {
     return {
         define: {
             'process.env.NODE_DEBUG': process.env.NODE_DEBUG ? true : false,
@@ -23,23 +18,6 @@ export default defineConfig(({ mode }) => {
         },
         plugins: [
             react(),
-            webExtension({
-                manifest: () => {
-                    return {
-                        name: pkg.name,
-                        description: pkg.description,
-                        version: pkg.version,
-                        ...manifest,
-                    };
-                },
-                additionalInputs: ['src/inpage.ts'],
-                webExtConfig: {
-                    startUrl: process.env.VITE_START_URL ?? 'about:blank',
-                    firefox: process.env.VITE_FIREFOX_BINARY,
-                },
-                browser: process.env.BROWSER || 'chrome',
-                skipManifestValidation: true,
-            }),
             nodePolyfills({
                 // To add only specific polyfills, add them here. If no option is passed, adds all polyfills
                 include: [
