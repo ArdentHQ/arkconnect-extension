@@ -40,7 +40,11 @@ export const TokenBody = ({ token }: { token: WalletToken }) => {
             </TokenSection>
 
             <TokenSection label={t('COMMON.DETAILS')}>
-                <TokenItem label={t('COMMON.SYMBOL')}>{token.token().symbol()}</TokenItem>
+                <TokenItem label={t('COMMON.SYMBOL')} className="truncate">
+                    <span className="truncate max-w-[225px]">
+                        {token.token().symbol()}
+                    </span>
+                </TokenItem>
 
                 <TokenItem label={t('COMMON.CONTRACT')}>
                     <div className='divide-theme-secondary-200 dark:divide-theme-secondary-700 flex items-center divide-x leading-[1.125rem]'>
