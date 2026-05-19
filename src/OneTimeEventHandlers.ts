@@ -64,7 +64,10 @@ export function OneTimeEventHandlers(extension: ReturnType<typeof Extension>) {
             } catch (error) {
                 return {
                     error: 'FAILED_TO_BROADCAST',
-                    errorStack: error,
+                    errorStack: {
+                        message: (error as Error)?.message,
+                        stack: (error as Error)?.stack,
+                    },
                 };
             }
         },
