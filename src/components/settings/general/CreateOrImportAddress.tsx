@@ -5,6 +5,7 @@ import { Trans, useTranslation } from 'react-i18next';
 import SubPageLayout from '@/components/settings/SubPageLayout';
 import { Icon, IconDefinition, RowLayout, Tooltip } from '@/shared/components';
 import { isFirefox } from '@/lib/utils/isFirefox';
+import constants from '@/constants';
 
 const CreateOrImportAddress = () => {
     const navigate = useNavigate();
@@ -27,7 +28,7 @@ const CreateOrImportAddress = () => {
         if (isFirefox) return;
 
         void tabs.create({
-            url: runtime.getURL('/src/main.html?import_with_ledger'),
+            url: runtime.getURL(`/${constants.POPUP_PAGE}?import_with_ledger`),
         });
         window.close(); // Close extension popup as we navigate away
     };

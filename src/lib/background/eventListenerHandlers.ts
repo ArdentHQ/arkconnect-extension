@@ -8,6 +8,7 @@ import {
     assertIsUnlocked,
     getActiveSession,
 } from './assertions';
+import constants from '@/constants';
 import { Contracts } from '@/lib/profiles';
 import { WalletNetwork } from '@/lib/store/wallet';
 
@@ -78,7 +79,7 @@ const createExtensionWindow = async (onWindowReady: (id?: number) => void) => {
     }
 
     const newTab = await windows.create({
-        url: '/src/main.html',
+        url: `/${constants.POPUP_PAGE}`,
         type: 'popup',
         width: POPUP_WIDTH,
         height: 642,
