@@ -1,10 +1,10 @@
 import { useTranslation } from 'react-i18next';
-import { TokenItem } from './TokenItem';
 import { WalletToken } from '@/lib/profiles/wallet-token';
 import { ExternalLink, Icon, Tooltip } from '@/shared/components';
 import useClipboard from '@/lib/hooks/useClipboard';
 import trimAddress from '@/lib/utils/trimAddress';
 import { formatTokenBalance } from '@/app/lib/utils/formatTokenBalance';
+import { TokenItem } from './TokenItem';
 
 const TokenSection = ({ children, label }: { children: React.ReactNode; label: string }) => (
     <>
@@ -43,8 +43,8 @@ export const TokenBody = ({ token }: { token: WalletToken }) => {
                 <TokenItem label={t('COMMON.SYMBOL')}>{token.token().symbol()}</TokenItem>
 
                 <TokenItem label={t('COMMON.CONTRACT')}>
-                    <div className='divide-theme-secondary-200 dark:divide-theme-secondary-700 flex items-center gap-2 divide-x leading-[1.125rem]'>
-                        <div className='flex items-center'>
+                    <div className='divide-theme-secondary-200 dark:divide-theme-secondary-700 flex items-center divide-x leading-[1.125rem]'>
+                        <div className='flex items-center pr-2'>
                             <span>{trimAddress(contractAddress, 'short')}</span>
 
                             <Tooltip
