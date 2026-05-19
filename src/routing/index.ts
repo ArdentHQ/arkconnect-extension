@@ -32,6 +32,7 @@ import AddressBook from '@/pages/AddressBook';
 import CreateContact from '@/pages/CreateContact';
 import EditContact from '@/pages/EditContact';
 import Vote from '@/pages/Vote';
+import TokenDetails from '@/pages/TokenDetails';
 
 type RouteData = {
     Component: (...props: any[]) => JSX.Element;
@@ -182,6 +183,11 @@ const routes: RouteData[] = [
         Component: TransactionDetails,
         path: '/transaction/:transactionId',
         title: 'Transaction Details',
+    },
+    {
+        Component: TokenDetails,
+        path: '/token/:contractAddress',
+        title: 'Token Details',
     },
     {
         Component: Send,
