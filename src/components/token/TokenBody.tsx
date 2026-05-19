@@ -40,11 +40,13 @@ export const TokenBody = ({ token }: { token: WalletToken }) => {
             </TokenSection>
 
             <TokenSection label={t('COMMON.DETAILS')}>
-                <TokenItem label={t('COMMON.SYMBOL')}>{token.token().symbol()}</TokenItem>
+                <TokenItem label={t('COMMON.SYMBOL')} className='truncate'>
+                    <span className='max-w-[225px] truncate'>{token.token().symbol()}</span>
+                </TokenItem>
 
                 <TokenItem label={t('COMMON.CONTRACT')}>
-                    <div className='divide-theme-secondary-200 dark:divide-theme-secondary-700 flex items-center gap-2 divide-x leading-[1.125rem]'>
-                        <div className='flex items-center'>
+                    <div className='divide-theme-secondary-200 dark:divide-theme-secondary-700 flex items-center divide-x leading-[1.125rem]'>
+                        <div className='flex items-center pr-2'>
                             <span>{trimAddress(contractAddress, 'short')}</span>
 
                             <Tooltip

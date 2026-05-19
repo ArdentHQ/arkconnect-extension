@@ -2,31 +2,31 @@
 
 import { Collections, Contracts, DTO, Services } from "@/lib/mainsail";
 import { ConfigKey, ConfigRepository } from "@/lib/mainsail";
-import { decodeFunctionResult, encodeFunctionData } from "viem";
-
-import { ArkClient } from "@arkecosystem/typescript-client";
-import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
-import { ConfirmedTransactionDataCollection } from "@/lib/mainsail/transactions.collection";
-import { DateTime } from "@/lib/intl";
-import { IProfile } from "@/lib/profiles/profile.contract";
-import { SignedTransactionData } from "./signed-transaction.dto";
-import { WalletData } from "./wallet.dto";
-import dotify from "node-dotify";
-import { UnconfirmedTransactionData } from "./unconfirmed-transaction.dto";
-import { UnconfirmedTransactionDataCollection } from "@/lib/mainsail/unconfirmed-transactions.collection";
-import { TokenRepository } from "@/lib/profiles/token.repository";
-import { TokenDTO } from "@/lib/profiles/token.dto";
-import { TokenAddressesData, WalletTokenData } from "@/lib/profiles/token.contracts";
-import { WalletTokenDTO } from "@/lib/profiles/wallet-token.dto";
-import { WalletTokenCollection } from "@/lib/mainsail/wallet-token.collection";
-import { WalletToken } from "@/lib/profiles/wallet-token";
-import { TokenTransfersQuery } from "@/lib/mainsail/client.contract";
 import {
 	Helpers,
 	TransactionFunctionSigs,
 	TransactionTypeIdentifier,
 	UsernamesContract,
 } from "@arkecosystem/typescript-crypto";
+import { TokenAddressesData, WalletTokenData } from "@/lib/profiles/token.contracts";
+import { decodeFunctionResult, encodeFunctionData } from "viem";
+
+import { Client } from "@arkecosystem/typescript-client";
+import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
+import { ConfirmedTransactionDataCollection } from "@/lib/mainsail/transactions.collection";
+import { DateTime } from "@/lib/intl";
+import { IProfile } from "@/lib/profiles/profile.contract";
+import { SignedTransactionData } from "./signed-transaction.dto";
+import { TokenDTO } from "@/lib/profiles/token.dto";
+import { TokenRepository } from "@/lib/profiles/token.repository";
+import { TokenTransfersQuery } from "@/lib/mainsail/client.contract";
+import { UnconfirmedTransactionData } from "./unconfirmed-transaction.dto";
+import { UnconfirmedTransactionDataCollection } from "@/lib/mainsail/unconfirmed-transactions.collection";
+import { WalletData } from "./wallet.dto";
+import { WalletToken } from "@/lib/profiles/wallet-token";
+import { WalletTokenCollection } from "@/lib/mainsail/wallet-token.collection";
+import { WalletTokenDTO } from "@/lib/profiles/wallet-token.dto";
+import dotify from "node-dotify";
 
 type searchParams<T extends Record<string, any> = {}> = T & { page: number; limit?: number };
 
@@ -37,7 +37,7 @@ const wellKnownContracts = {
 };
 
 export class ClientService {
-	readonly #client!: ArkClient;
+	readonly #client!: Client;
 	#config: ConfigRepository;
 	#profile: IProfile;
 
@@ -49,7 +49,7 @@ export class ClientService {
 		const evm = config.host("evm", profile);
 		const transactions = config.host("tx", profile);
 
-		this.#client = new ArkClient({
+		this.#client = new Client({
 			api,
 			evm,
 			transactions,

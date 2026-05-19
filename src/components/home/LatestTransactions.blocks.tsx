@@ -3,8 +3,8 @@ import cn from 'classnames';
 import dayjs from 'dayjs';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { TransactionAmount } from '../transaction/Transaction.blocks';
 import { TokenAvatar } from '../token/TokenAvatar';
+import { TransactionAmount } from '../transaction/Transaction.blocks';
 import {
     getTransactionIcon,
     getType,
@@ -322,13 +322,11 @@ const TokenListItem = ({ token }: { token: WalletToken }) => {
                     <span className='typeset-headline text-light-black min-w-0 truncate font-medium dark:text-white'>
                         {token.token().name()}
                     </span>
-
                     <span className='typeset-headline text-theme-secondary-500 dark:text-theme-secondary-300 shrink-0 font-medium'>
                         {token.token().displaySymbol()}
                     </span>
                 </div>
             </div>
-
             <span
                 className={cn('typeset-headline shrink-0 font-medium', {
                     'text-light-black dark:text-white': !isZero,
