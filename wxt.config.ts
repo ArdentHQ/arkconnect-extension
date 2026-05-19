@@ -5,16 +5,19 @@ import pkg from './package.json';
 
 const srcDir = resolve(__dirname, 'src');
 
-// Wraps the injected inpage script in an IIFE so it doesn't leak into the
-// page's global scope. Ported from the old vite.production.config.ts plugin.
-let hasProcessedInPage = false;
+// Wraps the injected inpage script in an IIFE so its top-level `var inpage`
+// (wxt builds unlisted scripts as a named IIFE) doesn't leak onto the page's
+// window. Must run `post`: wxt appends a trailing `inpage;` footer after the
+// chunk is generated, so wrapping in a normal generateBundle pass leaves that
+// footer outside the closure -> "inpage is not defined". Running post wraps
+// the full final code (declaration + footer) together.
 const makeInpageScriptIife = {
     name: 'make-inpage-script-in-iife',
+    enforce: 'post' as const,
     generateBundle(_outputOptions: unknown, bundle: Record<string, { code?: string }>) {
         for (const [fileName, file] of Object.entries(bundle)) {
-            if (!hasProcessedInPage && fileName.includes('inpage') && file.code != null) {
-                file.code = `(() => {\n${file.code}})()`;
-                hasProcessedInPage = true;
+            if (fileName.includes('inpage') && file.code != null && !file.code.startsWith('(()')) {
+                file.code = `(() => {\n${file.code}\n})()`;
             }
         }
     },
