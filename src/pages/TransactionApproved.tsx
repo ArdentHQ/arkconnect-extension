@@ -13,7 +13,7 @@ import getActiveCoin from '@/lib/utils/getActiveCoin';
 import { useConfirmedTransaction } from '@/lib/hooks/useConfirmedTransaction';
 import { ApproveLayout } from '@/components/approve/ApproveLayout';
 import { Footer } from '@/shared/components/layout/Footer';
-import { ExtendedConfirmedTransactionData } from "@/lib/profiles/transaction.dto";
+import { ExtendedConfirmedTransactionData } from '@/lib/profiles/transaction.dto';
 
 const TransactionFooter = ({
     onClose,

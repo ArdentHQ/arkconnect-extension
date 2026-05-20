@@ -129,9 +129,7 @@ export const AddressSettings = () => {
                         onClick={() => {
                             window.open(explorerLink);
                         }}
-                        onKeyDown={(e) =>
-                            handleSubmitKeyAction(e, () => window.open(explorerLink))
-                        }
+                        onKeyDown={(e) => handleSubmitKeyAction(e, () => window.open(explorerLink))}
                     />
 
                     <SettingsOption
