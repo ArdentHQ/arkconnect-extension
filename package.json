@@ -11,13 +11,13 @@
         "dev:bare:firefox": "wxt -b firefox",
         "test": "vitest run",
         "test:coverage": "vitest run --coverage",
-        "build": "wxt build && wxt zip",
-        "build:firefox": "wxt build -b firefox && wxt zip -b firefox",
-        "build:chrome": "wxt build -b chrome && wxt zip -b chrome",
+        "typecheck": "tsc --noEmit",
+        "build": "pnpm typecheck && wxt build && wxt zip",
+        "build:firefox": "pnpm typecheck && wxt build -b firefox && wxt zip -b firefox",
+        "build:chrome": "pnpm typecheck && wxt build -b chrome && wxt zip -b chrome",
         "format": "pnpm lint && pnpm prettier",
         "lint": "eslint \"src/**/*.{js,ts,jsx,tsx}\" --fix",
         "prettier": "prettier --write src/**/*.{json,ts,tsx,css} .github/**/*.yml ./*.{json,js,ts} --config .prettierrc.json",
-        "preview": "vite preview",
         "generate:icons": "node scripts/generate-icons.js"
     },
     "dependencies": {

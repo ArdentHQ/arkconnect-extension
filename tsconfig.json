@@ -36,6 +36,6 @@
         "src/utils/ledger-test-helpers.ts",
         "dist/**/*"
     ],
-    "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.d.ts"],
+    "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.d.ts", ".wxt/wxt.d.ts"],
     "references": [{ "path": "./tsconfig.node.json" }]
 }
