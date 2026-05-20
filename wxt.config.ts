@@ -1,9 +1,16 @@
 import { resolve } from 'node:path';
 import { defineConfig } from 'wxt';
+import { loadEnv } from 'vite';
 import { nodePolyfills } from 'vite-plugin-node-polyfills';
 import pkg from './package.json';
 
 const srcDir = resolve(__dirname, 'src');
+
+// wxt evaluates this config under vite-node before vite's env loading kicks
+// in, so .env values aren't visible via process.env. Load them ourselves so
+// VITE_START_URL / VITE_FIREFOX_BINARY (consumed below in webExt) resolve from
+// .env. Shell env still wins because it's spread last.
+process.env = { ...loadEnv('', process.cwd(), ''), ...process.env };
 
 // wxt builds the unlisted inpage script as a named IIFE (`var inpage = ...`)
 // followed by a trailing `inpage;` footer that is appended after the chunk is
