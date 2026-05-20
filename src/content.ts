@@ -3,8 +3,6 @@ import { longLivedConnectionHandlers } from './lib/background/eventListenerHandl
 import { ExtensionEvents } from './lib/events';
 import constants from '@/constants';
 
-const port = runtime.connect({ name: 'ark-content-script' });
-
 const injectScript = (filename: string) => {
     try {
         const container = document.head || document.documentElement;
@@ -19,48 +17,49 @@ const injectScript = (filename: string) => {
     }
 };
 
-const setupEventListeners = () => {
-    window.addEventListener(
-        'message',
-        (event) => {
-            // We only accept messages from ourselves
-            if (event.source !== window || !event.data.type) {
-                return;
-            }
+// Called from the wxt content-script entrypoint's main().
+export function startContentScript() {
+    const port = runtime.connect({ name: 'ark-content-script' });
 
-            const type = event.data.type as keyof typeof longLivedConnectionHandlers;
+    const setupEventListeners = () => {
+        window.addEventListener(
+            'message',
+            (event) => {
+                // We only accept messages from ourselves
+                if (event.source !== window || !event.data.type) {
+                    return;
+                }
 
-            if (type?.endsWith('_RESOLVE') || type?.endsWith('_REJECT')) {
-                return;
-            }
+                const type = event.data.type as keyof typeof longLivedConnectionHandlers;
 
-            if (!longLivedConnectionHandlers[type]) {
-                return;
-            }
+                if (type?.endsWith('_RESOLVE') || type?.endsWith('_REJECT')) {
+                    return;
+                }
 
-            port.postMessage(event.data);
-        },
-        false,
-    );
-};
+                if (!longLivedConnectionHandlers[type]) {
+                    return;
+                }
 
-// Send back the response event to inpage script
-runtime.onMessage.addListener(function (request) {
-    if (ExtensionEvents().isSupported(request.type)) {
+                port.postMessage(event.data);
+            },
+            false,
+        );
+    };
+
+    // Send back the response event to inpage script
+    runtime.onMessage.addListener(function (request) {
+        if (ExtensionEvents().isSupported(request.type)) {
+            window.postMessage(request, '*');
+            return;
+        }
+
+        if (!request.type?.endsWith('_RESOLVE') && !request.type?.endsWith('_REJECT')) {
+            return;
+        }
+
         window.postMessage(request, '*');
-        return;
-    }
+    });
 
-    if (!request.type?.endsWith('_RESOLVE') && !request.type?.endsWith('_REJECT')) {
-        return;
-    }
-
-    window.postMessage(request, '*');
-});
-
-const init = () => {
     injectScript(constants.INPAGE_SCRIPT);
     setupEventListeners();
-};
-
-init();
+}

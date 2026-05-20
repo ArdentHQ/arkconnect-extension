@@ -6,6 +6,12 @@ import keepServiceWorkerAlive from './lib/background/keepServiceWorkerAlive';
 import { longLivedConnectionHandlers } from './lib/background/eventListenerHandlers';
 import { OneTimeEventHandlers, OneTimeEvents } from '@/OneTimeEventHandlers';
 
+// Registered as top-level side effects: MV3 service workers must attach their
+// listeners synchronously on worker startup, and wxt's config loader skips
+// side-effect-only entrypoint imports (so the heavy app graph isn't pulled
+// into its DOM-less vite-node analysis). The wxt background entrypoint is a
+// thin `import '@/background'` wrapper around this module.
+
 const initialPassword = UUID.random();
 
 const extension = Extension();
