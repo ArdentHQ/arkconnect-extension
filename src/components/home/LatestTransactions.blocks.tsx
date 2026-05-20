@@ -244,7 +244,7 @@ const TransactionListItem = ({
 export const TransactionsList = ({
     transactions,
     displayButton,
-    maxHeight = 'max-h-[237px]',
+    maxHeight = 'max-h-[235px]',
 }: {
     transactions: ExtendedConfirmedTransactionData[];
     displayButton: boolean;
@@ -345,7 +345,7 @@ export const TokensList = ({ tokens }: { tokens: WalletToken[] }) => {
 
     return (
         <div className='flex flex-col'>
-            <div className='custom-scroll max-h-[237px] overflow-auto'>
+            <div className='custom-scroll max-h-[235px] overflow-auto'>
                 {tokens.map((token) => (
                     <TokenListItem key={token.token().address()} token={token} />
                 ))}
