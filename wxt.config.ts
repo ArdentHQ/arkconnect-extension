@@ -33,7 +33,7 @@ export default defineConfig({
         '@/app': srcDir,
         '@': srcDir,
     },
-    runner: {
+    webExt: {
         startUrls: process.env.VITE_START_URL ? [process.env.VITE_START_URL] : undefined,
         binaries: process.env.VITE_FIREFOX_BINARY
             ? { firefox: process.env.VITE_FIREFOX_BINARY }
