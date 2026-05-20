@@ -13,7 +13,6 @@ import {
 } from './LatestTransactions.utils';
 import { Button, EmptyConnectionsIcon, ExternalLink, Icon, Tooltip } from '@/shared/components';
 
-import { getExplorerDomain } from '@/lib/utils/networkUtils';
 import { getTimeAgo } from '@/lib/utils/getTimeAgo';
 import { Skeleton } from '@/shared/components/utils/Skeleton';
 import trimAddress from '@/lib/utils/trimAddress';
@@ -262,10 +261,7 @@ export const TransactionsList = ({
             {displayButton && (
                 <div className='p-4'>
                     <ExternalLink
-                        href={getExplorerDomain(
-                            primaryWallet?.network().isLive() ?? false,
-                            primaryWallet?.address() ?? '',
-                        )}
+                        href={primaryWallet?.explorerLink()}
                         className='group hover:no-underline'
                         tabIndex={0}
                     >
@@ -351,10 +347,7 @@ export const TokensList = ({ tokens }: { tokens: WalletToken[] }) => {
                 ))}
                 <div className='p-4'>
                     <ExternalLink
-                        href={getExplorerDomain(
-                            primaryWallet?.network().isLive() ?? false,
-                            primaryWallet?.address() ?? '',
-                        )}
+                        href={primaryWallet?.explorerLink()}
                         className='group hover:no-underline'
                         tabIndex={0}
                     >

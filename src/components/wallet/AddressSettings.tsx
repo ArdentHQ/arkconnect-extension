@@ -1,7 +1,7 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import Amount from './Amount';
-import { Contracts } from '@/lib/profiles';
+import { Contracts, Wallet } from '@/lib/profiles';
 import SubPageLayout from '@/components/settings/SubPageLayout';
 import { Tooltip } from '@/shared/components';
 import { AddressAlias, LedgerIcon } from '@/components/wallet/address/Address.blocks';
@@ -9,7 +9,6 @@ import { getNetworkCurrency } from '@/lib/utils/getActiveCoin';
 import useClipboard from '@/lib/hooks/useClipboard';
 import { ToastPosition } from '@/components/toast/ToastContainer';
 import trimAddress from '@/lib/utils/trimAddress';
-import { getExplorerDomain } from '@/lib/utils/networkUtils';
 import { SettingsOption } from '@/components/settings/SettingsOption';
 import SafeOutlineOverflowContainer from '@/shared/components/layout/SafeOutlineOverflowContainer';
 import { handleSubmitKeyAction } from '@/lib/utils/handleKeyAction';
@@ -23,6 +22,8 @@ export const AddressSettings = () => {
     const { copy } = useClipboard();
 
     const navigate = useNavigate();
+
+    const explorerLink = (address as Wallet).explorerLink();
 
     return (
         <SubPageLayout title={t('PAGES.ADDRESS_SETTINGS.TITLE')}>
@@ -126,20 +127,9 @@ export const AddressSettings = () => {
                         iconLeading='link-external'
                         title={t('PAGES.ADDRESS_SETTINGS.OPTIONS.VIEW_ON_ARKSCAN')}
                         onClick={() => {
-                            window.open(
-                                getExplorerDomain(address.network().isLive(), address.address()),
-                            );
+                            window.open(explorerLink);
                         }}
-                        onKeyDown={(e) =>
-                            handleSubmitKeyAction(e, () =>
-                                window.open(
-                                    getExplorerDomain(
-                                        address.network().isLive(),
-                                        address.address(),
-                                    ),
-                                ),
-                            )
-                        }
+                        onKeyDown={(e) => handleSubmitKeyAction(e, () => window.open(explorerLink))}
                     />
 
                     <SettingsOption

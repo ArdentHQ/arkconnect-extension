@@ -8,15 +8,3 @@ export const networkDisplayName = (network: Network | undefined | null) => {
 
     return network.displayName() === 'ARK Devnet' ? 'Testnet' : network.displayName();
 };
-
-export const getExplorerDomain = (isLiveNetwork: boolean, address: string) => {
-    return isLiveNetwork
-        ? `${constants.ARKSCAN_ADDRESSES}/${address}`
-        : `${constants.ARKSCAN_TEST_ADDRESSES}/${address}`;
-};
-
-export const getTransactionDetailLink = (isLiveNetwork: boolean, transactionId: string) => {
-    return isLiveNetwork
-        ? `${constants.ARKSCAN_MAINNET_TRANSACTIONS}/${transactionId}`
-        : `${constants.ARKSCAN_TESTNET_TRANSACTIONS}/${transactionId}`;
-};

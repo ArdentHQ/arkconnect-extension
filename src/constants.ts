@@ -1,11 +1,5 @@
 const APP_NAME = 'ARK Connect';
 const SUPPORT_EMAIL = 'support@arkconnect.io ';
-const ARKSCAN_MAINNET_TRANSACTIONS = 'https://live.arkscan.io/transactions';
-const ARKSCAN_TESTNET_TRANSACTIONS =
-    (import.meta.env.VITE_ARKSCAN_BASE_URL || 'https://test.arkscan.io') + '/transactions';
-const ARKSCAN_ADDRESSES = 'https://live.arkscan.io/addresses';
-const ARKSCAN_TEST_ADDRESSES =
-    (import.meta.env.VITE_ARKSCAN_BASE_URL || 'https://test.arkscan.io') + '/addresses';
 const ARKSCAN_EXCHANGES = 'https://live.arkscan.io/exchanges';
 const ARKSCAN_FAUCET = 'https://faucet.ark.io/';
 const TERMS_OF_SERVICE = 'https://arkconnect.io/terms-of-service';
@@ -50,10 +44,6 @@ const FEE_CUSTOM = 'custom';
 const constants = {
     APP_NAME,
     SUPPORT_EMAIL,
-    ARKSCAN_MAINNET_TRANSACTIONS,
-    ARKSCAN_TESTNET_TRANSACTIONS,
-    ARKSCAN_ADDRESSES,
-    ARKSCAN_TEST_ADDRESSES,
     ARKSCAN_EXCHANGES,
     ARKSCAN_FAUCET,
     ARKVAULT_BASE_URL,
