@@ -36,13 +36,7 @@ const Home = () => {
                     <div className='border-t-theme-primary-500 green:border-t-theme-primary-650 green:dark:border-t-theme-primary-600 flex justify-between border-t border-solid p-4'>
                         <ExternalLink
                             className='flex items-center gap-2'
-                            href={
-                                primaryWallet?.network().isLive()
-                                    ? `${constants.ARKSCAN_ADDRESSES}/${primaryWallet?.address()}`
-                                    : `${
-                                          constants.ARKSCAN_TEST_ADDRESSES
-                                      }/${primaryWallet?.address()}`
-                            }
+                            href={primaryWallet?.explorerLink()}
                         >
                             <span className='text-sm font-medium'>{t('COMMON.EXPLORER')}</span>
 

@@ -15,6 +15,7 @@ import getActiveCoin from '@/lib/utils/getActiveCoin';
 import { useConfirmedTransaction } from '@/lib/hooks/useConfirmedTransaction';
 import { ApproveLayout } from '@/components/approve/ApproveLayout';
 import { Footer } from '@/shared/components/layout/Footer';
+import { ExtendedConfirmedTransactionData } from "../lib/profiles/transaction.dto";
 
 const VoteApprovedFooter = ({
     onClose,
@@ -27,6 +28,10 @@ const VoteApprovedFooter = ({
 }) => {
     const { t } = useTranslation();
 
+    const { vote } = state;
+
+    const explorerLink = (vote as ExtendedConfirmedTransactionData).explorerLink();
+
     return (
         <Footer className='flex w-full flex-col gap-5'>
             <Button variant='primary' onClick={onClose}>
@@ -36,11 +41,7 @@ const VoteApprovedFooter = ({
             {isTransactionConfirmed && (
                 <ExternalLink
                     className='text-light-black flex w-full items-center justify-center gap-3 dark:text-white'
-                    href={
-                        state?.isTestnet
-                            ? `${constants.ARKSCAN_TESTNET_TRANSACTIONS}/${state?.vote.id}`
-                            : `${constants.ARKSCAN_MAINNET_TRANSACTIONS}/${state?.vote.id}`
-                    }
+                    href={explorerLink}
                     color='base'
                 >
                     <span className='typeset-headline font-medium'>
