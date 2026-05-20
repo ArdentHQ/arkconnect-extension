@@ -142,6 +142,7 @@ const VoteApproved = () => {
                         convertedFee={state?.vote.convertedFee as BigNumber}
                         exchangeCurrency={state?.vote.exchangeCurrency as string}
                         network={getActiveCoin(state?.walletNetwork)}
+                        amountTicker={getActiveCoin(state?.walletNetwork)}
                         unvote={{
                             name: state?.vote.unvoteName,
                             publicKey: state?.vote.unvotePublicKey,
