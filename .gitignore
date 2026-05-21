@@ -41,4 +41,7 @@ build.zip
 # Tests
 /coverage
 .coverage
+
+# WXT
 .wxt
+web-ext.config.ts

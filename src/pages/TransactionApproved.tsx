@@ -2,7 +2,6 @@ import { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { BigNumber } from '../lib/helpers';
-import constants from '@/constants';
 import { useEnvironmentContext } from '@/lib/context/Environment';
 import { useProfileContext } from '@/lib/context/Profile';
 import formatDomain from '@/lib/utils/formatDomain';
@@ -14,6 +13,7 @@ import getActiveCoin from '@/lib/utils/getActiveCoin';
 import { useConfirmedTransaction } from '@/lib/hooks/useConfirmedTransaction';
 import { ApproveLayout } from '@/components/approve/ApproveLayout';
 import { Footer } from '@/shared/components/layout/Footer';
+import { ExtendedConfirmedTransactionData } from '@/lib/profiles/transaction.dto';
 
 const TransactionFooter = ({
     onClose,
@@ -25,6 +25,9 @@ const TransactionFooter = ({
     onClose: () => void;
 }) => {
     const { t } = useTranslation();
+    const { transaction } = state;
+
+    const explorerLink = (transaction as ExtendedConfirmedTransactionData).explorerLink();
 
     return (
         <Footer className='flex flex-col gap-5'>
@@ -35,11 +38,7 @@ const TransactionFooter = ({
             {isTransactionConfirmed && (
                 <ExternalLink
                     className='text-light-black flex w-full items-center justify-center gap-3 dark:text-white'
-                    href={
-                        state?.isTestnet
-                            ? `${constants.ARKSCAN_TESTNET_TRANSACTIONS}/${state?.transaction.id}`
-                            : `${constants.ARKSCAN_MAINNET_TRANSACTIONS}/${state?.transaction.id}`
-                    }
+                    href={explorerLink}
                 >
                     <span className='font-medium'>{t('MISC.VIEW_TRANSACTION_ON_ARKSCAN')}</span>
 

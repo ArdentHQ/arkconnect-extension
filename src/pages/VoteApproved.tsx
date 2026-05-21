@@ -3,8 +3,8 @@ import { useTranslation } from 'react-i18next';
 import { useEffect } from 'react';
 import { runtime } from 'webextension-polyfill';
 import { BigNumber } from '../lib/helpers';
+import { ExtendedConfirmedTransactionData } from '../lib/profiles/transaction.dto';
 import { ApproveActionType } from './Approve';
-import constants from '@/constants';
 import removeWindowInstance from '@/lib/utils/removeWindowInstance';
 import { Button, ExternalLink, Heading, Icon, Loader } from '@/shared/components';
 import formatDomain from '@/lib/utils/formatDomain';
@@ -27,6 +27,10 @@ const VoteApprovedFooter = ({
 }) => {
     const { t } = useTranslation();
 
+    const { vote } = state;
+
+    const explorerLink = (vote as ExtendedConfirmedTransactionData).explorerLink();
+
     return (
         <Footer className='flex w-full flex-col gap-5'>
             <Button variant='primary' onClick={onClose}>
@@ -36,11 +40,7 @@ const VoteApprovedFooter = ({
             {isTransactionConfirmed && (
                 <ExternalLink
                     className='text-light-black flex w-full items-center justify-center gap-3 dark:text-white'
-                    href={
-                        state?.isTestnet
-                            ? `${constants.ARKSCAN_TESTNET_TRANSACTIONS}/${state?.vote.id}`
-                            : `${constants.ARKSCAN_MAINNET_TRANSACTIONS}/${state?.vote.id}`
-                    }
+                    href={explorerLink}
                     color='base'
                 >
                     <span className='typeset-headline font-medium'>
@@ -142,6 +142,7 @@ const VoteApproved = () => {
                         convertedFee={state?.vote.convertedFee as BigNumber}
                         exchangeCurrency={state?.vote.exchangeCurrency as string}
                         network={getActiveCoin(state?.walletNetwork)}
+                        amountTicker={getActiveCoin(state?.walletNetwork)}
                         unvote={{
                             name: state?.vote.unvoteName,
                             publicKey: state?.vote.unvotePublicKey,
