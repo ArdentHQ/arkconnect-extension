@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import { BigButton, HeadingDescription, Tooltip } from '@/shared/components';
 import SubPageLayout from '@/components/settings/SubPageLayout';
 import { isFirefox } from '@/lib/utils/isFirefox';
+import constants from '@/constants';
 
 const InitialImportWallet = () => {
     const navigate = useNavigate();
@@ -46,7 +47,7 @@ const InitialImportWallet = () => {
                         onClick={() => {
                             if (isFirefox) return;
                             tabs.create({
-                                url: runtime.getURL('/src/main.html?import_with_ledger'),
+                                url: runtime.getURL(`/${constants.POPUP_PAGE}?import_with_ledger`),
                             });
                             window.close(); // Close extension popup as we navigate away
                         }}

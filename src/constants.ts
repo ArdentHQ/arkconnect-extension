@@ -11,6 +11,12 @@ const ARKVAULT_API_MAINNET_BASE_URL = 'https://api.ark.io/';
 const ARKVAULT_API_DEVNET_BASE_URL = 'https://ark-test.arkvault.io/';
 const GITHUB_RELEASES_URL = 'https://github.com/ArdentHQ/arkconnect-extension/releases/tag/';
 
+// Built extension resource paths. wxt emits the popup as popup.html and the
+// injected provider as inpage.js at the bundle root — keep these in one place
+// so the rest of the codebase never hardcodes src/ paths.
+const POPUP_PAGE = 'popup.html';
+const INPAGE_SCRIPT = 'inpage.js';
+
 const SHOW_MESSAGE_AFTER_ACTION_DURING_MS = 3000;
 
 const TRANSACTION_CONFIRMATION_DELAY_MS = 3000;
@@ -61,6 +67,8 @@ const constants = {
     MAX_FEES,
     FEE_REGEX,
     GITHUB_RELEASES_URL,
+    POPUP_PAGE,
+    INPAGE_SCRIPT,
     MAC_OS,
     DEFAULT_OS,
     FEE_SLOW,
