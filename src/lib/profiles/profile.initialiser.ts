@@ -10,10 +10,7 @@ export class ProfileInitialiser implements IProfileInitialiser {
 	/** {@inheritDoc IProfileInitialiser.initialise} */
 	public initialise(name: string): void {
 		// Flush services
-		this.#profile.contacts().flush();
 		this.#profile.data().flush();
-		this.#profile.exchangeTransactions().flush();
-		this.#profile.notifications().flush();
 		this.#profile.settings().flush();
 		this.#profile.wallets().flush();
 
@@ -23,8 +20,6 @@ export class ProfileInitialiser implements IProfileInitialiser {
 
 	/** {@inheritDoc IProfileInitialiser.initialiseSettings} */
 	public initialiseSettings(name: string): void {
-		const { theme, useNetworkWalletNames } = this.#profile.appearance().defaults();
-
 		this.#profile.settings().set(ProfileSetting.AutomaticSignOutPeriod, 15);
 		this.#profile.settings().set(ProfileSetting.Bip39Locale, "english");
 		this.#profile.settings().set(ProfileSetting.DoNotShowFeeWarning, false);
@@ -33,9 +28,9 @@ export class ProfileInitialiser implements IProfileInitialiser {
 		this.#profile.settings().set(ProfileSetting.Locale, "en-US");
 		this.#profile.settings().set(ProfileSetting.MarketProvider, "cryptocompare");
 		this.#profile.settings().set(ProfileSetting.Name, name);
-		this.#profile.settings().set(ProfileSetting.Theme, theme);
+		this.#profile.settings().set(ProfileSetting.Theme, "light");
 		this.#profile.settings().set(ProfileSetting.TimeFormat, "h:mm A");
-		this.#profile.settings().set(ProfileSetting.UseNetworkWalletNames, useNetworkWalletNames);
+		this.#profile.settings().set(ProfileSetting.UseNetworkWalletNames, true);
 		this.#profile.settings().set(ProfileSetting.UseTestNetworks, false);
 		this.#profile.settings().set(ProfileSetting.UseHDWallets, false);
 		this.#profile.settings().set(ProfileSetting.HideDustTokens, false);

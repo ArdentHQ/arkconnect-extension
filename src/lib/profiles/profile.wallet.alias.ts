@@ -1,6 +1,7 @@
 import { Contracts, Contracts as ProfileContracts } from "@/lib/profiles";
 import { getDefaultAlias, getLedgerDefaultAlias } from "@/lib/domains/wallet/utils/get-default-alias";
 import { WalletData } from "./wallet.enum";
+import { ProfileSetting } from "./contracts";
 
 export class WalletAliasProvider {
 	#profile: ProfileContracts.IProfile;
@@ -32,7 +33,7 @@ export class WalletAliasProvider {
 				return profile.knownWallets().name(networkId, address);
 			}
 
-			const useNetworkWalletNames = profile.appearance().get("useNetworkWalletNames");
+			const useNetworkWalletNames = profile.settings().get<boolean>(ProfileSetting.UseNetworkWalletNames);
 
 			const wallet = profile.wallets().findByAddressWithNetwork(address, networkId);
 			const onChainUsername = profile.usernames().username(networkId, address);
@@ -47,12 +48,9 @@ export class WalletAliasProvider {
 
 			const username = wallet ? wallet?.username() : undefined;
 
-			const contact = profile.contacts().findByAddress(address)[0];
-			const contactName = contact?.name();
-
 			alias = useNetworkWalletNames
-				? username || localName || contactName || onChainUsername || validatorName
-				: localName || contactName || username || onChainUsername || validatorName;
+				? username || localName || onChainUsername || validatorName
+				: localName || username || onChainUsername || validatorName;
 
 			return alias;
 		} catch {

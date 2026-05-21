@@ -23,13 +23,10 @@ export class ProfileSerialiser implements IProfileSerialiser {
 		}
 
 		return {
-			contacts: this.#profile.contacts().toObject(),
 			data: this.#profile.data().all(),
-			exchangeTransactions: this.#profile.exchangeTransactions().toObject(),
 			hosts: this.#profile.hosts().all(),
 			id: this.#profile.id(),
 			networks: this.#profile.networks().all(),
-			notifications: this.#profile.notifications().all(),
 			settings: this.#profile.settings().all(),
 			wallets: this.#profile.wallets().toObject(options),
 		};

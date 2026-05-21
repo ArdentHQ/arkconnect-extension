@@ -1,7 +1,6 @@
 import { Base64 } from "@ardenthq/arkvault-crypto";
 
 import { IProfile, IProfileData, IProfileImporter, IProfileValidator, IProfileMainsailMigrator } from "./contracts.js";
-import { Migrator } from "./migrator.js";
 import { ProfileEncrypter } from "./profile.encrypter";
 import { ProfileValidator } from "./profile.validator";
 import { Environment } from "./environment.js";
@@ -11,14 +10,12 @@ export class ProfileImporter implements IProfileImporter {
 	readonly #profile: IProfile;
 	readonly #validator: IProfileValidator;
 	readonly #migrator: IProfileMainsailMigrator;
-	readonly #env: Environment;
 	#ignoreDetails: boolean = false;
 
-	public constructor(profile: IProfile, env: Environment) {
+	public constructor(profile: IProfile, _env: Environment) {
 		this.#profile = profile;
 		this.#validator = new ProfileValidator();
 		this.#migrator = new ProfileMainsailMigrator();
-		this.#env = env;
 	}
 
 	public ignoreDetails(): ProfileImporter {
@@ -30,31 +27,18 @@ export class ProfileImporter implements IProfileImporter {
 	public async import(password?: string): Promise<void> {
 		let data: IProfileData | undefined = await this.#unpack(password);
 
-		const schemas = this.#env.migrationSchemas();
-		const version = this.#env.migrationVersion();
-
-		if (!!schemas && !!version) {
-			await new Migrator(this.#profile, data).migrate(schemas, version);
-		}
-
 		data = await this.#migrator.migrate(this.#profile, data);
 
 		data = this.#validator.validate(data);
 
 		if (!this.#ignoreDetails) {
-			this.#profile.notifications().fill(data.notifications);
-
 			this.#profile.data().fill(data.data);
 
 			this.#profile.hosts().fill(data.hosts);
 
 			this.#profile.networks().fill(data.networks);
 
-			this.#profile.exchangeTransactions().fill(data.exchangeTransactions);
-
 			this.#profile.wallets().fill(data.wallets);
-
-			this.#profile.contacts().fill(data.contacts);
 
 			this.#profile.exchangeRates().restore();
 		}
