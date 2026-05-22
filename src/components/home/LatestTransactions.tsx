@@ -130,7 +130,7 @@ export const LatestTransactions = () => {
                                 transactions={data.transactions}
                                 displayButton={data.hasMorePages}
                                 maxHeight={classNames({
-                                    'max-h-[237px]': showTabs,
+                                    'max-h-[235px]': showTabs,
                                     'max-h-[270px]': !showTabs,
                                 })}
                             />
