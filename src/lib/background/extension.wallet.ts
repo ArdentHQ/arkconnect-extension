@@ -7,7 +7,6 @@ import { TransferInput, VoteInput } from '@/lib/mainsail/transaction.contract';
 import { RawTransactionData } from '@/lib/mainsail/signed-transaction.dto.contract';
 import { BigNumber } from '@/lib/helpers';
 import { WalletToken } from '@/lib/profiles/wallet-token';
-import { httpClient } from '@/lib/services';
 
 // `actsWithSecret()` only returns true for wallets created via `WalletFactory.fromSecret`,
 // which is exclusively used by the dev seeder (src/dev/utils/dev.ts). Production onboarding
@@ -81,8 +80,6 @@ export function Wallet({ wallet }: { wallet: Contracts.IReadWriteWallet }) {
                 .signatoryFactory()
                 .make(buildSignatoryInput(wallet, passphrase));
 
-            httpClient.forgetWalletCache(wallet);
-
             const uuid = await wallet.transaction().signVote({
                 ...input,
                 signatory,
@@ -146,8 +143,6 @@ export function Wallet({ wallet }: { wallet: Contracts.IReadWriteWallet }) {
                 signatory,
                 token,
             };
-
-            httpClient.forgetWalletCache(wallet);
 
             const uuid = isTokenTransfer
                 ? await wallet.transaction().signTransferToken(transactionInput)

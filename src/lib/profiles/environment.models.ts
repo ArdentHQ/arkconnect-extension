@@ -1,4 +1,4 @@
-import { Http, Networks, Services } from "@/lib/mainsail";
+import { Networks, Services } from "@/lib/mainsail";
 
 import { IProfile } from "./profile.contract.js";
 
@@ -14,7 +14,6 @@ export type NetworkHostSelectorFactory = (profile: IProfile) => Networks.Network
 export interface EnvironmentOptions {
 	storage: string | Storage;
 	hostSelector?: NetworkHostSelectorFactory;
-	httpClient: Http.HttpClient;
 	ledgerTransportFactory?: Services.LedgerTransportFactory;
 	migrations?: Record<string, any>;
 }

@@ -21,7 +21,6 @@ import { selectWallets } from '@/lib/store/wallet';
 import { Network } from '@/lib/mainsail/network';
 import { TransferInput } from '@/lib/mainsail/transaction.contract';
 import { calculateGasFee, GasLimit } from '@/lib/hooks/useNetworkFees';
-import { httpClient } from '@/lib/services';
 import { WalletToken } from '@/lib/profiles/wallet-token';
 
 export interface RecipientItem {
@@ -161,9 +160,6 @@ export const useSendTransferForm = (
                 recipients,
                 preserveAmountPrecision: isTokenTransfer,
             });
-
-            // Ensures the cache is flushed so it always fetches the latest wallet nonce
-            httpClient.forgetWalletCache(wallet);
 
             const transactionInput: TransferInput = {
                 data,
