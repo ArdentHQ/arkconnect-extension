@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { BigNumber } from '../lib/helpers';
 import { useEnvironmentContext } from '@/lib/context/Environment';
 import { useProfileContext } from '@/lib/context/Profile';
 import formatDomain from '@/lib/utils/formatDomain';
@@ -13,21 +12,18 @@ import getActiveCoin from '@/lib/utils/getActiveCoin';
 import { useConfirmedTransaction } from '@/lib/hooks/useConfirmedTransaction';
 import { ApproveLayout } from '@/components/approve/ApproveLayout';
 import { Footer } from '@/shared/components/layout/Footer';
-import { ExtendedConfirmedTransactionData } from '@/lib/profiles/transaction.dto';
+import { BigNumber } from '../lib/helpers';
 
 const TransactionFooter = ({
     onClose,
     isTransactionConfirmed,
-    state,
+    explorerLink,
 }: {
     isTransactionConfirmed: boolean;
-    state: any;
     onClose: () => void;
+    explorerLink: string;
 }) => {
     const { t } = useTranslation();
-    const { transaction } = state;
-
-    const explorerLink = (transaction as ExtendedConfirmedTransactionData).explorerLink();
 
     return (
         <Footer className='flex flex-col gap-5'>
@@ -74,6 +70,7 @@ const TransactionApproved = () => {
 
     const transactionId = state?.transaction.id;
     const wallet = profile.wallets().findById(state?.walletId);
+    const explorerLink = wallet.link().transaction(transactionId);
 
     const isTransactionConfirmed = useConfirmedTransaction({ wallet, transactionId });
 
@@ -93,7 +90,7 @@ const TransactionApproved = () => {
                 <TransactionFooter
                     onClose={onClose}
                     isTransactionConfirmed={isTransactionConfirmed}
-                    state={state}
+                    explorerLink={explorerLink}
                 />
             }
         >

@@ -2,9 +2,6 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useEffect } from 'react';
 import { runtime } from 'webextension-polyfill';
-import { BigNumber } from '../lib/helpers';
-import { ExtendedConfirmedTransactionData } from '../lib/profiles/transaction.dto';
-import { ApproveActionType } from './Approve';
 import removeWindowInstance from '@/lib/utils/removeWindowInstance';
 import { Button, ExternalLink, Heading, Icon, Loader } from '@/shared/components';
 import formatDomain from '@/lib/utils/formatDomain';
@@ -15,21 +12,19 @@ import getActiveCoin from '@/lib/utils/getActiveCoin';
 import { useConfirmedTransaction } from '@/lib/hooks/useConfirmedTransaction';
 import { ApproveLayout } from '@/components/approve/ApproveLayout';
 import { Footer } from '@/shared/components/layout/Footer';
+import { BigNumber } from '../lib/helpers';
+import { ApproveActionType } from './Approve';
 
 const VoteApprovedFooter = ({
     onClose,
     isTransactionConfirmed,
-    state,
+    explorerLink,
 }: {
     onClose: () => void;
     isTransactionConfirmed: boolean;
-    state: any;
+    explorerLink: string;
 }) => {
     const { t } = useTranslation();
-
-    const { vote } = state;
-
-    const explorerLink = (vote as ExtendedConfirmedTransactionData).explorerLink();
 
     return (
         <Footer className='flex w-full flex-col gap-5'>
@@ -70,6 +65,7 @@ const VoteApproved = () => {
     const { session, vote } = state;
 
     const wallet = profile.wallets().findById(session.walletId);
+    const explorerLink = wallet.link().transaction(vote.id);
 
     const showFiat = state.walletNetwork === WalletNetwork.MAINNET;
 
@@ -109,7 +105,7 @@ const VoteApproved = () => {
                 <VoteApprovedFooter
                     onClose={onClose}
                     isTransactionConfirmed={isTransactionConfirmed}
-                    state={state}
+                    explorerLink={explorerLink}
                 />
             }
         >
