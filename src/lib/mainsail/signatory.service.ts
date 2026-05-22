@@ -1,20 +1,10 @@
-/* eslint unicorn/no-abusive-eslint-disable: "off" */
-/* eslint-disable */
 /* istanbul ignore file */
 
 import { IdentityOptions } from "@/lib/mainsail/shared.contract";
-import {
-	ConfirmationMnemonicSignatory,
-	ConfirmationSecretSignatory,
-	LedgerSignatory,
-	MnemonicSignatory,
-	SecretSignatory,
-	Signatory,
-} from "@/lib/mainsail/signatories";
 
 import { AddressService } from "./address.service";
 import { PublicKeyService } from "./public-key.service";
-import { Bip44MnemonicSignatory } from "@/lib/mainsail/bip44-mnemonic.signatory";
+import { Signatory } from "./signatory";
 
 export class SignatoryService {
 	readonly #addressService: AddressService;
@@ -26,76 +16,69 @@ export class SignatoryService {
 	}
 
 	public async mnemonic(mnemonic: string, options?: IdentityOptions): Promise<Signatory> {
-		return new Signatory(
-			new MnemonicSignatory({
-				address: this.#addressService.fromMnemonic(mnemonic).address,
-				options,
-				publicKey: this.#publicKeyService.fromMnemonic(mnemonic).publicKey,
-				signingKey: mnemonic,
-			}),
-		);
+		return new Signatory({
+			type: "mnemonic",
+			signingKey: mnemonic,
+			address: this.#addressService.fromMnemonic(mnemonic).address,
+			publicKey: this.#publicKeyService.fromMnemonic(mnemonic).publicKey,
+			options,
+		});
 	}
 
 	public async bip44Mnemonic(mnemonic: string, path: string): Promise<Signatory> {
-		return new Signatory(
-			new Bip44MnemonicSignatory({
-				signingKey: mnemonic,
-				path,
-			}),
-		);
+		return new Signatory({ type: "bip44Mnemonic", signingKey: mnemonic, path });
 	}
 
 	public async confirmationMnemonic(signingKey: string, confirmKey: string): Promise<Signatory> {
-		return new Signatory(
-			new ConfirmationMnemonicSignatory({
-				address: this.#addressService.fromMnemonic(signingKey).address,
-				confirmKey,
-				publicKey: this.#publicKeyService.fromMnemonic(signingKey).publicKey,
-				signingKey,
-			}),
-		);
+		return new Signatory({
+			type: "confirmationMnemonic",
+			signingKey,
+			confirmKey,
+			address: this.#addressService.fromMnemonic(signingKey).address,
+			publicKey: this.#publicKeyService.fromMnemonic(signingKey).publicKey,
+		});
 	}
 
 	public async ledger(path: string, options?: IdentityOptions): Promise<Signatory> {
-		return new Signatory(new LedgerSignatory({ options, signingKey: path }));
+		return new Signatory({
+			type: "ledger",
+			signingKey: path,
+			path,
+			address: options?.address,
+			publicKey: options?.senderPublicKey,
+			options,
+		});
 	}
 
 	public async secret(secret: string, options?: IdentityOptions): Promise<Signatory> {
-		return new Signatory(
-			new SecretSignatory({
-				address: this.#addressService.fromSecret(secret).address,
-				options,
-				publicKey: this.#publicKeyService.fromSecret(secret).publicKey,
-				signingKey: secret,
-			}),
-		);
+		return new Signatory({
+			type: "secret",
+			signingKey: secret,
+			address: this.#addressService.fromSecret(secret).address,
+			publicKey: this.#publicKeyService.fromSecret(secret).publicKey,
+			options,
+		});
 	}
 
-	public async confirmationSecret(
-		signingKey: string,
-		confirmKey: string,
-		options?: IdentityOptions,
-	): Promise<Signatory> {
-		return new Signatory(
-			new ConfirmationSecretSignatory({
-				address: this.#addressService.fromSecret(signingKey).address,
-				confirmKey,
-				publicKey: this.#publicKeyService.fromSecret(signingKey).publicKey,
-				signingKey,
-			}),
-		);
+	public async confirmationSecret(signingKey: string, confirmKey: string): Promise<Signatory> {
+		return new Signatory({
+			type: "confirmationSecret",
+			signingKey,
+			confirmKey,
+			address: this.#addressService.fromSecret(signingKey).address,
+			publicKey: this.#publicKeyService.fromSecret(signingKey).publicKey,
+		});
 	}
 
 	/**
 	 * This signatory should only be used for testing and fee calculations.
 	 */
 	public async stub(mnemonic: string): Promise<Signatory> {
-		return new Signatory(
-			new MnemonicSignatory({
-				address: "address",
-				publicKey: "publicKey",
-				signingKey: mnemonic,
-			}),
-		);
+		return new Signatory({
+			type: "mnemonic",
+			signingKey: mnemonic,
+			address: "address",
+			publicKey: "publicKey",
+		});
 	}
 }

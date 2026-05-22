@@ -1,127 +1,94 @@
-/* istanbul ignore file */
-
-import { AbstractSignatory } from "./abstract.signatory";
-import { AbstractDoubleSignatory } from "./abstract-double.signatory";
-import { ConfirmationMnemonicSignatory } from "./confirmation-mnemonic.signatory";
-import { ConfirmationSecretSignatory } from "./confirmation-secret.signatory";
-import { ForbiddenMethodCallException } from "./exceptions";
-import { LedgerSignatory } from "./ledger.signatory";
-import { MnemonicSignatory } from "./mnemonic.signatory";
-import { SecretSignatory } from "./secret.signatory";
 import { IdentityOptions } from "./services";
-import { Bip44MnemonicSignatory } from "@/lib/mainsail/bip44-mnemonic.signatory";
+import { ForbiddenMethodCallException } from "./exceptions";
 
-type SignatoryType =
-	| ConfirmationMnemonicSignatory
-	| ConfirmationSecretSignatory
-	| LedgerSignatory
-	| MnemonicSignatory
-	| SecretSignatory
-	| Bip44MnemonicSignatory;
+export type SignatoryType =
+	| "mnemonic"
+	| "bip44Mnemonic"
+	| "confirmationMnemonic"
+	| "secret"
+	| "confirmationSecret"
+	| "ledger";
 
+export interface SignatoryData {
+	type: SignatoryType;
+	signingKey: string;
+	address?: string;
+	publicKey?: string;
+	confirmKey?: string;
+	path?: string;
+	options?: IdentityOptions;
+}
+
+// bip44 mnemonics and ledger paths are passed through untouched; passphrase
+// and secret based keys are NFD-normalised to match BIP39 handling.
+const isNormalised = (type: SignatoryType): boolean => type !== "bip44Mnemonic" && type !== "ledger";
+
+// A single value object covering every way a transaction can be signed. The
+// `type` discriminator replaces what used to be a class per signing method.
 export class Signatory {
-	readonly #signatory: SignatoryType;
+	readonly #data: SignatoryData;
 
-	public constructor(signatory: SignatoryType) {
-		this.#signatory = signatory;
+	public constructor(data: SignatoryData) {
+		this.#data = {
+			...data,
+			signingKey: isNormalised(data.type) ? data.signingKey.normalize("NFD") : data.signingKey,
+			confirmKey: data.confirmKey?.normalize("NFD"),
+		};
 	}
 
 	public signingKey(): string {
-		return this.#signatory.signingKey();
+		return this.#data.signingKey;
 	}
 
 	public confirmKey(): string {
-		// @TODO: deduplicate this
-		if (this.#signatory instanceof ConfirmationMnemonicSignatory) {
-			return this.#signatory.confirmKey();
+		if (this.#data.confirmKey === undefined) {
+			throw new ForbiddenMethodCallException(this.constructor.name, this.confirmKey.name);
 		}
 
-		if (this.#signatory instanceof ConfirmationSecretSignatory) {
-			return this.#signatory.confirmKey();
-		}
-
-		throw new ForbiddenMethodCallException(this.constructor.name, this.confirmKey.name);
+		return this.#data.confirmKey;
 	}
 
 	public address(): string | undefined {
-		// @TODO: deduplicate this
-		if (this.#signatory instanceof AbstractSignatory) {
-			return this.#signatory.address();
-		}
-
-		if (this.#signatory instanceof AbstractDoubleSignatory) {
-			return this.#signatory.address();
-		}
-
-		if (this.#signatory instanceof LedgerSignatory) {
-			return this.#signatory.address();
-		}
-
-		throw new ForbiddenMethodCallException(this.constructor.name, this.address.name);
+		return this.#data.address;
 	}
 
 	public publicKey(): string | undefined {
-		// @TODO: deduplicate this
-		if (this.#signatory instanceof AbstractSignatory) {
-			return this.#signatory.publicKey();
-		}
-
-		if (this.#signatory instanceof AbstractDoubleSignatory) {
-			return this.#signatory.publicKey();
-		}
-
-		if (this.#signatory instanceof LedgerSignatory) {
-			return this.#signatory.publicKey();
-		}
-
-		throw new ForbiddenMethodCallException(this.constructor.name, this.publicKey.name);
+		return this.#data.publicKey;
 	}
 
 	public path(): string {
-		if (this.#signatory instanceof LedgerSignatory) {
-			return this.#signatory.signingKey();
+		if (this.#data.path === undefined) {
+			throw new ForbiddenMethodCallException(this.constructor.name, this.path.name);
 		}
 
-		if (this.#signatory instanceof Bip44MnemonicSignatory) {
-			return this.#signatory.path();
-		}
-
-		throw new ForbiddenMethodCallException(this.constructor.name, this.path.name);
+		return this.#data.path;
 	}
 
 	public options(): IdentityOptions | undefined {
-		if (this.#signatory instanceof AbstractSignatory) {
-			return this.#signatory.options();
-		}
-
-		if (this.#signatory instanceof LedgerSignatory) {
-			return this.#signatory.options();
-		}
-
-		throw new ForbiddenMethodCallException(this.constructor.name, "");
+		return this.#data.options;
 	}
 
 	public actsWithMnemonic(): boolean {
-		return this.#signatory instanceof MnemonicSignatory;
+		return this.#data.type === "mnemonic";
 	}
 
 	public actsWithBip44Mnemonic(): boolean {
-		return this.#signatory instanceof Bip44MnemonicSignatory;
+		return this.#data.type === "bip44Mnemonic";
 	}
 
 	public actsWithConfirmationMnemonic(): boolean {
-		return this.#signatory instanceof ConfirmationMnemonicSignatory;
+		return this.#data.type === "confirmationMnemonic";
 	}
 
 	public actsWithLedger(): boolean {
-		return this.#signatory instanceof LedgerSignatory;
+		return this.#data.type === "ledger";
 	}
 
 	public actsWithSecret(): boolean {
-		return this.#signatory instanceof SecretSignatory;
+		return this.#data.type === "secret";
 	}
 
 	public actsWithConfirmationSecret(): boolean {
-		return this.#signatory instanceof ConfirmationSecretSignatory;
+		return this.#data.type === "confirmationSecret";
 	}
 }
