@@ -4,17 +4,14 @@ import {
 	IAppearanceService,
 	IAuthenticator,
 	IContactRepository,
-	ICountAggregate,
 	IDataRepository,
 	IExchangeTransactionRepository,
 	IPasswordManager,
 	IProfileAppearance,
 	IProfileNotificationService,
 	IProfileStatus,
-	IRegistrationAggregate,
 	ISettingRepository,
 	ITransactionAggregate,
-	IWalletAggregate,
 	IWalletData,
 	IWalletFactory,
 	IWalletRepository,
@@ -253,36 +250,12 @@ export interface IProfile {
 	flushSettings(): void;
 
 	/**
-	 * Get the count aggregate instance.
-	 *
-	 * @return {ICountAggregate}
-	 * @memberof IProfile
-	 */
-	countAggregate(): ICountAggregate;
-
-	/**
-	 * Get the registration aggregate instance.
-	 *
-	 * @return {IRegistrationAggregate}
-	 * @memberof IProfile
-	 */
-	registrationAggregate(): IRegistrationAggregate;
-
-	/**
 	 * Get the transaction aggregate instance.
 	 *
 	 * @return {ITransactionAggregate}
 	 * @memberof IProfile
 	 */
 	transactionAggregate(): ITransactionAggregate;
-
-	/**
-	 * Get the wallet aggregate instance.
-	 *
-	 * @return {IWalletAggregate}
-	 * @memberof IProfile
-	 */
-	walletAggregate(): IWalletAggregate;
 
 	/**
 	 * Get the authentication service instance.
