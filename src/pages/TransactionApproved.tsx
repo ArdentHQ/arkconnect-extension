@@ -13,21 +13,17 @@ import getActiveCoin from '@/lib/utils/getActiveCoin';
 import { useConfirmedTransaction } from '@/lib/hooks/useConfirmedTransaction';
 import { ApproveLayout } from '@/components/approve/ApproveLayout';
 import { Footer } from '@/shared/components/layout/Footer';
-import { ExtendedConfirmedTransactionData } from '@/lib/profiles/transaction.dto';
 
 const TransactionFooter = ({
     onClose,
     isTransactionConfirmed,
-    state,
+    explorerLink,
 }: {
     isTransactionConfirmed: boolean;
-    state: any;
     onClose: () => void;
+    explorerLink: string;
 }) => {
     const { t } = useTranslation();
-    const { transaction } = state;
-
-    const explorerLink = (transaction as ExtendedConfirmedTransactionData).explorerLink();
 
     return (
         <Footer className='flex flex-col gap-5'>
@@ -74,6 +70,7 @@ const TransactionApproved = () => {
 
     const transactionId = state?.transaction.id;
     const wallet = profile.wallets().findById(state?.walletId);
+    const explorerLink = wallet.link().transaction(transactionId);
 
     const isTransactionConfirmed = useConfirmedTransaction({ wallet, transactionId });
 
@@ -93,7 +90,7 @@ const TransactionApproved = () => {
                 <TransactionFooter
                     onClose={onClose}
                     isTransactionConfirmed={isTransactionConfirmed}
-                    state={state}
+                    explorerLink={explorerLink}
                 />
             }
         >
