@@ -95,10 +95,6 @@ export class WalletData {
 		return !!this.#getProperty(["attributes.validatorResigned"]);
 	}
 
-	public isSecondSignature(): boolean {
-		return !!this.#getProperty(["secondPublicKey", "attributes.secondPublicKey"]);
-	}
-
 	#getProperty<T>(keys: string[]): T | undefined {
 		for (const key of keys) {
 			if (has(this.data, key)) {
@@ -116,7 +112,6 @@ export class WalletData {
 			isLegacyValidator: this.isLegacyValidator(),
 			isResignedDelegate: this.isResignedDelegate(),
 			isResignedValidator: this.isResignedValidator(),
-			isSecondSignature: this.isSecondSignature(),
 			isSelected: this.isSelected(),
 			isValidator: this.isValidator(),
 			nonce: this.nonce(),

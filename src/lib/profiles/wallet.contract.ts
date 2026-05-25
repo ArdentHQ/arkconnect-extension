@@ -383,14 +383,6 @@ export interface IReadWriteWallet {
 	isLedgerNanoX(): boolean;
 
 	/**
-	 * Determine if the wallet uses a second signature.
-	 *
-	 * @return {boolean}
-	 * @memberof IReadWriteWallet
-	 */
-	isSecondSignature(): boolean;
-
-	/**
 	 * Determine if the wallet is starred.
 	 *
 	 * @return {boolean}
