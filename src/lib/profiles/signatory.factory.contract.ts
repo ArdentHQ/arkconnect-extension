@@ -3,9 +3,7 @@ import { Signatories } from "@/lib/mainsail";
 export interface SignatoryInput {
 	encryptionPassword?: string;
 	mnemonic?: string;
-	secondMnemonic?: string;
 	secret?: string;
-	secondSecret?: string;
 }
 
 export interface ISignatoryFactory {
@@ -26,7 +24,6 @@ export interface ISignatoryFactory {
 	 */
 	fromSigningKeys(input?: {
 		key?: string;
-		secondKey?: string;
 		encryptionPassword?: string;
 	}): Promise<Signatories.Signatory>;
 }

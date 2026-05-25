@@ -1,20 +1,13 @@
 import { IdentityOptions } from "./services";
 import { ForbiddenMethodCallException } from "./exceptions";
 
-export type SignatoryType =
-	| "mnemonic"
-	| "bip44Mnemonic"
-	| "confirmationMnemonic"
-	| "secret"
-	| "confirmationSecret"
-	| "ledger";
+export type SignatoryType = "mnemonic" | "bip44Mnemonic" | "secret" | "ledger";
 
 export interface SignatoryData {
 	type: SignatoryType;
 	signingKey: string;
 	address?: string;
 	publicKey?: string;
-	confirmKey?: string;
 	path?: string;
 	options?: IdentityOptions;
 }
@@ -32,20 +25,11 @@ export class Signatory {
 		this.#data = {
 			...data,
 			signingKey: isNormalised(data.type) ? data.signingKey.normalize("NFD") : data.signingKey,
-			confirmKey: data.confirmKey?.normalize("NFD"),
 		};
 	}
 
 	public signingKey(): string {
 		return this.#data.signingKey;
-	}
-
-	public confirmKey(): string {
-		if (this.#data.confirmKey === undefined) {
-			throw new ForbiddenMethodCallException(this.constructor.name, this.confirmKey.name);
-		}
-
-		return this.#data.confirmKey;
 	}
 
 	public address(): string | undefined {
@@ -76,19 +60,11 @@ export class Signatory {
 		return this.#data.type === "bip44Mnemonic";
 	}
 
-	public actsWithConfirmationMnemonic(): boolean {
-		return this.#data.type === "confirmationMnemonic";
-	}
-
 	public actsWithLedger(): boolean {
 		return this.#data.type === "ledger";
 	}
 
 	public actsWithSecret(): boolean {
 		return this.#data.type === "secret";
-	}
-
-	public actsWithConfirmationSecret(): boolean {
-		return this.#data.type === "confirmationSecret";
 	}
 }

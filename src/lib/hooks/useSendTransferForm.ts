@@ -44,12 +44,10 @@ interface SendTransferForm {
     recipients: RecipientItem[];
     total: BigNumber;
     mnemonic: string;
-    secondMnemonic: string;
     encryptionPassword: string;
     wif: string;
     privateKey: string;
     secret: string;
-    secondSecret: string;
 }
 
 type ApproveRequest = {
@@ -76,12 +74,10 @@ const defaultState = {
     recipients: [],
     total: BigNumber.ZERO,
     mnemonic: '',
-    secondMnemonic: '',
     encryptionPassword: '',
     wif: '',
     privateKey: '',
     secret: '',
-    secondSecret: '',
 };
 
 const prepareLedger = async (wallet: Contracts.IReadWriteWallet) => {

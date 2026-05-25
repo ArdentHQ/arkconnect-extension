@@ -1,5 +1,3 @@
-/* eslint unicorn/no-abusive-eslint-disable: "off" */
-/* eslint-disable */
 import { Signatories } from "@/lib/mainsail";
 
 import { IReadWriteWallet, WalletData } from "./contracts.js";
@@ -12,17 +10,7 @@ export class SignatoryFactory implements ISignatoryFactory {
 		this.#wallet = wallet;
 	}
 
-	public async make({
-		encryptionPassword,
-		mnemonic,
-		secondMnemonic,
-		secret,
-		secondSecret,
-	}: SignatoryInput): Promise<Signatories.Signatory> {
-		if (mnemonic && secondMnemonic) {
-			return this.#wallet.signatory().confirmationMnemonic(mnemonic, secondMnemonic);
-		}
-
+	public async make({ encryptionPassword, mnemonic, secret }: SignatoryInput): Promise<Signatories.Signatory> {
 		if (mnemonic && this.#wallet.actsWithBip44Mnemonic()) {
 			const derivationPath = this.#wallet.data().get(WalletData.DerivationPath);
 
@@ -50,24 +38,6 @@ export class SignatoryFactory implements ISignatoryFactory {
 		}
 
 		if (encryptionPassword) {
-			if (this.#wallet.isSecondSignature()) {
-				if (this.#wallet.actsWithSecretWithEncryption()) {
-					return this.#wallet
-						.signatory()
-						.confirmationSecret(
-							await this.#wallet.signingKey().get(encryptionPassword),
-							await this.#wallet.confirmKey().get(encryptionPassword),
-						);
-				}
-
-				return this.#wallet
-					.signatory()
-					.confirmationMnemonic(
-						await this.#wallet.signingKey().get(encryptionPassword),
-						await this.#wallet.confirmKey().get(encryptionPassword),
-					);
-			}
-
 			if (this.#wallet.actsWithSecretWithEncryption()) {
 				return this.#wallet.signatory().secret(await this.#wallet.signingKey().get(encryptionPassword));
 			}
@@ -87,10 +57,6 @@ export class SignatoryFactory implements ISignatoryFactory {
 				.ledger(derivationPath, { senderPublicKey: this.#wallet.publicKey(), address: this.#wallet.address() });
 		}
 
-		if (secret && secondSecret) {
-			return this.#wallet.signatory().confirmationSecret(secret, secondSecret);
-		}
-
 		if (secret) {
 			return this.#wallet.signatory().secret(secret);
 		}
@@ -100,20 +66,14 @@ export class SignatoryFactory implements ISignatoryFactory {
 
 	public async fromSigningKeys(input?: {
 		key?: string;
-		secondKey?: string;
 		encryptionPassword?: string;
 	}): Promise<Signatories.Signatory> {
 		const mnemonic = this.#wallet.actsWithMnemonic() ? input?.key : undefined;
 		const secret = this.#wallet.actsWithSecret() ? input?.key : undefined;
 
-		const secondMnemonic = this.#wallet.actsWithMnemonic() ? input?.secondKey : undefined;
-		const secondSecret = this.#wallet.actsWithSecret() ? input?.secondKey : undefined;
-
 		return this.make({
 			mnemonic,
 			secret,
-			secondMnemonic,
-			secondSecret,
 			encryptionPassword: input?.encryptionPassword,
 		});
 	}
