@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import { BigButton, HeadingDescription, Tooltip } from '@/shared/components';
 import SubPageLayout from '@/components/settings/SubPageLayout';
 import { isFirefox } from '@/lib/utils/isFirefox';
+import constants from '@/constants';
 
 const InitialImportWallet = () => {
     const navigate = useNavigate();
@@ -22,7 +23,7 @@ const InitialImportWallet = () => {
                 iconTrailing='arrow-right'
                 title='Enter Passphrase'
                 helperText='Use your 12 or 24-word passphrase to securely access your address.'
-                className='mb-2 text-theme-primary-700 dark:text-theme-primary-650'
+                className='text-theme-primary-700 dark:text-theme-primary-650 mb-2'
                 onClick={() => navigate('/wallet/import')}
             />
 
@@ -46,7 +47,7 @@ const InitialImportWallet = () => {
                         onClick={() => {
                             if (isFirefox) return;
                             tabs.create({
-                                url: runtime.getURL('/src/main.html?import_with_ledger'),
+                                url: runtime.getURL(`/${constants.POPUP_PAGE}?import_with_ledger`),
                             });
                             window.close(); // Close extension popup as we navigate away
                         }}

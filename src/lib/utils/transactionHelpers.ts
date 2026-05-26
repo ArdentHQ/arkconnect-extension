@@ -1,9 +1,17 @@
-import { RecipientItem } from '@/lib/hooks/useSendTransferForm';
+import { BigNumber } from '@/lib/helpers';
 import { BroadcastResponse } from '@/lib/mainsail/client.contract';
+
+interface RecipientItem {
+    address: string;
+    alias?: string;
+    amount?: BigNumber | string | number;
+    isValidator?: boolean;
+}
 
 interface BuildTransferDataProperties {
     isMultiSignature?: boolean;
     recipients?: RecipientItem[];
+    preserveAmountPrecision?: boolean;
 }
 
 export const handleBroadcastError = ({ errors }: BroadcastResponse) => {
@@ -31,20 +39,31 @@ export const withAbortPromise =
         });
 
 interface BuildTransferData {
-    amount: number;
+    amount: number | string;
     to: string;
     memo?: string;
     expiration?: number;
 }
 
+const normalizeAmount = (
+    amount: BigNumber | string | number | undefined,
+    preserve: boolean,
+): number | string => {
+    if (preserve) {
+        return amount?.toString() ?? '0';
+    }
+    return Number(amount ?? 0);
+};
+
 export const buildTransferData = async ({
     recipients,
+    preserveAmountPrecision = false,
 }: BuildTransferDataProperties): Promise<BuildTransferData> => {
     let data: Record<string, any> = {};
 
     if (recipients?.length === 1) {
         data = {
-            amount: +(recipients[0].amount ?? 0),
+            amount: normalizeAmount(recipients[0].amount, preserveAmountPrecision),
             to: recipients[0].address,
         };
     }
@@ -52,7 +71,7 @@ export const buildTransferData = async ({
     if (!!recipients?.length && recipients.length > 1) {
         data = {
             payments: recipients.map(({ address, amount }) => ({
-                amount: +(amount ?? 0),
+                amount: normalizeAmount(amount, preserveAmountPrecision),
                 to: address,
             })),
         };

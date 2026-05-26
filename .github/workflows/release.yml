@@ -28,7 +28,7 @@ jobs:
             - name: Install Node.js
               uses: actions/setup-node@v4
               with:
-                  node-version: 20
+                  node-version: 24
 
             - name: Setup env
               run: cp .env.example .env
@@ -43,7 +43,9 @@ jobs:
               uses: actions/upload-artifact@v4
               with:
                   name: build-chrome
-                  path: ./dist
+                  path: |
+                      dist/chrome-mv3
+                      dist/*-chrome.zip
 
             - name: Build Firefox
               run: pnpm build:firefox
@@ -52,4 +54,7 @@ jobs:
               uses: actions/upload-artifact@v4
               with:
                   name: build-firefox
-                  path: ./dist
+                  path: |
+                      dist/firefox-mv2
+                      dist/*-firefox.zip
+                      dist/*-sources.zip

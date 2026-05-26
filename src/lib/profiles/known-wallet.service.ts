@@ -1,59 +1,61 @@
-import { IProfile } from './contracts';
-import { ConfigKey, Http, Networks, Services } from '@/app/lib/mainsail';
+import { Http, Networks, Services } from "@/lib/mainsail";
+
+import { ConfigKey } from "@/lib/mainsail";
+import { IProfile } from "./contracts";
 
 type KnownWalletRegistry = Record<string, Services.KnownWallet[]>;
 
 export class KnownWalletService {
-    readonly #registry: KnownWalletRegistry = {};
+	readonly #registry: KnownWalletRegistry = {};
 
-    /** {@inheritDoc IKnownWalletService.sync} */
-    public async sync(profile: IProfile, network: Networks.Network): Promise<void> {
-        const client = new Http.HttpClient(0);
+	/** {@inheritDoc IKnownWalletService.sync} */
+	public async sync(profile: IProfile, network: Networks.Network): Promise<void> {
+		const client = new Http.HttpClient(0);
 
-        try {
-            const url = network.config().get<string>(ConfigKey.KnownWallets);
-            const response = await client.get(url);
-            const results = response.json();
+		try {
+			const url = network.config().get<string>(ConfigKey.KnownWallets);
+			const response = await client.get(url);
+			const results = response.json();
 
-            if (Array.isArray(results)) {
-                this.#registry[network.id()] = results;
-            }
-        } catch {
-            // Do nothing if it fails. It's not critical functionality.
-        }
-    }
+			if (Array.isArray(results)) {
+				this.#registry[network.id()] = results;
+			}
+		} catch {
+			// Do nothing if it fails. It's not critical functionality.
+		}
+	}
 
-    /** {@inheritDoc IKnownWalletService.network} */
-    public name(network: string, address: string): string | undefined {
-        return this.#findByAddress(network, address)?.name;
-    }
+	/** {@inheritDoc IKnownWalletService.network} */
+	public name(network: string, address: string): string | undefined {
+		return this.#findByAddress(network, address)?.name;
+	}
 
-    /** {@inheritDoc IKnownWalletService.network} */
-    public is(network: string, address: string): boolean {
-        return this.#findByAddress(network, address) !== undefined;
-    }
+	/** {@inheritDoc IKnownWalletService.network} */
+	public is(network: string, address: string): boolean {
+		return this.#findByAddress(network, address) !== undefined;
+	}
 
-    /** {@inheritDoc IKnownWalletService.network} */
-    public isExchange(network: string, address: string): boolean {
-        return this.#hasType(network, address, 'exchange');
-    }
+	/** {@inheritDoc IKnownWalletService.network} */
+	public isExchange(network: string, address: string): boolean {
+		return this.#hasType(network, address, "exchange");
+	}
 
-    /** {@inheritDoc IKnownWalletService.network} */
-    public isTeam(network: string, address: string): boolean {
-        return this.#hasType(network, address, 'team');
-    }
+	/** {@inheritDoc IKnownWalletService.network} */
+	public isTeam(network: string, address: string): boolean {
+		return this.#hasType(network, address, "team");
+	}
 
-    #findByAddress(network: string, address: string): Services.KnownWallet | undefined {
-        const registry: Services.KnownWallet[] = this.#registry[network];
+	#findByAddress(network: string, address: string): Services.KnownWallet | undefined {
+		const registry: Services.KnownWallet[] = this.#registry[network];
 
-        if (registry === undefined) {
-            return undefined;
-        }
+		if (registry === undefined) {
+			return undefined;
+		}
 
-        return registry.find((wallet: Services.KnownWallet) => wallet.address === address);
-    }
+		return registry.find((wallet: Services.KnownWallet) => wallet.address === address);
+	}
 
-    #hasType(network: string, address: string, type: string): boolean {
-        return this.#findByAddress(network, address)?.type === type;
-    }
+	#hasType(network: string, address: string, type: string): boolean {
+		return this.#findByAddress(network, address)?.type === type;
+	}
 }

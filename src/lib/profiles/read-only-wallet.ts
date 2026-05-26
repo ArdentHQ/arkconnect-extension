@@ -1,70 +1,84 @@
-import { IReadOnlyWallet } from './contracts.js';
-import { Avatar } from './helpers/avatar.js';
+import { IReadOnlyWallet } from "./contracts.js";
+import { Avatar } from "./helpers/avatar.js";
+import { Contracts } from "./index.js";
 
-interface ROWallet {
-    address: string;
-    publicKey?: string;
-    username?: string;
-    rank?: number;
-    explorerLink: string;
-    isValidator: boolean;
-    isResignedValidator: boolean;
-    governanceIdentifier: string;
+export interface ROWallet {
+	address: string;
+	publicKey?: string;
+	username?: string;
+	rank?: number;
+	explorerLink: string;
+	isValidator: boolean;
+	isResignedValidator: boolean;
+	isLegacyValidator: boolean;
+	governanceIdentifier: string;
 }
 
 export class ReadOnlyWallet implements IReadOnlyWallet {
-    readonly #wallet: ROWallet;
+	readonly #wallet: ROWallet;
+	readonly #profile: Contracts.IProfile;
 
-    public constructor(wallet: ROWallet) {
-        this.#wallet = wallet;
-    }
+	public constructor(wallet: ROWallet, profile: Contracts.IProfile) {
+		this.#wallet = wallet;
+		this.#profile = profile;
+	}
 
-    /** {@inheritDoc IReadOnlyWallet.address} */
-    public address(): string {
-        return this.#wallet.address;
-    }
+	/** {@inheritDoc IReadOnlyWallet.address} */
+	public address(): string {
+		return this.#wallet.address;
+	}
 
-    /** {@inheritDoc IReadOnlyWallet.publicKey} */
-    public publicKey(): string | undefined {
-        return this.#wallet.publicKey;
-    }
+	/** {@inheritDoc IReadOnlyWallet.alias} */
+	public alias(): string | undefined {
+		return this.#profile.findAliasByAddress(this.address()) ?? this.address();
+	}
 
-    /** {@inheritDoc IReadOnlyWallet.username} */
-    public username(): string | undefined {
-        return this.#wallet.username;
-    }
+	/** {@inheritDoc IReadOnlyWallet.publicKey} */
+	public publicKey(): string | undefined {
+		return this.#wallet.publicKey;
+	}
 
-    /** {@inheritDoc IReadOnlyWallet.rank} */
-    public rank(): number | undefined {
-        return this.#wallet.rank;
-    }
+	/** {@inheritDoc IReadOnlyWallet.username} */
+	public username(): string | undefined {
+		return this.#wallet.username;
+	}
 
-    /** {@inheritDoc IReadOnlyWallet.avatar} */
-    public avatar(): string {
-        return Avatar.make(this.address());
-    }
+	/** {@inheritDoc IReadOnlyWallet.rank} */
+	public rank(): number | undefined {
+		return this.#wallet.rank;
+	}
 
-    /** {@inheritDoc IReadOnlyWallet.explorerLink} */
-    public explorerLink(): string {
-        return this.#wallet.explorerLink;
-    }
+	/** {@inheritDoc IReadOnlyWallet.avatar} */
+	public avatar(): string {
+		return Avatar.make(this.address());
+	}
 
-    /** {@inheritDoc IReadOnlyWallet.isValidator} */
-    public isValidator(): boolean {
-        return this.#wallet.isValidator;
-    }
+	/** {@inheritDoc IReadOnlyWallet.explorerLink} */
+	public explorerLink(): string {
+		return this.#wallet.explorerLink;
+	}
 
-    /** {@inheritDoc IReadOnlyWallet.isResignedDelegate} */
-    public isResignedValidator(): boolean {
-        return this.#wallet.isResignedValidator;
-    }
+	/** {@inheritDoc IReadOnlyWallet.isValidator} */
+	public isValidator(): boolean {
+		return this.#wallet.isValidator;
+	}
 
-    /** {@inheritDoc IReadOnlyWallet.governanceIdentifier} */
-    public governanceIdentifier(): string {
-        if (this.#wallet.governanceIdentifier === 'address') {
-            return this.address();
-        }
+	/** {@inheritDoc IReadOnlyWallet.isLegacyValidator} */
+	public isLegacyValidator(): boolean {
+		return this.#wallet.isLegacyValidator;
+	}
 
-        return this.publicKey()!;
-    }
+	/** {@inheritDoc IReadOnlyWallet.isResignedDelegate} */
+	public isResignedValidator(): boolean {
+		return this.#wallet.isResignedValidator;
+	}
+
+	/** {@inheritDoc IReadOnlyWallet.governanceIdentifier} */
+	public governanceIdentifier(): string {
+		if (this.#wallet.governanceIdentifier === "address") {
+			return this.address();
+		}
+
+		return this.publicKey()!;
+	}
 }

@@ -49,7 +49,7 @@ export const TextArea = forwardRef(function TextArea(
             {labelText && (
                 <label
                     htmlFor={id}
-                    className='text-sm font-medium leading-tight text-theme-secondary-500 dark:text-theme-secondary-300'
+                    className='text-theme-secondary-500 dark:text-theme-secondary-300 text-sm leading-tight font-medium'
                 >
                     {labelText}
                 </label>
@@ -59,7 +59,7 @@ export const TextArea = forwardRef(function TextArea(
                 <textarea
                     className={twMerge(
                         cn(
-                            'transition-smoothEase textarea w-full resize-none rounded-lg border-none p-3 text-base font-normal leading-5 shadow-secondary-dark outline-none placeholder:text-theme-secondary-400 disabled:pointer-events-none disabled:cursor-not-allowed',
+                            'transition-smoothEase textarea shadow-secondary-dark placeholder:text-theme-secondary-400 w-full resize-none rounded-lg border-none p-3 text-base leading-5 font-normal outline-none disabled:pointer-events-none disabled:cursor-not-allowed',
                             {
                                 'textarea-primary': variant === 'primary',
                                 'textarea-destructive': variant === 'destructive',
@@ -79,7 +79,7 @@ export const TextArea = forwardRef(function TextArea(
 
             {helperText && (
                 <p
-                    className={cn('text-sm font-normal leading-tight', {
+                    className={cn('text-sm leading-tight font-normal', {
                         'text-theme-error-600 dark:text-theme-error-500': variant === 'destructive',
                         'text-theme-secondary-500 dark:text-theme-secondary-300':
                             variant !== 'destructive',

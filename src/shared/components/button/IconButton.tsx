@@ -32,7 +32,7 @@ export const IconButton = ({
         >
             <Icon
                 className={twMerge(
-                    'transition-smoothEase h-5 w-5 text-light-black dark:text-white',
+                    'transition-smoothEase text-light-black h-5 w-5 dark:text-white',
                     cn({
                         'group-hover:text-theme-error-600 dark:group-hover:text-theme-error-500':
                             variant === 'danger',

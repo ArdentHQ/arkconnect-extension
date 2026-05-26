@@ -1,4 +1,5 @@
 import packageData from '../package.json';
+import { BigNumber } from './lib/helpers';
 import { ExtensionSupportedEvents } from '@/lib/events';
 import {
     assertPositiveNumberLike,
@@ -96,7 +97,7 @@ type SignTransactionResponse = {
     amount: number;
     convertedAmount: number;
     fee: number;
-    convertedFee: number;
+    convertedFee: BigNumber;
     total: number;
     convertedTotal: number;
 };
@@ -391,6 +392,8 @@ class ArkConnectInPageProvider {
                 this._sendMessage(Messages.SIGN_TRANSACTION, {
                     ...request,
                     type: 'transfer',
+                    receiverAddress: request.to,
+                    amount: request.value,
                 });
             },
         );

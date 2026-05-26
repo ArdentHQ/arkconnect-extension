@@ -17,11 +17,11 @@ export const ValidatorsSearchInput = ({
             <Input
                 value={searchQuery}
                 onChange={(event) => setSearchQuery(event.target.value)}
-                className='border-theme-secondary-400 pl-10 placeholder:text-theme-secondary-500 hover:bg-theme-secondary-50 focus:border-black dark:border-theme-secondary-300 dark:bg-subtle-black dark:placeholder:text-theme-secondary-300 dark:hover:bg-theme-secondary-700 dark:focus:border-theme-secondary-300'
+                className='border-theme-secondary-400 placeholder:text-theme-secondary-500 hover:bg-theme-secondary-50 dark:border-theme-secondary-300 dark:bg-subtle-black dark:placeholder:text-theme-secondary-300 dark:hover:bg-theme-secondary-700 dark:focus:border-theme-secondary-300 pl-10 focus:border-black'
                 leading={
                     <Icon
                         icon='search'
-                        className='h-6 w-6 text-theme-secondary-500 dark:text-theme-secondary-300'
+                        className='text-theme-secondary-500 dark:text-theme-secondary-300 h-6 w-6'
                     />
                 }
                 trailing={

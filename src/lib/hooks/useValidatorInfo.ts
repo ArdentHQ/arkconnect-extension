@@ -30,7 +30,7 @@ export const useValidatorInfo = (
         try {
             profile.validators().all(network);
         } catch {
-            await profile.validators().sync(profile, network);
+            await profile.validators().sync(network);
         }
 
         const validator = profile.validators().findByAddress(network, address) || undefined;

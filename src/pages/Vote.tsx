@@ -171,17 +171,16 @@ const Vote = () => {
     });
 
     const isFeeValid = formik.values.gasPrice && formik.values.gasLimit;
+    const fee = calculateGasFee(formik.values.gasPrice, formik.values.gasLimit);
     const hasValues = formik.values.validatorAddress && isFeeValid;
-    const hasSufficientFunds = BigNumber.make(wallet.balance() || 0).isGreaterThan(
-        calculateGasFee(formik.values.gasPrice, formik.values.gasLimit),
-    );
+    const hasSufficientFunds = BigNumber.make(wallet.balance() || 0).isGreaterThan(fee);
 
     const { isVoting, isUnvoting, isSwapping, actionLabel, disabled, currentlyVotedAddress } =
         useVote({
-            fee: isFeeValid ? isFeeValid.toString() : '',
+            fee: isFeeValid ? fee : BigNumber.ZERO,
             validatorAddress: formik.values.validatorAddress,
             votes: currentVotes,
-            isValid: !!(formik.isValid && hasValues && hasSufficientFunds),
+            isValid: !!(hasValues && hasSufficientFunds),
         });
 
     useEffect(() => {
@@ -245,7 +244,7 @@ const Vote = () => {
 
             {!searchQuery && (
                 <div className='mt-4'>
-                    <p className='w-full text-center text-sm text-theme-secondary-500 dark:text-theme-secondary-300'>
+                    <p className='text-theme-secondary-500 dark:text-theme-secondary-300 w-full text-center text-sm'>
                         {t('PAGES.VOTE.USE_SEARCH_TO_FIND_VALIDATORS')}
                     </p>
                 </div>

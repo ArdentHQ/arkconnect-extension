@@ -11,7 +11,7 @@ const ConnectWithWallet = ({ wallet }: Props) => {
     const { t } = useTranslation();
     return (
         <div className='flex flex-1 flex-col items-center px-4'>
-            <div className='mb-2 text-sm font-medium text-theme-secondary-500 dark:text-theme-secondary-300'>
+            <div className='text-theme-secondary-500 dark:text-theme-secondary-300 mb-2 text-sm font-medium'>
                 {t('PAGES.CONNECT.CONNECTING_WITH')}
             </div>
 

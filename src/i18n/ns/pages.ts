@@ -4,6 +4,10 @@ export default {
         INSUFFICIENT_FUNDS: 'Insufficient funds to send',
         LATEST_TRANSACTIONS: 'Latest Transactions',
         NO_TRANSACTIONS: 'You don’t have any transactions',
+        TABS: {
+            TOKENS: 'Tokens',
+            TRANSACTIONS: 'Transactions',
+        },
     },
     CONNECT: {
         CONNECT_TO_APP: 'Connect to App',
@@ -253,6 +257,11 @@ export default {
     TRANSACTION_DETAILS: {
         PAGE_TITLE: 'Transaction Details',
     },
+    TOKEN_DETAILS: {
+        PAGE_TITLE: 'Token Details',
+        SEND_TOKEN: 'Send Token',
+        NOT_FOUND: 'Token not found.',
+    },
     RECEIVE: {
         QR_CODE_WILL_BE_UPDATED_AUTOMATICALLY: 'The QR-code will be updated automatically.',
         SPECIFY_AMOUNT: 'Specify Amount',
@@ -273,6 +282,8 @@ export default {
     SEND: {
         ENTER_OR_CHOOSE_FROM_SAVED_ADDRESSES: 'Enter or choose from saved addresses',
         RECIPIENT_ADDRESS: 'Recipient Address',
+        ASSET: 'Asset',
+        SELECT_ASSET: 'Select Asset',
         QR_MODAL: {
             UPLOAD_QR: 'Upload QR',
             CHOOSE_YOUR_QR_CODE: 'Choose your QR Code, and the fields will auto-populate',

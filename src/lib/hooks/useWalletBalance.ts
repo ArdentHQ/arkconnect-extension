@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react';
+import { BigNumber } from '../helpers';
 import { Contracts } from '@/lib/profiles';
 import { useExchangeRates } from '@/lib/hooks/useExchangeRates';
 
 export const useWalletBalance = (primaryWallet: Contracts.IReadWriteWallet | undefined) => {
     const { isLoading, rates } = useExchangeRates();
-    const [convertedBalance, setConvertedBalance] = useState<number>(0);
+    const [convertedBalance, setConvertedBalance] = useState<BigNumber>(BigNumber.ZERO);
 
-    const balance = primaryWallet?.balance() ?? 0;
+    const balance = primaryWallet?.balance() ?? BigNumber.ZERO;
     const currency = primaryWallet?.exchangeCurrency();
     const isTest = primaryWallet?.network().isTest();
 
@@ -18,7 +19,7 @@ export const useWalletBalance = (primaryWallet: Contracts.IReadWriteWallet | und
         const currencySymbol = currency.toLowerCase();
 
         if (currencySymbol in rates) {
-            setConvertedBalance(rates[currencySymbol] * balance);
+            setConvertedBalance(rates[currencySymbol].times(balance));
         }
     }, [isLoading, currency, balance, isTest]);
 

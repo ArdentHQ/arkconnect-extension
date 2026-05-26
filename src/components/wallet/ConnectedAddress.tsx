@@ -26,7 +26,7 @@ const ConnectedAddress = ({ connectedTo, wallet, logo, onDisconnect }: Propertie
 
                 <HeadingDescription className='mt-1.5'>
                     The following address is currently connected to{' '}
-                    <span className='font-medium text-light-black dark:text-white'>
+                    <span className='text-light-black font-medium dark:text-white'>
                         {formatDomain(connectedTo, false)}
                     </span>
                 </HeadingDescription>
@@ -38,7 +38,7 @@ const ConnectedAddress = ({ connectedTo, wallet, logo, onDisconnect }: Propertie
                 <Button
                     variant='linkDestructive'
                     onClick={onDisconnect}
-                    className='mb-1 mt-5 underline-offset-2 hover:text-theme-error-700 hover:underline dark:hover:text-theme-error-600'
+                    className='hover:text-theme-error-700 dark:hover:text-theme-error-600 mt-5 mb-1 underline-offset-2 hover:underline'
                 >
                     Disconnect
                 </Button>
@@ -49,13 +49,13 @@ const ConnectedAddress = ({ connectedTo, wallet, logo, onDisconnect }: Propertie
 
 const AddressRow = ({ address, logo }: { address: Contracts.IReadWriteWallet; logo: string }) => {
     return (
-        <div className='flex gap-3 rounded-2xl border border-solid border-theme-secondary-200 bg-theme-secondary-50 p-4 shadow-light dark:border-theme-secondary-700 dark:bg-subtle-black'>
+        <div className='border-theme-secondary-200 bg-theme-secondary-50 shadow-light dark:border-theme-secondary-700 dark:bg-subtle-black flex gap-3 rounded-2xl border border-solid p-4'>
             <ConnectionLogoImage
                 appLogo={logo}
                 appName='Connected'
                 roundCorners
                 withBorder
-                className='h-10 w-10 border-theme-secondary-200 dark:border-theme-secondary-700'
+                className='border-theme-secondary-200 dark:border-theme-secondary-700 h-10 w-10'
             />
             <div className='flex flex-col gap-1'>
                 <div className='flex items-center gap-1.5'>
@@ -64,7 +64,7 @@ const AddressRow = ({ address, logo }: { address: Contracts.IReadWriteWallet; lo
                     {address.isLedger() && <LedgerIcon />}
                 </div>
 
-                <div className='flex items-center gap-1.5 text-theme-secondary-500 dark:text-theme-secondary-300'>
+                <div className='text-theme-secondary-500 dark:text-theme-secondary-300 flex items-center gap-1.5'>
                     <Address
                         address={address.address()}
                         className='hover:text-light-black dark:hover:text-white'

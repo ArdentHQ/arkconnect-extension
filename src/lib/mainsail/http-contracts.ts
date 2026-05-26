@@ -1,63 +1,63 @@
 export interface HttpClient {
-    baseUrl(url: string): HttpClient;
+	baseUrl(url: string): HttpClient;
 
-    asJson(): HttpClient;
+	asJson(): HttpClient;
 
-    asForm(): HttpClient;
+	asForm(): HttpClient;
 
-    asOctet(): HttpClient;
+	asOctet(): HttpClient;
 
-    bodyFormat(format: string): HttpClient;
+	bodyFormat(format: string): HttpClient;
 
-    contentType(contentType: string): HttpClient;
+	contentType(contentType: string): HttpClient;
 
-    acceptJson(): HttpClient;
+	acceptJson(): HttpClient;
 
-    accept(contentType: string): HttpClient;
+	accept(contentType: string): HttpClient;
 
-    withHeaders(headers: object): HttpClient;
+	withHeaders(headers: object): HttpClient;
 
-    withCacheStore(cache: object): HttpClient;
+	withCacheStore(cache: object): HttpClient;
 
-    timeout(seconds: number): HttpClient;
+	timeout(seconds: number): HttpClient;
 
-    retry(times: number, sleep?: number): HttpClient;
+	retry(times: number, sleep?: number): HttpClient;
 
-    withOptions(options: object): HttpClient;
+	withOptions(options: object): HttpClient;
 
-    get(url: string, query?: object, options?: object): Promise<HttpResponse>;
+	get(url: string, query?: object, options?: object): Promise<HttpResponse>;
 
-    head(url: string, query?: object): Promise<HttpResponse>;
+	head(url: string, query?: object): Promise<HttpResponse>;
 
-    post(url: string, data?: object, query?: object): Promise<HttpResponse>;
+	post(url: string, data?: object, query?: object): Promise<HttpResponse>;
 
-    patch(url: string, data?: object, query?: object): Promise<HttpResponse>;
+	patch(url: string, data?: object, query?: object): Promise<HttpResponse>;
 
-    put(url: string, data?: object, query?: object): Promise<HttpResponse>;
+	put(url: string, data?: object, query?: object): Promise<HttpResponse>;
 
-    delete(url: string, data?: object, query?: object): Promise<HttpResponse>;
+	delete(url: string, data?: object, query?: object): Promise<HttpResponse>;
 }
 
 export interface HttpResponse {
-    body(): string;
+	body(): string;
 
-    json(): Record<string, any>;
+	json(): Record<string, any>;
 
-    header(header: string): string | undefined;
+	header(header: string): string | undefined;
 
-    headers(): Record<string, any>;
+	headers(): Record<string, any>;
 
-    status(): number;
+	status(): number;
 
-    successful(): boolean;
+	successful(): boolean;
 
-    ok(): boolean;
+	ok(): boolean;
 
-    redirect(): boolean;
+	redirect(): boolean;
 
-    failed(): boolean;
+	failed(): boolean;
 
-    clientError(): boolean;
+	clientError(): boolean;
 
-    serverError(): boolean;
+	serverError(): boolean;
 }

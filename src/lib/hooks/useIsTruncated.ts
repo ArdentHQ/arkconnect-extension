@@ -1,6 +1,10 @@
 import { type RefObject, useEffect, useState } from 'react';
 
-export const useIsTruncated = ({ reference }: { reference: RefObject<Element> }): boolean => {
+export const useIsTruncated = ({
+    reference,
+}: {
+    reference: RefObject<Element | null>;
+}): boolean => {
     const [isTruncated, setIsTruncated] = useState(false);
 
     useEffect(() => {

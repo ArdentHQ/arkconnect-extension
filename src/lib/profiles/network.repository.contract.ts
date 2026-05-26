@@ -1,18 +1,18 @@
-import { Networks } from '@/app/lib/mainsail';
+import { Networks } from "@/lib/mainsail";
 
 export type Network = Networks.NetworkManifest;
 export type NetworkMap = Record<string, Network>;
 
 export interface INetworkRepository {
-    all(): NetworkMap;
+	all(): NetworkMap;
 
-    allByCoin(coin: string): Network[];
+	allByCoin(coin: string): Network[];
 
-    get(network: string): Network;
+	get(network: string): Network;
 
-    push(host: Network): Network;
+	push(host: Network): Network;
 
-    fill(entries: object): void;
+	fill(entries: object): void;
 
-    forget(network: string): void;
+	forget(network: string): void;
 }

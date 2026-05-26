@@ -83,7 +83,7 @@ export const SettingsMenu = ({
 
     return (
         <div
-            className='mx-4 w-full rounded-xl bg-white shadow-dropdown dark:bg-subtle-black dark:shadow-dropdown-dark'
+            className='shadow-dropdown dark:bg-subtle-black dark:shadow-dropdown-dark mx-4 w-full rounded-xl bg-white'
             ref={dropdownRef}
         >
             <SafeOutlineOverflowContainer className='custom-scroll ml-0 max-h-[32rem] w-full overflow-y-auto px-0'>
@@ -145,14 +145,14 @@ export const SettingsMenu = ({
                                     className={classNames(
                                         'flex h-5 w-5 items-center justify-center rounded-full',
                                         {
-                                            'bg-theme-navy-100 outline outline-1 outline-theme-navy-600 dark:bg-theme-navy-900':
+                                            'bg-theme-navy-100 outline-theme-navy-600 dark:bg-theme-navy-900 outline-1':
                                                 currentThemeAccent === ThemeAccent.NAVY,
                                             'bg-theme-secondary-200 dark:bg-theme-secondary-700':
                                                 currentThemeAccent !== ThemeAccent.NAVY,
                                         },
                                     )}
                                 >
-                                    <span className='block h-4 w-4 rounded-full bg-theme-navy-600'></span>
+                                    <span className='bg-theme-navy-600 block h-4 w-4 rounded-full'></span>
                                 </button>
 
                                 <button
@@ -160,14 +160,14 @@ export const SettingsMenu = ({
                                     className={classNames(
                                         'flex h-5 w-5 items-center justify-center rounded-full',
                                         {
-                                            'bg-theme-green-100 outline outline-1 outline-theme-green-600 dark:bg-theme-green-900':
+                                            'bg-theme-green-100 outline-theme-green-600 dark:bg-theme-green-900 outline-1':
                                                 currentThemeAccent === ThemeAccent.GREEN,
                                             'bg-theme-secondary-200 dark:bg-theme-secondary-700':
                                                 currentThemeAccent !== ThemeAccent.GREEN,
                                         },
                                     )}
                                 >
-                                    <span className='block h-4 w-4 rounded-full bg-theme-green-700 dark:bg-theme-green-600'></span>
+                                    <span className='bg-theme-green-700 dark:bg-theme-green-600 block h-4 w-4 rounded-full'></span>
                                 </button>
                             </div>
                         }

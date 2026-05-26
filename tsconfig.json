@@ -26,6 +26,16 @@
             "@/*": ["./src/*"]
         }
     },
-    "include": ["src"],
+    "exclude": [
+        "**/*.test.ts",
+        "**/*.test.tsx",
+        "**/tests/**",
+        "src/tests/**/*",
+        "src/utils/testing-library.tsx",
+        "src/utils/test-plugins.ts",
+        "src/utils/ledger-test-helpers.ts",
+        "dist/**/*"
+    ],
+    "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.d.ts", ".wxt/wxt.d.ts"],
     "references": [{ "path": "./tsconfig.node.json" }]
 }

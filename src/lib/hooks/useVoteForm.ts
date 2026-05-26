@@ -151,7 +151,7 @@ export const useVoteForm = (wallet: Contracts.IReadWriteWallet, request: Approve
         try {
             profile.validators().all(wallet.network().id());
         } catch {
-            await profile.validators().sync(profile, wallet.network().id());
+            await profile.validators().sync(wallet.network().id());
         }
         const vote = request.vote && {
             amount: request.vote?.amount,
@@ -198,7 +198,7 @@ export const useVoteForm = (wallet: Contracts.IReadWriteWallet, request: Approve
                 setFormValues((prevFormValues) => ({
                     ...prevFormValues,
                     senderAddress: wallet.address(),
-                    remainingBalance: wallet.balance(),
+                    remainingBalance: wallet.balance().toNumber(),
                     gasPrice: customGasPrice ?? avg.toString(),
                     gasLimit: customGasLimit ?? defaultGasLimit,
                     hasHigherCustomFee:

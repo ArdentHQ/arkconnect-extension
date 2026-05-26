@@ -1,3 +1,4 @@
+import { type JSX } from 'react';
 import Home from '@/pages/Home';
 import Connections from '@/pages/Connections';
 import Onboarding from '@/pages/Onboarding';
@@ -31,9 +32,9 @@ import AddressBook from '@/pages/AddressBook';
 import CreateContact from '@/pages/CreateContact';
 import EditContact from '@/pages/EditContact';
 import Vote from '@/pages/Vote';
+import TokenDetails from '@/pages/TokenDetails';
 
 type RouteData = {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     Component: (...props: any[]) => JSX.Element;
     title: string;
     path: string;
@@ -182,6 +183,11 @@ const routes: RouteData[] = [
         Component: TransactionDetails,
         path: '/transaction/:transactionId',
         title: 'Transaction Details',
+    },
+    {
+        Component: TokenDetails,
+        path: '/token/:contractAddress',
+        title: 'Token Details',
     },
     {
         Component: Send,

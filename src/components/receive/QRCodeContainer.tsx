@@ -15,7 +15,6 @@ import useToast from '@/lib/hooks/useToast';
 
 export type SendFormik = {
     amount?: string;
-    memo?: string;
 };
 
 export const QRCodeContainer = () => {
@@ -37,13 +36,11 @@ export const QRCodeContainer = () => {
                 const integerPart = Math.floor(Number(value));
                 return integerPart < 100_000_000;
             }),
-        memo: string().max(255, t('ERROR.IS_TOO_LONG', { name: 'Memo' })),
     });
 
     const formik = useFormik<SendFormik>({
         initialValues: {
             amount: '',
-            memo: '',
         },
         validationSchema: validationSchema,
         onSubmit: () => {},
@@ -56,10 +53,6 @@ export const QRCodeContainer = () => {
         amount:
             !formik.errors.amount && formik.values.amount !== undefined
                 ? formik.values.amount
-                : undefined,
-        memo:
-            !formik.errors.memo && formik.values.memo !== undefined
-                ? formik.values.memo
                 : undefined,
     });
 
@@ -79,10 +72,10 @@ export const QRCodeContainer = () => {
     return (
         <div className='flex flex-col gap-4'>
             <div className='flex flex-col gap-1.5'>
-                <span className='text-sm font-medium text-theme-secondary-500 dark:text-theme-secondary-200'>
+                <span className='text-theme-secondary-500 dark:text-theme-secondary-200 text-sm font-medium'>
                     {t('COMMON.QR_CODE')}
                 </span>
-                <div className='flex w-full flex-col items-center justify-center gap-4 rounded-lg border border-theme-secondary-200 bg-white px-3 py-4 dark:border-theme-secondary-600 dark:bg-theme-secondary-800 dark:text-theme-secondary-400 dark:shadow-secondary-dark'>
+                <div className='border-theme-secondary-200 dark:border-theme-secondary-600 dark:bg-theme-secondary-800 dark:text-theme-secondary-400 dark:shadow-secondary-dark flex w-full flex-col items-center justify-center gap-4 rounded-lg border bg-white px-3 py-4'>
                     <div ref={qrRef}>
                         <QRCode
                             value={generatedUrl}
@@ -99,7 +92,7 @@ export const QRCodeContainer = () => {
                             text={t('COMMON.SAVE_WITH_NAME', { name: 'QR' })}
                             onClick={handleDownload}
                         />
-                        <hr className='h-5 w-px bg-theme-secondary-200 dark:bg-theme-secondary-600' />
+                        <hr className='bg-theme-secondary-200 dark:bg-theme-secondary-600 h-5 w-px' />
                         <QRActionButtons
                             icon='copy'
                             text={t('COMMON.COPY_with_name', { name: 'QR' })}
@@ -107,7 +100,7 @@ export const QRCodeContainer = () => {
                         />
                     </div>
                 </div>
-                <span className='text-sm font-normal text-theme-secondary-500 dark:text-theme-secondary-300'>
+                <span className='text-theme-secondary-500 dark:text-theme-secondary-300 text-sm font-normal'>
                     {t('PAGES.RECEIVE.QR_CODE_WILL_BE_UPDATED_AUTOMATICALLY')}
                 </span>
             </div>
@@ -117,7 +110,7 @@ export const QRCodeContainer = () => {
             <Accordion
                 className='mb-4'
                 title={
-                    <h3 className='text-base font-normal text-light-black dark:text-white'>
+                    <h3 className='text-light-black text-base font-normal dark:text-white'>
                         {t('PAGES.RECEIVE.SPECIFY_AMOUNT')}{' '}
                         <span className='text-theme-secondary-500 dark:text-theme-secondary-300'>
                             ({t('COMMON.OPTIONAL')})
@@ -138,18 +131,6 @@ export const QRCodeContainer = () => {
                         onBlur={formik.handleBlur}
                         variant={formik.errors.amount ? 'destructive' : 'primary'}
                         helperText={formik.errors.amount}
-                    />
-                    <Input
-                        type='text'
-                        labelText={t('COMMON.MEMO')}
-                        placeholder={t('COMMON.ADD_NOTE_TO_TRANSACTION')}
-                        name='memo'
-                        value={formik.values.memo}
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        variant={formik.errors.memo ? 'destructive' : 'primary'}
-                        helperText={formik.errors.memo}
-                        secondaryText={`${formik.values.memo !== undefined ? formik.values.memo.length : 0}/255`}
                     />
                 </div>
             </Accordion>

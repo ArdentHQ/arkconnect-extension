@@ -18,6 +18,7 @@ import { useEnvironmentContext } from '@/lib/context/Environment';
 import useOnClickOutside from '@/lib/hooks/useOnClickOutside';
 import { useProfileContext } from '@/lib/context/Profile';
 import useToast from '@/lib/hooks/useToast';
+import { ProfileData } from '@/lib/background/contracts';
 
 export const AddressesDropdown = ({
     addresses,
@@ -66,6 +67,7 @@ export const AddressesDropdown = ({
             wallet.data().set(Contracts.WalletData.IsPrimary, false);
         }
 
+        profile.settings().forget(ProfileData.LastVisitedPage);
         await persist();
         await initProfile();
 
@@ -75,18 +77,18 @@ export const AddressesDropdown = ({
 
     return (
         <div
-            className='mx-4 w-full rounded-xl bg-white shadow-dropdown dark:bg-subtle-black dark:shadow-dropdown-dark'
+            className='shadow-dropdown dark:bg-subtle-black dark:shadow-dropdown-dark mx-4 w-full rounded-xl bg-white'
             ref={dropdownRef}
         >
-            <div className='border-b border-solid border-b-theme-secondary-200 dark:border-b-theme-secondary-600'>
+            <div className='border-b-theme-secondary-200 dark:border-b-theme-secondary-600 border-b border-solid'>
                 <div className='flex items-center justify-between p-3'>
-                    <span className='font-medium text-light-black dark:text-white'>
+                    <span className='text-light-black font-medium dark:text-white'>
                         {t('COMMON.ADDRESSES')}
                     </span>
 
                     <button
                         type='button'
-                        className='flex cursor-pointer items-center rounded-full p-1.75 text-light-black transition duration-200 ease-in-out hover:bg-theme-secondary-50 dark:text-white dark:hover:bg-theme-secondary-700'
+                        className='text-light-black hover:bg-theme-secondary-50 dark:hover:bg-theme-secondary-700 flex cursor-pointer items-center rounded-full p-1.75 transition duration-200 ease-in-out dark:text-white'
                         onClick={() => {
                             onClose();
                             navigate('/create-import-address');
@@ -151,7 +153,7 @@ const AddressRow = ({
                         {address.isLedger() && <LedgerIcon />}
                     </div>
 
-                    <div className='flex items-center gap-1.5 text-theme-secondary-500 dark:text-theme-secondary-400'>
+                    <div className='text-theme-secondary-500 dark:text-theme-secondary-400 flex items-center gap-1.5'>
                         <AddressWithCopy address={address.address()} />
                         <div>•</div>
                         <AddressBalance
@@ -169,7 +171,7 @@ const AddressRow = ({
                     navigate('/address/settings', { state: { address } });
                 }}
                 className={cn(
-                    'flex cursor-pointer items-center rounded-full p-1.75 text-light-black transition duration-200 ease-in-out dark:text-white',
+                    'text-light-black flex cursor-pointer items-center rounded-full p-1.75 transition duration-200 ease-in-out dark:text-white',
                     {
                         'hover:bg-theme-primary-200/60 dark:hover:bg-theme-primary-800/50':
                             isSelected,

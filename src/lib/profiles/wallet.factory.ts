@@ -1,242 +1,274 @@
-import { BIP39, UUID } from '@ardenthq/arkvault-crypto';
-
+import { Enums } from "@/lib/mainsail";
+import { BIP39, UUID } from "@ardenthq/arkvault-crypto";
 import {
-    IAddressOptions,
-    IAddressWithDerivationPathOptions,
-    IGenerateOptions,
-    IMnemonicOptions,
-    IPrivateKeyOptions,
-    IProfile,
-    IPublicKeyOptions,
-    IReadWriteWallet,
-    IWalletFactory,
-    WalletData,
-    WalletImportMethod,
-} from './contracts.js';
-import { WalletFlag } from './wallet.enum.js';
-import { IMnemonicDerivativeOptions, ISecretOptions } from './wallet.factory.contract.js';
-import { Wallet } from './wallet.js';
-import { Enums } from '@/app/lib/mainsail';
-import { PublicKeyService } from '@/app/lib/mainsail/public-key.service';
-import { AddressService } from '@/app/lib/mainsail/address.service';
+	BIP44CoinType,
+	IAddressOptions,
+	IAddressWithDerivationPathOptions,
+	IGenerateHDOptions,
+	IGenerateOptions,
+	IMnemonicBIP44DerivativeOptions,
+	IMnemonicOptions,
+	IPrivateKeyOptions,
+	IProfile,
+	IPublicKeyOptions,
+	IReadWriteWallet,
+	IWalletFactory,
+	WalletData,
+	WalletImportMethod,
+} from "./contracts";
+import { WalletFlag } from "./wallet.enum";
+import { IMnemonicDerivativeOptions, ISecretOptions } from "./wallet.factory.contract";
+import { Wallet } from "./wallet";
+import { PublicKeyService } from "@/lib/mainsail/public-key.service";
+import { AddressService } from "@/lib/mainsail/address.service";
+import { HDWalletService } from "@/lib/mainsail/hd-wallet.service";
+import { Contracts } from "./index";
+import { WalletAliasProvider } from "./profile.wallet.alias";
 
 export class WalletFactory implements IWalletFactory {
-    readonly #profile: IProfile;
+	readonly #profile: IProfile;
 
-    public constructor(profile: IProfile) {
-        this.#profile = profile;
-    }
+	public constructor(profile: IProfile) {
+		this.#profile = profile;
+	}
 
-    /** {@inheritDoc IWalletFactory.generate} */
-    public async generate({
-        locale,
-        wordCount,
-        withPublicKey,
-    }: IGenerateOptions): Promise<{ mnemonic: string; wallet: IReadWriteWallet }> {
-        const mnemonic: string = BIP39.generate(locale, wordCount);
+	/** {@inheritDoc IWalletFactory.generate} */
+	public async generate({
+		locale,
+		wordCount,
+		withPublicKey,
+	}: IGenerateOptions): Promise<{ mnemonic: string; wallet: IReadWriteWallet }> {
+		const mnemonic: string = BIP39.generate(locale, wordCount);
 
-        const wallet = await this.fromMnemonicWithBIP39({ mnemonic });
+		const wallet = await this.fromMnemonicWithBIP39({ mnemonic });
 
-        if (withPublicKey) {
-            const value = new PublicKeyService().fromMnemonic(mnemonic);
-            wallet.data().set(WalletData.PublicKey, value.publicKey);
-        }
+		if (withPublicKey) {
+			const value = new PublicKeyService().fromMnemonic(mnemonic);
+			wallet.data().set(WalletData.PublicKey, value.publicKey);
+		}
 
-        return { mnemonic, wallet };
-    }
+		return { mnemonic, wallet };
+	}
 
-    /** {@inheritDoc IWalletFactory.fromMnemonicWithBIP39} */
-    public async fromMnemonicWithBIP39({
-        mnemonic,
-        password,
-    }: IMnemonicOptions): Promise<IReadWriteWallet> {
-        const wallet: IReadWriteWallet = new Wallet(UUID.random(), {}, this.#profile);
+	/** {@inheritDoc IWalletFactory.generateHD} */
+	public async generateHD({ locale, wordCount, coin, levels }: IGenerateHDOptions): Promise<{
+		mnemonic: string;
+		wallet: IReadWriteWallet;
+	}> {
+		const mnemonic: string = BIP39.generate(locale, wordCount);
 
-        wallet.data().set(WalletData.ImportMethod, WalletImportMethod.BIP39.MNEMONIC);
-        wallet.data().set(WalletData.Status, WalletFlag.Cold);
+		const wallet = await this.fromMnemonicWithBIP44({ coin, levels, mnemonic });
 
-        if (wallet.network().usesExtendedPublicKey()) {
-            throw new Error(
-                'The configured network uses extended public keys with BIP44 for derivation.',
-            );
-        }
+		return { mnemonic, wallet };
+	}
 
-        if (!wallet.gate().allows(Enums.FeatureFlag.AddressMnemonicBip39)) {
-            throw new Error('The configured network does not support BIP39.');
-        }
+	/** {@inheritDoc IWalletFactory.fromMnemonicWithBIP39} */
+	public async fromMnemonicWithBIP39({ mnemonic, password }: IMnemonicOptions): Promise<IReadWriteWallet> {
+		const wallet: IReadWriteWallet = new Wallet(UUID.random(), {}, this.#profile);
 
-        await wallet.mutator().identity(mnemonic);
+		wallet.data().set(WalletData.ImportMethod, WalletImportMethod.BIP39.MNEMONIC);
+		wallet.data().set(WalletData.Status, WalletFlag.Cold);
 
-        if (password) {
-            wallet
-                .data()
-                .set(WalletData.ImportMethod, WalletImportMethod.BIP39.MNEMONIC_WITH_ENCRYPTION);
+		if (wallet.network().usesExtendedPublicKey()) {
+			throw new Error("The configured network uses extended public keys with BIP44 for derivation.");
+		}
 
-            await wallet.signingKey().set(mnemonic, password);
-        }
+		if (!wallet.gate().allows(Enums.FeatureFlag.AddressMnemonicBip39)) {
+			throw new Error("The configured network does not support BIP39.");
+		}
 
-        return wallet;
-    }
+		await wallet.mutator().identity(mnemonic);
 
-    /** {@inheritDoc IWalletFactory.fromMnemonicWithBIP44} */
-    public async fromMnemonicWithBIP44(
-        options: IMnemonicDerivativeOptions,
-    ): Promise<IReadWriteWallet> {
-        return this.#fromMnemonicWithDerivative({
-            derivationType: 'bip44',
-            featureFlag: Enums.FeatureFlag.AddressMnemonicBip44,
-            importMethod: WalletImportMethod.BIP44.MNEMONIC,
-            options,
-        });
-    }
+		if (password) {
+			wallet.data().set(WalletData.ImportMethod, WalletImportMethod.BIP39.MNEMONIC_WITH_ENCRYPTION);
 
-    /** {@inheritDoc IWalletFactory.fromMnemonicWithBIP49} */
-    public async fromMnemonicWithBIP49(
-        options: IMnemonicDerivativeOptions,
-    ): Promise<IReadWriteWallet> {
-        return this.#fromMnemonicWithDerivative({
-            derivationType: 'bip49',
-            featureFlag: Enums.FeatureFlag.AddressMnemonicBip49,
-            importMethod: WalletImportMethod.BIP49.MNEMONIC,
-            options,
-        });
-    }
+			await wallet.signingKey().set(mnemonic, password);
+		}
 
-    /** {@inheritDoc IWalletFactory.fromMnemonicWithBIP84} */
-    public async fromMnemonicWithBIP84(
-        options: IMnemonicDerivativeOptions,
-    ): Promise<IReadWriteWallet> {
-        return this.#fromMnemonicWithDerivative({
-            derivationType: 'bip84',
-            featureFlag: Enums.FeatureFlag.AddressMnemonicBip84,
-            importMethod: WalletImportMethod.BIP84.MNEMONIC,
-            options,
-        });
-    }
+		return wallet;
+	}
 
-    /** {@inheritDoc IWalletFactory.fromAddress} */
-    public async fromAddress({ address }: IAddressOptions): Promise<IReadWriteWallet> {
-        const wallet: IReadWriteWallet = new Wallet(UUID.random(), {}, this.#profile);
-        wallet.data().set(WalletData.ImportMethod, WalletImportMethod.Address);
-        wallet.data().set(WalletData.Status, WalletFlag.Cold);
+	/** {@inheritDoc IWalletFactory.fromMnemonicWithBIP44} */
+	public async fromMnemonicWithBIP44({
+		mnemonic,
+		coin = BIP44CoinType.ARK,
+		levels,
+		password,
+	}: IMnemonicBIP44DerivativeOptions): Promise<IReadWriteWallet> {
+		const accountIndex = levels.account;
+		const changeIndex = levels.change ?? 0;
+		const addressIndex = levels.addressIndex ?? 0;
 
-        await wallet.mutator().address({ address });
+		const derivationPath = `m/44'/${coin}/${accountIndex}'/${changeIndex}/${addressIndex}` as const;
 
-        return wallet;
-    }
+		const account = HDWalletService.getAccount(mnemonic, derivationPath);
 
-    /** {@inheritDoc IWalletFactory.fromPublicKey} */
-    public async fromPublicKey({ publicKey }: IPublicKeyOptions): Promise<IReadWriteWallet> {
-        const wallet: IReadWriteWallet = new Wallet(UUID.random(), {}, this.#profile);
-        wallet.data().set(WalletData.ImportMethod, WalletImportMethod.PublicKey);
-        wallet.data().set(WalletData.PublicKey, publicKey);
-        wallet.data().set(WalletData.Status, WalletFlag.Cold);
+		const wallet: IReadWriteWallet = new Wallet(UUID.random(), {}, this.#profile);
 
-        await wallet.mutator().address(new AddressService().fromPublicKey(publicKey));
+		wallet.data().set(WalletData.DerivationPath, derivationPath);
+		wallet.data().set(WalletData.ImportMethod, WalletImportMethod.BIP44.MNEMONIC);
+		wallet.data().set(WalletData.AddressIndex, addressIndex);
+		wallet.data().set(WalletData.PublicKey, account.publicKey);
+		wallet.data().set(WalletData.Status, WalletFlag.Cold);
 
-        return wallet;
-    }
+		await wallet.mutator().address({ address: account.address });
 
-    /** {@inheritDoc IWalletFactory.fromPrivateKey} */
-    public async fromPrivateKey({ privateKey }: IPrivateKeyOptions): Promise<IReadWriteWallet> {
-        const wallet: IReadWriteWallet = new Wallet(UUID.random(), {}, this.#profile);
-        wallet.data().set(WalletData.ImportMethod, WalletImportMethod.PrivateKey);
-        wallet.data().set(WalletData.Status, WalletFlag.Cold);
+		if (password) {
+			wallet.data().set(WalletData.ImportMethod, WalletImportMethod.BIP44.MNEMONIC_WITH_ENCRYPTION);
 
-        await wallet.mutator().address(new AddressService().fromPrivateKey(privateKey));
+			await wallet.signingKey().set(mnemonic, password);
+		}
 
-        return wallet;
-    }
+		return wallet;
+	}
 
-    /** {@inheritDoc IWalletFactory.fromAddressWithDerivationPath} */
-    public async fromAddressWithDerivationPath({
-        address,
-        path,
-    }: IAddressWithDerivationPathOptions): Promise<IReadWriteWallet> {
-        const wallet: IReadWriteWallet = new Wallet(UUID.random(), {}, this.#profile);
+	/** {@inheritDoc IWalletFactory.fromMnemonicWithBIP49} */
+	public async fromMnemonicWithBIP49(options: IMnemonicDerivativeOptions): Promise<IReadWriteWallet> {
+		return this.#fromMnemonicWithDerivative({
+			derivationType: "bip49",
+			featureFlag: Enums.FeatureFlag.AddressMnemonicBip49,
+			importMethod: WalletImportMethod.BIP49.MNEMONIC,
+			options,
+		});
+	}
 
-        if (path.startsWith('m/44')) {
-            wallet.data().set(WalletData.ImportMethod, WalletImportMethod.BIP44.DERIVATION_PATH);
-        }
+	/** {@inheritDoc IWalletFactory.fromMnemonicWithBIP84} */
+	public async fromMnemonicWithBIP84(options: IMnemonicDerivativeOptions): Promise<IReadWriteWallet> {
+		return this.#fromMnemonicWithDerivative({
+			derivationType: "bip84",
+			featureFlag: Enums.FeatureFlag.AddressMnemonicBip84,
+			importMethod: WalletImportMethod.BIP84.MNEMONIC,
+			options,
+		});
+	}
 
-        if (path.startsWith('m/49')) {
-            wallet.data().set(WalletData.ImportMethod, WalletImportMethod.BIP49.DERIVATION_PATH);
-        }
+	/** {@inheritDoc IWalletFactory.fromAddress} */
+	public async fromAddress({ address }: IAddressOptions): Promise<IReadWriteWallet> {
+		const wallet: IReadWriteWallet = new Wallet(UUID.random(), {}, this.#profile);
+		wallet.data().set(WalletData.ImportMethod, WalletImportMethod.Address);
+		wallet.data().set(WalletData.Status, WalletFlag.Cold);
 
-        if (path.startsWith('m/84')) {
-            wallet.data().set(WalletData.ImportMethod, WalletImportMethod.BIP84.DERIVATION_PATH);
-        }
+		await wallet.mutator().address({ address });
 
-        wallet.data().set(WalletData.DerivationPath, path);
-        wallet.data().set(WalletData.Status, WalletFlag.Cold);
+		return wallet;
+	}
 
-        await wallet.mutator().address({ address });
+	/** {@inheritDoc IWalletFactory.fromPublicKey} */
+	public async fromPublicKey({ publicKey }: IPublicKeyOptions): Promise<IReadWriteWallet> {
+		const wallet: IReadWriteWallet = new Wallet(UUID.random(), {}, this.#profile);
+		wallet.data().set(WalletData.ImportMethod, WalletImportMethod.PublicKey);
+		wallet.data().set(WalletData.PublicKey, publicKey);
+		wallet.data().set(WalletData.Status, WalletFlag.Cold);
 
-        return wallet;
-    }
+		await wallet.mutator().address(new AddressService().fromPublicKey(publicKey));
 
-    /** {@inheritDoc IWalletFactory.fromSecret} */
-    public async fromSecret({ secret, password }: ISecretOptions): Promise<IReadWriteWallet> {
-        const wallet: IReadWriteWallet = new Wallet(UUID.random(), {}, this.#profile);
+		return wallet;
+	}
 
-        wallet.data().set(WalletData.ImportMethod, WalletImportMethod.SECRET);
-        wallet.data().set(WalletData.Status, WalletFlag.Cold);
+	/** {@inheritDoc IWalletFactory.fromPrivateKey} */
+	public async fromPrivateKey({ privateKey }: IPrivateKeyOptions): Promise<IReadWriteWallet> {
+		const wallet: IReadWriteWallet = new Wallet(UUID.random(), {}, this.#profile);
+		wallet.data().set(WalletData.ImportMethod, WalletImportMethod.PrivateKey);
+		wallet.data().set(WalletData.Status, WalletFlag.Cold);
 
-        await wallet.mutator().address(new AddressService().fromSecret(secret));
+		await wallet.mutator().address(new AddressService().fromPrivateKey(privateKey));
 
-        if (password) {
-            wallet.data().set(WalletData.ImportMethod, WalletImportMethod.SECRET_WITH_ENCRYPTION);
+		return wallet;
+	}
 
-            await wallet.signingKey().set(secret, password);
-        }
+	/** {@inheritDoc IWalletFactory.fromAddressWithDerivationPath} */
+	public async fromAddressWithDerivationPath({
+		address,
+		path,
+	}: IAddressWithDerivationPathOptions): Promise<IReadWriteWallet> {
+		const wallet: IReadWriteWallet = new Wallet(UUID.random(), {}, this.#profile);
 
-        return wallet;
-    }
+		if (path.startsWith("m/44")) {
+			wallet.data().set(WalletData.ImportMethod, WalletImportMethod.BIP44.DERIVATION_PATH);
+		}
 
-    async #fromMnemonicWithDerivative(input: {
-        importMethod: string;
-        derivationType: string;
-        featureFlag: string;
-        options: IMnemonicDerivativeOptions;
-    }): Promise<IReadWriteWallet> {
-        const wallet: IReadWriteWallet = new Wallet(UUID.random(), {}, this.#profile);
+		if (path.startsWith("m/49")) {
+			wallet.data().set(WalletData.ImportMethod, WalletImportMethod.BIP49.DERIVATION_PATH);
+		}
 
-        wallet.data().set(WalletData.ImportMethod, input.importMethod);
-        wallet.data().set(WalletData.Status, WalletFlag.Cold);
+		if (path.startsWith("m/84")) {
+			wallet.data().set(WalletData.ImportMethod, WalletImportMethod.BIP84.DERIVATION_PATH);
+		}
 
-        if (!wallet.gate().allows(input.featureFlag)) {
-            throw new Error(
-                `The configured network does not support ${input.derivationType.toUpperCase()}.`,
-            );
-        }
+		wallet.data().set(WalletData.DerivationPath, path);
+		wallet.data().set(WalletData.Status, WalletFlag.Cold);
 
-        if (wallet.network().usesExtendedPublicKey()) {
-            //if (!input.options.levels) {
-            //	throw new Error("Please specify the levels and try again.");
-            //}
-            //
-            //const walletData = await wallet
-            //	.coin()
-            //	.address()
-            //	.fromMnemonic(input.options.mnemonic, { [input.derivationType]: input.options.levels });
-            //
-            //wallet.data().set(WalletData.Address, walletData.address);
-            //
-            //wallet.data().set(
-            //	WalletData.PublicKey,
-            //	await wallet
-            //		.coin()
-            //		.extendedPublicKey()
-            //		.fromMnemonic(input.options.mnemonic, { [input.derivationType]: input.options.levels }),
-            //);
-            //
-            //wallet.mutator().avatar(wallet.address());
-            //
-            //wallet.data().set(WalletData.DerivationType, input.derivationType);
-        } else {
-            await wallet.mutator().identity(input.options.mnemonic);
-        }
+		await wallet.mutator().address({ address });
 
-        return wallet;
-    }
+		return wallet;
+	}
+
+	/** {@inheritDoc IWalletFactory.fromSecret} */
+	public async fromSecret({ secret, password }: ISecretOptions): Promise<IReadWriteWallet> {
+		const wallet: IReadWriteWallet = new Wallet(UUID.random(), {}, this.#profile);
+
+		wallet.data().set(WalletData.ImportMethod, WalletImportMethod.SECRET);
+		wallet.data().set(WalletData.Status, WalletFlag.Cold);
+
+		await wallet.mutator().address(new AddressService().fromSecret(secret));
+
+		if (password) {
+			wallet.data().set(WalletData.ImportMethod, WalletImportMethod.SECRET_WITH_ENCRYPTION);
+
+			await wallet.signingKey().set(secret, password);
+		}
+
+		return wallet;
+	}
+
+	async #fromMnemonicWithDerivative(input: {
+		importMethod: string;
+		derivationType: string;
+		featureFlag: string;
+		options: IMnemonicDerivativeOptions;
+	}): Promise<IReadWriteWallet> {
+		const wallet: IReadWriteWallet = new Wallet(UUID.random(), {}, this.#profile);
+
+		wallet.data().set(WalletData.ImportMethod, input.importMethod);
+		wallet.data().set(WalletData.Status, WalletFlag.Cold);
+
+		if (!wallet.gate().allows(input.featureFlag)) {
+			throw new Error(`The configured network does not support ${input.derivationType.toUpperCase()}.`);
+		}
+
+		// TODO: Revisit implementation.
+		/* istanbul ignore next -- @preserve */
+		if (wallet.network().usesExtendedPublicKey()) {
+			//if (!input.options.levels) {
+			//	throw new Error("Please specify the levels and try again.");
+			//}
+			//
+			//const walletData = await wallet
+			//	.coin()
+			//	.address()
+			//	.fromMnemonic(input.options.mnemonic, { [input.derivationType]: input.options.levels });
+			//
+			//wallet.data().set(WalletData.Address, walletData.address);
+			//
+			//wallet.data().set(
+			//	WalletData.PublicKey,
+			//	await wallet
+			//		.coin()
+			//		.extendedPublicKey()
+			//		.fromMnemonic(input.options.mnemonic, { [input.derivationType]: input.options.levels }),
+			//);
+			//
+			//wallet.mutator().avatar(wallet.address());
+			//
+			//wallet.data().set(WalletData.DerivationType, input.derivationType);
+		} else {
+			await wallet.mutator().identity(input.options.mnemonic);
+		}
+
+		return wallet;
+	}
+
+	public generateAlias(wallet: Contracts.IReadWriteWallet, path?: string): string {
+		return new WalletAliasProvider(this.#profile).generateAlias(wallet, path);
+	}
 }

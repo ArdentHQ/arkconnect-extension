@@ -83,7 +83,7 @@ export const AddressDropdown = ({
 
             if (contact) {
                 displayValue = (
-                    <span className='text-base font-normal text-light-black dark:text-white'>
+                    <span className='text-light-black text-base font-normal dark:text-white'>
                         {contact.name}{' '}
                         <span className='text-theme-secondary-500 dark:text-theme-secondary-300'>
                             ({trimAddress(contact.address, 10)})
@@ -160,7 +160,7 @@ export const AddressDropdown = ({
             {showSuggestions && suggestions.length > 0 && (
                 <div
                     className={cn(
-                        'transition-smoothEase custom-scroll absolute z-10 mt-1 w-full overflow-auto rounded-lg bg-white py-2 shadow-lg dark:bg-subtle-black',
+                        'transition-smoothEase custom-scroll dark:bg-subtle-black absolute z-10 mt-1 w-full overflow-auto rounded-lg bg-white py-2 shadow-lg',
                         {
                             'max-h-72': showSuggestions,
                             'h-0': !showSuggestions,
@@ -171,7 +171,7 @@ export const AddressDropdown = ({
                         <button
                             key={index}
                             className={cn(
-                                'flex w-full cursor-pointer flex-col items-start gap-1 px-4 py-3 hover:bg-theme-secondary-50 dark:hover:bg-theme-secondary-700',
+                                'hover:bg-theme-secondary-50 dark:hover:bg-theme-secondary-700 flex w-full cursor-pointer flex-col items-start gap-1 px-4 py-3',
                             )}
                             onClick={() => {
                                 inputRef?.current?.click();
@@ -180,10 +180,10 @@ export const AddressDropdown = ({
                                 setShowSuggestions(false);
                             }}
                         >
-                            <span className='text-base font-medium text-light-black dark:text-white'>
+                            <span className='text-light-black text-base font-medium dark:text-white'>
                                 {suggestion.name}
                             </span>
-                            <span className='text-sm font-normal text-theme-secondary-500 dark:text-theme-secondary-300'>
+                            <span className='text-theme-secondary-500 dark:text-theme-secondary-300 text-sm font-normal'>
                                 {trimAddress(suggestion.address, 10)}
                             </span>
                         </button>

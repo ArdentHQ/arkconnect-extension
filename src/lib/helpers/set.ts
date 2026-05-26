@@ -1,13 +1,13 @@
-import { setProperty } from 'dot-prop';
-import { isObject } from './is-object.js';
-import { isString } from './is-string.js';
+import { setProperty } from "dot-prop";
+import { isObject } from "./is-object.js";
+import { isString } from "./is-string.js";
 
 export const set = <T>(object: T, path: string | string[], value: unknown): boolean => {
-    if (!isObject(object) || !isString(path)) {
-        return false;
-    }
+	if (!isObject(object) || !isString(path)) {
+		return false;
+	}
 
-    setProperty(object, path, value);
+	setProperty(object, path, value);
 
-    return true;
+	return true;
 };

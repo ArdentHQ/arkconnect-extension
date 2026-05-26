@@ -1,56 +1,95 @@
-import { IReadWriteWallet, IVoteRegistry, WalletData } from './contracts.js';
-import { VoteRegistryItem } from './vote-registry.contract.js';
+import { IProfile, IReadWriteWallet, IReadWriteWalletAttributes, IVoteRegistry, WalletData } from "./contracts.js";
+import { AttributeBag } from "./helpers/attribute-bag.js";
+import { ReadOnlyWallet } from "./read-only-wallet.js";
+import { VoteRegistryItem } from "./vote-registry.contract.js";
 
 export class VoteRegistry implements IVoteRegistry {
-    readonly #wallet: IReadWriteWallet;
+	readonly #wallet: IReadWriteWallet;
+	readonly #profile: IProfile;
+	readonly #attributes: AttributeBag<IReadWriteWalletAttributes>;
 
-    public constructor(wallet: IReadWriteWallet) {
-        this.#wallet = wallet;
-    }
+	public constructor(
+		wallet: IReadWriteWallet,
+		attributes: AttributeBag<IReadWriteWalletAttributes>,
+		profile: IProfile,
+	) {
+		this.#wallet = wallet;
+		this.#profile = profile;
+		this.#attributes = attributes;
+	}
 
-    /** {@inheritDoc IVoteRegistry.current} */
-    public current(): VoteRegistryItem[] {
-        const votes: { id: string; amount: number }[] | undefined = this.#wallet
-            .data()
-            .get<{ id: string; amount: number }[]>(WalletData.Votes);
+	/** {@inheritDoc IVoteRegistry.current} */
+	public current(): VoteRegistryItem[] {
+		const votes: { id: string; amount: number }[] | undefined = this.#wallet
+			.data()
+			.get<{ id: string; amount: number }[]>(WalletData.Votes);
 
-        if (votes === undefined) {
-            throw new Error(
-                'The voting data has not been synced. Please call [synchroniser().votes()] before accessing votes.',
-            );
-        }
+		if (votes === undefined) {
+			throw new Error(
+				"The voting data has not been synced. Please call [synchroniser().votes()] before accessing votes.",
+			);
+		}
 
-        return votes.map(({ amount, id }) => ({
-            amount,
-            wallet: this.#wallet.validators().mapByIdentifier(this.#wallet, id),
-        }));
-    }
+		return votes.map(({ amount, id }) => {
+			const wallet = this.#wallet.validators().mapByIdentifier(this.#wallet, id);
 
-    /** {@inheritDoc IVoteRegistry.available} */
-    public available(): number {
-        const result: number | undefined = this.#wallet
-            .data()
-            .get<number>(WalletData.VotesAvailable);
+			if (wallet) {
+				return {
+					amount,
+					wallet,
+				};
+			}
 
-        if (result === undefined) {
-            throw new Error(
-                'The voting data has not been synced. Please call [synchroniser().votes()] before accessing votes.',
-            );
-        }
+			// Validator doesn't exist in validators list. Get it from wallet attributes.
+			const votingAddress = this.#attributes.get("wallet.data.attributes.vote");
 
-        return result;
-    }
+			if (votingAddress) {
+				return {
+					amount: 0,
+					wallet: new ReadOnlyWallet(
+						{
+							address: votingAddress,
+							explorerLink: this.#wallet.explorerLink(),
+							governanceIdentifier: "address",
+							isLegacyValidator: false,
+							isResignedValidator: false,
+							isValidator: true,
+						},
+						this.#profile,
+					),
+				};
+			}
 
-    /** {@inheritDoc IVoteRegistry.used} */
-    public used(): number {
-        const result: number | undefined = this.#wallet.data().get<number>(WalletData.VotesUsed);
+			return {
+				amount: 0,
+				wallet: undefined,
+			};
+		});
+	}
 
-        if (result === undefined) {
-            throw new Error(
-                'The voting data has not been synced. Please call [synchroniser().votes()] before accessing votes.',
-            );
-        }
+	/** {@inheritDoc IVoteRegistry.available} */
+	public available(): number {
+		const result: number | undefined = this.#wallet.data().get<number>(WalletData.VotesAvailable);
 
-        return result;
-    }
+		if (result === undefined) {
+			throw new Error(
+				"The voting data has not been synced. Please call [synchroniser().votes()] before accessing votes.",
+			);
+		}
+
+		return result;
+	}
+
+	/** {@inheritDoc IVoteRegistry.used} */
+	public used(): number {
+		const result: number | undefined = this.#wallet.data().get<number>(WalletData.VotesUsed);
+
+		if (result === undefined) {
+			throw new Error(
+				"The voting data has not been synced. Please call [synchroniser().votes()] before accessing votes.",
+			);
+		}
+
+		return result;
+	}
 }

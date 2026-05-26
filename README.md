@@ -13,8 +13,8 @@ ARK Connect is a browser extension for Chrome and Firefox that offers message an
 
 ### Used Packages
 
+- [wxt](https://wxt.dev/)
 - [vite](https://vitejs.dev/)
-- [vite-plugin-web-extension](https://github.com/samrum/vite-plugin-web-extension)
 - [webextension-polyfill](https://www.npmjs.com/package/webextension-polyfill)
 - [formik](https://formik.org/docs/overview)
 - [Redux Toolkit](https://redux-toolkit.js.org/)
@@ -39,20 +39,20 @@ pnpm build:chrome
 pnpm build:firefox
 ```
 
-Pick the one applicable for your environment and it will generate a build in the `/dist` folder.
+Pick the one applicable for your environment and it will generate a build in `dist/chrome-mv3/` or `dist/firefox-mv2/`.
 
 #### Adding the extension to Chrome
 
 - When the build completes, open Chrome or Edge and navigate to `chrome://extensions`. Make sure to turn on the developer mode switch.
 - Click on the "Load unpacked extension" button
-- Select the `dist` folder in this project (after `pnpm dev` or `pnpm build:chrome`)
+- Select the `dist/chrome-mv3` folder in this project (after `pnpm dev` or `pnpm build:chrome`)
 
 #### Adding the extension to Firefox
 
 - When the build completes, open Firefox and navigate to `about:debugging`.
 - Click on the "This Firefox" button
 - Click on "Load temporary add-on"
-- Select the `manifest.json` file that is inside the `dist` folder
+- Select the `manifest.json` file inside `dist/firefox-mv2/`
 
 ## Documentation
 
@@ -68,4 +68,4 @@ For bumping the version number, update `package.json` with `npm version <major|m
 
 > This section will highlight common issues and their solutions
 
-The extension expects to run on port `5173` when running `pnpm dev`. In case you run into the extension being a small white square when opening, it generally means that port `5173` is used by another (vite) process already and your development instance is running on another port. Make sure to close anything running on port `5173` and try with `pnpm dev` again.
+`pnpm dev` runs wxt's dev mode and auto-loads the extension in a fresh browser profile with hot reload. If launching a custom browser binary or starting URL is needed, set `VITE_FIREFOX_BINARY` and/or `VITE_START_URL` in `.env`.

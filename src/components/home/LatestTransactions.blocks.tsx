@@ -1,7 +1,9 @@
+import { type JSX } from 'react';
 import cn from 'classnames';
 import dayjs from 'dayjs';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
+import { TokenAvatar } from '../token/TokenAvatar';
 import { TransactionAmount } from '../transaction/Transaction.blocks';
 import {
     getTransactionIcon,
@@ -11,7 +13,6 @@ import {
 } from './LatestTransactions.utils';
 import { Button, EmptyConnectionsIcon, ExternalLink, Icon, Tooltip } from '@/shared/components';
 
-import { getExplorerDomain } from '@/lib/utils/networkUtils';
 import { getTimeAgo } from '@/lib/utils/getTimeAgo';
 import { Skeleton } from '@/shared/components/utils/Skeleton';
 import trimAddress from '@/lib/utils/trimAddress';
@@ -20,6 +21,8 @@ import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 import { isFirefox } from '@/lib/utils/isFirefox';
 import { ExtendedConfirmedTransactionData } from '@/lib/profiles/transaction.dto';
 import { IReadWriteWallet } from '@/lib/profiles/wallet.contract';
+import { WalletToken } from '@/lib/profiles/wallet-token';
+import { formatTokenBalance } from '@/lib/utils/formatTokenBalance';
 
 export const TransactionTitle = ({
     type,
@@ -43,8 +46,6 @@ export const TransactionTitle = ({
             return t('COMMON.VOTE');
         case TransactionType.UNVOTE:
             return t('COMMON.UNVOTE');
-        case TransactionType.SECOND_SIGNATURE:
-            return t('COMMON.SECOND_SIGNATURE');
         case TransactionType.REGISTRATION:
             return t('COMMON.REGISTRATION');
         case TransactionType.RESIGNATION:
@@ -139,7 +140,7 @@ export const NoTransactions = () => {
     return (
         <div className='mt-12 flex flex-col items-center justify-center gap-6'>
             <EmptyConnectionsIcon />
-            <div className='max-w-40 text-center text-base font-normal leading-tight dark:text-white'>
+            <div className='max-w-40 text-center text-base leading-tight font-normal dark:text-white'>
                 {t('PAGES.HOME.NO_TRANSACTIONS')}
             </div>
         </div>
@@ -150,7 +151,7 @@ export const MultipaymentBadge = () => {
     const { t } = useTranslation();
 
     return (
-        <span className='rounded bg-theme-secondary-200 px-1.5 py-0.5 text-xs font-medium leading-[15px] text-theme-secondary-600 dark:bg-theme-secondary-600 dark:text-theme-secondary-200'>
+        <span className='bg-theme-secondary-200 text-theme-secondary-600 dark:bg-theme-secondary-600 dark:text-theme-secondary-200 rounded px-1.5 py-0.5 text-xs leading-[15px] font-medium'>
             {t('COMMON.MULTI')}
         </span>
     );
@@ -172,7 +173,6 @@ const TransactionListItem = ({
         TransactionType.REGISTRATION,
         TransactionType.RESIGNATION,
         TransactionType.OTHER,
-        TransactionType.SECOND_SIGNATURE,
         TransactionType.MULTISIGNATURE,
     ].includes(type as TransactionType);
 
@@ -184,8 +184,8 @@ const TransactionListItem = ({
             })}
             tabIndex={0}
         >
-            <div className='transition-smoothEase flex h-[76px] w-full flex-row items-center justify-center gap-3 p-4 hover:bg-theme-secondary-50 dark:hover:bg-theme-secondary-700'>
-                <div className='flex h-11 min-w-11 items-center justify-center rounded-xl border border-theme-secondary-200 bg-white text-theme-secondary-500 dark:border-theme-secondary-600 dark:bg-subtle-black dark:text-theme-secondary-300'>
+            <div className='transition-smoothEase hover:bg-theme-secondary-50 dark:hover:bg-theme-secondary-700 flex h-[76px] w-full flex-row items-center justify-center gap-3 p-4'>
+                <div className='border-theme-secondary-200 text-theme-secondary-500 dark:border-theme-secondary-600 dark:bg-subtle-black dark:text-theme-secondary-300 flex h-11 min-w-11 items-center justify-center rounded-xl border bg-white'>
                     <Icon
                         className={cn({
                             'h-5 w-5': isSpecialTransaction,
@@ -199,7 +199,7 @@ const TransactionListItem = ({
 
                 <div className='flex w-full flex-row items-center justify-between'>
                     <div className='flex flex-col gap-1.5'>
-                        <span className='text-left text-base font-medium leading-tight text-light-black dark:text-white'>
+                        <span className='text-light-black text-left text-base leading-tight font-medium dark:text-white'>
                             <TransactionTitle type={type} isSender={transaction.isSent()} />
                             {type === TransactionType.MULTIPAYMENT && (
                                 <span className='ml-1.5'>
@@ -208,7 +208,7 @@ const TransactionListItem = ({
                             )}
                         </span>
                         {type !== TransactionType.UNVOTE && (
-                            <span className='text-left text-sm font-normal leading-tight text-theme-secondary-500 dark:text-theme-secondary-300'>
+                            <span className='text-theme-secondary-500 dark:text-theme-secondary-300 text-left text-sm leading-tight font-normal'>
                                 <TransactionSecondaryText
                                     transaction={transaction}
                                     type={type}
@@ -220,10 +220,10 @@ const TransactionListItem = ({
                     </div>
 
                     <div className='flex flex-col items-end gap-1'>
-                        <span className='text-base font-medium leading-tight text-light-black dark:text-white'>
+                        <span className='text-light-black text-base leading-tight font-medium dark:text-white'>
                             <LatestTransactionAmount transaction={transaction} />
                         </span>
-                        <span className='text-sm font-normal leading-tight text-theme-secondary-500 dark:text-theme-secondary-300'>
+                        <span className='text-theme-secondary-500 dark:text-theme-secondary-300 text-sm leading-tight font-normal'>
                             <Tooltip
                                 content={formattedTimestamp}
                                 popperOptions={{
@@ -243,15 +243,17 @@ const TransactionListItem = ({
 export const TransactionsList = ({
     transactions,
     displayButton,
+    maxHeight = 'max-h-[235px]',
 }: {
     transactions: ExtendedConfirmedTransactionData[];
     displayButton: boolean;
+    maxHeight?: string;
 }) => {
     const primaryWallet = usePrimaryWallet();
     const { t } = useTranslation();
 
     return (
-        <div className='custom-scroll max-h-[270px] overflow-auto'>
+        <div className={cn(['custom-scroll overflow-auto', maxHeight])}>
             {transactions.map((transaction, index) => (
                 <TransactionListItem key={index} transaction={transaction} />
             ))}
@@ -259,10 +261,7 @@ export const TransactionsList = ({
             {displayButton && (
                 <div className='p-4'>
                     <ExternalLink
-                        href={getExplorerDomain(
-                            primaryWallet?.network().isLive() ?? false,
-                            primaryWallet?.address() ?? '',
-                        )}
+                        href={primaryWallet?.explorerLink()}
                         className='group hover:no-underline'
                         tabIndex={0}
                     >
@@ -293,11 +292,74 @@ export const LatestTransactionAmount = ({
     ];
     if (!paymentTypes.includes(type as TransactionType)) {
         return (
-            <span className='flex items-center justify-center rounded bg-theme-secondary-100 px-1.5 py-0.5 font-semibold text-theme-secondary-300 dark:bg-theme-secondary-700 dark:text-theme-secondary-500'>
+            <span className='bg-theme-secondary-100 text-theme-secondary-300 dark:bg-theme-secondary-700 dark:text-theme-secondary-500 flex items-center justify-center rounded px-1.5 py-0.5 font-semibold'>
                 -
             </span>
         );
     }
 
     return <TransactionAmount transaction={transaction} displayFiat={false} />;
+};
+
+const TokenListItem = ({ token }: { token: WalletToken }) => {
+    const navigate = useNavigate();
+    const balance = token.balance();
+    const isZero = balance.isZero();
+
+    return (
+        <div
+            className='transition-smoothEase hover:bg-theme-secondary-50 dark:bg-subtle-black dark:hover:bg-theme-secondary-700 flex h-16 cursor-pointer items-center justify-between gap-[15px] bg-white p-4'
+            onClick={() => navigate(`/token/${token.token().address()}`)}
+        >
+            <div className='flex min-w-0 flex-1 items-center gap-3'>
+                <TokenAvatar token={token} />
+
+                <div className='flex min-w-0 items-center gap-2 overflow-hidden'>
+                    <span className='typeset-headline text-light-black min-w-0 truncate font-medium dark:text-white'>
+                        {token.token().name()}
+                    </span>
+                    <span className='typeset-headline text-theme-secondary-500 dark:text-theme-secondary-300 shrink-0 font-medium'>
+                        {token.token().displaySymbol()}
+                    </span>
+                </div>
+            </div>
+            <span
+                className={cn('typeset-headline shrink-0 font-medium', {
+                    'text-light-black dark:text-white': !isZero,
+                    'text-theme-secondary-500 dark:text-theme-secondary-300': isZero,
+                })}
+            >
+                {formatTokenBalance(balance)}
+            </span>
+        </div>
+    );
+};
+
+export const TokensList = ({ tokens }: { tokens: WalletToken[] }) => {
+    const { t } = useTranslation();
+    const primaryWallet = usePrimaryWallet();
+
+    return (
+        <div className='flex flex-col'>
+            <div className='custom-scroll max-h-[235px] overflow-auto'>
+                {tokens.map((token) => (
+                    <TokenListItem key={token.token().address()} token={token} />
+                ))}
+                <div className='p-4'>
+                    <ExternalLink
+                        href={primaryWallet?.explorerLink()}
+                        className='group hover:no-underline'
+                        tabIndex={0}
+                    >
+                        <Button
+                            variant='secondary'
+                            className='group-focus-visible:shadow-focus dark:group-focus-visible:shadow-focus-dark'
+                        >
+                            {t('COMMON.VIEW_MORE_ON_ARKSCAN')}
+                        </Button>
+                    </ExternalLink>
+                </div>
+            </div>
+        </div>
+    );
 };

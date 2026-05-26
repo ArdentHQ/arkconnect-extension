@@ -1,9 +1,5 @@
 const APP_NAME = 'ARK Connect';
 const SUPPORT_EMAIL = 'support@arkconnect.io ';
-const ARKSCAN_MAINNET_TRANSACTIONS = 'https://live.arkscan.io/transactions';
-const ARKSCAN_TESTNET_TRANSACTIONS = 'https://test.arkscan.io/transactions';
-const ARKSCAN_ADDRESSES = 'https://live.arkscan.io/addresses';
-const ARKSCAN_TEST_ADDRESSES = 'https://test.arkscan.io/addresses';
 const ARKSCAN_EXCHANGES = 'https://live.arkscan.io/exchanges';
 const ARKSCAN_FAUCET = 'https://faucet.ark.io/';
 const TERMS_OF_SERVICE = 'https://arkconnect.io/terms-of-service';
@@ -14,6 +10,12 @@ const ARKVAULT_BASE_URL = 'https://app.arkvault.io/';
 const ARKVAULT_API_MAINNET_BASE_URL = 'https://api.ark.io/';
 const ARKVAULT_API_DEVNET_BASE_URL = 'https://ark-test.arkvault.io/';
 const GITHUB_RELEASES_URL = 'https://github.com/ArdentHQ/arkconnect-extension/releases/tag/';
+
+// Built extension resource paths. wxt emits the popup as popup.html and the
+// injected provider as inpage.js at the bundle root — keep these in one place
+// so the rest of the codebase never hardcodes src/ paths.
+const POPUP_PAGE = 'popup.html';
+const INPAGE_SCRIPT = 'inpage.js';
 
 const SHOW_MESSAGE_AFTER_ACTION_DURING_MS = 3000;
 
@@ -48,10 +50,6 @@ const FEE_CUSTOM = 'custom';
 const constants = {
     APP_NAME,
     SUPPORT_EMAIL,
-    ARKSCAN_MAINNET_TRANSACTIONS,
-    ARKSCAN_TESTNET_TRANSACTIONS,
-    ARKSCAN_ADDRESSES,
-    ARKSCAN_TEST_ADDRESSES,
     ARKSCAN_EXCHANGES,
     ARKSCAN_FAUCET,
     ARKVAULT_BASE_URL,
@@ -69,6 +67,8 @@ const constants = {
     MAX_FEES,
     FEE_REGEX,
     GITHUB_RELEASES_URL,
+    POPUP_PAGE,
+    INPAGE_SCRIPT,
     MAC_OS,
     DEFAULT_OS,
     FEE_SLOW,

@@ -23,7 +23,7 @@ export const useValidators = ({
         async (wallet: Contracts.IReadWriteWallet) => {
             setIsLoadingValidators(true);
 
-            await profile.validators().sync(profile, wallet.networkId());
+            await profile.validators().sync(wallet.networkId());
 
             const allValidators = profile
                 .validators()

@@ -5,5 +5,5 @@
  * @interface IProfileFactory
  */
 export interface IProfileFactory {
-    //
+	//
 }

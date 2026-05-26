@@ -44,6 +44,7 @@ interface CalculateProperties {
 
 export const GasLimit: Record<string, BigNumber> = {
     multiPayment: BigNumber.make(21_000),
+    tokenTransfer: BigNumber.make(65_000),
     transfer: BigNumber.make(21_000),
     vote: BigNumber.make(200_000),
 };
@@ -98,15 +99,17 @@ export function getEstimateGasParams(
     };
 }
 
-export const calculateGasFee = (gasPrice?: string, gasLimit?: string): string => {
+export const calculateGasFee = (gasPrice?: string, gasLimit?: string): BigNumber => {
     if (!gasPrice || !gasLimit) {
-        return '0';
+        return BigNumber.ZERO;
     }
 
-    return UnitConverter.formatUnits(
-        BigNumber.make(gasLimit).times(BigNumber.make(gasPrice)).toString(),
-        'gwei',
-    ).toString();
+    return BigNumber.make(
+        UnitConverter.formatUnits(
+            BigNumber.make(gasLimit).times(BigNumber.make(gasPrice)).toString(),
+            'gwei',
+        ).toString(),
+    );
 };
 
 export const useNetworkFees = ({

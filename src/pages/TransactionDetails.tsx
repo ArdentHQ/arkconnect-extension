@@ -8,7 +8,6 @@ import SubPageLayout from '@/components/settings/SubPageLayout';
 import { TransactionBody } from '@/components/transaction/details/TransactionBody';
 import { TransactionHeader } from '@/components/transaction/details/TransactionHeader';
 import { Button, ExternalLink } from '@/shared/components';
-import { getTransactionDetailLink } from '@/lib/utils/networkUtils';
 import { Footer } from '@/shared/components/layout/Footer';
 import { ExtendedConfirmedTransactionData } from '@/lib/profiles/transaction.dto';
 import { IReadWriteWallet } from '@/lib/profiles/wallet.contract';
@@ -26,7 +25,7 @@ const fetchTransactionDetails = async (
             transaction.setMeta('publicKey', primaryWallet?.publicKey());
         }
         return transaction;
-    } catch (error) {
+    } catch {
         throw new Error('Error fetching transaction details');
     }
 };
@@ -63,10 +62,7 @@ const TransactionDetails = () => {
                 transactionData && (
                     <Footer>
                         <ExternalLink
-                            href={getTransactionDetailLink(
-                                primaryWallet?.network().isLive() ?? false,
-                                transactionData.hash(),
-                            )}
+                            href={transactionData.explorerLink()}
                             className='group hover:no-underline'
                         >
                             <Button

@@ -1,3 +1,4 @@
+import { type JSX } from 'react';
 import SkeletonReact from 'react-loading-skeleton';
 import { twMerge } from 'tailwind-merge';
 

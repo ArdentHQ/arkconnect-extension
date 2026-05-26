@@ -2,8 +2,8 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useEffect } from 'react';
 import { runtime } from 'webextension-polyfill';
+import { BigNumber } from '../lib/helpers';
 import { ApproveActionType } from './Approve';
-import constants from '@/constants';
 import removeWindowInstance from '@/lib/utils/removeWindowInstance';
 import { Button, ExternalLink, Heading, Icon, Loader } from '@/shared/components';
 import formatDomain from '@/lib/utils/formatDomain';
@@ -18,11 +18,11 @@ import { Footer } from '@/shared/components/layout/Footer';
 const VoteApprovedFooter = ({
     onClose,
     isTransactionConfirmed,
-    state,
+    explorerLink,
 }: {
     onClose: () => void;
     isTransactionConfirmed: boolean;
-    state: any;
+    explorerLink: string;
 }) => {
     const { t } = useTranslation();
 
@@ -34,12 +34,8 @@ const VoteApprovedFooter = ({
 
             {isTransactionConfirmed && (
                 <ExternalLink
-                    className='flex w-full items-center justify-center gap-3 text-light-black dark:text-white'
-                    href={
-                        state?.isTestnet
-                            ? `${constants.ARKSCAN_TESTNET_TRANSACTIONS}/${state?.vote.id}`
-                            : `${constants.ARKSCAN_MAINNET_TRANSACTIONS}/${state?.vote.id}`
-                    }
+                    className='text-light-black flex w-full items-center justify-center gap-3 dark:text-white'
+                    href={explorerLink}
                     color='base'
                 >
                     <span className='typeset-headline font-medium'>
@@ -69,6 +65,7 @@ const VoteApproved = () => {
     const { session, vote } = state;
 
     const wallet = profile.wallets().findById(session.walletId);
+    const explorerLink = wallet.link().transaction(vote.id);
 
     const showFiat = state.walletNetwork === WalletNetwork.MAINNET;
 
@@ -108,7 +105,7 @@ const VoteApproved = () => {
                 <VoteApprovedFooter
                     onClose={onClose}
                     isTransactionConfirmed={isTransactionConfirmed}
-                    state={state}
+                    explorerLink={explorerLink}
                 />
             }
         >
@@ -118,13 +115,13 @@ const VoteApproved = () => {
                         {isTransactionConfirmed ? (
                             <Icon
                                 icon='completed'
-                                className='h-6 w-6 text-theme-primary-700 dark:text-theme-primary-650'
+                                className='text-theme-primary-700 dark:text-theme-primary-650 h-6 w-6'
                             />
                         ) : (
-                            <div className='flex h-6 w-6 items-center justify-center rounded-full bg-theme-primary-700 dark:bg-theme-primary-650'>
+                            <div className='bg-theme-primary-700 dark:bg-theme-primary-650 flex h-6 w-6 items-center justify-center rounded-full'>
                                 <Icon
                                     icon='pending'
-                                    className='h-4 w-4 text-theme-primary-700 dark:text-theme-primary-650'
+                                    className='text-theme-primary-700 dark:text-theme-primary-650 h-4 w-4'
                                 />
                             </div>
                         )}
@@ -138,9 +135,10 @@ const VoteApproved = () => {
                         sender={state?.vote.sender}
                         showFiat={showFiat}
                         fee={state?.vote.fee}
-                        convertedFee={state?.vote.convertedFee as number}
+                        convertedFee={state?.vote.convertedFee as BigNumber}
                         exchangeCurrency={state?.vote.exchangeCurrency as string}
                         network={getActiveCoin(state?.walletNetwork)}
+                        amountTicker={getActiveCoin(state?.walletNetwork)}
                         unvote={{
                             name: state?.vote.unvoteName,
                             publicKey: state?.vote.unvotePublicKey,

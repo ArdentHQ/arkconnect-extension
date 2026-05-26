@@ -1,133 +1,141 @@
-import { BigNumber } from '@/app/lib/helpers';
-import { DateTime } from '@/app/lib/intl';
+import { BigNumber } from "@/lib/helpers";
+import { DateTime } from "@/lib/intl";
+import { TransactionToken } from "@/lib/profiles/transaction-token";
 
 export interface MultiPaymentRecipient {
-    address: string;
-    amount: BigNumber;
+	address: string;
+	amount: BigNumber;
 }
 
 export interface MultiPaymentItem {
-    recipientId: string;
-    amount: BigNumber;
+	recipientId: string;
+	amount: BigNumber;
 }
 
 // These types and interfaces are responsible for transaction-specific methods.
 export type TransactionDataMeta = string | number | boolean | undefined;
 
 export interface UnspentTransactionData {
-    hash(): string;
+	hash(): string;
 
-    timestamp(): string;
+	timestamp(): string;
 
-    value(): BigNumber;
+	value(): BigNumber;
 
-    address(): string;
+	address(): string;
+}
+
+export interface ApproveDetails {
+	address: string;
+	amount: bigint;
 }
 
 export interface ConfirmedTransactionData {
-    configure(data: any): ConfirmedTransactionData;
+	configure(data: any): ConfirmedTransactionData;
 
-    withDecimals(decimals?: number | string): ConfirmedTransactionData;
+	withDecimals(decimals?: number | string): ConfirmedTransactionData;
 
-    hash(): string;
+	hash(): string;
 
-    blockHash(): string | undefined;
+	blockHash(): string | undefined;
 
-    type(): string;
+	type(): string;
 
-    timestamp(): DateTime | undefined;
+	timestamp(): DateTime | undefined;
 
-    confirmations(): BigNumber;
+	confirmations(): BigNumber;
 
-    from(): string;
+	from(): string;
 
-    senders(): MultiPaymentRecipient[];
+	senders(): MultiPaymentRecipient[];
 
-    to(): string;
+	to(): string;
 
-    recipients(): MultiPaymentRecipient[];
+	recipients(): MultiPaymentRecipient[];
 
-    value(): BigNumber;
+	value(): BigNumber;
 
-    fee(): BigNumber;
+	fee(): BigNumber;
 
-    nonce(): BigNumber;
+	nonce(): BigNumber;
 
-    inputs(): UnspentTransactionData[];
+	inputs(): UnspentTransactionData[];
 
-    outputs(): UnspentTransactionData[];
+	outputs(): UnspentTransactionData[];
 
-    isConfirmed(): boolean;
+	token(): TransactionToken | undefined;
 
-    isReturn(): boolean;
+	tokens(): TransactionToken[] | undefined;
 
-    isSent(): boolean;
+	isConfirmed(): boolean;
 
-    isReceived(): boolean;
+	isReturn(): boolean;
 
-    isTransfer(): boolean;
+	isSent(): boolean;
 
-    isSecondSignature(): boolean;
+	isReceived(): boolean;
 
-    isUsernameRegistration(): boolean;
+	isTransfer(): boolean;
 
-    isUsernameResignation(): boolean;
+	isUsernameRegistration(): boolean;
 
-    isValidatorRegistration(): boolean;
+	isUsernameResignation(): boolean;
 
-    isVoteCombination(): boolean;
+	isValidatorRegistration(): boolean;
 
-    isVote(): boolean;
+	isVote(): boolean;
 
-    isUnvote(): boolean;
+	isUnvote(): boolean;
 
-    isMultiPayment(): boolean;
+	isMultiPayment(): boolean;
 
-    isValidatorResignation(): boolean;
+	isValidatorResignation(): boolean;
 
-    // Second-Signature Registration
-    secondPublicKey(): string;
+	// Second-Signature Registration
+	secondPublicKey(): string;
 
-    username(): string;
+	username(): string;
 
-    validatorPublicKey(): string;
+	validatorPublicKey(): string;
 
-    // Vote
-    votes(): string[];
+	approveDetails(): ApproveDetails;
 
-    unvotes(): string[];
+	// Vote
+	votes(): string[];
 
-    // Multi-Signature Registration
-    publicKeys(): string[];
+	unvotes(): string[];
 
-    min(): number;
+	// Multi-Signature Registration
+	publicKeys(): string[];
 
-    // Multi-Payment
-    payments(): MultiPaymentItem[];
+	min(): number;
 
-    methodHash(): string;
+	// Multi-Payment
+	payments(): MultiPaymentItem[];
 
-    expirationType(): number;
+	methodHash(): string;
 
-    expirationValue(): number;
+	expirationType(): number;
 
-    toObject(): Record<string, any>;
+	expirationValue(): number;
 
-    toJSON(): Record<string, any>;
+	toObject(): Record<string, any>;
 
-    toHuman(): Record<string, any>;
+	toJSON(): Record<string, any>;
 
-    hasPassed(): boolean;
+	toHuman(): Record<string, any>;
 
-    hasFailed(): boolean;
+	hasPassed(): boolean;
 
-    getMeta(key: string): TransactionDataMeta;
+	hasFailed(): boolean;
 
-    setMeta(key: string, value: TransactionDataMeta): void;
+	getMeta(key: string): TransactionDataMeta;
 
-    normalizeData(): void;
+	setMeta(key: string, value: TransactionDataMeta): void;
 
-    isSuccess(): boolean;
+	normalizeData(): void;
+
+	isSuccess(): boolean;
 }
 
 export type ConfirmedTransactionDataCollection = ConfirmedTransactionData[];

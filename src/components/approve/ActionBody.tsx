@@ -10,6 +10,7 @@ import {
 import { FeeWarning } from './CustomFeeAlerts.blocks';
 import { Contracts } from '@/lib/profiles';
 import trimAddress from '@/lib/utils/trimAddress';
+import { BigNumber } from '@/app/lib/helpers';
 
 type VoteData = {
     address?: string;
@@ -17,27 +18,27 @@ type VoteData = {
     publicKey?: string;
 };
 interface ActionBodyProps {
-    fee: number;
-    convertedFee: number;
+    fee: BigNumber;
+    convertedFee: BigNumber;
     exchangeCurrency: string;
     showFiat: boolean;
     network: string;
-    amount?: number;
+    amount?: BigNumber;
     amountTicker?: string;
-    convertedAmount?: number;
-    convertedTotalAmount?: number;
+    feeTicker?: string;
+    convertedAmount?: BigNumber;
+    convertedTotalAmount?: BigNumber;
     isApproved?: boolean;
     actionDetailsClassName?: string;
     receiver?: string;
     sender?: string;
-    totalAmount?: number;
+    totalAmount?: BigNumber;
     transactionId?: string;
     unvote?: VoteData;
     vote?: VoteData;
     wallet?: Contracts.IReadWriteWallet;
     hasHigherCustomFee?: string | null;
     hasLowerCustomFee?: string | null;
-    memo?: string | null;
 }
 
 export const ActionBody = ({
@@ -57,6 +58,7 @@ export const ActionBody = ({
     convertedAmount,
     receiver,
     amountTicker,
+    feeTicker,
     totalAmount,
     convertedTotalAmount,
     hasHigherCustomFee = null,
@@ -70,6 +72,8 @@ export const ActionBody = ({
             ? t('COMMON.HIGHER')
             : t('COMMON.LOWER')
         : null;
+    const resolvedFeeTicker = feeTicker ?? amountTicker;
+    const tickersDiffer = !!feeTicker && feeTicker !== amountTicker;
 
     return (
         <ActionDetails className={actionDetailsClassName}>
@@ -99,10 +103,10 @@ export const ActionBody = ({
                 label={
                     <span className='flex items-center gap-1'>
                         {t('COMMON.TRANSACTION_FEE')}{' '}
-                        {customFee && amountTicker && (
+                        {customFee && resolvedFeeTicker && (
                             <FeeWarning
                                 averageFee={customFee}
-                                coin={amountTicker}
+                                coin={resolvedFeeTicker}
                                 customFeeState={customFeeState}
                             />
                         )}
@@ -110,13 +114,13 @@ export const ActionBody = ({
                 }
                 showFiat={showFiat}
                 amount={fee}
-                amountTicker={amountTicker}
+                amountTicker={resolvedFeeTicker}
                 convertedAmount={convertedFee}
                 exchangeCurrency={exchangeCurrency}
                 network={network}
             />
 
-            {totalAmount !== undefined && convertedTotalAmount !== undefined && (
+            {!tickersDiffer && totalAmount !== undefined && convertedTotalAmount !== undefined && (
                 <ActionAmountRow
                     label={t('COMMON.TOTAL_AMOUNT')}
                     amount={totalAmount}
@@ -141,7 +145,7 @@ export const ActionBody = ({
                         </span>
                     }
                     tooltipContent={
-                        <span className='block w-65 break-words text-left'>
+                        <span className='block w-65 text-left break-words'>
                             {unvote.publicKey ?? ''}
                         </span>
                     }
@@ -168,7 +172,7 @@ export const ActionBody = ({
                         </span>
                     }
                     tooltipContent={
-                        <span className='block w-65 break-words text-left'>
+                        <span className='block w-65 text-left break-words'>
                             {vote.publicKey ?? ''}
                         </span>
                     }
