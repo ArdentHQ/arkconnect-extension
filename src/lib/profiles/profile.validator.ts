@@ -12,29 +12,11 @@ export class ProfileValidator implements IProfileValidator {
 	 */
 	public validate(data: IProfileData): IProfileData {
 		const { error, value } = Joi.object({
-			contacts: Joi.object().pattern(
-				Joi.string().uuid(),
-				Joi.object({
-					addresses: Joi.array()
-						.min(1)
-						.items(
-							Joi.object({
-								address: Joi.string().required(),
-								id: Joi.string().required(),
-							}),
-						),
-					id: Joi.string().required(),
-					name: Joi.string().required(),
-					starred: Joi.boolean().required(),
-				}),
-			),
 			data: Joi.object({
 				[ProfileData.LatestMigration]: Joi.string(),
 				[ProfileData.MigrationResult]: Joi.object({
 					coldAddresses: Joi.array(),
-					coldContacts: Joi.array(),
 					mergedAddresses: Joi.array(),
-					mergedContacts: Joi.array(),
 				}),
 				[ProfileData.HasCompletedIntroductoryTutorial]: Joi.boolean(),
 				[ProfileData.HasAcceptedManualInstallationDisclaimer]: Joi.boolean(),
