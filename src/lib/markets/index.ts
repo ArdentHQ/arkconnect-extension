@@ -1,4 +1,3 @@
-import { Http } from "@/lib/mainsail";
 import {
 	HistoricalData,
 	HistoricalPriceOptions,
@@ -40,16 +39,15 @@ export class MarketService {
 	 *
 	 * @static
 	 * @param {string} name
-	 * @param {HttpClient} httpClient
 	 * @returns {MarketService}
 	 * @memberof MarketService
 	 */
-	public static make(name: string, httpClient: Http.HttpClient): MarketService {
+	public static make(name: string): MarketService {
 		return new MarketService(
 			{
-				coincap: new CoinCap(httpClient),
-				coingecko: new CoinGecko(httpClient),
-				cryptocompare: new CryptoCompare(httpClient),
+				coincap: new CoinCap(),
+				coingecko: new CoinGecko(),
+				cryptocompare: new CryptoCompare(),
 			}[name.toLowerCase()] as PriceTracker,
 		);
 	}

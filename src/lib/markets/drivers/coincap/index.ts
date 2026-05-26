@@ -1,4 +1,3 @@
-import { Http } from "@/lib/mainsail";
 import { DateTime } from "@/lib/intl";
 
 import {
@@ -32,30 +31,12 @@ export class CoinCap implements PriceTracker {
 	private readonly tokenLookup: Record<string, any> = {};
 
 	/**
-	 * The HTTP client instance.
-	 *
-	 * @type {HttpClient}
-	 * @memberof PriceTracker
-	 */
-	readonly #httpClient: Http.HttpClient;
-
-	/**
 	 * The host of the CoinCap API.
 	 *
 	 * @type {string}
 	 * @memberof PriceTracker
 	 */
 	readonly #host: string = "https://api.coincap.io/v2";
-
-	/**
-	 * Creates an instance of PriceTracker.
-	 *
-	 * @param {HttpClient} httpClient
-	 * @memberof PriceTracker
-	 */
-	public constructor(httpClient: Http.HttpClient) {
-		this.#httpClient = httpClient;
-	}
 
 	/** {@inheritDoc PriceTracker.verifyToken} */
 	public async verifyToken(token: string): Promise<boolean> {
@@ -218,9 +199,15 @@ export class CoinCap implements PriceTracker {
 	 * @returns {Promise<any>}
 	 * @memberof PriceTracker
 	 */
-	async #get(path: string, query = {}): Promise<any> {
-		const response = await this.#httpClient.get(`${this.#host}/${path}`, query);
-
+	async #get(path: string, query: Record<string, any> = {}): Promise<any> {
+		const url = new URL(`${this.#host}/${path}`);
+		for (const [key, value] of Object.entries(query)) {
+			if (value !== undefined) url.searchParams.set(key, String(value));
+		}
+		const response = await fetch(url.toString(), { headers: { Accept: "application/json" } });
+		if (!response.ok) {
+			throw new Error(`HTTP ${response.status}`);
+		}
 		return response.json();
 	}
 }

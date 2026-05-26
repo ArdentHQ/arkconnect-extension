@@ -1,5 +1,4 @@
 import { CURRENCIES, DateTime } from "@/lib/intl";
-import { Http } from "@/lib/mainsail";
 
 import {
 	CurrentPriceOptions,
@@ -25,30 +24,12 @@ import { MarketTransformer } from "./transformers/market-transformer";
  */
 export class CryptoCompare implements PriceTracker {
 	/**
-	 * The HTTP client instance.
-	 *
-	 * @type {HttpClient}
-	 * @memberof PriceTracker
-	 */
-	readonly #httpClient: Http.HttpClient;
-
-	/**
 	 * The host of the CryptoCompare API.
 	 *
 	 * @type {string}
 	 * @memberof PriceTracker
 	 */
 	readonly #host: string = "https://min-api.cryptocompare.com";
-
-	/**
-	 * Creates an instance of PriceTracker.
-	 *
-	 * @param {HttpClient} httpClient
-	 * @memberof PriceTracker
-	 */
-	public constructor(httpClient: Http.HttpClient) {
-		this.#httpClient = httpClient;
-	}
 
 	/** {@inheritDoc PriceTracker.verifyToken} */
 	public async verifyToken(token: string): Promise<boolean> {
@@ -128,9 +109,15 @@ export class CryptoCompare implements PriceTracker {
 	 * @returns {Promise<any>}
 	 * @memberof PriceTracker
 	 */
-	async #get(path: string, query: object): Promise<any> {
-		const response = await this.#httpClient.get(`${this.#host}/${path}`, query);
-
+	async #get(path: string, query: Record<string, any> = {}): Promise<any> {
+		const url = new URL(`${this.#host}/${path}`);
+		for (const [key, value] of Object.entries(query)) {
+			if (value !== undefined) url.searchParams.set(key, String(value));
+		}
+		const response = await fetch(url.toString(), { headers: { Accept: "application/json" } });
+		if (!response.ok) {
+			throw new Error(`HTTP ${response.status}`);
+		}
 		return response.json();
 	}
 }

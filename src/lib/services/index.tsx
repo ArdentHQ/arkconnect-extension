@@ -1,7 +1,3 @@
-import { Http } from '@/lib/mainsail';
-
-export const httpClient = new Http.HttpClient(10);
-
 export const toasts = {
     dismiss: (_id?: unknown) => undefined,
     error: (_message: string) => 'toast-error',
