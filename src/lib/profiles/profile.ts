@@ -1,16 +1,11 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { Networks } from "@/lib/mainsail";
 
-import { AppearanceService } from "./appearance.service";
 import { Authenticator } from "./authenticator";
-import { ContactRepository } from "./contact.repository";
 import {
-	IAppearanceService,
 	IAuthenticator,
-	IContactRepository,
 	ICountAggregate,
 	IDataRepository,
-	IExchangeTransactionRepository,
 	IPasswordManager,
 	IProfile,
 	IProfileInput,
@@ -27,14 +22,11 @@ import {
 } from "./contracts";
 import { CountAggregate } from "./count.aggregate";
 import { DataRepository } from "./data.repository";
-import { ExchangeTransactionRepository } from "./exchange-transaction.repository";
 import { AttributeBag } from "./helpers/attribute-bag";
 import { Avatar } from "./helpers/avatar";
 import { IHostRepository } from "./host.repository.contract";
 import { HostRepository } from "./host.repository";
 import { NetworkRepository } from "./network.repository";
-import { IProfileNotificationService } from "./notification.repository.contract";
-import { ProfileNotificationService } from "./notification.service";
 import { PasswordManager } from "./password";
 import { ProfileInitialiser } from "./profile.initialiser";
 import { ProfileStatus } from "./profile.status";
@@ -64,14 +56,6 @@ export class Profile implements IProfile {
 	 * @memberof Profile
 	 */
 	readonly #knownWalletService: KnownWalletService;
-
-	/**
-	 * The contact repository.
-	 *
-	 * @type {IContactRepository}
-	 * @memberof Profile
-	 */
-	readonly #contactRepository: IContactRepository;
 
 	/**
 	 * The data repository.
@@ -106,36 +90,12 @@ export class Profile implements IProfile {
 	readonly #networkRepository: NetworkRepository;
 
 	/**
-	 * The exchange transaction repository.
-	 *
-	 * @type {IExchangeTransactionRepository}
-	 * @memberof Profile
-	 */
-	readonly #exchangeTransactionRepository: IExchangeTransactionRepository;
-
-	/**
-	 * The notification service.
-	 *
-	 * @type {IProfileNotificationService}
-	 * @memberof Profile
-	 */
-	readonly #notificationsService: IProfileNotificationService;
-
-	/**
 	 * The setting repository.
 	 *
 	 * @type {ISettingRepository}
 	 * @memberof Profile
 	 */
 	readonly #settingRepository: ISettingRepository;
-
-	/**
-	 * The appearance settings service.
-	 *
-	 * @type {IAppearanceService}
-	 * @memberOf Profile
-	 */
-	readonly #appearanceService: IAppearanceService;
 
 	/**
 	 * The wallet factory.
@@ -267,14 +227,10 @@ export class Profile implements IProfile {
 
 	public constructor(data: IProfileInput, env: Environment) {
 		this.#attributes = new AttributeBag<IProfileInput>(data);
-		this.#contactRepository = new ContactRepository(this);
 		this.#dataRepository = new DataRepository();
 		this.#hostRepository = new HostRepository(this);
 		this.#networkRepository = new NetworkRepository(this);
-		this.#exchangeTransactionRepository = new ExchangeTransactionRepository(this);
-		this.#notificationsService = new ProfileNotificationService(this);
 		this.#settingRepository = new SettingRepository(this, Object.values(ProfileSetting));
-		this.#appearanceService = new AppearanceService(this);
 		this.#walletFactory = new WalletFactory(this);
 		this.#walletRepository = new WalletRepository(this);
 		this.#countAggregate = new CountAggregate(this);
@@ -331,11 +287,6 @@ export class Profile implements IProfile {
 		return !!this.settings().get(ProfileSetting.UseHDWallets);
 	}
 
-	/** {@inheritDoc IProfile.appearance} */
-	public appearance(): IAppearanceService {
-		return this.#appearanceService;
-	}
-
 	/** {@inheritDoc IProfile.balance} */
 	public balance(): number {
 		return this.walletAggregate().balance();
@@ -366,11 +317,6 @@ export class Profile implements IProfile {
 		}
 
 		new ProfileInitialiser(this).initialiseSettings(name);
-	}
-
-	/** {@inheritDoc IProfile.contacts} */
-	public contacts(): IContactRepository {
-		return this.#contactRepository;
 	}
 
 	/** {@inheritDoc IProfile.data} */
@@ -431,16 +377,6 @@ export class Profile implements IProfile {
 		this.#activeNetwork = activeNetwork;
 
 		return activeNetwork;
-	}
-
-	/** {@inheritDoc IProfile.exchangeTransactions} */
-	public exchangeTransactions(): IExchangeTransactionRepository {
-		return this.#exchangeTransactionRepository;
-	}
-
-	/** {@inheritDoc IProfile.notifications} */
-	public notifications(): IProfileNotificationService {
-		return this.#notificationsService;
 	}
 
 	/** {@inheritDoc IProfile.settings} */

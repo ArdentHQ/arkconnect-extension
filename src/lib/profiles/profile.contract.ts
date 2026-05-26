@@ -1,15 +1,10 @@
 import { Networks } from "@/lib/mainsail";
 
 import {
-	IAppearanceService,
 	IAuthenticator,
-	IContactRepository,
 	ICountAggregate,
 	IDataRepository,
-	IExchangeTransactionRepository,
 	IPasswordManager,
-	IProfileAppearance,
-	IProfileNotificationService,
 	IProfileStatus,
 	IRegistrationAggregate,
 	ISettingRepository,
@@ -39,12 +34,9 @@ import { TokenService } from "./token.service.js";
  */
 export interface IProfileData {
 	id: string;
-	contacts: Record<string, any>;
 	data: Record<string, any>;
-	exchangeTransactions: Record<string, any>;
 	hosts: Record<string, any>;
 	networks: Record<string, any>;
-	notifications: Record<string, any>;
 	settings: Record<string, any>;
 	wallets: Record<string, IWalletData>;
 }
@@ -61,7 +53,6 @@ export interface IProfileInput {
 	avatar?: string;
 	password?: string;
 	data: string;
-	appearance?: IProfileAppearance;
 }
 
 /**
@@ -127,14 +118,6 @@ export interface IProfile {
 	usesHDWallets(): boolean;
 
 	/**
-	 * Get the appearance service instance.
-	 *
-	 * @return {IAppearanceService}
-	 * @memberof IProfile
-	 */
-	appearance(): IAppearanceService;
-
-	/**
 	 * Get the balance.
 	 *
 	 * @return {number}
@@ -149,14 +132,6 @@ export interface IProfile {
 	 * @memberof IProfile
 	 */
 	convertedBalance(): number;
-
-	/**
-	 * Get the contact repository instance.
-	 *
-	 * @return {IContactRepository}
-	 * @memberof IProfile
-	 */
-	contacts(): IContactRepository;
 
 	/**
 	 * Get the data repository instance.
@@ -197,22 +172,6 @@ export interface IProfile {
 	 * @memberof IProfile
 	 */
 	availableNetworks(): Networks.Network[];
-
-	/**
-	 * Get the exchange transactions repository instance.
-	 *
-	 * @return {IExchangeTransactionRepository}
-	 * @memberof IProfile
-	 */
-	exchangeTransactions(): IExchangeTransactionRepository;
-
-	/**
-	 * Get the notification service instance.
-	 *
-	 * @return {IProfileNotificationService}
-	 * @memberof IProfile
-	 */
-	notifications(): IProfileNotificationService;
 
 	/**
 	 * Get the setting repository instance.
