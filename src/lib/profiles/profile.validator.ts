@@ -12,77 +12,19 @@ export class ProfileValidator implements IProfileValidator {
 	 */
 	public validate(data: IProfileData): IProfileData {
 		const { error, value } = Joi.object({
-			contacts: Joi.object().pattern(
-				Joi.string().uuid(),
-				Joi.object({
-					addresses: Joi.array()
-						.min(1)
-						.items(
-							Joi.object({
-								address: Joi.string().required(),
-								id: Joi.string().required(),
-							}),
-						),
-					id: Joi.string().required(),
-					name: Joi.string().required(),
-					starred: Joi.boolean().required(),
-				}),
-			),
 			data: Joi.object({
 				[ProfileData.LatestMigration]: Joi.string(),
 				[ProfileData.MigrationResult]: Joi.object({
 					coldAddresses: Joi.array(),
-					coldContacts: Joi.array(),
 					mergedAddresses: Joi.array(),
-					mergedContacts: Joi.array(),
 				}),
 				[ProfileData.HasCompletedIntroductoryTutorial]: Joi.boolean(),
 				[ProfileData.HasAcceptedManualInstallationDisclaimer]: Joi.boolean(),
 				[ProfileData.WhitelistedContractAddresses]: Joi.array(),
 			}).required(),
-			exchangeTransactions: Joi.object()
-				.pattern(
-					Joi.string().uuid(),
-					Joi.object({
-						createdAt: Joi.number().required(),
-						id: Joi.string().required(),
-						input: Joi.object({
-							address: Joi.string().required(),
-							amount: Joi.number().required(),
-							hash: Joi.string(),
-							ticker: Joi.string().required(),
-						}).required(),
-						orderId: Joi.string().required(),
-						output: Joi.object({
-							address: Joi.string().required(),
-							amount: Joi.number().required(),
-							hash: Joi.string(),
-							ticker: Joi.string().required(),
-						}).required(),
-						provider: Joi.string().required(),
-						status: Joi.number().required(),
-					}),
-				)
-				.required(),
 			hosts: Joi.object().default({}),
 			id: Joi.string().required(),
 			networks: Joi.object().default({}),
-			notifications: Joi.object()
-				.pattern(
-					Joi.string().uuid(),
-					Joi.object({
-						action: Joi.string(),
-						body: Joi.string(),
-						icon: Joi.string(),
-						id: Joi.string().required(),
-						isRemoved: Joi.boolean(),
-						meta: Joi.object(),
-						name: Joi.string(),
-						read_at: Joi.number(),
-						type: Joi.string(),
-					}),
-				)
-				.required(),
 			pendingMusigWallets: Joi.object().pattern(
 				Joi.string().uuid(),
 				Joi.object({

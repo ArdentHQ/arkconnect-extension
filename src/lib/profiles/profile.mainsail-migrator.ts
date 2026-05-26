@@ -1,14 +1,9 @@
 import { IProfile, IProfileData, IProfileMainsailMigrator, WalletData } from "./contracts.js";
-import { HttpClient } from "@/lib/mainsail/http-client.js";
 import { Avatar } from "./helpers/avatar.js";
-import { UUID } from "@ardenthq/arkvault-crypto";
 export class ProfileMainsailMigrator implements IProfileMainsailMigrator {
-	readonly #http: HttpClient = new HttpClient(10_000);
 	readonly #migrationResult: Record<string, any[]> = {
 		coldAddresses: [],
-		coldContacts: [],
 		mergedAddresses: [],
-		mergedContacts: [],
 	};
 
 	/**
@@ -21,7 +16,6 @@ export class ProfileMainsailMigrator implements IProfileMainsailMigrator {
 	public async migrate(profile: IProfile, data: IProfileData): Promise<IProfileData> {
 		if (this.#requiresMigration(data)) {
 			data.wallets = await this.#migrateWallets(profile, data.wallets);
-			data.contacts = await this.#migrateContacts(profile, data.contacts);
 			data.settings = await this.#migrateSettings(profile, data.settings, data.wallets);
 
 			profile.setMigrationResult(this.#migrationResult);
@@ -105,169 +99,11 @@ export class ProfileMainsailMigrator implements IProfileMainsailMigrator {
 		return migratedWalletData;
 	}
 
-	async #migrateContacts(profile: IProfile, contacts: IProfileData["contacts"]): Promise<IProfileData["contacts"]> {
-		const contactPromises = Object.entries(contacts).map(([originalId, contact]) =>
-			this.#processContactEntry(profile, originalId, contact),
-		);
-
-		const allResults = await Promise.all(contactPromises);
-		return this.#finalizeContacts(allResults);
-	}
-
-	async #processContactEntry(
-		profile: IProfile,
-		originalId: string,
-		contact: IProfileData["contacts"][string],
-	): Promise<Array<{ id: string; contact: any }> | null> {
-		const addressResults = await Promise.all(
-			contact.addresses.map(async (addr) => {
-				const newAddress = await this.#migrateContactAddress(profile, addr, contact.name);
-				return newAddress ? { address: newAddress, id: addr.id, oldAddress: addr.address } : null;
-			}),
-		);
-
-		const migratedAddresses = addressResults.filter(
-			(addr): addr is { id: string; address: string; oldAddress: string } => addr !== null,
-		);
-
-		if (migratedAddresses.length === 0) {
-			return null;
-		}
-
-		const results: Array<{ id: string; contact: any }> = [];
-		for (let index = 0; index < migratedAddresses.length; index++) {
-			const address = migratedAddresses[index];
-			const originalName = contact.name;
-			const finalName = index > 0 ? `${originalName} (${index + 1})` : originalName;
-			const contactId = index === 0 ? originalId : UUID.random();
-
-			const newContact = {
-				...contact,
-				addresses: [address],
-				id: contactId,
-				name: finalName,
-				oldName: originalName,
-			};
-
-			results.push({ contact: newContact, id: contactId });
-		}
-
-		return results;
-	}
-
-	#finalizeContacts(allResults: Array<Array<{ id: string; contact: any }> | null>): IProfileData["contacts"] {
-		const migratedContacts: IProfileData["contacts"] = {};
-		const finalNameCounts = new Map<string, number>();
-		const seenAddresses = new Map<string, string>();
-
-		const normalizedResults = allResults
-			.filter((result) => result !== null)
-			.flat()
-			.map((result) => ({
-				...result.contact,
-				...result.contact.addresses[0],
-				contactId: result.id,
-			}));
-
-		for (const result of allResults) {
-			if (result === null) {
-				continue;
-			}
-
-			for (const { id, contact } of result) {
-				contact.id = id;
-
-				const migratedAddress = contact.addresses?.[0]?.address;
-				if (typeof migratedAddress === "string") {
-					if (seenAddresses.has(migratedAddress)) {
-						const mergedContact = normalizedResults.find(
-							(result) => result.address === migratedAddress && result.contactId !== id,
-						);
-
-						this.#migrationResult.mergedContacts.push({
-							...contact,
-							mergedContact: {
-								address: mergedContact.address,
-								name: mergedContact.name,
-								oldAddress: mergedContact.oldAddress,
-								oldName: mergedContact.oldName,
-							},
-							name: mergedContact.name,
-						});
-						continue;
-					}
-					seenAddresses.set(migratedAddress, id);
-				}
-
-				const contactName = contact.name;
-				const nameCount = finalNameCounts.get(contactName) || 0;
-				if (nameCount > 0) {
-					contact.name = `${contactName} (${nameCount + 1})`;
-				}
-				finalNameCounts.set(contactName, nameCount + 1);
-
-				migratedContacts[id] = contact;
-			}
-		}
-
-		return migratedContacts;
-	}
-
-	async #migrateContactAddress(
-		profile: IProfile,
-		addr: IProfileData["contacts"][string]["addresses"][number],
-		contactName: string,
-	): Promise<string | undefined> {
-		if (!["ark.mainnet", "ark.devnet"].includes(addr.network)) {
-			return undefined;
-		}
-
-		const apiUrl =
-			addr.network === "ark.mainnet"
-				? (import.meta.env.VITE_ARK_LEGACY_MAINNET_API_URL ?? "https://ark-live.arkvault.io/api")
-				: (import.meta.env.VITE_ARK_LEGACY_DEVNET_API_URL ?? "https://ark-test.arkvault.io/api");
-
-		try {
-			const response = await this.#http.get(`${apiUrl}/wallets/${addr.address}`);
-
-			const body = response.json();
-			const publicKey = body?.data?.publicKey;
-
-			if (!publicKey) {
-				this.#migrationResult.coldContacts.push({
-					...addr,
-					name: contactName,
-				});
-				return undefined;
-			}
-
-			const wallet = await profile.walletFactory().fromPublicKey({ publicKey });
-			return wallet.address();
-		} catch (error) {
-			if (error.message.includes("404")) {
-				this.#migrationResult.coldContacts.push({
-					...addr,
-					name: contactName,
-				});
-				return undefined;
-			}
-			throw new Error(
-				`Failed to fetch public key for address ${addr.address}: HTTP request failed with status ${error.message.match(/\d+/)[0]}`,
-			);
-		}
-	}
-
 	#requiresMigration(data: IProfileData): boolean {
 		const wallets = Object.values(data.wallets);
 		const firstWallet = wallets?.[0];
 
-		if (firstWallet?.data["NETWORK"]?.startsWith("ark.")) {
-			return true;
-		}
-
-		const contacts = Object.values(data.contacts);
-		const firstContact = contacts?.[0];
-		return firstContact?.addresses?.[0]?.network?.startsWith("ark.") || false;
+		return firstWallet?.data["NETWORK"]?.startsWith("ark.") || false;
 	}
 
 	async #migrateSettings(
