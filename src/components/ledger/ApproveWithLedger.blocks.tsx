@@ -69,7 +69,13 @@ export const VoteLedgerApprovalBody = ({ wallet, state }: Props) => {
 };
 
 export const TransactionLedgerApprovalBody = ({ wallet, state }: Props) => {
-    const { session, amount, receiverAddress, gasPrice: customGasPrice, gasLimit: customGasLimit } = state;
+    const {
+        session,
+        amount,
+        receiverAddress,
+        gasPrice: customGasPrice,
+        gasLimit: customGasLimit,
+    } = state;
 
     const { convert } = useExchangeRate({
         exchangeTicker: wallet.exchangeCurrency(),
