@@ -1,4 +1,4 @@
-import { Http, Networks, Services } from "@/lib/mainsail";
+import { Networks, Services } from "@/lib/mainsail";
 
 import { ConfigKey } from "@/lib/mainsail";
 import { IProfile } from "./contracts";
@@ -10,12 +10,11 @@ export class KnownWalletService {
 
 	/** {@inheritDoc IKnownWalletService.sync} */
 	public async sync(profile: IProfile, network: Networks.Network): Promise<void> {
-		const client = new Http.HttpClient(0);
-
 		try {
 			const url = network.config().get<string>(ConfigKey.KnownWallets);
-			const response = await client.get(url);
-			const results = response.json();
+			const response = await fetch(url, { headers: { Accept: "application/json" } });
+			if (!response.ok) return;
+			const results = await response.json();
 
 			if (Array.isArray(results)) {
 				this.#registry[network.id()] = results;
