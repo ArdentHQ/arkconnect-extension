@@ -4,23 +4,19 @@ import { Networks } from "@/lib/mainsail";
 import { Authenticator } from "./authenticator";
 import {
 	IAuthenticator,
-	ICountAggregate,
 	IDataRepository,
 	IPasswordManager,
 	IProfile,
 	IProfileInput,
 	IProfileStatus,
 	IReadWriteWallet,
-	IRegistrationAggregate,
 	ISettingRepository,
 	ITransactionAggregate,
-	IWalletAggregate,
 	IWalletFactory,
 	IWalletRepository,
 	ProfileData,
 	ProfileSetting,
 } from "./contracts";
-import { CountAggregate } from "./count.aggregate";
 import { DataRepository } from "./data.repository";
 import { AttributeBag } from "./helpers/attribute-bag";
 import { Avatar } from "./helpers/avatar";
@@ -30,10 +26,8 @@ import { NetworkRepository } from "./network.repository";
 import { PasswordManager } from "./password";
 import { ProfileInitialiser } from "./profile.initialiser";
 import { ProfileStatus } from "./profile.status";
-import { RegistrationAggregate } from "./registration.aggregate";
 import { SettingRepository } from "./setting.repository";
 import { TransactionAggregate } from "./transaction.aggregate";
-import { WalletAggregate } from "./wallet.aggregate";
 import { WalletFactory } from "./wallet.factory";
 import { WalletRepository } from "./wallet.repository";
 import { Contracts, Environment } from "./index";
@@ -114,22 +108,6 @@ export class Profile implements IProfile {
 	readonly #walletRepository: IWalletRepository;
 
 	/**
-	 * The count aggregate service.
-	 *
-	 * @type {ICountAggregate}
-	 * @memberof Profile
-	 */
-	readonly #countAggregate: ICountAggregate;
-
-	/**
-	 * The registration aggregate service.
-	 *
-	 * @type {IRegistrationAggregate}
-	 * @memberof Profile
-	 */
-	readonly #registrationAggregate: IRegistrationAggregate;
-
-	/**
 	 * The validators service.
 	 *
 	 * @type {ValidatorService}
@@ -144,14 +122,6 @@ export class Profile implements IProfile {
 	 * @memberof Profile
 	 */
 	readonly #transactionAggregate: ITransactionAggregate;
-
-	/**
-	 * The wallet aggregate service.
-	 *
-	 * @type {IWalletAggregate}
-	 * @memberof Profile
-	 */
-	readonly #walletAggregate: IWalletAggregate;
 
 	/**
 	 * The authentication service.
@@ -233,10 +203,7 @@ export class Profile implements IProfile {
 		this.#settingRepository = new SettingRepository(this, Object.values(ProfileSetting));
 		this.#walletFactory = new WalletFactory(this);
 		this.#walletRepository = new WalletRepository(this);
-		this.#countAggregate = new CountAggregate(this);
-		this.#registrationAggregate = new RegistrationAggregate(this);
 		this.#transactionAggregate = new TransactionAggregate(this);
-		this.#walletAggregate = new WalletAggregate(this);
 		this.#authenticator = new Authenticator(this);
 		this.#validators = new ValidatorService(this);
 		this.#password = new PasswordManager();
@@ -289,12 +256,22 @@ export class Profile implements IProfile {
 
 	/** {@inheritDoc IProfile.balance} */
 	public balance(): number {
-		return this.walletAggregate().balance();
+		let total = BigNumber.ZERO;
+		for (const wallet of this.wallets().values()) {
+			if (wallet.network().isLive()) {
+				total = total.plus(wallet.balance());
+			}
+		}
+		return +total.toHuman();
 	}
 
 	/** {@inheritDoc IProfile.convertedBalance} */
 	public convertedBalance(): number {
-		return this.walletAggregate().convertedBalance();
+		let total = BigNumber.ZERO;
+		for (const wallet of this.wallets().values()) {
+			total = total.plus(wallet.convertedBalance());
+		}
+		return total.toNumber();
 	}
 
 	/** {@inheritDoc IProfile.flush} */
@@ -394,24 +371,9 @@ export class Profile implements IProfile {
 		return this.#walletFactory;
 	}
 
-	/** {@inheritDoc IProfile.countAggregate} */
-	public countAggregate(): ICountAggregate {
-		return this.#countAggregate;
-	}
-
-	/** {@inheritDoc IProfile.registrationAggregate} */
-	public registrationAggregate(): IRegistrationAggregate {
-		return this.#registrationAggregate;
-	}
-
 	/** {@inheritDoc IProfile.transactionAggregate} */
 	public transactionAggregate(): ITransactionAggregate {
 		return this.#transactionAggregate;
-	}
-
-	/** {@inheritDoc IProfile.walletAggregate} */
-	public walletAggregate(): IWalletAggregate {
-		return this.#walletAggregate;
 	}
 
 	/** {@inheritDoc IProfile.auth} */

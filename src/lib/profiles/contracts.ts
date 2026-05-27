@@ -1,6 +1,5 @@
 export * from "./authenticator.contract.js";
 export * from "./cache.contract.js";
-export * from "./count.aggregate.contract.js";
 export * from "./data.repository.contract.js";
 export * from "./exchange-rate.service.contract.js";
 export * from "./fee.service.contract.js";
@@ -20,7 +19,6 @@ export * from "./profile.status.contract.js";
 export * from "./profile.validator.contract.js";
 export * from "./profile.mainsail-migrator.contract.js";
 export * from "./read-only-wallet.contract.js";
-export * from "./registration.aggregate.contract.js";
 export * from "./setting.repository.contract.js";
 export * from "./signatory.factory.contract.js";
 export * from "./transaction.aggregate.contract.js";
@@ -29,7 +27,6 @@ export * from "./transaction-index.contract.js";
 export * from "./usernames.service.contract.js";
 export * from "./validator.service.contract.js";
 export * from "./vote-registry.contract.js";
-export * from "./wallet.aggregate.contract.js";
 export * from "./wallet.contract.js";
 export * from "./wallet.enum"; // @TODO
 export * from "./wallet.factory.contract.js";
