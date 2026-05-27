@@ -5,16 +5,12 @@ import { MarketService } from "@/lib/markets";
 import { IExchangeRateService, IProfile, IReadWriteWallet, ProfileSetting } from "./contracts.js";
 import { DataRepository } from "./data.repository";
 import { Storage } from "./environment.models.js";
-import { HttpClient } from "@/lib/mainsail/http-client.js";
-
 export class ExchangeRateService implements IExchangeRateService {
 	readonly #storageKey: string = "EXCHANGE_RATE_SERVICE";
 	readonly #dataRepository: DataRepository = new DataRepository();
-	readonly #httpClient: HttpClient;
 	readonly #storage: Storage;
 
 	public constructor({ storage }: { storage: Storage }) {
-		this.#httpClient = new HttpClient(10_000);
 		this.#storage = storage;
 	}
 
@@ -39,7 +35,6 @@ export class ExchangeRateService implements IExchangeRateService {
 
 		const historicalRates = await MarketService.make(
 			profile.settings().get(ProfileSetting.MarketProvider) as string,
-			this.#httpClient,
 		).historicalPrice({
 			currency: exchangeCurrency,
 			dateFormat: "YYYY-MM-DD",
@@ -96,7 +91,6 @@ export class ExchangeRateService implements IExchangeRateService {
 			`${currency}.${exchangeCurrency}.${DateTime.make().format("YYYY-MM-DD")}`,
 			await MarketService.make(
 				profile.settings().get(ProfileSetting.MarketProvider) as string,
-				this.#httpClient,
 			).dailyAverage(currency, exchangeCurrency, +Date.now()),
 		);
 	}
