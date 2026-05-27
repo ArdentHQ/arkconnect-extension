@@ -216,7 +216,9 @@ export const translations = {
         AWAITING_CONFIRMATIONS: 'Awaiting confirmations',
         AWAITING_FINAL_SIGNATURE: 'Awaiting final signature',
         AWAITING_FINAL_SIGNATURE_AND_BROADCAST: 'Awaiting broadcast',
+        // eslint-disable-next-line camelcase
         AWAITING_OTHER_SIGNATURE_COUNT_one: 'Awaiting {{count}} other signature',
+        // eslint-disable-next-line camelcase
         AWAITING_OTHER_SIGNATURE_COUNT_other: 'Awaiting {{count}} other signatures',
         AWAITING_OUR_BROADCAST: 'Awaiting our broadcast',
         AWAITING_OUR_SIGNATURE: 'Awaiting our signature',
@@ -443,6 +445,7 @@ export const translations = {
     TYPE: 'Type',
     UNVOTES: 'Unvotes',
     UNVOTES_COUNT: 'Unvotes ({{count}})',
+    // eslint-disable-next-line camelcase
     UNVOTES_COUNT_one: 'Unvote',
     VALIDATION: {
         ALREADY_VOTING: '{{wallet}} is already voting for {{validator}}.',
@@ -486,6 +489,7 @@ export const translations = {
     VOTER: 'Voter',
     VOTES: 'Votes',
     VOTES_COUNT: 'Votes ({{count}})',
+    // eslint-disable-next-line camelcase
     VOTES_COUNT_one: 'Vote',
     WAITING: 'Waiting',
     WEBSITE: 'Website',

@@ -103,12 +103,12 @@ export const TransactionLedgerApprovalBody = ({ wallet, state }: Props) => {
             showFiat={withFiat}
             amount={amount}
             amountTicker={coin}
-            convertedAmount={convert(+amount)}
+            convertedAmount={convert(amount)}
             exchangeCurrency={exchangeCurrency}
             network={getNetworkCurrency(wallet.network())}
             fee={fee}
-            convertedFee={convert(+fee)}
-            receiver={trimAddress(receiverAddress as string, 10)}
+            convertedFee={convert(fee)}
+            receiver={trimAddress(receiverAddress, 10)}
             totalAmount={total}
             convertedTotalAmount={convert(total)}
         />
