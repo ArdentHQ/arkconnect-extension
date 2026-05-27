@@ -315,11 +315,11 @@ export class TransactionService {
 			address = this.hdWalletService.getAddress(input.signatory.signingKey(), input.signatory.path());
 		}
 
-		if (input.signatory.actsWithMnemonic() || input.signatory.actsWithConfirmationMnemonic()) {
+		if (input.signatory.actsWithMnemonic()) {
 			address = this.#addressService.fromMnemonic(input.signatory.signingKey()).address;
 		}
 
-		if (input.signatory.actsWithSecret() || input.signatory.actsWithConfirmationSecret()) {
+		if (input.signatory.actsWithSecret()) {
 			address = this.#addressService.fromSecret(input.signatory.signingKey()).address;
 		}
 
@@ -353,10 +353,6 @@ export class TransactionService {
 
 		if (input.signatory.actsWithLedger()) {
 			return this.#signWithLedger(input, builder.transaction);
-		}
-
-		if (input.signatory.actsWithConfirmationMnemonic() || input.signatory.actsWithConfirmationSecret()) {
-			return await builder.legacySecondSign(input.signatory.signingKey(), input.signatory.confirmKey());
 		}
 
 		await builder.sign(input.signatory.signingKey());

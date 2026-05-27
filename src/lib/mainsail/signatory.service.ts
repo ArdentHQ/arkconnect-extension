@@ -29,16 +29,6 @@ export class SignatoryService {
 		return new Signatory({ type: "bip44Mnemonic", signingKey: mnemonic, path });
 	}
 
-	public async confirmationMnemonic(signingKey: string, confirmKey: string): Promise<Signatory> {
-		return new Signatory({
-			type: "confirmationMnemonic",
-			signingKey,
-			confirmKey,
-			address: this.#addressService.fromMnemonic(signingKey).address,
-			publicKey: this.#publicKeyService.fromMnemonic(signingKey).publicKey,
-		});
-	}
-
 	public async ledger(path: string, options?: IdentityOptions): Promise<Signatory> {
 		return new Signatory({
 			type: "ledger",
@@ -57,16 +47,6 @@ export class SignatoryService {
 			address: this.#addressService.fromSecret(secret).address,
 			publicKey: this.#publicKeyService.fromSecret(secret).publicKey,
 			options,
-		});
-	}
-
-	public async confirmationSecret(signingKey: string, confirmKey: string): Promise<Signatory> {
-		return new Signatory({
-			type: "confirmationSecret",
-			signingKey,
-			confirmKey,
-			address: this.#addressService.fromSecret(signingKey).address,
-			publicKey: this.#publicKeyService.fromSecret(signingKey).publicKey,
 		});
 	}
 

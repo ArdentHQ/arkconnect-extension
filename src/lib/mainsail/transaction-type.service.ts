@@ -42,10 +42,6 @@ export class TransactionTypeService {
 		return data.data === "";
 	}
 
-	public static isSecondSignature(data: TransactionData): boolean {
-		throw new Exceptions.NotImplemented(this.constructor.name, this.isSecondSignature.name);
-	}
-
 	public static isValidatorRegistration(data: TransactionData): boolean {
 		return TransactionTypeService.#checkFunctionIdentifier("registerValidator", data);
 	}

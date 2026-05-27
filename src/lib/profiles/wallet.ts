@@ -385,15 +385,6 @@ export class Wallet implements IReadWriteWallet {
 		return this.data().get(WalletData.LedgerModel) === WalletLedgerModel.NanoS;
 	}
 
-	/** {@inheritDoc IReadWriteWallet.isSecondSignature} */
-	public isSecondSignature(): boolean {
-		if (!this.#attributes.get<Contracts.WalletData>("wallet")) {
-			throw new Error(ERR_NOT_SYNCED);
-		}
-
-		return this.#attributes.get<Contracts.WalletData>("wallet").isSecondSignature();
-	}
-
 	/** {@inheritDoc IReadWriteWallet.isStarred} */
 	public isStarred(): boolean {
 		return this.data().get(WalletFlag.Starred) === true;

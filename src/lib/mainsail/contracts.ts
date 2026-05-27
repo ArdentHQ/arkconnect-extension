@@ -53,8 +53,6 @@ export interface WalletData {
 
 	isResignedValidator(): boolean;
 
-	isSecondSignature(): boolean;
-
 	toObject(): KeyValuePair;
 
 	hasPassed(): boolean;
