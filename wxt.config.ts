@@ -59,7 +59,14 @@ export default defineConfig({
             48: 'icon/48.png',
             128: 'icon/128.png',
         },
-        permissions: ['activeTab', 'storage', 'clipboardWrite', 'tabs', 'unlimitedStorage'],
+        permissions: [
+            'activeTab',
+            'storage',
+            'clipboardWrite',
+            'tabs',
+            'unlimitedStorage',
+            'sidePanel',
+        ],
         web_accessible_resources:
             manifestVersion === 3
                 ? [{ resources: ['inpage.js'], matches: ['<all_urls>'] }]
