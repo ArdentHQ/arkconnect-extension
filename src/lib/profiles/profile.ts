@@ -11,7 +11,6 @@ import {
 	IProfileStatus,
 	IReadWriteWallet,
 	ISettingRepository,
-	ITransactionAggregate,
 	IWalletFactory,
 	IWalletRepository,
 	ProfileData,
@@ -27,7 +26,6 @@ import { PasswordManager } from "./password";
 import { ProfileInitialiser } from "./profile.initialiser";
 import { ProfileStatus } from "./profile.status";
 import { SettingRepository } from "./setting.repository";
-import { TransactionAggregate } from "./transaction.aggregate";
 import { WalletFactory } from "./wallet.factory";
 import { WalletRepository } from "./wallet.repository";
 import { Contracts, Environment } from "./index";
@@ -116,14 +114,6 @@ export class Profile implements IProfile {
 	readonly #validators: ValidatorService;
 
 	/**
-	 * The transaction aggregate service.
-	 *
-	 * @type {ITransactionAggregate}
-	 * @memberof Profile
-	 */
-	readonly #transactionAggregate: ITransactionAggregate;
-
-	/**
 	 * The authentication service.
 	 *
 	 * @type {IAuthenticator}
@@ -203,7 +193,6 @@ export class Profile implements IProfile {
 		this.#settingRepository = new SettingRepository(this, Object.values(ProfileSetting));
 		this.#walletFactory = new WalletFactory(this);
 		this.#walletRepository = new WalletRepository(this);
-		this.#transactionAggregate = new TransactionAggregate(this);
 		this.#authenticator = new Authenticator(this);
 		this.#validators = new ValidatorService(this);
 		this.#password = new PasswordManager();
@@ -369,11 +358,6 @@ export class Profile implements IProfile {
 	/** {@inheritDoc IProfile.walletFactory} */
 	public walletFactory(): IWalletFactory {
 		return this.#walletFactory;
-	}
-
-	/** {@inheritDoc IProfile.transactionAggregate} */
-	public transactionAggregate(): ITransactionAggregate {
-		return this.#transactionAggregate;
 	}
 
 	/** {@inheritDoc IProfile.auth} */

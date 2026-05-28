@@ -6,7 +6,6 @@ import {
 	IPasswordManager,
 	IProfileStatus,
 	ISettingRepository,
-	ITransactionAggregate,
 	IWalletData,
 	IWalletFactory,
 	IWalletRepository,
@@ -207,14 +206,6 @@ export interface IProfile {
 	 * @memberof IProfile
 	 */
 	flushSettings(): void;
-
-	/**
-	 * Get the transaction aggregate instance.
-	 *
-	 * @return {ITransactionAggregate}
-	 * @memberof IProfile
-	 */
-	transactionAggregate(): ITransactionAggregate;
 
 	/**
 	 * Get the authentication service instance.
