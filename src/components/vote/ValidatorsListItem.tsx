@@ -33,7 +33,8 @@ export const ValidatorsListItem = ({
             return;
         }
 
-        const shouldShowTooltip = () => setDisableTooltip(addressElement.scrollWidth <= addressElement.clientWidth);
+        const shouldShowTooltip = () =>
+            setDisableTooltip(addressElement.scrollWidth <= addressElement.clientWidth);
 
         shouldShowTooltip();
 

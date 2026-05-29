@@ -150,7 +150,7 @@ header {
 }
 
 #scrollable-container {
-    @apply h-screen overflow-y-auto w-full;
+    @apply h-screen w-full overflow-y-auto;
 }
 
 .dialog-wrapper {

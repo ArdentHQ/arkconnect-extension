@@ -165,7 +165,7 @@ export const UploadQRModal = ({
                         <div className='relative flex items-center justify-center overflow-hidden'>
                             <Icon
                                 icon={isDark() ? 'upload-background-dark' : 'upload-background'}
-                                className='m-[3px] mx-[3px] h-[192px] w-full rounded-xl overflow-hidden'
+                                className='m-[3px] mx-[3px] h-[192px] w-full overflow-hidden rounded-xl'
                             />
 
                             <Icon
