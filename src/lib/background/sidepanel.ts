@@ -10,8 +10,6 @@ declare const chrome: {
     };
 };
 
-const defaultPopupPath = chrome.runtime.getManifest().action?.default_popup ?? '';
-
 export const applySidepanelMode = async (enabled: boolean): Promise<void> => {
     if (!chrome.sidePanel) {
         return;
@@ -21,6 +19,7 @@ export const applySidepanelMode = async (enabled: boolean): Promise<void> => {
         await chrome.action.setPopup({ popup: '' });
         await chrome.sidePanel.setPanelBehavior({ openPanelOnActionClick: true });
     } else {
+        const defaultPopupPath = chrome.runtime.getManifest().action?.default_popup ?? '';
         await chrome.action.setPopup({ popup: defaultPopupPath });
         await chrome.sidePanel.setPanelBehavior({ openPanelOnActionClick: false });
     }
