@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { useEffect, useMemo, useState } from 'react';
 import { useQuery } from 'react-query';
 import classNames from 'classnames';
-import { TransactionsTabs, TransactionTab } from './TransactionsTabs';
+import { Tabs, TransactionsTabs, TransactionTab } from './TransactionsTabs';
 import { NoTransactions, TokensList, TransactionsList } from './LatestTransactions.blocks';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 import { Loader } from '@/shared/components';
@@ -78,10 +78,10 @@ export const LatestTransactions = () => {
 
     const tabs = useMemo(() => {
         if (tokenData && tokenData.length > 0) {
-            return ['TOKENS', 'TRANSACTIONS'];
+            return [Tabs.TOKENS, Tabs.TRANSACTIONS];
         }
 
-        return ['TRANSACTIONS'];
+        return [Tabs.TRANSACTIONS];
     }, [tokenData]);
 
     useEffect(() => {
@@ -100,7 +100,7 @@ export const LatestTransactions = () => {
             })}
         >
             {showTabs && (
-                <TransactionsTabs>
+                <TransactionsTabs currentTab={activeTab}>
                     {tabs.map((tab) => (
                         <TransactionTab
                             key={tab}
@@ -125,7 +125,7 @@ export const LatestTransactions = () => {
                     </div>
                 )}
 
-                {showTabs && activeTab === 'TOKENS' ? (
+                {showTabs && activeTab === Tabs.TOKENS ? (
                     <TokensList tokens={tokenData ?? []} />
                 ) : !isLoading && data ? (
                     <div className='flex min-h-0 flex-1 flex-col'>

@@ -28,10 +28,20 @@ export const ValidatorsListItem = ({
     const isHighlighted = isVoted || isSelected;
 
     useEffect(() => {
-        if (addressRef.current) {
-            const { clientWidth, scrollWidth } = addressRef.current;
-            setDisableTooltip(scrollWidth <= clientWidth);
+        const addressElement = addressRef.current;
+        if (!addressElement) {
+            return;
         }
+
+        const shouldShowTooltip = () =>
+            setDisableTooltip(addressElement.scrollWidth <= addressElement.clientWidth);
+
+        shouldShowTooltip();
+
+        const observer = new ResizeObserver(shouldShowTooltip);
+        observer.observe(addressElement);
+
+        return () => observer.disconnect();
     }, [validatorAddress]);
 
     const buttonLabel = useMemo(() => {
@@ -59,19 +69,17 @@ export const ValidatorsListItem = ({
             })}
         >
             <td className='p-4'>
-                <span className='block max-w-36'>
-                    <Tooltip content={validatorAddress} disabled={disableTooltip}>
-                        <span
-                            ref={addressRef}
-                            className='block w-full overflow-hidden font-medium text-ellipsis whitespace-nowrap dark:text-white'
-                        >
-                            {validatorAddress}
-                        </span>
-                    </Tooltip>
-                </span>
+                <Tooltip content={validatorAddress} disabled={disableTooltip} maxWidth='none'>
+                    <span
+                        ref={addressRef}
+                        className='inline-block max-w-full truncate font-medium dark:text-white'
+                    >
+                        {validatorAddress}
+                    </span>
+                </Tooltip>
             </td>
 
-            <td className='py-4'>
+            <td className='w-4 py-4'>
                 <ExternalLink
                     href={validator.explorerLink()}
                     className='transition-smoothEase text-theme-primary-700 hover:text-theme-primary-600 dark:text-theme-primary-600 dark:hover:text-theme-primary-650'
@@ -80,7 +88,7 @@ export const ValidatorsListItem = ({
                 </ExternalLink>
             </td>
 
-            <td className='p-4 text-right'>
+            <td className='w-24 p-4 text-right'>
                 <button
                     type='button'
                     className={classNames('transition-smoothEase font-medium', {
