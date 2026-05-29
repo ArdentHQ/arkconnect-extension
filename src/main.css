@@ -150,11 +150,7 @@ header {
 }
 
 #scrollable-container {
-    @apply w-extension-screen max-w-extension-screen h-screen overflow-x-hidden overflow-y-auto;
-}
-
-.main-container {
-    @apply w-extension-screen;
+    @apply h-screen overflow-y-auto w-full;
 }
 
 .dialog-wrapper {
@@ -217,9 +213,7 @@ header {
 }
 
 .compensate-scroll {
-    @apply overflow-x-hidden overflow-y-scroll pr-0 pl-2;
-    margin-left: calc(100vw - 100% - 8px);
-    width: calc(100vw + 8px);
+    @apply overflow-y-scroll;
 }
 
 .logo path#ark {

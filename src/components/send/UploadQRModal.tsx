@@ -159,18 +159,18 @@ export const UploadQRModal = ({
                     maxSize={5}
                     onSizeError={handleSizeError}
                     onTypeError={handleTypeError}
-                    classes='focus-within:outline-theme-primary-600! rounded-2xl'
+                    classes='focus-within:outline-theme-primary-600! rounded-2xl w-full'
                 >
-                    <div className='border-theme-secondary-200 bg-theme-secondary-25 dark:border-theme-secondary-600 dark:bg-theme-secondary-800 h-50 w-[306px] cursor-pointer rounded-2xl border border-dashed'>
+                    <div className='border-theme-secondary-200 bg-theme-secondary-25 dark:border-theme-secondary-600 dark:bg-theme-secondary-800 w-full cursor-pointer rounded-2xl border border-dashed'>
                         <div className='relative flex items-center justify-center overflow-hidden'>
                             <Icon
                                 icon={isDark() ? 'upload-background-dark' : 'upload-background'}
-                                className='mt-[3px] h-[192px] w-[298px] rounded-xl'
+                                className='m-[3px] mx-[3px] h-[192px] w-full rounded-xl overflow-hidden'
                             />
 
                             <Icon
                                 icon={isDark() ? 'qr-drag-and-drop-dark' : 'qr-drag-and-drop'}
-                                className='absolute top-0 h-80 w-80'
+                                className='absolute top-0 w-80'
                             />
 
                             {isLoading && (

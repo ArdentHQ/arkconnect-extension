@@ -33,6 +33,10 @@ export const Tooltip = ({
             onShown={handleShow}
             disabled={disabled}
             touch={touch}
+            appendTo={() => document.body}
+            popperOptions={{
+                modifiers: [{ name: 'preventOverflow', options: { padding: 8 } }],
+            }}
             {...properties}
         />
     );
