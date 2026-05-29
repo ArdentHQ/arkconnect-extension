@@ -94,7 +94,11 @@ export const LatestTransactions = () => {
     const showTabs = !isLoadingTokens && tabs.length > 1;
 
     return (
-        <div className={classNames(['flex h-full w-full flex-col'], { 'mt-4': !showTabs })}>
+        <div
+            className={classNames(['flex h-full min-h-0 w-full flex-1 flex-col'], {
+                'mt-4': !showTabs,
+            })}
+        >
             {showTabs && (
                 <TransactionsTabs>
                     {tabs.map((tab) => (
@@ -111,7 +115,7 @@ export const LatestTransactions = () => {
 
             <div
                 className={classNames([
-                    'dark:bg-subtle-black h-full w-full flex-1 bg-white',
+                    'dark:bg-subtle-black flex h-full min-h-0 w-full flex-1 flex-col bg-white',
                     { 'rounded-t-xl': !showTabs },
                 ])}
             >
@@ -124,15 +128,11 @@ export const LatestTransactions = () => {
                 {showTabs && activeTab === 'TOKENS' ? (
                     <TokensList tokens={tokenData ?? []} />
                 ) : !isLoading && data ? (
-                    <div className='h-auto w-full'>
+                    <div className='flex min-h-0 flex-1 flex-col'>
                         {data.transactions.length > 0 ? (
                             <TransactionsList
                                 transactions={data.transactions}
                                 displayButton={data.hasMorePages}
-                                maxHeight={classNames({
-                                    'max-h-[235px]': showTabs,
-                                    'max-h-[270px]': !showTabs,
-                                })}
                             />
                         ) : (
                             <NoTransactions />

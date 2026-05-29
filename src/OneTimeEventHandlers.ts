@@ -7,6 +7,8 @@ import { EnvironmentData, ProfileData } from '@/lib/background/contracts';
 import { SendTransferInput } from '@/lib/background/extension.wallet';
 import { SessionEntries } from '@/lib/store/session';
 import { VoteInput } from '@/lib/mainsail/transaction.contract';
+import { setLocalValue } from '@/lib/utils/localStorage';
+import { applySidepanelMode, openPopupForWindow } from '@/lib/background/sidepanel';
 
 export enum OneTimeEvents {
     SEND_VOTE = 'SEND_VOTE',
@@ -31,6 +33,7 @@ export enum OneTimeEvents {
     CONNECT_RESOLVE = 'CONNECT_RESOLVE',
     SET_LAST_SCREEN = 'SET_LAST_SCREEN',
     CLEAR_LAST_SCREEN = 'CLEAR_LAST_SCREEN',
+    SET_OPEN_IN_SIDEPANEL = 'SET_OPEN_IN_SIDEPANEL',
 }
 
 export function OneTimeEventHandlers(extension: ReturnType<typeof Extension>) {
@@ -153,6 +156,16 @@ export function OneTimeEventHandlers(extension: ReturnType<typeof Extension>) {
         [OneTimeEvents.SET_SESSIONS]: async (request: any) => {
             extension.profile().settings().set(ProfileData.Sessions, request.data.sessions);
             await extension.env().persist();
+        },
+
+        [OneTimeEvents.SET_OPEN_IN_SIDEPANEL]: async (request: any) => {
+            const enabled = request.data.enabled as boolean;
+            const windowId = request.data.windowId as number | undefined;
+            await setLocalValue('openInSidepanel', enabled);
+            await applySidepanelMode(enabled);
+            if (!enabled && windowId !== undefined) {
+                await openPopupForWindow(windowId);
+            }
         },
 
         [OneTimeEvents.REFRESH_AUTOLOCK_TIMER]: async (_request: any) => {

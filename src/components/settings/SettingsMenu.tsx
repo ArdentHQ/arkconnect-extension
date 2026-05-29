@@ -1,7 +1,7 @@
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { NavigateOptions, useLocation, useNavigate } from 'react-router-dom';
 import classNames from 'classnames';
-import { runtime } from 'webextension-polyfill';
+import { runtime, windows } from 'webextension-polyfill';
 import { useTranslation } from 'react-i18next';
 import { Contracts } from '@/lib/profiles';
 import { AutoLockTimer as AutoLockTimerEnum, getLocalValues } from '@/lib/utils/localStorage';
@@ -18,6 +18,7 @@ import useOnClickOutside from '@/lib/hooks/useOnClickOutside';
 import { useProfileContext } from '@/lib/context/Profile';
 import useThemeMode from '@/lib/hooks/useThemeMode';
 import useActiveNetwork from '@/lib/hooks/useActiveNetwork';
+import { openSidepanel } from '@/lib/background/sidepanel';
 
 export interface DropdownMenuContainerProps {
     selected?: boolean;
@@ -41,6 +42,7 @@ export const SettingsMenu = ({
     const { activeNetwork, setActiveNetwork } = useActiveNetwork();
 
     const [autoLockTimer, setAutoLockTimer] = useState<AutoLockTimerEnum | undefined>(undefined);
+    const [openInSidepanel, setOpenInSidepanel] = useState(false);
 
     const handleNavigation = (route: string, options?: NavigateOptions) => {
         onClose();
@@ -62,11 +64,35 @@ export const SettingsMenu = ({
 
     useEffect(() => {
         (async () => {
-            const { autoLockTimer } = await getLocalValues();
+            const { autoLockTimer, openInSidepanel } = await getLocalValues();
 
             setAutoLockTimer(autoLockTimer);
+            setOpenInSidepanel(openInSidepanel ?? false);
         })();
     }, []);
+
+    const toggleSidepanel = async (evt: ChangeEvent<HTMLInputElement> | React.MouseEvent) => {
+        evt.stopPropagation();
+
+        const next = !openInSidepanel;
+
+        setOpenInSidepanel(next);
+
+        const win = await windows.getCurrent();
+
+        await runtime.sendMessage({
+            type: 'SET_OPEN_IN_SIDEPANEL',
+            data: { enabled: next, windowId: win.id },
+        });
+
+        if (next && win.id !== undefined) {
+            // Must be called in the popup while the user gesture is still active;
+            // the background service worker context doesn't satisfy the gesture requirement.
+            await openSidepanel(win.id);
+        }
+
+        window.close();
+    };
 
     const dropdownRef = useRef<HTMLDivElement | null>(null);
 
@@ -268,6 +294,28 @@ export const SettingsMenu = ({
                         onKeyDown={(e) =>
                             handleSubmitKeyAction(e, () =>
                                 handleNavigation('/autolock-timer', { state: { autoLockTimer } }),
+                            )
+                        }
+                    />
+                    <SettingsOption
+                        title={t('PAGES.SETTINGS.MENU.OPEN_IN_SIDEPANEL')}
+                        iconLeading='view-grid'
+                        iconClassName='text-light-black'
+                        onClick={(evt) => toggleSidepanel(evt)}
+                        rightContent={
+                            <div>
+                                <ToggleSwitch
+                                    checked={openInSidepanel}
+                                    onChange={(evt) => toggleSidepanel(evt)}
+                                    id='toggle-sidepanel'
+                                />
+                            </div>
+                        }
+                        onKeyDown={(e) =>
+                            handleInputKeyAction(
+                                e,
+                                toggleSidepanel,
+                                e as unknown as ChangeEvent<HTMLInputElement>,
                             )
                         }
                     />

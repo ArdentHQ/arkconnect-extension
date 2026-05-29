@@ -243,17 +243,15 @@ const TransactionListItem = ({
 export const TransactionsList = ({
     transactions,
     displayButton,
-    maxHeight = 'max-h-[235px]',
 }: {
     transactions: ExtendedConfirmedTransactionData[];
     displayButton: boolean;
-    maxHeight?: string;
 }) => {
     const primaryWallet = usePrimaryWallet();
     const { t } = useTranslation();
 
     return (
-        <div className={cn(['custom-scroll overflow-auto', maxHeight])}>
+        <div className={cn('custom-scroll min-h-0 flex-1 overflow-y-auto')}>
             {transactions.map((transaction, index) => (
                 <TransactionListItem key={index} transaction={transaction} />
             ))}
@@ -340,8 +338,8 @@ export const TokensList = ({ tokens }: { tokens: WalletToken[] }) => {
     const primaryWallet = usePrimaryWallet();
 
     return (
-        <div className='flex flex-col'>
-            <div className='custom-scroll max-h-[235px] overflow-auto'>
+        <div className='flex min-h-0 flex-1 flex-col'>
+            <div className='custom-scroll min-h-0 flex-1 overflow-y-auto'>
                 {tokens.map((token) => (
                     <TokenListItem key={token.token().address()} token={token} />
                 ))}
