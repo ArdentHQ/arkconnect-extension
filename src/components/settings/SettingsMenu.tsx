@@ -73,6 +73,7 @@ export const SettingsMenu = ({
 
     const toggleSidepanel = async (evt: ChangeEvent<HTMLInputElement> | React.MouseEvent) => {
         evt.stopPropagation();
+        evt.preventDefault();
 
         const next = !openInSidepanel;
 
@@ -211,13 +212,11 @@ export const SettingsMenu = ({
                         iconClassName='text-light-black'
                         onClick={(evt) => toggleThemeMode(evt)}
                         rightContent={
-                            <div>
-                                <ToggleSwitch
-                                    checked={isDark()}
-                                    onChange={(evt) => toggleThemeMode(evt)}
-                                    id='toggle-theme'
-                                />
-                            </div>
+                            <ToggleSwitch
+                                checked={isDark()}
+                                onChange={(evt) => toggleThemeMode(evt)}
+                                id='toggle-theme'
+                            />
                         }
                         onKeyDown={(e) =>
                             handleInputKeyAction(
@@ -233,13 +232,11 @@ export const SettingsMenu = ({
                         iconClassName='text-light-black'
                         onClick={() => toggleNetwork()}
                         rightContent={
-                            <div>
-                                <ToggleSwitch
-                                    checked={activeNetwork.id() === Network.DEVNET}
-                                    onChange={() => toggleNetwork()}
-                                    id='toggle-network'
-                                />
-                            </div>
+                            <ToggleSwitch
+                                checked={activeNetwork.id() === Network.DEVNET}
+                                onChange={() => toggleNetwork()}
+                                id='toggle-network'
+                            />
                         }
                         onKeyDown={(e) =>
                             handleInputKeyAction(
@@ -303,13 +300,11 @@ export const SettingsMenu = ({
                         iconClassName='text-light-black'
                         onClick={(evt) => toggleSidepanel(evt)}
                         rightContent={
-                            <div onClick={(e) => e.stopPropagation()}>
-                                <ToggleSwitch
-                                    checked={openInSidepanel}
-                                    onChange={(evt) => toggleSidepanel(evt)}
-                                    id='toggle-sidepanel'
-                                />
-                            </div>
+                            <ToggleSwitch
+                                checked={openInSidepanel}
+                                onChange={(evt) => toggleSidepanel(evt)}
+                                id='toggle-sidepanel'
+                            />
                         }
                         onKeyDown={(e) =>
                             handleInputKeyAction(
