@@ -45,3 +45,6 @@ build.zip
 # WXT
 .wxt
 web-ext.config.ts
+
+# airc
+CLAUDE.local.md
