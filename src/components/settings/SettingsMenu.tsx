@@ -303,7 +303,7 @@ export const SettingsMenu = ({
                         iconClassName='text-light-black'
                         onClick={(evt) => toggleSidepanel(evt)}
                         rightContent={
-                            <div>
+                            <div onClick={(e) => e.stopPropagation()}>
                                 <ToggleSwitch
                                     checked={openInSidepanel}
                                     onChange={(evt) => toggleSidepanel(evt)}
