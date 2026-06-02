@@ -51,15 +51,20 @@ const Connect = () => {
     }, []);
 
     const reject = (message?: string) => {
-        runtime.sendMessage({
-            type: 'CONNECT_REJECT',
-            data: {
-                domain: location.state?.domain,
-                status: 'failed',
-                message: typeof message === 'string' ? message : t('PAGES.CONNECT.FEEDBACK.CONNECTION_DENIED'),
-                tabId: location.state?.tabId,
-            },
-        }).catch(() => {});
+        runtime
+            .sendMessage({
+                type: 'CONNECT_REJECT',
+                data: {
+                    domain: location.state?.domain,
+                    status: 'failed',
+                    message:
+                        typeof message === 'string'
+                            ? message
+                            : t('PAGES.CONNECT.FEEDBACK.CONNECTION_DENIED'),
+                    tabId: location.state?.tabId,
+                },
+            })
+            .catch(() => {});
     };
 
     const setSubmitted = useNotifyOnUnload(reject);

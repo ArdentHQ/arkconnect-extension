@@ -3,7 +3,10 @@ import { UUID } from '@ardenthq/arkvault-crypto';
 import { AutoLockTimer, getLocalValues, setLocalValue } from './lib/utils/localStorage';
 import { Extension } from './lib/background/extension';
 import keepServiceWorkerAlive from './lib/background/keepServiceWorkerAlive';
-import { longLivedConnectionHandlers, setSidepanelEnabled } from './lib/background/eventListenerHandlers';
+import {
+    longLivedConnectionHandlers,
+    setSidepanelEnabled,
+} from './lib/background/eventListenerHandlers';
 import { OneTimeEventHandlers, OneTimeEvents } from '@/OneTimeEventHandlers';
 import { applySidepanelMode } from '@/lib/background/sidepanel';
 

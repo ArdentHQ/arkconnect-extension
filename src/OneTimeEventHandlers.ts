@@ -9,7 +9,10 @@ import { SessionEntries } from '@/lib/store/session';
 import { VoteInput } from '@/lib/mainsail/transaction.contract';
 import { setLocalValue } from '@/lib/utils/localStorage';
 import { applySidepanelMode, closeSidepanel, openPopupForWindow } from '@/lib/background/sidepanel';
-import { executePendingSidepanelCallback, setSidepanelEnabled } from '@/lib/background/eventListenerHandlers';
+import {
+    executePendingSidepanelCallback,
+    setSidepanelEnabled,
+} from '@/lib/background/eventListenerHandlers';
 
 export enum OneTimeEvents {
     SEND_VOTE = 'SEND_VOTE',

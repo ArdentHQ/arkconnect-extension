@@ -62,7 +62,7 @@ export const setSidepanelEnabled = (enabled: boolean): void => {
 };
 
 export const executePendingSidepanelCallback = (sidepanelWasOpen: boolean): void => {
-    if (! pendingSidepanelCallback) {
+    if (!pendingSidepanelCallback) {
         return;
     }
 
@@ -155,14 +155,18 @@ const createExtensionWindow = async (
 };
 
 const initWindow = async (payload: EventPayload<ConnectData>) => {
-    await createExtensionWindow(payload.data.tabId, payload.data.windowId, (id, sidepanelWasOpen) => {
-        const { port, ...rest } = payload.data;
+    await createExtensionWindow(
+        payload.data.tabId,
+        payload.data.windowId,
+        (id, sidepanelWasOpen) => {
+            const { port, ...rest } = payload.data;
 
-        runtime.sendMessage({
-            type: `${payload.type}_UI`,
-            data: { ...rest, windowId: id, sidepanelWasOpen },
-        });
-    });
+            runtime.sendMessage({
+                type: `${payload.type}_UI`,
+                data: { ...rest, windowId: id, sidepanelWasOpen },
+            });
+        },
+    );
 };
 
 const handleOnConnect = async (
@@ -239,14 +243,18 @@ const handleDisconnect = async (
         assertHasWallet(profile);
         assertIsNotConnected({ payload, profile });
 
-        await createExtensionWindow(payload.data.tabId, payload.data.windowId, (id, sidepanelWasOpen) => {
-            const { port, ...rest } = payload.data;
+        await createExtensionWindow(
+            payload.data.tabId,
+            payload.data.windowId,
+            (id, sidepanelWasOpen) => {
+                const { port, ...rest } = payload.data;
 
-            runtime.sendMessage({
-                type: `${payload.type}_UI`,
-                data: { ...rest, windowId: id, sidepanelWasOpen },
-            });
-        });
+                runtime.sendMessage({
+                    type: `${payload.type}_UI`,
+                    data: { ...rest, windowId: id, sidepanelWasOpen },
+                });
+            },
+        );
     } catch (error: any) {
         tabs.sendMessage(payload.data.tabId, {
             type: `${payload.type}_REJECT`,
@@ -382,14 +390,23 @@ const handleSignMessage = async (
 
         const wallet = profile?.wallets().findById(activeSession.walletId);
 
-        await createExtensionWindow(payload.data.tabId, payload.data.windowId, (id, sidepanelWasOpen) => {
-            const { port, ...rest } = payload.data;
+        await createExtensionWindow(
+            payload.data.tabId,
+            payload.data.windowId,
+            (id, sidepanelWasOpen) => {
+                const { port, ...rest } = payload.data;
 
-            runtime.sendMessage({
-                type: `${payload.type}_UI`,
-                data: { ...rest, session: { ...activeSession, wallet }, windowId: id, sidepanelWasOpen },
-            });
-        });
+                runtime.sendMessage({
+                    type: `${payload.type}_UI`,
+                    data: {
+                        ...rest,
+                        session: { ...activeSession, wallet },
+                        windowId: id,
+                        sidepanelWasOpen,
+                    },
+                });
+            },
+        );
     } catch (error: any) {
         tabs.sendMessage(payload.data.tabId, {
             type: `${payload.type}_REJECT`,
@@ -416,14 +433,23 @@ const handleSignTransaction = async (
 
         const wallet = profile?.wallets().findById(activeSession.walletId);
 
-        await createExtensionWindow(payload.data.tabId, payload.data.windowId, (id, sidepanelWasOpen) => {
-            const { port, ...rest } = payload.data;
+        await createExtensionWindow(
+            payload.data.tabId,
+            payload.data.windowId,
+            (id, sidepanelWasOpen) => {
+                const { port, ...rest } = payload.data;
 
-            runtime.sendMessage({
-                type: `${payload.type}_UI`,
-                data: { ...rest, session: { ...activeSession, wallet }, windowId: id, sidepanelWasOpen },
-            });
-        });
+                runtime.sendMessage({
+                    type: `${payload.type}_UI`,
+                    data: {
+                        ...rest,
+                        session: { ...activeSession, wallet },
+                        windowId: id,
+                        sidepanelWasOpen,
+                    },
+                });
+            },
+        );
     } catch (error: any) {
         tabs.sendMessage(payload.data.tabId, {
             type: `${payload.type}_REJECT`,
@@ -450,14 +476,23 @@ const handleSignVote = async (
 
         const wallet = profile?.wallets().findById(activeSession.walletId);
 
-        await createExtensionWindow(payload.data.tabId, payload.data.windowId, (id, sidepanelWasOpen) => {
-            const { port, ...rest } = payload.data;
+        await createExtensionWindow(
+            payload.data.tabId,
+            payload.data.windowId,
+            (id, sidepanelWasOpen) => {
+                const { port, ...rest } = payload.data;
 
-            runtime.sendMessage({
-                type: `${payload.type}_UI`,
-                data: { ...rest, session: { ...activeSession, wallet }, windowId: id, sidepanelWasOpen },
-            });
-        });
+                runtime.sendMessage({
+                    type: `${payload.type}_UI`,
+                    data: {
+                        ...rest,
+                        session: { ...activeSession, wallet },
+                        windowId: id,
+                        sidepanelWasOpen,
+                    },
+                });
+            },
+        );
     } catch (error: any) {
         tabs.sendMessage(payload.data.tabId, {
             type: `${payload.type}_REJECT`,

@@ -28,7 +28,9 @@ const useBackgroundEventHandler = () => {
 
     useEffect(() => {
         if (isSidepanel()) {
-            runtime.sendMessage({ type: 'SIDEPANEL_READY', data: { wasAlreadyOpen: false } }).catch(() => {});
+            runtime
+                .sendMessage({ type: 'SIDEPANEL_READY', data: { wasAlreadyOpen: false } })
+                .catch(() => {});
         }
 
         // Listen for messages from background script
@@ -60,7 +62,12 @@ const useBackgroundEventHandler = () => {
                 }
                 case 'SIDEPANEL_CHECK_PENDING': {
                     if (isSidepanel()) {
-                        runtime.sendMessage({ type: 'SIDEPANEL_READY', data: { wasAlreadyOpen: true } }).catch(() => {});
+                        runtime
+                            .sendMessage({
+                                type: 'SIDEPANEL_READY',
+                                data: { wasAlreadyOpen: true },
+                            })
+                            .catch(() => {});
                     }
                     break;
                 }
