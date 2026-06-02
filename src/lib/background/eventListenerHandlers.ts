@@ -11,6 +11,7 @@ import {
 import constants from '@/constants';
 import { Contracts } from '@/lib/profiles';
 import { WalletNetwork } from '@/lib/store/wallet';
+import { openSidepanel } from '@/lib/background/sidepanel';
 
 export type EventPayload<T> = {
     type: keyof typeof longLivedConnectionHandlers;
@@ -50,10 +51,52 @@ export type SignVoteData = {
 
 let extensionWindowId: number | null = null;
 
-const createExtensionWindow = async (onWindowReady: (id?: number) => void) => {
+let pendingSidepanelCallback: ((id?: number, sidepanelWasOpen?: boolean) => void) | null = null;
+
+// Cached in memory so createExtensionWindow can check without an await,
+// keeping the user-gesture context alive for chrome.sidePanel.open().
+let sidepanelEnabled = false;
+
+export const setSidepanelEnabled = (enabled: boolean): void => {
+    sidepanelEnabled = enabled;
+};
+
+export const executePendingSidepanelCallback = (sidepanelWasOpen: boolean): void => {
+    if (! pendingSidepanelCallback) {
+        return;
+    }
+
+    const callback = pendingSidepanelCallback;
+    pendingSidepanelCallback = null;
+
+    callback(undefined, sidepanelWasOpen);
+};
+
+const createExtensionWindow = async (
+    tabId: number,
+    windowId: number | undefined,
+    onWindowReady: (id?: number, sidepanelWasOpen?: boolean) => void,
+) => {
+    if (sidepanelEnabled) {
+        pendingSidepanelCallback = onWindowReady;
+
+        // Open the side panel in the triggering window. chrome.sidePanel.open()
+        // is called before any other await so the user-gesture context from the
+        // content-script message is still active (Chrome 116+).
+        if (windowId !== undefined) {
+            await openSidepanel(windowId);
+        }
+
+        // Also notify an already-open panel so it re-processes without remounting.
+        runtime.sendMessage({ type: 'SIDEPANEL_CHECK_PENDING' }).catch(() => {});
+
+        return; // Never fall back to popup when side panel mode is enabled
+    }
+
     // Check if a window is already open
     if (extensionWindowId !== null) {
         await windows.update(extensionWindowId, { focused: true });
+
         return;
     }
 
@@ -112,12 +155,12 @@ const createExtensionWindow = async (onWindowReady: (id?: number) => void) => {
 };
 
 const initWindow = async (payload: EventPayload<ConnectData>) => {
-    await createExtensionWindow((id) => {
+    await createExtensionWindow(payload.data.tabId, payload.data.windowId, (id, sidepanelWasOpen) => {
         const { port, ...rest } = payload.data;
 
         runtime.sendMessage({
             type: `${payload.type}_UI`,
-            data: { ...rest, windowId: id },
+            data: { ...rest, windowId: id, sidepanelWasOpen },
         });
     });
 };
@@ -196,12 +239,12 @@ const handleDisconnect = async (
         assertHasWallet(profile);
         assertIsNotConnected({ payload, profile });
 
-        await createExtensionWindow((id) => {
+        await createExtensionWindow(payload.data.tabId, payload.data.windowId, (id, sidepanelWasOpen) => {
             const { port, ...rest } = payload.data;
 
             runtime.sendMessage({
                 type: `${payload.type}_UI`,
-                data: { ...rest, windowId: id },
+                data: { ...rest, windowId: id, sidepanelWasOpen },
             });
         });
     } catch (error: any) {
@@ -339,12 +382,12 @@ const handleSignMessage = async (
 
         const wallet = profile?.wallets().findById(activeSession.walletId);
 
-        await createExtensionWindow((id) => {
+        await createExtensionWindow(payload.data.tabId, payload.data.windowId, (id, sidepanelWasOpen) => {
             const { port, ...rest } = payload.data;
 
             runtime.sendMessage({
                 type: `${payload.type}_UI`,
-                data: { ...rest, session: { ...activeSession, wallet }, windowId: id },
+                data: { ...rest, session: { ...activeSession, wallet }, windowId: id, sidepanelWasOpen },
             });
         });
     } catch (error: any) {
@@ -373,12 +416,12 @@ const handleSignTransaction = async (
 
         const wallet = profile?.wallets().findById(activeSession.walletId);
 
-        await createExtensionWindow((id) => {
+        await createExtensionWindow(payload.data.tabId, payload.data.windowId, (id, sidepanelWasOpen) => {
             const { port, ...rest } = payload.data;
 
             runtime.sendMessage({
                 type: `${payload.type}_UI`,
-                data: { ...rest, session: { ...activeSession, wallet }, windowId: id },
+                data: { ...rest, session: { ...activeSession, wallet }, windowId: id, sidepanelWasOpen },
             });
         });
     } catch (error: any) {
@@ -407,12 +450,12 @@ const handleSignVote = async (
 
         const wallet = profile?.wallets().findById(activeSession.walletId);
 
-        await createExtensionWindow((id) => {
+        await createExtensionWindow(payload.data.tabId, payload.data.windowId, (id, sidepanelWasOpen) => {
             const { port, ...rest } = payload.data;
 
             runtime.sendMessage({
                 type: `${payload.type}_UI`,
-                data: { ...rest, session: { ...activeSession, wallet }, windowId: id },
+                data: { ...rest, session: { ...activeSession, wallet }, windowId: id, sidepanelWasOpen },
             });
         });
     } catch (error: any) {
