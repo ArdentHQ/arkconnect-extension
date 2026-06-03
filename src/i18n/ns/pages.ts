@@ -247,6 +247,7 @@ export default {
             CHANGE_PASSWORD: 'Change Password',
             CHANGE_LOCAL_CURRENCY: 'Change Local Currency',
             AUTO_LOCK_TIMER: 'Auto Lock Timer',
+            OPEN_IN_SIDEPANEL: 'Open in Side Panel',
             ABOUT_ARK_CONNECT: 'About ARK Connect',
             REMOVE_ADDRESSES: 'Remove Addresses',
             CONNECTED_APPS: 'Connected Apps',

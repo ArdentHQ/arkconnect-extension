@@ -22,7 +22,7 @@ export const ValidatorsList = ({
     if (isLoading) {
         return (
             <div className='dark:bg-subtle-black w-full overflow-hidden rounded-xl bg-white py-2'>
-                <table className='w-full'>
+                <table className='w-full table-fixed'>
                     <tbody>
                         {Array.from({ length: 10 }).map((_, index) => {
                             return <ValidatorsListItemSkeleton key={index} />;
@@ -48,7 +48,7 @@ export const ValidatorsList = ({
 
     return (
         <div className='dark:bg-subtle-black w-full overflow-hidden rounded-xl bg-white py-2'>
-            <table className='w-full'>
+            <table className='w-full table-fixed'>
                 <tbody>
                     {validators.map((validator) => {
                         return (
