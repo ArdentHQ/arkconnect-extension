@@ -115,12 +115,6 @@ export const TransactionBody = ({
                     </div>
                 </TransactionItem>
 
-                {type === TransactionType.OTHER && (
-                    <TransactionItem title={t('COMMON.IPFS_HASH')}>
-                        <span className='[overflow-wrap:anywhere]'>{transaction.hash()}</span>
-                    </TransactionItem>
-                )}
-
                 <TransactionItem title={t('COMMON.TIMESTAMP')}>
                     {formatUnixTimestamp(transaction.timestamp()?.toUNIX() ?? 0)}
                 </TransactionItem>
