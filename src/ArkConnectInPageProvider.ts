@@ -93,13 +93,9 @@ type SignTransactionResponse = {
     id: string;
     sender: string;
     receiver: string;
-    exchangeCurrency: string;
     amount: number;
-    convertedAmount: number;
     fee: number;
-    convertedFee: BigNumber;
     total: number;
-    convertedTotal: number;
 };
 
 type SignVoteRequest = {
@@ -118,9 +114,7 @@ type SignVoteResponse = {
     unvoteAddress?: string;
     unvoteName?: string;
     unvotePublicKey?: string;
-    exchangeCurrency: string;
     fee: number;
-    convertedFee: number;
 };
 
 const signVoteRequestShape: SignVoteRequest = {

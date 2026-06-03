@@ -13,7 +13,6 @@ import SetupPassword from '@/components/settings/SetupPassword';
 import { getLedgerAlias } from '@/lib/utils/getDefaultAlias';
 import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
 import useLoadingModal from '@/lib/hooks/useLoadingModal';
-import useLocaleCurrency from '@/lib/hooks/useLocalCurrency';
 import useActiveNetwork from '@/lib/hooks/useActiveNetwork';
 import { useProfileContext } from '@/lib/context/Profile';
 import { useEnvironmentContext } from '@/lib/context/Environment';
@@ -30,7 +29,6 @@ export type ImportWithLedger = {
 const ImportWithLedger = () => {
     const { activeNetwork: network } = useActiveNetwork();
     const { profile, initProfile } = useProfileContext();
-    const { defaultCurrency } = useLocaleCurrency();
     const { error, removeErrors, resetConnectionState, disconnect, abortConnectionRetry } =
         useLedgerContext();
     const { onError } = useErrorHandlerContext();
@@ -83,7 +81,6 @@ const ImportWithLedger = () => {
             const { error } = await runtime.sendMessage({
                 type: 'IMPORT_WALLETS',
                 data: {
-                    currency: defaultCurrency,
                     password: values.password,
                     wallets,
                 },

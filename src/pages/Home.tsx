@@ -10,8 +10,6 @@ import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 import { LatestTransactions } from '@/components/home/LatestTransactions';
 import { TransactionButtons } from '@/components/home/TransactionButtons';
 const Home = () => {
-    const { convertedBalance } = useProfileContext();
-
     const primaryWallet = usePrimaryWallet();
 
     useEffect(() => {
@@ -28,8 +26,6 @@ const Home = () => {
                         <Balance
                             balance={primaryWallet?.balance() ?? BigNumber.ZERO}
                             currency={primaryWallet?.currency() ?? 'ARK'}
-                            exchangeCurrency={primaryWallet?.exchangeCurrency() ?? 'USD'}
-                            convertedBalance={convertedBalance}
                         />
                     </div>
 

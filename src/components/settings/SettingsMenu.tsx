@@ -3,7 +3,6 @@ import { NavigateOptions, useLocation, useNavigate } from 'react-router-dom';
 import classNames from 'classnames';
 import { runtime, windows } from 'webextension-polyfill';
 import { useTranslation } from 'react-i18next';
-import { Contracts } from '@/lib/profiles';
 import { AutoLockTimer as AutoLockTimerEnum, getLocalValues } from '@/lib/utils/localStorage';
 import { handleInputKeyAction, handleSubmitKeyAction } from '@/lib/utils/handleKeyAction';
 import { HeadingDescription, ToggleSwitch } from '@/shared/components';
@@ -254,22 +253,6 @@ export const SettingsMenu = ({
                         onClick={() => handleNavigation('/local-password')}
                         onKeyDown={(e) =>
                             handleSubmitKeyAction(e, () => handleNavigation('/local-password'))
-                        }
-                    />
-                    <SettingsOption
-                        title={t('PAGES.SETTINGS.MENU.CHANGE_LOCAL_CURRENCY')}
-                        iconLeading='currency-dollar-circle'
-                        rightContent={
-                            <HeadingDescription className='mr-2 text-base font-normal'>
-                                {`${profile
-                                    .settings()
-                                    .get(Contracts.ProfileSetting.ExchangeCurrency)}`}
-                            </HeadingDescription>
-                        }
-                        iconTrailing='arrow-right'
-                        onClick={() => handleNavigation('/local-currency')}
-                        onKeyDown={(e) =>
-                            handleSubmitKeyAction(e, () => handleNavigation('/local-currency'))
                         }
                     />
                     <SettingsOption

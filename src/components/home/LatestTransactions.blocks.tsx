@@ -296,7 +296,7 @@ export const LatestTransactionAmount = ({
         );
     }
 
-    return <TransactionAmount transaction={transaction} displayFiat={false} />;
+    return <TransactionAmount transaction={transaction} />;
 };
 
 const TokenListItem = ({ token }: { token: WalletToken }) => {

@@ -22,7 +22,6 @@ import { AddressService } from "@/lib/mainsail/address.service.js";
 import { PublicKeyService } from "@/lib/mainsail/public-key.service.js";
 import { TransactionService } from "@/lib/mainsail/transaction.service.js";
 import { ValidatorService } from "./validator.service.js";
-import { ExchangeRateService } from "./exchange-rate.service.js";
 import { SignatoryService } from "@/lib/mainsail/signatory.service.js";
 import { Manifest } from "@/lib/mainsail/manifest.class";
 import { WalletTokenRepository } from "./wallet-token.repository.js";
@@ -109,14 +108,6 @@ export interface IReadWriteWallet {
 	currency(): string;
 
 	/**
-	 * Get the exchange currency.
-	 *
-	 * @return {string}
-	 * @memberof IReadWriteWallet
-	 */
-	exchangeCurrency(): string;
-
-	/**
 	 * Get the alias.
 	 *
 	 * @return {(string | undefined)}
@@ -187,14 +178,6 @@ export interface IReadWriteWallet {
 	 * @memberof IReadWriteWallet
 	 */
 	balance(type?: WalletBalanceType): BigNumber;
-
-	/**
-	 * Get the converted balance.
-	 *
-	 * @return {BigNumber}
-	 * @memberof IReadWriteWallet
-	 */
-	convertedBalance(type?: WalletBalanceType): BigNumber;
 
 	/**
 	 * Get the nonce.
@@ -436,14 +419,6 @@ export interface IReadWriteWallet {
 	 * @memberof IReadWriteWallet
 	 */
 	client(): ClientService;
-
-	/**
-	 * Get the identity service instance.
-	 *
-	 * @return {ExchangeRateService}
-	 * @memberof IReadWriteWallet
-	 */
-	exchangeRates(): ExchangeRateService;
 
 	/**
 	 * Get the identity service instance.

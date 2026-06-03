@@ -1,13 +1,11 @@
 import { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { BigNumber } from '../lib/helpers';
 import { useEnvironmentContext } from '@/lib/context/Environment';
 import { useProfileContext } from '@/lib/context/Profile';
 import formatDomain from '@/lib/utils/formatDomain';
 import removeWindowInstance from '@/lib/utils/removeWindowInstance';
 import { Button, ExternalLink, Heading, Icon, Loader } from '@/shared/components';
-import { WalletNetwork } from '@/lib/store/wallet';
 import { ActionBody } from '@/components/approve/ActionBody';
 import getActiveCoin from '@/lib/utils/getActiveCoin';
 import { useConfirmedTransaction } from '@/lib/hooks/useConfirmedTransaction';
@@ -74,8 +72,6 @@ const TransactionApproved = () => {
 
     const isTransactionConfirmed = useConfirmedTransaction({ wallet, transactionId });
 
-    const showFiat = state.walletNetwork === WalletNetwork.MAINNET;
-
     useEffect(() => {
         profile.sync();
         env.persist();
@@ -123,15 +119,10 @@ const TransactionApproved = () => {
                             isApproved={true}
                             sender={state?.transaction.sender}
                             amount={state?.transaction.amount}
-                            convertedAmount={state?.transaction.convertedAmount as BigNumber}
-                            exchangeCurrency={state?.transaction.exchangeCurrency as string}
                             network={getActiveCoin(state?.walletNetwork)}
-                            showFiat={showFiat && !state?.transaction.tokenAddress}
                             receiver={state?.transaction.receiver}
                             fee={state?.transaction.fee}
-                            convertedFee={state?.transaction.convertedFee as BigNumber}
                             totalAmount={state?.transaction.total}
-                            convertedTotalAmount={state?.transaction.convertedTotal as BigNumber}
                             amountTicker={
                                 state?.transaction.tokenSymbol ??
                                 getActiveCoin(state?.walletNetwork)

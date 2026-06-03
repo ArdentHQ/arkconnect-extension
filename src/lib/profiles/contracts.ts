@@ -1,7 +1,6 @@
 export * from "./authenticator.contract.js";
 export * from "./cache.contract.js";
 export * from "./data.repository.contract.js";
-export * from "./exchange-rate.service.contract.js";
 export * from "./fee.service.contract.js";
 export * from "./known-wallet.service.contract.js";
 export * from "./password.contract.js";

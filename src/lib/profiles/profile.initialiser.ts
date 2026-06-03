@@ -24,9 +24,7 @@ export class ProfileInitialiser implements IProfileInitialiser {
 		this.#profile.settings().set(ProfileSetting.Bip39Locale, "english");
 		this.#profile.settings().set(ProfileSetting.DoNotShowFeeWarning, false);
 		this.#profile.settings().set(ProfileSetting.FallbackToDefaultNodes, true);
-		this.#profile.settings().set(ProfileSetting.ExchangeCurrency, "BTC");
 		this.#profile.settings().set(ProfileSetting.Locale, "en-US");
-		this.#profile.settings().set(ProfileSetting.MarketProvider, "cryptocompare");
 		this.#profile.settings().set(ProfileSetting.Name, name);
 		this.#profile.settings().set(ProfileSetting.Theme, "light");
 		this.#profile.settings().set(ProfileSetting.TimeFormat, "h:mm A");

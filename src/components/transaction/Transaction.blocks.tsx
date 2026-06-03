@@ -11,13 +11,11 @@ import {
 } from '@/components/home/LatestTransactions.utils';
 import { Icon, IconDefinition, Tooltip } from '@/shared/components';
 
-import Amount from '@/components/wallet/Amount';
 import trimAddress from '@/lib/utils/trimAddress';
-import { useExchangeRate } from '@/lib/hooks/useExchangeRate';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 import { useProfileContext } from '@/lib/context/Profile';
 import { ExtendedConfirmedTransactionData } from '@/lib/profiles/transaction.dto';
-import { BigNumber } from '@/app/lib/helpers';
+import { BigNumber } from '@/lib/helpers';
 
 export const TransactionIcon = ({ type }: { type: TransactionType }) => {
     const isSpecialTransaction = [
@@ -114,16 +112,10 @@ export const TransactionUniqueRecipients = ({
 
 export const TransactionAmount = ({
     transaction,
-    displayFiat = true,
 }: {
     transaction: ExtendedConfirmedTransactionData;
-    displayFiat?: boolean;
 }): JSX.Element => {
     const primaryWallet = usePrimaryWallet();
-    const { convert } = useExchangeRate({
-        exchangeTicker: primaryWallet?.exchangeCurrency(),
-        ticker: primaryWallet?.currency(),
-    });
 
     const address = primaryWallet?.address() ?? '';
     const primaryCurrency = primaryWallet?.currency() ?? 'ARK';
@@ -134,16 +126,12 @@ export const TransactionAmount = ({
         showSign,
         type,
         selfAmount,
-        isDevnet,
-        displayFiat,
     }: {
         value: BigNumber;
         isNegative: boolean;
         showSign: boolean;
         type: AmountBadgeType;
         selfAmount?: string;
-        isDevnet?: boolean;
-        displayFiat?: boolean;
     }) => (
         <div className='flex w-full items-center justify-between'>
             <AmountBadge
@@ -157,15 +145,6 @@ export const TransactionAmount = ({
                 type={type}
                 selfAmount={selfAmount}
             />
-            {!isDevnet && displayFiat && (
-                <span className='text-theme-secondary-500 dark:text-theme-secondary-300 pl-0.5'>
-                    <Amount
-                        value={convert(value)}
-                        ticker={primaryWallet?.exchangeCurrency() ?? 'USD'}
-                        underlineOnHover={true}
-                    />
-                </span>
-            )}
         </div>
     );
 
@@ -187,8 +166,6 @@ export const TransactionAmount = ({
                         ? AmountBadgeType.NEGATIVE
                         : AmountBadgeType.DEFAULT,
                 selfAmount: isSenderAndRecipient ? `${selfAmount} ${primaryCurrency}` : undefined,
-                isDevnet: primaryWallet?.network().isTest(),
-                displayFiat,
             });
         } else {
             const amount = getAmountByAddress(uniqueRecipients, address);
@@ -197,8 +174,6 @@ export const TransactionAmount = ({
                 isNegative: false,
                 showSign: false,
                 type: AmountBadgeType.POSITIVE,
-                isDevnet: primaryWallet?.network().isTest(),
-                displayFiat,
             });
         }
     }
@@ -214,7 +189,5 @@ export const TransactionAmount = ({
         isNegative: transaction.isSent(),
         showSign: !transaction.isReturn(),
         type: badgeType,
-        isDevnet: primaryWallet?.network().isTest(),
-        displayFiat,
     });
 };

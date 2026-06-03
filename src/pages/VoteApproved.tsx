@@ -2,13 +2,11 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useEffect } from 'react';
 import { runtime } from 'webextension-polyfill';
-import { BigNumber } from '../lib/helpers';
 import { ApproveActionType } from './Approve';
 import removeWindowInstance from '@/lib/utils/removeWindowInstance';
 import { Button, ExternalLink, Heading, Icon, Loader } from '@/shared/components';
 import formatDomain from '@/lib/utils/formatDomain';
 import { useProfileContext } from '@/lib/context/Profile';
-import { WalletNetwork } from '@/lib/store/wallet';
 import { ActionBody } from '@/components/approve/ActionBody';
 import getActiveCoin from '@/lib/utils/getActiveCoin';
 import { useConfirmedTransaction } from '@/lib/hooks/useConfirmedTransaction';
@@ -66,8 +64,6 @@ const VoteApproved = () => {
 
     const wallet = profile.wallets().findById(session.walletId);
     const explorerLink = wallet.link().transaction(vote.id);
-
-    const showFiat = state.walletNetwork === WalletNetwork.MAINNET;
 
     const isTransactionConfirmed = useConfirmedTransaction({ wallet, transactionId: vote.id });
 
@@ -133,10 +129,7 @@ const VoteApproved = () => {
                         isApproved
                         wallet={wallet}
                         sender={state?.vote.sender}
-                        showFiat={showFiat}
                         fee={state?.vote.fee}
-                        convertedFee={state?.vote.convertedFee as BigNumber}
-                        exchangeCurrency={state?.vote.exchangeCurrency as string}
                         network={getActiveCoin(state?.walletNetwork)}
                         amountTicker={getActiveCoin(state?.walletNetwork)}
                         unvote={{

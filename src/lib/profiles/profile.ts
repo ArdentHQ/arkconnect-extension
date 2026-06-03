@@ -33,7 +33,6 @@ import { UsernamesService } from "./usernames.service";
 import { LedgerService } from "@/lib/mainsail/ledger.service";
 import { ValidatorService } from "./validator.service";
 import { KnownWalletService } from "./known-wallet.service";
-import { ExchangeRateService } from "./exchange-rate.service";
 import { BigNumber } from "@/lib/helpers/bignumber";
 import { WalletAliasProvider } from "./profile.wallet.alias";
 import { isPreview } from "@/utils/test-helpers";
@@ -146,14 +145,6 @@ export class Profile implements IProfile {
 	readonly #usernameService: UsernamesService;
 
 	/**
-	 * The username service
-	 *
-	 * @type {UsernamesService}
-	 * @memberof Profile
-	 */
-	readonly #exchangeRateService: ExchangeRateService;
-
-	/**
 	 * The ledger service.
 	 *
 	 * @type {LedgerService}
@@ -199,7 +190,6 @@ export class Profile implements IProfile {
 		this.#status = new ProfileStatus();
 		this.#knownWalletService = new KnownWalletService();
 		this.#usernameService = new UsernamesService({ config: this.activeNetwork().config(), profile: this });
-		this.#exchangeRateService = new ExchangeRateService({ storage: env.storage() });
 		this.#ledgerService = new LedgerService({ config: this.activeNetwork().config(), profile: this });
 		this.#draftTransactionFactory = new DraftTransactionFactory({ env, profile: this });
 		this.#tokenService = new TokenService({ network: this.activeNetwork(), profile: this });
@@ -252,15 +242,6 @@ export class Profile implements IProfile {
 			}
 		}
 		return +total.toHuman();
-	}
-
-	/** {@inheritDoc IProfile.convertedBalance} */
-	public convertedBalance(): number {
-		let total = BigNumber.ZERO;
-		for (const wallet of this.wallets().values()) {
-			total = total.plus(wallet.convertedBalance());
-		}
-		return total.toNumber();
 	}
 
 	/** {@inheritDoc IProfile.flush} */
@@ -448,10 +429,6 @@ export class Profile implements IProfile {
 		return this.#knownWalletService;
 	}
 
-	public exchangeRates(): ExchangeRateService {
-		return this.#exchangeRateService;
-	}
-
 	public walletSelectionMode(): "single" | "multiple" {
 		return this.settings().get(ProfileSetting.WalletSelectionMode) ?? "single";
 	}
@@ -461,16 +438,6 @@ export class Profile implements IProfile {
 
 		for (const wallet of this.wallets().values()) {
 			balance = balance.plus(wallet.balance());
-		}
-
-		return balance;
-	}
-
-	public totalBalanceConverted(): BigNumber {
-		let balance = BigNumber.make(0);
-
-		for (const wallet of this.wallets().values()) {
-			balance = balance.plus(wallet.convertedBalance());
 		}
 
 		return balance;

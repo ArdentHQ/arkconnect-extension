@@ -14,8 +14,6 @@ export const InputFeeSimple: React.FC<InputFeeSimpleProperties> = ({
     onChange,
     selectedOption,
     ticker,
-    exchangeTicker,
-    showConvertedValues,
     loading,
     blockTime,
 }: InputFeeSimpleProperties) => {
@@ -26,7 +24,7 @@ export const InputFeeSimple: React.FC<InputFeeSimpleProperties> = ({
     return (
         <ButtonGroup className='flex-col space-y-2 sm:flex-row sm:space-y-0 sm:space-x-2'>
             {Object.entries(options).map(
-                ([optionValue, { label, displayValue, displayValueConverted }]) => {
+                ([optionValue, { label, displayValue }]) => {
                     const isSelected = optionValue === selectedOption;
 
                     return (
@@ -62,28 +60,6 @@ export const InputFeeSimple: React.FC<InputFeeSimpleProperties> = ({
 
                                     {!loading && (
                                         <div className='flex justify-between sm:w-full'>
-                                            {showConvertedValues && (
-                                                <span className='text-xs leading-[15px]'>
-                                                    ~
-                                                    <Amount
-                                                        ticker={exchangeTicker}
-                                                        value={displayValueConverted}
-                                                    />
-                                                </span>
-                                            )}
-                                            <span
-                                                className={cn(
-                                                    'text-theme-secondary-500 ml-1 text-xs leading-[15px] transition-all sm:hidden',
-                                                    {
-                                                        'dark:text-theme-dark-500 dim:text-theme-dim-200':
-                                                            !isSelected,
-                                                        'dim:text-theme-dim-navy-600': isSelected,
-                                                        hidden: !showConvertedValues,
-                                                    },
-                                                )}
-                                            >
-                                                (
-                                            </span>
                                             <Amount
                                                 ticker={ticker}
                                                 value={displayValue}
@@ -93,24 +69,9 @@ export const InputFeeSimple: React.FC<InputFeeSimpleProperties> = ({
                                                         'dark:group-hover:text-theme-dark-200 dark:text-theme-dark-500 dim:text-theme-dim-200 group-hover:dim:text-theme-dim-200':
                                                             !isSelected,
                                                         'dim:text-theme-dim-navy-600': isSelected,
-                                                        'text-theme-secondary-500':
-                                                            showConvertedValues,
                                                     },
                                                 )}
                                             />
-                                            <span
-                                                className={cn(
-                                                    'text-theme-secondary-500 text-xs leading-[15px] transition-all sm:hidden',
-                                                    {
-                                                        'dark:text-theme-dark-500 dim:text-theme-dim-200':
-                                                            !isSelected,
-                                                        'dim:text-theme-dim-navy-600': isSelected,
-                                                        hidden: !showConvertedValues,
-                                                    },
-                                                )}
-                                            >
-                                                )
-                                            </span>
                                         </div>
                                     )}
                                 </div>

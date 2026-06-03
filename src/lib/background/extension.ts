@@ -82,13 +82,7 @@ export function Extension() {
                 envData: env.data().all(),
             };
         },
-        /**
-         * Reset a profile given a password and optional parameters like currency.
-         *
-         * @param {string} password
-         * @param {Object} options
-         */
-        async reset(password?: string, options?: { currency: string }): Promise<void> {
+        async reset(password?: string): Promise<void> {
             lockHandler.reset();
 
             if (!password) {
@@ -105,10 +99,6 @@ export function Extension() {
             const profile = await env.profiles().create('arkconnect');
             profile.auth().setPassword(password);
             env.profiles().push(profile);
-
-            profile
-                .settings()
-                .set(Contracts.ProfileSetting.ExchangeCurrency, options?.currency ?? 'USD');
 
             await env.verify();
             await env.boot();

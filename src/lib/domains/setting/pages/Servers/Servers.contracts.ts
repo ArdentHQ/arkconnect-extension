@@ -1,13 +1,11 @@
-import { Networks } from '@/app/lib/mainsail';
+import { Networks } from '@/lib/mainsail';
 import { OptionProperties } from '@/shared/components';
 
 interface ServersSettingsState {
     automaticSignOutPeriod: string;
     avatar: string;
     bip39Locale: string;
-    exchangeCurrency: string;
     locale: string;
-    marketProvider: string;
     name: string;
     timeFormat: string;
 }

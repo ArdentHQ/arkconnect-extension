@@ -17,7 +17,6 @@ import { UsernamesService } from "./usernames.service.js";
 import { LedgerService } from "@/lib/mainsail/ledger.service.js";
 import { ValidatorService } from "./validator.service.js";
 import { KnownWalletService } from "./known-wallet.service.js";
-import { ExchangeRateService } from "./exchange-rate.service.js";
 import { BigNumber } from "@/lib/helpers/bignumber.js";
 import { DraftTransactionFactory } from "@/lib/mainsail/draft-transaction.factory.js";
 import { TokenService } from "./token.service.js";
@@ -120,14 +119,6 @@ export interface IProfile {
 	 * @memberof IProfile
 	 */
 	balance(): number;
-
-	/**
-	 * Get the converted balance.
-	 *
-	 * @return {number}
-	 * @memberof IProfile
-	 */
-	convertedBalance(): number;
 
 	/**
 	 * Get the data repository instance.
@@ -319,14 +310,6 @@ export interface IProfile {
 	usernames(): UsernamesService;
 
 	/**
-	 * Get the profile exchange service instance.
-	 *
-	 * @return {ExchangeRateService}
-	 * @memberof IProfile
-	 */
-	exchangeRates(): ExchangeRateService;
-
-	/**
 	 * Get the profile ledger service instance.
 	 *
 	 * @memberof IProfile
@@ -347,14 +330,6 @@ export interface IProfile {
 	 * @memberof IProfile
 	 */
 	walletSelectionMode(): "single" | "multiple";
-
-	/**
-	 * Get the profile's total converted balance.
-	 *
-	 * @return {BigNumber}
-	 * @memberof IProfile
-	 */
-	totalBalanceConverted(): BigNumber;
 
 	/**
 	 * Get the profile's total balance.

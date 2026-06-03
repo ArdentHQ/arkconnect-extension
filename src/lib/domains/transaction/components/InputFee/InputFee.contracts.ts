@@ -1,6 +1,6 @@
-import { Networks } from '@/app/lib/mainsail';
-import { Contracts } from '@/app/lib/profiles';
-import { BigNumber } from '@/app/lib/helpers';
+import { Networks } from '@/lib/mainsail';
+import { Contracts } from '@/lib/profiles';
+import { BigNumber } from '@/lib/helpers';
 
 enum InputFeeViewType {
     Simple,
@@ -29,12 +29,9 @@ type OnGasPriceChange = (value: BigNumber | string | number) => void;
 type OnGasLimitChange = (value: BigNumber | string | number) => void;
 
 interface InputFeeAdvancedProperties {
-    convert: (value?: BigNumber) => BigNumber;
     disabled?: boolean;
-    exchangeTicker: string;
     onChangeGasPrice: OnGasPriceChange;
     onChangeGasLimit: OnGasLimitChange;
-    showConvertedValue: boolean;
     network: Networks.Network;
     gasPrice: BigNumber;
     gasLimit: BigNumber;
@@ -46,8 +43,6 @@ interface InputFeeSimpleProperties {
     onChange: (value: InputFeeOption) => void;
     selectedOption: InputFeeOption;
     ticker: string;
-    exchangeTicker: string;
-    showConvertedValues: boolean;
     loading?: boolean;
     blockTime?: number;
 }

@@ -10,7 +10,7 @@ import {
 import { FeeWarning } from './CustomFeeAlerts.blocks';
 import { Contracts } from '@/lib/profiles';
 import trimAddress from '@/lib/utils/trimAddress';
-import { BigNumber } from '@/app/lib/helpers';
+import { BigNumber } from '@/lib/helpers';
 
 type VoteData = {
     address?: string;
@@ -19,15 +19,10 @@ type VoteData = {
 };
 interface ActionBodyProps {
     fee: BigNumber;
-    convertedFee: BigNumber;
-    exchangeCurrency: string;
-    showFiat: boolean;
     network: string;
     amount?: BigNumber;
     amountTicker?: string;
     feeTicker?: string;
-    convertedAmount?: BigNumber;
-    convertedTotalAmount?: BigNumber;
     isApproved?: boolean;
     actionDetailsClassName?: string;
     receiver?: string;
@@ -49,18 +44,13 @@ export const ActionBody = ({
     vote,
     transactionId,
     fee,
-    convertedFee,
-    showFiat,
-    exchangeCurrency,
     network,
     actionDetailsClassName,
     amount,
-    convertedAmount,
     receiver,
     amountTicker,
     feeTicker,
     totalAmount,
-    convertedTotalAmount,
     hasHigherCustomFee = null,
     hasLowerCustomFee = null,
 }: ActionBodyProps) => {
@@ -87,13 +77,10 @@ export const ActionBody = ({
                 />
             )}
 
-            {amount !== undefined && convertedAmount !== undefined && (
+            {amount !== undefined && (
                 <ActionAmountRow
                     label={t('COMMON.AMOUNT')}
-                    showFiat={showFiat}
                     amount={amount}
-                    convertedAmount={convertedAmount}
-                    exchangeCurrency={exchangeCurrency}
                     network={network}
                     amountTicker={amountTicker}
                 />
@@ -112,22 +99,16 @@ export const ActionBody = ({
                         )}
                     </span>
                 }
-                showFiat={showFiat}
                 amount={fee}
                 amountTicker={resolvedFeeTicker}
-                convertedAmount={convertedFee}
-                exchangeCurrency={exchangeCurrency}
                 network={network}
             />
 
-            {!tickersDiffer && totalAmount !== undefined && convertedTotalAmount !== undefined && (
+            {!tickersDiffer && totalAmount !== undefined && (
                 <ActionAmountRow
                     label={t('COMMON.TOTAL_AMOUNT')}
                     amount={totalAmount}
                     amountTicker={amountTicker}
-                    convertedAmount={convertedTotalAmount}
-                    showFiat={showFiat}
-                    exchangeCurrency={exchangeCurrency}
                     network={network}
                 />
             )}
