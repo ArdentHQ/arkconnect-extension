@@ -3,7 +3,10 @@ import { UUID } from '@ardenthq/arkvault-crypto';
 import { AutoLockTimer, getLocalValues, setLocalValue } from './lib/utils/localStorage';
 import { Extension } from './lib/background/extension';
 import keepServiceWorkerAlive from './lib/background/keepServiceWorkerAlive';
-import { longLivedConnectionHandlers } from './lib/background/eventListenerHandlers';
+import {
+    longLivedConnectionHandlers,
+    setSidepanelEnabled,
+} from './lib/background/eventListenerHandlers';
 import { OneTimeEventHandlers, OneTimeEvents } from '@/OneTimeEventHandlers';
 import { applySidepanelMode } from '@/lib/background/sidepanel';
 
@@ -47,6 +50,7 @@ const handleLongLivedConnection = async (message: any, port: Runtime.Port) => {
                 data: {
                     ...message.data,
                     tabId: port.sender?.tab?.id,
+                    windowId: port.sender?.tab?.windowId,
                     port: port,
                 },
             },
@@ -64,8 +68,12 @@ runtime.onInstalled.addListener(async (details) => {
     }
 });
 
-// Restore sidepanel state after service worker restarts
-void getLocalValues().then(({ openInSidepanel }) => applySidepanelMode(openInSidepanel ?? false));
+// Restore sidepanel state after service worker restarts and seed the in-memory cache
+void getLocalValues().then(({ openInSidepanel }) => {
+    const enabled = openInSidepanel ?? false;
+    setSidepanelEnabled(enabled);
+    applySidepanelMode(enabled);
+});
 
 initOneTimeEventListeners();
 keepServiceWorkerAlive();

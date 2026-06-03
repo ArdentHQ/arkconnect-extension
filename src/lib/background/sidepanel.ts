@@ -7,6 +7,7 @@ declare const chrome: {
     sidePanel?: {
         setPanelBehavior(behavior: { openPanelOnActionClick: boolean }): Promise<void>;
         open(details: { windowId: number }): Promise<void>;
+        close(details: { windowId: number }): Promise<void>;
     };
 };
 
@@ -31,4 +32,8 @@ export const openPopupForWindow = async (windowId: number): Promise<void> => {
 
 export const openSidepanel = async (windowId: number): Promise<void> => {
     await chrome.sidePanel?.open({ windowId });
+};
+
+export const closeSidepanel = async (windowId: number): Promise<void> => {
+    await chrome.sidePanel?.close({ windowId });
 };

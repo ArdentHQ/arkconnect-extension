@@ -8,7 +8,11 @@ import { SendTransferInput } from '@/lib/background/extension.wallet';
 import { SessionEntries } from '@/lib/store/session';
 import { VoteInput } from '@/lib/mainsail/transaction.contract';
 import { setLocalValue } from '@/lib/utils/localStorage';
-import { applySidepanelMode, openPopupForWindow } from '@/lib/background/sidepanel';
+import { applySidepanelMode, closeSidepanel, openPopupForWindow } from '@/lib/background/sidepanel';
+import {
+    executePendingSidepanelCallback,
+    setSidepanelEnabled,
+} from '@/lib/background/eventListenerHandlers';
 
 export enum OneTimeEvents {
     SEND_VOTE = 'SEND_VOTE',
@@ -34,6 +38,8 @@ export enum OneTimeEvents {
     SET_LAST_SCREEN = 'SET_LAST_SCREEN',
     CLEAR_LAST_SCREEN = 'CLEAR_LAST_SCREEN',
     SET_OPEN_IN_SIDEPANEL = 'SET_OPEN_IN_SIDEPANEL',
+    SIDEPANEL_READY = 'SIDEPANEL_READY',
+    CLOSE_SIDEPANEL = 'CLOSE_SIDEPANEL',
 }
 
 export function OneTimeEventHandlers(extension: ReturnType<typeof Extension>) {
@@ -161,6 +167,7 @@ export function OneTimeEventHandlers(extension: ReturnType<typeof Extension>) {
         [OneTimeEvents.SET_OPEN_IN_SIDEPANEL]: async (request: any) => {
             const enabled = request.data.enabled as boolean;
             const windowId = request.data.windowId as number | undefined;
+            setSidepanelEnabled(enabled);
             await setLocalValue('openInSidepanel', enabled);
             await applySidepanelMode(enabled);
             if (!enabled && windowId !== undefined) {
@@ -250,6 +257,15 @@ export function OneTimeEventHandlers(extension: ReturnType<typeof Extension>) {
             extension.profile().settings().forget(ProfileData.LastVisitedPage);
             await extension.persist();
             return;
+        },
+
+        [OneTimeEvents.SIDEPANEL_READY]: async (request: any) => {
+            executePendingSidepanelCallback(request.data?.wasAlreadyOpen ?? false);
+        },
+
+        [OneTimeEvents.CLOSE_SIDEPANEL]: async (request: any) => {
+            const windowId = request.data.windowId as number;
+            await closeSidepanel(windowId);
         },
     };
 }
