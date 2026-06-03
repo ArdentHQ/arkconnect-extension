@@ -37,7 +37,6 @@ export default defineConfig({
     // public/ lives at the repo root, not under srcDir.
     publicDir: resolve(__dirname, 'public'),
     alias: {
-        '@/app': srcDir,
         '@': srcDir,
     },
     webExt: {

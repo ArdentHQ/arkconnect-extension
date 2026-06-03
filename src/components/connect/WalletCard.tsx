@@ -4,7 +4,7 @@ import Amount from '@/components/wallet/Amount';
 import constants from '@/constants';
 import { generateWalletHelperText } from '@/lib/utils/generateWalletHelperText';
 import trimAddress from '@/lib/utils/trimAddress';
-import { BigNumber } from '@/app/lib/helpers';
+import { BigNumber } from '@/lib/helpers';
 
 type Props = {
     wallet: Contracts.IReadWriteWallet;
