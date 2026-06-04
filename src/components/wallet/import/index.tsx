@@ -13,6 +13,7 @@ import { useProfileContext } from '@/lib/context/Profile';
 import { HandleLoadingState } from '@/shared/components/handleStates/HandleLoadingState';
 import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
 import useWalletImport from '@/lib/hooks/useWalletImport';
+import useLocaleCurrency from '@/lib/hooks/useLocalCurrency';
 import useLoadingModal from '@/lib/hooks/useLoadingModal';
 import { useBackgroundEvents } from '@/lib/context/BackgroundEventHandler';
 import {
@@ -59,6 +60,7 @@ const ImportNewWallet = () => {
     ]);
     const [defaultStep, setDefaultStep] = useState<number>(0);
     const [isGeneratingWallet, setIsGeneratingWallet] = useState(true);
+    const { defaultCurrency } = useLocaleCurrency();
     const { env } = useEnvironmentContext();
 
     const { events } = useBackgroundEvents();
@@ -105,6 +107,7 @@ const ImportNewWallet = () => {
             const { error } = await runtime.sendMessage({
                 type: 'IMPORT_WALLETS',
                 data: {
+                    currency: defaultCurrency,
                     password: values.password,
                     wallets: [
                         {

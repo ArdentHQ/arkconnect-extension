@@ -50,6 +50,7 @@ import { PublicKeyService } from "@/lib/mainsail/public-key.service";
 import { SignatoryService } from "@/lib/mainsail/signatory.service";
 import { TransactionService } from "@/lib/mainsail/transaction.service";
 import { ValidatorService } from "./validator.service";
+import { ExchangeRateService } from "./exchange-rate.service";
 import { WalletAliasProvider } from "./profile.wallet.alias";
 import { WalletTokenRepository } from "./wallet-token.repository";
 
@@ -122,6 +123,11 @@ export class Wallet implements IReadWriteWallet {
 		return this.network().ticker();
 	}
 
+	/** {@inheritDoc IReadWriteWallet.exchangeCurrency} */
+	public exchangeCurrency(): string {
+		return this.#profile.settings().get(ProfileSetting.ExchangeCurrency) as string;
+	}
+
 	/** {@inheritDoc IReadWriteWallet.alias} */
 	public alias(): string | undefined {
 		return (
@@ -180,6 +186,20 @@ export class Wallet implements IReadWriteWallet {
 		}
 
 		return BigNumber.ZERO;
+	}
+
+	/** {@inheritDoc IReadWriteWallet.convertedBalance} */
+	public convertedBalance(type: WalletBalanceType = "available"): BigNumber {
+		if (this.network().isTest()) {
+			return BigNumber.ZERO;
+		}
+
+		return this.exchangeRates().exchange(
+			this.currency(),
+			this.exchangeCurrency(),
+			DateTime.make(),
+			this.balance(type),
+		);
 	}
 
 	/** {@inheritDoc IReadWriteWallet.nonce} */
@@ -682,6 +702,10 @@ export class Wallet implements IReadWriteWallet {
 		} catch {
 			return 18;
 		}
+	}
+
+	public exchangeRates(): ExchangeRateService {
+		return this.#profile.exchangeRates();
 	}
 
 	public tokens(): WalletTokenRepository {

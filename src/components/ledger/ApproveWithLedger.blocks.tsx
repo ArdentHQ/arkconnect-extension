@@ -4,11 +4,12 @@ import { ActionBody } from '../approve/ActionBody';
 import { Contracts } from '@/lib/profiles';
 import trimAddress from '@/lib/utils/trimAddress';
 import { getNetworkCurrency } from '@/lib/utils/getActiveCoin';
+import { useExchangeRate } from '@/lib/hooks/useExchangeRate';
 import { useSendTransferForm } from '@/lib/hooks/useSendTransferForm';
 import { useVoteForm } from '@/lib/hooks/useVoteForm';
 import * as SessionStore from '@/lib/store/session';
 import { calculateGasFee } from '@/lib/hooks/useNetworkFees';
-import { BigNumber } from '@/lib/helpers';
+import { BigNumber } from '@/app/lib/helpers';
 
 type VoteDelegateProperties = {
     address: string;
@@ -30,6 +31,11 @@ interface Props {
 }
 
 export const VoteLedgerApprovalBody = ({ wallet, state }: Props) => {
+    const { convert } = useExchangeRate({
+        exchangeTicker: wallet.exchangeCurrency(),
+        ticker: wallet.currency(),
+    });
+
     const {
         values: { gasPrice, gasLimit, vote, unvote, hasLowerCustomFee, hasHigherCustomFee },
     } = useVoteForm(wallet, state);
@@ -39,8 +45,11 @@ export const VoteLedgerApprovalBody = ({ wallet, state }: Props) => {
     return (
         <ActionBody
             isApproved={false}
+            showFiat={wallet.network().isLive()}
             wallet={wallet}
             fee={fee}
+            convertedFee={convert(+fee)}
+            exchangeCurrency={wallet.exchangeCurrency() ?? 'USD'}
             network={getNetworkCurrency(wallet.network())}
             unvote={{
                 name: unvote?.wallet?.username(),
@@ -68,7 +77,13 @@ export const TransactionLedgerApprovalBody = ({ wallet, state }: Props) => {
         gasLimit: customGasLimit,
     } = state;
 
+    const { convert } = useExchangeRate({
+        exchangeTicker: wallet.exchangeCurrency(),
+        ticker: wallet.currency(),
+    });
+    const exchangeCurrency = wallet.exchangeCurrency() ?? 'USD';
     const coin = getNetworkCurrency(wallet.network());
+    const withFiat = wallet.network().isLive();
 
     const {
         values: { gasPrice, gasLimit, total },
@@ -85,12 +100,17 @@ export const TransactionLedgerApprovalBody = ({ wallet, state }: Props) => {
     return (
         <ActionBody
             isApproved={false}
+            showFiat={withFiat}
             amount={amount}
             amountTicker={coin}
+            convertedAmount={convert(amount)}
+            exchangeCurrency={exchangeCurrency}
             network={getNetworkCurrency(wallet.network())}
             fee={fee}
+            convertedFee={convert(fee)}
             receiver={trimAddress(receiverAddress, 10)}
             totalAmount={total}
+            convertedTotalAmount={convert(total)}
         />
     );
 };

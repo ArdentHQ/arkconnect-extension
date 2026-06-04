@@ -12,6 +12,7 @@ import SplashScreen from '@/pages/SplashScreen';
 import CreateOrImport from '@/components/settings/general/CreateOrImportAddress';
 import ChangeLocalPassword from '@/components/settings/general/ChangeLocalPassword';
 import AutoLockTimer from '@/components/settings/others/AutoLockTimer';
+import ChangeLocalCurrency from '@/components/settings/others/ChangeLocalCurrency';
 import AboutARK from '@/components/settings/others/AboutARK';
 import EditAddressName from '@/components/settings/general/EditAddressName';
 import ViewSensitiveInfo from '@/components/settings/general/ViewSensitiveInfo';
@@ -77,6 +78,11 @@ const routes: RouteData[] = [
         Component: AutoLockTimer,
         path: '/autolock-timer',
         title: 'Auto Lock Timer',
+    },
+    {
+        Component: ChangeLocalCurrency,
+        path: '/local-currency',
+        title: 'Change Local Currency',
     },
     {
         Component: AboutARK,

@@ -18,6 +18,7 @@ import removeWindowInstance from '@/lib/utils/removeWindowInstance';
 import { WalletNetwork } from '@/lib/store/wallet';
 import useWalletSync from '@/lib/hooks/useWalletSync';
 import { useEnvironmentContext } from '@/lib/context/Environment';
+import { useExchangeRate } from '@/lib/hooks/useExchangeRate';
 import { useNotifyOnUnload } from '@/lib/hooks/useNotifyOnUnload';
 import useLoadingModal from '@/lib/hooks/useLoadingModal';
 import { useWaitForConnectedDevice } from '@/lib/Ledger';
@@ -65,8 +66,14 @@ const ApproveTransaction = ({
     const { onError } = useErrorHandlerContext();
     const [error, setError] = useState<string | undefined>();
     const { t } = useTranslation();
+    const { convert } = useExchangeRate({
+        exchangeTicker: wallet.exchangeCurrency(),
+        ticker: wallet.currency(),
+    });
     const { waitUntilLedgerIsConnected } = useWaitForConnectedDevice();
+    const exchangeCurrency = wallet.exchangeCurrency() ?? 'USD';
     const coin = getNetworkCurrency(wallet.network());
+    const withFiat = wallet.network().isLive();
     const isNative = session.domain === constants.APP_NAME;
 
     const { data: token } = useQuery<WalletToken | undefined>(
@@ -170,11 +177,15 @@ const ApproveTransaction = ({
 
             const transaction = {
                 id: response.hash as string,
+                exchangeCurrency: wallet.exchangeCurrency() ?? 'USD',
                 sender: response.from as string,
                 receiver: isTokenTransfer ? receiverAddress : (response.to as string),
                 amount: isTokenTransfer ? amount : (response.amount as number),
+                convertedAmount: isTokenTransfer ? undefined : convert(response.amount),
                 fee: response.fee as number,
+                convertedFee: convert(response.fee),
                 total: isTokenTransfer ? undefined : (response.total as number),
+                convertedTotal: isTokenTransfer ? undefined : convert(response.total),
                 tokenAddress: isTokenTransfer ? tokenAddress : undefined,
                 tokenSymbol: tokenSymbol,
             };
@@ -282,13 +293,18 @@ const ApproveTransaction = ({
             <ApproveBody header={t('PAGES.APPROVE.SENDING_WITH')} wallet={wallet} error={error}>
                 <ActionBody
                     isApproved={false}
+                    showFiat={withFiat && !isTokenTransfer}
                     amount={amount}
                     amountTicker={amountTicker}
                     feeTicker={isTokenTransfer ? coin : undefined}
+                    convertedAmount={isTokenTransfer ? undefined : convert(amount)}
+                    exchangeCurrency={exchangeCurrency}
                     network={getNetworkCurrency(wallet.network())}
                     fee={fee}
+                    convertedFee={convert(+fee)}
                     receiver={receiverAddress}
                     totalAmount={isTokenTransfer ? undefined : total}
+                    convertedTotalAmount={isTokenTransfer ? undefined : convert(total)}
                     hasHigherCustomFee={hasHigherCustomFee}
                     hasLowerCustomFee={hasLowerCustomFee}
                 />

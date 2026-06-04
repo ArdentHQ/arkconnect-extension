@@ -15,6 +15,7 @@ import { getDefaultAlias } from '@/lib/utils/getDefaultAlias';
 import { HandleLoadingState } from '@/shared/components/handleStates/HandleLoadingState';
 import { assertNetwork } from '@/lib/utils/assertions';
 import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
+import useLocaleCurrency from '@/lib/hooks/useLocalCurrency';
 import {
     EnvironmentData,
     LastVisitedPage,
@@ -54,6 +55,7 @@ const CreateNewWallet = () => {
     const navigate = useNavigate();
     const { onError } = useErrorHandlerContext();
     const { profile, initProfile } = useProfileContext();
+    const { defaultCurrency } = useLocaleCurrency();
     const { activeNetwork } = useActiveNetwork();
     const [isGeneratingWallet, setIsGeneratingWallet] = useState(true);
     const [steps, setSteps] = useState<Step[]>([
@@ -145,6 +147,7 @@ const CreateNewWallet = () => {
             const { error } = await runtime.sendMessage({
                 type: 'IMPORT_WALLETS',
                 data: {
+                    currency: defaultCurrency,
                     password: values.password,
                     wallets: [
                         {

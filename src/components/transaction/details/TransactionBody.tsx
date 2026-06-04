@@ -9,9 +9,11 @@ import { TransactionItem } from './TransactionItem';
 import { Tooltip } from '@/shared/components';
 import { getType, renderAmount, TransactionType } from '@/components/home/LatestTransactions.utils';
 
+import Amount from '@/components/wallet/Amount';
 import { formatUnixTimestamp } from '@/lib/utils/formatUnixTimestsamp';
 import trimAddress from '@/lib/utils/trimAddress';
 import { useValidatorInfo } from '@/lib/hooks/useValidatorInfo';
+import { useExchangeRate } from '@/lib/hooks/useExchangeRate';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 import { ExtendedConfirmedTransactionData } from '@/lib/profiles/transaction.dto';
 
@@ -23,6 +25,10 @@ export const TransactionBody = ({
     const primaryWallet = usePrimaryWallet();
     const { t } = useTranslation();
     const { voteValidator, unvoteValidator } = useValidatorInfo(transaction, primaryWallet);
+    const { convert } = useExchangeRate({
+        exchangeTicker: primaryWallet?.exchangeCurrency(),
+        ticker: primaryWallet?.currency(),
+    });
 
     const type = getType(transaction) as TransactionType;
     const paymentTypes = [
@@ -97,6 +103,15 @@ export const TransactionBody = ({
                             showSign: false,
                             primaryCurrency: primaryWallet?.currency() ?? 'ARK',
                         })}
+                        {!primaryWallet?.network().isTest() && (
+                            <span className='text-theme-secondary-500 dark:text-theme-secondary-300'>
+                                <Amount
+                                    value={convert(transaction.fee())}
+                                    ticker={primaryWallet?.exchangeCurrency() ?? 'USD'}
+                                    underlineOnHover={true}
+                                />
+                            </span>
+                        )}
                     </div>
                 </TransactionItem>
 

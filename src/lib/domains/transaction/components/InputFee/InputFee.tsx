@@ -14,7 +14,9 @@ import { InputFeeAdvanced } from './blocks/InputFeeAdvanced';
 import { InputFeeSimple } from './blocks/InputFeeSimple';
 import { calculateGasFee } from './InputFee.helpers';
 import { BigNumber, get } from '@/lib/helpers';
+import { Contracts } from '@/lib/profiles';
 import { Switch } from '@/shared/components';
+import { useExchangeRate } from '@/lib/hooks/use-exchange-rate';
 import { Network } from '@/lib/mainsail/network';
 import { DISPLAY_DECIMALS } from '@/lib/domains/transaction/utils';
 
@@ -48,6 +50,7 @@ export const InputFee: React.FC<InputFeeProperties> = memo(
         max,
         disabled,
         network,
+        profile,
         loading,
         onChangeGasPrice,
         estimatedGasLimit,
@@ -65,12 +68,19 @@ export const InputFee: React.FC<InputFeeProperties> = memo(
 
         const blockTime = get(network.milestone(), 'timeouts.blockTime') as number;
 
+        const exchangeTicker = profile
+            .settings()
+            .get<string>(Contracts.ProfileSetting.ExchangeCurrency);
+        const { convert } = useExchangeRate({ exchangeTicker, profile, ticker });
+
+        const showConvertedValues = network.isLive();
+
         const options: InputFeeOptions = {
             [InputFeeOption.Slow]: {
                 displayValue: BigNumber.make(calculateGasFee(min, gasLimit)).decimalPlaces(
                     DISPLAY_DECIMALS,
                 ),
-                displayValueConverted: BigNumber.ZERO,
+                displayValueConverted: convert(calculateGasFee(min, gasLimit)),
                 gasPrice: min,
                 label: t('TRANSACTION.FEES.SLOW'),
             },
@@ -78,7 +88,7 @@ export const InputFee: React.FC<InputFeeProperties> = memo(
                 displayValue: BigNumber.make(calculateGasFee(avg, gasLimit)).decimalPlaces(
                     DISPLAY_DECIMALS,
                 ),
-                displayValueConverted: BigNumber.ZERO,
+                displayValueConverted: convert(calculateGasFee(avg, gasLimit)),
                 gasPrice: avg,
                 label: t('TRANSACTION.FEES.AVERAGE'),
             },
@@ -86,7 +96,7 @@ export const InputFee: React.FC<InputFeeProperties> = memo(
                 displayValue: BigNumber.make(calculateGasFee(max, gasLimit)).decimalPlaces(
                     DISPLAY_DECIMALS,
                 ),
-                displayValueConverted: BigNumber.ZERO,
+                displayValueConverted: convert(calculateGasFee(max, gasLimit)),
                 gasPrice: max,
                 label: t('TRANSACTION.FEES.FAST'),
             },
@@ -110,7 +120,9 @@ export const InputFee: React.FC<InputFeeProperties> = memo(
             <InputFeeAdvanced
                 blockTime={blockTime}
                 network={network}
+                convert={convert}
                 disabled={disabled || loading}
+                exchangeTicker={exchangeTicker!}
                 onChangeGasPrice={(gasPrice: BigNumber | number | string) => {
                     const value = gasPrice === '' ? 0 : gasPrice;
                     onChangeGasPrice(BigNumber.make(value));
@@ -119,6 +131,7 @@ export const InputFee: React.FC<InputFeeProperties> = memo(
                     const value = gasLimit === '' ? 0 : gasLimit;
                     onChangeGasLimit(BigNumber.make(value));
                 }}
+                showConvertedValue={showConvertedValues}
                 gasPrice={gasPrice}
                 gasLimit={gasLimit}
             />
@@ -151,8 +164,10 @@ export const InputFee: React.FC<InputFeeProperties> = memo(
                     <InputFeeSimple
                         blockTime={blockTime}
                         options={options}
-                        loading={loading || !ticker}
+                        loading={loading || !ticker || !exchangeTicker}
                         ticker={ticker}
+                        exchangeTicker={exchangeTicker!}
+                        showConvertedValues={showConvertedValues}
                         selectedOption={selectedFeeOption}
                         onChange={onChangeOption}
                     />

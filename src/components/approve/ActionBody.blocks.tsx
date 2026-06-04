@@ -3,13 +3,13 @@ import { useRef } from 'react';
 import cn from 'classnames';
 import { Address } from '../wallet/address/Address.blocks';
 import { CopyTransactionId } from '../transaction/details/CopyTransactionId';
-import { ActionDetailsRow } from './ActionDetails';
+import { ActionDetailsFiatValue, ActionDetailsRow } from './ActionDetails';
 import { ActionDetailsValue } from './ActionDetailsValue';
 import { Tooltip } from '@/shared/components';
 import trimAddress from '@/lib/utils/trimAddress';
 import Amount from '@/components/wallet/Amount';
 import useAddressBook from '@/lib/hooks/useAddressBook';
-import { BigNumber } from '@/lib/helpers';
+import { BigNumber } from '@/app/lib/helpers';
 
 interface ActionBodyRowProps {
     label: React.ReactNode;
@@ -39,16 +39,41 @@ export const ActionBodyRow = ({
 
 interface ActionAmountRowProps {
     label: React.ReactNode;
+    showFiat: boolean;
     amount: BigNumber;
+    convertedAmount: BigNumber;
+    exchangeCurrency: string;
     amountTicker?: string;
     withTicker?: boolean;
     network?: string;
     underlineOnHover?: boolean;
 }
 
-export const ActionAmountRow = ({ label, amount, amountTicker, network }: ActionAmountRowProps) => {
+export const ActionAmountRow = ({
+    label,
+    showFiat,
+    amount,
+    convertedAmount,
+    exchangeCurrency,
+    amountTicker,
+    network,
+}: ActionAmountRowProps) => {
     return (
-        <ActionDetailsRow label={label}>
+        <ActionDetailsRow
+            label={label}
+            below={
+                showFiat && (
+                    <ActionDetailsFiatValue>
+                        <Amount
+                            value={convertedAmount}
+                            ticker={exchangeCurrency}
+                            underlineOnHover={true}
+                            tooltipPlacement='bottom-end'
+                        />
+                    </ActionDetailsFiatValue>
+                )
+            }
+        >
             <div className='flex items-baseline gap-1'>
                 <ActionDetailsValue>
                     {amountTicker ? (

@@ -1,30 +1,36 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import { useTranslation } from 'react-i18next';
 import { InputFeeAdvancedAddon } from './InputFeeAdvancedAddon';
-import { Amount, FormField, FormLabel, InputCurrency } from '@/shared/components';
+import { Amount, FormField, FormLabel, InputCurrency, useFormField } from '@/shared/components';
 import { InputFeeAdvancedProperties } from '@/lib/domains/transaction/components/InputFee/InputFee.contracts';
 import {
     calculateGasFee,
     useStepMath,
 } from '@/lib/domains/transaction/components/InputFee/InputFee.helpers';
 import { getFeeMinMax } from '@/lib/domains/transaction/components/InputFee/InputFee';
-import { BigNumber } from '@/lib/helpers';
+import { BigNumber } from '@/app/lib/helpers';
 import { useConfirmationTimes } from '@/lib/domains/transaction/components/InputFee/use-confirmation-times';
 
 const GAS_LIMIT_STEP = 1000;
 const GAS_PRICE_STEP = 1;
 
 export const InputFeeAdvanced: React.FC<InputFeeAdvancedProperties> = ({
+    convert,
     disabled,
+    exchangeTicker,
     onChangeGasPrice,
     onChangeGasLimit,
+    showConvertedValue,
     gasPrice,
     gasLimit,
     network,
     blockTime,
 }: InputFeeAdvancedProperties) => {
     const { t } = useTranslation();
+
+    const formField = useFormField();
+    const hasError = formField?.isInvalid;
 
     const { decrement: decrementGasFee, increment: incrementGasFee } = useStepMath(
         GAS_PRICE_STEP,
@@ -84,6 +90,9 @@ export const InputFeeAdvanced: React.FC<InputFeeAdvancedProperties> = ({
     };
 
     const gasFee = calculateGasFee(gasPrice, gasLimit);
+    const convertedGasFee = useMemo(() => convert(gasFee), [convert, gasFee]);
+
+    const convertedGasPrice = useMemo(() => convert(gasPrice), [convert, gasPrice]);
 
     return (
         <div className='dim:border-theme-dim-700 border-theme-secondary-300 dark:border-theme-secondary-700 -mx-4 overflow-hidden rounded-xl border'>
@@ -102,13 +111,15 @@ export const InputFeeAdvanced: React.FC<InputFeeAdvancedProperties> = ({
                             end: {
                                 content: (
                                     <InputFeeAdvancedAddon
-                                        convertedValue={BigNumber.ZERO}
+                                        convertedValue={convertedGasPrice}
                                         disabled={!!disabled}
-                                        exchangeTicker=''
+                                        exchangeTicker={network.ticker()}
                                         isDownDisabled={gasPrice.isLessThanOrEqualTo(minGasPrice)}
                                         onClickDown={handleGasPriceDecrement}
                                         onClickUp={handleGasPriceIncrement}
-                                        showConvertedValue={false}
+                                        showConvertedValue={
+                                            showConvertedValue && gasPrice.isZero() && !hasError
+                                        }
                                     />
                                 ),
                                 wrapperClassName: 'divide-none',
@@ -156,6 +167,12 @@ export const InputFeeAdvanced: React.FC<InputFeeAdvancedProperties> = ({
                 <div>
                     <span>Max Fee </span>
                     <Amount ticker={network.ticker()} value={gasFee} />
+                    {network.isLive() && (
+                        <span data-testid='InputFeeAdvanced__convertedGasFee'>
+                            {' '}
+                            ~<Amount ticker={exchangeTicker} value={convertedGasFee} />{' '}
+                        </span>
+                    )}
                 </div>
                 <div>
                     <span>{t('COMMON.CONFIRMATION_TIME_LABEL')}</span>

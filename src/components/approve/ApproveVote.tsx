@@ -10,6 +10,7 @@ import ApproveHeader from '@/components/approve/ApproveHeader';
 import { WalletNetwork } from '@/lib/store/wallet';
 import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
 import { useProfileContext } from '@/lib/context/Profile';
+import { useExchangeRate } from '@/lib/hooks/useExchangeRate';
 import { ApproveActionType } from '@/pages/Approve';
 import { useVoteForm } from '@/lib/hooks/useVoteForm';
 import { HandleLoadingState } from '@/shared/components/handleStates/HandleLoadingState';
@@ -46,6 +47,10 @@ const ApproveVote = ({ abortReference, approveWithLedger, wallet, closeLedgerScr
     const { onError } = useErrorHandlerContext();
     const [error, setError] = useState<string | undefined>();
     const { t } = useTranslation();
+    const { convert } = useExchangeRate({
+        exchangeTicker: wallet.exchangeCurrency(),
+        ticker: wallet.currency(),
+    });
     const { waitUntilLedgerIsConnected } = useWaitForConnectedDevice();
     const {
         gasLimit: customGasLimit,
@@ -144,7 +149,9 @@ const ApproveVote = ({ abortReference, approveWithLedger, wallet, closeLedgerScr
                 unvoteAddress: unvote?.wallet?.address(),
                 unvoteName: unvote?.wallet?.username(),
                 unvotePublicKey: unvote?.wallet?.publicKey(),
+                exchangeCurrency: wallet.exchangeCurrency() ?? 'USD',
                 fee: res.fee as number,
+                convertedFee: convert(res.fee),
             };
 
             await runtime.sendMessage({
@@ -248,8 +255,11 @@ const ApproveVote = ({ abortReference, approveWithLedger, wallet, closeLedgerScr
                     >
                         <ActionBody
                             isApproved={false}
+                            showFiat={wallet.network().isLive()}
                             wallet={wallet}
                             fee={fee}
+                            convertedFee={convert(+fee)}
+                            exchangeCurrency={wallet.exchangeCurrency() ?? 'USD'}
                             network={getNetworkCurrency(wallet.network())}
                             unvote={{
                                 name: unvote?.wallet?.username(),

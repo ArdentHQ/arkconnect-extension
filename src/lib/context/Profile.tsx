@@ -1,5 +1,6 @@
 import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
 import { runtime } from 'webextension-polyfill';
+import { BigNumber } from '../helpers';
 import { useEnvironmentContext } from './Environment';
 import { useErrorHandlerContext } from './ErrorHandler';
 import { Contracts } from '@/lib/profiles';
@@ -9,11 +10,13 @@ import * as WalletStore from '@/lib/store/wallet';
 import { LoadingFullScreen } from '@/shared/components/handleStates/LoadingFullScreen';
 import { ProfileData } from '@/lib/background/contracts';
 import { useAppDispatch } from '@/lib/store';
+import { useWalletBalance } from '@/lib/hooks/useWalletBalance';
 
 interface Context {
     profile: Contracts.IProfile;
     initProfile: () => Promise<void>;
     importProfile: (profileData: string) => Promise<Contracts.IProfile>;
+    convertedBalance?: BigNumber;
     isProfileReady: boolean;
 }
 
@@ -41,6 +44,8 @@ export const ProfileProvider = ({ children }: Properties) => {
             .values()
             .find((wallet) => wallet.isPrimary());
     };
+
+    const convertedBalance = useWalletBalance(getPrimaryWallet(profile));
 
     const initProfile = async () => {
         setIsProfileReady(false);
@@ -118,6 +123,8 @@ export const ProfileProvider = ({ children }: Properties) => {
         await newProfile.sync();
 
         await env.wallets().syncByProfile(newProfile);
+        await newProfile.exchangeRates().syncAll(newProfile, 'ARK');
+
         setProfile(newProfile);
 
         return newProfile;
@@ -131,6 +138,7 @@ export const ProfileProvider = ({ children }: Properties) => {
                 profile,
                 initProfile,
                 importProfile,
+                convertedBalance,
                 isProfileReady,
             }}
         >

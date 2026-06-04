@@ -40,6 +40,7 @@ export class ProfileImporter implements IProfileImporter {
 
 			this.#profile.wallets().fill(data.wallets);
 
+			this.#profile.exchangeRates().restore();
 		}
 
 		this.#profile.settings().fill(data.settings);

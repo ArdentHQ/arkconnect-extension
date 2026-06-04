@@ -18,6 +18,13 @@ const useWalletSync = ({ profile, env }: WalletImportTypes) => {
         }
     };
 
+    const syncRates = async (profile: Contracts.IProfile, wallet: Contracts.IReadWriteWallet) => {
+        await Promise.all([
+            profile.exchangeRates().syncAll(profile, wallet.currency()),
+            profile.exchangeRates().syncAll(profile, wallet.exchangeCurrency()),
+        ]);
+    };
+
     const syncVotes = async (wallet: Contracts.IReadWriteWallet) => {
         const network = wallet.network();
 
@@ -36,7 +43,12 @@ const useWalletSync = ({ profile, env }: WalletImportTypes) => {
     };
 
     const syncAll = async (wallet: Contracts.IReadWriteWallet) =>
-        Promise.allSettled([syncVotes(wallet), syncFees(wallet), syncBalance(wallet)]);
+        Promise.allSettled([
+            syncVotes(wallet),
+            syncRates(profile, wallet),
+            syncFees(wallet),
+            syncBalance(wallet),
+        ]);
 
     return { syncAll };
 };

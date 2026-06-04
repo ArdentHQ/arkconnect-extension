@@ -117,7 +117,7 @@ export function OneTimeEventHandlers(extension: ReturnType<typeof Extension>) {
         [OneTimeEvents.IMPORT_WALLETS]: async (request: any) => {
             try {
                 if (request.data.password) {
-                    await extension.reset(request.data.password);
+                    await extension.reset(request.data.password, request.data);
                 }
 
                 await importWallets({

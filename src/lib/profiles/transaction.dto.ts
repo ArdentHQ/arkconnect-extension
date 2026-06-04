@@ -275,8 +275,16 @@ export class ExtendedConfirmedTransactionData {
 		return this.#data as unknown as T;
 	}
 
-	#convertAmount(_value: BigNumber): BigNumber {
-		return BigNumber.ZERO;
+	#convertAmount(value: BigNumber): BigNumber {
+		const timestamp: DateTime | undefined = this.timestamp();
+
+		if (timestamp === undefined) {
+			return BigNumber.ZERO;
+		}
+
+		return this.wallet()
+			.exchangeRates()
+			.exchange(this.wallet().currency(), this.wallet().exchangeCurrency(), timestamp, value);
 	}
 
 	public normalizeData(): void {

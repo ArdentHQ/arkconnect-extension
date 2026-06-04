@@ -1,4 +1,4 @@
-import { BigNumber } from '@/lib/helpers';
+import { BigNumber } from '@/app/lib/helpers';
 
 type ConfirmationFeeType = 'Slow' | 'Average' | 'Fast';
 

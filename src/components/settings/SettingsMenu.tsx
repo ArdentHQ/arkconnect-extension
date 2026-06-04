@@ -3,6 +3,7 @@ import { NavigateOptions, useLocation, useNavigate } from 'react-router-dom';
 import classNames from 'classnames';
 import { runtime, windows } from 'webextension-polyfill';
 import { useTranslation } from 'react-i18next';
+import { Contracts } from '@/lib/profiles';
 import { AutoLockTimer as AutoLockTimerEnum, getLocalValues } from '@/lib/utils/localStorage';
 import { handleInputKeyAction, handleSubmitKeyAction } from '@/lib/utils/handleKeyAction';
 import { HeadingDescription, ToggleSwitch } from '@/shared/components';
@@ -17,6 +18,7 @@ import useOnClickOutside from '@/lib/hooks/useOnClickOutside';
 import useThemeMode from '@/lib/hooks/useThemeMode';
 import useActiveNetwork from '@/lib/hooks/useActiveNetwork';
 import { openSidepanel } from '@/lib/background/sidepanel';
+import { useProfileContext } from '@/lib/context/Profile';
 
 export interface DropdownMenuContainerProps {
     selected?: boolean;
@@ -36,6 +38,7 @@ export const SettingsMenu = ({
     const navigate = useNavigate();
     const { pathname } = useLocation();
 
+    const { profile } = useProfileContext();
     const { activeNetwork, setActiveNetwork } = useActiveNetwork();
 
     const [autoLockTimer, setAutoLockTimer] = useState<AutoLockTimerEnum | undefined>(undefined);
@@ -251,6 +254,22 @@ export const SettingsMenu = ({
                         onClick={() => handleNavigation('/local-password')}
                         onKeyDown={(e) =>
                             handleSubmitKeyAction(e, () => handleNavigation('/local-password'))
+                        }
+                    />
+                    <SettingsOption
+                        title={t('PAGES.SETTINGS.MENU.CHANGE_LOCAL_CURRENCY')}
+                        iconLeading='currency-dollar-circle'
+                        rightContent={
+                            <HeadingDescription className='mr-2 text-base font-normal'>
+                                {`${profile
+                                    .settings()
+                                    .get(Contracts.ProfileSetting.ExchangeCurrency)}`}
+                            </HeadingDescription>
+                        }
+                        iconTrailing='arrow-right'
+                        onClick={() => handleNavigation('/local-currency')}
+                        onKeyDown={(e) =>
+                            handleSubmitKeyAction(e, () => handleNavigation('/local-currency'))
                         }
                     />
                     <SettingsOption
