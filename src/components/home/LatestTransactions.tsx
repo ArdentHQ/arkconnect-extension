@@ -50,7 +50,7 @@ const fetchTokens = async (primaryWallet?: IReadWriteWallet): Promise<WalletToke
 export const LatestTransactions = () => {
     const { t } = useTranslation();
     const primaryWallet = usePrimaryWallet();
-    const [activeTab, setActiveTab] = useState<string>('TOKENS');
+    const [activeTab, setActiveTab] = useState<string>(Tabs.TRANSACTIONS);
 
     const { data, refetch, isLoading } = useQuery<TransactionResponse>(
         ['transactions', primaryWallet?.address()],
@@ -78,7 +78,7 @@ export const LatestTransactions = () => {
 
     const tabs = useMemo(() => {
         if (tokenData && tokenData.length > 0) {
-            return [Tabs.TOKENS, Tabs.TRANSACTIONS];
+            return [Tabs.TRANSACTIONS, Tabs.TOKENS];
         }
 
         return [Tabs.TRANSACTIONS];
