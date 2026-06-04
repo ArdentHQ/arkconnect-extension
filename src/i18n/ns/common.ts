@@ -31,7 +31,6 @@ export default {
     FROM: 'From',
     HAS_BEEN_SAVED_SUCCESSFULLY: '{{name}} has been saved successfully',
     HIGHER: 'Higher',
-    IPFS_HASH: 'IPFS Hash',
     LOWER: 'Lower',
     MAINNET: 'Mainnet',
     MAX: 'Max',
