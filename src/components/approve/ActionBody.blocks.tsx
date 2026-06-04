@@ -46,12 +46,7 @@ interface ActionAmountRowProps {
     underlineOnHover?: boolean;
 }
 
-export const ActionAmountRow = ({
-    label,
-    amount,
-    amountTicker,
-    network,
-}: ActionAmountRowProps) => {
+export const ActionAmountRow = ({ label, amount, amountTicker, network }: ActionAmountRowProps) => {
     return (
         <ActionDetailsRow label={label}>
             <div className='flex items-baseline gap-1'>

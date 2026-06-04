@@ -36,11 +36,7 @@ const useWalletSync = ({ profile, env }: WalletImportTypes) => {
     };
 
     const syncAll = async (wallet: Contracts.IReadWriteWallet) =>
-        Promise.allSettled([
-            syncVotes(wallet),
-            syncFees(wallet),
-            syncBalance(wallet),
-        ]);
+        Promise.allSettled([syncVotes(wallet), syncFees(wallet), syncBalance(wallet)]);
 
     return { syncAll };
 };

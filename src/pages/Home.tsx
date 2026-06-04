@@ -5,7 +5,6 @@ import { BigNumber } from '../lib/helpers';
 import Balance from '@/components/wallet/Balance';
 import { ExternalLink, Icon, Layout } from '@/shared/components';
 import constants from '@/constants';
-import { useProfileContext } from '@/lib/context/Profile';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 import { LatestTransactions } from '@/components/home/LatestTransactions';
 import { TransactionButtons } from '@/components/home/TransactionButtons';

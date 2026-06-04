@@ -2,7 +2,7 @@ import React from 'react';
 
 import { useTranslation } from 'react-i18next';
 import { InputFeeAdvancedAddon } from './InputFeeAdvancedAddon';
-import { Amount, FormField, FormLabel, InputCurrency, useFormField } from '@/shared/components';
+import { Amount, FormField, FormLabel, InputCurrency } from '@/shared/components';
 import { InputFeeAdvancedProperties } from '@/lib/domains/transaction/components/InputFee/InputFee.contracts';
 import {
     calculateGasFee,
@@ -38,9 +38,6 @@ export const InputFeeAdvanced: React.FC<InputFeeAdvancedProperties> = ({
 
     const { byFeeType } = useConfirmationTimes({ blockTime });
     const { minGasPrice, maxGasPrice, minGasLimit, maxGasLimit } = getFeeMinMax(network);
-
-    const formField = useFormField();
-    const hasError = formField?.isInvalid;
 
     const handleGasPriceChange = (nextValue: BigNumber) => {
         if (nextValue.isLessThan(minGasPrice)) {
