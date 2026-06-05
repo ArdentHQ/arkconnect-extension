@@ -8,6 +8,7 @@ export const useWalletBalance = (primaryWallet: Contracts.IReadWriteWallet | und
     const [convertedBalance, setConvertedBalance] = useState<BigNumber>(BigNumber.ZERO);
 
     const balance = primaryWallet?.balance() ?? BigNumber.ZERO;
+    const balanceValue = balance.toString();
     const currency = primaryWallet?.exchangeCurrency();
     const isTest = primaryWallet?.network().isTest();
 
@@ -19,9 +20,9 @@ export const useWalletBalance = (primaryWallet: Contracts.IReadWriteWallet | und
         const currencySymbol = currency.toLowerCase();
 
         if (currencySymbol in rates) {
-            setConvertedBalance(rates[currencySymbol].times(balance));
+            setConvertedBalance(rates[currencySymbol].times(balanceValue));
         }
-    }, [isLoading, currency, balance, isTest]);
+    }, [isLoading, currency, balanceValue, isTest]);
 
     return isTest ? undefined : convertedBalance;
 };
