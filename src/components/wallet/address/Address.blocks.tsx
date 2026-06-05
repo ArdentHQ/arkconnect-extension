@@ -9,7 +9,7 @@ import trimAddress from '@/lib/utils/trimAddress';
 import { ToastPosition } from '@/components/toast/ToastContainer';
 import useClipboard from '@/lib/hooks/useClipboard';
 import { useIsTruncated } from '@/lib/hooks/useIsTruncated';
-import { BigNumber } from '@/app/lib/helpers';
+import { BigNumber } from '@/lib/helpers';
 
 export const AddressAlias = ({
     alias,

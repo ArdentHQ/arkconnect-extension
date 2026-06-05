@@ -15,10 +15,10 @@ import { Network, selectWalletsIds } from '@/lib/store/wallet';
 import { SettingsOption } from '@/components/settings/SettingsOption';
 import showAutoLockTimerValue from '@/lib/utils/showAutoLockTimerValue';
 import useOnClickOutside from '@/lib/hooks/useOnClickOutside';
-import { useProfileContext } from '@/lib/context/Profile';
 import useThemeMode from '@/lib/hooks/useThemeMode';
 import useActiveNetwork from '@/lib/hooks/useActiveNetwork';
 import { openSidepanel } from '@/lib/background/sidepanel';
+import { useProfileContext } from '@/lib/context/Profile';
 
 export interface DropdownMenuContainerProps {
     selected?: boolean;
@@ -37,8 +37,8 @@ export const SettingsMenu = ({
     const { toggleThemeMode, isDark, toggleThemeAccent, currentThemeAccent } = useThemeMode();
     const navigate = useNavigate();
     const { pathname } = useLocation();
-    const { profile } = useProfileContext();
 
+    const { profile } = useProfileContext();
     const { activeNetwork, setActiveNetwork } = useActiveNetwork();
 
     const [autoLockTimer, setAutoLockTimer] = useState<AutoLockTimerEnum | undefined>(undefined);

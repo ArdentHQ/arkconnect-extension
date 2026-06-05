@@ -9,7 +9,7 @@ import {
     useStepMath,
 } from '@/lib/domains/transaction/components/InputFee/InputFee.helpers';
 import { getFeeMinMax } from '@/lib/domains/transaction/components/InputFee/InputFee';
-import { BigNumber } from '@/app/lib/helpers';
+import { BigNumber } from '@/lib/helpers';
 import { useConfirmationTimes } from '@/lib/domains/transaction/components/InputFee/use-confirmation-times';
 
 const GAS_LIMIT_STEP = 1000;
@@ -29,6 +29,9 @@ export const InputFeeAdvanced: React.FC<InputFeeAdvancedProperties> = ({
 }: InputFeeAdvancedProperties) => {
     const { t } = useTranslation();
 
+    const formField = useFormField();
+    const hasError = formField?.isInvalid;
+
     const { decrement: decrementGasFee, increment: incrementGasFee } = useStepMath(
         GAS_PRICE_STEP,
         gasPrice.toString(),
@@ -41,9 +44,6 @@ export const InputFeeAdvanced: React.FC<InputFeeAdvancedProperties> = ({
 
     const { byFeeType } = useConfirmationTimes({ blockTime });
     const { minGasPrice, maxGasPrice, minGasLimit, maxGasLimit } = getFeeMinMax(network);
-
-    const formField = useFormField();
-    const hasError = formField?.isInvalid;
 
     const handleGasPriceChange = (nextValue: BigNumber) => {
         if (nextValue.isLessThan(minGasPrice)) {

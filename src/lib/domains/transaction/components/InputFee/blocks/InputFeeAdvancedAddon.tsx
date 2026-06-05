@@ -3,7 +3,7 @@ import React from 'react';
 
 import { twMerge } from 'tailwind-merge';
 import { Amount } from '@/shared/components';
-import { BigNumber } from '@/app/lib/helpers';
+import { BigNumber } from '@/lib/helpers';
 
 interface Properties {
     convertedValue: BigNumber;

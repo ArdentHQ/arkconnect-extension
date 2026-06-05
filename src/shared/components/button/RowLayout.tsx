@@ -6,7 +6,7 @@ import constants from '@/constants';
 import { Address, LedgerIcon } from '@/components/wallet/address/Address.blocks';
 import { isFirefox } from '@/lib/utils/isFirefox';
 import Amount from '@/components/wallet/Amount';
-import { BigNumber } from '@/app/lib/helpers';
+import { BigNumber } from '@/lib/helpers';
 
 type RowLayoutProps = React.ComponentPropsWithRef<'button'> & {
     iconLeading?: React.ReactNode;
