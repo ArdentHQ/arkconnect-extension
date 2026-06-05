@@ -9,7 +9,7 @@ import {
     useStepMath,
 } from '@/lib/domains/transaction/components/InputFee/InputFee.helpers';
 import { getFeeMinMax } from '@/lib/domains/transaction/components/InputFee/InputFee';
-import { BigNumber } from '@/app/lib/helpers';
+import { BigNumber } from '@/lib/helpers';
 import { useConfirmationTimes } from '@/lib/domains/transaction/components/InputFee/use-confirmation-times';
 
 const GAS_LIMIT_STEP = 1000;

@@ -9,7 +9,7 @@ import { useSendTransferForm } from '@/lib/hooks/useSendTransferForm';
 import { useVoteForm } from '@/lib/hooks/useVoteForm';
 import * as SessionStore from '@/lib/store/session';
 import { calculateGasFee } from '@/lib/hooks/useNetworkFees';
-import { BigNumber } from '@/app/lib/helpers';
+import { BigNumber } from '@/lib/helpers';
 
 type VoteDelegateProperties = {
     address: string;

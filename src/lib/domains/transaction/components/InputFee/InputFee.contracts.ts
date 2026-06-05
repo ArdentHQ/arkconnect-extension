@@ -1,6 +1,6 @@
-import { Networks } from '@/app/lib/mainsail';
-import { Contracts } from '@/app/lib/profiles';
-import { BigNumber } from '@/app/lib/helpers';
+import { Networks } from '@/lib/mainsail';
+import { Contracts } from '@/lib/profiles';
+import { BigNumber } from '@/lib/helpers';
 
 enum InputFeeViewType {
     Simple,

@@ -9,7 +9,7 @@ import { Tooltip } from '@/shared/components';
 import trimAddress from '@/lib/utils/trimAddress';
 import Amount from '@/components/wallet/Amount';
 import useAddressBook from '@/lib/hooks/useAddressBook';
-import { BigNumber } from '@/app/lib/helpers';
+import { BigNumber } from '@/lib/helpers';
 
 interface ActionBodyRowProps {
     label: React.ReactNode;

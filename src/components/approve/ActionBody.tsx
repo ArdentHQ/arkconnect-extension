@@ -10,7 +10,7 @@ import {
 import { FeeWarning } from './CustomFeeAlerts.blocks';
 import { Contracts } from '@/lib/profiles';
 import trimAddress from '@/lib/utils/trimAddress';
-import { BigNumber } from '@/app/lib/helpers';
+import { BigNumber } from '@/lib/helpers';
 
 type VoteData = {
     address?: string;

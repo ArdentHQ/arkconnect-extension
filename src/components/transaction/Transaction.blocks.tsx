@@ -17,7 +17,7 @@ import { useExchangeRate } from '@/lib/hooks/useExchangeRate';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 import { useProfileContext } from '@/lib/context/Profile';
 import { ExtendedConfirmedTransactionData } from '@/lib/profiles/transaction.dto';
-import { BigNumber } from '@/app/lib/helpers';
+import { BigNumber } from '@/lib/helpers';
 
 export const TransactionIcon = ({ type }: { type: TransactionType }) => {
     const isSpecialTransaction = [
