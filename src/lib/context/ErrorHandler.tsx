@@ -1,5 +1,6 @@
 import { createContext, ReactNode, useContext, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { runtime, windows } from 'webextension-polyfill';
 import useOnError from '@/lib/hooks';
 import removeWindowInstance from '@/lib/utils/removeWindowInstance';
 import ErrorModal from '@/components/connect/ErrorModal';
@@ -29,12 +30,23 @@ export const ErrorHandlerProvider = ({ children }: Properties) => {
         }
     };
 
+    const closeSidepanel = async () => {
+        const win = await windows.getCurrent();
+        if (win.id !== undefined) {
+            await runtime.sendMessage({ type: 'CLOSE_SIDEPANEL', data: { windowId: win.id } });
+        }
+    };
+
     const handleClose = async () => {
         setShowErrorModal(false);
         if (state?.windowId) {
             await removeWindowInstance(state?.windowId);
+            navigate('/');
+        } else if (state?.sidepanelWasOpen) {
+            navigate('/');
+        } else {
+            await closeSidepanel();
         }
-        navigate('/');
     };
 
     const handleBack = () => {

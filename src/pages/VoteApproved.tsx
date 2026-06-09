@@ -1,7 +1,7 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useEffect } from 'react';
-import { runtime } from 'webextension-polyfill';
+import { runtime, windows } from 'webextension-polyfill';
 import { BigNumber } from '../lib/helpers';
 import { ApproveActionType } from './Approve';
 import removeWindowInstance from '@/lib/utils/removeWindowInstance';
@@ -71,12 +71,22 @@ const VoteApproved = () => {
 
     const isTransactionConfirmed = useConfirmedTransaction({ wallet, transactionId: vote.id });
 
+    const closeSidepanel = async () => {
+        const win = await windows.getCurrent();
+        if (win.id !== undefined) {
+            await runtime.sendMessage({ type: 'CLOSE_SIDEPANEL', data: { windowId: win.id } });
+        }
+    };
+
     const onClose = async () => {
         if (state?.windowId) {
             await removeWindowInstance(state?.windowId);
+            navigate('/');
+        } else if (state?.sidepanelWasOpen) {
+            navigate('/');
+        } else {
+            await closeSidepanel();
         }
-
-        navigate('/');
     };
     useEffect(() => {
         runtime.sendMessage({ type: 'CLEAR_LAST_SCREEN' });

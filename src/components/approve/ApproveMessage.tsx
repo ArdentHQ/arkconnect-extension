@@ -1,5 +1,5 @@
-import { useLocation } from 'react-router-dom';
-import { runtime } from 'webextension-polyfill';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { runtime, windows } from 'webextension-polyfill';
 import { useTranslation } from 'react-i18next';
 import { ApproveLayout } from './ApproveLayout';
 import { Contracts } from '@/lib/profiles';
@@ -48,6 +48,22 @@ const ApproveMessage = ({
         loadingMessage: t('PAGES.APPROVE.FEEDBACK.SIGNING'),
     });
     const { waitUntilLedgerIsConnected } = useWaitForConnectedDevice();
+    const navigate = useNavigate();
+
+    const closeSidepanel = async () => {
+        const win = await windows.getCurrent();
+        if (win.id !== undefined) {
+            await runtime.sendMessage({ type: 'CLOSE_SIDEPANEL', data: { windowId: win.id } });
+        }
+    };
+
+    const dismissSidepanel = async () => {
+        if (location.state?.sidepanelWasOpen) {
+            navigate(-1);
+        } else {
+            await closeSidepanel();
+        }
+    };
 
     const reject = (message: string = t('PAGES.APPROVE.FEEDBACK.SIGN_MESSAGE_DENIED')) => {
         runtime.sendMessage({
@@ -100,12 +116,16 @@ const ApproveMessage = ({
 
             setSubmitted();
 
-            loadingModal.setCompleted();
-
-            await removeWindowInstance(
-                location.state?.windowId,
-                constants.SHOW_MESSAGE_AFTER_ACTION_DURING_MS,
-            );
+            if (location.state?.windowId) {
+                loadingModal.setCompleted();
+                await removeWindowInstance(
+                    location.state.windowId,
+                    constants.SHOW_MESSAGE_AFTER_ACTION_DURING_MS,
+                );
+            } else {
+                await loadingModal.setCompletedAndClose();
+                await dismissSidepanel();
+            }
         } catch (error: any) {
             if (wallet.isLedger()) {
                 closeLedgerScreen();
@@ -121,7 +141,11 @@ const ApproveMessage = ({
 
         loadingModal.close();
 
-        await removeWindowInstance(location.state?.windowId, 100);
+        if (location.state?.windowId) {
+            await removeWindowInstance(location.state.windowId, 100);
+        } else {
+            await dismissSidepanel();
+        }
     };
 
     return (

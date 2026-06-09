@@ -1,6 +1,6 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { runtime } from 'webextension-polyfill';
+import { runtime, windows } from 'webextension-polyfill';
 import { useTranslation } from 'react-i18next';
 import { ApproveLayout } from './ApproveLayout';
 import { Contracts } from '@/lib/profiles';
@@ -60,6 +60,21 @@ const ApproveVote = ({ abortReference, approveWithLedger, wallet, closeLedgerScr
     } = location.state;
     const [showHigherCustomFeeBanner, setShowHigherCustomFeeBanner] = useState(true);
     const isNative = session.domain === constants.APP_NAME;
+
+    const closeSidepanel = async () => {
+        const win = await windows.getCurrent();
+        if (win.id !== undefined) {
+            await runtime.sendMessage({ type: 'CLOSE_SIDEPANEL', data: { windowId: win.id } });
+        }
+    };
+
+    const dismissSidepanel = async () => {
+        if (location.state?.sidepanelWasOpen) {
+            navigate(-1);
+        } else {
+            await closeSidepanel();
+        }
+    };
 
     const {
         resetForm,
@@ -173,6 +188,7 @@ const ApproveVote = ({ abortReference, approveWithLedger, wallet, closeLedgerScr
                 state: {
                     vote: voteInfo,
                     windowId: location.state?.windowId,
+                    sidepanelWasOpen: location.state?.sidepanelWasOpen,
                     walletNetwork: wallet.network().isTest()
                         ? WalletNetwork.DEVNET
                         : WalletNetwork.MAINNET,
@@ -205,23 +221,35 @@ const ApproveVote = ({ abortReference, approveWithLedger, wallet, closeLedgerScr
 
         reject();
 
-        if (location.state.windowId) {
-            await removeWindowInstance(location.state?.windowId, 100);
-        }
         loadingModal.close();
 
-        const params = new URLSearchParams({
-            gasPrice: customGasPrice,
-            gasLimit: customGasLimit,
-            feeClass,
-        });
-        params.append('vote', vote?.wallet?.address() ?? '');
-        params.append('unvote', unvote?.wallet?.address() ?? '');
-        if (isNative) {
+        if (location.state.windowId) {
+            await removeWindowInstance(location.state?.windowId, 100);
+            const params = new URLSearchParams({
+                gasPrice: customGasPrice,
+                gasLimit: customGasLimit,
+                feeClass,
+            });
+            params.append('vote', vote?.wallet?.address() ?? '');
+            params.append('unvote', unvote?.wallet?.address() ?? '');
+            if (isNative) {
+                profile.settings().forget('LAST_VISITED_PAGE');
+                navigate(`/vote?${params.toString()}`);
+            } else {
+                navigate('/');
+            }
+        } else if (isNative) {
+            const params = new URLSearchParams({
+                gasPrice: customGasPrice,
+                gasLimit: customGasLimit,
+                feeClass,
+            });
+            params.append('vote', vote?.wallet?.address() ?? '');
+            params.append('unvote', unvote?.wallet?.address() ?? '');
             profile.settings().forget('LAST_VISITED_PAGE');
             navigate(`/vote?${params.toString()}`);
         } else {
-            navigate('/');
+            await dismissSidepanel();
         }
     };
 
