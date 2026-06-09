@@ -1,4 +1,4 @@
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 import { runtime, windows } from 'webextension-polyfill';
 import { useEffect, useMemo } from 'react';
@@ -15,10 +15,12 @@ import { assertIsUnlocked } from '@/lib/background/assertions';
 import ActionHeader from '@/shared/components/actions/ActionHeader';
 import { useNotifyOnUnload } from '@/lib/hooks/useNotifyOnUnload';
 import useLoadingModal from '@/lib/hooks/useLoadingModal';
+import removeWindowInstance from '@/lib/utils/removeWindowInstance';
 import { ApproveLayout } from '@/components/approve/ApproveLayout';
 
 const Connect = () => {
     const location = useLocation();
+    const navigate = useNavigate();
     const dispatch = useAppDispatch();
     const sessions = useAppSelector(SessionStore.selectSessions);
     const { profile } = useProfileContext();
@@ -48,19 +50,39 @@ const Connect = () => {
         }
     }, []);
 
-    const reject = (message = t('PAGES.CONNECT.FEEDBACK.CONNECTION_DENIED')) => {
-        runtime.sendMessage({
-            type: 'CONNECT_REJECT',
-            data: {
-                domain: location.state?.domain,
-                status: 'failed',
-                message,
-                tabId: location.state?.tabId,
-            },
-        });
+    const reject = (message?: string) => {
+        runtime
+            .sendMessage({
+                type: 'CONNECT_REJECT',
+                data: {
+                    domain: location.state?.domain,
+                    status: 'failed',
+                    message:
+                        typeof message === 'string'
+                            ? message
+                            : t('PAGES.CONNECT.FEEDBACK.CONNECTION_DENIED'),
+                    tabId: location.state?.tabId,
+                },
+            })
+            .catch(() => {});
     };
 
     const setSubmitted = useNotifyOnUnload(reject);
+
+    const closeSidepanel = async () => {
+        const win = await windows.getCurrent();
+        if (win.id !== undefined) {
+            await runtime.sendMessage({ type: 'CLOSE_SIDEPANEL', data: { windowId: win.id } });
+        }
+    };
+
+    const dismissSidepanel = async () => {
+        if (location.state?.sidepanelWasOpen) {
+            navigate(-1);
+        } else {
+            await closeSidepanel();
+        }
+    };
 
     const onSubmit = async () => {
         loadingModal.setLoading();
@@ -99,14 +121,23 @@ const Connect = () => {
 
             setSubmitted();
 
-            await windows.remove(location.state?.windowId);
+            if (location.state?.windowId) {
+                await removeWindowInstance(location.state.windowId);
+            } else {
+                await loadingModal.setCompletedAndClose();
+                await dismissSidepanel();
+            }
             return;
         }
     };
 
     const onCancel = async (message?: string) => {
         reject(message);
-        await windows.remove(location.state?.windowId);
+        if (location.state?.windowId) {
+            await removeWindowInstance(location.state.windowId);
+        } else {
+            await dismissSidepanel();
+        }
     };
 
     return (

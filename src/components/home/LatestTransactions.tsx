@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { useEffect, useMemo, useState } from 'react';
 import { useQuery } from 'react-query';
 import classNames from 'classnames';
-import { TransactionsTabs, TransactionTab } from './TransactionsTabs';
+import { Tabs, TransactionsTabs, TransactionTab } from './TransactionsTabs';
 import { NoTransactions, TokensList, TransactionsList } from './LatestTransactions.blocks';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 import { Loader } from '@/shared/components';
@@ -50,7 +50,7 @@ const fetchTokens = async (primaryWallet?: IReadWriteWallet): Promise<WalletToke
 export const LatestTransactions = () => {
     const { t } = useTranslation();
     const primaryWallet = usePrimaryWallet();
-    const [activeTab, setActiveTab] = useState<string>('TOKENS');
+    const [activeTab, setActiveTab] = useState<string>(Tabs.TRANSACTIONS);
 
     const { data, refetch, isLoading } = useQuery<TransactionResponse>(
         ['transactions', primaryWallet?.address()],
@@ -78,10 +78,10 @@ export const LatestTransactions = () => {
 
     const tabs = useMemo(() => {
         if (tokenData && tokenData.length > 0) {
-            return ['TOKENS', 'TRANSACTIONS'];
+            return [Tabs.TRANSACTIONS, Tabs.TOKENS];
         }
 
-        return ['TRANSACTIONS'];
+        return [Tabs.TRANSACTIONS];
     }, [tokenData]);
 
     useEffect(() => {
@@ -94,9 +94,13 @@ export const LatestTransactions = () => {
     const showTabs = !isLoadingTokens && tabs.length > 1;
 
     return (
-        <div className={classNames(['flex h-full w-full flex-col'], { 'mt-4': !showTabs })}>
+        <div
+            className={classNames(['flex h-full min-h-0 w-full flex-1 flex-col'], {
+                'mt-4': !showTabs,
+            })}
+        >
             {showTabs && (
-                <TransactionsTabs>
+                <TransactionsTabs currentTab={activeTab}>
                     {tabs.map((tab) => (
                         <TransactionTab
                             key={tab}
@@ -111,7 +115,7 @@ export const LatestTransactions = () => {
 
             <div
                 className={classNames([
-                    'dark:bg-subtle-black h-full w-full flex-1 bg-white',
+                    'dark:bg-subtle-black flex h-full min-h-0 w-full flex-1 flex-col bg-white',
                     { 'rounded-t-xl': !showTabs },
                 ])}
             >
@@ -121,18 +125,14 @@ export const LatestTransactions = () => {
                     </div>
                 )}
 
-                {showTabs && activeTab === 'TOKENS' ? (
+                {showTabs && activeTab === Tabs.TOKENS ? (
                     <TokensList tokens={tokenData ?? []} />
                 ) : !isLoading && data ? (
-                    <div className='h-auto w-full'>
+                    <div className='flex min-h-0 flex-1 flex-col'>
                         {data.transactions.length > 0 ? (
                             <TransactionsList
                                 transactions={data.transactions}
                                 displayButton={data.hasMorePages}
-                                maxHeight={classNames({
-                                    'max-h-[235px]': showTabs,
-                                    'max-h-[270px]': !showTabs,
-                                })}
                             />
                         ) : (
                             <NoTransactions />

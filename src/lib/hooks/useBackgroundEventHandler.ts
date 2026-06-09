@@ -19,12 +19,20 @@ export type Event = {
     };
 };
 
+const isSidepanel = () => window.location.href.includes('sidepanel');
+
 const useBackgroundEventHandler = () => {
     const dispatch = useAppDispatch();
     const [events, setEvents] = useState<Event[]>([]);
     const navigate = useNavigate();
 
     useEffect(() => {
+        if (isSidepanel()) {
+            runtime
+                .sendMessage({ type: 'SIDEPANEL_READY', data: { wasAlreadyOpen: false } })
+                .catch(() => {});
+        }
+
         // Listen for messages from background script
         runtime.onMessage.addListener(function (request) {
             switch (request.type) {
@@ -50,6 +58,17 @@ const useBackgroundEventHandler = () => {
                 }
                 case 'LOCK_EXTENSION_UI': {
                     setEvents([...events, { request, callback: onLockExtension }]);
+                    break;
+                }
+                case 'SIDEPANEL_CHECK_PENDING': {
+                    if (isSidepanel()) {
+                        runtime
+                            .sendMessage({
+                                type: 'SIDEPANEL_READY',
+                                data: { wasAlreadyOpen: true },
+                            })
+                            .catch(() => {});
+                    }
                     break;
                 }
             }
