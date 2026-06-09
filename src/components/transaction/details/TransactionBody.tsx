@@ -61,18 +61,7 @@ export const TransactionBody = ({
                     </TransactionItem>
                 )}
 
-                {[TransactionType.UNVOTE, TransactionType.SWAP].includes(type) && (
-                    <TransactionItem title={t('COMMON.UNVOTE')}>
-                        {unvoteValidator.name}
-                        <Tooltip content={unvoteValidator.address} className='break-words'>
-                            <span className='text-theme-secondary-500 dark:text-theme-secondary-300'>
-                                {trimAddress(unvoteValidator.address, 10)}
-                            </span>
-                        </Tooltip>
-                    </TransactionItem>
-                )}
-
-                {[TransactionType.VOTE, TransactionType.SWAP].includes(type) && (
+                {[TransactionType.VOTE].includes(type) && (
                     <TransactionItem title={t('COMMON.VOTE')}>
                         {voteValidator.name}
                         <Tooltip content={voteValidator.address} className='break-words'>
