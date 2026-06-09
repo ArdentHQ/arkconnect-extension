@@ -88,7 +88,7 @@ export const ValidatorsListItem = ({
                 </ExternalLink>
             </td>
 
-            <td className='w-24 p-4 text-right'>
+            <td className='w-30 p-4 text-right'>
                 <button
                     type='button'
                     className={classNames('transition-smoothEase font-medium', {
