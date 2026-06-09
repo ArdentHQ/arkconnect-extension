@@ -1,4 +1,4 @@
-<!-- airc v0.1.0 — managed file, do not edit -->
+<!-- airc v0.2.0 — managed file, do not edit -->
 <!-- Local override: CLAUDE.local.md. Per-repo override: below the @imports in CLAUDE.md. Permanent override: PR to https://github.com/ardenthq/airc -->
 
 # Baseline
@@ -19,6 +19,7 @@ Shared rules for every repo. Apply to any stack.
 
 - Always draft (`gh pr create --draft`)
 - Base branch: the repo's default
+- If the repo has a `.github/PULL_REQUEST_TEMPLATE.md`, fill it in as the PR body and check off the items that apply. `gh pr create` ignores the template unless you pass it yourself — write the filled body to a file and use `--body-file`
 - **Never** reference Claude / AI / agents in title, body, branch name, or comments
 
 ## Pre-push checks
@@ -57,13 +58,6 @@ Exact commands are repo-defined (see the repo's `CLAUDE.md` / `composer.json` / 
 - Concise. Skip the obvious.
 - End-of-turn summary: one or two sentences — what changed, what's next.
 - No long essays, no unnecessary disclaimers, no "sure, happy to help…"
-
-## Recommended dev setup (one-time per dev)
-
-Not required, but recommended to improve the Claude experience. The CLI detects whether they're already installed and prints recommendations only for missing ones.
-
-- **caveman** — compresses Claude's output (~65% token savings):
-  `curl -fsSL https://raw.githubusercontent.com/JuliusBrussee/caveman/main/install.sh | bash`
 
 ## Overrides
 
