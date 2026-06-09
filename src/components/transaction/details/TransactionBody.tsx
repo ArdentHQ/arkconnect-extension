@@ -24,7 +24,7 @@ export const TransactionBody = ({
 }) => {
     const primaryWallet = usePrimaryWallet();
     const { t } = useTranslation();
-    const { voteValidator, unvoteValidator } = useValidatorInfo(transaction, primaryWallet);
+    const { voteValidator } = useValidatorInfo(transaction, primaryWallet);
     const { convert } = useExchangeRate({
         exchangeTicker: primaryWallet?.exchangeCurrency(),
         ticker: primaryWallet?.currency(),
