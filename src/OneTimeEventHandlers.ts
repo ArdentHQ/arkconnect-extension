@@ -10,6 +10,7 @@ import { VoteInput } from '@/lib/mainsail/transaction.contract';
 import { setLocalValue } from '@/lib/utils/localStorage';
 import { applySidepanelMode, closeSidepanel, openPopupForWindow } from '@/lib/background/sidepanel';
 import {
+    executePendingPopupCallback,
     executePendingSidepanelCallback,
     setSidepanelEnabled,
 } from '@/lib/background/eventListenerHandlers';
@@ -40,6 +41,7 @@ export enum OneTimeEvents {
     SET_OPEN_IN_SIDEPANEL = 'SET_OPEN_IN_SIDEPANEL',
     SIDEPANEL_READY = 'SIDEPANEL_READY',
     CLOSE_SIDEPANEL = 'CLOSE_SIDEPANEL',
+    POPUP_READY = 'POPUP_READY',
 }
 
 export function OneTimeEventHandlers(extension: ReturnType<typeof Extension>) {
@@ -261,6 +263,10 @@ export function OneTimeEventHandlers(extension: ReturnType<typeof Extension>) {
 
         [OneTimeEvents.SIDEPANEL_READY]: async (request: any) => {
             executePendingSidepanelCallback(request.data?.wasAlreadyOpen ?? false);
+        },
+
+        [OneTimeEvents.POPUP_READY]: async () => {
+            executePendingPopupCallback();
         },
 
         [OneTimeEvents.CLOSE_SIDEPANEL]: async (request: any) => {

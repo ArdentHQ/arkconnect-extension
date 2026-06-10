@@ -53,6 +53,8 @@ let extensionWindowId: number | null = null;
 
 let pendingSidepanelCallback: ((id?: number, sidepanelWasOpen?: boolean) => void) | null = null;
 
+let pendingPopupCallback: (() => void) | null = null;
+
 // Cached in memory so createExtensionWindow can check without an await,
 // keeping the user-gesture context alive for chrome.sidePanel.open().
 let sidepanelEnabled = false;
@@ -70,6 +72,17 @@ export const executePendingSidepanelCallback = (sidepanelWasOpen: boolean): void
     pendingSidepanelCallback = null;
 
     callback(undefined, sidepanelWasOpen);
+};
+
+export const executePendingPopupCallback = (): void => {
+    if (!pendingPopupCallback) {
+        return;
+    }
+
+    const callback = pendingPopupCallback;
+    pendingPopupCallback = null;
+
+    callback();
 };
 
 const createExtensionWindow = async (
@@ -139,7 +152,8 @@ const createExtensionWindow = async (
         const tab = await tabs.get(id);
         if (extensionWindowId !== tab.windowId || tab.status === 'loading') return;
 
-        onWindowReady(extensionWindowId);
+        const capturedWindowId = extensionWindowId;
+        pendingPopupCallback = () => onWindowReady(capturedWindowId ?? undefined);
 
         tabs.onUpdated.removeListener(onUpdatedListener);
     };
