@@ -4,9 +4,7 @@ import { IProfile, IProfileExportOptions, IProfileInput, IProfileRepository } fr
 import { DataRepository } from "./data.repository";
 import { ProfileDumper } from "./profile.dumper";
 import { ProfileExporter } from "./profile.exporter";
-import { ProfileFactory } from "./profile.factory.js";
 import { ProfileImporter } from "./profile.importer";
-import { ProfileInitialiser } from "./profile.initialiser";
 import { Profile } from "./profile.js";
 import { Environment } from "./environment.js";
 
@@ -76,11 +74,11 @@ export class ProfileRepository implements IProfileRepository {
 			throw new Error(`The profile [${name}] already exists.`);
 		}
 
-		const result: IProfile = ProfileFactory.fromName(name, this.#env);
+		const result = new Profile({ data: "", id: UUID.random(), name }, this.#env);
 
 		this.push(result);
 
-		new ProfileInitialiser(result).initialise(name);
+		result.initialise(name);
 
 		result.status().markAsRestored();
 

@@ -8,8 +8,6 @@ export * from "./profile.dumper.contract.js";
 export * from "./profile.encrypter.contract.js";
 export * from "./profile.enum.contract.js";
 export * from "./profile.exporter.contract.js";
-export * from "./profile.factory.contract.js";
-export * from "./profile.initialiser.contract.js";
 export * from "./profile.repository.contract.js";
 export * from "./profile.serialiser.contract.js";
 export * from "./profile.status.contract.js";

@@ -21,7 +21,6 @@ import { IHostRepository } from "./host.repository.contract";
 import { HostRepository } from "./host.repository";
 import { NetworkRepository } from "./network.repository";
 import { PasswordManager } from "./password";
-import { ProfileInitialiser } from "./profile.initialiser";
 import { ProfileStatus } from "./profile.status";
 import { SettingRepository } from "./setting.repository";
 import { WalletFactory } from "./wallet.factory";
@@ -218,7 +217,32 @@ export class Profile implements IProfile {
 			throw new Error("The name of the profile could not be found. This looks like a bug.");
 		}
 
-		new ProfileInitialiser(this).initialise(name);
+		this.initialise(name);
+	}
+
+	public initialise(name: string): void {
+		this.data().flush();
+		this.settings().flush();
+		this.wallets().flush();
+		this.#initialiseSettings(name);
+	}
+
+	#initialiseSettings(name: string): void {
+		this.settings().set(ProfileSetting.AutomaticSignOutPeriod, 15);
+		this.settings().set(ProfileSetting.Bip39Locale, "english");
+		this.settings().set(ProfileSetting.DoNotShowFeeWarning, false);
+		this.settings().set(ProfileSetting.FallbackToDefaultNodes, true);
+		this.settings().set(ProfileSetting.ExchangeCurrency, "BTC");
+		this.settings().set(ProfileSetting.Locale, "en-US");
+		this.settings().set(ProfileSetting.MarketProvider, "cryptocompare");
+		this.settings().set(ProfileSetting.Name, name);
+		this.settings().set(ProfileSetting.Theme, "light");
+		this.settings().set(ProfileSetting.TimeFormat, "h:mm A");
+		this.settings().set(ProfileSetting.UseNetworkWalletNames, true);
+		this.settings().set(ProfileSetting.UseTestNetworks, false);
+		this.settings().set(ProfileSetting.UseHDWallets, false);
+		this.settings().set(ProfileSetting.HideDustTokens, false);
+		this.status().markAsDirty();
 	}
 
 	/** {@inheritDoc IProfile.data} */
