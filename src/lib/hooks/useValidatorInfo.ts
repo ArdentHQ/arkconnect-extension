@@ -12,10 +12,6 @@ export const useValidatorInfo = (
         name: string | undefined;
         address: string;
     }>({ name: undefined, address: '' });
-    const [unvoteValidator, setUnvoteValidator] = useState<{
-        name: string | undefined;
-        address: string;
-    }>({ name: undefined, address: '' });
 
     const getValidatorInfo = async (
         address: string,
@@ -54,18 +50,8 @@ export const useValidatorInfo = (
                     setVoteValidator(voteValidator);
                 }
             }
-
-            if (transaction.isUnvote()) {
-                const unvoteAddress = transaction.unvotes()[0] || undefined;
-
-                if (unvoteAddress) {
-                    const unvoteValidator = await getValidatorInfo(unvoteAddress);
-
-                    setUnvoteValidator(unvoteValidator);
-                }
-            }
         })();
     }, [transaction, primaryWallet]);
 
-    return { voteValidator, unvoteValidator };
+    return { voteValidator };
 };
