@@ -40,8 +40,6 @@ export const TransactionTitle = ({
             return t('COMMON.RECEIVED');
         case TransactionType.RETURN:
             return t('COMMON.RETURN');
-        case TransactionType.SWAP:
-            return t('COMMON.VOTE_SWAP');
         case TransactionType.VOTE:
             return t('COMMON.VOTE');
         case TransactionType.UNVOTE:
@@ -108,12 +106,6 @@ export const TransactionSecondaryText = ({
             return <PaymentInfo address={transaction.from()} isSent={false} />;
         case TransactionType.RETURN:
             return t('COMMON.TO_SELF');
-        case TransactionType.SWAP:
-            return voteValidator.name || voteValidator.address ? (
-                `${t('COMMON.TO')} ${voteValidator.name ?? trimAddress(voteValidator.address, 'short')}`
-            ) : (
-                <Skeleton width={90} height={18} />
-            );
         case TransactionType.VOTE:
             return voteValidator.name || voteValidator.address ? (
                 (voteValidator.name ?? trimAddress(voteValidator.address, 'short'))

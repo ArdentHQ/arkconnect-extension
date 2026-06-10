@@ -31,6 +31,8 @@ const useBackgroundEventHandler = () => {
             runtime
                 .sendMessage({ type: 'SIDEPANEL_READY', data: { wasAlreadyOpen: false } })
                 .catch(() => {});
+        } else {
+            runtime.sendMessage({ type: 'POPUP_READY' }).catch(() => {});
         }
 
         // Listen for messages from background script
