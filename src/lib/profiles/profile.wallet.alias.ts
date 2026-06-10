@@ -26,35 +26,18 @@ export class WalletAliasProvider {
 		const profile = this.#profile;
 		const networkId = network ?? this.#profile.activeNetwork().id();
 
-		let alias: string | undefined;
-
 		try {
-			if (profile.knownWallets().is(networkId, address)) {
-				return profile.knownWallets().name(networkId, address);
-			}
-
 			const useNetworkWalletNames = profile.settings().get<boolean>(ProfileSetting.UseNetworkWalletNames);
-
 			const wallet = profile.wallets().findByAddressWithNetwork(address, networkId);
-			const onChainUsername = profile.usernames().username(networkId, address);
-
 			const validatorName = this.#validatorUsername(address);
-
 			const localName = wallet ? wallet.displayName() : undefined;
+			const username = wallet ? wallet.username() : undefined;
 
-			if (localName) {
-				alias = localName;
-			}
-
-			const username = wallet ? wallet?.username() : undefined;
-
-			alias = useNetworkWalletNames
-				? username || localName || onChainUsername || validatorName
-				: localName || username || onChainUsername || validatorName;
-
-			return alias;
+			return useNetworkWalletNames
+				? username || localName || validatorName
+				: localName || username || validatorName;
 		} catch {
-			return alias;
+			return undefined;
 		}
 	}
 	generateAlias(wallet: Contracts.IReadWriteWallet, path?: string): string {

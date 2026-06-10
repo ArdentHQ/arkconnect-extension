@@ -6,11 +6,9 @@ import {
 	IProfile,
 	ISettingRepository,
 	ISignatoryFactory,
-	ITokenIndex,
 	ITransactionIndex,
 	ITransactionService,
 	IVoteRegistry,
-	IWalletGate,
 	IWalletImportFormat,
 	IWalletMutator,
 	IWalletSynchroniser,
@@ -579,17 +577,9 @@ export interface IReadWriteWallet {
 	getAttributes(): AttributeBag<IReadWriteWalletAttributes>;
 
 	/**
-	 * Get the wallet authorisation gate instance.
-	 *
-	 * @return {IWalletGate}
-	 * @memberof IReadWriteWallet
-	 */
-	gate(): IWalletGate;
-
-	/**
 	 * Get the wallet synchroniser instance.
 	 *
-	 * @return {IWalletGate}
+	 * @return {IWalletSynchroniser}
 	 * @memberof IReadWriteWallet
 	 */
 	synchroniser(): IWalletSynchroniser;
@@ -617,14 +607,6 @@ export interface IReadWriteWallet {
 	 * @memberof IReadWriteWallet
 	 */
 	transactionIndex(): ITransactionIndex;
-
-	/**
-	 * Get the wallet token transaction index instance.
-	 *
-	 * @return {ITokenIndex}
-	 * @memberof IReadWriteWallet
-	 */
-	tokenIndex(): ITokenIndex;
 
 	/**
 	 * Get the wallet import format instance.

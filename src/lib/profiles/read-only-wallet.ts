@@ -1,6 +1,7 @@
 import { IReadOnlyWallet } from "./contracts.js";
 import { Avatar } from "./helpers/avatar.js";
 import { Contracts } from "./index.js";
+import { WalletAliasProvider } from "./profile.wallet.alias.js";
 
 export interface ROWallet {
 	address: string;
@@ -30,7 +31,7 @@ export class ReadOnlyWallet implements IReadOnlyWallet {
 
 	/** {@inheritDoc IReadOnlyWallet.alias} */
 	public alias(): string | undefined {
-		return this.#profile.findAliasByAddress(this.address()) ?? this.address();
+		return new WalletAliasProvider(this.#profile).findAliasByAddress(this.address()) ?? this.address();
 	}
 
 	/** {@inheritDoc IReadOnlyWallet.publicKey} */

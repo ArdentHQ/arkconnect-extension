@@ -9,11 +9,9 @@ import {
 	IProfile,
 	IProfileInput,
 	IProfileStatus,
-	IReadWriteWallet,
 	ISettingRepository,
 	IWalletFactory,
 	IWalletRepository,
-	ProfileData,
 	ProfileSetting,
 } from "./contracts";
 import { DataRepository } from "./data.repository";
@@ -29,26 +27,14 @@ import { SettingRepository } from "./setting.repository";
 import { WalletFactory } from "./wallet.factory";
 import { WalletRepository } from "./wallet.repository";
 import { Contracts, Environment } from "./index";
-import { UsernamesService } from "./usernames.service";
 import { LedgerService } from "@/lib/mainsail/ledger.service";
 import { ValidatorService } from "./validator.service";
-import { KnownWalletService } from "./known-wallet.service";
 import { ExchangeRateService } from "./exchange-rate.service";
-import { BigNumber } from "@/lib/helpers/bignumber";
-import { WalletAliasProvider } from "./profile.wallet.alias";
-import { isPreview } from "@/utils/test-helpers";
-import { DraftTransactionFactory } from "@/lib/mainsail/draft-transaction.factory";
 import { TokenService } from "./token.service";
+import { ProfileData } from "./profile.enum.contract";
+import { isPreview } from "@/utils/test-helpers";
 
 export class Profile implements IProfile {
-	/**
-	 * The known wallets service.
-	 *
-	 * @type {KnownWalletService}
-	 * @memberof Profile
-	 */
-	readonly #knownWalletService: KnownWalletService;
-
 	/**
 	 * The data repository.
 	 *
@@ -138,17 +124,9 @@ export class Profile implements IProfile {
 	readonly #attributes: AttributeBag<IProfileInput>;
 
 	/**
-	 * The username service
+	 * The exchange rate service.
 	 *
-	 * @type {UsernamesService}
-	 * @memberof Profile
-	 */
-	readonly #usernameService: UsernamesService;
-
-	/**
-	 * The username service
-	 *
-	 * @type {UsernamesService}
+	 * @type {ExchangeRateService}
 	 * @memberof Profile
 	 */
 	readonly #exchangeRateService: ExchangeRateService;
@@ -162,12 +140,12 @@ export class Profile implements IProfile {
 	readonly #ledgerService: LedgerService;
 
 	/**
-	 * Draft transaction factory.
+	 * The token service.
 	 *
-	 * @type {DraftTransactionFactory}
+	 * @type {TokenService}
 	 * @memberof Profile
 	 */
-	readonly #draftTransactionFactory: DraftTransactionFactory;
+	readonly #tokenService: TokenService;
 
 	/**
 	 * The status service.
@@ -176,14 +154,6 @@ export class Profile implements IProfile {
 	 * @memberof Profile
 	 */
 	readonly #status: IProfileStatus;
-
-	/**
-	 * The token service.
-	 *
-	 * @type {TokenService}
-	 * @memberof Profile
-	 */
-	readonly #tokenService: TokenService;
 
 	public constructor(data: IProfileInput, env: Environment) {
 		this.#attributes = new AttributeBag<IProfileInput>(data);
@@ -197,12 +167,9 @@ export class Profile implements IProfile {
 		this.#validators = new ValidatorService(this);
 		this.#password = new PasswordManager();
 		this.#status = new ProfileStatus();
-		this.#knownWalletService = new KnownWalletService();
-		this.#usernameService = new UsernamesService({ config: this.activeNetwork().config(), profile: this });
+		this.#tokenService = new TokenService({ network: this.activeNetwork(), profile: this });
 		this.#exchangeRateService = new ExchangeRateService({ storage: env.storage() });
 		this.#ledgerService = new LedgerService({ config: this.activeNetwork().config(), profile: this });
-		this.#draftTransactionFactory = new DraftTransactionFactory({ env, profile: this });
-		this.#tokenService = new TokenService({ network: this.activeNetwork(), profile: this });
 	}
 
 	/** {@inheritDoc IProfile.id} */
@@ -243,26 +210,6 @@ export class Profile implements IProfile {
 		return !!this.settings().get(ProfileSetting.UseHDWallets);
 	}
 
-	/** {@inheritDoc IProfile.balance} */
-	public balance(): number {
-		let total = BigNumber.ZERO;
-		for (const wallet of this.wallets().values()) {
-			if (wallet.network().isLive()) {
-				total = total.plus(wallet.balance());
-			}
-		}
-		return +total.toHuman();
-	}
-
-	/** {@inheritDoc IProfile.convertedBalance} */
-	public convertedBalance(): number {
-		let total = BigNumber.ZERO;
-		for (const wallet of this.wallets().values()) {
-			total = total.plus(wallet.convertedBalance());
-		}
-		return total.toNumber();
-	}
-
 	/** {@inheritDoc IProfile.flush} */
 	public flush(): void {
 		const name: string | undefined = this.settings().get(ProfileSetting.Name);
@@ -272,17 +219,6 @@ export class Profile implements IProfile {
 		}
 
 		new ProfileInitialiser(this).initialise(name);
-	}
-
-	/** {@inheritDoc IProfile.initialiseSettings} */
-	public flushSettings(): void {
-		const name: string | undefined = this.settings().get(ProfileSetting.Name);
-
-		if (name === undefined) {
-			throw new Error("The name of the profile could not be found. This looks like a bug.");
-		}
-
-		new ProfileInitialiser(this).initialiseSettings(name);
 	}
 
 	/** {@inheritDoc IProfile.data} */
@@ -380,19 +316,9 @@ export class Profile implements IProfile {
 		return this.#attributes.hasStrict("password");
 	}
 
-	/** {@inheritDoc IProfile.hasBeenPartiallyRestored} */
-	public hasBeenPartiallyRestored(): boolean {
-		return this.#walletRepository.values().some((wallet: IReadWriteWallet) => wallet.hasBeenPartiallyRestored());
-	}
-
 	/** {@inheritDoc IProfile.getAttributes} */
 	public getAttributes(): AttributeBag<IProfileInput> {
 		return this.#attributes;
-	}
-
-	/** {@inheritDoc IProfile.usernames} */
-	public usernames(): UsernamesService {
-		return this.#usernameService;
 	}
 
 	/** {@inheritDoc IProfile.ValidatorService} */
@@ -409,43 +335,8 @@ export class Profile implements IProfile {
 		}
 	}
 
-	/** {@inheritDoc IProfile.setMigrationResult} */
-	public setMigrationResult(result: Record<string, any[]>): void {
-		this.data().set(ProfileData.MigrationResult, result);
-
-		this.status().markAsDirty();
-	}
-
-	/** {@inheritDoc IProfile.markIntroductoryTutorialAsComplete} */
-	public markIntroductoryTutorialAsComplete(): void {
-		this.data().set(ProfileData.HasCompletedIntroductoryTutorial, true);
-
-		this.status().markAsDirty();
-	}
-
-	/** {@inheritDoc IProfile.hasCompletedIntroductoryTutorial} */
-	public hasCompletedIntroductoryTutorial(): boolean {
-		return this.data().has(ProfileData.HasCompletedIntroductoryTutorial);
-	}
-
-	/** {@inheritDoc IProfile.markManualInstallationDisclaimerAsAccepted} */
-	public markManualInstallationDisclaimerAsAccepted(): void {
-		this.data().set(ProfileData.HasAcceptedManualInstallationDisclaimer, true);
-
-		this.status().markAsDirty();
-	}
-
-	/** {@inheritDoc IProfile.hasAcceptedManualInstallationDisclaimer} */
-	public hasAcceptedManualInstallationDisclaimer(): boolean {
-		return this.data().has(ProfileData.HasAcceptedManualInstallationDisclaimer);
-	}
-
 	public ledger(): LedgerService {
 		return this.#ledgerService;
-	}
-
-	public knownWallets(): KnownWalletService {
-		return this.#knownWalletService;
 	}
 
 	public exchangeRates(): ExchangeRateService {
@@ -456,71 +347,31 @@ export class Profile implements IProfile {
 		return this.settings().get(ProfileSetting.WalletSelectionMode) ?? "single";
 	}
 
-	public totalBalance(): BigNumber {
-		let balance = BigNumber.make(0);
-
-		for (const wallet of this.wallets().values()) {
-			balance = balance.plus(wallet.balance());
-		}
-
-		return balance;
-	}
-
-	public totalBalanceConverted(): BigNumber {
-		let balance = BigNumber.make(0);
-
-		for (const wallet of this.wallets().values()) {
-			balance = balance.plus(wallet.convertedBalance());
-		}
-
-		return balance;
-	}
-
-	public findAliasByAddress(address: string, networkId?: string): string | undefined {
-		return new WalletAliasProvider(this).findAliasByAddress(address, networkId);
-	}
-
-	public draftTransactionFactory(): DraftTransactionFactory {
-		return this.#draftTransactionFactory;
-	}
-
 	public tokens(): TokenService {
 		return this.#tokenService;
 	}
 
-	/** {@inheritDoc IProfile.whitelistedContractAddresses} */
 	public whitelistedContractAddresses(): string[] {
 		return this.data().get(ProfileData.WhitelistedContractAddresses, []) as string[];
 	}
 
-	/** {@inheritDoc IProfile.whitelistContractAddress} */
 	public whitelistContractAddress(address: string): string[] {
-		const existingContractAddresses = this.whitelistedContractAddresses();
-
-		// do nothing if address is already in the list
-		if (existingContractAddresses.some((a) => a.toLowerCase() === address.toLowerCase())) {
-			return existingContractAddresses;
+		const existing = this.whitelistedContractAddresses();
+		if (existing.some((a) => a.toLowerCase() === address.toLowerCase())) {
+			return existing;
 		}
-
-		const updatedList = [...existingContractAddresses, address];
-
-		this.data().set(ProfileData.WhitelistedContractAddresses, updatedList);
-
+		const updated = [...existing, address];
+		this.data().set(ProfileData.WhitelistedContractAddresses, updated);
 		this.status().markAsDirty();
-
-		return updatedList;
+		return updated;
 	}
 
-	/** {@inheritDoc IProfile.removeWhitelistedContractAddress} */
 	public removeWhitelistedContractAddress(address: string): string[] {
-		const updatedList = this.whitelistedContractAddresses().filter(
+		const updated = this.whitelistedContractAddresses().filter(
 			(a) => a.toLowerCase() !== address.toLowerCase(),
 		);
-
-		this.data().set(ProfileData.WhitelistedContractAddresses, updatedList);
-
+		this.data().set(ProfileData.WhitelistedContractAddresses, updated);
 		this.status().markAsDirty();
-
-		return updatedList;
+		return updated;
 	}
 }

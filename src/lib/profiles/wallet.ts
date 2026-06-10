@@ -9,12 +9,10 @@ import {
 	IReadWriteWalletAttributes,
 	ISettingRepository,
 	ISignatoryFactory,
-	ITokenIndex,
 	ITransactionIndex,
 	ITransactionService,
 	IVoteRegistry,
 	IWalletData,
-	IWalletGate,
 	IWalletImportFormat,
 	IWalletMutator,
 	IWalletSynchroniser,
@@ -29,12 +27,10 @@ import { AttributeBag } from "./helpers/attribute-bag";
 import { WalletSerialiser } from "./serialiser";
 import { SettingRepository } from "./setting.repository";
 import { SignatoryFactory } from "./signatory.factory";
-import { TokenIndex } from "./token-index";
 import { TransactionIndex } from "./transaction-index";
 import { VoteRegistry } from "./vote-registry";
 import { WalletBalanceType, WalletDerivationMethod } from "./wallet.contract";
 import { WalletLedgerModel } from "./wallet.enum";
-import { WalletGate } from "./wallet.gate";
 import { WalletMutator } from "./wallet.mutator";
 import { WalletSynchroniser } from "./wallet.synchroniser";
 import { TransactionService as WalletTransactionService } from "./wallet-transaction.service";
@@ -63,11 +59,9 @@ export class Wallet implements IReadWriteWallet {
 	readonly #dataRepository: IDataRepository;
 	readonly #settingRepository: ISettingRepository;
 	readonly #transactionService: ITransactionService;
-	readonly #walletGate: IWalletGate;
 	readonly #walletSynchroniser: IWalletSynchroniser;
 	readonly #walletMutator: IWalletMutator;
 	readonly #voteRegistry: IVoteRegistry;
-	readonly #tokenIndex: ITokenIndex;
 	readonly #transactionIndex: ITransactionIndex;
 	readonly #signingKey: IWalletImportFormat;
 	readonly #confirmKey: IWalletImportFormat;
@@ -87,11 +81,9 @@ export class Wallet implements IReadWriteWallet {
 		this.#dataRepository = new DataRepository();
 		this.#settingRepository = new SettingRepository(profile, Object.values(WalletSetting));
 		this.#transactionService = new WalletTransactionService(this);
-		this.#walletGate = new WalletGate(this);
 		this.#walletSynchroniser = new WalletSynchroniser(this);
 		this.#walletMutator = new WalletMutator(this);
 		this.#voteRegistry = new VoteRegistry(this, this.#attributes, this.#profile);
-		this.#tokenIndex = new TokenIndex(this);
 		this.#transactionIndex = new TransactionIndex(this);
 		this.#signingKey = new WalletImportFormat(this, WalletData.EncryptedSigningKey);
 		this.#confirmKey = new WalletImportFormat(this, WalletData.EncryptedConfirmKey);
@@ -266,7 +258,7 @@ export class Wallet implements IReadWriteWallet {
 
 	/** {@inheritDoc IReadWriteWallet.knownName} */
 	public knownName(): string | undefined {
-		return this.#profile.knownWallets().name(this.networkId(), this.address());
+		return undefined;
 	}
 
 	/** {@inheritDoc IReadWriteWallet.secondPublicKey} */
@@ -349,17 +341,17 @@ export class Wallet implements IReadWriteWallet {
 
 	/** {@inheritDoc IReadWriteWallet.isKnown} */
 	public isKnown(): boolean {
-		return this.#profile.knownWallets().is(this.networkId(), this.address());
+		return false;
 	}
 
 	/** {@inheritDoc IReadWriteWallet.isOwnedByExchange} */
 	public isOwnedByExchange(): boolean {
-		return this.#profile.knownWallets().isExchange(this.networkId(), this.address());
+		return false;
 	}
 
 	/** {@inheritDoc IReadWriteWallet.isOwnedByTeam} */
 	public isOwnedByTeam(): boolean {
-		return this.#profile.knownWallets().isTeam(this.networkId(), this.address());
+		return false;
 	}
 
 	/** {@inheritDoc IReadWriteWallet.isLedger} */
@@ -478,11 +470,6 @@ export class Wallet implements IReadWriteWallet {
 		return manifest.transactions.types;
 	}
 
-	/** {@inheritDoc IReadWriteWallet.gate} */
-	public gate(): IWalletGate {
-		return this.#walletGate;
-	}
-
 	/** {@inheritDoc IReadWriteWallet.synchroniser} */
 	public synchroniser(): IWalletSynchroniser {
 		return this.#walletSynchroniser;
@@ -501,11 +488,6 @@ export class Wallet implements IReadWriteWallet {
 	/** {@inheritDoc IReadWriteWallet.transactionIndex} */
 	public transactionIndex(): ITransactionIndex {
 		return this.#transactionIndex;
-	}
-
-	/** {@inheritDoc IReadWriteWallet.tokenIndex} */
-	public tokenIndex(): ITokenIndex {
-		return this.#tokenIndex;
 	}
 
 	/** {@inheritDoc IReadWriteWallet.signingKey} */

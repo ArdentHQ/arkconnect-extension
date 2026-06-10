@@ -2,8 +2,6 @@ import Joi from "joi";
 
 import { IDataRepository, IFeeService, IProfileRepository, IWalletService } from "./contracts.js";
 import { EnvironmentOptions, Storage, StorageData } from "./environment.models.js";
-import { KnownWalletService } from "./known-wallet.service.js";
-import { StorageFactory } from "./factory.storage.js";
 import { DataRepository } from "./repositories.js";
 import { ProfileFeeService } from "./fee.service.js";
 import { ProfileRepository } from "./profile.repository.js";
@@ -11,7 +9,6 @@ import { WalletService } from "./wallet.service.js";
 
 export class Environment {
 	#storage!: Storage;
-	#knownWalletService!: KnownWalletService;
 	#data!: DataRepository;
 	#fees!: ProfileFeeService;
 	#profiles!: ProfileRepository;
@@ -115,16 +112,6 @@ export class Environment {
 	}
 
 	/**
-	 * Access the known wallets service.
-	 *
-	 * @returns {KnownWalletService}
-	 * @memberof Environment
-	 */
-	public knownWallets(): KnownWalletService {
-		return this.#knownWalletService;
-	}
-
-	/**
 	 * Access the profile repository.
 	 *
 	 * @returns {ProfileRepository}
@@ -153,18 +140,10 @@ export class Environment {
 		this.#data = new DataRepository();
 		this.#fees = new ProfileFeeService();
 		this.#profiles = new ProfileRepository(this);
-		this.#knownWalletService = new KnownWalletService();
 		this.#wallets = new WalletService();
 
-		if (!options) {
-			this.#storage = StorageFactory.make("indexeddb");
-			return;
-		}
-
-		if (typeof options.storage === "string") {
-			this.#storage = StorageFactory.make(options.storage || "indexeddb");
-		} else {
-			this.#storage = options.storage;
+		if (options?.storage) {
+			this.#storage = options.storage as Storage;
 		}
 	}
 

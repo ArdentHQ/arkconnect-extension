@@ -73,7 +73,7 @@ export class WalletFactory implements IWalletFactory {
 			throw new Error("The configured network uses extended public keys with BIP44 for derivation.");
 		}
 
-		if (!wallet.gate().allows(Enums.FeatureFlag.AddressMnemonicBip39)) {
+		if (!wallet.network().allows(Enums.FeatureFlag.AddressMnemonicBip39)) {
 			throw new Error("The configured network does not support BIP39.");
 		}
 
@@ -232,7 +232,7 @@ export class WalletFactory implements IWalletFactory {
 		wallet.data().set(WalletData.ImportMethod, input.importMethod);
 		wallet.data().set(WalletData.Status, WalletFlag.Cold);
 
-		if (!wallet.gate().allows(input.featureFlag)) {
+		if (!wallet.network().allows(input.featureFlag)) {
 			throw new Error(`The configured network does not support ${input.derivationType.toUpperCase()}.`);
 		}
 
