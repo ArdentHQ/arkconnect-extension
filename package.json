@@ -4,7 +4,7 @@
     "version": "1.13.1",
     "type": "module",
     "scripts": {
-        "postinstall": "wxt prepare",
+        "postinstall": "wxt prepare && npx @ardenthq/airc update",
         "dev": "VITE_SEED_ADDRESSES=true wxt",
         "dev:firefox": "VITE_SEED_ADDRESSES=true wxt -b firefox",
         "dev:bare": "wxt",
