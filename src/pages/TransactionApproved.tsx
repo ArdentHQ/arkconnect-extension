@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { runtime, windows } from 'webextension-polyfill';
 import { BigNumber } from '../lib/helpers';
 import { useEnvironmentContext } from '@/lib/context/Environment';
 import { useProfileContext } from '@/lib/context/Profile';
@@ -61,11 +62,22 @@ const TransactionApproved = () => {
     const { env } = useEnvironmentContext();
     const { session } = state;
     const { t } = useTranslation();
+    const closeSidepanel = async () => {
+        const win = await windows.getCurrent();
+        if (win.id !== undefined) {
+            await runtime.sendMessage({ type: 'CLOSE_SIDEPANEL', data: { windowId: win.id } });
+        }
+    };
+
     const onClose = async () => {
         if (state?.windowId) {
             await removeWindowInstance(state?.windowId);
+            navigate('/');
+        } else if (state?.sidepanelWasOpen) {
+            navigate('/');
+        } else {
+            await closeSidepanel();
         }
-        navigate('/');
     };
 
     const transactionId = state?.transaction.id;

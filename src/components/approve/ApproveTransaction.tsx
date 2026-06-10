@@ -1,6 +1,6 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { runtime } from 'webextension-polyfill';
+import { runtime, windows } from 'webextension-polyfill';
 import { useTranslation } from 'react-i18next';
 import { useQuery } from 'react-query';
 import { ApproveLayout } from './ApproveLayout';
@@ -75,6 +75,21 @@ const ApproveTransaction = ({
     const coin = getNetworkCurrency(wallet.network());
     const withFiat = wallet.network().isLive();
     const isNative = session.domain === constants.APP_NAME;
+
+    const closeSidepanel = async () => {
+        const win = await windows.getCurrent();
+        if (win.id !== undefined) {
+            await runtime.sendMessage({ type: 'CLOSE_SIDEPANEL', data: { windowId: win.id } });
+        }
+    };
+
+    const dismissSidepanel = async () => {
+        if (location.state?.sidepanelWasOpen) {
+            navigate(-1);
+        } else {
+            await closeSidepanel();
+        }
+    };
 
     const { data: token } = useQuery<WalletToken | undefined>(
         ['approve-token', wallet?.address(), tokenAddress],
@@ -214,6 +229,7 @@ const ApproveTransaction = ({
                     transaction,
                     walletId: wallet.id(),
                     windowId: location.state?.windowId,
+                    sidepanelWasOpen: location.state?.sidepanelWasOpen,
                     walletNetwork: wallet.network().isTest()
                         ? WalletNetwork.DEVNET
                         : WalletNetwork.MAINNET,
@@ -254,20 +270,32 @@ const ApproveTransaction = ({
 
         reject();
 
-        if (location.state.windowId) {
-            await removeWindowInstance(location.state?.windowId, 100);
-        }
         loadingModal.close();
 
-        const params = new URLSearchParams({
-            receiverAddress,
-            amount,
-            gasPrice: customGasPrice,
-            gasLimit: customGasLimit,
-            feeClass,
-            ...(tokenAddress ? { token: tokenAddress } : {}),
-        });
-        navigate(isNative ? `/transaction/send?${params.toString()}` : '/');
+        if (location.state.windowId) {
+            await removeWindowInstance(location.state?.windowId, 100);
+            const params = new URLSearchParams({
+                receiverAddress,
+                amount,
+                gasPrice: customGasPrice,
+                gasLimit: customGasLimit,
+                feeClass,
+                ...(tokenAddress ? { token: tokenAddress } : {}),
+            });
+            navigate(isNative ? `/transaction/send?${params.toString()}` : '/');
+        } else if (isNative) {
+            const params = new URLSearchParams({
+                receiverAddress,
+                amount,
+                gasPrice: customGasPrice,
+                gasLimit: customGasLimit,
+                feeClass,
+                ...(tokenAddress ? { token: tokenAddress } : {}),
+            });
+            navigate(`/transaction/send?${params.toString()}`);
+        } else {
+            await dismissSidepanel();
+        }
     };
 
     return (
