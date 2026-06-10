@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import { DateTime } from '@/app/lib/intl';
 
-import { IProfile } from '@/app/lib/profiles/contracts';
+import { IProfile } from '@/lib/profiles/contracts';
 import { BigNumber } from '@/app/lib/helpers';
 
 interface Input {

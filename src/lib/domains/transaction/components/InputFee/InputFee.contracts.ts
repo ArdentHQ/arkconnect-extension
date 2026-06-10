@@ -1,5 +1,5 @@
 import { Networks } from '@/app/lib/mainsail';
-import { Contracts } from '@/app/lib/profiles';
+import { Contracts } from '@/lib/profiles';
 import { BigNumber } from '@/app/lib/helpers';
 
 enum InputFeeViewType {
