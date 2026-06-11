@@ -164,18 +164,16 @@ export class Profile implements IProfile {
             }
         }
 
-        const activeNetwork = this.#networkRepository
-            .availableNetworks()
-            .find((network) => {
+        const activeNetwork = this.#networkRepository.availableNetworks().find((network) => {
+            /* istanbul ignore next -- @preserve */
+            if (activeNetworkId === network?.id()) {
                 /* istanbul ignore next -- @preserve */
-                if (activeNetworkId === network?.id()) {
-                    /* istanbul ignore next -- @preserve */
-                    return network;
-                }
+                return network;
+            }
 
-                // @TODO: Return mainnet as the default network once it will be available.
-                return network?.isTest();
-            });
+            // @TODO: Return mainnet as the default network once it will be available.
+            return network?.isTest();
+        });
 
         if (!activeNetwork) {
             throw new Error('Active network is missing');

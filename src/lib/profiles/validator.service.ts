@@ -1,11 +1,6 @@
 import { Contracts, Networks } from '@/lib/mainsail';
 
-import {
-    IDataRepository,
-    IProfile,
-    IReadOnlyWallet,
-    IReadWriteWallet,
-} from './contracts.js';
+import { IDataRepository, IProfile, IReadOnlyWallet, IReadWriteWallet } from './contracts.js';
 import { DataRepository } from './data.repository';
 import {
     IValidatorSyncer,
