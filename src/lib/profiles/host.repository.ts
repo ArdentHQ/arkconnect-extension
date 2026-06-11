@@ -1,5 +1,5 @@
 import { DataRepository } from "./data.repository.js";
-import { Host, HostMap, HostSet, IHostRepository } from "./host.repository.contract.js";
+import { Host, HostMap, HostSet, IHostRepository } from "./contracts.js";
 import { IProfile } from "./profile.contract.js";
 
 export class HostRepository implements IHostRepository {

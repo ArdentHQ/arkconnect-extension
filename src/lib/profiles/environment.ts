@@ -2,7 +2,7 @@ import Joi from "joi";
 
 import { IDataRepository } from "./contracts.js";
 import { EnvironmentOptions, Storage, StorageData } from "./environment.models.js";
-import { DataRepository } from "./repositories.js";
+import { DataRepository } from "./data.repository.js";
 import { ProfileFeeService } from "./fee.service.js";
 import { ProfileRepository } from "./profile.repository.js";
 import { WalletService } from "./wallet.service.js";

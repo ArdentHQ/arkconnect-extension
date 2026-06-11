@@ -5,5 +5,4 @@ export * from "./environment.models.js";
 export * as Helpers from "./helpers/index.js";
 export * from "./profile.js";
 export * from "./read-only-wallet.js";
-export * as Repositories from "./repositories.js";
 export * from "./wallet.js";

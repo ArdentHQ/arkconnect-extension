@@ -2,7 +2,7 @@ import { manifest } from "@/lib/mainsail/manifest.js";
 import { Networks } from "@/lib/mainsail";
 import { NetworkManifest } from "@/lib/mainsail/network.models";
 import { DataRepository } from "./data.repository.js";
-import { Network, NetworkMap } from "./network.repository.contract.js";
+import { Network, NetworkMap } from "./contracts.js";
 import { IProfile } from "./profile.contract.js";
 
 export class NetworkRepository {
