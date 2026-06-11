@@ -17,7 +17,6 @@ import { AttributeBag } from './helpers/attribute-bag.js';
 import { MessageService } from '@/lib/mainsail/message.service.js';
 import { ClientService } from '@/lib/mainsail/client.service.js';
 import { AddressService } from '@/lib/mainsail/address.service.js';
-import { PublicKeyService } from '@/lib/mainsail/public-key.service.js';
 import { TransactionService } from '@/lib/mainsail/transaction.service.js';
 import { ValidatorService } from './validator.service.js';
 import { ExchangeRateService } from './exchange-rate.service.js';
@@ -44,7 +43,6 @@ export interface IReadWriteWalletAttributes {
     address: string;
     publicKey: string | undefined;
     avatar: string;
-    isMissingNetwork: boolean;
 }
 
 export interface IReadWriteWallet {
@@ -94,43 +92,23 @@ export interface IReadWriteWallet {
 
     tokenCount(): number;
 
-    knownName(): string | undefined;
-
-    secondPublicKey(): string | undefined;
-
     username(): string | undefined;
 
     validatorPublicKey(): string | undefined;
-
-    isResignedDelegate(): boolean;
 
     isValidator(): boolean;
 
     isLegacyValidator(): boolean;
 
-    validatorFee(): number | undefined;
-
     isResignedValidator(): boolean;
-
-    isKnown(): boolean;
-
-    isOwnedByExchange(): boolean;
-
-    isOwnedByTeam(): boolean;
 
     isHDWallet(): boolean;
 
     isLedger(): boolean;
 
-    isLedgerNanoS(): boolean;
-
-    isLedgerNanoX(): boolean;
-
     isStarred(): boolean;
 
     isCold(): boolean;
-
-    toggleStarred(): void;
 
     networkId(): string;
 
@@ -144,8 +122,6 @@ export interface IReadWriteWallet {
 
     addressService(): AddressService;
 
-    publicKeyService(): PublicKeyService;
-
     ledger(): Services.LedgerService;
 
     link(): Services.LinkService;
@@ -158,21 +134,13 @@ export interface IReadWriteWallet {
 
     transactionService(): TransactionService;
 
-    transactionTypes(): Networks.TransactionType[];
-
     explorerLink(): string;
 
     markAsFullyRestored(): void;
 
-    hasBeenFullyRestored(): boolean;
-
     markAsPartiallyRestored(): void;
 
     hasBeenPartiallyRestored(): boolean;
-
-    markAsMissingNetwork(): void;
-
-    isMissingNetwork(): boolean;
 
     getAttributes(): AttributeBag<IReadWriteWalletAttributes>;
 
@@ -217,8 +185,6 @@ export interface IReadWriteWallet {
     signatoryFactory(): ISignatoryFactory;
 
     isSelected(): boolean;
-
-    generateAlias(): string;
 
     tokens(): WalletTokenRepository;
 }

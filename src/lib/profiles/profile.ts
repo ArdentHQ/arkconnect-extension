@@ -247,24 +247,4 @@ export class Profile implements IProfile {
     public whitelistedContractAddresses(): string[] {
         return this.data().get(ProfileData.WhitelistedContractAddresses, []) as string[];
     }
-
-    public whitelistContractAddress(address: string): string[] {
-        const existing = this.whitelistedContractAddresses();
-        if (existing.some((a) => a.toLowerCase() === address.toLowerCase())) {
-            return existing;
-        }
-        const updated = [...existing, address];
-        this.data().set(ProfileData.WhitelistedContractAddresses, updated);
-        this.status().markAsDirty();
-        return updated;
-    }
-
-    public removeWhitelistedContractAddress(address: string): string[] {
-        const updated = this.whitelistedContractAddresses().filter(
-            (a) => a.toLowerCase() !== address.toLowerCase(),
-        );
-        this.data().set(ProfileData.WhitelistedContractAddresses, updated);
-        this.status().markAsDirty();
-        return updated;
-    }
 }

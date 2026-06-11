@@ -69,8 +69,6 @@ export interface IProfile {
     walletSelectionMode(): 'single' | 'multiple';
     tokens(): TokenService;
     whitelistedContractAddresses(): string[];
-    whitelistContractAddress(address: string): string[];
-    removeWhitelistedContractAddress(address: string): string[];
 }
 
 export interface IProfileExporter {

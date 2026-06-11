@@ -30,7 +30,6 @@ import { SignatoryFactory } from './signatory.factory';
 import { TransactionIndex } from './transaction-index';
 import { VoteRegistry } from './vote-registry';
 import { WalletBalanceType, WalletDerivationMethod } from './wallet.contract';
-import { WalletLedgerModel } from './wallet.enum';
 import { WalletMutator } from './wallet.mutator';
 import { WalletSynchroniser } from './wallet.synchroniser';
 import { TransactionService as WalletTransactionService } from './wallet-transaction.service';
@@ -42,7 +41,6 @@ import { manifest } from '@/lib/mainsail/index';
 import { LedgerService } from '@/lib/mainsail/ledger.service';
 import { ClientService } from '@/lib/mainsail/client.service';
 import { AddressService } from '@/lib/mainsail/address.service';
-import { PublicKeyService } from '@/lib/mainsail/public-key.service';
 import { SignatoryService } from '@/lib/mainsail/signatory.service';
 import { TransactionService } from '@/lib/mainsail/transaction.service';
 import { ValidatorService } from './validator.service';
@@ -129,7 +127,7 @@ export class Wallet implements IReadWriteWallet {
     }
 
     public displayName(): string | undefined {
-        return this.settings().get(WalletSetting.Alias) || this.username() || this.knownName();
+        return this.settings().get(WalletSetting.Alias) || this.username();
     }
 
     public primaryKey(): string {
@@ -236,18 +234,6 @@ export class Wallet implements IReadWriteWallet {
         return this.data().get(WalletData.TokenCount, 0) as number;
     }
 
-    public knownName(): string | undefined {
-        return undefined;
-    }
-
-    public secondPublicKey(): string | undefined {
-        if (!this.#attributes.get<Contracts.WalletData>('wallet')) {
-            throw new Error(ERR_NOT_SYNCED);
-        }
-
-        return this.#attributes.get<Contracts.WalletData>('wallet').secondPublicKey();
-    }
-
     public username(): string | undefined {
         if (this.isCold()) {
             return;
@@ -270,14 +256,6 @@ export class Wallet implements IReadWriteWallet {
         return this.#attributes.get<Contracts.WalletData>('wallet').validatorPublicKey();
     }
 
-    public isResignedDelegate(): boolean {
-        if (!this.#attributes.get<Contracts.WalletData>('wallet')) {
-            throw new Error(ERR_NOT_SYNCED);
-        }
-
-        return this.#attributes.get<Contracts.WalletData>('wallet').isResignedDelegate();
-    }
-
     public isValidator(): boolean {
         if (!this.#attributes.get<Contracts.WalletData>('wallet')) {
             throw new Error(ERR_NOT_SYNCED);
@@ -294,32 +272,12 @@ export class Wallet implements IReadWriteWallet {
         return this.#attributes.get<Contracts.WalletData>('wallet').isLegacyValidator();
     }
 
-    public validatorFee(): number | undefined {
-        if (!this.#attributes.get<Contracts.WalletData>('wallet')) {
-            throw new Error(ERR_NOT_SYNCED);
-        }
-
-        return this.#attributes.get<Contracts.WalletData>('wallet').validatorFee();
-    }
-
     public isResignedValidator(): boolean {
         if (!this.#attributes.get<Contracts.WalletData>('wallet')) {
             throw new Error(ERR_NOT_SYNCED);
         }
 
         return this.#attributes.get<Contracts.WalletData>('wallet').isResignedValidator();
-    }
-
-    public isKnown(): boolean {
-        return false;
-    }
-
-    public isOwnedByExchange(): boolean {
-        return false;
-    }
-
-    public isOwnedByTeam(): boolean {
-        return false;
     }
 
     public isHDWallet(): boolean {
@@ -333,30 +291,12 @@ export class Wallet implements IReadWriteWallet {
         return this.data().get(WalletData.DerivationPath) !== undefined && !this.isHDWallet();
     }
 
-    public isLedgerNanoX(): boolean {
-        return this.data().get(WalletData.LedgerModel) === WalletLedgerModel.NanoX;
-    }
-
-    public isLedgerNanoS(): boolean {
-        return this.data().get(WalletData.LedgerModel) === WalletLedgerModel.NanoS;
-    }
-
     public isStarred(): boolean {
         return this.data().get(WalletFlag.Starred) === true;
     }
 
     public isCold(): boolean {
         return this.data().get(WalletData.Status) === WalletFlag.Cold;
-    }
-
-    public toggleStarred(): void {
-        this.data().set(WalletFlag.Starred, !this.isStarred());
-
-        this.profile().status().markAsDirty();
-    }
-
-    public coinId(): string {
-        return this.manifest().get('name');
     }
 
     public networkId(): string {
@@ -376,10 +316,6 @@ export class Wallet implements IReadWriteWallet {
 
     public addressService(): AddressService {
         return new AddressService();
-    }
-
-    public publicKeyService(): PublicKeyService {
-        return new PublicKeyService();
     }
 
     public ledger(): LedgerService {
@@ -410,13 +346,6 @@ export class Wallet implements IReadWriteWallet {
             config: this.network().config(),
             profile: this.profile(),
         });
-    }
-
-    public transactionTypes(): Networks.TransactionType[] {
-        const manifest: Networks.NetworkManifest =
-            this.manifest().get<object>('networks')[this.networkId()];
-
-        return manifest.transactions.types;
     }
 
     public synchroniser(): IWalletSynchroniser {
@@ -456,10 +385,6 @@ export class Wallet implements IReadWriteWallet {
         });
     }
 
-    public hasBeenFullyRestored(): boolean {
-        return this.#attributes.get('restorationState').full;
-    }
-
     public markAsPartiallyRestored(): void {
         this.#attributes.set('restorationState', {
             full: false,
@@ -469,14 +394,6 @@ export class Wallet implements IReadWriteWallet {
 
     public hasBeenPartiallyRestored(): boolean {
         return this.#attributes.get('restorationState').partial;
-    }
-
-    public markAsMissingNetwork(): void {
-        this.#attributes.set('isMissingNetwork', true);
-    }
-
-    public isMissingNetwork(): boolean {
-        return this.#attributes.has('isMissingNetwork');
     }
 
     public getAttributes(): AttributeBag<IReadWriteWalletAttributes> {
@@ -544,16 +461,8 @@ export class Wallet implements IReadWriteWallet {
         ].includes(this.data().get(WalletData.ImportMethod)!);
     }
 
-    public actsWithWif(): boolean {
-        return this.data().get(WalletData.ImportMethod) === WalletImportMethod.WIF;
-    }
-
     public isSelected(): boolean {
         return this.settings().get(WalletSetting.IsSelected) === true;
-    }
-
-    public actsWithWifWithEncryption(): boolean {
-        return this.data().get(WalletData.ImportMethod) === WalletImportMethod.WIFWithEncryption;
     }
 
     public actsWithSecret(): boolean {
@@ -617,9 +526,5 @@ export class Wallet implements IReadWriteWallet {
 
     public tokens(): WalletTokenRepository {
         return this.#tokens;
-    }
-
-    public generateAlias(): string {
-        return new WalletAliasProvider(this.#profile).generateAlias(this);
     }
 }
