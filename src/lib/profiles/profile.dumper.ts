@@ -1,6 +1,6 @@
-import { IProfile, IProfileDumper, IProfileInput } from "./contracts.js";
+import { IProfile, IProfileInput } from "./contracts.js";
 
-export class ProfileDumper implements IProfileDumper {
+export class ProfileDumper {
 	readonly #profile: IProfile;
 
 	public constructor(profile: IProfile) {

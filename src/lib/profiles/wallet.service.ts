@@ -1,7 +1,7 @@
-import { IProfile, IWalletService } from "./contracts.js";
+import { IProfile } from "./contracts.js";
 import { pqueueSettled } from "./helpers/queue.js";
 
-export class WalletService implements IWalletService {
+export class WalletService {
 	/** {@inheritDoc IWalletService.syncByProfile} */
 	public async syncByProfile(profile: IProfile, networkIds?: string[]): Promise<void> {
 		const availableNetworkIds = new Set(

@@ -1,6 +1,6 @@
 import Joi from "joi";
 
-import { IDataRepository, IFeeService, IProfileRepository, IWalletService } from "./contracts.js";
+import { IDataRepository } from "./contracts.js";
 import { EnvironmentOptions, Storage, StorageData } from "./environment.models.js";
 import { DataRepository } from "./repositories.js";
 import { ProfileFeeService } from "./fee.service.js";
@@ -107,7 +107,7 @@ export class Environment {
 	 * @returns {FeeService}
 	 * @memberof Environment
 	 */
-	public fees(): IFeeService {
+	public fees(): ProfileFeeService {
 		return this.#fees;
 	}
 
@@ -117,7 +117,7 @@ export class Environment {
 	 * @returns {ProfileRepository}
 	 * @memberof Environment
 	 */
-	public profiles(): IProfileRepository {
+	public profiles(): ProfileRepository {
 		return this.#profiles;
 	}
 
@@ -127,7 +127,7 @@ export class Environment {
 	 * @returns {WalletService}
 	 * @memberof Environment
 	 */
-	public wallets(): IWalletService {
+	public wallets(): WalletService {
 		return this.#wallets;
 	}
 

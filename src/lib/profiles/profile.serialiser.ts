@@ -1,8 +1,8 @@
 /* eslint unicorn/no-abusive-eslint-disable: "off" */
 /* eslint-disable */
-import { IProfile, IProfileData, IProfileExportOptions, IProfileSerialiser } from "./contracts.js";
+import { IProfile, IProfileData, IProfileExportOptions } from "./contracts.js";
 
-export class ProfileSerialiser implements IProfileSerialiser {
+export class ProfileSerialiser {
 	readonly #profile: IProfile;
 
 	public constructor(profile: IProfile) {

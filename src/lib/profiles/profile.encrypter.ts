@@ -1,8 +1,8 @@
 import { Base64, PBKDF2 } from "@ardenthq/arkvault-crypto";
 
-import { IProfile, IProfileData, IProfileEncrypter } from "./contracts.js";
+import { IProfile, IProfileData } from "./contracts.js";
 
-export class ProfileEncrypter implements IProfileEncrypter {
+export class ProfileEncrypter {
 	readonly #profile: IProfile;
 
 	public constructor(profile: IProfile) {

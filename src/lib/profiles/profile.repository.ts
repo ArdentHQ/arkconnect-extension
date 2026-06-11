@@ -1,6 +1,6 @@
 import { UUID } from "@ardenthq/arkvault-crypto";
 
-import { IProfile, IProfileExportOptions, IProfileInput, IProfileRepository } from "./contracts.js";
+import { IProfile, IProfileExportOptions, IProfileInput } from "./contracts.js";
 import { DataRepository } from "./data.repository";
 import { ProfileDumper } from "./profile.dumper";
 import { ProfileExporter } from "./profile.exporter";
@@ -8,7 +8,7 @@ import { ProfileImporter } from "./profile.importer";
 import { Profile } from "./profile.js";
 import { Environment } from "./environment.js";
 
-export class ProfileRepository implements IProfileRepository {
+export class ProfileRepository {
 	readonly #data: DataRepository;
 	readonly #env: Environment;
 

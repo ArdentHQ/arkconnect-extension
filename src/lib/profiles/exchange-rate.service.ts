@@ -2,10 +2,10 @@ import { BigNumber, NumberLike } from "@/lib/helpers";
 import { DateTime } from "@/lib/intl";
 import { MarketService } from "@/lib/markets";
 
-import { IExchangeRateService, IProfile, IReadWriteWallet, ProfileSetting } from "./contracts.js";
+import { IProfile, IReadWriteWallet, ProfileSetting } from "./contracts.js";
 import { DataRepository } from "./data.repository";
 import { Storage } from "./environment.models.js";
-export class ExchangeRateService implements IExchangeRateService {
+export class ExchangeRateService {
 	readonly #storageKey: string = "EXCHANGE_RATE_SERVICE";
 	readonly #dataRepository: DataRepository = new DataRepository();
 	readonly #storage: Storage;
