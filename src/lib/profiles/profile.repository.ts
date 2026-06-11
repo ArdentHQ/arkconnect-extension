@@ -111,8 +111,16 @@ export class ProfileRepository {
 		return result;
 	}
 
-	/** {@inheritDoc IProfileRepository.export} */
-	public async export(profile: IProfile, options: IProfileExportOptions, password?: string): Promise<string> {
+	public async export(
+		profile: IProfile,
+		options: IProfileExportOptions = {
+			addNetworkInformation: true,
+			excludeEmptyWallets: false,
+			excludeLedgerWallets: false,
+			saveGeneralSettings: true,
+		},
+		password?: string,
+	): Promise<string> {
 		return new ProfileExporter(profile).export(password, options);
 	}
 
