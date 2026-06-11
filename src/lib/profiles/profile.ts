@@ -4,6 +4,7 @@ import { Authenticator } from './authenticator';
 import {
     IAuthenticator,
     IDataRepository,
+    IHostRepository,
     IPasswordManager,
     IProfile,
     IProfileInput,
@@ -16,7 +17,6 @@ import {
 import { DataRepository } from './data.repository';
 import { AttributeBag } from './helpers/attribute-bag';
 import { Avatar } from './helpers/avatar';
-import { IHostRepository } from './contracts';
 import { HostRepository } from './host.repository';
 import { NetworkRepository } from './network.repository';
 import { PasswordManager } from './password';
@@ -24,7 +24,7 @@ import { ProfileStatus } from './profile.status';
 import { SettingRepository } from './setting.repository';
 import { WalletFactory } from './wallet.factory';
 import { WalletRepository } from './wallet.repository';
-import { Contracts, Environment } from './index';
+import { Environment } from './environment';
 import { LedgerService } from '@/lib/mainsail/ledger.service';
 import { ValidatorService } from './validator.service';
 import { ExchangeRateService } from './exchange-rate.service';
@@ -148,7 +148,7 @@ export class Profile implements IProfile {
 
     public activeNetwork(): Networks.Network {
         const { activeNetworkId }: { activeNetworkId?: string } = this.settings().get(
-            Contracts.ProfileSetting.DashboardConfiguration,
+            ProfileSetting.DashboardConfiguration,
         ) ?? {
             activeNetworkId: undefined,
         };
