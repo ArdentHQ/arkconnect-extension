@@ -2,7 +2,5 @@ export * as Contracts from './contracts.js';
 export * as DTO from './dto.js';
 export * from './environment.js';
 export * from './environment.models.js';
-export * as Helpers from './helpers/index.js';
 export * from './profile.js';
-export * from './read-only-wallet.js';
 export * from './wallet.js';
