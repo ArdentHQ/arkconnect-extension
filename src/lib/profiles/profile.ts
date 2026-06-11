@@ -30,7 +30,6 @@ import { ValidatorService } from './validator.service';
 import { ExchangeRateService } from './exchange-rate.service';
 import { TokenService } from './token.service';
 import { ProfileData } from './profile.enum.contract';
-import { isPreview } from '@/utils/test-helpers';
 
 export class Profile implements IProfile {
     readonly #dataRepository: IDataRepository;
@@ -107,24 +106,6 @@ export class Profile implements IProfile {
         return Avatar.make(this.name());
     }
 
-    public usesHDWallets(): boolean {
-        if (isPreview()) {
-            return true;
-        }
-
-        return !!this.settings().get(ProfileSetting.UseHDWallets);
-    }
-
-    public flush(): void {
-        const name: string | undefined = this.settings().get(ProfileSetting.Name);
-
-        if (name === undefined) {
-            throw new Error('The name of the profile could not be found. This looks like a bug.');
-        }
-
-        this.initialise(name);
-    }
-
     public initialise(name: string): void {
         this.data().flush();
         this.settings().flush();
@@ -145,7 +126,6 @@ export class Profile implements IProfile {
         this.settings().set(ProfileSetting.TimeFormat, 'h:mm A');
         this.settings().set(ProfileSetting.UseNetworkWalletNames, true);
         this.settings().set(ProfileSetting.UseTestNetworks, false);
-        this.settings().set(ProfileSetting.UseHDWallets, false);
         this.settings().set(ProfileSetting.HideDustTokens, false);
         this.status().markAsDirty();
     }
@@ -163,7 +143,7 @@ export class Profile implements IProfile {
     }
 
     public availableNetworks(): Networks.Network[] {
-        return this.networks().availableNetworks();
+        return this.#networkRepository.availableNetworks();
     }
 
     public activeNetwork(): Networks.Network {
@@ -184,7 +164,7 @@ export class Profile implements IProfile {
             }
         }
 
-        const activeNetwork = this.networks()
+        const activeNetwork = this.#networkRepository
             .availableNetworks()
             .find((network) => {
                 /* istanbul ignore next -- @preserve */

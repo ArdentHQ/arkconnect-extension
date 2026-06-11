@@ -3,6 +3,8 @@ import { Networks } from '@/lib/mainsail';
 import {
     IAuthenticator,
     IDataRepository,
+    IHostRepository,
+    INetworkRepository,
     IPasswordManager,
     IProfileStatus,
     ISettingRepository,
@@ -11,7 +13,6 @@ import {
     IWalletRepository,
 } from './contracts.js';
 import { AttributeBag } from './helpers/attribute-bag.js';
-import { IHostRepository, INetworkRepository } from './contracts.js';
 import { LedgerService } from '@/lib/mainsail/ledger.service.js';
 import { ValidatorService } from './validator.service.js';
 import { ExchangeRateService } from './exchange-rate.service.js';
@@ -48,7 +49,6 @@ export interface IProfile {
     id(): string;
     name(): string;
     avatar(): string;
-    usesHDWallets(): boolean;
     data(): IDataRepository;
     hosts(): IHostRepository;
     networks(): INetworkRepository;
@@ -57,7 +57,6 @@ export interface IProfile {
     settings(): ISettingRepository;
     wallets(): IWalletRepository;
     walletFactory(): IWalletFactory;
-    flush(): void;
     auth(): IAuthenticator;
     password(): IPasswordManager;
     usesPassword(): boolean;
