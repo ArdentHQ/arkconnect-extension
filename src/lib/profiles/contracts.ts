@@ -35,7 +35,6 @@ export * from './read-only-wallet.contract.js';
 export * from './setting.repository.contract.js';
 export * from './signatory.factory.contract.js';
 export * from './transaction-index.contract.js';
-export * from './validator.service.contract.js';
 export * from './vote-registry.contract.js';
 export * from './wallet.contract.js';
 export * from './wallet.enum'; // @TODO

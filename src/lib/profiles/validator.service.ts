@@ -2,7 +2,6 @@ import { Contracts, Networks } from '@/lib/mainsail';
 
 import {
     IDataRepository,
-    IValidatorService,
     IProfile,
     IReadOnlyWallet,
     IReadWriteWallet,
@@ -19,7 +18,7 @@ import { ClientService } from '@/lib/mainsail/client.service.js';
 import { LinkService } from '@/lib/mainsail/link.service.js';
 import { Cache } from '@/lib/mainsail/cache.js';
 
-export class ValidatorService implements IValidatorService {
+export class ValidatorService {
     readonly #dataRepository: IDataRepository = new DataRepository();
     readonly #cache = new Cache(300); // 5-minute TTL in seconds
     readonly #profile: IProfile;
