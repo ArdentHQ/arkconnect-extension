@@ -1,177 +1,185 @@
-import { Contracts, Networks } from "@/lib/mainsail";
+import { Contracts, Networks } from '@/lib/mainsail';
 
-import { IDataRepository, IValidatorService, IProfile, IReadOnlyWallet, IReadWriteWallet } from "./contracts.js";
-import { DataRepository } from "./data.repository";
-import { IValidatorSyncer, ParallelValidatorSyncer, SerialValidatorSyncer } from "./validator-syncer.service.js";
-import { pqueueSettled } from "./helpers/queue.js";
-import { ReadOnlyWallet } from "./read-only-wallet.js";
-import { ClientService } from "@/lib/mainsail/client.service.js";
-import { LinkService } from "@/lib/mainsail/link.service.js";
-import { Cache } from "@/lib/mainsail/cache.js";
+import {
+    IDataRepository,
+    IValidatorService,
+    IProfile,
+    IReadOnlyWallet,
+    IReadWriteWallet,
+} from './contracts.js';
+import { DataRepository } from './data.repository';
+import {
+    IValidatorSyncer,
+    ParallelValidatorSyncer,
+    SerialValidatorSyncer,
+} from './validator-syncer.service.js';
+import { pqueueSettled } from './helpers/queue.js';
+import { ReadOnlyWallet } from './read-only-wallet.js';
+import { ClientService } from '@/lib/mainsail/client.service.js';
+import { LinkService } from '@/lib/mainsail/link.service.js';
+import { Cache } from '@/lib/mainsail/cache.js';
 
 export class ValidatorService implements IValidatorService {
-	readonly #dataRepository: IDataRepository = new DataRepository();
-	readonly #cache = new Cache(300); // 5-minute TTL in seconds
-	readonly #profile: IProfile;
+    readonly #dataRepository: IDataRepository = new DataRepository();
+    readonly #cache = new Cache(300); // 5-minute TTL in seconds
+    readonly #profile: IProfile;
 
-	public constructor(profile: IProfile) {
-		this.#profile = profile;
-	}
+    public constructor(profile: IProfile) {
+        this.#profile = profile;
+    }
 
-	/** {@inheritDoc IValidatorService.all} */
-	public all(network: string): IReadOnlyWallet[] {
-		const result: any[] | undefined = this.#dataRepository.get(`${network}.validators`);
+    public all(network: string): IReadOnlyWallet[] {
+        const result: any[] | undefined = this.#dataRepository.get(`${network}.validators`);
 
-		if (result === undefined) {
-			throw new Error(
-				`The validators for [${network}] have not been synchronized yet. Please call [syncValidators] before using this method.`,
-			);
-		}
+        if (result === undefined) {
+            throw new Error(
+                `The validators for [${network}] have not been synchronized yet. Please call [syncValidators] before using this method.`,
+            );
+        }
 
-		return result.map((validator) => this.#mapValidator(validator));
-	}
+        return result.map((validator) => this.#mapValidator(validator));
+    }
 
-	/** {@inheritDoc IValidatorService.findByAddress} */
-	public findByAddress(network: string, address: string): IReadOnlyWallet {
-		return this.#findValidatorByAttribute(network, "address", address);
-	}
+    public findByAddress(network: string, address: string): IReadOnlyWallet {
+        return this.#findValidatorByAttribute(network, 'address', address);
+    }
 
-	/** {@inheritDoc IValidatorService.findByPublicKey} */
-	public findByPublicKey(network: string, publicKey: string): IReadOnlyWallet {
-		return this.#findValidatorByAttribute(network, "publicKey", publicKey);
-	}
+    public findByPublicKey(network: string, publicKey: string): IReadOnlyWallet {
+        return this.#findValidatorByAttribute(network, 'publicKey', publicKey);
+    }
 
-	/** {@inheritDoc IValidatorService.findByUsername} */
-	public findByUsername(network: string, username: string): IReadOnlyWallet {
-		return this.#findValidatorByAttribute(network, "username", username);
-	}
+    public findByUsername(network: string, username: string): IReadOnlyWallet {
+        return this.#findValidatorByAttribute(network, 'username', username);
+    }
 
-	/** {@inheritDoc IValidatorService.sync} */
-	public async sync(network: string, options?: { force?: boolean }): Promise<void> {
-		const cacheKey = `${network}.validators`;
+    public async sync(network: string, options?: { force?: boolean }): Promise<void> {
+        const cacheKey = `${network}.validators`;
 
-		if (options?.force) {
-			this.#cache.forget(cacheKey);
-		}
+        if (options?.force) {
+            this.#cache.forget(cacheKey);
+        }
 
-		const cached = await this.#cache.remember(cacheKey, async () => {
-			const clientService = new ClientService({
-				config: this.#profile.activeNetwork().config(),
-				profile: this.#profile,
-			});
-			const syncer: IValidatorSyncer = this.#profile.activeNetwork().meta().fastDelegateSync
-				? new ParallelValidatorSyncer(clientService)
-				: new SerialValidatorSyncer(clientService);
+        const cached = await this.#cache.remember(cacheKey, async () => {
+            const clientService = new ClientService({
+                config: this.#profile.activeNetwork().config(),
+                profile: this.#profile,
+            });
+            const syncer: IValidatorSyncer = this.#profile.activeNetwork().meta().fastDelegateSync
+                ? new ParallelValidatorSyncer(clientService)
+                : new SerialValidatorSyncer(clientService);
 
-			const result: Contracts.WalletData[] = await syncer.sync({ limit: 100 });
+            const result: Contracts.WalletData[] = await syncer.sync({ limit: 100 });
 
-			return result.map((validator: Contracts.WalletData) => ({
-				...validator.toObject(),
-				explorerLink: new LinkService({
-					config: this.#profile.activeNetwork().config(),
-					profile: this.#profile,
-				}).wallet(validator.address()),
-				governanceIdentifier: this.#profile.activeNetwork().validatorIdentifier(),
-			}));
-		});
+            return result.map((validator: Contracts.WalletData) => ({
+                ...validator.toObject(),
+                explorerLink: new LinkService({
+                    config: this.#profile.activeNetwork().config(),
+                    profile: this.#profile,
+                }).wallet(validator.address()),
+                governanceIdentifier: this.#profile.activeNetwork().validatorIdentifier(),
+            }));
+        });
 
-		this.#dataRepository.set(cacheKey, cached);
-	}
+        this.#dataRepository.set(cacheKey, cached);
+    }
 
-	public async syncAll(): Promise<void> {
-		const promises: (() => Promise<void>)[] = [];
+    public async syncAll(): Promise<void> {
+        const promises: (() => Promise<void>)[] = [];
 
-		for (const network of this.#profile.availableNetworks()) {
-			promises.push(() => this.sync(network.id()));
-		}
+        for (const network of this.#profile.availableNetworks()) {
+            promises.push(() => this.sync(network.id()));
+        }
 
-		await pqueueSettled(promises);
-	}
+        await pqueueSettled(promises);
+    }
 
-	/** {@inheritDoc IValidatorService.map} */
-	public map(wallet: IReadWriteWallet, publicKeys: string[]): IReadOnlyWallet[] {
-		if (publicKeys.length === 0) {
-			return [];
-		}
+    public map(wallet: IReadWriteWallet, publicKeys: string[]): IReadOnlyWallet[] {
+        if (publicKeys.length === 0) {
+            return [];
+        }
 
-		return publicKeys
-			.map((publicKey: string) => this.mapByIdentifier(wallet, publicKey))
-			.filter(Boolean) as IReadOnlyWallet[];
-	}
+        return publicKeys
+            .map((publicKey: string) => this.mapByIdentifier(wallet, publicKey))
+            .filter(Boolean) as IReadOnlyWallet[];
+    }
 
-	/** {@inheritDoc IValidatorService.map} */
-	public mapByIdentifier(wallet: IReadWriteWallet, identifier: string): IReadOnlyWallet | undefined {
-		try {
-			let validator: IReadOnlyWallet | undefined;
+    public mapByIdentifier(
+        wallet: IReadWriteWallet,
+        identifier: string,
+    ): IReadOnlyWallet | undefined {
+        try {
+            let validator: IReadOnlyWallet | undefined;
 
-			try {
-				validator = this.findByPublicKey(wallet.networkId(), identifier);
-			} catch {
-				validator = this.findByAddress(wallet.networkId(), identifier);
-			}
+            try {
+                validator = this.findByPublicKey(wallet.networkId(), identifier);
+            } catch {
+                validator = this.findByAddress(wallet.networkId(), identifier);
+            }
 
-			return new ReadOnlyWallet(
-				{
-					address: validator.address(),
-					explorerLink: wallet.link().wallet(validator.address()),
-					governanceIdentifier: validator.governanceIdentifier(),
-					isLegacyValidator: validator.isLegacyValidator(),
-					isResignedValidator: validator.isResignedValidator(),
-					isValidator: validator.isValidator(),
-					publicKey: validator.publicKey(),
-					rank: validator.rank(),
-					username: validator.username(),
-				},
-				this.#profile,
-			);
-		} catch {
-			return undefined;
-		}
-	}
+            return new ReadOnlyWallet(
+                {
+                    address: validator.address(),
+                    explorerLink: wallet.link().wallet(validator.address()),
+                    governanceIdentifier: validator.governanceIdentifier(),
+                    isLegacyValidator: validator.isLegacyValidator(),
+                    isResignedValidator: validator.isResignedValidator(),
+                    isValidator: validator.isValidator(),
+                    publicKey: validator.publicKey(),
+                    rank: validator.rank(),
+                    username: validator.username(),
+                },
+                this.#profile,
+            );
+        } catch {
+            return undefined;
+        }
+    }
 
-	#findValidatorByAttribute(network: string, key: string, value: string): IReadOnlyWallet {
-		const result = this.all(network).find((validator) => validator[key]() === value);
+    #findValidatorByAttribute(network: string, key: string, value: string): IReadOnlyWallet {
+        const result = this.all(network).find((validator) => validator[key]() === value);
 
-		if (result === undefined) {
-			throw new Error(`No validator for ${key} with value ${value} could be found.`);
-		}
+        if (result === undefined) {
+            throw new Error(`No validator for ${key} with value ${value} could be found.`);
+        }
 
-		return result;
-	}
+        return result;
+    }
 
-	#mapValidator(validator: Record<string, any>): IReadOnlyWallet {
-		return new ReadOnlyWallet(
-			{
-				address: validator.address,
-				explorerLink: validator.explorerLink,
-				governanceIdentifier: validator.governanceIdentifier,
-				isLegacyValidator: validator.isLegacyValidator,
-				isResignedValidator: validator.isResignedValidator,
-				isValidator: validator.isValidator,
-				publicKey: validator.publicKey,
-				rank: validator.rank as unknown as number,
-				username: validator.username,
-			},
-			this.#profile,
-		);
-	}
+    #mapValidator(validator: Record<string, any>): IReadOnlyWallet {
+        return new ReadOnlyWallet(
+            {
+                address: validator.address,
+                explorerLink: validator.explorerLink,
+                governanceIdentifier: validator.governanceIdentifier,
+                isLegacyValidator: validator.isLegacyValidator,
+                isResignedValidator: validator.isResignedValidator,
+                isValidator: validator.isValidator,
+                publicKey: validator.publicKey,
+                rank: validator.rank as unknown as number,
+                username: validator.username,
+            },
+            this.#profile,
+        );
+    }
 
-	public async publicKeyExists(publicKey: string, network: Networks.Network): Promise<boolean> {
-		if (publicKey.length === 0) {
-			return false;
-		}
+    public async publicKeyExists(publicKey: string, network: Networks.Network): Promise<boolean> {
+        if (publicKey.length === 0) {
+            return false;
+        }
 
-		const publicApiEndpoint = network.config().host("full", this.#profile);
-		const response = await fetch(`${publicApiEndpoint}/wallets?attributes.validatorPublicKey=${publicKey}`);
+        const publicApiEndpoint = network.config().host('full', this.#profile);
+        const response = await fetch(
+            `${publicApiEndpoint}/wallets?attributes.validatorPublicKey=${publicKey}`,
+        );
 
-		if (response.status !== 404) {
-			const data = await response.json();
+        if (response.status !== 404) {
+            const data = await response.json();
 
-			if (data.meta?.count > 0) {
-				return true;
-			}
-		}
+            if (data.meta?.count > 0) {
+                return true;
+            }
+        }
 
-		return false;
-	}
+        return false;
+    }
 }

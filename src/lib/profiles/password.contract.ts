@@ -1,32 +1,9 @@
 export interface IPasswordManager {
-	/**
-	 * Get the password.
-	 *
-	 * @return {*}  {string}
-	 * @memberof IPasswordManager
-	 */
-	get(): string;
+    get(): string;
 
-	/**
-	 * Set the password.
-	 *
-	 * @param {string} password
-	 * @memberof IPasswordManager
-	 */
-	set(password: string): void;
+    set(password: string): void;
 
-	/**
-	 * Check if a password has been set.
-	 *
-	 * @return {*}  {boolean}
-	 * @memberof IPasswordManager
-	 */
-	exists(): boolean;
+    exists(): boolean;
 
-	/**
-	 * Forget the password.
-	 *
-	 * @memberof IPasswordManager
-	 */
-	forget(): void;
+    forget(): void;
 }

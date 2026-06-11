@@ -1,42 +1,42 @@
-import { TokenDTO } from "./token.dto";
-import { BigNumber } from "@/lib/helpers";
-import { TransactionTokenData } from "@/lib/profiles/token.contracts";
+import { TokenDTO } from './token.dto';
+import { BigNumber } from '@/lib/helpers';
+import { TransactionTokenData } from '@/lib/profiles/token.contracts';
 
 export class TransactionToken {
-	#data: TransactionTokenData;
+    #data: TransactionTokenData;
 
-	constructor(data: TransactionTokenData) {
-		this.#data = data;
-	}
+    constructor(data: TransactionTokenData) {
+        this.#data = data;
+    }
 
-	from(): string {
-		return this.#data.from;
-	}
+    from(): string {
+        return this.#data.from;
+    }
 
-	to(): string {
-		return this.#data.to;
-	}
+    to(): string {
+        return this.#data.to;
+    }
 
-	value(): BigNumber {
-		return BigNumber.make(this.#data.value, this.token().decimals()).divide(
-			BigNumber.powerOfTen(this.token().decimals()),
-		);
-	}
+    value(): BigNumber {
+        return BigNumber.make(this.#data.value, this.token().decimals()).divide(
+            BigNumber.powerOfTen(this.token().decimals()),
+        );
+    }
 
-	index(): number {
-		return this.#data.index;
-	}
+    index(): number {
+        return this.#data.index;
+    }
 
-	token(): TokenDTO {
-		const tokenData = this.#data.metadata;
+    token(): TokenDTO {
+        const tokenData = this.#data.metadata;
 
-		return new TokenDTO({
-			address: tokenData.tokenAddress,
-			decimals: tokenData.tokenDecimals,
-			deploymentHash: "",
-			name: tokenData.tokenName,
-			symbol: tokenData.tokenSymbol,
-			totalSupply: "",
-		});
-	}
+        return new TokenDTO({
+            address: tokenData.tokenAddress,
+            decimals: tokenData.tokenDecimals,
+            deploymentHash: '',
+            name: tokenData.tokenName,
+            symbol: tokenData.tokenSymbol,
+            totalSupply: '',
+        });
+    }
 }

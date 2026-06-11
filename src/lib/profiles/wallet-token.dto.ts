@@ -1,25 +1,25 @@
-import { WalletTokenData } from "./token.contracts";
+import { WalletTokenData } from './token.contracts';
 
 export class WalletTokenDTO {
-	#data: WalletTokenData;
+    #data: WalletTokenData;
 
-	constructor(data: WalletTokenData) {
-		this.#data = data;
-	}
+    constructor(data: WalletTokenData) {
+        this.#data = data;
+    }
 
-	address(): string {
-		return this.#data.address;
-	}
+    address(): string {
+        return this.#data.address;
+    }
 
-	balance(): string {
-		return this.#data.balance;
-	}
+    balance(): string {
+        return this.#data.balance;
+    }
 
-	tokenAddress(): string {
-		return this.#data.tokenAddress;
-	}
+    tokenAddress(): string {
+        return this.#data.tokenAddress;
+    }
 
-	toJSON(): WalletTokenData {
-		return this.#data;
-	}
+    toJSON(): WalletTokenData {
+        return this.#data;
+    }
 }

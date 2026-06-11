@@ -1,95 +1,86 @@
-import { IProfile, ISettingRepository } from "./contracts.js";
-import { DataRepository } from "./data.repository";
+import { IProfile, ISettingRepository } from './contracts.js';
+import { DataRepository } from './data.repository';
 
 export class SettingRepository implements ISettingRepository {
-	readonly #profile: IProfile;
-	#data: DataRepository;
-	#allowedKeys: string[];
+    readonly #profile: IProfile;
+    #data: DataRepository;
+    #allowedKeys: string[];
 
-	public constructor(profile: IProfile, allowedKeys: string[]) {
-		this.#profile = profile;
-		this.#data = new DataRepository();
-		this.#allowedKeys = allowedKeys;
-	}
+    public constructor(profile: IProfile, allowedKeys: string[]) {
+        this.#profile = profile;
+        this.#data = new DataRepository();
+        this.#allowedKeys = allowedKeys;
+    }
 
-	/** {@inheritDoc ISettingRepository.all} */
-	public all(): object {
-		return this.#data.all();
-	}
+    public all(): object {
+        return this.#data.all();
+    }
 
-	/** {@inheritDoc ISettingRepository.keys} */
-	public keys(): object {
-		return this.#data.keys();
-	}
+    public keys(): object {
+        return this.#data.keys();
+    }
 
-	/** {@inheritDoc ISettingRepository.get} */
-	public get<T>(key: string, defaultValue?: T): T | undefined {
-		if (this.#isUnknownKey(key)) {
-			return;
-		}
+    public get<T>(key: string, defaultValue?: T): T | undefined {
+        if (this.#isUnknownKey(key)) {
+            return;
+        }
 
-		return this.#data.get(key, defaultValue);
-	}
+        return this.#data.get(key, defaultValue);
+    }
 
-	/** {@inheritDoc ISettingRepository.set} */
-	public set(key: string, value: string | number | boolean | object): void {
-		if (this.#isUnknownKey(key)) {
-			return;
-		}
+    public set(key: string, value: string | number | boolean | object): void {
+        if (this.#isUnknownKey(key)) {
+            return;
+        }
 
-		this.#data.set(key, value);
+        this.#data.set(key, value);
 
-		this.#profile.status().markAsDirty();
-	}
+        this.#profile.status().markAsDirty();
+    }
 
-	/** {@inheritDoc ISettingRepository.fill} */
-	public fill(entries: object): void {
-		for (const [key, value] of Object.entries(entries)) {
-			this.set(key, value);
-		}
-	}
+    public fill(entries: object): void {
+        for (const [key, value] of Object.entries(entries)) {
+            this.set(key, value);
+        }
+    }
 
-	/** {@inheritDoc ISettingRepository.has} */
-	public has(key: string): boolean {
-		if (this.#isUnknownKey(key)) {
-			return false;
-		}
+    public has(key: string): boolean {
+        if (this.#isUnknownKey(key)) {
+            return false;
+        }
 
-		return this.#data.has(key);
-	}
+        return this.#data.has(key);
+    }
 
-	/** {@inheritDoc ISettingRepository.missing} */
-	public missing(key: string): boolean {
-		return !this.has(key);
-	}
+    public missing(key: string): boolean {
+        return !this.has(key);
+    }
 
-	/** {@inheritDoc ISettingRepository.forget} */
-	public forget(key: string): void {
-		if (this.#isUnknownKey(key)) {
-			return;
-		}
+    public forget(key: string): void {
+        if (this.#isUnknownKey(key)) {
+            return;
+        }
 
-		this.#data.forget(key);
+        this.#data.forget(key);
 
-		this.#profile.status().markAsDirty();
-	}
+        this.#profile.status().markAsDirty();
+    }
 
-	/** {@inheritDoc ISettingRepository.flush} */
-	public flush(): void {
-		this.#data.flush();
+    public flush(): void {
+        this.#data.flush();
 
-		this.#profile.status().markAsDirty();
-	}
+        this.#profile.status().markAsDirty();
+    }
 
-	#isUnknownKey(key: string): boolean {
-		if (this.#allowedKeys.includes(key)) {
-			return false;
-		}
+    #isUnknownKey(key: string): boolean {
+        if (this.#allowedKeys.includes(key)) {
+            return false;
+        }
 
-		if (this.#data.has(key)) {
-			this.#data.forget(key);
-		}
+        if (this.#data.has(key)) {
+            this.#data.forget(key);
+        }
 
-		return true;
-	}
+        return true;
+    }
 }

@@ -1,85 +1,77 @@
-import { IReadOnlyWallet } from "./contracts.js";
-import { Avatar } from "./helpers/avatar.js";
-import { Contracts } from "./index.js";
-import { WalletAliasProvider } from "./profile.wallet.alias.js";
+import { IReadOnlyWallet } from './contracts.js';
+import { Avatar } from './helpers/avatar.js';
+import { Contracts } from './index.js';
+import { WalletAliasProvider } from './profile.wallet.alias.js';
 
 export interface ROWallet {
-	address: string;
-	publicKey?: string;
-	username?: string;
-	rank?: number;
-	explorerLink: string;
-	isValidator: boolean;
-	isResignedValidator: boolean;
-	isLegacyValidator: boolean;
-	governanceIdentifier: string;
+    address: string;
+    publicKey?: string;
+    username?: string;
+    rank?: number;
+    explorerLink: string;
+    isValidator: boolean;
+    isResignedValidator: boolean;
+    isLegacyValidator: boolean;
+    governanceIdentifier: string;
 }
 
 export class ReadOnlyWallet implements IReadOnlyWallet {
-	readonly #wallet: ROWallet;
-	readonly #profile: Contracts.IProfile;
+    readonly #wallet: ROWallet;
+    readonly #profile: Contracts.IProfile;
 
-	public constructor(wallet: ROWallet, profile: Contracts.IProfile) {
-		this.#wallet = wallet;
-		this.#profile = profile;
-	}
+    public constructor(wallet: ROWallet, profile: Contracts.IProfile) {
+        this.#wallet = wallet;
+        this.#profile = profile;
+    }
 
-	/** {@inheritDoc IReadOnlyWallet.address} */
-	public address(): string {
-		return this.#wallet.address;
-	}
+    public address(): string {
+        return this.#wallet.address;
+    }
 
-	/** {@inheritDoc IReadOnlyWallet.alias} */
-	public alias(): string | undefined {
-		return new WalletAliasProvider(this.#profile).findAliasByAddress(this.address()) ?? this.address();
-	}
+    public alias(): string | undefined {
+        return (
+            new WalletAliasProvider(this.#profile).findAliasByAddress(this.address()) ??
+            this.address()
+        );
+    }
 
-	/** {@inheritDoc IReadOnlyWallet.publicKey} */
-	public publicKey(): string | undefined {
-		return this.#wallet.publicKey;
-	}
+    public publicKey(): string | undefined {
+        return this.#wallet.publicKey;
+    }
 
-	/** {@inheritDoc IReadOnlyWallet.username} */
-	public username(): string | undefined {
-		return this.#wallet.username;
-	}
+    public username(): string | undefined {
+        return this.#wallet.username;
+    }
 
-	/** {@inheritDoc IReadOnlyWallet.rank} */
-	public rank(): number | undefined {
-		return this.#wallet.rank;
-	}
+    public rank(): number | undefined {
+        return this.#wallet.rank;
+    }
 
-	/** {@inheritDoc IReadOnlyWallet.avatar} */
-	public avatar(): string {
-		return Avatar.make(this.address());
-	}
+    public avatar(): string {
+        return Avatar.make(this.address());
+    }
 
-	/** {@inheritDoc IReadOnlyWallet.explorerLink} */
-	public explorerLink(): string {
-		return this.#wallet.explorerLink;
-	}
+    public explorerLink(): string {
+        return this.#wallet.explorerLink;
+    }
 
-	/** {@inheritDoc IReadOnlyWallet.isValidator} */
-	public isValidator(): boolean {
-		return this.#wallet.isValidator;
-	}
+    public isValidator(): boolean {
+        return this.#wallet.isValidator;
+    }
 
-	/** {@inheritDoc IReadOnlyWallet.isLegacyValidator} */
-	public isLegacyValidator(): boolean {
-		return this.#wallet.isLegacyValidator;
-	}
+    public isLegacyValidator(): boolean {
+        return this.#wallet.isLegacyValidator;
+    }
 
-	/** {@inheritDoc IReadOnlyWallet.isResignedDelegate} */
-	public isResignedValidator(): boolean {
-		return this.#wallet.isResignedValidator;
-	}
+    public isResignedValidator(): boolean {
+        return this.#wallet.isResignedValidator;
+    }
 
-	/** {@inheritDoc IReadOnlyWallet.governanceIdentifier} */
-	public governanceIdentifier(): string {
-		if (this.#wallet.governanceIdentifier === "address") {
-			return this.address();
-		}
+    public governanceIdentifier(): string {
+        if (this.#wallet.governanceIdentifier === 'address') {
+            return this.address();
+        }
 
-		return this.publicKey()!;
-	}
+        return this.publicKey()!;
+    }
 }

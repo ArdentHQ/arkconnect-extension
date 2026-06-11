@@ -1,34 +1,33 @@
-import { IProfile } from "./contracts.js";
-import { pqueueSettled } from "./helpers/queue.js";
+import { IProfile } from './contracts.js';
+import { pqueueSettled } from './helpers/queue.js';
 
 export class WalletService {
-	/** {@inheritDoc IWalletService.syncByProfile} */
-	public async syncByProfile(profile: IProfile, networkIds?: string[]): Promise<void> {
-		const availableNetworkIds = new Set(
-			profile
-				.availableNetworks()
-				.filter(
-					(network) =>
-						(network.meta().enabled === undefined || network.meta().enabled === true) &&
-						(!networkIds || networkIds?.includes(network.id())),
-				)
-				.map((network) => network.id()),
-		);
+    public async syncByProfile(profile: IProfile, networkIds?: string[]): Promise<void> {
+        const availableNetworkIds = new Set(
+            profile
+                .availableNetworks()
+                .filter(
+                    (network) =>
+                        (network.meta().enabled === undefined || network.meta().enabled === true) &&
+                        (!networkIds || networkIds?.includes(network.id())),
+                )
+                .map((network) => network.id()),
+        );
 
-		const wallets = profile
-			.wallets()
-			.values()
-			.filter((wallet) => availableNetworkIds.has(wallet.networkId()));
+        const wallets = profile
+            .wallets()
+            .values()
+            .filter((wallet) => availableNetworkIds.has(wallet.networkId()));
 
-		const promises: (() => Promise<void>)[] = [];
+        const promises: (() => Promise<void>)[] = [];
 
-		for (const wallet of wallets) {
-			promises.push(
-				() => wallet?.synchroniser().identity(),
-				() => wallet?.synchroniser().votes(),
-			);
-		}
+        for (const wallet of wallets) {
+            promises.push(
+                () => wallet?.synchroniser().identity(),
+                () => wallet?.synchroniser().votes(),
+            );
+        }
 
-		await pqueueSettled(promises);
-	}
+        await pqueueSettled(promises);
+    }
 }

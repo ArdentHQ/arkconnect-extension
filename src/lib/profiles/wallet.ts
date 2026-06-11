@@ -1,700 +1,625 @@
-import { Contracts, Networks, Services } from "@/lib/mainsail";
-import { BigNumber } from "@/lib/helpers";
-import { DateTime } from "@/lib/intl";
+import { Contracts, Networks, Services } from '@/lib/mainsail';
+import { BigNumber } from '@/lib/helpers';
+import { DateTime } from '@/lib/intl';
 
 import {
-	IDataRepository,
-	IProfile,
-	IReadWriteWallet,
-	IReadWriteWalletAttributes,
-	ISettingRepository,
-	ISignatoryFactory,
-	ITransactionIndex,
-	ITransactionService,
-	IVoteRegistry,
-	IWalletData,
-	IWalletImportFormat,
-	IWalletMutator,
-	IWalletSynchroniser,
-	ProfileSetting,
-	WalletData,
-	WalletFlag,
-	WalletImportMethod,
-	WalletSetting,
-} from "./contracts";
-import { DataRepository } from "./data.repository";
-import { AttributeBag } from "./helpers/attribute-bag";
-import { WalletSerialiser } from "./serialiser";
-import { SettingRepository } from "./setting.repository";
-import { SignatoryFactory } from "./signatory.factory";
-import { TransactionIndex } from "./transaction-index";
-import { VoteRegistry } from "./vote-registry";
-import { WalletBalanceType, WalletDerivationMethod } from "./wallet.contract";
-import { WalletLedgerModel } from "./wallet.enum";
-import { WalletMutator } from "./wallet.mutator";
-import { WalletSynchroniser } from "./wallet.synchroniser";
-import { TransactionService as WalletTransactionService } from "./wallet-transaction.service";
-import { WalletImportFormat } from "./wif";
-import { LinkService } from "@/lib/mainsail/link.service";
-import { MessageService } from "@/lib/mainsail/message.service";
-import { Manifest } from "@/lib/mainsail/manifest.class";
-import { manifest } from "@/lib/mainsail/index";
-import { LedgerService } from "@/lib/mainsail/ledger.service";
-import { ClientService } from "@/lib/mainsail/client.service";
-import { AddressService } from "@/lib/mainsail/address.service";
-import { PublicKeyService } from "@/lib/mainsail/public-key.service";
-import { SignatoryService } from "@/lib/mainsail/signatory.service";
-import { TransactionService } from "@/lib/mainsail/transaction.service";
-import { ValidatorService } from "./validator.service";
-import { ExchangeRateService } from "./exchange-rate.service";
-import { WalletAliasProvider } from "./profile.wallet.alias";
-import { WalletTokenRepository } from "./wallet-token.repository";
+    IDataRepository,
+    IProfile,
+    IReadWriteWallet,
+    IReadWriteWalletAttributes,
+    ISettingRepository,
+    ISignatoryFactory,
+    ITransactionIndex,
+    ITransactionService,
+    IVoteRegistry,
+    IWalletData,
+    IWalletImportFormat,
+    IWalletMutator,
+    IWalletSynchroniser,
+    ProfileSetting,
+    WalletData,
+    WalletFlag,
+    WalletImportMethod,
+    WalletSetting,
+} from './contracts';
+import { DataRepository } from './data.repository';
+import { AttributeBag } from './helpers/attribute-bag';
+import { WalletSerialiser } from './serialiser';
+import { SettingRepository } from './setting.repository';
+import { SignatoryFactory } from './signatory.factory';
+import { TransactionIndex } from './transaction-index';
+import { VoteRegistry } from './vote-registry';
+import { WalletBalanceType, WalletDerivationMethod } from './wallet.contract';
+import { WalletLedgerModel } from './wallet.enum';
+import { WalletMutator } from './wallet.mutator';
+import { WalletSynchroniser } from './wallet.synchroniser';
+import { TransactionService as WalletTransactionService } from './wallet-transaction.service';
+import { WalletImportFormat } from './wif';
+import { LinkService } from '@/lib/mainsail/link.service';
+import { MessageService } from '@/lib/mainsail/message.service';
+import { Manifest } from '@/lib/mainsail/manifest.class';
+import { manifest } from '@/lib/mainsail/index';
+import { LedgerService } from '@/lib/mainsail/ledger.service';
+import { ClientService } from '@/lib/mainsail/client.service';
+import { AddressService } from '@/lib/mainsail/address.service';
+import { PublicKeyService } from '@/lib/mainsail/public-key.service';
+import { SignatoryService } from '@/lib/mainsail/signatory.service';
+import { TransactionService } from '@/lib/mainsail/transaction.service';
+import { ValidatorService } from './validator.service';
+import { ExchangeRateService } from './exchange-rate.service';
+import { WalletAliasProvider } from './profile.wallet.alias';
+import { WalletTokenRepository } from './wallet-token.repository';
 
 const ERR_NOT_SYNCED =
-	"This wallet has not been synchronized yet. Please call [synchroniser().identity()] before using it.";
+    'This wallet has not been synchronized yet. Please call [synchroniser().identity()] before using it.';
 
 export class Wallet implements IReadWriteWallet {
-	readonly #profile: IProfile;
-	readonly #attributes: AttributeBag<IReadWriteWalletAttributes> = new AttributeBag();
-	readonly #dataRepository: IDataRepository;
-	readonly #settingRepository: ISettingRepository;
-	readonly #transactionService: ITransactionService;
-	readonly #walletSynchroniser: IWalletSynchroniser;
-	readonly #walletMutator: IWalletMutator;
-	readonly #voteRegistry: IVoteRegistry;
-	readonly #transactionIndex: ITransactionIndex;
-	readonly #signingKey: IWalletImportFormat;
-	readonly #confirmKey: IWalletImportFormat;
-	readonly #signatoryFactory: ISignatoryFactory;
-	readonly #messageService: MessageService;
-	readonly #ledgerService: LedgerService;
-	readonly #tokens: WalletTokenRepository;
-
-	public constructor(id: string, initialState: any, profile: IProfile) {
-		this.#profile = profile;
-		this.#attributes = new AttributeBag<IReadWriteWalletAttributes>({
-			id,
-			initialState,
-			restorationState: { full: false, partial: false },
-		});
-
-		this.#dataRepository = new DataRepository();
-		this.#settingRepository = new SettingRepository(profile, Object.values(WalletSetting));
-		this.#transactionService = new WalletTransactionService(this);
-		this.#walletSynchroniser = new WalletSynchroniser(this);
-		this.#walletMutator = new WalletMutator(this);
-		this.#voteRegistry = new VoteRegistry(this, this.#attributes, this.#profile);
-		this.#transactionIndex = new TransactionIndex(this);
-		this.#signingKey = new WalletImportFormat(this, WalletData.EncryptedSigningKey);
-		this.#confirmKey = new WalletImportFormat(this, WalletData.EncryptedConfirmKey);
-		this.#signatoryFactory = new SignatoryFactory(this);
-		this.#messageService = new MessageService();
-		this.#ledgerService = profile.ledger();
-		this.#tokens = new WalletTokenRepository(profile.activeNetwork(), profile);
-
-		this.#restore();
-	}
-
-	/** {@inheritDoc IReadWriteWallet.profile} */
-	public profile(): IProfile {
-		return this.#profile;
-	}
-
-	/** {@inheritDoc IReadWriteWallet.id} */
-	public id(): string {
-		return this.#attributes.get("id");
-	}
-
-	/** {@inheritDoc IReadWriteWallet.network} */
-	public network(): Networks.Network {
-		return this.profile().activeNetwork();
-	}
-
-	/** {@inheritDoc IReadWriteWallet.currency} */
-	public currency(): string {
-		return this.network().ticker();
-	}
-
-	/** {@inheritDoc IReadWriteWallet.exchangeCurrency} */
-	public exchangeCurrency(): string {
-		return this.#profile.settings().get(ProfileSetting.ExchangeCurrency) as string;
-	}
-
-	/** {@inheritDoc IReadWriteWallet.alias} */
-	public alias(): string | undefined {
-		return (
-			new WalletAliasProvider(this.#profile).findAliasByAddress(this.address(), this.network().id()) ??
-			this.address()
-		);
-	}
-
-	/** {@inheritDoc IReadWriteWallet.accountName} */
-	public accountName(): string | undefined {
-		return this.settings().get(WalletSetting.AccountName);
-	}
-
-	/** {@inheritDoc IReadWriteWallet.displayName} */
-	public displayName(): string | undefined {
-		return this.settings().get(WalletSetting.Alias) || this.username() || this.knownName();
-	}
-
-	/** {@inheritDoc IReadWriteWallet.primaryKey} */
-	public primaryKey(): string {
-		if (!this.#attributes.get<Contracts.WalletData>("wallet")) {
-			throw new Error(ERR_NOT_SYNCED);
-		}
-
-		return this.#attributes.get<Contracts.WalletData>("wallet").primaryKey();
-	}
-
-	/** {@inheritDoc IReadWriteWallet.importMethod} */
-	public importMethod(): string {
-		return this.data().get(WalletData.ImportMethod)!;
-	}
-
-	/** {@inheritDoc IReadWriteWallet.derivationMethod} */
-	public derivationMethod(): WalletDerivationMethod {
-		return this.data().get(WalletData.DerivationType)!;
-	}
-
-	/** {@inheritDoc IReadWriteWallet.address} */
-	public address(): string {
-		return this.data().get(WalletData.Address)!;
-	}
-
-	/** {@inheritDoc IReadWriteWallet.publicKey} */
-	public publicKey(): string | undefined {
-		return this.data().get(WalletData.PublicKey);
-	}
-
-	/** {@inheritDoc IReadWriteWallet.balance} */
-	public balance(type: WalletBalanceType = "available"): BigNumber {
-		const value: Contracts.WalletBalance | undefined = this.data().get(WalletData.Balance);
-
-		if (value && value[type]) {
-			return BigNumber.make(value[type] as BigNumber, this.#decimals()).divide(
-				BigNumber.powerOfTen(this.#decimals()),
-			);
-		}
-
-		return BigNumber.ZERO;
-	}
-
-	/** {@inheritDoc IReadWriteWallet.convertedBalance} */
-	public convertedBalance(type: WalletBalanceType = "available"): BigNumber {
-		if (this.network().isTest()) {
-			return BigNumber.ZERO;
-		}
-
-		return this.exchangeRates().exchange(
-			this.currency(),
-			this.exchangeCurrency(),
-			DateTime.make(),
-			this.balance(type),
-		);
-	}
-
-	/** {@inheritDoc IReadWriteWallet.nonce} */
-	public nonce(): BigNumber {
-		const value: string | undefined = this.data().get(WalletData.Sequence);
-
-		if (value === undefined) {
-			return BigNumber.ZERO;
-		}
-
-		return BigNumber.make(value, this.#decimals());
-	}
-
-	/** {@inheritDoc IReadWriteWallet.avatar} */
-	public avatar(): string {
-		const value: string | undefined = this.data().get(WalletSetting.Avatar);
-
-		if (value) {
-			return value;
-		}
-
-		return this.#attributes.get<string>("avatar");
-	}
-
-	/** {@inheritDoc IReadWriteWallet.hasSyncedWithNetwork} */
-	public hasSyncedWithNetwork(): boolean {
-		const wallet: Contracts.WalletData | undefined = this.#attributes.get<Contracts.WalletData>("wallet");
-
-		if (wallet === undefined) {
-			return false;
-		}
-
-		return wallet.hasPassed();
-	}
-
-	/** {@inheritDoc IReadWriteWallet.data} */
-	public data(): IDataRepository {
-		return this.#dataRepository;
-	}
-
-	/** {@inheritDoc IReadWriteWallet.settings} */
-	public settings(): ISettingRepository {
-		return this.#settingRepository;
-	}
-
-	/** {@inheritDoc IReadWriteWallet.toData} */
-	public toData(): Contracts.WalletData {
-		if (!this.#attributes.get<Contracts.WalletData>("wallet")) {
-			throw new Error(ERR_NOT_SYNCED);
-		}
-
-		return this.#attributes.get<Contracts.WalletData>("wallet");
-	}
-
-	/** {@inheritDoc IReadWriteWallet.toObject} */
-	public toObject(): IWalletData {
-		return new WalletSerialiser(this).toJSON();
-	}
-
-	/** {@inheritDoc IReadWriteWallet.tokenCount} */
-	public tokenCount(): number {
-		return this.data().get(WalletData.TokenCount, 0) as number;
-	}
-
-	/** {@inheritDoc IReadWriteWallet.knownName} */
-	public knownName(): string | undefined {
-		return undefined;
-	}
-
-	/** {@inheritDoc IReadWriteWallet.secondPublicKey} */
-	public secondPublicKey(): string | undefined {
-		if (!this.#attributes.get<Contracts.WalletData>("wallet")) {
-			throw new Error(ERR_NOT_SYNCED);
-		}
-
-		return this.#attributes.get<Contracts.WalletData>("wallet").secondPublicKey();
-	}
-
-	/** {@inheritDoc IReadWriteWallet.username} */
-	public username(): string | undefined {
-		if (this.isCold()) {
-			return;
-		}
-
-		const attributes = this.#attributes.get<Contracts.WalletData>("wallet");
-
-		if (!attributes) {
-			throw new Error(ERR_NOT_SYNCED);
-		}
-
-		return attributes.username();
-	}
-
-	/** {@inheritDoc IReadWriteWallet.validatorPublicKey} */
-	public validatorPublicKey(): string | undefined {
-		if (!this.#attributes.get<Contracts.WalletData>("wallet")) {
-			throw new Error(ERR_NOT_SYNCED);
-		}
-
-		return this.#attributes.get<Contracts.WalletData>("wallet").validatorPublicKey();
-	}
-
-	/** {@inheritDoc IReadWriteWallet.isResignedDelegate} */
-	public isResignedDelegate(): boolean {
-		if (!this.#attributes.get<Contracts.WalletData>("wallet")) {
-			throw new Error(ERR_NOT_SYNCED);
-		}
-
-		return this.#attributes.get<Contracts.WalletData>("wallet").isResignedDelegate();
-	}
-
-	/** {@inheritDoc IReadWriteWallet.isValidator} */
-	public isValidator(): boolean {
-		if (!this.#attributes.get<Contracts.WalletData>("wallet")) {
-			throw new Error(ERR_NOT_SYNCED);
-		}
-
-		return this.#attributes.get<Contracts.WalletData>("wallet").isValidator();
-	}
-
-	/** {@inheritDoc IReadWriteWallet.isLegacyValidator} */
-	public isLegacyValidator(): boolean {
-		if (!this.#attributes.get<Contracts.WalletData>("wallet")) {
-			throw new Error(ERR_NOT_SYNCED);
-		}
-
-		return this.#attributes.get<Contracts.WalletData>("wallet").isLegacyValidator();
-	}
-
-	/** {@inheritDoc IReadWriteWallet.validatorFee} */
-	public validatorFee(): number | undefined {
-		if (!this.#attributes.get<Contracts.WalletData>("wallet")) {
-			throw new Error(ERR_NOT_SYNCED);
-		}
-
-		return this.#attributes.get<Contracts.WalletData>("wallet").validatorFee();
-	}
-
-	/** {@inheritDoc IReadWriteWallet.isResignedValidator} */
-	public isResignedValidator(): boolean {
-		if (!this.#attributes.get<Contracts.WalletData>("wallet")) {
-			throw new Error(ERR_NOT_SYNCED);
-		}
-
-		return this.#attributes.get<Contracts.WalletData>("wallet").isResignedValidator();
-	}
-
-	/** {@inheritDoc IReadWriteWallet.isKnown} */
-	public isKnown(): boolean {
-		return false;
-	}
-
-	/** {@inheritDoc IReadWriteWallet.isOwnedByExchange} */
-	public isOwnedByExchange(): boolean {
-		return false;
-	}
-
-	/** {@inheritDoc IReadWriteWallet.isOwnedByTeam} */
-	public isOwnedByTeam(): boolean {
-		return false;
-	}
-
-	/** {@inheritDoc IReadWriteWallet.isLedger} */
-	public isHDWallet(): boolean {
-		return (
-			this.data().get(WalletData.DerivationPath) !== undefined &&
-			this.data().get(WalletData.AddressIndex) !== undefined
-		);
-	}
-
-	/** {@inheritDoc IReadWriteWallet.isLedger} */
-	public isLedger(): boolean {
-		return this.data().get(WalletData.DerivationPath) !== undefined && !this.isHDWallet();
-	}
-
-	/** {@inheritDoc IReadWriteWallet.isLedgerNanoX} */
-	public isLedgerNanoX(): boolean {
-		return this.data().get(WalletData.LedgerModel) === WalletLedgerModel.NanoX;
-	}
-
-	/** {@inheritDoc IReadWriteWallet.isLedgerNanoS} */
-	public isLedgerNanoS(): boolean {
-		return this.data().get(WalletData.LedgerModel) === WalletLedgerModel.NanoS;
-	}
-
-	/** {@inheritDoc IReadWriteWallet.isStarred} */
-	public isStarred(): boolean {
-		return this.data().get(WalletFlag.Starred) === true;
-	}
-
-	/** {@inheritDoc IReadWriteWallet.isCold} */
-	public isCold(): boolean {
-		return this.data().get(WalletData.Status) === WalletFlag.Cold;
-	}
-
-	/** {@inheritDoc IReadWriteWallet.toggleStarred} */
-	public toggleStarred(): void {
-		this.data().set(WalletFlag.Starred, !this.isStarred());
-
-		this.profile().status().markAsDirty();
-	}
-
-	/** {@inheritDoc IReadWriteWallet.coinId} */
-	public coinId(): string {
-		return this.manifest().get("name");
-	}
-
-	/** {@inheritDoc IReadWriteWallet.networkId} */
-	public networkId(): string {
-		return this.network().id();
-	}
-
-	/** {@inheritDoc IReadWriteWallet.manifest} */
-	public manifest(): Manifest {
-		return new Manifest(manifest);
-	}
-
-	/** {@inheritDoc IReadWriteWallet.client} */
-	public client(): ClientService {
-		return new ClientService({
-			config: this.network().config(),
-			profile: this.profile(),
-		});
-	}
-
-	/** {@inheritDoc IReadWriteWallet.addressService} */
-	public addressService(): AddressService {
-		return new AddressService();
-	}
-
-	/** {@inheritDoc IReadWriteWallet.publicKeyService} */
-	public publicKeyService(): PublicKeyService {
-		return new PublicKeyService();
-	}
-
-	/** {@inheritDoc IReadWriteWallet.ledger} */
-	public ledger(): LedgerService {
-		return this.#ledgerService;
-	}
-
-	/** {@inheritDoc IReadWriteWallet.link} */
-	public link(): Services.LinkService {
-		return new LinkService({
-			config: this.network().config(),
-			profile: this.#profile,
-		});
-	}
-
-	/** {@inheritDoc IReadWriteWallet.message} */
-	public message(): MessageService {
-		return this.#messageService;
-	}
-
-	/** {@inheritDoc IReadWriteWallet.signatory} */
-	public signatory(): SignatoryService {
-		return new SignatoryService();
-	}
-
-	/** {@inheritDoc IReadWriteWallet.transaction} */
-	public transaction(): ITransactionService {
-		return this.#transactionService;
-	}
-
-	/** {@inheritDoc IReadWriteWallet.transactionService} */
-	public transactionService(): TransactionService {
-		return new TransactionService({
-			config: this.network().config(),
-			profile: this.profile(),
-		});
-	}
-
-	/** {@inheritDoc IReadWriteWallet.transactionTypes} */
-	public transactionTypes(): Networks.TransactionType[] {
-		const manifest: Networks.NetworkManifest = this.manifest().get<object>("networks")[this.networkId()];
-
-		return manifest.transactions.types;
-	}
-
-	/** {@inheritDoc IReadWriteWallet.synchroniser} */
-	public synchroniser(): IWalletSynchroniser {
-		return this.#walletSynchroniser;
-	}
-
-	/** {@inheritDoc IReadWriteWallet.mutator} */
-	public mutator(): IWalletMutator {
-		return this.#walletMutator;
-	}
-
-	/** {@inheritDoc IReadWriteWallet.voting} */
-	public voting(): IVoteRegistry {
-		return this.#voteRegistry;
-	}
-
-	/** {@inheritDoc IReadWriteWallet.transactionIndex} */
-	public transactionIndex(): ITransactionIndex {
-		return this.#transactionIndex;
-	}
-
-	/** {@inheritDoc IReadWriteWallet.signingKey} */
-	public signingKey(): IWalletImportFormat {
-		return this.#signingKey;
-	}
-
-	/** {@inheritDoc IReadWriteWallet.confirmKey} */
-	public confirmKey(): IWalletImportFormat {
-		return this.#confirmKey;
-	}
-
-	/** {@inheritDoc IReadWriteWallet.explorerLink} */
-	public explorerLink(): string {
-		return this.link().wallet(this.address());
-	}
-
-	/** {@inheritDoc IReadWriteWallet.markAsFullyRestored} */
-	public markAsFullyRestored(): void {
-		this.#attributes.forget("isMissingNetwork");
-
-		this.#attributes.set("restorationState", {
-			full: true,
-			partial: false,
-		});
-	}
-
-	/** {@inheritDoc IReadWriteWallet.hasBeenFullyRestored} */
-	public hasBeenFullyRestored(): boolean {
-		return this.#attributes.get("restorationState").full;
-	}
-
-	/** {@inheritDoc IReadWriteWallet.markAsPartiallyRestored} */
-	public markAsPartiallyRestored(): void {
-		this.#attributes.set("restorationState", {
-			full: false,
-			partial: true,
-		});
-	}
-
-	/** {@inheritDoc IReadWriteWallet.hasBeenPartiallyRestored} */
-	public hasBeenPartiallyRestored(): boolean {
-		return this.#attributes.get("restorationState").partial;
-	}
-
-	/** {@inheritDoc IReadWriteWallet.markAsMissingNetwork} */
-	public markAsMissingNetwork(): void {
-		this.#attributes.set("isMissingNetwork", true);
-	}
-
-	/** {@inheritDoc IReadWriteWallet.isMissingNetwork} */
-	public isMissingNetwork(): boolean {
-		return this.#attributes.has("isMissingNetwork");
-	}
-
-	/** {@inheritDoc IReadWriteWallet.getAttributes} */
-	public getAttributes(): AttributeBag<IReadWriteWalletAttributes> {
-		return this.#attributes;
-	}
-
-	/** {@inheritDoc IReadWriteWallet.canVote} */
-	public canVote(): boolean {
-		return this.voting().available() > 0;
-	}
-
-	/** {@inheritDoc IReadWriteWallet.canWrite} */
-	public canWrite(): boolean {
-		if (this.actsWithAddress()) {
-			return false;
-		}
-
-		if (this.actsWithPublicKey()) {
-			return false;
-		}
-
-		return true;
-	}
-
-	/** {@inheritDoc IReadWriteWallet.actsWithMnemonic} */
-	public actsWithMnemonic(): boolean {
-		return [
-			WalletImportMethod.BIP39.MNEMONIC,
-			WalletImportMethod.BIP44.MNEMONIC,
-			WalletImportMethod.BIP49.MNEMONIC,
-			WalletImportMethod.BIP84.MNEMONIC,
-		].includes(this.data().get(WalletData.ImportMethod)!);
-	}
-
-	/** {@inheritDoc IReadWriteWallet.actsWithAddress} */
-	public actsWithAddress(): boolean {
-		return this.data().get(WalletData.ImportMethod) === WalletImportMethod.Address;
-	}
-
-	/** {@inheritDoc IReadWriteWallet.actsWithPublicKey} */
-	public actsWithPublicKey(): boolean {
-		return this.data().get(WalletData.ImportMethod) === WalletImportMethod.PublicKey;
-	}
-
-	/** {@inheritDoc IReadWriteWallet.actsWithBip44Mnemonic} */
-	public actsWithBip44Mnemonic(): boolean {
-		return this.data().get(WalletData.ImportMethod) === WalletImportMethod.BIP44.MNEMONIC;
-	}
-
-	/** {@inheritDoc IReadWriteWallet.actsWithBip44Mnemonic} */
-	public actsWithBip44MnemonicWithEncryption(): boolean {
-		return this.data().get(WalletData.ImportMethod) === WalletImportMethod.BIP44.MNEMONIC_WITH_ENCRYPTION;
-	}
-
-	/** {@inheritDoc IReadWriteWallet.actsWithAddressWithDerivationPath} */
-	public actsWithAddressWithDerivationPath(): boolean {
-		return [
-			WalletImportMethod.BIP44.DERIVATION_PATH,
-			WalletImportMethod.BIP49.DERIVATION_PATH,
-			WalletImportMethod.BIP84.DERIVATION_PATH,
-		].includes(this.data().get(WalletData.ImportMethod)!);
-	}
-
-	/** {@inheritDoc IReadWriteWallet.actsWithMnemonicWithEncryption} */
-	public actsWithMnemonicWithEncryption(): boolean {
-		return [
-			WalletImportMethod.BIP39.MNEMONIC_WITH_ENCRYPTION,
-			WalletImportMethod.BIP44.MNEMONIC_WITH_ENCRYPTION,
-			WalletImportMethod.BIP49.MNEMONIC_WITH_ENCRYPTION,
-			WalletImportMethod.BIP84.MNEMONIC_WITH_ENCRYPTION,
-		].includes(this.data().get(WalletData.ImportMethod)!);
-	}
-
-	/** {@inheritDoc IReadWriteWallet.actsWithWif} */
-	public actsWithWif(): boolean {
-		return this.data().get(WalletData.ImportMethod) === WalletImportMethod.WIF;
-	}
-
-	/** {@inheritDoc IReadWriteWallet.isSelected} */
-	public isSelected(): boolean {
-		return this.settings().get(WalletSetting.IsSelected) === true;
-	}
-
-	/** {@inheritDoc IReadWriteWallet.actsWithWifWithEncryption} */
-	public actsWithWifWithEncryption(): boolean {
-		return this.data().get(WalletData.ImportMethod) === WalletImportMethod.WIFWithEncryption;
-	}
-
-	/** {@inheritDoc IReadWriteWallet.actsWithSecret} */
-	public actsWithSecret(): boolean {
-		return this.data().get(WalletData.ImportMethod) === WalletImportMethod.SECRET;
-	}
-
-	/** {@inheritDoc IReadWriteWallet.actsWithSecretWithEncryption} */
-	public actsWithSecretWithEncryption(): boolean {
-		return this.data().get(WalletData.ImportMethod) === WalletImportMethod.SECRET_WITH_ENCRYPTION;
-	}
-
-	/** {@inheritDoc IReadWriteWallet.isPrimary} */
-	public isPrimary(): boolean {
-		return this.data().get(WalletData.IsPrimary) === true;
-	}
-
-	/** {@inheritDoc IReadWriteWallet.usesPassword} */
-	public usesPassword(): boolean {
-		return this.signingKey().exists();
-	}
-
-	/** {@inheritDoc IReadWriteWallet.signatoryFactory} */
-	public signatoryFactory(): ISignatoryFactory {
-		return this.#signatoryFactory;
-	}
-
-	/** {@inheritDoc IReadWriteWallet.validators} */
-	public validators(): ValidatorService {
-		return this.#profile.validators();
-	}
-
-	#restore(): void {
-		const balance: Contracts.WalletBalance | undefined = this.data().get<Contracts.WalletBalance>(
-			WalletData.Balance,
-		);
-
-		/* istanbul ignore next */
-		this.data().set(WalletData.Balance, {
-			available: BigNumber.make(balance?.available || 0, this.#decimals()),
-			fees: BigNumber.make(balance?.fees || 0, this.#decimals()),
-		});
-
-		this.data().set(
-			WalletData.Sequence,
-			BigNumber.make(this.data().get<string>(WalletData.Sequence) || BigNumber.ZERO, this.#decimals()),
-		);
-	}
-
-	#decimals(): number {
-		try {
-			const manifest: Networks.NetworkManifest = this.manifest().get<object>("networks")[this.networkId()];
-			return manifest.currency.decimals ?? 18;
-		} catch {
-			return 18;
-		}
-	}
-
-	public exchangeRates(): ExchangeRateService {
-		return this.#profile.exchangeRates();
-	}
-
-	public tokens(): WalletTokenRepository {
-		return this.#tokens;
-	}
-
-	public generateAlias(): string {
-		return new WalletAliasProvider(this.#profile).generateAlias(this);
-	}
+    readonly #profile: IProfile;
+    readonly #attributes: AttributeBag<IReadWriteWalletAttributes> = new AttributeBag();
+    readonly #dataRepository: IDataRepository;
+    readonly #settingRepository: ISettingRepository;
+    readonly #transactionService: ITransactionService;
+    readonly #walletSynchroniser: IWalletSynchroniser;
+    readonly #walletMutator: IWalletMutator;
+    readonly #voteRegistry: IVoteRegistry;
+    readonly #transactionIndex: ITransactionIndex;
+    readonly #signingKey: IWalletImportFormat;
+    readonly #confirmKey: IWalletImportFormat;
+    readonly #signatoryFactory: ISignatoryFactory;
+    readonly #messageService: MessageService;
+    readonly #ledgerService: LedgerService;
+    readonly #tokens: WalletTokenRepository;
+
+    public constructor(id: string, initialState: any, profile: IProfile) {
+        this.#profile = profile;
+        this.#attributes = new AttributeBag<IReadWriteWalletAttributes>({
+            id,
+            initialState,
+            restorationState: { full: false, partial: false },
+        });
+
+        this.#dataRepository = new DataRepository();
+        this.#settingRepository = new SettingRepository(profile, Object.values(WalletSetting));
+        this.#transactionService = new WalletTransactionService(this);
+        this.#walletSynchroniser = new WalletSynchroniser(this);
+        this.#walletMutator = new WalletMutator(this);
+        this.#voteRegistry = new VoteRegistry(this, this.#attributes, this.#profile);
+        this.#transactionIndex = new TransactionIndex(this);
+        this.#signingKey = new WalletImportFormat(this, WalletData.EncryptedSigningKey);
+        this.#confirmKey = new WalletImportFormat(this, WalletData.EncryptedConfirmKey);
+        this.#signatoryFactory = new SignatoryFactory(this);
+        this.#messageService = new MessageService();
+        this.#ledgerService = profile.ledger();
+        this.#tokens = new WalletTokenRepository(profile.activeNetwork(), profile);
+
+        this.#restore();
+    }
+
+    public profile(): IProfile {
+        return this.#profile;
+    }
+
+    public id(): string {
+        return this.#attributes.get('id');
+    }
+
+    public network(): Networks.Network {
+        return this.profile().activeNetwork();
+    }
+
+    public currency(): string {
+        return this.network().ticker();
+    }
+
+    public exchangeCurrency(): string {
+        return this.#profile.settings().get(ProfileSetting.ExchangeCurrency) as string;
+    }
+
+    public alias(): string | undefined {
+        return (
+            new WalletAliasProvider(this.#profile).findAliasByAddress(
+                this.address(),
+                this.network().id(),
+            ) ?? this.address()
+        );
+    }
+
+    public accountName(): string | undefined {
+        return this.settings().get(WalletSetting.AccountName);
+    }
+
+    public displayName(): string | undefined {
+        return this.settings().get(WalletSetting.Alias) || this.username() || this.knownName();
+    }
+
+    public primaryKey(): string {
+        if (!this.#attributes.get<Contracts.WalletData>('wallet')) {
+            throw new Error(ERR_NOT_SYNCED);
+        }
+
+        return this.#attributes.get<Contracts.WalletData>('wallet').primaryKey();
+    }
+
+    public importMethod(): string {
+        return this.data().get(WalletData.ImportMethod)!;
+    }
+
+    public derivationMethod(): WalletDerivationMethod {
+        return this.data().get(WalletData.DerivationType)!;
+    }
+
+    public address(): string {
+        return this.data().get(WalletData.Address)!;
+    }
+
+    public publicKey(): string | undefined {
+        return this.data().get(WalletData.PublicKey);
+    }
+
+    public balance(type: WalletBalanceType = 'available'): BigNumber {
+        const value: Contracts.WalletBalance | undefined = this.data().get(WalletData.Balance);
+
+        if (value && value[type]) {
+            return BigNumber.make(value[type] as BigNumber, this.#decimals()).divide(
+                BigNumber.powerOfTen(this.#decimals()),
+            );
+        }
+
+        return BigNumber.ZERO;
+    }
+
+    public convertedBalance(type: WalletBalanceType = 'available'): BigNumber {
+        if (this.network().isTest()) {
+            return BigNumber.ZERO;
+        }
+
+        return this.exchangeRates().exchange(
+            this.currency(),
+            this.exchangeCurrency(),
+            DateTime.make(),
+            this.balance(type),
+        );
+    }
+
+    public nonce(): BigNumber {
+        const value: string | undefined = this.data().get(WalletData.Sequence);
+
+        if (value === undefined) {
+            return BigNumber.ZERO;
+        }
+
+        return BigNumber.make(value, this.#decimals());
+    }
+
+    public avatar(): string {
+        const value: string | undefined = this.data().get(WalletSetting.Avatar);
+
+        if (value) {
+            return value;
+        }
+
+        return this.#attributes.get<string>('avatar');
+    }
+
+    public hasSyncedWithNetwork(): boolean {
+        const wallet: Contracts.WalletData | undefined =
+            this.#attributes.get<Contracts.WalletData>('wallet');
+
+        if (wallet === undefined) {
+            return false;
+        }
+
+        return wallet.hasPassed();
+    }
+
+    public data(): IDataRepository {
+        return this.#dataRepository;
+    }
+
+    public settings(): ISettingRepository {
+        return this.#settingRepository;
+    }
+
+    public toData(): Contracts.WalletData {
+        if (!this.#attributes.get<Contracts.WalletData>('wallet')) {
+            throw new Error(ERR_NOT_SYNCED);
+        }
+
+        return this.#attributes.get<Contracts.WalletData>('wallet');
+    }
+
+    public toObject(): IWalletData {
+        return new WalletSerialiser(this).toJSON();
+    }
+
+    public tokenCount(): number {
+        return this.data().get(WalletData.TokenCount, 0) as number;
+    }
+
+    public knownName(): string | undefined {
+        return undefined;
+    }
+
+    public secondPublicKey(): string | undefined {
+        if (!this.#attributes.get<Contracts.WalletData>('wallet')) {
+            throw new Error(ERR_NOT_SYNCED);
+        }
+
+        return this.#attributes.get<Contracts.WalletData>('wallet').secondPublicKey();
+    }
+
+    public username(): string | undefined {
+        if (this.isCold()) {
+            return;
+        }
+
+        const attributes = this.#attributes.get<Contracts.WalletData>('wallet');
+
+        if (!attributes) {
+            throw new Error(ERR_NOT_SYNCED);
+        }
+
+        return attributes.username();
+    }
+
+    public validatorPublicKey(): string | undefined {
+        if (!this.#attributes.get<Contracts.WalletData>('wallet')) {
+            throw new Error(ERR_NOT_SYNCED);
+        }
+
+        return this.#attributes.get<Contracts.WalletData>('wallet').validatorPublicKey();
+    }
+
+    public isResignedDelegate(): boolean {
+        if (!this.#attributes.get<Contracts.WalletData>('wallet')) {
+            throw new Error(ERR_NOT_SYNCED);
+        }
+
+        return this.#attributes.get<Contracts.WalletData>('wallet').isResignedDelegate();
+    }
+
+    public isValidator(): boolean {
+        if (!this.#attributes.get<Contracts.WalletData>('wallet')) {
+            throw new Error(ERR_NOT_SYNCED);
+        }
+
+        return this.#attributes.get<Contracts.WalletData>('wallet').isValidator();
+    }
+
+    public isLegacyValidator(): boolean {
+        if (!this.#attributes.get<Contracts.WalletData>('wallet')) {
+            throw new Error(ERR_NOT_SYNCED);
+        }
+
+        return this.#attributes.get<Contracts.WalletData>('wallet').isLegacyValidator();
+    }
+
+    public validatorFee(): number | undefined {
+        if (!this.#attributes.get<Contracts.WalletData>('wallet')) {
+            throw new Error(ERR_NOT_SYNCED);
+        }
+
+        return this.#attributes.get<Contracts.WalletData>('wallet').validatorFee();
+    }
+
+    public isResignedValidator(): boolean {
+        if (!this.#attributes.get<Contracts.WalletData>('wallet')) {
+            throw new Error(ERR_NOT_SYNCED);
+        }
+
+        return this.#attributes.get<Contracts.WalletData>('wallet').isResignedValidator();
+    }
+
+    public isKnown(): boolean {
+        return false;
+    }
+
+    public isOwnedByExchange(): boolean {
+        return false;
+    }
+
+    public isOwnedByTeam(): boolean {
+        return false;
+    }
+
+    public isHDWallet(): boolean {
+        return (
+            this.data().get(WalletData.DerivationPath) !== undefined &&
+            this.data().get(WalletData.AddressIndex) !== undefined
+        );
+    }
+
+    public isLedger(): boolean {
+        return this.data().get(WalletData.DerivationPath) !== undefined && !this.isHDWallet();
+    }
+
+    public isLedgerNanoX(): boolean {
+        return this.data().get(WalletData.LedgerModel) === WalletLedgerModel.NanoX;
+    }
+
+    public isLedgerNanoS(): boolean {
+        return this.data().get(WalletData.LedgerModel) === WalletLedgerModel.NanoS;
+    }
+
+    public isStarred(): boolean {
+        return this.data().get(WalletFlag.Starred) === true;
+    }
+
+    public isCold(): boolean {
+        return this.data().get(WalletData.Status) === WalletFlag.Cold;
+    }
+
+    public toggleStarred(): void {
+        this.data().set(WalletFlag.Starred, !this.isStarred());
+
+        this.profile().status().markAsDirty();
+    }
+
+    public coinId(): string {
+        return this.manifest().get('name');
+    }
+
+    public networkId(): string {
+        return this.network().id();
+    }
+
+    public manifest(): Manifest {
+        return new Manifest(manifest);
+    }
+
+    public client(): ClientService {
+        return new ClientService({
+            config: this.network().config(),
+            profile: this.profile(),
+        });
+    }
+
+    public addressService(): AddressService {
+        return new AddressService();
+    }
+
+    public publicKeyService(): PublicKeyService {
+        return new PublicKeyService();
+    }
+
+    public ledger(): LedgerService {
+        return this.#ledgerService;
+    }
+
+    public link(): Services.LinkService {
+        return new LinkService({
+            config: this.network().config(),
+            profile: this.#profile,
+        });
+    }
+
+    public message(): MessageService {
+        return this.#messageService;
+    }
+
+    public signatory(): SignatoryService {
+        return new SignatoryService();
+    }
+
+    public transaction(): ITransactionService {
+        return this.#transactionService;
+    }
+
+    public transactionService(): TransactionService {
+        return new TransactionService({
+            config: this.network().config(),
+            profile: this.profile(),
+        });
+    }
+
+    public transactionTypes(): Networks.TransactionType[] {
+        const manifest: Networks.NetworkManifest =
+            this.manifest().get<object>('networks')[this.networkId()];
+
+        return manifest.transactions.types;
+    }
+
+    public synchroniser(): IWalletSynchroniser {
+        return this.#walletSynchroniser;
+    }
+
+    public mutator(): IWalletMutator {
+        return this.#walletMutator;
+    }
+
+    public voting(): IVoteRegistry {
+        return this.#voteRegistry;
+    }
+
+    public transactionIndex(): ITransactionIndex {
+        return this.#transactionIndex;
+    }
+
+    public signingKey(): IWalletImportFormat {
+        return this.#signingKey;
+    }
+
+    public confirmKey(): IWalletImportFormat {
+        return this.#confirmKey;
+    }
+
+    public explorerLink(): string {
+        return this.link().wallet(this.address());
+    }
+
+    public markAsFullyRestored(): void {
+        this.#attributes.forget('isMissingNetwork');
+
+        this.#attributes.set('restorationState', {
+            full: true,
+            partial: false,
+        });
+    }
+
+    public hasBeenFullyRestored(): boolean {
+        return this.#attributes.get('restorationState').full;
+    }
+
+    public markAsPartiallyRestored(): void {
+        this.#attributes.set('restorationState', {
+            full: false,
+            partial: true,
+        });
+    }
+
+    public hasBeenPartiallyRestored(): boolean {
+        return this.#attributes.get('restorationState').partial;
+    }
+
+    public markAsMissingNetwork(): void {
+        this.#attributes.set('isMissingNetwork', true);
+    }
+
+    public isMissingNetwork(): boolean {
+        return this.#attributes.has('isMissingNetwork');
+    }
+
+    public getAttributes(): AttributeBag<IReadWriteWalletAttributes> {
+        return this.#attributes;
+    }
+
+    public canVote(): boolean {
+        return this.voting().available() > 0;
+    }
+
+    public canWrite(): boolean {
+        if (this.actsWithAddress()) {
+            return false;
+        }
+
+        if (this.actsWithPublicKey()) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public actsWithMnemonic(): boolean {
+        return [
+            WalletImportMethod.BIP39.MNEMONIC,
+            WalletImportMethod.BIP44.MNEMONIC,
+            WalletImportMethod.BIP49.MNEMONIC,
+            WalletImportMethod.BIP84.MNEMONIC,
+        ].includes(this.data().get(WalletData.ImportMethod)!);
+    }
+
+    public actsWithAddress(): boolean {
+        return this.data().get(WalletData.ImportMethod) === WalletImportMethod.Address;
+    }
+
+    public actsWithPublicKey(): boolean {
+        return this.data().get(WalletData.ImportMethod) === WalletImportMethod.PublicKey;
+    }
+
+    public actsWithBip44Mnemonic(): boolean {
+        return this.data().get(WalletData.ImportMethod) === WalletImportMethod.BIP44.MNEMONIC;
+    }
+
+    public actsWithBip44MnemonicWithEncryption(): boolean {
+        return (
+            this.data().get(WalletData.ImportMethod) ===
+            WalletImportMethod.BIP44.MNEMONIC_WITH_ENCRYPTION
+        );
+    }
+
+    public actsWithAddressWithDerivationPath(): boolean {
+        return [
+            WalletImportMethod.BIP44.DERIVATION_PATH,
+            WalletImportMethod.BIP49.DERIVATION_PATH,
+            WalletImportMethod.BIP84.DERIVATION_PATH,
+        ].includes(this.data().get(WalletData.ImportMethod)!);
+    }
+
+    public actsWithMnemonicWithEncryption(): boolean {
+        return [
+            WalletImportMethod.BIP39.MNEMONIC_WITH_ENCRYPTION,
+            WalletImportMethod.BIP44.MNEMONIC_WITH_ENCRYPTION,
+            WalletImportMethod.BIP49.MNEMONIC_WITH_ENCRYPTION,
+            WalletImportMethod.BIP84.MNEMONIC_WITH_ENCRYPTION,
+        ].includes(this.data().get(WalletData.ImportMethod)!);
+    }
+
+    public actsWithWif(): boolean {
+        return this.data().get(WalletData.ImportMethod) === WalletImportMethod.WIF;
+    }
+
+    public isSelected(): boolean {
+        return this.settings().get(WalletSetting.IsSelected) === true;
+    }
+
+    public actsWithWifWithEncryption(): boolean {
+        return this.data().get(WalletData.ImportMethod) === WalletImportMethod.WIFWithEncryption;
+    }
+
+    public actsWithSecret(): boolean {
+        return this.data().get(WalletData.ImportMethod) === WalletImportMethod.SECRET;
+    }
+
+    public actsWithSecretWithEncryption(): boolean {
+        return (
+            this.data().get(WalletData.ImportMethod) === WalletImportMethod.SECRET_WITH_ENCRYPTION
+        );
+    }
+
+    public isPrimary(): boolean {
+        return this.data().get(WalletData.IsPrimary) === true;
+    }
+
+    public usesPassword(): boolean {
+        return this.signingKey().exists();
+    }
+
+    public signatoryFactory(): ISignatoryFactory {
+        return this.#signatoryFactory;
+    }
+
+    public validators(): ValidatorService {
+        return this.#profile.validators();
+    }
+
+    #restore(): void {
+        const balance: Contracts.WalletBalance | undefined =
+            this.data().get<Contracts.WalletBalance>(WalletData.Balance);
+
+        /* istanbul ignore next */
+        this.data().set(WalletData.Balance, {
+            available: BigNumber.make(balance?.available || 0, this.#decimals()),
+            fees: BigNumber.make(balance?.fees || 0, this.#decimals()),
+        });
+
+        this.data().set(
+            WalletData.Sequence,
+            BigNumber.make(
+                this.data().get<string>(WalletData.Sequence) || BigNumber.ZERO,
+                this.#decimals(),
+            ),
+        );
+    }
+
+    #decimals(): number {
+        try {
+            const manifest: Networks.NetworkManifest =
+                this.manifest().get<object>('networks')[this.networkId()];
+            return manifest.currency.decimals ?? 18;
+        } catch {
+            return 18;
+        }
+    }
+
+    public exchangeRates(): ExchangeRateService {
+        return this.#profile.exchangeRates();
+    }
+
+    public tokens(): WalletTokenRepository {
+        return this.#tokens;
+    }
+
+    public generateAlias(): string {
+        return new WalletAliasProvider(this.#profile).generateAlias(this);
+    }
 }
