@@ -377,8 +377,6 @@ export class Wallet implements IReadWriteWallet {
     }
 
     public markAsFullyRestored(): void {
-        this.#attributes.forget('isMissingNetwork');
-
         this.#attributes.set('restorationState', {
             full: true,
             partial: false,
