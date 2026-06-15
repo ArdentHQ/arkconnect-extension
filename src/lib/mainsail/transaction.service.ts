@@ -18,7 +18,7 @@ import { BigNumber, get } from "@/app/lib/helpers";
 import { AddressService } from "./address.service.js";
 import { ClientService } from "./client.service.js";
 import { ConfigRepository } from "@/app/lib/mainsail";
-import { IProfile } from "@/app/lib/profiles/profile.contract.js";
+import { IProfile } from "@/lib/profiles/profile.contract.js";
 import { Services } from "@/app/lib/mainsail";
 import { SignedTransactionData } from "./signed-transaction.dto";
 import { HDWalletService } from "@/app/lib/mainsail/hd-wallet.service";

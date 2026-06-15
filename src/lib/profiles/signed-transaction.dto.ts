@@ -1,283 +1,283 @@
-import { DTO } from "@/lib/mainsail";
-import { IReadWriteWallet } from "./contracts.js";
+import { DTO } from '@/lib/mainsail';
+import { IReadWriteWallet } from './contracts.js';
 
-import { BigNumber } from "@/lib/helpers";
-import { DateTime } from "@/lib/intl";
-import { ExtendedTransactionRecipient } from "./transaction.dto.js";
-import { SignedTransactionData } from "@/lib/mainsail/signed-transaction.dto.js";
-import { TransactionToken } from "@/lib/profiles/transaction-token";
-import { ApproveDetails } from "@/lib/mainsail/confirmed-transaction.dto.contract";
+import { BigNumber } from '@/lib/helpers';
+import { DateTime } from '@/lib/intl';
+import { ExtendedTransactionRecipient } from './transaction.dto.js';
+import { SignedTransactionData } from '@/lib/mainsail/signed-transaction.dto.js';
+import { TransactionToken } from '@/lib/profiles/transaction-token';
+import { ApproveDetails } from '@/lib/mainsail/confirmed-transaction.dto.contract';
 
 export class ExtendedSignedTransactionData {
-	readonly #data: SignedTransactionData;
-	readonly #wallet: IReadWriteWallet;
-
-	public constructor(data: SignedTransactionData, wallet: IReadWriteWallet) {
-		this.#data = data;
-		this.#wallet = wallet;
-	}
-
-	public data(): SignedTransactionData {
-		return this.#data;
-	}
-
-	public hash(): string {
-		return this.#data.hash();
-	}
-
-	public type(): string {
-		return this.#data.type();
-	}
-
-	public from(): string {
-		return this.#data.from();
-	}
-
-	public to(): string {
-		return this.#data.to();
-	}
-
-	public value(): BigNumber {
-		return this.#data.value();
-	}
-
-	public convertedAmount(): BigNumber {
-		return this.#convertAmount(this.value());
-	}
-
-	public fee(): BigNumber {
-		return this.#data.fee();
-	}
-
-	public convertedFee(): BigNumber {
-		return this.#convertAmount(this.fee());
-	}
-
-	public nonce(): BigNumber {
-		return this.#data.nonce();
-	}
-
-	public token(): TransactionToken | undefined {
-		return this.#data.token();
-	}
-
-	public tokens(): TransactionToken[] | undefined {
-		return this.#data.tokens();
-	}
-
-	public timestamp(): DateTime {
-		return this.#data.timestamp();
-	}
-
-	public isReturn(): boolean {
-		if (this.isTransfer()) {
-			return this.isSent() && this.isReceived();
-		}
-
-		if (this.isMultiPayment()) {
-			return this.recipients().every(({ address }) => address === this.from());
-		}
-
-		return false;
-	}
-
-	public isSent(): boolean {
-		return [this.#wallet.address(), this.#wallet.publicKey()].includes(this.from());
-	}
-
-	public isReceived(): boolean {
-		return [this.#wallet.address(), this.#wallet.publicKey()].includes(this.to());
-	}
-
-	public isTransfer(): boolean {
-		return this.#data.isTransfer();
-	}
-
-	public isValidatorRegistration(): boolean {
-		return this.#data.isValidatorRegistration();
-	}
-
-	public isUpdateValidator(): boolean {
-		return this.#data.isUpdateValidator();
-	}
-
-	public isUsernameRegistration(): boolean {
-		return this.#data.isUsernameRegistration();
-	}
-
-	public isUsernameResignation(): boolean {
-		return this.#data.isUsernameResignation();
-	}
-
-	public isVote(): boolean {
-		return this.#data.isVote();
-	}
-
-	public isUnvote(): boolean {
-		return this.#data.isUnvote();
-	}
-
-	public isMultiPayment(): boolean {
-		return this.#data.isMultiPayment();
-	}
-
-	public isValidatorResignation(): boolean {
-		return this.#data.isValidatorResignation();
-	}
-
-	public total(): BigNumber {
-		if (this.isReturn()) {
-			return this.value().minus(this.fee());
-		}
-
-		// We want to return amount + fee for the transactions using multi-signature
-		// because the total should be calculated from the sender perspective.
-		// This is specific for signed - unconfirmed transactions only.
-		if (this.isSent()) {
-			return this.value().plus(this.fee());
-		}
-
-		let total = this.value();
-
-		if (this.isMultiPayment()) {
-			for (const recipient of this.recipients()) {
-				if (recipient.address !== this.wallet().address()) {
-					total = total.minus(recipient.amount);
-				}
-			}
-		}
-
-		return total;
-	}
-
-	public convertedTotal(): BigNumber {
-		return this.#convertAmount(this.total());
-	}
-
-	public get<T = string>(key: string): T {
-		return this.#data.get(key);
-	}
-
-	public toString(): string {
-		return this.#data.toString();
-	}
-
-	public toBroadcast(): any {
-		return this.#data.toBroadcast();
-	}
-
-	public toObject(): DTO.SignedTransactionObject {
-		return this.#data.toObject();
-	}
-
-	public wallet(): IReadWriteWallet {
-		return this.#wallet;
-	}
-
-	public votes(): string[] {
-		return this.#data.votes();
-	}
-
-	public unvotes(): string[] {
-		return this.#data.unvotes();
-	}
-
-	// @TODO: remove those after introducing proper signed tx DTOs (ARK/LSK specific)
-	public username(): string {
-		return this.#data.username();
-	}
-
-	public validatorPublicKey(): string {
-		return this.#data.validatorPublicKey();
-	}
-
-	public approveDetails(): ApproveDetails {
-		return this.#data.approveDetails();
-	}
-
-	public payments(): { recipientId: string; amount: number }[] {
-		return this.#data.payments().map((payment) => ({
-			amount: payment.amount.toHuman(),
-			recipientId: payment.recipientId,
-		}));
-	}
-
-	public recipients(): ExtendedTransactionRecipient[] {
-		return this.#data.recipients().map((payment: { address: string; amount: BigNumber }) => ({
-			address: payment.address,
-			amount: payment.amount,
-		}));
-	}
-
-	public explorerLink(): string {
-		return this.#wallet.link().transaction(this.hash());
-	}
-
-	public explorerLinkForBlock(): string | undefined {
-		return undefined;
-	}
-
-	public memo(): string | undefined {
-		return this.#data.memo();
-	}
-
-	public blockHash(): string | undefined {
-		return undefined;
-	}
-
-	public confirmations(): BigNumber {
-		return BigNumber.ZERO;
-	}
-
-	public isConfirmed(): boolean {
-		return false;
-	}
-
-	#convertAmount(value: BigNumber): BigNumber {
-		const timestamp: DateTime | undefined = this.timestamp();
-
-		if (timestamp === undefined) {
-			return BigNumber.ZERO;
-		}
-
-		return this.wallet()
-			.exchangeRates()
-			.exchange(this.wallet().currency(), this.wallet().exchangeCurrency(), timestamp, value);
-	}
-
-	public isSuccess(): boolean {
-		return false;
-	}
-
-	public gasUsed(): number | null {
-		return null;
-	}
-
-	public gasLimit(): number {
-		return this.#data.gasLimit();
-	}
-
-	public isTokenTransfer(): boolean {
-		return this.#data.isTokenTransfer();
-	}
-
-	public isApprove(): boolean {
-		return this.#data.isApprove();
-	}
-
-	public isRevoke(): boolean {
-		return this.#data.isRevoke();
-	}
-
-	public isBatchTransfer(): boolean {
-		return this.#data.isBatchTransfer();
-	}
-
-	public isContractDeployment() {
-		return this.#data.isContractDeployment();
-	}
-
-	public isContractTransaction() {
-		return this.#data.isContractTransaction();
-	}
+    readonly #data: SignedTransactionData;
+    readonly #wallet: IReadWriteWallet;
+
+    public constructor(data: SignedTransactionData, wallet: IReadWriteWallet) {
+        this.#data = data;
+        this.#wallet = wallet;
+    }
+
+    public data(): SignedTransactionData {
+        return this.#data;
+    }
+
+    public hash(): string {
+        return this.#data.hash();
+    }
+
+    public type(): string {
+        return this.#data.type();
+    }
+
+    public from(): string {
+        return this.#data.from();
+    }
+
+    public to(): string {
+        return this.#data.to();
+    }
+
+    public value(): BigNumber {
+        return this.#data.value();
+    }
+
+    public convertedAmount(): BigNumber {
+        return this.#convertAmount(this.value());
+    }
+
+    public fee(): BigNumber {
+        return this.#data.fee();
+    }
+
+    public convertedFee(): BigNumber {
+        return this.#convertAmount(this.fee());
+    }
+
+    public nonce(): BigNumber {
+        return this.#data.nonce();
+    }
+
+    public token(): TransactionToken | undefined {
+        return this.#data.token();
+    }
+
+    public tokens(): TransactionToken[] | undefined {
+        return this.#data.tokens();
+    }
+
+    public timestamp(): DateTime {
+        return this.#data.timestamp();
+    }
+
+    public isReturn(): boolean {
+        if (this.isTransfer()) {
+            return this.isSent() && this.isReceived();
+        }
+
+        if (this.isMultiPayment()) {
+            return this.recipients().every(({ address }) => address === this.from());
+        }
+
+        return false;
+    }
+
+    public isSent(): boolean {
+        return [this.#wallet.address(), this.#wallet.publicKey()].includes(this.from());
+    }
+
+    public isReceived(): boolean {
+        return [this.#wallet.address(), this.#wallet.publicKey()].includes(this.to());
+    }
+
+    public isTransfer(): boolean {
+        return this.#data.isTransfer();
+    }
+
+    public isValidatorRegistration(): boolean {
+        return this.#data.isValidatorRegistration();
+    }
+
+    public isUpdateValidator(): boolean {
+        return this.#data.isUpdateValidator();
+    }
+
+    public isUsernameRegistration(): boolean {
+        return this.#data.isUsernameRegistration();
+    }
+
+    public isUsernameResignation(): boolean {
+        return this.#data.isUsernameResignation();
+    }
+
+    public isVote(): boolean {
+        return this.#data.isVote();
+    }
+
+    public isUnvote(): boolean {
+        return this.#data.isUnvote();
+    }
+
+    public isMultiPayment(): boolean {
+        return this.#data.isMultiPayment();
+    }
+
+    public isValidatorResignation(): boolean {
+        return this.#data.isValidatorResignation();
+    }
+
+    public total(): BigNumber {
+        if (this.isReturn()) {
+            return this.value().minus(this.fee());
+        }
+
+        // We want to return amount + fee for the transactions using multi-signature
+        // because the total should be calculated from the sender perspective.
+        // This is specific for signed - unconfirmed transactions only.
+        if (this.isSent()) {
+            return this.value().plus(this.fee());
+        }
+
+        let total = this.value();
+
+        if (this.isMultiPayment()) {
+            for (const recipient of this.recipients()) {
+                if (recipient.address !== this.wallet().address()) {
+                    total = total.minus(recipient.amount);
+                }
+            }
+        }
+
+        return total;
+    }
+
+    public convertedTotal(): BigNumber {
+        return this.#convertAmount(this.total());
+    }
+
+    public get<T = string>(key: string): T {
+        return this.#data.get(key);
+    }
+
+    public toString(): string {
+        return this.#data.toString();
+    }
+
+    public toBroadcast(): any {
+        return this.#data.toBroadcast();
+    }
+
+    public toObject(): DTO.SignedTransactionObject {
+        return this.#data.toObject();
+    }
+
+    public wallet(): IReadWriteWallet {
+        return this.#wallet;
+    }
+
+    public votes(): string[] {
+        return this.#data.votes();
+    }
+
+    public unvotes(): string[] {
+        return this.#data.unvotes();
+    }
+
+    // @TODO: remove those after introducing proper signed tx DTOs (ARK/LSK specific)
+    public username(): string {
+        return this.#data.username();
+    }
+
+    public validatorPublicKey(): string {
+        return this.#data.validatorPublicKey();
+    }
+
+    public approveDetails(): ApproveDetails {
+        return this.#data.approveDetails();
+    }
+
+    public payments(): { recipientId: string; amount: number }[] {
+        return this.#data.payments().map((payment) => ({
+            amount: payment.amount.toHuman(),
+            recipientId: payment.recipientId,
+        }));
+    }
+
+    public recipients(): ExtendedTransactionRecipient[] {
+        return this.#data.recipients().map((payment: { address: string; amount: BigNumber }) => ({
+            address: payment.address,
+            amount: payment.amount,
+        }));
+    }
+
+    public explorerLink(): string {
+        return this.#wallet.link().transaction(this.hash());
+    }
+
+    public explorerLinkForBlock(): string | undefined {
+        return undefined;
+    }
+
+    public memo(): string | undefined {
+        return this.#data.memo();
+    }
+
+    public blockHash(): string | undefined {
+        return undefined;
+    }
+
+    public confirmations(): BigNumber {
+        return BigNumber.ZERO;
+    }
+
+    public isConfirmed(): boolean {
+        return false;
+    }
+
+    #convertAmount(value: BigNumber): BigNumber {
+        const timestamp: DateTime | undefined = this.timestamp();
+
+        if (timestamp === undefined) {
+            return BigNumber.ZERO;
+        }
+
+        return this.wallet()
+            .exchangeRates()
+            .exchange(this.wallet().currency(), this.wallet().exchangeCurrency(), timestamp, value);
+    }
+
+    public isSuccess(): boolean {
+        return false;
+    }
+
+    public gasUsed(): number | null {
+        return null;
+    }
+
+    public gasLimit(): number {
+        return this.#data.gasLimit();
+    }
+
+    public isTokenTransfer(): boolean {
+        return this.#data.isTokenTransfer();
+    }
+
+    public isApprove(): boolean {
+        return this.#data.isApprove();
+    }
+
+    public isRevoke(): boolean {
+        return this.#data.isRevoke();
+    }
+
+    public isBatchTransfer(): boolean {
+        return this.#data.isBatchTransfer();
+    }
+
+    public isContractDeployment() {
+        return this.#data.isContractDeployment();
+    }
+
+    public isContractTransaction() {
+        return this.#data.isContractTransaction();
+    }
 }

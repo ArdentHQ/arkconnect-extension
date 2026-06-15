@@ -1,61 +1,61 @@
-import { Services } from "@/lib/mainsail";
+import { Services } from '@/lib/mainsail';
 
-import { IReadWriteWallet } from "./wallet.contract.js";
+import { IReadWriteWallet } from './wallet.contract.js';
 
 export class WalletIdentifierFactory {
-	public static make(wallet: IReadWriteWallet): Services.WalletIdentifier {
-		if (wallet.actsWithAddress()) {
-			return this.#address(wallet);
-		}
+    public static make(wallet: IReadWriteWallet): Services.WalletIdentifier {
+        if (wallet.actsWithAddress()) {
+            return this.#address(wallet);
+        }
 
-		if (wallet.actsWithAddressWithDerivationPath()) {
-			return this.#address(wallet);
-		}
+        if (wallet.actsWithAddressWithDerivationPath()) {
+            return this.#address(wallet);
+        }
 
-		if (wallet.actsWithMnemonic()) {
-			return this.#addressOrPublicKey(wallet);
-		}
+        if (wallet.actsWithMnemonic()) {
+            return this.#addressOrPublicKey(wallet);
+        }
 
-		if (wallet.actsWithPublicKey()) {
-			return this.#addressOrPublicKey(wallet);
-		}
+        if (wallet.actsWithPublicKey()) {
+            return this.#addressOrPublicKey(wallet);
+        }
 
-		if (wallet.actsWithMnemonicWithEncryption()) {
-			return this.#addressOrPublicKey(wallet);
-		}
+        if (wallet.actsWithMnemonicWithEncryption()) {
+            return this.#addressOrPublicKey(wallet);
+        }
 
-		if (wallet.actsWithSecret()) {
-			return this.#addressOrPublicKey(wallet);
-		}
+        if (wallet.actsWithSecret()) {
+            return this.#addressOrPublicKey(wallet);
+        }
 
-		if (wallet.actsWithSecretWithEncryption()) {
-			return this.#addressOrPublicKey(wallet);
-		}
+        if (wallet.actsWithSecretWithEncryption()) {
+            return this.#addressOrPublicKey(wallet);
+        }
 
-		throw new Error(`Unsupported import method ${wallet.importMethod()}`);
-	}
+        throw new Error(`Unsupported import method ${wallet.importMethod()}`);
+    }
 
-	static #address(wallet: IReadWriteWallet): Services.WalletIdentifier {
-		return {
-			method: wallet.derivationMethod(),
-			type: "address",
-			value: wallet.address(),
-		};
-	}
+    static #address(wallet: IReadWriteWallet): Services.WalletIdentifier {
+        return {
+            method: wallet.derivationMethod(),
+            type: 'address',
+            value: wallet.address(),
+        };
+    }
 
-	static #extendedPublicKey(wallet: IReadWriteWallet): Services.WalletIdentifier {
-		return {
-			method: wallet.derivationMethod(),
-			type: "extendedPublicKey",
-			value: wallet.publicKey()!,
-		};
-	}
+    static #extendedPublicKey(wallet: IReadWriteWallet): Services.WalletIdentifier {
+        return {
+            method: wallet.derivationMethod(),
+            type: 'extendedPublicKey',
+            value: wallet.publicKey()!,
+        };
+    }
 
-	static #addressOrPublicKey(wallet: IReadWriteWallet): Services.WalletIdentifier {
-		if (wallet.network().usesExtendedPublicKey()) {
-			return this.#extendedPublicKey(wallet);
-		}
+    static #addressOrPublicKey(wallet: IReadWriteWallet): Services.WalletIdentifier {
+        if (wallet.network().usesExtendedPublicKey()) {
+            return this.#extendedPublicKey(wallet);
+        }
 
-		return this.#address(wallet);
-	}
+        return this.#address(wallet);
+    }
 }

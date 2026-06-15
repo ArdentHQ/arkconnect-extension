@@ -1,8 +1,8 @@
 import { Environment } from '@/lib/profiles';
+import { LocalStorage } from '@/lib/profiles/local.storage';
 
 export const initializeEnvironment = (): Environment => {
-    const storage = 'indexeddb';
     return new Environment({
-        storage,
+        storage: new LocalStorage('indexeddb'),
     });
 };

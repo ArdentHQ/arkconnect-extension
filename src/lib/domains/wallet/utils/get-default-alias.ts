@@ -1,6 +1,6 @@
 import { Networks } from '@/app/lib/mainsail';
-import { Contracts } from '@/app/lib/profiles';
-import { WalletSetting } from '@/app/lib/profiles/wallet.enum';
+import { Contracts } from '@/lib/profiles';
+import { WalletSetting } from '@/lib/profiles/wallet.enum';
 
 interface GetDefaultAliasInput {
     profile: Contracts.IProfile;
