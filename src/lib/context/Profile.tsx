@@ -123,7 +123,12 @@ export const ProfileProvider = ({ children }: Properties) => {
         await newProfile.sync();
 
         await env.wallets().syncByProfile(newProfile);
-        await newProfile.exchangeRates().syncAll(newProfile, 'ARK');
+
+        try {
+            await newProfile.exchangeRates().syncAll(newProfile, 'ARK');
+        } catch {
+            // exchange rate data is display-only so continue without pricing
+        }
 
         setProfile(newProfile);
 
