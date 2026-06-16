@@ -23,5 +23,4 @@ export interface LedgerService {
         startPath?: string;
         onProgress?: (wallet: WalletData) => void;
     }): Promise<Record<string, WalletData>>;
-
 }

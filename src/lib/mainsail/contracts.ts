@@ -70,4 +70,3 @@ export type {
     RawTransactionData,
     SignedTransactionData,
 } from './signed-transaction.dto.contract.js';
-

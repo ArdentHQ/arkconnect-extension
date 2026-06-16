@@ -29,7 +29,6 @@ export abstract class TransactionData {
         { method: 'isUpdateValidator', type: 'updateValidator' },
     ];
 
-
     protected data!: KeyValuePair;
 
     public constructor() {

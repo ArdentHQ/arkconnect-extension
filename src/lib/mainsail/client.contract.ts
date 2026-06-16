@@ -50,7 +50,6 @@ export interface ClientService {
     broadcast(transactions: SignedTransactionData[]): Promise<BroadcastResponse>;
 
     evmCall(callData: EvmCallData): Promise<EvmCallResponse>;
-
 }
 
 export interface ClientPagination {
