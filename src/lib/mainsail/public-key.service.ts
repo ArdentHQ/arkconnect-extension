@@ -1,8 +1,7 @@
-import { Services } from '@/lib/mainsail';
-
 import { PublicKey } from '@arkecosystem/typescript-crypto';
 import { BIP39, Bls } from '@ardenthq/arkvault-crypto';
 import { abort_if, abort_unless } from '@/lib/helpers';
+import { Services } from '@/lib/mainsail';
 
 export class PublicKeyService {
     public fromMnemonic(mnemonic: string): Services.PublicKeyDataTransferObject {
