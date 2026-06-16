@@ -148,10 +148,6 @@ export abstract class TransactionData {
         };
     }
 
-    public raw(): KeyValuePair {
-        return this.data;
-    }
-
     public hasPassed(): boolean {
         return Object.keys(this.data).length > 0;
     }

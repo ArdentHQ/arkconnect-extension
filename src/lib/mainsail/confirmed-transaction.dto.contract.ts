@@ -15,16 +15,6 @@ export interface MultiPaymentItem {
 // These types and interfaces are responsible for transaction-specific methods.
 export type TransactionDataMeta = string | number | boolean | undefined;
 
-export interface UnspentTransactionData {
-    hash(): string;
-
-    timestamp(): string;
-
-    value(): BigNumber;
-
-    address(): string;
-}
-
 export interface ApproveDetails {
     address: string;
     amount: bigint;
@@ -47,8 +37,6 @@ export interface ConfirmedTransactionData {
 
     from(): string;
 
-    senders(): MultiPaymentRecipient[];
-
     to(): string;
 
     recipients(): MultiPaymentRecipient[];
@@ -58,10 +46,6 @@ export interface ConfirmedTransactionData {
     fee(): BigNumber;
 
     nonce(): BigNumber;
-
-    inputs(): UnspentTransactionData[];
-
-    outputs(): UnspentTransactionData[];
 
     token(): TransactionToken | undefined;
 

@@ -64,7 +64,6 @@ export type {
     ConfirmedTransactionData,
     MultiPaymentRecipient,
     TransactionDataMeta,
-    UnspentTransactionData,
 } from './confirmed-transaction.dto.contract.js';
 export type { EvmCallData, EvmCallResponse } from './evm.contract.js';
 export type {
