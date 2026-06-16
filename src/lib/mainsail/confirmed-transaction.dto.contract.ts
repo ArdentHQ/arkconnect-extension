@@ -23,8 +23,6 @@ export interface ApproveDetails {
 export interface ConfirmedTransactionData {
     configure(data: any): ConfirmedTransactionData;
 
-    withDecimals(decimals?: number | string): ConfirmedTransactionData;
-
     hash(): string;
 
     blockHash(): string | undefined;

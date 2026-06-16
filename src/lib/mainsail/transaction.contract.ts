@@ -13,9 +13,6 @@ export interface TransactionService {
     vote(input: VoteInput): Promise<SignedTransactionData>;
     multiPayment(input: MultiPaymentInput): Promise<SignedTransactionData>;
     validatorResignation(input: ValidatorResignationInput): Promise<SignedTransactionData>;
-
-    // Estimations
-    estimateExpiration(value?: string): Promise<string | undefined>;
 }
 
 // Transaction Signing

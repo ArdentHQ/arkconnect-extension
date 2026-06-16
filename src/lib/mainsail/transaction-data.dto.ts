@@ -29,7 +29,7 @@ export abstract class TransactionData {
         { method: 'isUpdateValidator', type: 'updateValidator' },
     ];
 
-    protected decimals?: number;
+
     protected data!: KeyValuePair;
 
     public constructor() {
@@ -38,11 +38,6 @@ export abstract class TransactionData {
 
     public configure(data: any): this {
         this.data = data;
-        return this;
-    }
-
-    public withDecimals(decimals?: number | string): this {
-        this.decimals = typeof decimals === 'string' ? Number.parseInt(decimals) : decimals;
         return this;
     }
 
