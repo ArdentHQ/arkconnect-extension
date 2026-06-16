@@ -41,8 +41,4 @@ export class Cache {
     public forget(key: string) {
         delete this.store[key];
     }
-
-    public flush() {
-        this.store = {};
-    }
 }
