@@ -34,8 +34,6 @@ export interface WalletData {
 
     validatorPublicKey(): string | undefined;
 
-    validatorFee(): number | undefined;
-
     rank(): number | undefined;
 
     tokenCount(): number;
@@ -46,10 +44,6 @@ export interface WalletData {
     isValidator(): boolean;
 
     isLegacyValidator(): boolean;
-
-    isResignedDelegate(): boolean;
-
-    isValidator(): boolean;
 
     isResignedValidator(): boolean;
 
@@ -64,7 +58,6 @@ export interface WalletData {
 
 type LedgerTransport = any;
 
-// @TODO: export those directly from the files and get rid of this whole file
 export type { LedgerTransport };
 
 export type {

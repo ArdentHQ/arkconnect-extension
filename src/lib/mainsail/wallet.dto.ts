@@ -83,10 +83,6 @@ export class WalletData {
         return BigNumber.make(balance);
     }
 
-    public isResignedDelegate(): boolean {
-        return this.isResignedValidator();
-    }
-
     public isValidator(): boolean {
         if (this.isResignedValidator()) {
             return false;
@@ -97,10 +93,6 @@ export class WalletData {
 
     public isLegacyValidator(): boolean {
         return this.#getProperty(['attributes.validatorPublicKey']) === '';
-    }
-
-    public validatorFee(): number | undefined {
-        return this.#getProperty(['attributes.validatorFee']);
     }
 
     public isResignedValidator(): boolean {
@@ -122,7 +114,6 @@ export class WalletData {
             address: this.address(),
             balance: this.balance(),
             isLegacyValidator: this.isLegacyValidator(),
-            isResignedDelegate: this.isResignedDelegate(),
             isResignedValidator: this.isResignedValidator(),
             isSelected: this.isSelected(),
             isValidator: this.isValidator(),
@@ -170,10 +161,6 @@ export class WalletData {
 
     public tokenCount(): number {
         return this.data.tokenCount ?? 0;
-    }
-
-    public raw(): KeyValuePair {
-        return this.data;
     }
 
     public hasPassed(): boolean {
