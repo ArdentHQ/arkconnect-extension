@@ -4,8 +4,6 @@ export type FeeType = 'static' | 'dynamic' | 'gas' | 'free' | 'weight' | 'size';
 
 export type ExpirationType = 'height' | 'timestamp';
 
-export type SignatureMethod = 'default' | 'musig' | 'ledgerS' | 'ledgerX';
-
 export type NetworkHostType = 'full' | 'tx' | 'musig' | 'archival' | 'explorer' | 'evm';
 
 export type WalletPermission = 'read' | 'write';
