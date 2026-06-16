@@ -3,8 +3,6 @@ import { WalletData } from './contracts';
 export type LedgerTransport = any;
 export type LedgerTransportFactory = () => Promise<LedgerTransport>;
 
-export type LedgerWalletList = Record<string, WalletData>;
-
 export interface LedgerService {
     connect(): Promise<void>;
 
@@ -26,7 +24,4 @@ export interface LedgerService {
         onProgress?: (wallet: WalletData) => void;
     }): Promise<Record<string, WalletData>>;
 
-    isNanoS(): Promise<boolean>;
-
-    isNanoX(): Promise<boolean>;
 }

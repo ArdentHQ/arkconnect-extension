@@ -146,7 +146,7 @@ export class LedgerService {
         startPath?: string;
         pageSize?: number;
         slip44?: number;
-    }): Promise<Services.LedgerWalletList> {
+    }): Promise<Record<string, WalletData>> {
         const pageSize = 5;
         const page = 0;
         let path = `m/44'/${options?.slip44 ?? this.slip44()}'/0'`;
@@ -158,7 +158,7 @@ export class LedgerService {
             initialAddressIndex = BIP44.parse(options.startPath).addressIndex + 1;
         }
 
-        const ledgerWallets: Services.LedgerWalletList = {};
+        const ledgerWallets: Record<string, WalletData> = {};
         for (const addressIndexIterator of createRange(page, options?.pageSize ?? pageSize)) {
             const addressIndex = initialAddressIndex + addressIndexIterator;
             const { extendedPublicKey, publicKey } = await this.#getPublicKeys(
@@ -193,13 +193,13 @@ export class LedgerService {
      * @param options.startPath - Starting path for initial account index
      * @param options.pageSize - Number of accounts to scan.
      * @param options.slip44
-     * @returns Promise<Services.LedgerWalletList>
+     * @returns Promise<Record<string, WalletData>>
      */
     public async scanLegacy(options: {
         startPath?: string;
         pageSize?: number;
         slip44?: number;
-    }): Promise<Services.LedgerWalletList> {
+    }): Promise<Record<string, WalletData>> {
         const pageSize = options?.pageSize ?? 5;
         const path = `m/44'/${options?.slip44 ?? this.slip44Legacy()}'`;
         let initialAccountIndex = 0;
@@ -208,7 +208,7 @@ export class LedgerService {
             initialAccountIndex = BIP44.parse(options.startPath).account + 1;
         }
 
-        const ledgerWallets: Services.LedgerWalletList = {};
+        const ledgerWallets: Record<string, WalletData> = {};
         for (let index = 0; index < pageSize; index++) {
             const accountIndex = initialAccountIndex + index;
             const accountPath = `${path}/${accountIndex}'/0/0`;
@@ -223,14 +223,6 @@ export class LedgerService {
             });
         }
         return ledgerWallets;
-    }
-
-    public async isNanoS(): Promise<boolean> {
-        return this.#ledger.deviceModel?.id === 'nanoS';
-    }
-
-    public async isNanoX(): Promise<boolean> {
-        return this.#ledger.deviceModel?.id === 'nanoX';
     }
 
     public slip44(): number {
