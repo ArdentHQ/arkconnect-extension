@@ -51,10 +51,6 @@ export class Signatory {
         return this.#data.path;
     }
 
-    public options(): IdentityOptions | undefined {
-        return this.#data.options;
-    }
-
     public actsWithMnemonic(): boolean {
         return this.#data.type === 'mnemonic';
     }
