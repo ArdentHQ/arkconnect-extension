@@ -1,8 +1,4 @@
-import {
-    ConfirmedTransactionDataCollection,
-    UsernameDataCollection,
-    WalletDataCollection,
-} from './collections';
+import { ConfirmedTransactionDataCollection, WalletDataCollection } from './collections';
 import {
     EvmCallData,
     EvmCallResponse,
@@ -55,7 +51,6 @@ export interface ClientService {
 
     evmCall(callData: EvmCallData): Promise<EvmCallResponse>;
 
-    usernames(addresses: string[]): Promise<UsernameDataCollection>;
 }
 
 export interface ClientPagination {

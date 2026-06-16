@@ -45,14 +45,6 @@ export abstract class Paginator<T> {
         return Boolean(this.nextPage());
     }
 
-    public isEmpty(): boolean {
-        return this.#data === undefined || this.#data.length === 0;
-    }
-
-    public isNotEmpty(): boolean {
-        return !this.isEmpty();
-    }
-
     public transform(callback: CallableFunction): void {
         for (let index = 0; index < this.#data.length; index++) {
             this.#data[index] = callback(this.#data[index]);

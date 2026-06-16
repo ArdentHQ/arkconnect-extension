@@ -6,10 +6,8 @@ import {
     Helpers,
     TransactionFunctionSigs,
     TransactionTypeIdentifier,
-    UsernamesContract,
 } from '@arkecosystem/typescript-crypto';
 import { TokenAddressesData, WalletTokenData } from '@/lib/profiles/token.contracts';
-import { decodeFunctionResult, encodeFunctionData } from 'viem';
 
 import { Client } from '@arkecosystem/typescript-client';
 import { ConfirmedTransactionData } from './confirmed-transaction.dto';
@@ -29,12 +27,6 @@ import { WalletTokenDTO } from '@/lib/profiles/wallet-token.dto';
 import dotify from 'node-dotify';
 
 type searchParams<T extends Record<string, any> = {}> = T & { page: number; limit?: number };
-
-const wellKnownContracts = {
-    consensus: '0x535B3D7A252fa034Ed71F0C53ec0C6F784cB64E1',
-    multiPayment: '0x00EFd0D4639191C49908A7BddbB9A11A994A8527',
-    username: '0x2c1DE3b4Dbb4aDebEbB5dcECAe825bE2a9fc6eb6',
-};
 
 export class ClientService {
     readonly #client!: Client;
@@ -339,57 +331,6 @@ export class ClientService {
         } catch (error) {
             const errorResponse = error.response?.json();
             throw new Error(errorResponse?.error?.message || 'Failed to make EVM call');
-        }
-    }
-
-    public async usernames(addresses: string[]): Promise<Collections.UsernameDataCollection> {
-        try {
-            let data;
-
-            try {
-                data = encodeFunctionData({
-                    abi: UsernamesContract.abi,
-                    args: [addresses],
-                    functionName: 'getUsernames',
-                });
-            } catch (encodeError) {
-                throw new Error(
-                    `Failed to encode function data: ${(encodeError as Error).message}`,
-                );
-            }
-
-            const response = await this.evmCall({
-                data: data,
-                to: wellKnownContracts.username,
-            });
-
-            let decoded;
-            try {
-                decoded = decodeFunctionResult({
-                    abi: UsernamesContract.abi,
-                    data: response.result,
-                    functionName: 'getUsernames',
-                });
-            } catch (decodeError) {
-                throw new Error(
-                    `Failed to decode function result: ${(decodeError as Error).message}`,
-                );
-            }
-
-            const usernameDataList = (decoded as any[]).map(
-                (user) =>
-                    new DTO.UsernameData({
-                        address: user.addr,
-                        username: user.username,
-                    }),
-            );
-
-            return new Collections.UsernameDataCollection(usernameDataList);
-        } catch (error) {
-            if (error instanceof Error) {
-                throw error;
-            }
-            throw new TypeError('Failed to fetch usernames: Unknown error occurred');
         }
     }
 
