@@ -11,9 +11,7 @@ import {
     WalletData,
 } from './contracts';
 
-import { BigNumber } from '@/lib/helpers';
 import { ConfirmedTransactionData } from '@/lib/mainsail/confirmed-transaction.dto';
-import { DateTime } from '@/lib/intl';
 import { TransactionType } from './networks';
 
 export type ClientPaginatorCursor = string | number | undefined;
@@ -52,8 +50,6 @@ export interface ClientService {
     votes(id: string): Promise<VoteReport>;
     // TODO: return struct like VoteReport
     voters(id: string, query?: KeyValuePair): Promise<WalletDataCollection>;
-
-    unlockableBalances(id: string): Promise<UnlockTokenResponse>;
 
     broadcast(transactions: SignedTransactionData[]): Promise<BroadcastResponse>;
 
@@ -111,28 +107,8 @@ export interface ClientWalletsInput extends ClientPagination {
     identifiers?: WalletIdentifier[];
 }
 
-// TODO: move
 export interface VoteReport {
     used: number;
     available: number;
     votes: { id: string; amount: number }[];
-}
-
-export interface TransactionDetailInput {
-    walletId?: string;
-}
-
-// Only supported by Lisk at the moment
-export interface UnlockableBalance {
-    address: string;
-    amount: BigNumber;
-    height: string;
-    timestamp: DateTime;
-    isReady: boolean;
-}
-
-export interface UnlockTokenResponse {
-    objects: UnlockableBalance[];
-    current: BigNumber;
-    pending: BigNumber;
 }
