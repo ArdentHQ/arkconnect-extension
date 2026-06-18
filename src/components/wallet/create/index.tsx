@@ -13,7 +13,7 @@ import useActiveNetwork from '@/lib/hooks/useActiveNetwork';
 import { useProfileContext } from '@/lib/context/Profile';
 import { getDefaultAlias } from '@/lib/utils/getDefaultAlias';
 import { HandleLoadingState } from '@/shared/components/handleStates/HandleLoadingState';
-import { assertNetwork } from '@/lib/utils/assertions';
+import { assertNetwork } from '@/utils/assertions';
 import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
 import useLocaleCurrency from '@/lib/hooks/useLocalCurrency';
 import {
