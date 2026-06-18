@@ -39,13 +39,14 @@ export const ErrorHandlerProvider = ({ children }: Properties) => {
 
     const handleClose = async () => {
         setShowErrorModal(false);
-        if (state?.windowId) {
+        if (state?.sidepanelWasOpen) {
+            navigate('/');
+        } else if (state?.windowId) {
             await removeWindowInstance(state?.windowId);
-            navigate('/');
-        } else if (state?.sidepanelWasOpen) {
-            navigate('/');
-        } else {
+        } else if (state?.sidepanelWasOpen === false) {
             await closeSidepanel();
+        } else {
+            navigate('/');
         }
     };
 
