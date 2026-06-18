@@ -1,269 +1,271 @@
-import { Services } from "@/lib/mainsail";
-import { BIP44, HDKey } from "@ardenthq/arkvault-crypto";
-import { closeDevices, connectedTransport as ledgerTransportFactory } from "@/lib/Ledger/transport";
+import { Services } from '@/lib/mainsail';
+import { BIP44, HDKey } from '@ardenthq/arkvault-crypto';
+import { closeDevices, connectedTransport as ledgerTransportFactory } from '@/lib/Ledger/transport';
+import { AddressService } from './address.service';
+import { WalletData } from './wallet.dto';
+import { ConfigKey, ConfigRepository } from '@/lib/mainsail/config.repository';
+import Eth, { ledgerService } from '@ledgerhq/hw-app-eth';
+import { LedgerData } from '@/lib/Ledger/Ledger.contracts';
+import { LedgerScanner } from './ledger.scanner';
+import { IProfile } from '@/lib/profiles/contracts';
+import { formatLedgerDerivationPath } from '@/lib/Ledger/utils/format-ledger-derivation-path';
 
-import { createRange } from "./ledger.service.helpers";
-import { LedgerSignature } from "./ledger.service.types";
-import { AddressService } from "./address.service";
-import { WalletData } from "./wallet.dto";
-import { ConfigKey, ConfigRepository } from "@/lib/mainsail/config.repository";
-import Eth, { ledgerService } from "@ledgerhq/hw-app-eth";
-import { LedgerData } from "@/lib/Ledger/Ledger.contracts";
-import { LedgerScanner } from "./ledger.scanner";
-import { IProfile } from "@/lib/profiles/contracts";
-import { formatLedgerDerivationPath } from "@/lib/Ledger/utils/format-ledger-derivation-path";
+const createRange = (start: number, size: number) =>
+    Array.from({ length: size }, (_, index) => index + size * start);
+
+interface LedgerSignature {
+    r: string;
+    v: string;
+    s: string;
+}
 
 export class LedgerService {
-	readonly #addressService!: AddressService;
+    readonly #addressService!: AddressService;
 
-	#ledger!: Services.LedgerTransport;
-	#config: ConfigRepository;
-	#ethLedgerService!: any;
-	#transport!: any;
-	#profile: IProfile;
+    #ledger!: Services.LedgerTransport;
+    #config: ConfigRepository;
+    #ethLedgerService!: any;
+    #transport!: any;
+    #profile: IProfile;
 
-	#extractAddressIndexFromPath(path: string): string {
-		return path.split("/").slice(-2).join("/");
-	}
+    #extractAddressIndexFromPath(path: string): string {
+        return path.split('/').slice(-2).join('/');
+    }
 
-	constructor({ config, profile }: { config: ConfigRepository; profile: IProfile }) {
-		this.#addressService = new AddressService();
-		this.#config = config;
-		this.#ethLedgerService = ledgerService;
-		this.#profile = profile;
-	}
+    constructor({ config, profile }: { config: ConfigRepository; profile: IProfile }) {
+        this.#addressService = new AddressService();
+        this.#config = config;
+        this.#ethLedgerService = ledgerService;
+        this.#profile = profile;
+    }
 
-	async #getPublicKeys(path: string): Promise<{ extendedPublicKey: string; publicKey: string }> {
-		const derivationPath = `m/${this.#extractAddressIndexFromPath(path)}`;
-		const extendedPublicKey = await this.getExtendedPublicKey(path);
+    async #getPublicKeys(path: string): Promise<{ extendedPublicKey: string; publicKey: string }> {
+        const derivationPath = `m/${this.#extractAddressIndexFromPath(path)}`;
+        const extendedPublicKey = await this.getExtendedPublicKey(path);
 
-		const publicKey: string = HDKey.fromCompressedPublicKey(extendedPublicKey)
-			.derive(derivationPath)
-			.publicKey.toString("hex");
+        const publicKey: string = HDKey.fromCompressedPublicKey(extendedPublicKey)
+            .derive(derivationPath)
+            .publicKey.toString('hex');
 
-		return { extendedPublicKey, publicKey };
-	}
+        return { extendedPublicKey, publicKey };
+    }
 
-	async #getExtendedPublicKeyWithRetry(path: string, retryCount = 0): Promise<string> {
-		try {
-			const result = await this.#transport.getAddress(path);
+    async #getExtendedPublicKeyWithRetry(path: string, retryCount = 0): Promise<string> {
+        try {
+            const result = await this.#transport.getAddress(path);
 
-			return result.publicKey;
-		} catch (error) {
-			if (error?.message?.includes?.("busy") && retryCount < 3) {
-				await new Promise((resolve) => setTimeout(resolve, 500));
-				return await this.#getExtendedPublicKeyWithRetry(path, retryCount + 1);
-			}
-			throw new Error(error);
-		}
-	}
+            return result.publicKey;
+        } catch (error) {
+            if (error?.message?.includes?.('busy') && retryCount < 3) {
+                await new Promise((resolve) => setTimeout(resolve, 500));
+                return await this.#getExtendedPublicKeyWithRetry(path, retryCount + 1);
+            }
+            throw new Error(error);
+        }
+    }
 
-	public async onPreDestroy(): Promise<void> {
-		return this.disconnect();
-	}
+    public async onPreDestroy(): Promise<void> {
+        return this.disconnect();
+    }
 
-	public async connect(): Promise<void> {
-		this.#ledger = await ledgerTransportFactory();
-		this.#transport = new Eth(this.#ledger);
-	}
+    public async connect(): Promise<void> {
+        this.#ledger = await ledgerTransportFactory();
+        this.#transport = new Eth(this.#ledger);
+    }
 
-	public async disconnect(): Promise<void> {
-		if (this.#ledger) {
-			await this.#ledger.close();
-			await closeDevices();
-		}
-	}
+    public async disconnect(): Promise<void> {
+        if (this.#ledger) {
+            await this.#ledger.close();
+            await closeDevices();
+        }
+    }
 
-	public async getVersion(): Promise<string> {
-		// @TODO: fix hardcoded number.
-		return "1";
-	}
+    public async getVersion(): Promise<string> {
+        // @TODO: fix hardcoded number.
+        return '1';
+    }
 
-	public async getPublicKey(path: string): Promise<string> {
-		const derivationPath = `m/${this.#extractAddressIndexFromPath(path)}`;
-		const publicKey = await this.getExtendedPublicKey(path);
+    public async getPublicKey(path: string): Promise<string> {
+        const derivationPath = `m/${this.#extractAddressIndexFromPath(path)}`;
+        const publicKey = await this.getExtendedPublicKey(path);
 
-		const pubKey: string = HDKey.fromCompressedPublicKey(publicKey)
-			.derive(derivationPath)
-			.publicKey.toString("hex");
+        const pubKey: string = HDKey.fromCompressedPublicKey(publicKey)
+            .derive(derivationPath)
+            .publicKey.toString('hex');
 
-		return pubKey;
-	}
+        return pubKey;
+    }
 
-	public async getExtendedPublicKey(path: string): Promise<string> {
-		return this.#getExtendedPublicKeyWithRetry(path);
-	}
+    public async getExtendedPublicKey(path: string): Promise<string> {
+        return this.#getExtendedPublicKeyWithRetry(path);
+    }
 
-	public async sign(path: string, serialized: string | Buffer): Promise<LedgerSignature> {
-		const chainId = this.#config.get("crypto.network.chainId") as number;
+    public async sign(path: string, serialized: string | Buffer): Promise<LedgerSignature> {
+        const chainId = this.#config.get('crypto.network.chainId') as number;
 
-		const resolution = await this.#ethLedgerService.resolveTransaction(
-			serialized,
-			{},
-			{
-				domain: { chainId },
-			},
-		);
+        const resolution = await this.#ethLedgerService.resolveTransaction(
+            serialized,
+            {},
+            {
+                domain: { chainId },
+            },
+        );
 
-		const signature = await this.#transport.signTransaction(path, serialized, resolution);
+        const signature = await this.#transport.signTransaction(path, serialized, resolution);
 
-		return {
-			...signature,
-			// Clearing the ledger’s precomputed `v`, as it will be calculated in ts-crypto.
-			// @see https://github.com/ArdentHQ/typescript-crypto/blob/c5141eba1416f0e6f30e4797c34e1834d48e933b/src/utils/TransactionUtils.ts#L20
-			v: Number.parseInt(signature.v, 16) - (chainId * 2 + 35),
-		};
-	}
+        return {
+            ...signature,
+            // Clearing the ledger’s precomputed `v`, as it will be calculated in ts-crypto.
+            // @see https://github.com/ArdentHQ/typescript-crypto/blob/c5141eba1416f0e6f30e4797c34e1834d48e933b/src/utils/TransactionUtils.ts#L20
+            v: Number.parseInt(signature.v, 16) - (chainId * 2 + 35),
+        };
+    }
 
-	public async signMessage(path: string, payload: string): Promise<string> {
-		const hex = Buffer.from(payload).toString("hex");
-		const { r, s, v } = await this.#transport.signPersonalMessage(path, hex);
+    public async signMessage(path: string, payload: string): Promise<string> {
+        const hex = Buffer.from(payload).toString('hex');
+        const { r, s, v } = await this.#transport.signPersonalMessage(path, hex);
 
-		return [`0x`, r, s, v.toString(16)].join("");
-	}
+        return [`0x`, r, s, v.toString(16)].join('');
+    }
 
-	// As the mainsail app is a clone of the ethereum mainsail app,
-	// and due to lack of getting a reliable ledger app identifier
-	// this check confirms that the opened Ledger app can generate eth addresses,
-	// in order to proceed with mainsail public key derivation, and reject other ledger apps including old ark ledger app.
-	public async isEthBasedApp() {
-		try {
-			const path = `m/44'/60'/0'/0/0`;
-			const { extendedPublicKey, publicKey } = await this.#getPublicKeys(path);
-			return !!extendedPublicKey || !!publicKey;
-		} catch {
-			return false;
-		}
-	}
+    // As the mainsail app is a clone of the ethereum mainsail app,
+    // and due to lack of getting a reliable ledger app identifier
+    // this check confirms that the opened Ledger app can generate eth addresses,
+    // in order to proceed with mainsail public key derivation, and reject other ledger apps including old ark ledger app.
+    public async isEthBasedApp() {
+        try {
+            const path = `m/44'/60'/0'/0/0`;
+            const { extendedPublicKey, publicKey } = await this.#getPublicKeys(path);
+            return !!extendedPublicKey || !!publicKey;
+        } catch {
+            return false;
+        }
+    }
 
-	public async scan(options?: {
-		startPath?: string;
-		pageSize?: number;
-		slip44?: number;
-	}): Promise<Services.LedgerWalletList> {
-		const pageSize = 5;
-		const page = 0;
-		let path = `m/44'/${options?.slip44 ?? this.slip44()}'/0'`;
+    public async scan(options?: {
+        startPath?: string;
+        pageSize?: number;
+        slip44?: number;
+    }): Promise<Record<string, WalletData>> {
+        const pageSize = 5;
+        const page = 0;
+        let path = `m/44'/${options?.slip44 ?? this.slip44()}'/0'`;
 
-		let initialAddressIndex = 0;
+        let initialAddressIndex = 0;
 
-		if (options?.startPath) {
-			// Get the address index from expected format `m/purpose'/coinType'/account'/change/addressIndex`
-			initialAddressIndex = BIP44.parse(options.startPath).addressIndex + 1;
-		}
+        if (options?.startPath) {
+            // Get the address index from expected format `m/purpose'/coinType'/account'/change/addressIndex`
+            initialAddressIndex = BIP44.parse(options.startPath).addressIndex + 1;
+        }
 
-		const ledgerWallets: Services.LedgerWalletList = {};
-		for (const addressIndexIterator of createRange(page, options?.pageSize ?? pageSize)) {
-			const addressIndex = initialAddressIndex + addressIndexIterator;
-			const { extendedPublicKey, publicKey } = await this.#getPublicKeys(`${path}/0/${addressIndex}`);
+        const ledgerWallets: Record<string, WalletData> = {};
+        for (const addressIndexIterator of createRange(page, options?.pageSize ?? pageSize)) {
+            const addressIndex = initialAddressIndex + addressIndexIterator;
+            const { extendedPublicKey, publicKey } = await this.#getPublicKeys(
+                `${path}/0/${addressIndex}`,
+            );
 
-			const { address } = this.#addressService.fromPublicKey(extendedPublicKey);
+            const { address } = this.#addressService.fromPublicKey(extendedPublicKey);
 
-			ledgerWallets[`${path}/0/${addressIndex}`] = new WalletData({ config: this.#config }).fill({
-				address,
-				balance: 0,
-				publicKey,
-			});
-		}
-		return ledgerWallets;
-	}
+            ledgerWallets[`${path}/0/${addressIndex}`] = new WalletData({
+                config: this.#config,
+            }).fill({
+                address,
+                balance: 0,
+                publicKey,
+            });
+        }
+        return ledgerWallets;
+    }
 
-	/**
-	 * Scans for legacy Ledger wallets using BIP44 derivation paths.
-	 *
-	 * Increments the account index (3rd part of BIP44 path) instead of the address
-	 * index, allowing wallets with old (legacy) paths to be scanne.
-	 *
-	 * Example:
-	 *   m/44'/111'/0/0/0
-	 *   m/44'/111'/1/0/0
-	 *   m/44'/111'/2/0/0
-	 *   m/44'/111'/3/0/0
-	 *
-	 * @param options.startPath - Starting path for initial account index
-	 * @param options.pageSize - Number of accounts to scan.
-	 * @param options.slip44
-	 * @returns Promise<Services.LedgerWalletList>
-	 */
-	public async scanLegacy(options: {
-		startPath?: string;
-		pageSize?: number;
-		slip44?: number;
-	}): Promise<Services.LedgerWalletList> {
-		const pageSize = options?.pageSize ?? 5;
-		const path = `m/44'/${options?.slip44 ?? this.slip44Legacy()}'`;
-		let initialAccountIndex = 0;
+    /**
+     * Scans for legacy Ledger wallets using BIP44 derivation paths.
+     *
+     * Increments the account index (3rd part of BIP44 path) instead of the address
+     * index, allowing wallets with old (legacy) paths to be scanne.
+     *
+     * Example:
+     *   m/44'/111'/0/0/0
+     *   m/44'/111'/1/0/0
+     *   m/44'/111'/2/0/0
+     *   m/44'/111'/3/0/0
+     *
+     * @param options.startPath - Starting path for initial account index
+     * @param options.pageSize - Number of accounts to scan.
+     * @param options.slip44
+     * @returns Promise<Record<string, WalletData>>
+     */
+    public async scanLegacy(options: {
+        startPath?: string;
+        pageSize?: number;
+        slip44?: number;
+    }): Promise<Record<string, WalletData>> {
+        const pageSize = options?.pageSize ?? 5;
+        const path = `m/44'/${options?.slip44 ?? this.slip44Legacy()}'`;
+        let initialAccountIndex = 0;
 
-		if (options?.startPath) {
-			initialAccountIndex = BIP44.parse(options.startPath).account + 1;
-		}
+        if (options?.startPath) {
+            initialAccountIndex = BIP44.parse(options.startPath).account + 1;
+        }
 
-		const ledgerWallets: Services.LedgerWalletList = {};
-		for (let index = 0; index < pageSize; index++) {
-			const accountIndex = initialAccountIndex + index;
-			const accountPath = `${path}/${accountIndex}'/0/0`;
-			const { extendedPublicKey, publicKey } = await this.#getPublicKeys(accountPath);
+        const ledgerWallets: Record<string, WalletData> = {};
+        for (let index = 0; index < pageSize; index++) {
+            const accountIndex = initialAccountIndex + index;
+            const accountPath = `${path}/${accountIndex}'/0/0`;
+            const { extendedPublicKey, publicKey } = await this.#getPublicKeys(accountPath);
 
-			const { address } = this.#addressService.fromPublicKey(extendedPublicKey);
+            const { address } = this.#addressService.fromPublicKey(extendedPublicKey);
 
-			ledgerWallets[accountPath] = new WalletData({ config: this.#config }).fill({
-				address,
-				balance: 0,
-				publicKey,
-			});
-		}
-		return ledgerWallets;
-	}
+            ledgerWallets[accountPath] = new WalletData({ config: this.#config }).fill({
+                address,
+                balance: 0,
+                publicKey,
+            });
+        }
+        return ledgerWallets;
+    }
 
-	public async isNanoS(): Promise<boolean> {
-		return this.#ledger.deviceModel?.id === "nanoS";
-	}
+    public slip44(): number {
+        return this.#config.get(ConfigKey.Slip44);
+    }
 
-	public async isNanoX(): Promise<boolean> {
-		return this.#ledger.deviceModel?.id === "nanoX";
-	}
+    public slip44Legacy(): number {
+        return this.#config.get(ConfigKey.Slip44Legacy);
+    }
 
-	public slip44(): number {
-		return this.#config.get(ConfigKey.Slip44);
-	}
+    public slip44Eth(): number {
+        return this.#config.get(ConfigKey.Slip44Eth);
+    }
 
-	public slip44Legacy(): number {
-		return this.#config.get(ConfigKey.Slip44Legacy);
-	}
+    public scanner({ scannedWallets }: { scannedWallets: LedgerData[] }): LedgerScanner {
+        return new LedgerScanner(this, this.#profile, scannedWallets);
+    }
 
-	public slip44Eth(): number {
-		return this.#config.get(ConfigKey.Slip44Eth);
-	}
+    async #accessLedgerDevice() {
+        try {
+            await this.connect();
+        } catch (error) {
+            // If the device is open, continue normally.
+            // Can be triggered when the user retries ledger connection.
+            if (error.message !== 'The device is already open.') {
+                throw error;
+            }
+        }
+    }
 
-	public scanner({ scannedWallets }: { scannedWallets: LedgerData[] }): LedgerScanner {
-		return new LedgerScanner(this, this.#profile, scannedWallets);
-	}
+    public async accessLedgerApp() {
+        await this.#accessLedgerDevice();
 
-	async #accessLedgerDevice() {
-		try {
-			await this.connect();
-		} catch (error) {
-			// If the device is open, continue normally.
-			// Can be triggered when the user retries ledger connection.
-			if (error.message !== "The device is already open.") {
-				throw error;
-			}
-		}
-	}
+        await this.getPublicKey(
+            formatLedgerDerivationPath({
+                coinType: this.slip44Eth(),
+            }),
+        );
 
-	public async accessLedgerApp() {
-		await this.#accessLedgerDevice();
-
-		await this.getPublicKey(
-			formatLedgerDerivationPath({
-				coinType: this.slip44Eth(),
-			}),
-		);
-
-		// Allows only eth based ledger apps and rejects others, including the old ark ledger app.
-		const isEthApp = await this.isEthBasedApp();
-		if (!isEthApp) {
-			throw new Error("INCOMPATIBLE_APP");
-		}
-	}
+        // Allows only eth based ledger apps and rejects others, including the old ark ledger app.
+        const isEthApp = await this.isEthBasedApp();
+        if (!isEthApp) {
+            throw new Error('INCOMPATIBLE_APP');
+        }
+    }
 }

@@ -1,107 +1,72 @@
-import { BigNumber } from "@/lib/helpers";
+import { BigNumber } from '@/lib/helpers';
 
 export type KeyValuePair = Record<string, any>;
 
 export interface WalletBalance {
-	total: BigNumber;
-	available: BigNumber;
-	fees: BigNumber;
-	locked?: BigNumber;
-	lockedVotes?: BigNumber;
-	lockedUnvotes?: BigNumber;
-	tokens?: Record<string, BigNumber>;
+    total: BigNumber;
+    available: BigNumber;
+    fees: BigNumber;
+    locked?: BigNumber;
+    lockedVotes?: BigNumber;
+    lockedUnvotes?: BigNumber;
+    tokens?: Record<string, BigNumber>;
 }
 
 export interface WalletData {
-	fill(data: any): WalletData;
+    fill(data: any): WalletData;
 
-	// Wallet
-	primaryKey(): string;
+    // Wallet
+    primaryKey(): string;
 
-	address(): string;
+    address(): string;
 
-	publicKey(): string | undefined;
+    publicKey(): string | undefined;
 
-	balance(): WalletBalance;
+    balance(): WalletBalance;
 
-	nonce(): BigNumber;
+    nonce(): BigNumber;
 
-	// Second Signature
-	secondPublicKey(): string | undefined;
+    // Second Signature
+    secondPublicKey(): string | undefined;
 
-	// Delegate
-	username(): string | undefined;
+    // Delegate
+    username(): string | undefined;
 
-	validatorPublicKey(): string | undefined;
+    validatorPublicKey(): string | undefined;
 
-	validatorFee(): number | undefined;
+    rank(): number | undefined;
 
-	rank(): number | undefined;
+    tokenCount(): number;
 
-	tokenCount(): number;
+    votes(): BigNumber | undefined;
 
-	votes(): BigNumber | undefined;
+    // Flags
+    isValidator(): boolean;
 
-	// Flags
-	isValidator(): boolean;
+    isLegacyValidator(): boolean;
 
-	isLegacyValidator(): boolean;
+    isResignedValidator(): boolean;
 
-	isResignedDelegate(): boolean;
+    toObject(): KeyValuePair;
 
-	isValidator(): boolean;
+    hasPassed(): boolean;
 
-	isResignedValidator(): boolean;
+    hasFailed(): boolean;
 
-	toObject(): KeyValuePair;
-
-	hasPassed(): boolean;
-
-	hasFailed(): boolean;
-
-	isSelected(): boolean;
+    isSelected(): boolean;
 }
 
 type LedgerTransport = any;
 
-// @TODO: export those directly from the files and get rid of this whole file
 export type { LedgerTransport };
 
 export type {
-	ConfirmedTransactionData,
-	MultiPaymentRecipient,
-	TransactionDataMeta,
-	UnspentTransactionData,
-} from "./confirmed-transaction.dto.contract.js";
-export type { EvmCallData, EvmCallResponse } from "./evm.contract.js";
-export type { RawTransactionData, SignedTransactionData } from "./signed-transaction.dto.contract.js";
-
-export interface NetworkConfig {
-	milestones: Array<Record<string, any>>;
-	network: Network;
-}
-
-export interface Network {
-	name: string;
-	messagePrefix: string;
-	bip32: {
-		public: number;
-		private: number;
-	};
-	pubKeyHash: number;
-	nethash: string;
-	wif: number;
-	slip44: number;
-	aip20: number;
-	chainId: number;
-	client: {
-		token: string;
-		symbol: string;
-		explorer: string;
-	};
-}
-
-export interface IMilestone {
-	index: number;
-	data: { [key: string]: any };
-}
+    ConfirmedTransactionData,
+    MultiPaymentRecipient,
+    TransactionDataMeta,
+} from './confirmed-transaction.dto.contract.js';
+export type { EvmCallData, EvmCallResponse } from './evm.contract.js';
+export type {
+    RawTransactionData,
+    SignedTransactionData,
+} from './signed-transaction.dto.contract.js';
