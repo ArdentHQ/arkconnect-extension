@@ -1,12 +1,12 @@
 export interface EvmCallData {
-	from?: string;
-	to: string;
-	data: string;
-	block?: string;
+    from?: string;
+    to: string;
+    data: string;
+    block?: string;
 }
 
 export interface EvmCallResponse {
-	id: number;
-	jsonrpc: string;
-	result: `0x${string}`;
+    id: number;
+    jsonrpc: string;
+    result: `0x${string}`;
 }

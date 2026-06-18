@@ -1,7 +1,7 @@
 export interface LinkService {
-	block(id: string): string;
+    block(id: string): string;
 
-	transaction(id: string): string;
+    transaction(id: string): string;
 
-	wallet(id: string): string;
+    wallet(id: string): string;
 }
