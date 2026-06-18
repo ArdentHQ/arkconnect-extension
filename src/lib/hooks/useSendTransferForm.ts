@@ -12,7 +12,7 @@ import { useAppSelector } from '@/lib/store';
 import { useProfileContext } from '@/lib/context/Profile';
 import { useErrorHandlerContext } from '@/lib/context/ErrorHandler';
 import { useLedgerContext } from '@/lib/Ledger';
-import { assertWallet } from '@/lib/utils/assertions';
+import { assertWallet } from '@/utils/assertions';
 import { precisionRound } from '@/lib/utils/precisionRound';
 import { useEnvironmentContext } from '@/lib/context/Environment';
 import * as SessionStore from '@/lib/store/session';

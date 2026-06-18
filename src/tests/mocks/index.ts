@@ -1,5 +1,5 @@
 import { StubStorage } from './StubStorage';
-import { connectedTransport as ledgerTransportFactory } from '@/lib/utils/transport';
+import { connectedTransport as ledgerTransportFactory } from '@/lib/Ledger/transport';
 import { Environment } from '@/lib/profiles';
 
 const getEnvironmentWithMocks = () =>

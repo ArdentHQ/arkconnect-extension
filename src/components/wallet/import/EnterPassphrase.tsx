@@ -12,7 +12,7 @@ import {
     ToggleSwitch,
 } from '@/shared/components';
 
-import { assertWallet } from '@/lib/utils/assertions';
+import { assertWallet } from '@/utils/assertions';
 import { getDefaultAlias } from '@/lib/utils/getDefaultAlias';
 import { selectWalletsIds } from '@/lib/store/wallet';
 import useActiveNetwork from '@/lib/hooks/useActiveNetwork';

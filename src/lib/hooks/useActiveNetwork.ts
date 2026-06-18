@@ -1,6 +1,6 @@
 import { useProfileContext } from '@/lib/context/Profile';
 import { useEnvironmentContext } from '@/lib/context/Environment';
-import { assertNetwork } from '@/lib/utils/assertions';
+import { assertNetwork } from '@/utils/assertions';
 import { Contracts } from '@/lib/profiles';
 
 const useActiveNetwork = () => {

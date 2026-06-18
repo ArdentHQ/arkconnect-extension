@@ -13,7 +13,7 @@ import { ScreenName } from '@/lib/background/contracts';
 import SubPageLayout from '@/components/settings/SubPageLayout';
 import { VoteButton } from '@/components/vote/VoteButton';
 import { VoteFee } from '@/components/vote/VoteFee';
-import { assertWallet } from '@/lib/utils/assertions';
+import { assertWallet } from '@/utils/assertions';
 import constants from '@/constants';
 import { useValidators } from '@/lib/hooks/useValidators';
 import { useEnvironmentContext } from '@/lib/context/Environment';
