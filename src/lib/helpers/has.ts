@@ -1,11 +1,11 @@
-import { hasProperty } from "dot-prop";
-import { isObject } from "./is-object.js";
-import { isString } from "./is-string.js";
+import { hasProperty } from 'dot-prop';
+import { isObject } from './is-object.js';
+import { isString } from './is-string.js';
 
 export const has = <T>(object: T, path: string | string[]): boolean => {
-	if (!isObject(object) || !isString(path)) {
-		return false;
-	}
+    if (!isObject(object) || !isString(path)) {
+        return false;
+    }
 
-	return hasProperty(object, path);
+    return hasProperty(object, path);
 };
