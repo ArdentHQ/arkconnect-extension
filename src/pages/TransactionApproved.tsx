@@ -7,6 +7,7 @@ import { useEnvironmentContext } from '@/lib/context/Environment';
 import { useProfileContext } from '@/lib/context/Profile';
 import formatDomain from '@/lib/utils/formatDomain';
 import removeWindowInstance from '@/lib/utils/removeWindowInstance';
+import constants from '@/constants';
 import { Button, ExternalLink, Heading, Icon, Loader } from '@/shared/components';
 import { WalletNetwork } from '@/lib/store/wallet';
 import { ActionBody } from '@/components/approve/ActionBody';
@@ -69,12 +70,13 @@ const TransactionApproved = () => {
         }
     };
 
+    const isUserInitiated = state?.session?.domain === constants.APP_NAME;
+
     const onClose = async () => {
-        if (state?.windowId) {
+        if (isUserInitiated || state?.sidepanelWasOpen) {
+            navigate('/');
+        } else if (state?.windowId) {
             await removeWindowInstance(state?.windowId);
-            navigate('/');
-        } else if (state?.sidepanelWasOpen) {
-            navigate('/');
         } else {
             await closeSidepanel();
         }
