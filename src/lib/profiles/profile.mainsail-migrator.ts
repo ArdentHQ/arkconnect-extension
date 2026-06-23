@@ -43,7 +43,7 @@ export class ProfileMainsailMigrator {
         profile: IProfile,
         wallet: IProfileData['wallets'][string],
     ): Promise<IProfileData['wallets'][string] | undefined> {
-        const newData = await this.#migrateWalletAddress(profile, wallet.data);
+        const newData = await this.#migrateWalletAddress(wallet.data);
 
         if (newData === undefined) {
             return undefined;
@@ -56,7 +56,6 @@ export class ProfileMainsailMigrator {
     }
 
     async #migrateWalletAddress(
-        _profile: IProfile,
         walletData: IProfileData['wallets'][string]['data'],
     ): Promise<IProfileData['wallets'][string]['data'] | undefined> {
         const publicKey = walletData['PUBLIC_KEY'];

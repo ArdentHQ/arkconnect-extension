@@ -8,7 +8,7 @@ import { RawTransactionData } from '@/lib/mainsail/signed-transaction.dto.contra
 import { BigNumber } from '@/lib/helpers';
 import { WalletToken } from '@/lib/profiles/wallet-token';
 
-const buildSignatoryInput = (_wallet: Contracts.IReadWriteWallet, passphrase: string) => {
+const buildSignatoryInput = (passphrase: string) => {
     return { mnemonic: passphrase };
 };
 
@@ -71,7 +71,7 @@ export function Wallet({ wallet }: { wallet: Contracts.IReadWriteWallet }) {
             const passphrase = await wallet.confirmKey().get(wallet.profile().password().get());
             const signatory = await wallet
                 .signatoryFactory()
-                .make(buildSignatoryInput(wallet, passphrase));
+                .make(buildSignatoryInput(passphrase));
 
             const uuid = await wallet.transaction().signVote({
                 ...input,
@@ -94,7 +94,7 @@ export function Wallet({ wallet }: { wallet: Contracts.IReadWriteWallet }) {
             const passphrase = await wallet.confirmKey().get(wallet.profile().password().get());
             const signatory = await wallet
                 .signatoryFactory()
-                .make(buildSignatoryInput(wallet, passphrase));
+                .make(buildSignatoryInput(passphrase));
 
             let token: WalletToken | undefined;
 
