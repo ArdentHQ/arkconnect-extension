@@ -21,13 +21,7 @@ export class TransactionFeeService {
     readonly #network: Networks.Network;
     readonly #profile: Contracts.IProfile;
 
-    public constructor({
-        profile,
-        network,
-    }: {
-        profile: IProfile;
-        network: Networks.Network;
-    }) {
+    public constructor({ profile, network }: { profile: IProfile; network: Networks.Network }) {
         this.#network = network;
         this.#profile = profile;
     }

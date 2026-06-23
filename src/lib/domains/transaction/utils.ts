@@ -2,7 +2,6 @@ import { TFunction } from 'i18next';
 import { Services } from '@/lib/mainsail';
 import { Contracts } from '@/lib/profiles';
 
-
 export const DISPLAY_DECIMALS = 8;
 
 export const isNullAddress = (address: string) =>
@@ -32,7 +31,6 @@ export const handleBroadcastError = ({ errors }: Services.BroadcastResponse) => 
 
     throw new Error(allErrors[0]);
 };
-
 
 export const withAbortPromise =
     (signal?: AbortSignal, callback?: () => void) =>

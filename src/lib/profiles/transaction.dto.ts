@@ -170,5 +170,4 @@ export class ExtendedConfirmedTransactionData {
     public isTokenTransfer(): boolean {
         return this.#data.isTokenTransfer();
     }
-
 }
