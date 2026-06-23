@@ -1,6 +1,6 @@
 /* eslint-disable sonarjs/cognitive-complexity */
 
-import { Collections, Contracts, DTO, Services } from '@/lib/mainsail';
+import { Contracts, Services } from '@/lib/mainsail';
 import { ConfigKey, ConfigRepository } from '@/lib/mainsail';
 import {
     Helpers,
@@ -202,20 +202,6 @@ export class ClientService {
     public async wallet(id: Services.WalletIdentifier): Promise<Contracts.WalletData> {
         const body = await this.#client.wallets().get(id.value);
         return new WalletData({ config: this.#config }).fill(body.data);
-    }
-
-    public async wallets(
-        query: Services.ClientWalletsInput,
-    ): Promise<Paginator<WalletData>> {
-        const { searchParams } = this.#createSearchParams(query);
-        const { limit = 10, page = 1 } = searchParams;
-
-        const response = await this.#client.wallets().all({ limit, page });
-
-        return new Paginator<WalletData>(
-            response.data.map((wallet) => new WalletData({ config: this.#config }).fill(wallet)),
-            this.#createMetaPagination(response),
-        );
     }
 
     public async validator(id: string): Promise<Contracts.WalletData> {

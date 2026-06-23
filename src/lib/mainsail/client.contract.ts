@@ -38,14 +38,11 @@ export interface ClientService {
     transactions(query: ClientTransactionsInput): Promise<Paginator<ConfirmedTransactionData>>;
 
     wallet(id: WalletIdentifier, options?: object): Promise<WalletData>;
-    wallets(query: ClientWalletsInput): Promise<Paginator<WalletData>>;
 
     validator(id: string): Promise<WalletData>;
     validators(query?: ClientWalletsInput): Promise<Paginator<WalletData>>;
 
     votes(id: string): Promise<VoteReport>;
-    // TODO: return struct like VoteReport
-    voters(id: string, query?: KeyValuePair): Promise<Paginator<WalletData>>;
 
     broadcast(transactions: SignedTransactionData[]): Promise<BroadcastResponse>;
 
