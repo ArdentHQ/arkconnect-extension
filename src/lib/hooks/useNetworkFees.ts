@@ -52,7 +52,7 @@ export function getEstimateGasParams(
     formData: Record<string, any>,
     type: string,
 ): EstimateGasPayload {
-    const { senderAddress, recipientAddress, recipients: recipientList, voteAddresses } = formData;
+    const { senderAddress, recipientAddress, voteAddresses } = formData;
 
     const paramBuilders: Record<string, () => Omit<EstimateGasPayload, 'from'>> = {
         transfer: () => ({ to: recipientAddress as string }),
