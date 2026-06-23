@@ -55,15 +55,7 @@ export class Signatory {
         return this.#data.type === 'mnemonic';
     }
 
-    public actsWithBip44Mnemonic(): boolean {
-        return this.#data.type === 'bip44Mnemonic';
-    }
-
     public actsWithLedger(): boolean {
         return this.#data.type === 'ledger';
-    }
-
-    public actsWithSecret(): boolean {
-        return this.#data.type === 'secret';
     }
 }

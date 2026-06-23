@@ -407,19 +407,13 @@ export class Wallet implements IReadWriteWallet {
             return false;
         }
 
-        if (this.actsWithPublicKey()) {
-            return false;
-        }
-
         return true;
     }
 
     public actsWithMnemonic(): boolean {
         return [
             WalletImportMethod.BIP39.MNEMONIC,
-            WalletImportMethod.BIP44.MNEMONIC,
-            WalletImportMethod.BIP49.MNEMONIC,
-            WalletImportMethod.BIP84.MNEMONIC,
+            WalletImportMethod.BIP39.MNEMONIC_WITH_ENCRYPTION,
         ].includes(this.data().get(WalletData.ImportMethod)!);
     }
 
@@ -427,50 +421,8 @@ export class Wallet implements IReadWriteWallet {
         return this.data().get(WalletData.ImportMethod) === WalletImportMethod.Address;
     }
 
-    public actsWithPublicKey(): boolean {
-        return this.data().get(WalletData.ImportMethod) === WalletImportMethod.PublicKey;
-    }
-
-    public actsWithBip44Mnemonic(): boolean {
-        return this.data().get(WalletData.ImportMethod) === WalletImportMethod.BIP44.MNEMONIC;
-    }
-
-    public actsWithBip44MnemonicWithEncryption(): boolean {
-        return (
-            this.data().get(WalletData.ImportMethod) ===
-            WalletImportMethod.BIP44.MNEMONIC_WITH_ENCRYPTION
-        );
-    }
-
-    public actsWithAddressWithDerivationPath(): boolean {
-        return [
-            WalletImportMethod.BIP44.DERIVATION_PATH,
-            WalletImportMethod.BIP49.DERIVATION_PATH,
-            WalletImportMethod.BIP84.DERIVATION_PATH,
-        ].includes(this.data().get(WalletData.ImportMethod)!);
-    }
-
-    public actsWithMnemonicWithEncryption(): boolean {
-        return [
-            WalletImportMethod.BIP39.MNEMONIC_WITH_ENCRYPTION,
-            WalletImportMethod.BIP44.MNEMONIC_WITH_ENCRYPTION,
-            WalletImportMethod.BIP49.MNEMONIC_WITH_ENCRYPTION,
-            WalletImportMethod.BIP84.MNEMONIC_WITH_ENCRYPTION,
-        ].includes(this.data().get(WalletData.ImportMethod)!);
-    }
-
     public isSelected(): boolean {
         return this.settings().get(WalletSetting.IsSelected) === true;
-    }
-
-    public actsWithSecret(): boolean {
-        return this.data().get(WalletData.ImportMethod) === WalletImportMethod.SECRET;
-    }
-
-    public actsWithSecretWithEncryption(): boolean {
-        return (
-            this.data().get(WalletData.ImportMethod) === WalletImportMethod.SECRET_WITH_ENCRYPTION
-        );
     }
 
     public isPrimary(): boolean {

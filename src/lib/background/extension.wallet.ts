@@ -8,14 +8,7 @@ import { RawTransactionData } from '@/lib/mainsail/signed-transaction.dto.contra
 import { BigNumber } from '@/lib/helpers';
 import { WalletToken } from '@/lib/profiles/wallet-token';
 
-// `actsWithSecret()` only returns true for wallets created via `WalletFactory.fromSecret`,
-// which is exclusively used by the dev seeder (src/dev/utils/dev.ts). Production onboarding
-// always goes through BIP39 mnemonic, so this branch is unreachable in real installs and
-// safely routes dev-only non-BIP39 passphrases through the secret signatory.
-const buildSignatoryInput = (wallet: Contracts.IReadWriteWallet, passphrase: string) => {
-    if (wallet.actsWithSecret()) {
-        return { secret: passphrase };
-    }
+const buildSignatoryInput = (_wallet: Contracts.IReadWriteWallet, passphrase: string) => {
     return { mnemonic: passphrase };
 };
 

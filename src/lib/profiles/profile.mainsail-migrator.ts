@@ -1,6 +1,7 @@
 import { IProfileData, WalletData } from './contracts.js';
 import { Avatar } from './helpers/avatar.js';
 import { IProfile } from './profile.contract.js';
+import { AddressService } from '@/lib/mainsail/address.service';
 
 export class ProfileMainsailMigrator {
     public async migrate(profile: IProfile, data: IProfileData): Promise<IProfileData> {
@@ -55,7 +56,7 @@ export class ProfileMainsailMigrator {
     }
 
     async #migrateWalletAddress(
-        profile: IProfile,
+        _profile: IProfile,
         walletData: IProfileData['wallets'][string]['data'],
     ): Promise<IProfileData['wallets'][string]['data'] | undefined> {
         const publicKey = walletData['PUBLIC_KEY'];
@@ -63,8 +64,8 @@ export class ProfileMainsailMigrator {
             return undefined;
         }
 
-        const wallet = await profile.walletFactory().fromPublicKey({ publicKey });
-        return { ADDRESS: wallet.address() };
+        const { address } = new AddressService().fromPublicKey(publicKey);
+        return { ADDRESS: address };
     }
 
     #requiresMigration(data: IProfileData): boolean {

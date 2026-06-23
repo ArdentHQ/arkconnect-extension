@@ -26,7 +26,7 @@ import { WalletTokenRepository } from './wallet-token.repository.js';
 
 export type WalletBalanceType = keyof Contracts.WalletBalance;
 
-export type WalletDerivationMethod = 'bip39' | 'bip44' | 'bip49' | 'bip84';
+export type WalletDerivationMethod = 'bip39' | 'bip44';
 
 export interface IWalletData {
     id: string;
@@ -163,20 +163,6 @@ export interface IReadWriteWallet {
     actsWithMnemonic(): boolean;
 
     actsWithAddress(): boolean;
-
-    actsWithPublicKey(): boolean;
-
-    actsWithBip44Mnemonic(): boolean;
-
-    actsWithBip44MnemonicWithEncryption(): boolean;
-
-    actsWithAddressWithDerivationPath(): boolean;
-
-    actsWithMnemonicWithEncryption(): boolean;
-
-    actsWithSecret(): boolean;
-
-    actsWithSecretWithEncryption(): boolean;
 
     isPrimary(): boolean;
 

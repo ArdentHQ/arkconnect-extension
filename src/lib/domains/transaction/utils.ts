@@ -2,11 +2,6 @@ import { TFunction } from 'i18next';
 import { Services } from '@/lib/mainsail';
 import { Contracts } from '@/lib/profiles';
 
-type RecipientItem = {
-    address: string;
-    amount: number | string;
-};
-
 export const DISPLAY_DECIMALS = 8;
 
 export const isNullAddress = (address: string) =>
@@ -36,13 +31,6 @@ export const handleBroadcastError = ({ errors }: Services.BroadcastResponse) => 
 
     throw new Error(allErrors[0]);
 };
-
-export const getTransferType = ({
-    recipients,
-}: {
-    recipients: RecipientItem[];
-}): 'multiPayment' | 'transfer' | 'transferToken' =>
-    recipients.length > 1 ? 'multiPayment' : 'transfer';
 
 export const withAbortPromise =
     (signal?: AbortSignal, callback?: () => void) =>
@@ -74,10 +62,6 @@ export const getAuthenticationStepSubtitle = ({
 
     if (wallet.isLedger()) {
         return t('TRANSACTION.AUTHENTICATION_STEP.DESCRIPTION_LEDGER');
-    }
-
-    if (wallet.actsWithSecret()) {
-        return t('TRANSACTION.AUTHENTICATION_STEP.DESCRIPTION_SECRET');
     }
 
     return wallet.signingKey().exists()
