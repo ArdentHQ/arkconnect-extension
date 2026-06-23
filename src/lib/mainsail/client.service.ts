@@ -13,7 +13,7 @@ import { Client } from '@arkecosystem/typescript-client';
 import { ConfirmedTransactionData } from './confirmed-transaction.dto';
 import { DateTime } from '@/lib/intl';
 import { IProfile } from '@/lib/profiles/profile.contract';
-import { Paginator } from '@/lib/mainsail/collections';
+import { Paginator } from './collections';
 import { SignedTransactionData } from './signed-transaction.dto';
 import { TokenDTO } from '@/lib/profiles/token.dto';
 import { TokenRepository } from '@/lib/profiles/token.repository';
