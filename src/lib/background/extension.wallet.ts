@@ -69,9 +69,7 @@ export function Wallet({ wallet }: { wallet: Contracts.IReadWriteWallet }) {
             await wallet.network().sync();
 
             const passphrase = await wallet.confirmKey().get(wallet.profile().password().get());
-            const signatory = await wallet
-                .signatoryFactory()
-                .make(buildSignatoryInput(passphrase));
+            const signatory = await wallet.signatoryFactory().make(buildSignatoryInput(passphrase));
 
             const uuid = await wallet.transaction().signVote({
                 ...input,
@@ -92,9 +90,7 @@ export function Wallet({ wallet }: { wallet: Contracts.IReadWriteWallet }) {
             await wallet.network().sync();
 
             const passphrase = await wallet.confirmKey().get(wallet.profile().password().get());
-            const signatory = await wallet
-                .signatoryFactory()
-                .make(buildSignatoryInput(passphrase));
+            const signatory = await wallet.signatoryFactory().make(buildSignatoryInput(passphrase));
 
             let token: WalletToken | undefined;
 

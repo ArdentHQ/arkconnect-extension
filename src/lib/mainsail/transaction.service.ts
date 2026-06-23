@@ -372,5 +372,4 @@ export class TransactionService {
 
         transaction.data.hash = transaction.hash();
     }
-
 }
