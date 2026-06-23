@@ -4,15 +4,9 @@ import { BigNumber } from '@/lib/helpers';
 import { WalletToken } from '@/lib/profiles/wallet-token';
 
 export interface TransactionService {
-    // Core
     transfer(input: TransferInput): Promise<SignedTransactionData>;
     tokenTransfer(input: TransferInput): Promise<SignedTransactionData>;
-    validatorRegistration(input: ValidatorRegistrationInput): Promise<SignedTransactionData>;
-    usernameRegistration(input: UsernameRegistrationInput): Promise<SignedTransactionData>;
-    usernameResignation(input: UsernameResignationInput): Promise<SignedTransactionData>;
     vote(input: VoteInput): Promise<SignedTransactionData>;
-    multiPayment(input: MultiPaymentInput): Promise<SignedTransactionData>;
-    validatorResignation(input: ValidatorResignationInput): Promise<SignedTransactionData>;
 }
 
 // Transaction Signing
@@ -38,38 +32,12 @@ export interface TransferInput extends TransactionInput {
     token?: WalletToken;
 }
 
-export interface UsernameRegistrationInput extends TransactionInput {
-    data: { username: string };
-}
-
-export declare type UsernameResignationInput = TransactionInput;
-
-export interface ValidatorRegistrationInput extends TransactionInput {
-    data: { validatorPublicKey: string; value: number };
-}
-export interface UpdateValidatorInput extends TransactionInput {
-    data: { validatorPublicKey: string };
-}
-
 export interface VoteInput extends TransactionInput {
     data: {
         votes: { id: string; amount: number }[];
         unvotes: { id: string; amount: number }[];
     };
 }
-
-export interface MultiPaymentInput extends TransactionInput {
-    data: {
-        memo?: string;
-        payments: { to: string; amount: number }[];
-    };
-}
-
-export interface ContractDeploymentInput extends TransactionInput {
-    data: { bytecode: string };
-}
-
-export type ValidatorResignationInput = TransactionInput;
 
 export type TransactionInputs = Record<string, any> & {
     signatory: Signatory;
