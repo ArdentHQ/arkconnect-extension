@@ -2,10 +2,6 @@ import { TFunction } from 'i18next';
 import { Services } from '@/lib/mainsail';
 import { Contracts } from '@/lib/profiles';
 
-type RecipientItem = {
-    address: string;
-    amount: number | string;
-};
 
 export const DISPLAY_DECIMALS = 8;
 
@@ -37,12 +33,6 @@ export const handleBroadcastError = ({ errors }: Services.BroadcastResponse) => 
     throw new Error(allErrors[0]);
 };
 
-export const getTransferType = ({
-    recipients,
-}: {
-    recipients: RecipientItem[];
-}): 'multiPayment' | 'transfer' | 'transferToken' =>
-    recipients.length > 1 ? 'multiPayment' : 'transfer';
 
 export const withAbortPromise =
     (signal?: AbortSignal, callback?: () => void) =>

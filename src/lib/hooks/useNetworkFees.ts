@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
-import { encodeFunctionData, numberToHex } from 'viem';
-import { ConsensusAbi, MultiPaymentAbi } from '@mainsail/evm-contracts';
+import { encodeFunctionData } from 'viem';
+import { ConsensusAbi } from '@mainsail/evm-contracts';
 import { ContractAddresses, UnitConverter } from '@arkecosystem/typescript-crypto';
 import { BigNumber } from '@/lib/helpers';
 import { Contracts } from '@/lib/profiles';
@@ -43,7 +43,6 @@ interface CalculateProperties {
 }
 
 export const GasLimit: Record<string, BigNumber> = {
-    multiPayment: BigNumber.make(21_000),
     tokenTransfer: BigNumber.make(65_000),
     transfer: BigNumber.make(21_000),
     vote: BigNumber.make(200_000),
@@ -56,28 +55,6 @@ export function getEstimateGasParams(
     const { senderAddress, recipientAddress, recipients: recipientList, voteAddresses } = formData;
 
     const paramBuilders: Record<string, () => Omit<EstimateGasPayload, 'from'>> = {
-        multiPayment: () => {
-            const recipients: string[] = [];
-            const amounts: BigNumber[] = [];
-
-            for (const payment of recipientList) {
-                recipients.push(payment.address);
-                // @TODO https://app.clickup.com/t/86dwvx1ya get rid of extra BigNumber.make
-                amounts.push(
-                    BigNumber.make(UnitConverter.parseUnits(payment.amount, 'ark').toString()),
-                );
-            }
-
-            const value = numberToHex(BigNumber.sum(amounts).toBigInt());
-
-            const data = encodeFunctionData({
-                abi: MultiPaymentAbi.abi,
-                args: [recipients, amounts],
-                functionName: 'pay',
-            });
-
-            return { data, to: ContractAddresses.MULTIPAYMENT, value };
-        },
         transfer: () => ({ to: recipientAddress as string }),
         vote: () => {
             const vote = (voteAddresses as string[]).at(0);
@@ -227,14 +204,7 @@ export const useNetworkFees = ({
 
     useEffect(() => {
         /* istanbul ignore else -- @preserve */
-        const isMultiPayment = type === 'multiPayment';
-        const recipientsCount =
-            isMultiPayment && Array.isArray(data?.payments) ? data.payments.length : 1;
-        const fallbackGasLimit = isMultiPayment
-            ? GasLimit.multiPayment.times(recipientsCount)
-            : GasLimit[type];
-
-        setEstimatedGasLimit(fallbackGasLimit);
+        setEstimatedGasLimit(GasLimit[type]);
 
         // TODO enable gas limit estimations
         // const estimate = async () => {
