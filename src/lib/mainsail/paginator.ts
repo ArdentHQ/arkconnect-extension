@@ -1,6 +1,6 @@
 import { ClientPaginatorCursor, MetaPagination } from './services';
 
-export abstract class Paginator<T> {
+export class Paginator<T> {
     readonly #data: T[];
     readonly #pagination: MetaPagination;
 
