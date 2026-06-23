@@ -64,7 +64,9 @@ export class ClientService {
         return tokens;
     }
 
-    public async tokenAddresses(query: Services.WalletTokensQuery): Promise<Paginator<WalletToken>> {
+    public async tokenAddresses(
+        query: Services.WalletTokensQuery,
+    ): Promise<Paginator<WalletToken>> {
         const response = await this.#client.wallets().tokens(query);
 
         const walletTokens = response.data.map((tokenAddresses: TokenAddressesData) => {
@@ -100,7 +102,10 @@ export class ClientService {
             );
         }) as Array<WalletToken[]>;
 
-        return new Paginator<WalletToken>(walletTokens.flat(), this.#createMetaPagination(response));
+        return new Paginator<WalletToken>(
+            walletTokens.flat(),
+            this.#createMetaPagination(response),
+        );
     }
 
     public async walletTokens(address: string): Promise<WalletTokenDTO[]> {
@@ -209,9 +214,7 @@ export class ClientService {
         return new WalletData({ config: this.#config }).fill(body.data);
     }
 
-    public async validators(
-        query?: Contracts.KeyValuePair,
-    ): Promise<Paginator<WalletData>> {
+    public async validators(query?: Contracts.KeyValuePair): Promise<Paginator<WalletData>> {
         const { searchParams } = this.#createSearchParams(query ?? {});
         const { limit = 10, page = 1, ...parameters } = searchParams;
 
