@@ -4,31 +4,11 @@ import { IReadWriteWallet } from './wallet.contract.js';
 
 export class WalletIdentifierFactory {
     public static make(wallet: IReadWriteWallet): Services.WalletIdentifier {
-        if (wallet.actsWithAddress()) {
-            return this.#address(wallet);
-        }
-
-        if (wallet.actsWithAddressWithDerivationPath()) {
+        if (wallet.actsWithAddress() || wallet.isLedger()) {
             return this.#address(wallet);
         }
 
         if (wallet.actsWithMnemonic()) {
-            return this.#addressOrPublicKey(wallet);
-        }
-
-        if (wallet.actsWithPublicKey()) {
-            return this.#addressOrPublicKey(wallet);
-        }
-
-        if (wallet.actsWithMnemonicWithEncryption()) {
-            return this.#addressOrPublicKey(wallet);
-        }
-
-        if (wallet.actsWithSecret()) {
-            return this.#addressOrPublicKey(wallet);
-        }
-
-        if (wallet.actsWithSecretWithEncryption()) {
             return this.#addressOrPublicKey(wallet);
         }
 

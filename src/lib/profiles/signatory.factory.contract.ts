@@ -3,7 +3,6 @@ import { Signatories } from '@/lib/mainsail';
 export interface SignatoryInput {
     encryptionPassword?: string;
     mnemonic?: string;
-    secret?: string;
 }
 
 export interface ISignatoryFactory {

@@ -64,10 +64,6 @@ export const getAuthenticationStepSubtitle = ({
         return t('TRANSACTION.AUTHENTICATION_STEP.DESCRIPTION_LEDGER');
     }
 
-    if (wallet.actsWithSecret()) {
-        return t('TRANSACTION.AUTHENTICATION_STEP.DESCRIPTION_SECRET');
-    }
-
     return wallet.signingKey().exists()
         ? t('TRANSACTION.AUTHENTICATION_STEP.DESCRIPTION_ENCRYPTION_PASSWORD')
         : t('TRANSACTION.AUTHENTICATION_STEP.DESCRIPTION_MNEMONIC');

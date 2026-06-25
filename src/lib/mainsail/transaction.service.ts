@@ -13,7 +13,6 @@ import { ConfigRepository } from '@/app/lib/mainsail';
 import { IProfile } from '@/lib/profiles/profile.contract.js';
 import { Services } from '@/app/lib/mainsail';
 import { SignedTransactionData } from './signed-transaction.dto';
-import { HDWalletService } from '@/app/lib/mainsail/hd-wallet.service';
 import { assertToken } from '@/utils/assertions';
 
 interface ValidatedTransferInput extends Services.TransferInput {
@@ -25,7 +24,6 @@ type TransactionsInputs = Services.TransferInput | Services.VoteInput;
 
 export class TransactionService {
     readonly #ledgerService!: Services.LedgerService;
-    readonly hdWalletService!: HDWalletService;
     readonly #addressService!: AddressService;
     readonly #clientService!: ClientService;
 
@@ -33,7 +31,6 @@ export class TransactionService {
         this.#ledgerService = profile.ledger();
         this.#addressService = new AddressService();
         this.#clientService = new ClientService({ config, profile });
-        this.hdWalletService = new HDWalletService({ config });
     }
 
     #assertGasFee(input: TransactionsInputs): asserts input is ValidatedTransferInput {
@@ -142,19 +139,8 @@ export class TransactionService {
     async #signerData(input: Services.TransactionInputs): Promise<{ address?: string }> {
         let address: string | undefined;
 
-        if (input.signatory.actsWithBip44Mnemonic()) {
-            address = this.hdWalletService.getAddress(
-                input.signatory.signingKey(),
-                input.signatory.path(),
-            );
-        }
-
         if (input.signatory.actsWithMnemonic()) {
             address = this.#addressService.fromMnemonic(input.signatory.signingKey()).address;
-        }
-
-        if (input.signatory.actsWithSecret()) {
-            address = this.#addressService.fromSecret(input.signatory.signingKey()).address;
         }
 
         if (input.signatory.actsWithLedger()) {
@@ -183,10 +169,6 @@ export class TransactionService {
         const { address } = await this.#signerData(input);
         builder.transaction.data.from = address;
 
-        if (input.signatory.actsWithBip44Mnemonic()) {
-            return this.#signWithHDWallet(input, builder.transaction);
-        }
-
         if (input.signatory.actsWithLedger()) {
             return this.#signWithLedger(input, builder.transaction);
         }
@@ -198,21 +180,6 @@ export class TransactionService {
         const signature = await this.#ledgerService.sign(
             input.signatory.signingKey(),
             transaction.serialize().toString('hex'),
-        );
-
-        transaction.data = {
-            ...transaction.data,
-            ...signature,
-        };
-
-        transaction.data.hash = transaction.hash();
-    }
-
-    async #signWithHDWallet(input: Services.TransferInput, transaction: any): Promise<void> {
-        const signature = await this.hdWalletService.sign(
-            input.signatory.signingKey(),
-            input.signatory.path(),
-            transaction.data,
         );
 
         transaction.data = {

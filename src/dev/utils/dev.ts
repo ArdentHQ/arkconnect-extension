@@ -52,12 +52,7 @@ export const createTestProfile = async ({ env }: { env: Environment }): Promise<
     const walletFixtures = getTestingAddresses();
 
     for (const fixtureWallet of walletFixtures) {
-        let wallet;
-        try {
-            wallet = await profile.walletFactory().fromMnemonicWithBIP39(fixtureWallet);
-        } catch {
-            wallet = await profile.walletFactory().fromSecret({ secret: fixtureWallet.mnemonic });
-        }
+        const wallet = await profile.walletFactory().fromMnemonicWithBIP39(fixtureWallet);
 
         wallet.mutator().alias(getDefaultAlias({ profile, network: wallet.network() }));
 

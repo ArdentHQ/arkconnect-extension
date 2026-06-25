@@ -13,41 +13,12 @@ export class SignatoryFactory implements ISignatoryFactory {
     public async make({
         encryptionPassword,
         mnemonic,
-        secret,
     }: SignatoryInput): Promise<Signatories.Signatory> {
-        if (mnemonic && this.#wallet.actsWithBip44Mnemonic()) {
-            const derivationPath = this.#wallet.data().get(WalletData.DerivationPath);
-
-            if (typeof derivationPath !== 'string') {
-                throw new TypeError('[derivationPath] must be string.');
-            }
-
-            return this.#wallet.signatory().bip44Mnemonic(mnemonic, derivationPath);
-        }
-
-        if (encryptionPassword && this.#wallet.actsWithBip44MnemonicWithEncryption()) {
-            const derivationPath = this.#wallet.data().get(WalletData.DerivationPath);
-
-            if (typeof derivationPath !== 'string') {
-                throw new TypeError('[derivationPath] must be string.');
-            }
-
-            const mnemonic = await this.#wallet.signingKey().get(encryptionPassword);
-
-            return this.#wallet.signatory().bip44Mnemonic(mnemonic, derivationPath);
-        }
-
         if (mnemonic) {
             return this.#wallet.signatory().mnemonic(mnemonic);
         }
 
         if (encryptionPassword) {
-            if (this.#wallet.actsWithSecretWithEncryption()) {
-                return this.#wallet
-                    .signatory()
-                    .secret(await this.#wallet.signingKey().get(encryptionPassword));
-            }
-
             return this.#wallet
                 .signatory()
                 .mnemonic(await this.#wallet.signingKey().get(encryptionPassword));
@@ -66,10 +37,6 @@ export class SignatoryFactory implements ISignatoryFactory {
             });
         }
 
-        if (secret) {
-            return this.#wallet.signatory().secret(secret);
-        }
-
         throw new Error('No signing key provided.');
     }
 
@@ -78,11 +45,9 @@ export class SignatoryFactory implements ISignatoryFactory {
         encryptionPassword?: string;
     }): Promise<Signatories.Signatory> {
         const mnemonic = this.#wallet.actsWithMnemonic() ? input?.key : undefined;
-        const secret = this.#wallet.actsWithSecret() ? input?.key : undefined;
 
         return this.make({
             mnemonic,
-            secret,
             encryptionPassword: input?.encryptionPassword,
         });
     }

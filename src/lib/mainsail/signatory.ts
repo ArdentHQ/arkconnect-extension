@@ -1,7 +1,7 @@
 import { IdentityOptions } from './services';
 import { ForbiddenMethodCallException } from './exceptions';
 
-export type SignatoryType = 'mnemonic' | 'bip44Mnemonic' | 'secret' | 'ledger';
+export type SignatoryType = 'mnemonic' | 'ledger';
 
 export interface SignatoryData {
     type: SignatoryType;
@@ -12,10 +12,8 @@ export interface SignatoryData {
     options?: IdentityOptions;
 }
 
-// bip44 mnemonics and ledger paths are passed through untouched; passphrase
-// and secret based keys are NFD-normalised to match BIP39 handling.
-const isNormalised = (type: SignatoryType): boolean =>
-    type !== 'bip44Mnemonic' && type !== 'ledger';
+// Mnemonic signatories are NFD-normalised; ledger paths are passed through untouched.
+const isNormalised = (type: SignatoryType): boolean => type !== 'ledger';
 
 // A single value object covering every way a transaction can be signed. The
 // `type` discriminator replaces what used to be a class per signing method.
@@ -55,15 +53,7 @@ export class Signatory {
         return this.#data.type === 'mnemonic';
     }
 
-    public actsWithBip44Mnemonic(): boolean {
-        return this.#data.type === 'bip44Mnemonic';
-    }
-
     public actsWithLedger(): boolean {
         return this.#data.type === 'ledger';
-    }
-
-    public actsWithSecret(): boolean {
-        return this.#data.type === 'secret';
     }
 }

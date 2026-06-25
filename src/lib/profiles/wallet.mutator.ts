@@ -1,5 +1,4 @@
 import { Services } from '@/lib/mainsail';
-import { BIP39 } from '@ardenthq/arkvault-crypto';
 
 import {
     IReadWriteWallet,
@@ -32,18 +31,6 @@ export class WalletMutator implements IWalletMutator {
 
         if (type === 'bip39') {
             this.#wallet.data().set(WalletData.ImportMethod, WalletImportMethod.BIP39.MNEMONIC);
-        }
-
-        if (type === 'bip44') {
-            this.#wallet.data().set(WalletData.ImportMethod, WalletImportMethod.BIP44.MNEMONIC);
-        }
-
-        if (type === 'bip49') {
-            this.#wallet.data().set(WalletData.ImportMethod, WalletImportMethod.BIP49.MNEMONIC);
-        }
-
-        if (type === 'bip84') {
-            this.#wallet.data().set(WalletData.ImportMethod, WalletImportMethod.BIP84.MNEMONIC);
         }
 
         return this.address({ address, path, type });
@@ -93,12 +80,7 @@ export class WalletMutator implements IWalletMutator {
     public async removeEncryption(password: string): Promise<void> {
         const importMethod = this.#wallet.importMethod();
 
-        if (
-            ![
-                WalletImportMethod.BIP39.MNEMONIC_WITH_ENCRYPTION,
-                WalletImportMethod.SECRET_WITH_ENCRYPTION,
-            ].includes(importMethod)
-        ) {
+        if (importMethod !== WalletImportMethod.BIP39.MNEMONIC_WITH_ENCRYPTION) {
             throw new Error(`Import method [${importMethod}] is not supported.`);
         }
 
@@ -110,29 +92,13 @@ export class WalletMutator implements IWalletMutator {
 
         this.#wallet.signingKey().forget(password);
 
-        if (importMethod === WalletImportMethod.BIP39.MNEMONIC_WITH_ENCRYPTION) {
-            return this.#wallet
-                .data()
-                .set(WalletData.ImportMethod, WalletImportMethod.BIP39.MNEMONIC);
-        }
-
-        this.#wallet.data().set(WalletData.ImportMethod, WalletImportMethod.SECRET);
+        this.#wallet.data().set(WalletData.ImportMethod, WalletImportMethod.BIP39.MNEMONIC);
     }
 
     async #verifyPassword(password: string): Promise<boolean> {
         try {
-            const wif = await this.#wallet.signingKey().get(password);
-
-            let address: string;
-
-            if (BIP39.validate(wif)) {
-                const data = new AddressService().fromMnemonic(wif);
-                address = data.address;
-            } else {
-                const data = new AddressService().fromSecret(wif);
-                address = data.address;
-            }
-
+            const mnemonic = await this.#wallet.signingKey().get(password);
+            const { address } = new AddressService().fromMnemonic(mnemonic);
             return this.#wallet.address() === address;
         } catch {
             /* istanbul ignore next */
