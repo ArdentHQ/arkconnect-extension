@@ -13,25 +13,7 @@ export interface ITransactionService {
 
     signTransfer(input: Services.TransferInput): Promise<string>;
 
-    signDelegateRegistration(input: Services.ValidatorResignationInput): Promise<string>;
-
-    signValidatorRegistration(input: Services.ValidatorRegistrationInput): Promise<string>;
-
-    signUpdateValidator(input: Services.UpdateValidatorInput): Promise<string>;
-
-    signUsernameRegistration(input: Services.UsernameRegistrationInput): Promise<string>;
-
-    signUsernameResignation(input: Services.UsernameResignationInput): Promise<string>;
-
-    signContractDeployment(input: Services.ContractDeploymentInput): Promise<string>;
-
     signVote(input: Services.VoteInput): Promise<string>;
-
-    signMultiPayment(input: Services.MultiPaymentInput): Promise<string>;
-
-    signDelegateResignation(input: Services.ValidatorResignationInput): Promise<string>;
-
-    signValidatorResignation(input: Services.ValidatorResignationInput): Promise<string>;
 
     transaction(id: string): ExtendedSignedTransactionData;
 

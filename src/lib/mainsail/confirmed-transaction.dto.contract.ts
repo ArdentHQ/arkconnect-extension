@@ -25,13 +25,7 @@ export interface ConfirmedTransactionData {
 
     hash(): string;
 
-    blockHash(): string | undefined;
-
-    type(): string;
-
     timestamp(): DateTime | undefined;
-
-    confirmations(): BigNumber;
 
     from(): string;
 
@@ -42,8 +36,6 @@ export interface ConfirmedTransactionData {
     value(): BigNumber;
 
     fee(): BigNumber;
-
-    nonce(): BigNumber;
 
     token(): TransactionToken | undefined;
 
@@ -59,10 +51,6 @@ export interface ConfirmedTransactionData {
 
     isTransfer(): boolean;
 
-    isUsernameRegistration(): boolean;
-
-    isUsernameResignation(): boolean;
-
     isValidatorRegistration(): boolean;
 
     isVote(): boolean;
@@ -73,49 +61,19 @@ export interface ConfirmedTransactionData {
 
     isValidatorResignation(): boolean;
 
-    // Second-Signature Registration
-    secondPublicKey(): string;
-
     username(): string;
 
-    validatorPublicKey(): string;
-
-    approveDetails(): ApproveDetails;
-
-    // Vote
     votes(): string[];
 
-    unvotes(): string[];
-
-    // Multi-Signature Registration
     publicKeys(): string[];
 
     min(): number;
 
-    // Multi-Payment
-    payments(): MultiPaymentItem[];
-
     methodHash(): string;
-
-    expirationType(): number;
-
-    expirationValue(): number;
-
-    toObject(): Record<string, any>;
-
-    toJSON(): Record<string, any>;
-
-    toHuman(): Record<string, any>;
-
-    hasPassed(): boolean;
-
-    hasFailed(): boolean;
 
     getMeta(key: string): TransactionDataMeta;
 
     setMeta(key: string, value: TransactionDataMeta): void;
 
     normalizeData(): void;
-
-    isSuccess(): boolean;
 }

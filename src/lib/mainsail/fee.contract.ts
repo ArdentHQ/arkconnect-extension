@@ -17,17 +17,11 @@ export interface EstimateGasPayload {
 }
 
 export interface TransactionFees {
-    // Core
-    contractDeployment: TransactionFee;
     transfer: TransactionFee;
     tokenTransfer: TransactionFee;
-    validatorRegistration: TransactionFee;
-    usernameRegistration: TransactionFee;
-    usernameResignation: TransactionFee;
     vote: TransactionFee;
-    multiPayment: TransactionFee;
-    validatorResignation: TransactionFee;
     evmCall: TransactionFee;
+    [key: string]: TransactionFee;
 }
 
 export interface FeeService {

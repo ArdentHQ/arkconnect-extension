@@ -1,16 +1,8 @@
 import {
-    AbiEncoder,
-    ContractAddresses,
-    EvmCallBuilder,
-    MultipaymentBuilder,
     TokenTransferBuilder,
     TransferBuilder,
     UnitConverter,
     UnvoteBuilder,
-    UsernameRegistrationBuilder,
-    UsernameResignationBuilder,
-    ValidatorRegistrationBuilder,
-    ValidatorResignationBuilder,
     VoteBuilder,
 } from '@arkecosystem/typescript-crypto';
 import { BigNumber, get } from '@/app/lib/helpers';
@@ -29,11 +21,7 @@ interface ValidatedTransferInput extends Services.TransferInput {
     gasLimit: BigNumber;
 }
 
-type TransactionsInputs =
-    | Services.TransferInput
-    | Services.VoteInput
-    | Services.ValidatorRegistrationInput
-    | Services.ValidatorResignationInput;
+type TransactionsInputs = Services.TransferInput | Services.VoteInput;
 
 export class TransactionService {
     readonly #ledgerService!: Services.LedgerService;
@@ -116,75 +104,6 @@ export class TransactionService {
         );
     }
 
-    public async validatorRegistration(
-        input: Services.ValidatorRegistrationInput,
-    ): Promise<SignedTransactionData> {
-        this.#assertGasFee(input);
-
-        if (!input.data.validatorPublicKey) {
-            throw new Error(
-                `[TransactionService#validatorRegistration] Expected validatorPublicKey to be defined but received ${typeof input
-                    .data.validatorPublicKey}`,
-            );
-        }
-
-        const nonce = await this.#generateNonce(input);
-
-        const builder = await ValidatorRegistrationBuilder.new()
-            .validatorPublicKey(`0x${input.data.validatorPublicKey}`)
-            .nonce(nonce)
-            .gasPrice(UnitConverter.parseUnits(input.gasPrice.toString(), 'gwei'))
-            .gasLimit(input.gasLimit.toString())
-            .value(input.data.value);
-
-        await this.#sign(input, builder);
-
-        return new SignedTransactionData().configure(
-            builder.transaction.data,
-            builder.transaction.serialize().toString('hex'),
-        );
-    }
-
-    public async updateValidator(
-        input: Services.UpdateValidatorInput,
-    ): Promise<SignedTransactionData> {
-        this.#assertGasFee(input);
-
-        if (!input.data.validatorPublicKey) {
-            throw new Error(
-                `[TransactionService#updateValidator] Expected validatorPublicKey to be defined but received ${typeof input
-                    .data.validatorPublicKey}`,
-            );
-        }
-
-        const nonce = await this.#generateNonce(input);
-
-        const builder = await EvmCallBuilder.new({
-            senderPublicKey: '',
-            value: '0',
-        })
-
-            .to(ContractAddresses.CONSENSUS)
-            .payload(
-                new AbiEncoder().encodeFunctionCall('updateValidator', [
-                    `0x${input.data.validatorPublicKey}`,
-                ]),
-            )
-            .nonce(nonce)
-            .gasPrice(UnitConverter.parseUnits(input.gasPrice.toString(), 'gwei'))
-            .gasLimit(input.gasLimit.toString());
-
-        await this.#sign(input, builder);
-
-        return new SignedTransactionData().configure(
-            builder.transaction.data,
-            builder.transaction.serialize().toString('hex'),
-        );
-    }
-
-    /**
-     * @inheritDoc
-     */
     public async vote(input: Services.VoteInput): Promise<SignedTransactionData> {
         this.#assertGasFee(input);
 
@@ -211,108 +130,6 @@ export class TransactionService {
             .nonce(nonce)
             .gasPrice(UnitConverter.parseUnits(input.gasPrice.toString(), 'gwei'))
             .gasLimit(input.gasLimit.toString());
-
-        await this.#sign(input, builder);
-
-        return new SignedTransactionData().configure(
-            builder.transaction.data,
-            builder.transaction.serialize().toString('hex'),
-        );
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public async multiPayment(input: Services.MultiPaymentInput): Promise<SignedTransactionData> {
-        this.#assertGasFee(input);
-
-        if (!input.data.payments) {
-            throw new Error(
-                `[TransactionService#multiPayment] Expected payments to be defined but received ${typeof input
-                    .data.payments}`,
-            );
-        }
-
-        const nonce = await this.#generateNonce(input);
-
-        const builder = MultipaymentBuilder.new()
-            .nonce(nonce)
-            .gasPrice(UnitConverter.parseUnits(input.gasPrice.toString(), 'gwei'))
-            .gasLimit(input.gasLimit.toString());
-
-        for (const payment of input.data.payments) {
-            builder.pay(payment.to, UnitConverter.parseUnits(payment.amount, 'ark'));
-        }
-
-        await this.#sign(input, builder);
-
-        return new SignedTransactionData().configure(
-            builder.transaction.data,
-            builder.transaction.serialize().toString('hex'),
-        );
-    }
-
-    public async usernameRegistration(
-        input: Services.UsernameRegistrationInput,
-    ): Promise<SignedTransactionData> {
-        this.#assertGasFee(input);
-
-        if (!input.data.username) {
-            throw new Error(
-                `[TransactionService#validatorRegistration] Expected username to be defined but received ${typeof input
-                    .data.username}`,
-            );
-        }
-
-        const nonce = await this.#generateNonce(input);
-
-        const builder = await UsernameRegistrationBuilder.new()
-            .username(input.data.username)
-            .nonce(nonce)
-            .gasPrice(UnitConverter.parseUnits(input.gasPrice.toString(), 'gwei'))
-            .gasLimit(input.gasLimit.toString());
-
-        await this.#sign(input, builder);
-
-        return new SignedTransactionData().configure(
-            builder.transaction.data,
-            builder.transaction.serialize().toString('hex'),
-        );
-    }
-
-    public async usernameResignation(
-        input: Services.UsernameResignationInput,
-    ): Promise<SignedTransactionData> {
-        this.#assertGasFee(input);
-
-        const nonce = await this.#generateNonce(input);
-
-        const builder = await UsernameResignationBuilder.new()
-            .nonce(nonce)
-            .gasPrice(UnitConverter.parseUnits(input.gasPrice.toString(), 'gwei'))
-            .gasLimit(input.gasLimit.toString())
-            .sign(input.signatory.signingKey());
-
-        await this.#sign(input, builder);
-
-        return new SignedTransactionData().configure(
-            builder.transaction.data,
-            builder.transaction.serialize().toString('hex'),
-        );
-    }
-
-    public async validatorResignation(
-        input: Services.ValidatorResignationInput,
-    ): Promise<SignedTransactionData> {
-        this.#assertGasFee(input);
-
-        const nonce = await this.#generateNonce(input);
-
-        const builder = await ValidatorResignationBuilder.new()
-            .nonce(nonce)
-            .gasPrice(UnitConverter.parseUnits(input.gasPrice.toString(), 'gwei'))
-            .gasLimit(input.gasLimit.toString())
-            .sign(input.signatory.signingKey());
 
         await this.#sign(input, builder);
 

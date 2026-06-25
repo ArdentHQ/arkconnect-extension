@@ -307,16 +307,6 @@ export class Network {
     }
 
     /**
-     * Returns the number of recipients per multi payment transaction.
-     *
-     * @return {*}  {number}
-     * @memberof Network
-     */
-    public multiPaymentRecipients(): number {
-        return get(this.#network, 'transactions.multiPaymentRecipients', 0);
-    }
-
-    /**
      * Returns the number of words for newly generated BIP39 phrases.
      *
      * @return {*}  {number}
