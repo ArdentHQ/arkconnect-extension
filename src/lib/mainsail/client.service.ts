@@ -1,6 +1,6 @@
 /* eslint-disable sonarjs/cognitive-complexity */
 
-import { Collections, Contracts, DTO, Services } from '@/lib/mainsail';
+import { Contracts, Services } from '@/lib/mainsail';
 import { ConfigKey, ConfigRepository } from '@/lib/mainsail';
 import {
     Helpers,
@@ -11,18 +11,16 @@ import { TokenAddressesData, WalletTokenData } from '@/lib/profiles/token.contra
 
 import { Client } from '@arkecosystem/typescript-client';
 import { ConfirmedTransactionData } from './confirmed-transaction.dto';
-import { ConfirmedTransactionDataCollection } from '@/lib/mainsail/transactions.collection';
 import { DateTime } from '@/lib/intl';
 import { IProfile } from '@/lib/profiles/profile.contract';
+import { Paginator } from './collections';
 import { SignedTransactionData } from './signed-transaction.dto';
 import { TokenDTO } from '@/lib/profiles/token.dto';
 import { TokenRepository } from '@/lib/profiles/token.repository';
 import { TokenTransfersQuery } from '@/lib/mainsail/client.contract';
 import { UnconfirmedTransactionData } from './unconfirmed-transaction.dto';
-import { UnconfirmedTransactionDataCollection } from '@/lib/mainsail/unconfirmed-transactions.collection';
 import { WalletData } from './wallet.dto';
 import { WalletToken } from '@/lib/profiles/wallet-token';
-import { WalletTokenCollection } from '@/lib/mainsail/wallet-token.collection';
 import { WalletTokenDTO } from '@/lib/profiles/wallet-token.dto';
 import dotify from 'node-dotify';
 
@@ -66,7 +64,9 @@ export class ClientService {
         return tokens;
     }
 
-    public async tokenAddresses(query: Services.WalletTokensQuery): Promise<WalletTokenCollection> {
+    public async tokenAddresses(
+        query: Services.WalletTokensQuery,
+    ): Promise<Paginator<WalletToken>> {
         const response = await this.#client.wallets().tokens(query);
 
         const walletTokens = response.data.map((tokenAddresses: TokenAddressesData) => {
@@ -102,7 +102,10 @@ export class ClientService {
             );
         }) as Array<WalletToken[]>;
 
-        return new WalletTokenCollection(walletTokens.flat(), this.#createMetaPagination(response));
+        return new Paginator<WalletToken>(
+            walletTokens.flat(),
+            this.#createMetaPagination(response),
+        );
     }
 
     public async walletTokens(address: string): Promise<WalletTokenDTO[]> {
@@ -124,14 +127,14 @@ export class ClientService {
 
     public async tokenTransfers(
         query?: TokenTransfersQuery,
-    ): Promise<ConfirmedTransactionDataCollection> {
+    ): Promise<Paginator<ConfirmedTransactionData>> {
         const response = await this.#client.tokens().transfers({
             ...query,
             from: query?.from?.join(','),
             to: query?.to?.join(','),
         });
 
-        return new ConfirmedTransactionDataCollection(
+        return new Paginator<ConfirmedTransactionData>(
             response.data.map((transfer) =>
                 new ConfirmedTransactionData().configure({
                     confirmations: 1,
@@ -169,13 +172,13 @@ export class ClientService {
 
     public async transactions(
         query: Services.ClientTransactionsInput,
-    ): Promise<Collections.ConfirmedTransactionDataCollection> {
+    ): Promise<Paginator<ConfirmedTransactionData>> {
         const { searchParams } = this.#createSearchParams(query);
         const { limit = 10, page = 1, ...parameters } = searchParams;
 
         const response = await this.#client.transactions().all({ ...parameters, limit, page });
 
-        return new ConfirmedTransactionDataCollection(
+        return new Paginator<ConfirmedTransactionData>(
             response.data.map((transaction) =>
                 new ConfirmedTransactionData().configure(transaction),
             ),
@@ -185,7 +188,7 @@ export class ClientService {
 
     public async unconfirmedTransactions(
         query: Services.ClientTransactionsInput = {},
-    ): Promise<Collections.UnconfirmedTransactionDataCollection> {
+    ): Promise<Paginator<UnconfirmedTransactionData>> {
         const { searchParams } = this.#createSearchParams(query);
         const { limit = 10, page = 1, ...parameters } = searchParams;
 
@@ -193,7 +196,7 @@ export class ClientService {
             .transactions()
             .allUnconfirmed({ ...parameters, limit, page });
 
-        return new UnconfirmedTransactionDataCollection(
+        return new Paginator<UnconfirmedTransactionData>(
             response.data.map((transaction) =>
                 new UnconfirmedTransactionData().configure(transaction),
             ),
@@ -206,34 +209,18 @@ export class ClientService {
         return new WalletData({ config: this.#config }).fill(body.data);
     }
 
-    public async wallets(
-        query: Services.ClientWalletsInput,
-    ): Promise<Collections.WalletDataCollection> {
-        const { searchParams } = this.#createSearchParams(query);
-        const { limit = 10, page = 1 } = searchParams;
-
-        const response = await this.#client.wallets().all({ limit, page });
-
-        return new Collections.WalletDataCollection(
-            response.data.map((wallet) => new WalletData({ config: this.#config }).fill(wallet)),
-            this.#createMetaPagination(response),
-        );
-    }
-
     public async validator(id: string): Promise<Contracts.WalletData> {
         const body = await this.#client.validators().get(id);
         return new WalletData({ config: this.#config }).fill(body.data);
     }
 
-    public async validators(
-        query?: Contracts.KeyValuePair,
-    ): Promise<Collections.WalletDataCollection> {
+    public async validators(query?: Contracts.KeyValuePair): Promise<Paginator<WalletData>> {
         const { searchParams } = this.#createSearchParams(query ?? {});
         const { limit = 10, page = 1, ...parameters } = searchParams;
 
         const body = await this.#client.validators().all({ ...parameters, limit, page });
 
-        return new Collections.WalletDataCollection(
+        return new Paginator<WalletData>(
             body.data.map((wallet) => new WalletData({ config: this.#config }).fill(wallet)),
             this.#createMetaPagination(body),
         );

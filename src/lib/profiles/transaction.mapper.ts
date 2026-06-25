@@ -1,9 +1,8 @@
-import { Collections } from '@/lib/mainsail';
-
+import { Paginator } from '@/lib/mainsail/collections';
+import { ConfirmedTransactionData } from '@/lib/mainsail/confirmed-transaction.dto.js';
 import { IReadWriteWallet } from './contracts.js';
 import { ExtendedConfirmedTransactionDataCollection } from './transaction.collection.js';
 import { ExtendedConfirmedTransactionData } from './transaction.dto.js';
-import { ConfirmedTransactionData } from '@/lib/mainsail/confirmed-transaction.dto.js';
 
 export const transformTransactionData = (
     wallet: IReadWriteWallet,
@@ -12,7 +11,7 @@ export const transformTransactionData = (
 
 export const transformConfirmedTransactionDataCollection = async (
     wallet: IReadWriteWallet,
-    transactions: Collections.ConfirmedTransactionDataCollection,
+    transactions: Paginator<ConfirmedTransactionData>,
 ): Promise<ExtendedConfirmedTransactionDataCollection> => {
     await Promise.allSettled(
         transactions.items().map((transaction) => transaction.normalizeData()),

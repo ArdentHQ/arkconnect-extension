@@ -1,22 +1,21 @@
 import { Contracts } from '.';
 import { Networks } from '@/lib/mainsail';
+import { Paginator } from '@/lib/mainsail/collections';
 import { ClientService } from '@/lib/mainsail/client.service';
-import { WalletTokenCollection } from '@/lib/mainsail/wallet-token.collection';
 import { TokenTransfersQuery, WalletTokensQuery } from '@/lib/mainsail/client.contract';
-import { WalletToken } from './wallet-token';
-import { ConfirmedTransactionDataCollection } from '@/lib/mainsail/transactions.collection';
+import { ConfirmedTransactionData } from '@/lib/mainsail/confirmed-transaction.dto';
 import { ExtendedConfirmedTransactionData } from '@/lib/profiles/transaction.dto';
 import { ExtendedConfirmedTransactionDataCollection } from '@/lib/profiles/transaction.collection';
+import { WalletToken } from './wallet-token';
 import { WalletTokenDTO } from './wallet-token.dto';
 import { BigNumber } from '@/lib/helpers';
 import { ProfileSetting } from './profile.enum.contract';
-import { ConfirmedTransactionData } from '@/lib/mainsail/confirmed-transaction.dto';
 
 export class TokenService {
     #profile: Contracts.IProfile;
     #network: Networks.Network;
     #dustBalanceThreshold = '0.01';
-    #walletTokensCollection: WalletTokenCollection;
+    #walletTokensCollection: Paginator<WalletToken>;
     #lastQuery: WalletTokensQuery | undefined;
     #addressToPage: Map<string, string | number | undefined>;
 
@@ -29,7 +28,7 @@ export class TokenService {
     }) {
         this.#profile = profile;
         this.#network = network;
-        this.#walletTokensCollection = new WalletTokenCollection([], {
+        this.#walletTokensCollection = new Paginator<WalletToken>([], {
             last: undefined,
             next: 0,
             prev: undefined,
@@ -99,12 +98,12 @@ export class TokenService {
                 this.#addressToPage.set(item.address(), this.#lastQuery.page ?? 1);
             }
 
-            this.#walletTokensCollection = new WalletTokenCollection(
+            this.#walletTokensCollection = new Paginator<WalletToken>(
                 response.items(),
                 response.getPagination(),
             );
         } catch {
-            this.#walletTokensCollection = new WalletTokenCollection([], {
+            this.#walletTokensCollection = new Paginator<WalletToken>([], {
                 last: undefined,
                 next: 0,
                 prev: undefined,
@@ -142,12 +141,12 @@ export class TokenService {
         return [...aggregated.values()];
     }
 
-    selected(): WalletTokenCollection {
+    selected(): Paginator<WalletToken> {
         return this.#walletTokensCollection;
     }
 
-    aggregated(): WalletTokenCollection {
-        return new WalletTokenCollection(
+    aggregated(): Paginator<WalletToken> {
+        return new Paginator<WalletToken>(
             this.#aggregateTokens(this.#walletTokensCollection.items()),
             {
                 last: this.#walletTokensCollection.lastPage(),
@@ -181,7 +180,7 @@ export class TokenService {
     }
 
     #setTransactionMetadata(
-        transactions: ConfirmedTransactionDataCollection,
+        transactions: Paginator<ConfirmedTransactionData>,
         queryAddresses?: string[],
     ): void {
         for (const transaction of transactions.items()) {
@@ -204,7 +203,7 @@ export class TokenService {
             profile: this.#profile,
         });
 
-        let response: ConfirmedTransactionDataCollection;
+        let response: Paginator<ConfirmedTransactionData>;
 
         const transfersQuery = {
             from: this.#profile

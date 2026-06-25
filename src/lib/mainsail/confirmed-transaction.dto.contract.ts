@@ -119,5 +119,3 @@ export interface ConfirmedTransactionData {
 
     isSuccess(): boolean;
 }
-
-export type ConfirmedTransactionDataCollection = ConfirmedTransactionData[];
