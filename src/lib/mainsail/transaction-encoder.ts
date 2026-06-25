@@ -1,41 +1,22 @@
-/* eslint-disable sonarjs/cognitive-complexity */
 import { Exceptions, Networks } from '@/lib/mainsail';
 import { BigNumber } from '@/lib/helpers';
 
-import { Hex, numberToHex } from 'viem';
-import {
-    ContractAddresses,
-    UnitConverter,
-    TransactionDataEncoder,
-} from '@arkecosystem/typescript-crypto';
+import { Hex } from 'viem';
+import { ContractAddresses, TransactionDataEncoder } from '@arkecosystem/typescript-crypto';
 import { IProfile } from '@/lib/profiles/contracts';
 import { assertToken } from '@/utils/assertions';
 
 interface RecipientPaymentItem {
     address: string;
-    alias?: string;
     amount: number;
-    isValidator?: boolean;
 }
 
-export type EncodeTransactionType =
-    | 'transfer'
-    | 'multiPayment'
-    | 'vote'
-    | 'validatorRegistration'
-    | 'validatorResignation'
-    | 'usernameRegistration'
-    | 'usernameResignation'
-    | 'updateValidator'
-    | 'contractDeployment';
+export type EncodeTransactionType = 'transfer' | 'vote';
 
 export interface EncodeInputData {
-    bytecode?: string;
     senderAddress: string;
     recipientAddress?: string;
     recipients?: RecipientPaymentItem[];
-    username?: string;
-    validatorPublicKey?: string;
     voteAddresses?: string[];
     tokenContractAddress?: string;
 }
@@ -54,73 +35,10 @@ export class TransactionEncoder {
         this.#network = network;
     }
 
-    public multiPayment(recipientList: RecipientPaymentItem[]): EncodedData & { value: Hex } {
-        const recipients: string[] = [];
-        const amounts: string[] = [];
-
-        for (const payment of recipientList) {
-            recipients.push(payment.address);
-            amounts.push(UnitConverter.parseUnits(payment.amount, 'ark').toString());
-        }
-
-        const value = numberToHex(BigNumber.sum(amounts).toBigInt());
-
-        return {
-            data: TransactionDataEncoder.multiPayment(recipients, amounts),
-            to: ContractAddresses.MULTIPAYMENT,
-            value,
-        };
-    }
-
     public transfer(to: string): EncodedData {
         return {
             data: undefined,
             to,
-        };
-    }
-
-    public updateValidator(validatorPublicKey: string): EncodedData {
-        return {
-            data: TransactionDataEncoder.updateValidator(validatorPublicKey),
-            to: ContractAddresses.CONSENSUS,
-        };
-    }
-
-    public usernameRegistration(username: string): EncodedData {
-        return {
-            data: TransactionDataEncoder.usernameRegistration(username),
-            to: ContractAddresses.USERNAMES,
-        };
-    }
-
-    public usernameResignation(): EncodedData {
-        return {
-            data: TransactionDataEncoder.usernameResignation(),
-            to: ContractAddresses.USERNAMES,
-        };
-    }
-
-    public validatorRegistration(validatorPublicKey: string): EncodedData & { value: Hex } {
-        const value = this.#network.milestone()['validatorRegistrationFee'] ?? 0;
-
-        return {
-            data: TransactionDataEncoder.validatorRegistration(validatorPublicKey),
-            to: ContractAddresses.CONSENSUS,
-            value: numberToHex(BigNumber.make(value).toBigInt()),
-        };
-    }
-
-    public validatorResignation(): EncodedData {
-        return {
-            data: TransactionDataEncoder.validatorResignation(),
-            to: ContractAddresses.CONSENSUS,
-        };
-    }
-
-    public contractDeployment(bytecode: Hex): EncodedData {
-        return {
-            data: bytecode,
-            to: '',
         };
     }
 
@@ -179,34 +97,6 @@ export class TransactionEncoder {
 
         if (type === 'vote' && !!inputData.voteAddresses) {
             return this.vote(inputData.voteAddresses);
-        }
-
-        if (type === 'validatorRegistration' && inputData.validatorPublicKey) {
-            return this.validatorRegistration(inputData.validatorPublicKey);
-        }
-
-        if (type === 'validatorResignation') {
-            return this.validatorResignation();
-        }
-
-        if (type === 'usernameRegistration' && inputData.username) {
-            return this.usernameRegistration(inputData.username);
-        }
-
-        if (type === 'usernameResignation') {
-            return this.usernameResignation();
-        }
-
-        if (type === 'contractDeployment') {
-            return this.contractDeployment(inputData.bytecode as Hex);
-        }
-
-        if (type === 'updateValidator' && inputData.validatorPublicKey) {
-            return this.updateValidator(inputData.validatorPublicKey);
-        }
-
-        if (type === 'multiPayment' && inputData.recipients) {
-            return this.multiPayment(inputData.recipients);
         }
 
         throw new Exceptions.Exception(

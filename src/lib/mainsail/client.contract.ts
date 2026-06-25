@@ -1,4 +1,4 @@
-import { ConfirmedTransactionDataCollection, WalletDataCollection } from './collections';
+import { Paginator } from './collections';
 import {
     EvmCallData,
     EvmCallResponse,
@@ -35,17 +35,14 @@ export interface WalletIdentifier {
 
 export interface ClientService {
     transaction(id: string): Promise<ConfirmedTransactionData>;
-    transactions(query: ClientTransactionsInput): Promise<ConfirmedTransactionDataCollection>;
+    transactions(query: ClientTransactionsInput): Promise<Paginator<ConfirmedTransactionData>>;
 
     wallet(id: WalletIdentifier, options?: object): Promise<WalletData>;
-    wallets(query: ClientWalletsInput): Promise<WalletDataCollection>;
 
     validator(id: string): Promise<WalletData>;
-    validators(query?: ClientWalletsInput): Promise<WalletDataCollection>;
+    validators(query?: ClientWalletsInput): Promise<Paginator<WalletData>>;
 
     votes(id: string): Promise<VoteReport>;
-    // TODO: return struct like VoteReport
-    voters(id: string, query?: KeyValuePair): Promise<WalletDataCollection>;
 
     broadcast(transactions: SignedTransactionData[]): Promise<BroadcastResponse>;
 

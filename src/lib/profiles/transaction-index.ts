@@ -1,5 +1,7 @@
 import { Services } from '@/lib/mainsail';
 
+import { Paginator } from '@/lib/mainsail/collections';
+import { UnconfirmedTransactionData } from '@/lib/mainsail/unconfirmed-transaction.dto';
 import { IReadWriteWallet, ITransactionIndex, WalletData } from './contracts.js';
 import { ExtendedConfirmedTransactionDataCollection } from './transaction.collection.js';
 import { ExtendedConfirmedTransactionData } from './transaction.dto.js';
@@ -8,7 +10,6 @@ import {
     transformTransactionData,
 } from './transaction.mapper';
 import { WalletFlag } from './wallet.enum';
-import { UnconfirmedTransactionDataCollection } from '@/lib/mainsail/unconfirmed-transactions.collection';
 
 export class TransactionIndex implements ITransactionIndex {
     readonly #wallet: IReadWriteWallet;
@@ -46,7 +47,7 @@ export class TransactionIndex implements ITransactionIndex {
 
     public async unconfirmed(
         query: Services.ClientTransactionsInput = {},
-    ): Promise<UnconfirmedTransactionDataCollection> {
+    ): Promise<Paginator<UnconfirmedTransactionData>> {
         return await this.#wallet.client().unconfirmedTransactions(query);
     }
 

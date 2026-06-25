@@ -39,56 +39,8 @@ export class TransactionService implements ITransactionService {
         return this.#signTransaction('tokenTransfer', input);
     }
 
-    public async signUsernameRegistration(
-        input: Services.UsernameRegistrationInput,
-    ): Promise<string> {
-        return this.#signTransaction('usernameRegistration', input);
-    }
-
-    public async signUsernameResignation(
-        input: Services.UsernameResignationInput,
-    ): Promise<string> {
-        return this.#signTransaction('usernameResignation', input);
-    }
-
-    public async signDelegateRegistration(
-        input: Services.ValidatorRegistrationInput,
-    ): Promise<string> {
-        return this.#signTransaction('delegateRegistration', input);
-    }
-
-    public async signValidatorRegistration(
-        input: Services.ValidatorRegistrationInput,
-    ): Promise<string> {
-        return this.#signTransaction('validatorRegistration', input);
-    }
-
     public async signVote(input: Services.VoteInput): Promise<string> {
         return this.#signTransaction('vote', input);
-    }
-
-    public async signMultiPayment(input: Services.MultiPaymentInput): Promise<string> {
-        return this.#signTransaction('multiPayment', input);
-    }
-
-    public async signDelegateResignation(
-        input: Services.ValidatorResignationInput,
-    ): Promise<string> {
-        return this.#signTransaction('delegateResignation', input);
-    }
-
-    public async signValidatorResignation(
-        input: Services.ValidatorResignationInput,
-    ): Promise<string> {
-        return this.#signTransaction('validatorResignation', input);
-    }
-
-    public async signContractDeployment(input: Services.ContractDeploymentInput): Promise<string> {
-        return this.#signTransaction('contractDeployment', input);
-    }
-
-    public async signUpdateValidator(input: Services.UpdateValidatorInput): Promise<string> {
-        return this.#signTransaction('updateValidator', input);
     }
 
     public transaction(id: string): ExtendedSignedTransactionData {

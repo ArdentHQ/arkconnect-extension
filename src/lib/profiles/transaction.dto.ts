@@ -4,9 +4,7 @@ import { IReadWriteWallet } from './contracts.js';
 import { BigNumber } from '@/lib/helpers';
 import { DateTime } from '@/lib/intl';
 import { ConfirmedTransactionData } from '../mainsail/confirmed-transaction.dto.js';
-import { TokenDTO } from '@/lib/profiles/token.dto';
 import { TransactionToken } from '@/lib/profiles/transaction-token';
-import { ApproveDetails } from '@/lib/mainsail/confirmed-transaction.dto.contract';
 
 export interface ExtendedTransactionRecipient {
     address: string;
@@ -26,20 +24,8 @@ export class ExtendedConfirmedTransactionData {
         return this.#data.hash();
     }
 
-    public blockHash(): string | undefined {
-        return this.#data.blockHash();
-    }
-
-    public type(): string {
-        return this.#data.type();
-    }
-
     public timestamp(): DateTime | undefined {
         return this.#data.timestamp();
-    }
-
-    public confirmations(): BigNumber {
-        return this.#data.confirmations();
     }
 
     public from(): string {
@@ -61,26 +47,14 @@ export class ExtendedConfirmedTransactionData {
         return this.#data.value();
     }
 
-    public convertedAmount(): BigNumber {
-        return this.#convertAmount(this.value());
-    }
-
     // @ts-ignore
     public fee(): BigNumber {
         return this.#data.fee();
     }
 
-    public convertedFee(): BigNumber {
-        return this.#convertAmount(this.fee());
-    }
-
     public memo(): string | undefined {
         // @ts-ignore
         return this.#data.memo?.();
-    }
-
-    public nonce(): BigNumber {
-        return this.#data.nonce();
     }
 
     public isConfirmed(): boolean {
@@ -103,14 +77,6 @@ export class ExtendedConfirmedTransactionData {
         return this.#data.isTransfer();
     }
 
-    public isUsernameRegistration(): boolean {
-        return this.#data.isUsernameRegistration();
-    }
-
-    public isUsernameResignation(): boolean {
-        return this.#data.isUsernameResignation();
-    }
-
     public isValidatorRegistration(): boolean {
         return this.#data.isValidatorRegistration();
     }
@@ -131,40 +97,8 @@ export class ExtendedConfirmedTransactionData {
         return this.#data.isValidatorResignation();
     }
 
-    public isUpdateValidator(): boolean {
-        return this.#data.isUpdateValidator();
-    }
-
     public username(): string {
         return this.data<Contracts.ConfirmedTransactionData>().username();
-    }
-
-    public validatorPublicKey(): string {
-        return this.data<Contracts.ConfirmedTransactionData>().validatorPublicKey();
-    }
-
-    public approveDetails(): ApproveDetails {
-        return this.data<Contracts.ConfirmedTransactionData>().approveDetails();
-    }
-
-    public expirationType(): number {
-        return this.data<Contracts.ConfirmedTransactionData>().expirationType();
-    }
-
-    public expirationValue(): number {
-        return this.data<Contracts.ConfirmedTransactionData>().expirationValue();
-    }
-
-    // @ts-ignore
-    public payments(): { recipientId: string; amount: BigNumber }[] {
-        return this.data<Contracts.ConfirmedTransactionData>()
-            .payments()
-            .map((payment) => {
-                return {
-                    recipientId: payment.recipientId,
-                    amount: payment.amount,
-                };
-            });
     }
 
     public publicKeys(): string[] {
@@ -175,28 +109,12 @@ export class ExtendedConfirmedTransactionData {
         return this.data<Contracts.ConfirmedTransactionData>().min();
     }
 
-    public secondPublicKey(): string {
-        return this.data<Contracts.ConfirmedTransactionData>().secondPublicKey();
-    }
-
     public votes(): string[] {
         return this.data<Contracts.ConfirmedTransactionData>().votes();
     }
 
-    public unvotes(): string[] {
-        return this.data<Contracts.ConfirmedTransactionData>().unvotes();
-    }
-
     public explorerLink(): string {
         return this.#wallet.link().transaction(this.hash());
-    }
-
-    public explorerLinkForBlock(): string | undefined {
-        if (this.blockHash()) {
-            return this.#wallet.link().block(this.blockHash()!);
-        }
-
-        return undefined;
     }
 
     public token(): TransactionToken | undefined {
@@ -205,18 +123,6 @@ export class ExtendedConfirmedTransactionData {
 
     public tokens(): TransactionToken[] | undefined {
         return this.#data.tokens();
-    }
-
-    public toObject(): Contracts.KeyValuePair {
-        return this.#data.toObject();
-    }
-
-    public hasPassed(): boolean {
-        return this.#data.hasPassed();
-    }
-
-    public hasFailed(): boolean {
-        return this.#data.hasFailed();
     }
 
     public getMeta(key: string): Contracts.TransactionDataMeta {
@@ -249,10 +155,6 @@ export class ExtendedConfirmedTransactionData {
         return total;
     }
 
-    public convertedTotal(): BigNumber {
-        return this.#convertAmount(this.total());
-    }
-
     public wallet(): IReadWriteWallet {
         return this.#wallet;
     }
@@ -261,55 +163,11 @@ export class ExtendedConfirmedTransactionData {
         return this.#data as unknown as T;
     }
 
-    #convertAmount(value: BigNumber): BigNumber {
-        const timestamp: DateTime | undefined = this.timestamp();
-
-        if (timestamp === undefined) {
-            return BigNumber.ZERO;
-        }
-
-        return this.wallet()
-            .exchangeRates()
-            .exchange(this.wallet().currency(), this.wallet().exchangeCurrency(), timestamp, value);
-    }
-
     public normalizeData(): void {
         return this.#data.normalizeData();
     }
 
-    public isSuccess(): boolean {
-        return this.#data.isSuccess();
-    }
-
-    public gasLimit(): number {
-        return this.#data.gasLimit();
-    }
-
-    public gasUsed(): number {
-        return this.#data.gasUsed();
-    }
-
     public isTokenTransfer(): boolean {
         return this.#data.isTokenTransfer();
-    }
-
-    public isApprove(): boolean {
-        return this.#data.isApprove();
-    }
-
-    public isRevoke(): boolean {
-        return this.#data.isRevoke();
-    }
-
-    public isBatchTransfer(): boolean {
-        return this.#data.isBatchTransfer();
-    }
-
-    public isContractDeployment(): boolean {
-        return this.#data.isContractDeployment();
-    }
-
-    public isContractTransaction(): boolean {
-        return this.#data.isContractTransaction();
     }
 }

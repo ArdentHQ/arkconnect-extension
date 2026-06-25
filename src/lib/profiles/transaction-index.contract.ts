@@ -1,8 +1,9 @@
 import { Services } from '@/lib/mainsail';
 
+import { Paginator } from '@/lib/mainsail/collections';
 import { ExtendedConfirmedTransactionDataCollection } from './transaction.collection.js';
 import { ExtendedConfirmedTransactionData } from './transaction.dto.js';
-import { UnconfirmedTransactionDataCollection } from '@/lib/mainsail/unconfirmed-transactions.collection';
+import { UnconfirmedTransactionData } from '@/lib/mainsail/unconfirmed-transaction.dto';
 
 export interface ITransactionIndex {
     all(
@@ -19,7 +20,7 @@ export interface ITransactionIndex {
 
     unconfirmed(
         query?: Services.ClientTransactionsInput,
-    ): Promise<UnconfirmedTransactionDataCollection>;
+    ): Promise<Paginator<UnconfirmedTransactionData>>;
 
     findById(id: string): Promise<ExtendedConfirmedTransactionData>;
 
