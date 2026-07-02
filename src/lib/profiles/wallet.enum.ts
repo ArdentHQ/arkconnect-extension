@@ -1,6 +1,5 @@
 export enum WalletData {
     // Identity
-    Coin = 'COIN',
     Network = 'NETWORK',
     Address = 'ADDRESS',
     PublicKey = 'PUBLIC_KEY',

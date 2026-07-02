@@ -20,7 +20,6 @@ import constants from '@/constants';
 import { useWaitForConnectedDevice } from '@/lib/Ledger';
 
 type Props = {
-    abortReference: AbortController;
     approveWithLedger: (
         profile: Contracts.IProfile,
         wallet: Contracts.IReadWriteWallet,
@@ -30,7 +29,6 @@ type Props = {
 };
 
 const ApproveMessage = ({
-    abortReference,
     approveWithLedger,
     wallet,
     closeLedgerScreen,
@@ -93,9 +91,7 @@ const ApproveMessage = ({
                 await waitUntilLedgerIsConnected();
             }
 
-            const signedMessageResult = await sign(wallet, message, {
-                abortSignal: abortReference.signal,
-            });
+            const signedMessageResult = await sign(wallet, message);
 
             if (wallet.isLedger()) {
                 closeLedgerScreen();

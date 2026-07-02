@@ -14,7 +14,6 @@ export enum ProfileSetting {
     Theme = 'THEME',
     TimeFormat = 'TIME_FORMAT',
     UseNetworkWalletNames = 'USE_NETWORK_WALLET_NAMES',
-    UseTestNetworks = 'USE_TEST_NETWORKS',
     LastVisitedPage = 'LAST_VISITED_PAGE',
     Sessions = 'SESSIONS',
     WalletSelectionMode = 'WALLET_SELECTION_MODE',
@@ -23,7 +22,6 @@ export enum ProfileSetting {
 
 export enum ProfileData {
     LatestMigration = 'LATEST_MIGRATION',
-    MigrationResult = 'MIGRATION_RESULT',
     HasCompletedIntroductoryTutorial = 'HAS_COMPLETED_INTRODUCTORY_TUTORIAL',
     HasAcceptedManualInstallationDisclaimer = 'HAS_ACCEPTED_MANUAL_INSTALLATION_DISCLAIMER',
     WhitelistedContractAddresses = 'WHITELISTED_CONTRACT_ADDRESS',
