@@ -48,6 +48,4 @@ export interface IWalletRepository {
     toObject(options?: IWalletExportOptions): Record<string, IWalletData>;
 
     sortBy(column: string, direction: 'asc' | 'desc'): IReadWriteWallet[];
-
-    findByCoin(coin: string): IReadWriteWallet[];
 }

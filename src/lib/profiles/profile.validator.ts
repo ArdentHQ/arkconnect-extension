@@ -18,15 +18,6 @@ export class ProfileValidator {
             hosts: Joi.object().default({}),
             id: Joi.string().required(),
             networks: Joi.object().default({}),
-            pendingMusigWallets: Joi.object().pattern(
-                Joi.string().uuid(),
-                Joi.object({
-                    data: Joi.object().required(),
-                    id: Joi.string().required(),
-                    settings: Joi.object().required(),
-                }),
-            ),
-
             // @TODO: assert specific values for enums
             settings: Joi.object({
                 [ProfileSetting.AutomaticSignOutPeriod]: Joi.number().required(),
@@ -46,7 +37,6 @@ export class ProfileValidator {
                 [ProfileSetting.TimeFormat]: Joi.string().required(),
                 [ProfileSetting.UseNetworkWalletNames]: Joi.boolean().default(false),
                 [ProfileSetting.UseTestNetworks]: Joi.boolean().default(false),
-                [ProfileSetting.UseHDWallets]: Joi.boolean().default(false),
                 [ProfileSetting.Sessions]: Joi.object(),
                 [ProfileSetting.LastVisitedPage]: Joi.object(),
                 [ProfileSetting.WalletSelectionMode]: Joi.string()
