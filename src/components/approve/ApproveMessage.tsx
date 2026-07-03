@@ -28,11 +28,7 @@ type Props = {
     closeLedgerScreen: () => void;
 };
 
-const ApproveMessage = ({
-    approveWithLedger,
-    wallet,
-    closeLedgerScreen,
-}: Props) => {
+const ApproveMessage = ({ approveWithLedger, wallet, closeLedgerScreen }: Props) => {
     const location = useLocation();
     const { env } = useEnvironmentContext();
     const { domain, tabId, session, message } = location.state;

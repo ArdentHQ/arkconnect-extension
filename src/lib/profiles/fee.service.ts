@@ -7,7 +7,9 @@ export class ProfileFeeService {
     readonly #dataRepository: DataRepository = new DataRepository();
 
     public all(networkId: string): Services.TransactionFees {
-        const result: Services.TransactionFees | undefined = this.#dataRepository.get(`${networkId}.fees`);
+        const result: Services.TransactionFees | undefined = this.#dataRepository.get(
+            `${networkId}.fees`,
+        );
 
         if (result === undefined) {
             throw new Error(
