@@ -6,7 +6,6 @@ import { DateTime } from '@/lib/intl';
 import { ExtendedTransactionRecipient } from './transaction.dto.js';
 import { SignedTransactionData } from '@/lib/mainsail/signed-transaction.dto.js';
 import { TransactionToken } from '@/lib/profiles/transaction-token';
-import { ApproveDetails } from '@/lib/mainsail/confirmed-transaction.dto.contract';
 
 export class ExtendedSignedTransactionData {
     readonly #data: SignedTransactionData;
@@ -191,10 +190,6 @@ export class ExtendedSignedTransactionData {
         return this.#data.validatorPublicKey();
     }
 
-    public approveDetails(): ApproveDetails {
-        return this.#data.approveDetails();
-    }
-
     public payments(): { recipientId: string; amount: number }[] {
         return this.#data.payments().map((payment) => ({
             amount: payment.amount.toHuman(),
@@ -259,18 +254,6 @@ export class ExtendedSignedTransactionData {
 
     public isTokenTransfer(): boolean {
         return this.#data.isTokenTransfer();
-    }
-
-    public isApprove(): boolean {
-        return this.#data.isApprove();
-    }
-
-    public isRevoke(): boolean {
-        return this.#data.isRevoke();
-    }
-
-    public isBatchTransfer(): boolean {
-        return this.#data.isBatchTransfer();
     }
 
     public isContractDeployment() {

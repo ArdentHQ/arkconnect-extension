@@ -15,11 +15,6 @@ export interface MultiPaymentItem {
 // These types and interfaces are responsible for transaction-specific methods.
 export type TransactionDataMeta = string | number | boolean | undefined;
 
-export interface ApproveDetails {
-    address: string;
-    amount: bigint;
-}
-
 export interface ConfirmedTransactionData {
     configure(data: any): ConfirmedTransactionData;
 
