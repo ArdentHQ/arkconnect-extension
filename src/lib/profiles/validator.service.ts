@@ -7,7 +7,6 @@ import {
     ParallelValidatorSyncer,
     SerialValidatorSyncer,
 } from './validator-syncer.service.js';
-import { pqueueSettled } from './helpers/queue.js';
 import { ReadOnlyWallet } from './read-only-wallet.js';
 import { ClientService } from '@/lib/mainsail/client.service.js';
 import { LinkService } from '@/lib/mainsail/link.service.js';
@@ -75,16 +74,6 @@ export class ValidatorService {
         });
 
         this.#dataRepository.set(cacheKey, cached);
-    }
-
-    public async syncAll(): Promise<void> {
-        const promises: (() => Promise<void>)[] = [];
-
-        for (const network of this.#profile.availableNetworks()) {
-            promises.push(() => this.sync(network.id()));
-        }
-
-        await pqueueSettled(promises);
     }
 
     public map(wallet: IReadWriteWallet, publicKeys: string[]): IReadOnlyWallet[] {

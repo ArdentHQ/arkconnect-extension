@@ -13,7 +13,6 @@ export class ProfileValidator {
             }).required(),
             hosts: Joi.object().default({}),
             id: Joi.string().required(),
-            networks: Joi.object().default({}),
             // @TODO: assert specific values for enums
             settings: Joi.object({
                 [ProfileSetting.AutomaticSignOutPeriod]: Joi.number().required(),
@@ -34,9 +33,6 @@ export class ProfileValidator {
                 [ProfileSetting.UseNetworkWalletNames]: Joi.boolean().default(false),
                 [ProfileSetting.Sessions]: Joi.object(),
                 [ProfileSetting.LastVisitedPage]: Joi.object(),
-                [ProfileSetting.WalletSelectionMode]: Joi.string()
-                    .allow('single', 'multiple')
-                    .default('single'),
                 [ProfileSetting.HideDustTokens]: Joi.boolean().optional().default(false),
             }).required(),
             wallets: Joi.object().pattern(
