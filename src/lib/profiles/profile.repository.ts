@@ -1,7 +1,6 @@
 import { UUID } from '@ardenthq/arkvault-crypto';
 
 import { IProfile, IProfileExportOptions, IProfileInput } from './contracts.js';
-import { DataRepository } from './data.repository';
 import { ProfileDumper } from './profile.dumper';
 import { ProfileExporter } from './profile.exporter';
 import { ProfileImporter } from './profile.importer';
@@ -9,66 +8,53 @@ import { Profile } from './profile.js';
 import { Environment } from './environment.js';
 
 export class ProfileRepository {
-    readonly #data: DataRepository;
+    #profile: IProfile | undefined;
     readonly #env: Environment;
 
     public constructor(env: Environment) {
-        this.#data = new DataRepository();
+        this.#profile = undefined;
         this.#env = env;
     }
 
     public fill(profiles: object): void {
-        for (const [id, profile] of Object.entries(profiles)) {
-            this.#data.set(id, new Profile(profile, this.#env));
-        }
-    }
+        const entries = Object.entries(profiles);
 
-    public all(): Record<string, IProfile> {
-        return this.#data.all() as Record<string, IProfile>;
+        if (entries.length === 0) {
+            return;
+        }
+
+        if (entries.length > 1) {
+            throw new Error('Expected at most one profile in storage.');
+        }
+
+        const [, profile] = entries[0];
+
+        this.#profile = new Profile(profile, this.#env);
     }
 
     public first(): IProfile {
-        return this.#data.first();
-    }
-
-    public last(): IProfile {
-        return this.#data.last();
-    }
-
-    public keys(): string[] {
-        return this.#data.keys();
-    }
-
-    public values(): IProfile[] {
-        return this.#data.values();
-    }
-
-    public findById(id: string): IProfile {
-        if (this.#data.missing(id)) {
-            throw new Error(`No profile found for [${id}].`);
-        }
-
-        return this.#data.get(id) as IProfile;
-    }
-
-    public findByName(name: string): IProfile | undefined {
-        return this.values().find(
-            (profile: IProfile) => profile.name().toLowerCase() === name.toLowerCase(),
-        );
+        return this.#profile as IProfile;
     }
 
     public push(profile: IProfile): void {
-        this.#data.set(profile.id(), profile);
+        this.#profile = profile;
     }
 
     public async create(name: string): Promise<IProfile> {
-        if (this.findByName(name)) {
-            throw new Error(`The profile [${name}] already exists.`);
-        }
-
-        const result = new Profile({ data: '', id: UUID.random(), name }, this.#env);
+        const result = await this.createDetached(name);
 
         this.push(result);
+
+        return result;
+    }
+
+    /**
+     * Builds and persists a new profile without making it the active profile.
+     * Useful for callers that need a throwaway profile (e.g. an empty
+     * exportable placeholder) without disturbing the currently active one.
+     */
+    public async createDetached(name: string): Promise<IProfile> {
+        const result = new Profile({ data: '', id: UUID.random(), name }, this.#env);
 
         result.initialise(name);
 
@@ -151,34 +137,23 @@ export class ProfileRepository {
         profile.status().markAsClean();
     }
 
-    public has(id: string): boolean {
-        return this.#data.has(id);
-    }
-
     public forget(id: string): void {
-        if (this.#data.missing(id)) {
+        if (this.#profile === undefined || this.#profile.id() !== id) {
             throw new Error(`No profile found for [${id}].`);
         }
 
-        this.#data.forget(id);
+        this.#profile = undefined;
     }
 
     public flush(): void {
-        this.#data.flush();
-    }
-
-    public count(): number {
-        return this.#data.count();
+        this.#profile = undefined;
     }
 
     public toObject(): Record<string, object> {
-        const result: Record<string, object> = {};
-        const profiles: [string, Profile][] = Object.entries(this.#data.all());
-
-        for (const [id, profile] of profiles) {
-            result[id] = new ProfileDumper(profile).dump();
+        if (this.#profile === undefined) {
+            return {};
         }
 
-        return result;
+        return { [this.#profile.id()]: new ProfileDumper(this.#profile).dump() };
     }
 }

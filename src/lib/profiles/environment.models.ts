@@ -15,7 +15,6 @@ export interface EnvironmentOptions {
     storage: string | Storage;
     hostSelector?: NetworkHostSelectorFactory;
     ledgerTransportFactory?: Services.LedgerTransportFactory;
-    migrations?: Record<string, any>;
 }
 
 export interface Storage {
