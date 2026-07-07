@@ -47,7 +47,7 @@ export const EnvironmentProvider = ({ children, env }: Properties) => {
  * use the `state` field that will be updated whenever env.persist() is called:
  *
  * const context = useEnvironmentContext();
- * const profiles = useMemo(() => context.env.profiles().values(), [context]);
+ * const profile = useMemo(() => context.env.profiles().first(), [context]);
  */
 
 export const useEnvironmentContext = (): Context => {

@@ -13,8 +13,6 @@ export class Environment {
     #fees!: ProfileFeeService;
     #profiles!: ProfileRepository;
     #wallets!: WalletService;
-    #migrationVersion!: string;
-    #migrationSchemas!: object;
 
     public constructor(options: EnvironmentOptions) {
         this.reset(options);
@@ -58,7 +56,9 @@ export class Environment {
     }
 
     public async persist(): Promise<void> {
-        for (const profile of this.profiles().values()) {
+        const profile = this.profiles().first();
+
+        if (profile) {
             await this.profiles().persist(profile);
         }
 
@@ -92,18 +92,6 @@ export class Environment {
         if (options?.storage) {
             this.#storage = options.storage as Storage;
         }
-    }
-
-    public setMigrations(schemas: object, version: string): void {
-        this.#migrationSchemas = schemas;
-        this.#migrationVersion = version;
-    }
-
-    public migrationVersion(): string | undefined {
-        return this.#migrationVersion;
-    }
-    public migrationSchemas(): object | undefined {
-        return this.#migrationSchemas;
     }
 
     public storage(): Storage {

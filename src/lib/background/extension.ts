@@ -104,7 +104,6 @@ export function Extension() {
 
             const profile = await env.profiles().create('arkconnect');
             profile.auth().setPassword(password);
-            env.profiles().push(profile);
 
             profile
                 .settings()
@@ -155,9 +154,6 @@ export function Extension() {
             env.profiles().flush();
             env.profiles().fill(profileDump);
 
-            await env.verify();
-            await env.boot();
-
             const profile = env.profiles().first();
             await env.profiles().restore(profile, password);
 
@@ -195,8 +191,6 @@ export function Extension() {
             await env.verify();
             await env.boot();
 
-            await this.runEnvMigrations();
-
             const hasOnboarded = env.data().get(EnvironmentData.HasOnboarded);
 
             if (this.exists() && hasOnboarded) {
@@ -215,10 +209,7 @@ export function Extension() {
          * @returns {Promise<Contracts.IProfile>}
          */
         async createEmptyProfile(): Promise<Contracts.IProfile> {
-            const emptyProfile = await env.profiles().create('empty');
-            env.profiles().forget(emptyProfile.id());
-
-            return emptyProfile;
+            return env.profiles().createDetached('empty');
         },
         /**
          * Unlocks extension.
@@ -235,23 +226,6 @@ export function Extension() {
             }
 
             lockHandler.unlock(this.profile(), password);
-        },
-        /**
-         * Triggers migrations by importing a temporary profile, specifically for environment-related migrations.
-         * This method is used to initiate migrations related to environment updates, such as `env.data()`
-         *
-         * As sdk runs migrations only when importing a specific profile and stores the migration version in the profile itself,
-         * there are migrations such as https://github.com/ArdentHQ/arkconnect-extension/blob/7e4ceeb30ef6e9ac42a572d31010f053d6f5ffbf/src/lib/utils/migrations/move-onboarded-status-to-env.ts#L6
-         * that introduce the need to store data in env scope, and have the ability to run env level migrations expclicitly. See Extension#boot method above.
-         *
-         * @see https://github.com/ArdentHQ/platform-sdk/blob/6f567bafd64d6d051affafa1d61b735bc0a3c46e/packages/profiles/source/profile.importer.ts#L24
-         *
-         * @returns {Promise<void>}
-         */
-        async runEnvMigrations(): Promise<void> {
-            const temporaryProfile = await env.profiles().create('temp');
-            await env.profiles().import(await env.profiles().export(temporaryProfile));
-            env.profiles().forget(temporaryProfile.id());
         },
     };
 }

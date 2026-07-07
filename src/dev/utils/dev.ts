@@ -41,8 +41,6 @@ export const createTestProfile = async ({ env }: { env: Environment }): Promise<
     env.profiles().flush();
     const profile = await env.profiles().create('development');
 
-    env.profiles().push(profile);
-
     await env.profiles().restore(profile);
     await profile.sync();
 
