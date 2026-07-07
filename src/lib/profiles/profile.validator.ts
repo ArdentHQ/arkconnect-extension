@@ -7,10 +7,6 @@ export class ProfileValidator {
         const { error, value } = Joi.object({
             data: Joi.object({
                 [ProfileData.LatestMigration]: Joi.string(),
-                [ProfileData.MigrationResult]: Joi.object({
-                    coldAddresses: Joi.array(),
-                    mergedAddresses: Joi.array(),
-                }),
                 [ProfileData.HasCompletedIntroductoryTutorial]: Joi.boolean(),
                 [ProfileData.HasAcceptedManualInstallationDisclaimer]: Joi.boolean(),
                 [ProfileData.WhitelistedContractAddresses]: Joi.array(),
@@ -18,15 +14,6 @@ export class ProfileValidator {
             hosts: Joi.object().default({}),
             id: Joi.string().required(),
             networks: Joi.object().default({}),
-            pendingMusigWallets: Joi.object().pattern(
-                Joi.string().uuid(),
-                Joi.object({
-                    data: Joi.object().required(),
-                    id: Joi.string().required(),
-                    settings: Joi.object().required(),
-                }),
-            ),
-
             // @TODO: assert specific values for enums
             settings: Joi.object({
                 [ProfileSetting.AutomaticSignOutPeriod]: Joi.number().required(),
@@ -45,8 +32,6 @@ export class ProfileValidator {
                 [ProfileSetting.Theme]: Joi.string().required(),
                 [ProfileSetting.TimeFormat]: Joi.string().required(),
                 [ProfileSetting.UseNetworkWalletNames]: Joi.boolean().default(false),
-                [ProfileSetting.UseTestNetworks]: Joi.boolean().default(false),
-                [ProfileSetting.UseHDWallets]: Joi.boolean().default(false),
                 [ProfileSetting.Sessions]: Joi.object(),
                 [ProfileSetting.LastVisitedPage]: Joi.object(),
                 [ProfileSetting.WalletSelectionMode]: Joi.string()

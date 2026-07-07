@@ -105,12 +105,6 @@ export class WalletRepository implements IWalletRepository {
         return this.values().find((wallet: IReadWriteWallet) => wallet.publicKey() === publicKey);
     }
 
-    public findByCoin(coin: string): IReadWriteWallet[] {
-        return this.values().filter(
-            (wallet: IReadWriteWallet) => wallet.manifest().get<string>('name') === coin,
-        );
-    }
-
     public findByAlias(alias: string): IReadWriteWallet | undefined {
         return this.values().find(
             (wallet: IReadWriteWallet) =>
@@ -228,10 +222,6 @@ export class WalletRepository implements IWalletRepository {
         // TODO: sort by balance as fiat (BigInt)
 
         const sortFunction = (wallet: IReadWriteWallet) => {
-            if (column === 'coin') {
-                return wallet.currency();
-            }
-
             if (column === 'type') {
                 return wallet.isStarred();
             }
@@ -295,12 +285,7 @@ export class WalletRepository implements IWalletRepository {
             }
         }
 
-        // These wallets will be synced first so that we have cached coin instances for consecutive sync operations.
-        // This will help with coins like ARK to prevent multiple requests for configuration and syncing operations.
         await syncWallets(earlyWallets);
-
-        // These wallets will be synced last because they can reuse already existing coin instances from the warmup wallets
-        // to avoid duplicate requests which elongate the waiting time for a user before the wallet is accessible and ready.
         await syncWallets(laterWallets);
     }
 

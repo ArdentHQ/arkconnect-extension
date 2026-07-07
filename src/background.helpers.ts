@@ -4,7 +4,6 @@ interface WalletEntry {
     address: string;
     alias?: string;
     network: string;
-    coin: string;
     path?: string;
     mnemonic?: string;
 }

@@ -1,4 +1,3 @@
-import { Enums } from '@/lib/mainsail';
 import { BIP39, UUID } from '@ardenthq/arkvault-crypto';
 import {
     IAddressOptions,
@@ -49,16 +48,6 @@ export class WalletFactory implements IWalletFactory {
 
         wallet.data().set(WalletData.ImportMethod, WalletImportMethod.BIP39.MNEMONIC);
         wallet.data().set(WalletData.Status, WalletFlag.Cold);
-
-        if (wallet.network().usesExtendedPublicKey()) {
-            throw new Error(
-                'The configured network uses extended public keys with BIP44 for derivation.',
-            );
-        }
-
-        if (!wallet.network().allows(Enums.FeatureFlag.AddressMnemonicBip39)) {
-            throw new Error('The configured network does not support BIP39.');
-        }
 
         await wallet.mutator().identity(mnemonic);
 
