@@ -123,7 +123,6 @@ const Approve = () => {
         <Layout withHeader={false} className='pb-0'>
             {location.state?.type === ApproveActionType.SIGNATURE && (
                 <ApproveMessage
-                    abortReference={abortReference.current}
                     approveWithLedger={approveWithLedger}
                     wallet={wallet}
                     closeLedgerScreen={closeLedgerScreen}

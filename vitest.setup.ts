@@ -4,6 +4,7 @@ import { env } from './src/tests/mocks';
 import { MockInstance, afterAll, afterEach, beforeAll, beforeEach } from 'vitest';
 import { vi } from 'vitest';
 import * as ProfileMock from './src/lib/context/Profile';
+import { Contracts } from './src/lib/profiles';
 
 process.env.REACT_APP_IS_UNIT = '1';
 
@@ -76,14 +77,19 @@ vi.mock('./src/lib/utils/localStorage', () => ({
     },
 }));
 
+let fixtureProfiles: Record<string, Contracts.IProfile>;
+
 beforeAll(async () => {
-    await bootEnvironmentWithProfileFixtures({ env, shouldRestoreDefaultProfile: true });
+    fixtureProfiles = await bootEnvironmentWithProfileFixtures({
+        env,
+        shouldRestoreDefaultProfile: true,
+    });
 });
 
 let useProfileContextMock: MockInstance;
 
 beforeEach(() => {
-    const profile = env.profiles().findById(getPasswordProtectedProfileId());
+    const profile = fixtureProfiles[getPasswordProtectedProfileId()];
 
     useProfileContextMock = vi.spyOn(ProfileMock, 'useProfileContext').mockReturnValue({
         profile,

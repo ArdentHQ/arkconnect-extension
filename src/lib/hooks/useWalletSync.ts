@@ -11,7 +11,7 @@ const useWalletSync = ({ profile, env }: WalletImportTypes) => {
     const syncFees = async (wallet: Contracts.IReadWriteWallet) => {
         const network = wallet.network();
         try {
-            env.fees().all(network.coin(), network.id());
+            env.fees().all(network.id());
         } catch {
             // Sync network fees for the first time
             await env.fees().sync(profile);

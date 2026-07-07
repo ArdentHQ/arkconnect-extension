@@ -125,7 +125,6 @@ export class Profile implements IProfile {
         this.settings().set(ProfileSetting.Theme, 'light');
         this.settings().set(ProfileSetting.TimeFormat, 'h:mm A');
         this.settings().set(ProfileSetting.UseNetworkWalletNames, true);
-        this.settings().set(ProfileSetting.UseTestNetworks, false);
         this.settings().set(ProfileSetting.HideDustTokens, false);
         this.status().markAsDirty();
     }

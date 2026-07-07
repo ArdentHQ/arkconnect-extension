@@ -2,20 +2,12 @@ import { Networks, Services } from '@/lib/mainsail';
 
 import { IProfile } from './profile.contract.js';
 
-export interface CoinType {
-    coin: string;
-    network: string;
-    ticker: string;
-    symbol: string;
-}
-
 export type NetworkHostSelectorFactory = (profile: IProfile) => Networks.NetworkHostSelector;
 
 export interface EnvironmentOptions {
     storage: string | Storage;
     hostSelector?: NetworkHostSelectorFactory;
     ledgerTransportFactory?: Services.LedgerTransportFactory;
-    migrations?: Record<string, any>;
 }
 
 export interface Storage {
