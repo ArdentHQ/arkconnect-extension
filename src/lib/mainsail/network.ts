@@ -209,36 +209,6 @@ export class Network {
     }
 
     /**
-     * Determine if the given feature is enabled.
-     *
-     * @param feature
-     */
-    public allows(feature: string): boolean {
-        if (!feature) {
-            return false;
-        }
-
-        const [root, ...child] = feature.split('.');
-
-        const features: string[] = get(this.#network.featureFlags, root);
-
-        if (Array.isArray(features)) {
-            return features.includes(child.join('.'));
-        }
-
-        return false;
-    }
-
-    /**
-     * Determine if the given feature is disabled.
-     *
-     * @param feature
-     */
-    public denies(feature: string): boolean {
-        return !this.allows(feature);
-    }
-
-    /**
      * Determines if the network charges zero fees.
      *
      * @return {*}  {boolean}
