@@ -1,4 +1,4 @@
-import { explorer, featureFlags, importMethods, transactions } from './shared.js';
+import { explorer, transactions } from './shared.js';
 
 import { Networks } from '@/lib/mainsail';
 
@@ -16,7 +16,6 @@ const network: Networks.NetworkManifest = {
         ticker: 'ARK',
     },
     explorer,
-    featureFlags,
     governance: {
         validatorCount: 53,
         votesPerTransaction: 1,
@@ -41,7 +40,6 @@ const network: Networks.NetworkManifest = {
         },
     ],
     id: 'mainsail.mainnet',
-    importMethods,
     knownWallets:
         'https://raw.githubusercontent.com/ArkEcosystem/common/master/mainnet/known-wallets-extended.json',
     meta: {

@@ -18,7 +18,8 @@ import { DataRepository } from './data.repository';
 import { AttributeBag } from './helpers/attribute-bag';
 import { Avatar } from './helpers/avatar';
 import { HostRepository } from './host.repository';
-import { NetworkRepository } from './network.repository';
+import { manifest } from '@/lib/mainsail/manifest';
+import { NetworkManifest } from '@/lib/mainsail/network.models';
 import { PasswordManager } from './password';
 import { ProfileStatus } from './profile.status';
 import { SettingRepository } from './setting.repository';
@@ -37,8 +38,6 @@ export class Profile implements IProfile {
     readonly #hostRepository: IHostRepository;
 
     #activeNetwork!: Networks.Network;
-
-    readonly #networkRepository: NetworkRepository;
 
     readonly #settingRepository: ISettingRepository;
 
@@ -65,8 +64,7 @@ export class Profile implements IProfile {
     public constructor(data: IProfileInput, env: Environment) {
         this.#attributes = new AttributeBag<IProfileInput>(data);
         this.#dataRepository = new DataRepository();
-        this.#hostRepository = new HostRepository(this);
-        this.#networkRepository = new NetworkRepository(this);
+        this.#hostRepository = new HostRepository();
         this.#settingRepository = new SettingRepository(this, Object.values(ProfileSetting));
         this.#walletFactory = new WalletFactory(this);
         this.#walletRepository = new WalletRepository(this);
@@ -137,12 +135,12 @@ export class Profile implements IProfile {
         return this.#hostRepository;
     }
 
-    public networks(): NetworkRepository {
-        return this.#networkRepository;
-    }
-
     public availableNetworks(): Networks.Network[] {
-        return this.#networkRepository.availableNetworks();
+        const networks = manifest.networks as Record<string, NetworkManifest>;
+
+        return Object.values(networks)
+            .map((network) => new Networks.Network(manifest, network, this))
+            .sort((a, b) => a.displayName().localeCompare(b.displayName()));
     }
 
     public activeNetwork(): Networks.Network {
@@ -163,7 +161,7 @@ export class Profile implements IProfile {
             }
         }
 
-        const activeNetwork = this.#networkRepository.availableNetworks().find((network) => {
+        const activeNetwork = this.availableNetworks().find((network) => {
             /* istanbul ignore next -- @preserve */
             if (activeNetworkId === network?.id()) {
                 /* istanbul ignore next -- @preserve */
@@ -233,10 +231,6 @@ export class Profile implements IProfile {
 
     public exchangeRates(): ExchangeRateService {
         return this.#exchangeRateService;
-    }
-
-    public walletSelectionMode(): 'single' | 'multiple' {
-        return this.settings().get(ProfileSetting.WalletSelectionMode) ?? 'single';
     }
 
     public tokens(): TokenService {

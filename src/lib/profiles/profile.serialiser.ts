@@ -23,7 +23,6 @@ export class ProfileSerialiser {
             data: this.#profile.data().all(),
             hosts: this.#profile.hosts().all(),
             id: this.#profile.id(),
-            networks: this.#profile.networks().all(),
             settings: this.#profile.settings().all(),
             wallets: this.#profile.wallets().toObject(options),
         };

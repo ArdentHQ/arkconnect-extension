@@ -33,7 +33,6 @@ export class ProfileImporter {
         if (!this.#ignoreDetails) {
             this.#profile.data().fill(data.data);
             this.#profile.hosts().fill(data.hosts);
-            this.#profile.networks().fill(data.networks);
             this.#profile.wallets().fill(data.wallets);
             this.#profile.exchangeRates().restore();
         }

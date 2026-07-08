@@ -52,11 +52,7 @@ export class WalletRepository implements IWalletRepository {
             return [];
         }
 
-        if (this.#profile.walletSelectionMode() === 'single') {
-            return [firstSelected];
-        }
-
-        return allSelected;
+        return [firstSelected];
     }
 
     public selectOne(selected: IReadWriteWallet): void {

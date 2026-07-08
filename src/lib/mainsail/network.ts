@@ -2,7 +2,6 @@ import {
     CoinManifest,
     ExpirationType,
     NetworkManifest,
-    NetworkManifestImportMethods,
     NetworkManifestToken,
     VotingMethod,
 } from './network.models';
@@ -250,16 +249,6 @@ export class Network {
     }
 
     /**
-     * Returns the available import methods for the network.
-     *
-     * @return {*}  {NetworkManifestImportMethods}
-     * @memberof Network
-     */
-    public importMethods(): NetworkManifestImportMethods {
-        return this.#network.importMethods;
-    }
-
-    /**
      * Returns the meta data of the network.
      *
      * @return {*}  {Record<string, any>}
@@ -337,16 +326,6 @@ export class Network {
      */
     public toJson(): string {
         return JSON.stringify(this.toObject());
-    }
-
-    /**
-     * Determines if Ledger transactions are supported in network.
-     *
-     * @memberof Network
-     * @returns {boolean}
-     */
-    public allowsLedger(): boolean {
-        return get(this.#network, 'featureFlags.Ledger', []).length > 0;
     }
 
     /**

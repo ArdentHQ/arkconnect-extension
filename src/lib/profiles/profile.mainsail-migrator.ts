@@ -7,7 +7,7 @@ export class ProfileMainsailMigrator {
     public async migrate(profile: IProfile, data: IProfileData): Promise<IProfileData> {
         if (this.#requiresMigration(data)) {
             data.wallets = await this.#migrateWallets(profile, data.wallets);
-            data.settings = await this.#migrateSettings(data.settings, data.wallets);
+            data.settings = await this.#migrateSettings(data.settings);
         }
 
         return data;
@@ -72,10 +72,7 @@ export class ProfileMainsailMigrator {
         return firstWallet?.data['NETWORK']?.startsWith('ark.') || false;
     }
 
-    async #migrateSettings(
-        settings: IProfileData['settings'],
-        wallets: IProfileData['wallets'],
-    ): Promise<IProfileData['settings']> {
+    async #migrateSettings(settings: IProfileData['settings']): Promise<IProfileData['settings']> {
         const migratedSettings: IProfileData['settings'] = {};
 
         const settingsToKeep = [
@@ -90,7 +87,6 @@ export class ProfileMainsailMigrator {
             'THEME',
             'TIME_FORMAT',
             'USE_NETWORK_WALLET_NAMES',
-            'USE_TEST_NETWORKS',
         ];
 
         for (const settingKey of settingsToKeep) {
@@ -104,33 +100,6 @@ export class ProfileMainsailMigrator {
                 : Avatar.make(settings['NAME']);
         }
 
-        this.#migrateDashboardConfiguration(migratedSettings, wallets);
-
         return migratedSettings;
-    }
-
-    #migrateDashboardConfiguration(
-        migratedSettings: IProfileData['settings'],
-        wallets: IProfileData['wallets'],
-    ): void {
-        const walletAddresses = Object.values(wallets).map((wallet) => wallet.data.ADDRESS);
-
-        migratedSettings['WALLET_SELECTION_MODE'] = 'multiple';
-
-        if (walletAddresses.length === 0) {
-            migratedSettings['DASHBOARD_CONFIGURATION'] = {
-                addressPanelSettings: { multiSelectedAddresses: [], singleSelectedAddress: [] },
-                addressViewPreference: 'multiple',
-            };
-            return;
-        }
-
-        migratedSettings['DASHBOARD_CONFIGURATION'] = {
-            addressPanelSettings: {
-                multiSelectedAddresses: walletAddresses,
-                singleSelectedAddress: [walletAddresses[0]],
-            },
-            addressViewPreference: 'multiple',
-        };
     }
 }
