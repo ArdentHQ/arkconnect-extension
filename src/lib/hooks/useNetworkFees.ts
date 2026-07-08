@@ -20,24 +20,12 @@ export interface TransactionFeesBigNumber {
     avg: BigNumber;
 }
 
-interface CreateStubTransactionProperties {
-    getData: () => Record<string, any>;
-    stub: boolean;
-    type: string;
-}
-
-interface CalculateBySizeProperties {
-    data: Record<string, any>;
-    type: string;
-}
-
 interface EstimateGasProperties {
     data: Record<string, any>;
     type: string;
 }
 
 interface CalculateProperties {
-    data?: Record<string, any>;
     network: string;
     type: string;
 }
@@ -93,67 +81,15 @@ export const useNetworkFees = ({
     profile,
     network,
     type,
-    data,
 }: {
     profile: Contracts.IProfile;
     network: string;
     type: string;
-    data?: Record<string, any>;
 }) => {
     const { env } = useEnvironmentContext();
     const [isLoadingFee, setIsLoadingFee] = useState<boolean>(false);
     const [fees, setFees] = useState<TransactionFees>();
     const [estimatedGasLimit, setEstimatedGasLimit] = useState(BigNumber.make(0));
-
-    const createStubTransaction = useCallback(
-        async ({ type, getData, stub }: CreateStubTransactionProperties) => {
-            const { mnemonic, wallet } = await profile.walletFactory().generate();
-
-            const signatory = stub
-                ? await wallet.signatory().stub(mnemonic)
-                : await wallet.signatory().mnemonic(mnemonic);
-
-            return wallet.transactionService()[type]({
-                data: getData(),
-                nonce: '1',
-                signatory,
-            });
-        },
-        [profile],
-    );
-
-    const calculateBySize = useCallback(
-        async ({ data, type }: CalculateBySizeProperties): Promise<TransactionFeesBigNumber> => {
-            try {
-                const transaction = await createStubTransaction({
-                    getData: () => data,
-                    stub: type === 'multiSignature',
-                    type,
-                });
-
-                const fees = new FeeService({ config: profile.activeNetwork().config(), profile });
-
-                const [min, avg, max] = await Promise.all([
-                    fees.calculate(transaction, { priority: 'slow' }),
-                    fees.calculate(transaction, { priority: 'average' }),
-                    fees.calculate(transaction, { priority: 'fast' }),
-                ]);
-
-                return {
-                    avg,
-                    max,
-                    min,
-                };
-            } catch {
-                return {
-                    avg: BigNumber.make(0),
-                    max: BigNumber.make(0),
-                    min: BigNumber.make(0),
-                };
-            }
-        },
-        [createStubTransaction],
-    );
 
     const estimateGas = useCallback(
         async ({ type, data: formData }: EstimateGasProperties) => {
@@ -164,17 +100,9 @@ export const useNetworkFees = ({
     );
 
     const calculate = useCallback(
-        async ({ network, type, data }: CalculateProperties): Promise<TransactionFeesBigNumber> => {
+        async ({ network, type }: CalculateProperties): Promise<TransactionFeesBigNumber> => {
             await env.fees().sync(profile);
             const transactionFees = env.fees().findByType(network, type);
-
-            if (!!data && type === 'multiSignature') {
-                const feesBySize = await calculateBySize({ data, type });
-
-                return {
-                    ...feesBySize,
-                };
-            }
 
             return {
                 avg: transactionFees.avg,
@@ -182,14 +110,14 @@ export const useNetworkFees = ({
                 min: transactionFees.min,
             };
         },
-        [profile, calculateBySize, env],
+        [profile, env],
     );
 
     useEffect(() => {
         const fetchFees = async () => {
             setIsLoadingFee(true);
 
-            const fees = await calculate({ network, type, data });
+            const fees = await calculate({ network, type });
 
             setFees({
                 avg: fees.avg.toString(),
@@ -200,7 +128,7 @@ export const useNetworkFees = ({
         };
 
         void fetchFees();
-    }, [calculate, network, type, data]);
+    }, [calculate, network, type]);
 
     useEffect(() => {
         /* istanbul ignore else -- @preserve */

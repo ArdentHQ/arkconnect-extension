@@ -209,13 +209,6 @@ export class Network {
     }
 
     /**
-     * Determine if the network uses an extended public key for derivation.
-     */
-    public usesExtendedPublicKey(): boolean {
-        return get(this.#network, 'meta.extendedPublicKey') === true;
-    }
-
-    /**
      * Determines if the network charges zero fees.
      *
      * @return {*}  {boolean}

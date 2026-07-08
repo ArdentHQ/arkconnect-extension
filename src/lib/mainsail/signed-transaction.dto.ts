@@ -1,7 +1,6 @@
 import { AbiType, decodeFunctionData } from './helpers/decode-function-data';
 import { Address, TransactionTypeIdentifier, UnitConverter } from '@arkecosystem/typescript-crypto';
 import {
-    ApproveDetails,
     MultiPaymentItem,
     MultiPaymentRecipient,
 } from '@/lib/mainsail/confirmed-transaction.dto.contract';
@@ -176,14 +175,6 @@ export class SignedTransactionData {
         return key.slice(2); // removes 0x part
     }
 
-    public approveDetails(): ApproveDetails {
-        const [address, amount] = decodeFunctionData(
-            this.normalizedData() as Hex,
-            AbiType.Token,
-        ).args;
-        return { address, amount };
-    }
-
     public isMultiPayment(): boolean {
         return TransactionTypeIdentifier.isMultiPayment(this.signedData.data);
     }
@@ -327,17 +318,5 @@ export class SignedTransactionData {
 
     public isContractDeployment() {
         return [!this.isContractTransaction(), !this.to()].every(Boolean);
-    }
-
-    public isApprove(): boolean {
-        return TransactionTypeIdentifier.isApprove(this.signedData.data);
-    }
-
-    public isRevoke(): boolean {
-        return TransactionTypeIdentifier.isRevoke(this.signedData.data);
-    }
-
-    public isBatchTransfer(): boolean {
-        return TransactionTypeIdentifier.isBatchTransfer(this.signedData.data);
     }
 }

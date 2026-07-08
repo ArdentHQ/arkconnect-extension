@@ -35,16 +35,4 @@ export class SignatoryService {
             options,
         });
     }
-
-    /**
-     * This signatory should only be used for testing and fee calculations.
-     */
-    public async stub(mnemonic: string): Promise<Signatory> {
-        return new Signatory({
-            type: 'mnemonic',
-            signingKey: mnemonic,
-            address: 'address',
-            publicKey: 'publicKey',
-        });
-    }
 }

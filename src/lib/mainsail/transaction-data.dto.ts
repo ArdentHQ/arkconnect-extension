@@ -1,6 +1,5 @@
 import { Contracts } from '@/lib/mainsail';
 import {
-    ApproveDetails,
     MultiPaymentItem,
     TransactionDataMeta,
 } from '@/lib/mainsail/confirmed-transaction.dto.contract';
@@ -45,18 +44,6 @@ export abstract class TransactionData {
             return 'transfer';
         }
 
-        if (this.isApprove()) {
-            return 'approve';
-        }
-
-        if (this.isRevoke()) {
-            return 'revoke';
-        }
-
-        if (this.isBatchTransfer()) {
-            return 'batchtransfer';
-        }
-
         for (const { type, method } of this.#types) {
             if (this[method]()) {
                 return type;
@@ -83,18 +70,6 @@ export abstract class TransactionData {
 
     public isContractDeployment() {
         return [!this.isContractTransaction(), !this.to()].every(Boolean);
-    }
-
-    public isApprove() {
-        return TransactionTypeIdentifier.isApprove(this.data.data);
-    }
-
-    public isRevoke() {
-        return TransactionTypeIdentifier.isRevoke(this.data.data);
-    }
-
-    public isBatchTransfer() {
-        return TransactionTypeIdentifier.isBatchTransfer(this.data.data);
     }
 
     public token(): TransactionToken | undefined {
@@ -275,11 +250,6 @@ export abstract class TransactionData {
         return key.slice(2);
     }
 
-    public approveDetails(): ApproveDetails {
-        const [address, amount] = decodeFunctionData(this.data.data, AbiType.Token).args;
-        return { address, amount };
-    }
-
     public votes(): string[] {
         const voteAddress = decodeFunctionData(this.data.data).args[0] as string;
         return [voteAddress];
@@ -287,10 +257,6 @@ export abstract class TransactionData {
 
     public unvotes(): string[] {
         return [];
-    }
-
-    public secondPublicKey(): string {
-        return this.data.asset.signature.publicKey;
     }
 
     public payments(): MultiPaymentItem[] {
@@ -309,14 +275,6 @@ export abstract class TransactionData {
 
     public methodHash(): string {
         return this.data.data.slice(0, 10);
-    }
-
-    public expirationType(): number {
-        return this.data.asset.lock.expiration.type;
-    }
-
-    public expirationValue(): number {
-        return this.data.asset.lock.expiration.value;
     }
 
     public normalizeData(): void {

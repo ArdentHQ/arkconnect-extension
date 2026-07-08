@@ -1,14 +1,10 @@
-import { Services, Signatories } from '@/lib/mainsail';
+import { Services } from '@/lib/mainsail';
 
 import { ExtendedSignedTransactionData } from './signed-transaction.dto.js';
 
 export type SignedTransactionDataDictionary = Record<string, ExtendedSignedTransactionData>;
 
 export interface ITransactionService {
-    sync(): Promise<void>;
-
-    addSignature(id: string, signatory: Signatories.Signatory): Promise<Services.BroadcastResponse>;
-
     signTransferToken(input: Services.TransferInput): Promise<string>;
 
     signTransfer(input: Services.TransferInput): Promise<string>;
@@ -30,8 +26,6 @@ export interface ITransactionService {
     hasBeenConfirmed(id: string): boolean;
 
     isAwaitingConfirmation(id: string): boolean;
-
-    canBeSigned(id: string): boolean;
 
     canBeBroadcasted(id: string): boolean;
 

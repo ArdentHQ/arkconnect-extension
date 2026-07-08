@@ -1,4 +1,4 @@
-import { Exceptions, Services } from '@/lib/mainsail';
+import { Services } from '@/lib/mainsail';
 import { IReadWriteWallet, ITransactionService, WalletData } from './contracts';
 
 import { ExtendedSignedTransactionData } from './signed-transaction.dto';
@@ -21,14 +21,6 @@ export class TransactionService implements ITransactionService {
         this.#wallet = wallet;
 
         this.restore();
-    }
-
-    public sync(): Promise<void> {
-        throw new Exceptions.NotImplemented(this.constructor.name, this.sync.name);
-    }
-
-    public addSignature(): Promise<Services.BroadcastResponse> {
-        throw new Exceptions.NotImplemented(this.constructor.name, this.addSignature.name);
     }
 
     public async signTransfer(input: Services.TransferInput): Promise<string> {
@@ -92,10 +84,6 @@ export class TransactionService implements ITransactionService {
 
     public isAwaitingConfirmation(id: string): boolean {
         return this.hasBeenBroadcasted(id);
-    }
-
-    public canBeSigned(): boolean {
-        return false;
     }
 
     public canBeBroadcasted(id: string): boolean {

@@ -25,10 +25,7 @@ export class WalletSynchroniser implements IWalletSynchroniser {
 
             this.#wallet.getAttributes().set('wallet', wallet);
 
-            if (!this.#wallet.network().usesExtendedPublicKey()) {
-                this.#wallet.data().set(WalletData.PublicKey, wallet.publicKey());
-            }
-
+            this.#wallet.data().set(WalletData.PublicKey, wallet.publicKey());
             this.#wallet.data().set(WalletData.TokenCount, wallet.tokenCount());
             this.#wallet.data().set(WalletData.Balance, wallet.balance());
             this.#wallet.data().set(WalletData.Sequence, wallet.nonce());
