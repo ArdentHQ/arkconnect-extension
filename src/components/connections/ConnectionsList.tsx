@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
 import SubPageLayout from '../settings/SubPageLayout';
@@ -18,6 +18,7 @@ import { Footer } from '@/shared/components/layout/Footer';
 
 const ConnectionsList = () => {
     const location = useLocation();
+    const navigate = useNavigate();
     const sessions = useAppSelector(SessionStore.selectSessions);
     const { profile } = useProfileContext();
     const primaryWalletId = useAppSelector(selectPrimaryWalletId);
@@ -142,18 +143,34 @@ const ConnectionsList = () => {
                 sessions={sessionsToRemove}
                 isOpen={sessionsToRemove.length > 0}
                 onCancel={async () => {
-                    if (getSessionByUrl(sessionsToRemove)) {
+                    const isWebappInitiated = getSessionByUrl(sessionsToRemove);
+                    if (isWebappInitiated) {
                         await removeWindowInstance(location.state?.windowId, 100);
                     }
 
                     setSessionsToRemove([]);
+
+                    if (isWebappInitiated) {
+                        navigate(location.pathname, {
+                            replace: true,
+                            state: { ...location.state, domain: undefined },
+                        });
+                    }
                 }}
                 onConfirm={async () => {
-                    if (getSessionByUrl(sessionsToRemove)) {
+                    const isWebappInitiated = getSessionByUrl(sessionsToRemove);
+                    if (isWebappInitiated) {
                         await removeWindowInstance(location.state?.windowId, 100);
                     }
 
                     setSessionsToRemove([]);
+
+                    if (isWebappInitiated) {
+                        navigate(location.pathname, {
+                            replace: true,
+                            state: { ...location.state, domain: undefined },
+                        });
+                    }
                 }}
             />
         </SubPageLayout>
