@@ -16,7 +16,6 @@ export enum ProfileSetting {
     UseNetworkWalletNames = 'USE_NETWORK_WALLET_NAMES',
     LastVisitedPage = 'LAST_VISITED_PAGE',
     Sessions = 'SESSIONS',
-    WalletSelectionMode = 'WALLET_SELECTION_MODE',
     HideDustTokens = 'HIDE_DUST_TOKEN',
 }
 

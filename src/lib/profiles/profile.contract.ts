@@ -4,7 +4,6 @@ import {
     IAuthenticator,
     IDataRepository,
     IHostRepository,
-    INetworkRepository,
     IPasswordManager,
     IProfileStatus,
     ISettingRepository,
@@ -22,7 +21,6 @@ export interface IProfileData {
     id: string;
     data: Record<string, any>;
     hosts: Record<string, any>;
-    networks: Record<string, any>;
     settings: Record<string, any>;
     wallets: Record<string, IWalletData>;
 }
@@ -51,7 +49,6 @@ export interface IProfile {
     avatar(): string;
     data(): IDataRepository;
     hosts(): IHostRepository;
-    networks(): INetworkRepository;
     activeNetwork(): Networks.Network;
     availableNetworks(): Networks.Network[];
     settings(): ISettingRepository;
@@ -66,7 +63,6 @@ export interface IProfile {
     validators(): ValidatorService;
     exchangeRates(): ExchangeRateService;
     ledger(): LedgerService;
-    walletSelectionMode(): 'single' | 'multiple';
     tokens(): TokenService;
     whitelistedContractAddresses(): string[];
 }

@@ -6,8 +6,6 @@ export type ExpirationType = 'height' | 'timestamp';
 
 export type NetworkHostType = 'full' | 'tx' | 'musig' | 'archival' | 'explorer' | 'evm';
 
-export type WalletPermission = 'read' | 'write';
-
 export type TransactionType =
     | 'usernameRegistration'
     | 'usernameResignation'
@@ -34,12 +32,6 @@ export type NetworkHostSelector = (
     type?: NetworkHostType,
 ) => NetworkHost;
 
-export interface ImportMethod {
-    default: boolean;
-    permissions: WalletPermission[];
-    canBeEncrypted?: boolean;
-}
-
 export interface NetworkManifestTransactions {
     expirationType: ExpirationType;
     types: TransactionType[];
@@ -53,19 +45,6 @@ export interface NetworkManifestTransactions {
     lockedBalance?: boolean;
 }
 
-export interface NetworkManifestFeatureFlags {
-    Address?: AddressMethods;
-    Client?: ClientMethods;
-    Fee?: FeeMethods;
-    KeyPair?: KeyPairMethods;
-    Ledger?: LedgerMethods;
-    Message?: MessageMethods;
-    PrivateKey?: PrivateKeyMethods;
-    PublicKey?: PublicKeyMethods;
-    Transaction?: TransactionMethods;
-    WIF?: WIFMethods;
-}
-
 export interface NetworkManifestExplorer {
     block: string;
     transaction: string;
@@ -77,20 +56,6 @@ export interface NetworkManifestToken {
     symbol: string;
     address: string;
     decimals: number;
-}
-
-export interface NetworkManifestImportMethods {
-    address?: ImportMethod;
-    bip38?: ImportMethod;
-    bip39?: ImportMethod;
-    bip44?: ImportMethod;
-    bip49?: ImportMethod;
-    bip84?: ImportMethod;
-    discovery?: ImportMethod;
-    privateKey?: ImportMethod;
-    publicKey?: ImportMethod;
-    secret?: ImportMethod;
-    wif?: ImportMethod;
 }
 
 export interface NetworkManifestConstants {
@@ -145,9 +110,7 @@ export interface NetworkManifest {
         votesAmountMaximum?: number;
     };
     transactions: NetworkManifestTransactions;
-    importMethods: NetworkManifestImportMethods;
     knownWallets?: string;
-    featureFlags: NetworkManifestFeatureFlags;
     explorer: NetworkManifestExplorer;
     tokens?: NetworkManifestToken[];
     meta?: Record<string, any>;
@@ -157,117 +120,3 @@ export interface CoinManifest {
     name: string;
     networks: Record<string, NetworkManifest>;
 }
-
-// These types and interfaces describe what functionality is available.
-// A client shall use these to modify the UI to avoid the execution of
-// methods that are not available.
-
-export type ClientMethod =
-    | 'transaction'
-    | 'transactions'
-    | 'wallet'
-    | 'wallets'
-    | 'validator'
-    | 'validators'
-    | 'votes'
-    | 'voters'
-    | 'configuration'
-    | 'fees'
-    | 'syncing'
-    | 'broadcast';
-export type ClientMethods = ClientMethod[];
-
-export type FeeMethod = 'all' | 'calculate';
-export type FeeMethods = FeeMethod[];
-
-export type AddressMethod =
-    | 'mnemonic.bip39'
-    | 'mnemonic.bip44'
-    | 'mnemonic.bip49'
-    | 'mnemonic.bip84'
-    | 'privateKey'
-    | 'publicKey'
-    | 'secret'
-    | 'validate'
-    | 'wif';
-export type AddressMethods = AddressMethod[];
-
-export type KeyPairMethod =
-    | 'mnemonic.bip39'
-    | 'mnemonic.bip44'
-    | 'mnemonic.bip49'
-    | 'mnemonic.bip84'
-    | 'privateKey'
-    | 'secret'
-    | 'wif';
-export type KeyPairMethods = KeyPairMethod[];
-
-export type PrivateKeyMethod =
-    | 'mnemonic.bip39'
-    | 'mnemonic.bip44'
-    | 'mnemonic.bip49'
-    | 'mnemonic.bip84'
-    | 'secret'
-    | 'wif';
-export type PrivateKeyMethods = PrivateKeyMethod[];
-
-export type PublicKeyMethod =
-    | 'mnemonic.bip39'
-    | 'mnemonic.bip44'
-    | 'mnemonic.bip49'
-    | 'mnemonic.bip84'
-    | 'secret'
-    | 'wif';
-export type PublicKeyMethods = PublicKeyMethod[];
-
-export type WIFMethod =
-    | 'mnemonic.bip39'
-    | 'mnemonic.bip44'
-    | 'mnemonic.bip49'
-    | 'mnemonic.bip84'
-    | 'secret';
-export type WIFMethods = WIFMethod[];
-
-export type LedgerMethod = 'getVersion' | 'getPublicKey' | 'signTransaction' | 'signMessage';
-export type LedgerMethods = LedgerMethod[];
-
-export type MessageMethod = 'sign' | 'verify';
-export type MessageMethods = MessageMethod[];
-
-export type TransactionMethod =
-    | 'usernameRegistration'
-    | 'usernameRegistration.ledgerS'
-    | 'usernameRegistration.ledgerX'
-    | 'usernameRegistration.musig'
-    | 'delegateRegistration'
-    | 'delegateRegistration.ledgerS'
-    | 'delegateRegistration.ledgerX'
-    | 'delegateResignation'
-    | 'delegateResignation.ledgerS'
-    | 'delegateResignation.ledgerX'
-    | 'usernameResignation'
-    | 'usernameResignation.ledgerS'
-    | 'usernameResignation.ledgerX'
-    | 'usernameResignation.musig'
-    | 'validatorRegistration'
-    | 'validatorRegistration.ledgerS'
-    | 'validatorRegistration.ledgerX'
-    | 'validatorRegistration.musig'
-    | 'validatorResignation'
-    | 'validatorResignation.ledgerS'
-    | 'validatorResignation.ledgerX'
-    | 'validatorResignation.musig'
-    | 'estimateExpiration'
-    | 'multiPayment.ledgerS'
-    | 'multiPayment.ledgerX'
-    | 'multiPayment.musig'
-    | 'multiPayment'
-    | 'transfer.ledgerS'
-    | 'transfer.ledgerX'
-    | 'transfer.musig'
-    | 'transfer'
-    | 'vote.ledgerS'
-    | 'vote.ledgerX'
-    | 'vote.musig'
-    | 'vote';
-export type TransactionMethods = TransactionMethod[];

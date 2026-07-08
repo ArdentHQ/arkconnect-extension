@@ -2,7 +2,6 @@ import {
     CoinManifest,
     ExpirationType,
     NetworkManifest,
-    NetworkManifestImportMethods,
     NetworkManifestToken,
     VotingMethod,
 } from './network.models';
@@ -217,36 +216,6 @@ export class Network {
     }
 
     /**
-     * Determine if the given feature is enabled.
-     *
-     * @param feature
-     */
-    public allows(feature: string): boolean {
-        if (!feature) {
-            return false;
-        }
-
-        const [root, ...child] = feature.split('.');
-
-        const features: string[] = get(this.#network.featureFlags, root);
-
-        if (Array.isArray(features)) {
-            return features.includes(child.join('.'));
-        }
-
-        return false;
-    }
-
-    /**
-     * Determine if the given feature is disabled.
-     *
-     * @param feature
-     */
-    public denies(feature: string): boolean {
-        return !this.allows(feature);
-    }
-
-    /**
      * Determines if the network charges zero fees.
      *
      * @return {*}  {boolean}
@@ -254,16 +223,6 @@ export class Network {
      */
     public chargesZeroFees(): boolean {
         return get(this.#network, 'fees.type') === 'free';
-    }
-
-    /**
-     * Returns the available import methods for the network.
-     *
-     * @return {*}  {NetworkManifestImportMethods}
-     * @memberof Network
-     */
-    public importMethods(): NetworkManifestImportMethods {
-        return this.#network.importMethods;
     }
 
     /**
@@ -344,16 +303,6 @@ export class Network {
      */
     public toJson(): string {
         return JSON.stringify(this.toObject());
-    }
-
-    /**
-     * Determines if Ledger transactions are supported in network.
-     *
-     * @memberof Network
-     * @returns {boolean}
-     */
-    public allowsLedger(): boolean {
-        return get(this.#network, 'featureFlags.Ledger', []).length > 0;
     }
 
     /**
