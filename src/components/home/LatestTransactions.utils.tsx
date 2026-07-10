@@ -1,9 +1,7 @@
 import { IconDefinition } from '@/shared/components';
 import Amount from '@/components/wallet/Amount';
-import {
-    ExtendedConfirmedTransactionData,
-    ExtendedTransactionRecipient,
-} from '@/lib/profiles/transaction.dto';
+import { ConfirmedTransactionData } from '@/lib/mainsail/confirmed-transaction.dto';
+import { MultiPaymentRecipient } from '@/lib/mainsail/confirmed-transaction.dto.contract';
 import { BigNumber } from '@/lib/helpers';
 
 export enum TransactionType {
@@ -20,7 +18,7 @@ export enum TransactionType {
     MULTIPAYMENT = 'multipayment',
 }
 
-export const getType = (transaction: ExtendedConfirmedTransactionData): string => {
+export const getType = (transaction: ConfirmedTransactionData): string => {
     if (transaction.isMultiPayment()) {
         return TransactionType.MULTIPAYMENT;
     }
@@ -49,9 +47,9 @@ export const getType = (transaction: ExtendedConfirmedTransactionData): string =
 };
 
 export const getUniqueRecipients = (
-    transaction: ExtendedConfirmedTransactionData,
-): ExtendedTransactionRecipient[] => {
-    const uniqueRecipients: ExtendedTransactionRecipient[] = [];
+    transaction: ConfirmedTransactionData,
+): MultiPaymentRecipient[] => {
+    const uniqueRecipients: MultiPaymentRecipient[] = [];
 
     transaction.recipients().forEach((recipient) => {
         const existingRecipientIndex = uniqueRecipients.findIndex(
@@ -70,7 +68,7 @@ export const getUniqueRecipients = (
 };
 
 export const getAmountByAddress = (
-    recipients: ExtendedTransactionRecipient[],
+    recipients: MultiPaymentRecipient[],
     address?: string,
 ): BigNumber => {
     return BigNumber.make(
@@ -79,7 +77,7 @@ export const getAmountByAddress = (
 };
 
 export const getMultipaymentAmounts = (
-    recipients: ExtendedTransactionRecipient[],
+    recipients: MultiPaymentRecipient[],
     address: string = '',
 ): { selfAmount: BigNumber; sentAmount: BigNumber } => {
     const selfAmount = getAmountByAddress(recipients, address);
@@ -92,7 +90,7 @@ export const getMultipaymentAmounts = (
 };
 
 export const getTransactionIcon = (
-    transaction: ExtendedConfirmedTransactionData,
+    transaction: ConfirmedTransactionData,
 ): IconDefinition => {
     const type = getType(transaction);
 

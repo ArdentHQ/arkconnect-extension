@@ -1,10 +1,9 @@
 import { Services } from "@/lib/mainsail";
 
 import { IReadWriteWallet, ITransactionIndex, WalletData } from "./contracts.js";
-import { ExtendedConfirmedTransactionDataCollection } from "./transaction.collection.js";
-import { ExtendedConfirmedTransactionData } from "./transaction.dto.js";
-import { transformConfirmedTransactionDataCollection, transformTransactionData } from "./transaction.mapper";
 import { WalletFlag } from "./wallet.enum";
+import { ConfirmedTransactionData } from "@/lib/mainsail/confirmed-transaction.dto";
+import { ConfirmedTransactionDataCollection } from "@/lib/mainsail/transactions.collection";
 import { UnconfirmedTransactionDataCollection } from "@/lib/mainsail/unconfirmed-transactions.collection";
 
 export class TransactionIndex implements ITransactionIndex {
@@ -17,7 +16,7 @@ export class TransactionIndex implements ITransactionIndex {
 	/** {@inheritDoc ITransactionIndex.all} */
 	public async all(
 		query: Services.ClientTransactionsInput = {},
-	): Promise<ExtendedConfirmedTransactionDataCollection> {
+	): Promise<ConfirmedTransactionDataCollection> {
 		return this.#fetch({
 			identifiers: [
 				{
@@ -33,14 +32,14 @@ export class TransactionIndex implements ITransactionIndex {
 	/** {@inheritDoc ITransactionIndex.sent} */
 	public async sent(
 		query: Services.ClientTransactionsInput = {},
-	): Promise<ExtendedConfirmedTransactionDataCollection> {
+	): Promise<ConfirmedTransactionDataCollection> {
 		return this.#fetch({ from: this.#wallet.address(), ...query });
 	}
 
 	/** {@inheritDoc ITransactionIndex.received} */
 	public async received(
 		query: Services.ClientTransactionsInput = {},
-	): Promise<ExtendedConfirmedTransactionDataCollection> {
+	): Promise<ConfirmedTransactionDataCollection> {
 		return this.#fetch({ to: this.#wallet.address(), ...query });
 	}
 
@@ -51,29 +50,30 @@ export class TransactionIndex implements ITransactionIndex {
 	}
 
 	/** {@inheritDoc ITransactionIndex.findById} */
-	public async findById(hash: string): Promise<ExtendedConfirmedTransactionData> {
-		return transformTransactionData(this.#wallet, await this.#wallet.client().transaction(hash));
+	public async findById(hash: string): Promise<ConfirmedTransactionData> {
+		return (await this.#wallet.client().transaction(hash)).withWallet(this.#wallet);
 	}
 
 	/** {@inheritDoc ITransactionIndex.findByIds} */
-	public async findByIds(hashes: string[]): Promise<ExtendedConfirmedTransactionData[]> {
+	public async findByIds(hashes: string[]): Promise<ConfirmedTransactionData[]> {
 		return Promise.all(hashes.map((hash: string) => this.findById(hash)));
 	}
 
-	async #fetch(query: Services.ClientTransactionsInput): Promise<ExtendedConfirmedTransactionDataCollection> {
+	async #fetch(query: Services.ClientTransactionsInput): Promise<ConfirmedTransactionDataCollection> {
 		const result = await this.#wallet.client().transactions(query);
 
 		const transactions = result.items();
 
 		for (const transaction of transactions) {
-			transaction.setMeta("address", this.#wallet.address());
-			transaction.setMeta("publicKey", this.#wallet.publicKey());
+			transaction.withWallet(this.#wallet);
 		}
 
 		if (this.#wallet.isCold() && transactions.some((t) => t.isSent() || t.isReturn())) {
 			this.#wallet.data().set(WalletData.Status, WalletFlag.Hot);
 		}
 
-		return await transformConfirmedTransactionDataCollection(this.#wallet, result);
+		await Promise.allSettled(transactions.map((transaction) => transaction.normalizeData()));
+
+		return result;
 	}
 }

@@ -19,7 +19,7 @@ import trimAddress from '@/lib/utils/trimAddress';
 import { useValidatorInfo } from '@/lib/hooks/useValidatorInfo';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 import { isFirefox } from '@/lib/utils/isFirefox';
-import { ExtendedConfirmedTransactionData } from '@/lib/profiles/transaction.dto';
+import { ConfirmedTransactionData } from '@/lib/mainsail/confirmed-transaction.dto';
 import { IReadWriteWallet } from '@/lib/profiles/wallet.contract';
 import { WalletToken } from '@/lib/profiles/wallet-token';
 import { formatTokenBalance } from '@/lib/utils/formatTokenBalance';
@@ -72,7 +72,7 @@ const PaymentInfo = ({ address, isSent }: { address: string; isSent: boolean }) 
 export const MultipaymentUniqueRecipients = ({
     transaction,
 }: {
-    transaction: ExtendedConfirmedTransactionData;
+    transaction: ConfirmedTransactionData;
 }): string | JSX.Element => {
     const { t } = useTranslation();
     const uniqueRecipients = getUniqueRecipients(transaction);
@@ -91,7 +91,7 @@ export const TransactionSecondaryText = ({
     address,
     primaryWallet,
 }: {
-    transaction: ExtendedConfirmedTransactionData;
+    transaction: ConfirmedTransactionData;
     type: string;
     address?: string;
     primaryWallet?: IReadWriteWallet;
@@ -152,7 +152,7 @@ export const MultipaymentBadge = () => {
 const TransactionListItem = ({
     transaction,
 }: {
-    transaction: ExtendedConfirmedTransactionData;
+    transaction: ConfirmedTransactionData;
 }) => {
     const navigate = useNavigate();
     const primaryWallet = usePrimaryWallet();
@@ -236,7 +236,7 @@ export const TransactionsList = ({
     transactions,
     displayButton,
 }: {
-    transactions: ExtendedConfirmedTransactionData[];
+    transactions: ConfirmedTransactionData[];
     displayButton: boolean;
 }) => {
     const primaryWallet = usePrimaryWallet();
@@ -271,7 +271,7 @@ export const TransactionsList = ({
 export const LatestTransactionAmount = ({
     transaction,
 }: {
-    transaction: ExtendedConfirmedTransactionData;
+    transaction: ConfirmedTransactionData;
 }): JSX.Element => {
     const type = getType(transaction);
     const paymentTypes = [

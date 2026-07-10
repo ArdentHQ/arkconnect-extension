@@ -1,7 +1,7 @@
 import { Services } from "@/lib/mainsail";
 
-import { ExtendedConfirmedTransactionDataCollection } from "./transaction.collection.js";
-import { ExtendedConfirmedTransactionData } from "./transaction.dto.js";
+import { ConfirmedTransactionData } from "@/lib/mainsail/confirmed-transaction.dto";
+import { ConfirmedTransactionDataCollection } from "@/lib/mainsail/transactions.collection";
 import { UnconfirmedTransactionDataCollection } from "@/lib/mainsail/unconfirmed-transactions.collection";
 
 export interface ITransactionIndex {
@@ -9,28 +9,28 @@ export interface ITransactionIndex {
 	 * Get a list of sent and received transactions.
 	 *
 	 * @param {Services.ClientTransactionsInput} [query]
-	 * @return {Promise<ExtendedConfirmedTransactionDataCollection>}
+	 * @return {Promise<ConfirmedTransactionDataCollection>}
 	 * @memberof IReadWriteWallet
 	 */
-	all(query?: Services.ClientTransactionsInput): Promise<ExtendedConfirmedTransactionDataCollection>;
+	all(query?: Services.ClientTransactionsInput): Promise<ConfirmedTransactionDataCollection>;
 
 	/**
 	 * Get a list of sent transactions.
 	 *
 	 * @param {Services.ClientTransactionsInput} [query]
-	 * @return {Promise<ExtendedConfirmedTransactionDataCollection>}
+	 * @return {Promise<ConfirmedTransactionDataCollection>}
 	 * @memberof IReadWriteWallet
 	 */
-	sent(query?: Services.ClientTransactionsInput): Promise<ExtendedConfirmedTransactionDataCollection>;
+	sent(query?: Services.ClientTransactionsInput): Promise<ConfirmedTransactionDataCollection>;
 
 	/**
 	 * Get a list of received transactions.
 	 *
 	 * @param {Services.ClientTransactionsInput} [query]
-	 * @return {Promise<ExtendedConfirmedTransactionDataCollection>}
+	 * @return {Promise<ConfirmedTransactionDataCollection>}
 	 * @memberof IReadWriteWallet
 	 */
-	received(query?: Services.ClientTransactionsInput): Promise<ExtendedConfirmedTransactionDataCollection>;
+	received(query?: Services.ClientTransactionsInput): Promise<ConfirmedTransactionDataCollection>;
 
 	/**
 	 * Get a list of received transactions.
@@ -45,17 +45,17 @@ export interface ITransactionIndex {
 	 * Find a transaction by the given ID.
 	 *
 	 * @param {string} id
-	 * @return {Promise<ExtendedConfirmedTransactionData>}
+	 * @return {Promise<ConfirmedTransactionData>}
 	 * @memberof IReadWriteWallet
 	 */
-	findById(id: string): Promise<ExtendedConfirmedTransactionData>;
+	findById(id: string): Promise<ConfirmedTransactionData>;
 
 	/**
 	 * Find many transactions by the given IDs.
 	 *
 	 * @param {string[]} ids
-	 * @return {Promise<ExtendedConfirmedTransactionData[]>}
+	 * @return {Promise<ConfirmedTransactionData[]>}
 	 * @memberof IReadWriteWallet
 	 */
-	findByIds(ids: string[]): Promise<ExtendedConfirmedTransactionData[]>;
+	findByIds(ids: string[]): Promise<ConfirmedTransactionData[]>;
 }
