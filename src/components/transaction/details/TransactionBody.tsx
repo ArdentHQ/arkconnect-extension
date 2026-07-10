@@ -17,11 +17,7 @@ import { useExchangeRate } from '@/lib/hooks/useExchangeRate';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 import { ConfirmedTransactionData } from '@/lib/mainsail/confirmed-transaction.dto';
 
-export const TransactionBody = ({
-    transaction,
-}: {
-    transaction: ConfirmedTransactionData;
-}) => {
+export const TransactionBody = ({ transaction }: { transaction: ConfirmedTransactionData }) => {
     const primaryWallet = usePrimaryWallet();
     const { t } = useTranslation();
     const { voteValidator } = useValidatorInfo(transaction, primaryWallet);

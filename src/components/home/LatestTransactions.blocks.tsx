@@ -149,11 +149,7 @@ export const MultipaymentBadge = () => {
     );
 };
 
-const TransactionListItem = ({
-    transaction,
-}: {
-    transaction: ConfirmedTransactionData;
-}) => {
+const TransactionListItem = ({ transaction }: { transaction: ConfirmedTransactionData }) => {
     const navigate = useNavigate();
     const primaryWallet = usePrimaryWallet();
     const type = getType(transaction);

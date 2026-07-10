@@ -89,9 +89,7 @@ export const getMultipaymentAmounts = (
     return { selfAmount, sentAmount: sentAmount.minus(selfAmount) };
 };
 
-export const getTransactionIcon = (
-    transaction: ConfirmedTransactionData,
-): IconDefinition => {
+export const getTransactionIcon = (transaction: ConfirmedTransactionData): IconDefinition => {
     const type = getType(transaction);
 
     if (type === TransactionType.MULTIPAYMENT) {
