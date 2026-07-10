@@ -29,10 +29,6 @@ export class ProfileImporter implements IProfileImporter {
 
 		data = await this.#migrator.migrate(this.#profile, data);
 
-		if (data.settings?.["MARKET_PROVIDER"] === "cryptocompare") {
-			data.settings["MARKET_PROVIDER"] = "coingecko";
-		}
-
 		data = this.#validator.validate(data);
 
 		if (!this.#ignoreDetails) {
