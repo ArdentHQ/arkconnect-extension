@@ -7,7 +7,6 @@ import {
 } from "./contracts/index";
 import { CoinCap } from "./drivers/coincap";
 import { CoinGecko } from "./drivers/coingecko";
-import { CryptoCompare } from "./drivers/cryptocompare";
 
 /**
  * Normalises the communication with Market Data Providers.
@@ -47,7 +46,6 @@ export class MarketService {
 			{
 				coincap: new CoinCap(),
 				coingecko: new CoinGecko(),
-				cryptocompare: new CryptoCompare(),
 			}[name.toLowerCase()] as PriceTracker,
 		);
 	}

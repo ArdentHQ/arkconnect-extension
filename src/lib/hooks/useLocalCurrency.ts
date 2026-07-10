@@ -3,7 +3,7 @@ import { getCurrency } from 'locale-currency';
 import { useCurrencyOptions } from './useCurrencyOptions';
 
 const useLocaleCurrency = () => {
-    const currencyOptions = useCurrencyOptions('cryptocompare');
+    const currencyOptions = useCurrencyOptions('coingecko');
 
     const localeCurrency = useMemo(() => {
         let locale = Intl.DateTimeFormat().resolvedOptions().locale;
