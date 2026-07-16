@@ -3,7 +3,7 @@ import { getCurrency } from 'locale-currency';
 import { useCurrencyOptions } from './useCurrencyOptions';
 
 const useLocaleCurrency = () => {
-    const currencyOptions = useCurrencyOptions('coingecko');
+    const currencyOptions = useCurrencyOptions('arkpricing');
 
     const localeCurrency = useMemo(() => {
         let locale = Intl.DateTimeFormat().resolvedOptions().locale;

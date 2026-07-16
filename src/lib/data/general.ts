@@ -42,5 +42,5 @@ export const general = {
         { label: 'ETH (Ξ)', value: 'ETH' },
         { label: 'LTC (Ł)', value: 'LTC' },
     ],
-    marketProviders: [{ label: 'CoinGecko', unsupportedCurrencies: [], value: 'coingecko' }],
+    marketProviders: [{ label: 'ARK Pricing', unsupportedCurrencies: [], value: 'arkpricing' }],
 } as PlatformData;

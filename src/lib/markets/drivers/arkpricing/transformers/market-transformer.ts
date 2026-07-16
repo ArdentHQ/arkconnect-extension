@@ -1,4 +1,3 @@
-import { CURRENCIES } from "@/lib/intl";
 import { MarketDataCollection } from "@/lib/markets/contracts";
 
 /**
@@ -20,27 +19,24 @@ export class MarketTransformer implements MarketTransformer {
 	/**
 	 * Transforms the given data into a normalised format.
 	 *
-	 * @param {Record<string, any>} options
 	 * @returns {MarketDataCollection}
 	 * @memberof MarketTransformer
 	 */
-	public transform(options: Record<string, any>): MarketDataCollection {
+	public transform(): MarketDataCollection {
 		const result = {};
 
-		for (const currency of Object.keys(options.currencies || CURRENCIES)) {
-			const currencyLowerCase = currency.toLowerCase();
-
-			if (!this.data.current_price[currencyLowerCase]) {
+		for (const [currency, value] of Object.entries(this.data) as any) {
+			if (currency === "coin") {
 				continue;
 			}
 
 			result[currency] = {
-				change24h: this.data.market_cap_change_percentage_24h_in_currency[currencyLowerCase],
+				change24h: value.change24h,
 				currency,
-				date: new Date(this.data.last_updated),
-				marketCap: this.data.market_cap[currencyLowerCase],
-				price: this.data.current_price[currencyLowerCase],
-				volume: this.data.total_volume[currencyLowerCase],
+				date: new Date(value.timestamp),
+				marketCap: value.marketCap,
+				price: value.price,
+				volume: value.volume,
 			};
 		}
 

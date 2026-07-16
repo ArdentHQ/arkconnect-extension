@@ -25,19 +25,13 @@ export class HistoricalVolumeTransformer implements HistoricalTransformer {
 	 * @memberof HistoricalVolumeTransformer
 	 */
 	public transform(options: Record<string, any>): HistoricalData {
-		const datasets = {};
-
-		for (let index = 0; index < this.data.total_volumes.length; index += 24) {
-			datasets[this.data.total_volumes[index][0]] = this.data.total_volumes[index][1];
-		}
-
-		const datasetValues: number[] = Object.values(datasets);
+		const datasets = this.data.map((value) => value.volume);
 
 		return {
-			datasets: datasetValues,
-			labels: Object.keys(datasets).map((time) => DateTime.make(time).format(options.dateFormat)),
-			max: Math.max(...datasetValues),
-			min: Math.min(...datasetValues),
+			datasets,
+			labels: this.data.map((value) => DateTime.make(value.date).format(options.dateFormat)),
+			max: Math.max(...datasets),
+			min: Math.min(...datasets),
 		};
 	}
 }
