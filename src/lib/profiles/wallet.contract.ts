@@ -24,7 +24,6 @@ import { TransactionService } from "@/lib/mainsail/transaction.service.js";
 import { ValidatorService } from "./validator.service.js";
 import { ExchangeRateService } from "./exchange-rate.service.js";
 import { SignatoryService } from "@/lib/mainsail/signatory.service.js";
-import { Manifest } from "@/lib/mainsail/manifest.class";
 import { WalletTokenRepository } from "./wallet-token.repository.js";
 
 export type WalletBalanceType = keyof Contracts.WalletBalance;
@@ -414,14 +413,6 @@ export interface IReadWriteWallet {
 	networkId(): string;
 
 	/**
-	 * Get the manifest.
-	 *
-	 * @return {Manifest}
-	 * @memberof IReadWriteWallet
-	 */
-	manifest(): Manifest;
-
-	/**
 	 * Get the profile validators service.
 	 *
 	 * @return {ValidatorService}
@@ -508,14 +499,6 @@ export interface IReadWriteWallet {
 	 * @memberof IReadWriteWallet
 	 */
 	transactionService(): TransactionService;
-
-	/**
-	 * Get the supported transaction types.
-	 *
-	 * @return {Networks.TransactionType[]}
-	 * @memberof IReadWriteWallet
-	 */
-	transactionTypes(): Networks.TransactionType[];
 
 	/**
 	 * Get the explorer link.
