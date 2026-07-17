@@ -1,4 +1,4 @@
-import { CoinManifest, NetworkManifest } from "./network.models";
+import { NetworkManifest } from "./network.models";
 import { ConfigRepository } from ".";
 
 import { Client } from "@arkecosystem/typescript-client";
@@ -7,13 +7,6 @@ import { FeeService } from "./fee.service";
 import { get } from "@/lib/helpers";
 
 export class Network {
-	/**
-	 * The coin of the network.
-	 *
-	 * @memberof Network
-	 */
-	readonly #coin: CoinManifest;
-
 	/**
 	 * The profile associated with fees config.
 	 *
@@ -45,12 +38,10 @@ export class Network {
 	/**
 	 * Create a new Network instance.
 	 *
-	 * @param {string} coin
 	 * @param {NetworkManifest} network
 	 * @memberof Network
 	 */
-	public constructor(coin: CoinManifest, network: NetworkManifest, profile: Contracts.IProfile) {
-		this.#coin = coin;
+	public constructor(network: NetworkManifest, profile: Contracts.IProfile) {
 		this.#network = network;
 		this.#profile = profile;
 		this.#config = new ConfigRepository({ network });
@@ -61,7 +52,7 @@ export class Network {
 	 * Get the parent coin of the network.
 	 */
 	public coin(): string {
-		return this.#coin.name;
+		return this.#network.coin;
 	}
 
 	/**

@@ -41,7 +41,7 @@ import { TransactionService as WalletTransactionService } from "./wallet-transac
 import { WalletImportFormat } from "./wif";
 import { LinkService } from "@/lib/mainsail/link.service";
 import { MessageService } from "@/lib/mainsail/message.service";
-import { manifest } from "@/lib/mainsail/index";
+import { networks } from "@/lib/mainsail/manifest";
 import { LedgerService } from "@/lib/mainsail/ledger.service";
 import { ClientService } from "@/lib/mainsail/client.service";
 import { AddressService } from "@/lib/mainsail/address.service";
@@ -679,7 +679,6 @@ export class Wallet implements IReadWriteWallet {
 
 	#decimals(): number {
 		try {
-			const networks = manifest.networks as Record<string, Networks.NetworkManifest>;
 			return networks[this.networkId()]?.currency.decimals ?? 18;
 		} catch {
 			return 18;
