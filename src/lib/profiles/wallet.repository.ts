@@ -6,7 +6,6 @@ import {
 	IProfile,
 	IReadWriteWallet,
 	IWalletData,
-	IWalletExportOptions,
 	IWalletRepository,
 	WalletData,
 	WalletSetting,
@@ -209,28 +208,10 @@ export class WalletRepository implements IWalletRepository {
 	}
 
 	/** {@inheritDoc IWalletRepository.toObject} */
-	public toObject(options?: IWalletExportOptions): Record<string, IWalletData> {
-		const {
-			addNetworkInformation = true,
-			excludeEmptyWallets = false,
-			excludeLedgerWallets = false,
-		} = options ?? {};
-
-		if (!addNetworkInformation) {
-			throw new Error("This is not implemented yet");
-		}
-
+	public toObject(): Record<string, IWalletData> {
 		const result: Record<string, IWalletData> = {};
 
 		for (const [id, wallet] of Object.entries(this.#data.all())) {
-			if (excludeLedgerWallets && wallet.isLedger()) {
-				continue;
-			}
-
-			if (excludeEmptyWallets && wallet.balance().isZero()) {
-				continue;
-			}
-
 			result[id] = wallet.toObject();
 		}
 

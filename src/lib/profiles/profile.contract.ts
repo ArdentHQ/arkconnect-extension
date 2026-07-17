@@ -55,29 +55,6 @@ export interface IProfileInput {
  *
  *
  * @export
- * @interface IWalletExportOptions
- */
-export interface IWalletExportOptions {
-	excludeEmptyWallets: boolean;
-	excludeLedgerWallets: boolean;
-	addNetworkInformation: boolean;
-}
-
-/**
- *
- *
- * @export
- * @interface IProfileExportOptions
- * @extends {IWalletExportOptions}
- */
-export interface IProfileExportOptions extends IWalletExportOptions {
-	saveGeneralSettings: boolean;
-}
-
-/**
- *
- *
- * @export
  * @interface IProfile
  */
 export interface IProfile {

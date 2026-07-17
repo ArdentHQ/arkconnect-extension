@@ -1,6 +1,6 @@
 import { UUID } from "@ardenthq/arkvault-crypto";
 
-import { IProfile, IProfileExportOptions, IProfileInput, IProfileRepository } from "./contracts.js";
+import { IProfile, IProfileInput, IProfileRepository } from "./contracts.js";
 import { DataRepository } from "./data.repository";
 import { ProfileDumper } from "./profile.dumper";
 import { ProfileExporter } from "./profile.exporter";
@@ -114,8 +114,8 @@ export class ProfileRepository implements IProfileRepository {
 	}
 
 	/** {@inheritDoc IProfileRepository.export} */
-	public async export(profile: IProfile, options: IProfileExportOptions, password?: string): Promise<string> {
-		return new ProfileExporter(profile).export(password, options);
+	public async export(profile: IProfile, password?: string): Promise<string> {
+		return new ProfileExporter(profile).export(password);
 	}
 
 	/** {@inheritDoc IProfileRepository.restore} */
