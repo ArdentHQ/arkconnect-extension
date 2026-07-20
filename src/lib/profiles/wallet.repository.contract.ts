@@ -1,4 +1,4 @@
-import { IReadWriteWallet, IWalletData, IWalletExportOptions } from "./contracts.js";
+import { IReadWriteWallet, IWalletData } from "./contracts.js";
 
 /**
  * Defines the implementation contract for the wallet repository.
@@ -199,11 +199,10 @@ export interface IWalletRepository {
 	/**
 	 * Turn the wallets into a normalised object.
 	 *
-	 * @param {IWalletExportOptions|undefined} options
 	 * @returns {Record<string, IWalletData>}
 	 * @memberof IWalletRepository
 	 */
-	toObject(options?: IWalletExportOptions): Record<string, IWalletData>;
+	toObject(): Record<string, IWalletData>;
 
 	/**
 	 * Get all wallets sorted by the given column.
@@ -214,13 +213,4 @@ export interface IWalletRepository {
 	 * @memberof IWalletRepository
 	 */
 	sortBy(column: string, direction: "asc" | "desc"): IReadWriteWallet[];
-
-	/**
-	 * Find wallets by coin.
-	 *
-	 * @param {string} coin
-	 * @returns {IReadWriteWallet[]}
-	 * @memberof IWalletRepository
-	 */
-	findByCoin(coin: string): IReadWriteWallet[];
 }

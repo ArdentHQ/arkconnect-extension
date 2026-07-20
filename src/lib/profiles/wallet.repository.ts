@@ -6,7 +6,6 @@ import {
 	IProfile,
 	IReadWriteWallet,
 	IWalletData,
-	IWalletExportOptions,
 	IWalletRepository,
 	WalletData,
 	WalletSetting,
@@ -114,11 +113,6 @@ export class WalletRepository implements IWalletRepository {
 		return this.values().find((wallet: IReadWriteWallet) => wallet.publicKey() === publicKey);
 	}
 
-	/** {@inheritDoc IWalletRepository.findByCoin} */
-	public findByCoin(coin: string): IReadWriteWallet[] {
-		return this.values().filter((wallet: IReadWriteWallet) => wallet.manifest().get<string>("name") === coin);
-	}
-
 	/** {@inheritDoc IWalletRepository.findByAlias} */
 	public findByAlias(alias: string): IReadWriteWallet | undefined {
 		return this.values().find(
@@ -209,28 +203,10 @@ export class WalletRepository implements IWalletRepository {
 	}
 
 	/** {@inheritDoc IWalletRepository.toObject} */
-	public toObject(options?: IWalletExportOptions): Record<string, IWalletData> {
-		const {
-			addNetworkInformation = true,
-			excludeEmptyWallets = false,
-			excludeLedgerWallets = false,
-		} = options ?? {};
-
-		if (!addNetworkInformation) {
-			throw new Error("This is not implemented yet");
-		}
-
+	public toObject(): Record<string, IWalletData> {
 		const result: Record<string, IWalletData> = {};
 
 		for (const [id, wallet] of Object.entries(this.#data.all())) {
-			if (excludeLedgerWallets && wallet.isLedger()) {
-				continue;
-			}
-
-			if (excludeEmptyWallets && wallet.balance().isZero()) {
-				continue;
-			}
-
 			result[id] = wallet.toObject();
 		}
 

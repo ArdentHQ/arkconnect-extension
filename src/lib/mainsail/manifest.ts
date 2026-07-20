@@ -1,10 +1,105 @@
-import MainsailDevnet from "./networks/mainsail.devnet";
-import MainsailMainnet from "./networks/mainsail.mainnet";
+import { NetworkManifest } from "./network.models";
 
-export const manifest = {
-	name: "Mainsail",
-	networks: {
-		"mainsail.devnet": MainsailDevnet,
-		"mainsail.mainnet": MainsailMainnet,
+export const networks: Record<string, NetworkManifest> = {
+	"mainsail.devnet": {
+		coin: "Mainsail",
+		constants: {
+			epoch: "2023-12-21T00:00:00.000Z",
+			slip44: 1,
+			slip44Eth: 60,
+			slip44Legacy: 1,
+		},
+		currency: {
+			decimals: 18,
+			symbol: "TѦ",
+			ticker: "ARK",
+		},
+		featureFlags: {
+			Address: ["mnemonic.bip39", "privateKey", "publicKey", "validate", "wif"],
+		},
+		governance: {
+			validatorCount: 53,
+			votesPerTransaction: 1,
+			votesPerWallet: 1,
+		},
+		hosts: [
+			{
+				host: import.meta.env.VITE_MAINSAIL_DEVNET_FULL_HOST || "https://testnet.mainsailhq.com/api",
+				type: "full",
+			},
+			{
+				host: import.meta.env.VITE_MAINSAIL_DEVNET_TX_HOST || "https://testnet.mainsailhq.com/tx/api",
+				type: "tx",
+			},
+			{
+				host:
+					import.meta.env.VITE_MAINSAIL_DEVNET_EXPLORER_HOST ||
+					"https://explorer-demo.mainsailhq.com",
+				type: "explorer",
+			},
+			{
+				host: import.meta.env.VITE_MAINSAIL_DEVNET_EVM_HOST || "https://testnet.mainsailhq.com/rpc/api",
+				type: "evm",
+			},
+		],
+		id: "mainsail.devnet",
+		knownWallets:
+			"https://raw.githubusercontent.com/ArkEcosystem/common/master/mainsail/devnet/known-wallets-extended.json",
+		meta: {
+			chainId: 11812,
+			nethash: "560f869ed6713745a12328e7214cb65077e645bb5e57b1e5b323bb915a51f114",
+			wif: 186,
+		},
+		name: "Devnet",
+		type: "test",
+	},
+	"mainsail.mainnet": {
+		coin: "Mainsail",
+		constants: {
+			epoch: "2017-03-21T13:00:00.000Z",
+			slip44: 111,
+			slip44Eth: 60,
+			slip44Legacy: 1,
+		},
+		currency: {
+			decimals: 18,
+			symbol: "Ѧ",
+			ticker: "ARK",
+		},
+		featureFlags: {
+			Address: ["mnemonic.bip39", "privateKey", "publicKey", "validate", "wif"],
+		},
+		governance: {
+			validatorCount: 53,
+			votesPerTransaction: 1,
+			votesPerWallet: 1,
+		},
+		hosts: [
+			{
+				host: "https://testnet.mainsailhq.com/api",
+				type: "full",
+			},
+			{
+				host: "https://testnet.mainsailhq.com/tx/api",
+				type: "tx",
+			},
+			{
+				host: "https://explorer-demo.mainsailhq.com",
+				type: "explorer",
+			},
+			{
+				host: "https://testnet.mainsailhq.com/rpc/api",
+				type: "evm",
+			},
+		],
+		id: "mainsail.mainnet",
+		knownWallets:
+			"https://raw.githubusercontent.com/ArkEcosystem/common/master/mainnet/known-wallets-extended.json",
+		meta: {
+			fastDelegateSync: true,
+			nethash: "3da160779cc52343e6f5923062986b775baa5abbd831f9f9b46308280924490f",
+		},
+		name: "Mainnet",
+		type: "live",
 	},
 };

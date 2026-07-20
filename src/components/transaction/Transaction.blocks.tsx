@@ -16,7 +16,7 @@ import trimAddress from '@/lib/utils/trimAddress';
 import { useExchangeRate } from '@/lib/hooks/useExchangeRate';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 import { useProfileContext } from '@/lib/context/Profile';
-import { ExtendedConfirmedTransactionData } from '@/lib/profiles/transaction.dto';
+import { ConfirmedTransactionData } from '@/lib/mainsail/confirmed-transaction.dto';
 import { BigNumber } from '@/app/lib/helpers';
 
 export const TransactionIcon = ({ type }: { type: TransactionType }) => {
@@ -99,7 +99,7 @@ export const TransactionAddress = ({
 export const TransactionUniqueRecipients = ({
     transaction,
 }: {
-    transaction: ExtendedConfirmedTransactionData;
+    transaction: ConfirmedTransactionData;
 }): JSX.Element | string => {
     const { t } = useTranslation();
     const uniqueRecipients = getUniqueRecipients(transaction);
@@ -116,7 +116,7 @@ export const TransactionAmount = ({
     transaction,
     displayFiat = true,
 }: {
-    transaction: ExtendedConfirmedTransactionData;
+    transaction: ConfirmedTransactionData;
     displayFiat?: boolean;
 }): JSX.Element => {
     const primaryWallet = usePrimaryWallet();

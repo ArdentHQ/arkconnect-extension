@@ -41,8 +41,7 @@ import { TransactionService as WalletTransactionService } from "./wallet-transac
 import { WalletImportFormat } from "./wif";
 import { LinkService } from "@/lib/mainsail/link.service";
 import { MessageService } from "@/lib/mainsail/message.service";
-import { Manifest } from "@/lib/mainsail/manifest.class";
-import { manifest } from "@/lib/mainsail/index";
+import { networks } from "@/lib/mainsail/manifest";
 import { LedgerService } from "@/lib/mainsail/ledger.service";
 import { ClientService } from "@/lib/mainsail/client.service";
 import { AddressService } from "@/lib/mainsail/address.service";
@@ -402,19 +401,9 @@ export class Wallet implements IReadWriteWallet {
 		this.profile().status().markAsDirty();
 	}
 
-	/** {@inheritDoc IReadWriteWallet.coinId} */
-	public coinId(): string {
-		return this.manifest().get("name");
-	}
-
 	/** {@inheritDoc IReadWriteWallet.networkId} */
 	public networkId(): string {
 		return this.network().id();
-	}
-
-	/** {@inheritDoc IReadWriteWallet.manifest} */
-	public manifest(): Manifest {
-		return new Manifest(manifest);
 	}
 
 	/** {@inheritDoc IReadWriteWallet.client} */
@@ -469,13 +458,6 @@ export class Wallet implements IReadWriteWallet {
 			config: this.network().config(),
 			profile: this.profile(),
 		});
-	}
-
-	/** {@inheritDoc IReadWriteWallet.transactionTypes} */
-	public transactionTypes(): Networks.TransactionType[] {
-		const manifest: Networks.NetworkManifest = this.manifest().get<object>("networks")[this.networkId()];
-
-		return manifest.transactions.types;
 	}
 
 	/** {@inheritDoc IReadWriteWallet.gate} */
@@ -697,8 +679,7 @@ export class Wallet implements IReadWriteWallet {
 
 	#decimals(): number {
 		try {
-			const manifest: Networks.NetworkManifest = this.manifest().get<object>("networks")[this.networkId()];
-			return manifest.currency.decimals ?? 18;
+			return networks[this.networkId()]?.currency.decimals ?? 18;
 		} catch {
 			return 18;
 		}
