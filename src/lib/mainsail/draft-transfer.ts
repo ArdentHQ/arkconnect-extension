@@ -5,7 +5,7 @@ import { BigNumber } from "@/lib/helpers";
 import { TransactionFeeService } from "./transaction-fee.service";
 import { TransactionFee } from "./fee.contract";
 import { assertNumber, assertWallet } from "@/utils/assertions";
-import { ExtendedSignedTransactionData } from "@/lib/profiles/signed-transaction.dto";
+import { SignedTransactionData } from "./signed-transaction.dto";
 import { DISPLAY_DECIMALS, handleBroadcastError } from "@/lib/domains/transaction/utils";
 import { calculateGasFee } from "@/lib/domains/transaction/components/InputFee/InputFee.helpers";
 
@@ -25,7 +25,7 @@ export class DraftTransfer {
 	#amount: number = 0;
 	#fees?: TransactionFee;
 	#selectedFee?: keyof TransactionFee;
-	#signedTransaction?: ExtendedSignedTransactionData;
+	#signedTransaction?: SignedTransactionData;
 
 	public constructor({ profile, env }: { profile: IProfile; env: Environment }) {
 		this.#env = env;
@@ -101,7 +101,7 @@ export class DraftTransfer {
 		key?: string;
 		secondKey?: string;
 		encryptionPassword?: string;
-	}): Promise<ExtendedSignedTransactionData> {
+	}): Promise<SignedTransactionData> {
 		const firstRecipient = this.recipient();
 
 		assertWallet(firstRecipient);
@@ -126,7 +126,7 @@ export class DraftTransfer {
 		return this.#signedTransaction;
 	}
 
-	public async broadcast(transaction: ExtendedSignedTransactionData): Promise<ExtendedSignedTransactionData> {
+	public async broadcast(transaction: SignedTransactionData): Promise<SignedTransactionData> {
 		const response = await transaction.wallet().transaction().broadcast(transaction.hash());
 		handleBroadcastError(response);
 		return transaction;
@@ -136,7 +136,7 @@ export class DraftTransfer {
 		key?: string;
 		secondKey?: string;
 		encryptionPassword?: string;
-	}): Promise<ExtendedSignedTransactionData> {
+	}): Promise<SignedTransactionData> {
 		const transaction = await this.sign(input);
 		return await this.broadcast(transaction);
 	}
@@ -186,7 +186,7 @@ export class DraftTransfer {
 		return this.#amount;
 	}
 
-	public signedTransaction(): ExtendedSignedTransactionData | undefined {
+	public signedTransaction(): SignedTransactionData | undefined {
 		return this.#signedTransaction;
 	}
 

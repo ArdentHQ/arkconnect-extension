@@ -6,12 +6,12 @@ import { Tabs, TransactionsTabs, TransactionTab } from './TransactionsTabs';
 import { NoTransactions, TokensList, TransactionsList } from './LatestTransactions.blocks';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 import { Loader } from '@/shared/components';
-import { ExtendedConfirmedTransactionData } from '@/lib/profiles/transaction.dto';
+import { ConfirmedTransactionData } from '@/lib/mainsail/confirmed-transaction.dto';
 import { IReadWriteWallet } from '@/lib/profiles/wallet.contract';
 import { WalletToken } from '@/lib/profiles/wallet-token';
 
 type TransactionResponse = {
-    transactions: ExtendedConfirmedTransactionData[];
+    transactions: ConfirmedTransactionData[];
     hasMorePages: boolean;
 };
 

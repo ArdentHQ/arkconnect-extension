@@ -1,6 +1,6 @@
 import { AssertionError } from 'assert';
 import { Networks } from '@/lib/mainsail';
-import { Contracts, DTO, Wallet } from '@/lib/profiles';
+import { Contracts, Wallet } from '@/lib/profiles';
 import { Profile } from '@/lib/profiles/profile';
 import { WalletToken } from '@/lib/profiles/wallet-token';
 
@@ -47,26 +47,6 @@ export function assertNetwork(network?: Networks.Network): asserts network is Ne
         });
     }
     return undefined;
-}
-
-export function assertSignedTransaction(
-    transaction?: DTO.ExtendedSignedTransactionData,
-): asserts transaction is DTO.ExtendedSignedTransactionData {
-    if (!(transaction instanceof DTO.ExtendedSignedTransactionData)) {
-        throw new AssertionError({
-            message: `Expected 'transaction' to be DTO.ExtendedSignedTransactionData, but received ${transaction}`,
-        });
-    }
-}
-
-export function assertConfirmedTransaction(
-    transaction?: DTO.ExtendedConfirmedTransactionData,
-): asserts transaction is DTO.ExtendedConfirmedTransactionData {
-    if (!(transaction instanceof DTO.ExtendedConfirmedTransactionData)) {
-        throw new AssertionError({
-            message: `Expected 'transaction' to be DTO.ExtendedConfirmedTransactionData, but received ${transaction}`,
-        });
-    }
 }
 
 export function assertArray(value: unknown): asserts value is NonNullable<any[]> {
