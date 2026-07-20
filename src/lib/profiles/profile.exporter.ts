@@ -2,7 +2,7 @@
 /* eslint-disable */
 import { Base64 } from "@ardenthq/arkvault-crypto";
 
-import { IProfile, IProfileExporter, IProfileExportOptions } from "./contracts.js";
+import { IProfile, IProfileExporter } from "./contracts.js";
 import { ProfileEncrypter } from "./profile.encrypter";
 import { ProfileSerialiser } from "./profile.serialiser";
 
@@ -14,16 +14,8 @@ export class ProfileExporter implements IProfileExporter {
 	}
 
 	/** {@inheritDoc IProfileExporter.export} */
-	public async export(
-		password?: string,
-		options: IProfileExportOptions = {
-			addNetworkInformation: true,
-			excludeEmptyWallets: false,
-			excludeLedgerWallets: false,
-			saveGeneralSettings: true,
-		},
-	): Promise<string> {
-		const data = new ProfileSerialiser(this.#profile).toJSON(options);
+	public async export(password?: string): Promise<string> {
+		const data = new ProfileSerialiser(this.#profile).toJSON();
 
 		if (this.#profile.usesPassword()) {
 			return Base64.encode(
