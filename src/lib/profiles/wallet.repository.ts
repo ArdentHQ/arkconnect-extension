@@ -114,11 +114,6 @@ export class WalletRepository implements IWalletRepository {
 		return this.values().find((wallet: IReadWriteWallet) => wallet.publicKey() === publicKey);
 	}
 
-	/** {@inheritDoc IWalletRepository.findByCoin} */
-	public findByCoin(coin: string): IReadWriteWallet[] {
-		return this.values().filter((wallet: IReadWriteWallet) => wallet.manifest().get<string>("name") === coin);
-	}
-
 	/** {@inheritDoc IWalletRepository.findByAlias} */
 	public findByAlias(alias: string): IReadWriteWallet | undefined {
 		return this.values().find(
