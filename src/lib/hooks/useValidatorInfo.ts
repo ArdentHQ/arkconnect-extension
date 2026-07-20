@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useProfileContext } from '@/lib/context/Profile';
-import { ExtendedConfirmedTransactionData } from '@/lib/profiles/transaction.dto';
+import { ConfirmedTransactionData } from '@/lib/mainsail/confirmed-transaction.dto';
 import { IReadWriteWallet } from '@/lib/profiles/wallet.contract';
 
 export const useValidatorInfo = (
-    transaction: ExtendedConfirmedTransactionData,
+    transaction: ConfirmedTransactionData,
     primaryWallet?: IReadWriteWallet,
 ) => {
     const { profile } = useProfileContext();

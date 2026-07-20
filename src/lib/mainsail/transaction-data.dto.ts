@@ -1,9 +1,6 @@
 import { Contracts } from "@/lib/mainsail";
-import {
-	ApproveDetails,
-	MultiPaymentItem,
-	TransactionDataMeta,
-} from "@/lib/mainsail/confirmed-transaction.dto.contract";
+import { ApproveDetails, MultiPaymentItem } from "@/lib/mainsail/confirmed-transaction.dto.contract";
+import type { IReadWriteWallet } from "@/lib/profiles/contracts";
 import { BigNumber } from "@/lib/helpers";
 import { DateTime } from "@/lib/intl";
 import { AbiType, decodeFunctionData } from "./helpers/decode-function-data";
@@ -16,7 +13,7 @@ export type KeyValuePair = Record<string, any>;
 
 export abstract class TransactionData {
 	readonly #addressService: AddressService;
-	readonly #meta: Record<string, TransactionDataMeta> = {};
+	#wallet?: IReadWriteWallet;
 	readonly #types = [
 		{ method: "isMultiPayment", type: "multiPayment" },
 		{ method: "isTransfer", type: "transfer" },
@@ -44,6 +41,23 @@ export abstract class TransactionData {
 	public withDecimals(decimals?: number | string): this {
 		this.decimals = typeof decimals === "string" ? Number.parseInt(decimals) : decimals;
 		return this;
+	}
+
+	public withWallet(wallet: IReadWriteWallet): this {
+		this.#wallet = wallet;
+		return this;
+	}
+
+	public wallet(): IReadWriteWallet {
+		if (!this.#wallet) {
+			throw new Error("This transaction has not been associated with a wallet.");
+		}
+
+		return this.#wallet;
+	}
+
+	public explorerLink(): string {
+		return this.wallet().link().transaction(this.hash());
 	}
 
 	public type(): string {
@@ -158,14 +172,6 @@ export abstract class TransactionData {
 		return !this.hasPassed();
 	}
 
-	public getMeta(key: string): TransactionDataMeta {
-		return this.#meta[key];
-	}
-
-	public setMeta(key: string, value: TransactionDataMeta): void {
-		this.#meta[key] = value;
-	}
-
 	public hash(): string {
 		return this.data.hash;
 	}
@@ -229,11 +235,11 @@ export abstract class TransactionData {
 	}
 
 	public isSent(): boolean {
-		return [this.getMeta("address"), this.getMeta("publicKey")].includes(this.from());
+		return [this.#wallet?.address(), this.#wallet?.publicKey()].includes(this.from());
 	}
 
 	public isReceived(): boolean {
-		return [this.getMeta("address"), this.getMeta("publicKey")].includes(this.to());
+		return [this.#wallet?.address(), this.#wallet?.publicKey()].includes(this.to());
 	}
 
 	public isTransfer(): boolean {

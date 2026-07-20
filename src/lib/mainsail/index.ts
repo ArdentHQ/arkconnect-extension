@@ -1,4 +1,4 @@
-export { manifest } from "./manifest";
+export { networks } from "./manifest";
 
 export * as Networks from "./networks";
 export * as Enums from "./enums";
