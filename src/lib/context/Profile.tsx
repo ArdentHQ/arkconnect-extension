@@ -10,7 +10,6 @@ import { LoadingFullScreen } from '@/shared/components/handleStates/LoadingFullS
 import { ProfileData } from '@/lib/background/contracts';
 import { useAppDispatch } from '@/lib/store';
 import { useWalletBalance } from '@/lib/hooks/useWalletBalance';
-import { ensureCoingeckoMarketProvider } from '@/lib/utils/ensureCoingeckoMarketProvider';
 
 interface Context {
     profile: Contracts.IProfile;
@@ -122,7 +121,11 @@ export const ProfileProvider = ({ children }: Properties) => {
         await env.profiles().restore(newProfile);
         await newProfile.sync();
 
-        if (ensureCoingeckoMarketProvider(newProfile)) {
+        // CryptoCompare free tier is gone; migrate once and persist
+        if (
+            newProfile.settings().get(Contracts.ProfileSetting.MarketProvider) === 'cryptocompare'
+        ) {
+            newProfile.settings().set(Contracts.ProfileSetting.MarketProvider, 'coingecko');
             await env.persist();
         }
 
