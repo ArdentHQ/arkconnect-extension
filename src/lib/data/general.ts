@@ -42,8 +42,5 @@ export const general = {
         { label: 'ETH (Ξ)', value: 'ETH' },
         { label: 'LTC (Ł)', value: 'LTC' },
     ],
-    marketProviders: [
-        { label: 'CoinGecko', unsupportedCurrencies: [], value: 'coingecko' },
-        { label: 'CryptoCompare', unsupportedCurrencies: ['VND'], value: 'cryptocompare' },
-    ],
+    marketProviders: [{ label: 'CoinGecko', unsupportedCurrencies: [], value: 'coingecko' }],
 } as PlatformData;

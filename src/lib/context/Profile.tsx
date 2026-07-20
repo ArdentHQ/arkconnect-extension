@@ -10,6 +10,7 @@ import { LoadingFullScreen } from '@/shared/components/handleStates/LoadingFullS
 import { ProfileData } from '@/lib/background/contracts';
 import { useAppDispatch } from '@/lib/store';
 import { useWalletBalance } from '@/lib/hooks/useWalletBalance';
+import { ensureCoingeckoMarketProvider } from '@/lib/utils/ensureCoingeckoMarketProvider';
 
 interface Context {
     profile: Contracts.IProfile;
@@ -121,8 +122,17 @@ export const ProfileProvider = ({ children }: Properties) => {
         await env.profiles().restore(newProfile);
         await newProfile.sync();
 
+        if (ensureCoingeckoMarketProvider(newProfile)) {
+            await env.persist();
+        }
+
         await env.wallets().syncByProfile(newProfile);
-        await env.exchangeRates().syncAll(newProfile, 'ARK');
+
+        try {
+            await env.exchangeRates().syncAll(newProfile, 'ARK');
+        } catch {
+            // exchange rate data is display-only so continue without pricing
+        }
 
         setProfile(newProfile);
 

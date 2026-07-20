@@ -51,6 +51,7 @@ export const createTestProfile = async ({ env }: { env: Environment }): Promise<
 
     profile.auth().setPassword(password);
     profile.settings().set(Contracts.ProfileSetting.ExchangeCurrency, 'USD');
+    profile.settings().set(Contracts.ProfileSetting.MarketProvider, 'coingecko');
 
     const walletFixtures = getTestingAddresses();
 

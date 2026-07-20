@@ -110,6 +110,8 @@ export function Extension() {
             profile
                 .settings()
                 .set(Contracts.ProfileSetting.ExchangeCurrency, options?.currency ?? 'USD');
+            // sdk-profiles still defaults new profiles to cryptocompare
+            profile.settings().set(Contracts.ProfileSetting.MarketProvider, 'coingecko');
 
             await env.verify();
             await env.boot();
