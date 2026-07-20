@@ -1,4 +1,4 @@
-import { IProfile, IProfileExportOptions, IProfileInput } from "./contracts.js";
+import { IProfile, IProfileInput } from "./contracts.js";
 
 /**
  * Defines the implementation contract for the profile repository.
@@ -104,12 +104,11 @@ export interface IProfileRepository {
 	 * Export the data of a profile.
 	 *
 	 * @param {IProfile} profile
-	 * @param {IProfileExportOptions} [options]
 	 * @param {string} [password]
 	 * @returns {string}
 	 * @memberof IProfileRepository
 	 */
-	export(profile: IProfile, options?: IProfileExportOptions, password?: string): Promise<string>;
+	export(profile: IProfile, password?: string): Promise<string>;
 
 	/**
 	 * Restore a profile from its data.

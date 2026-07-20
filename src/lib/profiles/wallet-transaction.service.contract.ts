@@ -1,8 +1,8 @@
 import { Services, Signatories } from "@/lib/mainsail";
 
-import { ExtendedSignedTransactionData } from "./signed-transaction.dto.js";
+import { SignedTransactionData } from "@/lib/mainsail/signed-transaction.dto";
 
-export type SignedTransactionDataDictionary = Record<string, ExtendedSignedTransactionData>;
+export type SignedTransactionDataDictionary = Record<string, SignedTransactionData>;
 
 /**
  * Defines the implementation contract for the transaction service.
@@ -163,7 +163,7 @@ export interface ITransactionService {
 	 * @return {Contracts.SignedTransactionData}
 	 * @memberof ITransactionService
 	 */
-	transaction(id: string): ExtendedSignedTransactionData;
+	transaction(id: string): SignedTransactionData;
 
 	/**
 	 * Get all transactions that are pending in some state.

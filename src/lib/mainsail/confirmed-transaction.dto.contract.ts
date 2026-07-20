@@ -12,9 +12,6 @@ export interface MultiPaymentItem {
 	amount: BigNumber;
 }
 
-// These types and interfaces are responsible for transaction-specific methods.
-export type TransactionDataMeta = string | number | boolean | undefined;
-
 export interface UnspentTransactionData {
 	hash(): string;
 
@@ -128,10 +125,6 @@ export interface ConfirmedTransactionData {
 	hasPassed(): boolean;
 
 	hasFailed(): boolean;
-
-	getMeta(key: string): TransactionDataMeta;
-
-	setMeta(key: string, value: TransactionDataMeta): void;
 
 	normalizeData(): void;
 

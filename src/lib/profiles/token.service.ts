@@ -5,8 +5,6 @@ import { WalletTokenCollection } from "@/lib/mainsail/wallet-token.collection";
 import { TokenTransfersQuery, WalletTokensQuery } from "@/lib/mainsail/client.contract";
 import { WalletToken } from "./wallet-token";
 import { ConfirmedTransactionDataCollection } from "@/lib/mainsail/transactions.collection";
-import { ExtendedConfirmedTransactionData } from "@/lib/profiles/transaction.dto";
-import { ExtendedConfirmedTransactionDataCollection } from "@/lib/profiles/transaction.collection";
 import { WalletTokenDTO } from "./wallet-token.dto";
 import { BigNumber } from "@/lib/helpers";
 import { ProfileSetting } from "./profile.enum.contract";
@@ -179,13 +177,17 @@ export class TokenService {
 		}
 	}
 
-	#setTransactionMetadata(transactions: ConfirmedTransactionDataCollection, queryAddresses?: string[]): void {
+	#attachTransactionWallets(transactions: ConfirmedTransactionDataCollection): void {
+		const addresses = this.#profile
+			.wallets()
+			.values()
+			.map((wallet) => wallet.address());
+
 		for (const transaction of transactions.items()) {
-			const wallet = this.#getTransactionWallet(transaction, queryAddresses);
+			const wallet = this.#getTransactionWallet(transaction, addresses);
 
 			if (wallet) {
-				transaction.setMeta("publicKey", wallet.publicKey());
-				transaction.setMeta("address", wallet.address());
+				transaction.withWallet(wallet);
 			}
 		}
 	}
@@ -193,9 +195,9 @@ export class TokenService {
 	/**
 	 * Retrieves token transfers
 	 *
-	 * @returns {ExtendedConfirmedTransactionDataCollection}
+	 * @returns {ConfirmedTransactionDataCollection}
 	 */
-	async transfers(query: TokenTransfersQuery | undefined = {}): Promise<ExtendedConfirmedTransactionDataCollection> {
+	async transfers(query: TokenTransfersQuery | undefined = {}): Promise<ConfirmedTransactionDataCollection> {
 		const activeNetwork = this.#profile.activeNetwork();
 
 		const clientService = new ClientService({
@@ -221,13 +223,9 @@ export class TokenService {
 
 			response = await clientService.tokenTransfers(transfersQuery);
 
-			const queryAddresses = [...transfersQuery.from, ...(transfersQuery.to ?? [])].filter(
-				(address) => !!address,
-			);
-
-			this.#setTransactionMetadata(response, queryAddresses);
+			this.#attachTransactionWallets(response);
 		} catch {
-			return new ExtendedConfirmedTransactionDataCollection([], {
+			return new ConfirmedTransactionDataCollection([], {
 				last: undefined,
 				next: 0,
 				prev: undefined,
@@ -236,19 +234,7 @@ export class TokenService {
 			});
 		}
 
-		const transfers = response.items().map((transfer) => {
-			const wallet = this.#getTransactionWallet(
-				transfer,
-				this.#profile
-					.wallets()
-					.values()
-					.map((wallet) => wallet.address()),
-			);
-
-			return new ExtendedConfirmedTransactionData(wallet!, transfer);
-		});
-
-		return new ExtendedConfirmedTransactionDataCollection(transfers, response.getPagination());
+		return response;
 	}
 
 	#client(): ClientService {

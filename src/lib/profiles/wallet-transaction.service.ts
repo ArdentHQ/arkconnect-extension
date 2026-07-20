@@ -3,7 +3,6 @@
 import { Exceptions, Services } from "@/lib/mainsail";
 import { IReadWriteWallet, ITransactionService, WalletData } from "./contracts";
 
-import { ExtendedSignedTransactionData } from "./signed-transaction.dto";
 import { SignedTransactionDataDictionary } from "./wallet-transaction.service.contract";
 import { SignedTransactionData } from "@/lib/mainsail/signed-transaction.dto";
 import { ConfirmedTransactionData } from "@/lib/mainsail/confirmed-transaction.dto";
@@ -121,7 +120,7 @@ export class TransactionService implements ITransactionService {
 	}
 
 	/** {@inheritDoc ITransactionService.transaction} */
-	public transaction(id: string): ExtendedSignedTransactionData {
+	public transaction(id: string): SignedTransactionData {
 		this.#assertHasValidIdentifier(id);
 
 		const transaction = this.#confirmed[id] || this.#broadcasted[id] || this.#signed[id] || this.#pending[id];
@@ -198,7 +197,7 @@ export class TransactionService implements ITransactionService {
 	public async broadcast(id: string): Promise<Services.BroadcastResponse> {
 		this.#assertHasValidIdentifier(id);
 
-		const transaction: ExtendedSignedTransactionData = this.transaction(id);
+		const transaction: SignedTransactionData = this.transaction(id);
 
 		let result: Services.BroadcastResponse = {
 			accepted: [],
@@ -207,7 +206,7 @@ export class TransactionService implements ITransactionService {
 		};
 
 		if (this.canBeBroadcasted(id)) {
-			result = await this.#wallet.client().broadcast([transaction.data()]);
+			result = await this.#wallet.client().broadcast([transaction]);
 		}
 
 		if (result.accepted.includes(transaction.hash())) {
@@ -226,7 +225,7 @@ export class TransactionService implements ITransactionService {
 		}
 
 		try {
-			const transactionLocal: ExtendedSignedTransactionData = this.transaction(id);
+			const transactionLocal: SignedTransactionData = this.transaction(id);
 			const transaction: ConfirmedTransactionData = await this.#wallet
 				.client()
 				.transaction(transactionLocal.hash());
@@ -276,11 +275,8 @@ export class TransactionService implements ITransactionService {
 			for (const [id, transaction] of Object.entries(transactions)) {
 				this.#assertHasValidIdentifier(id);
 
-				storage[id] = new ExtendedSignedTransactionData(
-					// @TODO: Serialize transaction data within SignedTransactionData instead of requiring it as a property.
-					new SignedTransactionData().configure(transaction, "1"),
-					this.#wallet,
-				);
+				// @TODO: Serialize transaction data within SignedTransactionData instead of requiring it as a property.
+				storage[id] = new SignedTransactionData().configure(transaction, "1").withWallet(this.#wallet);
 			}
 		};
 
@@ -298,9 +294,9 @@ export class TransactionService implements ITransactionService {
 	 * @memberof TransactionService
 	 */
 	async #signTransaction(type: string, input: any): Promise<string> {
-		const transaction: ExtendedSignedTransactionData = this.#createExtendedSignedTransactionData(
-			await this.#wallet.transactionService()[type](input),
-		);
+		const transaction: SignedTransactionData = (
+			await this.#wallet.transactionService()[type](input)
+		).withWallet(this.#wallet);
 
 		this.#signed[transaction.hash()] = transaction;
 
@@ -318,9 +314,5 @@ export class TransactionService implements ITransactionService {
 		if (id === undefined) {
 			throw new Error("Encountered a malformed ID. This looks like a bug.");
 		}
-	}
-
-	#createExtendedSignedTransactionData(transaction: SignedTransactionData): ExtendedSignedTransactionData {
-		return new ExtendedSignedTransactionData(transaction, this.#wallet);
 	}
 }

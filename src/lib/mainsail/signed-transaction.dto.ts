@@ -12,11 +12,14 @@ import { DateTime } from "@/lib/intl";
 import { Hex } from "viem";
 import { TransactionToken } from "@/lib/profiles/transaction-token";
 import { TransactionTokenData } from "@/lib/profiles/token.contracts";
+import type { IReadWriteWallet } from "@/lib/profiles/contracts";
 
 export class SignedTransactionData {
 	protected identifier!: string;
 	protected signedData!: RawTransactionData;
 	protected serialized!: string;
+
+	#wallet?: IReadWriteWallet;
 
 	readonly #types = [
 		{ method: "isMultiPayment", type: "multiPayment" },
@@ -40,6 +43,65 @@ export class SignedTransactionData {
 		}
 
 		return this;
+	}
+
+	public withWallet(wallet: IReadWriteWallet): this {
+		this.#wallet = wallet;
+		return this;
+	}
+
+	public wallet(): IReadWriteWallet {
+		if (!this.#wallet) {
+			throw new Error("This transaction has not been associated with a wallet.");
+		}
+
+		return this.#wallet;
+	}
+
+	public isSent(): boolean {
+		return [this.#wallet?.address(), this.#wallet?.publicKey()].includes(this.from());
+	}
+
+	public isReceived(): boolean {
+		return [this.#wallet?.address(), this.#wallet?.publicKey()].includes(this.to());
+	}
+
+	public isReturn(): boolean {
+		if (this.isTransfer()) {
+			return this.isSent() && this.isReceived();
+		}
+
+		if (this.isMultiPayment()) {
+			return this.recipients().every(({ address }) => address === this.from());
+		}
+
+		return false;
+	}
+
+	public isConfirmed(): boolean {
+		return false;
+	}
+
+	public total(): BigNumber {
+		if (this.isReturn()) {
+			return this.value().minus(this.fee());
+		}
+
+		if (this.isSent()) {
+			return this.value().plus(this.fee());
+		}
+
+		let total = this.value();
+
+		if (this.isMultiPayment()) {
+			for (const recipient of this.recipients()) {
+				if (recipient.address !== this.wallet().address()) {
+					total = total.minus(recipient.amount);
+				}
+			}
+		}
+
+		return total;
 	}
 
 	public memo(): string {

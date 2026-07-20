@@ -29,7 +29,7 @@ export const bootEnvironmentWithProfileFixtures = async ({
             await env.profiles().restore(passwordProtectedProfile);
             passwordProtectedProfile.auth().setPassword(password);
 
-            data = await env.profiles().export(passwordProtectedProfile, undefined, password);
+            data = await env.profiles().export(passwordProtectedProfile, password);
         }
 
         storageData.profiles[id] = {

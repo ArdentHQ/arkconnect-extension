@@ -9,22 +9,17 @@ import { TransactionBody } from '@/components/transaction/details/TransactionBod
 import { TransactionHeader } from '@/components/transaction/details/TransactionHeader';
 import { Button, ExternalLink } from '@/shared/components';
 import { Footer } from '@/shared/components/layout/Footer';
-import { ExtendedConfirmedTransactionData } from '@/lib/profiles/transaction.dto';
+import { ConfirmedTransactionData } from '@/lib/mainsail/confirmed-transaction.dto';
 import { IReadWriteWallet } from '@/lib/profiles/wallet.contract';
 
-type TransactionDetailsResponse = ExtendedConfirmedTransactionData | undefined;
+type TransactionDetailsResponse = ConfirmedTransactionData | undefined;
 
 const fetchTransactionDetails = async (
     primaryWallet?: IReadWriteWallet,
     transactionId?: string,
 ): Promise<TransactionDetailsResponse> => {
     try {
-        const transaction = await primaryWallet?.transactionIndex().findById(transactionId ?? '');
-        if (transaction) {
-            transaction.setMeta('address', primaryWallet?.address());
-            transaction.setMeta('publicKey', primaryWallet?.publicKey());
-        }
-        return transaction;
+        return await primaryWallet?.transactionIndex().findById(transactionId ?? '');
     } catch {
         throw new Error('Error fetching transaction details');
     }

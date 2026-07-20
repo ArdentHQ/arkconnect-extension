@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
 
-import { ExtendedConfirmedTransactionDataCollection } from "./transaction.collection";
+import { ConfirmedTransactionDataCollection } from "@/lib/mainsail/transactions.collection";
 import { TokenIndex } from "./token-index";
 import { WalletData, WalletFlag } from "./wallet.enum";
 import { makeCollection, makeTransaction, makeWallet } from "./token.test-fixtures";
@@ -37,26 +37,24 @@ describe("TokenIndex", () => {
 			);
 		});
 
-		it("returns an ExtendedConfirmedTransactionDataCollection", async () => {
+		it("returns a ConfirmedTransactionDataCollection", async () => {
 			const wallet = makeWallet();
 			wallet._tokenTransfers.mockResolvedValue(makeCollection([makeTransaction()]));
 
 			const result = await new TokenIndex(wallet).all();
 
-			expect(result).toBeInstanceOf(ExtendedConfirmedTransactionDataCollection);
+			expect(result).toBeInstanceOf(ConfirmedTransactionDataCollection);
 			expect(result.items()).toHaveLength(1);
 		});
 
-		it("sets address and publicKey meta on each transaction", async () => {
+		it("associates the wallet with each transaction", async () => {
 			const wallet = makeWallet();
 			const tx = makeTransaction();
-			const setMeta = vi.spyOn(tx, "setMeta");
 			wallet._tokenTransfers.mockResolvedValue(makeCollection([tx]));
 
 			await new TokenIndex(wallet).all();
 
-			expect(setMeta).toHaveBeenCalledWith("address", "wallet-address");
-			expect(setMeta).toHaveBeenCalledWith("publicKey", "wallet-public-key");
+			expect(tx.wallet()).toBe(wallet);
 		});
 
 		it("does not change wallet status when wallet is not cold", async () => {
