@@ -2,13 +2,13 @@ import { twMerge } from 'tailwind-merge';
 import { getType, TransactionType } from '@/components/home/LatestTransactions.utils';
 import { TransactionIcon } from '@/components/transaction/Transaction.blocks';
 import { MultipaymentBadge, TransactionTitle } from '@/components/home/LatestTransactions.blocks';
-import { ExtendedConfirmedTransactionData } from '@/lib/profiles/transaction.dto';
+import { ConfirmedTransactionData } from '@/lib/mainsail/confirmed-transaction.dto';
 
 export const TransactionHeader = ({
     transaction,
     className,
 }: {
-    transaction: ExtendedConfirmedTransactionData;
+    transaction: ConfirmedTransactionData;
     className?: string;
 }) => {
     let subtype;

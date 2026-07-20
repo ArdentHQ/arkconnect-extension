@@ -15,13 +15,9 @@ import trimAddress from '@/lib/utils/trimAddress';
 import { useValidatorInfo } from '@/lib/hooks/useValidatorInfo';
 import { useExchangeRate } from '@/lib/hooks/useExchangeRate';
 import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
-import { ExtendedConfirmedTransactionData } from '@/lib/profiles/transaction.dto';
+import { ConfirmedTransactionData } from '@/lib/mainsail/confirmed-transaction.dto';
 
-export const TransactionBody = ({
-    transaction,
-}: {
-    transaction: ExtendedConfirmedTransactionData;
-}) => {
+export const TransactionBody = ({ transaction }: { transaction: ConfirmedTransactionData }) => {
     const primaryWallet = usePrimaryWallet();
     const { t } = useTranslation();
     const { voteValidator } = useValidatorInfo(transaction, primaryWallet);
