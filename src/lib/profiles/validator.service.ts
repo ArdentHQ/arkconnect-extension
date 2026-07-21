@@ -2,7 +2,7 @@ import { Contracts, Networks } from "@/lib/mainsail";
 
 import { IDataRepository, IValidatorService, IProfile, IReadOnlyWallet, IReadWriteWallet } from "./contracts.js";
 import { DataRepository } from "./data.repository";
-import { IValidatorSyncer, ParallelValidatorSyncer, SerialValidatorSyncer } from "./validator-syncer.service.js";
+import { ValidatorSyncer } from "./validator-syncer.service.js";
 import { pqueueSettled } from "./helpers/queue.js";
 import { ReadOnlyWallet } from "./read-only-wallet.js";
 import { ClientService } from "@/lib/mainsail/client.service.js";
@@ -59,9 +59,7 @@ export class ValidatorService implements IValidatorService {
 				config: this.#profile.activeNetwork().config(),
 				profile: this.#profile,
 			});
-			const syncer: IValidatorSyncer = this.#profile.activeNetwork().meta().fastDelegateSync
-				? new ParallelValidatorSyncer(clientService)
-				: new SerialValidatorSyncer(clientService);
+			const syncer = new ValidatorSyncer(clientService);
 
 			const result: Contracts.WalletData[] = await syncer.sync({ limit: 100 });
 

@@ -96,7 +96,6 @@ export const networks: Record<string, NetworkManifest> = {
 		knownWallets:
 			"https://raw.githubusercontent.com/ArkEcosystem/common/master/mainnet/known-wallets-extended.json",
 		meta: {
-			fastDelegateSync: true,
 			nethash: "3da160779cc52343e6f5923062986b775baa5abbd831f9f9b46308280924490f",
 		},
 		name: "Mainnet",
