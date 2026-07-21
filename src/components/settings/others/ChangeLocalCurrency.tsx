@@ -21,7 +21,12 @@ const ChangeLocalCurrency = () => {
     const changeCurrency = async (currency: Currency) => {
         profile.settings().set(Contracts.ProfileSetting.ExchangeCurrency, currency.value);
         await persist();
-        await env.exchangeRates().syncAll(profile, 'ARK');
+
+        try {
+            await env.exchangeRates().syncAll(profile, 'ARK');
+        } catch {
+            // exchange rate data is display-only so continue without pricing
+        }
 
         toast(
             'success',

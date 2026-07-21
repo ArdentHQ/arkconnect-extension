@@ -121,8 +121,21 @@ export const ProfileProvider = ({ children }: Properties) => {
         await env.profiles().restore(newProfile);
         await newProfile.sync();
 
+        // CryptoCompare free tier is gone; migrate once and persist
+        if (
+            newProfile.settings().get(Contracts.ProfileSetting.MarketProvider) === 'cryptocompare'
+        ) {
+            newProfile.settings().set(Contracts.ProfileSetting.MarketProvider, 'coingecko');
+            await env.persist();
+        }
+
         await env.wallets().syncByProfile(newProfile);
-        await env.exchangeRates().syncAll(newProfile, 'ARK');
+
+        try {
+            await env.exchangeRates().syncAll(newProfile, 'ARK');
+        } catch {
+            // exchange rate data is display-only so continue without pricing
+        }
 
         setProfile(newProfile);
 
