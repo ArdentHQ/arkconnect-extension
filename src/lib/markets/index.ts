@@ -5,8 +5,8 @@ import {
 	MarketDataCollection,
 	PriceTracker,
 } from "./contracts/index";
+import { ArkPricing } from "./drivers/arkpricing";
 import { CoinCap } from "./drivers/coincap";
-import { CoinGecko } from "./drivers/coingecko";
 
 /**
  * Normalises the communication with Market Data Providers.
@@ -44,8 +44,8 @@ export class MarketService {
 	public static make(name: string): MarketService {
 		return new MarketService(
 			{
+				arkpricing: new ArkPricing(),
 				coincap: new CoinCap(),
-				coingecko: new CoinGecko(),
 			}[name.toLowerCase()] as PriceTracker,
 		);
 	}

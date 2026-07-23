@@ -4,21 +4,26 @@ import { getLocalValues, setLocalValue } from '@/lib/utils/localStorage';
 import { general } from '@/lib/data/general';
 
 const ONE_MINUTE_IN_MS = 60000;
-const COINGECKO_API_URL = 'https://api.coingecko.com/api/v3/simple/price';
+const ARK_PRICING_API_URL = 'https://pricing.ardenthq.com/api/v1';
 const COIN_ID = 'ark';
 
 const fetchRates = async (): Promise<Record<string, number>> => {
-    const url = new URL(COINGECKO_API_URL);
-    url.searchParams.set('ids', COIN_ID);
-    url.searchParams.set(
-        'vs_currencies',
-        general.currencies.map((currency) => currency.value).join(','),
-    );
+    const url = new URL(`${ARK_PRICING_API_URL}/coins/${COIN_ID}/price`);
+    for (const [index, currency] of general.currencies.entries()) {
+        url.searchParams.set(`currencies[${index}]`, currency.value);
+    }
 
     const response = await fetch(url);
-    const parsedRates = await response.json();
+    const { data } = await response.json();
 
-    return parsedRates[COIN_ID];
+    return Object.entries(data?.prices ?? {}).reduce(
+        (acc: Record<string, number>, [currency, value]: [string, any]) => {
+            acc[currency.toLowerCase()] = value.price;
+
+            return acc;
+        },
+        {},
+    );
 };
 
 export const useExchangeRates = () => {
