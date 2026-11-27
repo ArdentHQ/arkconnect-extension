@@ -79,6 +79,11 @@ export default defineConfig({
         },
     }),
     vite: () => ({
+        // Vite 8 imports CJS defaults Node-style in "type": "module" packages, which hands
+        // `import x from 'cjs-pkg'` the whole module object (breaks redux-persist storage).
+        legacy: {
+            inconsistentCjsInterop: true,
+        },
         define: {
             'process.env.NODE_DEBUG': process.env.NODE_DEBUG ? true : false,
             'process.env.VITE_SEED_ADDRESSES': process.env.VITE_SEED_ADDRESSES ? true : false,
@@ -112,8 +117,10 @@ export default defineConfig({
             makeInpageScriptIife,
         ],
         optimizeDeps: {
-            esbuildOptions: {
-                target: 'es2020',
+            rolldownOptions: {
+                transform: {
+                    target: 'es2020',
+                },
             },
         },
         build: {

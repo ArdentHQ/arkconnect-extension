@@ -12,6 +12,10 @@ import react from '@vitejs/plugin-react';
 // https://vitejs.dev/config/
 export default defineConfig(() => {
     return {
+        // Keep CJS default imports resolving the same way as the wxt build.
+        legacy: {
+            inconsistentCjsInterop: true,
+        },
         define: {
             'process.env.NODE_DEBUG': process.env.NODE_DEBUG ? true : false,
             'process.env.VITE_SEED_ADDRESSES': process.env.VITE_SEED_ADDRESSES ? true : false,
