@@ -104,7 +104,7 @@ const ImportNewWallet = () => {
         onSubmit: async (values: FormikValues, formikHelpers) => {
             loadingModal.setLoading();
 
-            const { error } = await runtime.sendMessage({
+            const { error } = await runtime.sendMessage<unknown, { error?: string }>({
                 type: 'IMPORT_WALLETS',
                 data: {
                     currency: defaultCurrency,

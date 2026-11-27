@@ -88,7 +88,7 @@
         "@types/react-dom": "^19.2.3",
         "@types/semver": "^7.7.1",
         "@types/uuid": "^11.0.0",
-        "@types/webextension-polyfill": "^0.10.7",
+        "@types/webextension-polyfill": "^0.12.6",
         "@typescript-eslint/eslint-plugin": "^8.59.3",
         "@typescript-eslint/parser": "^8.59.3",
         "@vitejs/plugin-react": "^4.7.0",

@@ -16,6 +16,7 @@ import { Network } from '@/lib/mainsail/network';
 import { TransactionInputs } from '@/lib/mainsail/transaction.contract';
 import { calculateGasFee, GasLimit } from '@/lib/hooks/useNetworkFees';
 import { BigNumber } from '@/lib/helpers';
+import type { BroadcastResult } from '@/lib/background/extension.wallet';
 
 interface SendVoteForm {
     senderAddress: string;
@@ -133,7 +134,10 @@ export const useVoteForm = (wallet: Contracts.IReadWriteWallet, request: Approve
             };
         }
 
-        const { transaction, response, error } = await runtime.sendMessage({
+        const { transaction, response, error } = await runtime.sendMessage<
+            unknown,
+            BroadcastResult & { error?: string }
+        >({
             type: 'SEND_VOTE',
             data,
         });

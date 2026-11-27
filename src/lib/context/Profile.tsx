@@ -58,7 +58,10 @@ export const ProfileProvider = ({ children }: Properties) => {
 
     const restoreProfile = async () => {
         try {
-            const { data, envData } = await runtime.sendMessage({
+            const { data, envData } = await runtime.sendMessage<
+                unknown,
+                { data?: string; envData?: object }
+            >({
                 type: 'GET_DATA',
             });
 

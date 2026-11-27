@@ -31,6 +31,8 @@ interface BroadcastResponse {
     response: BroadcastResponseData;
 }
 
+export type BroadcastResult = BroadcastResponse;
+
 export interface SendTransferInput extends TransferInput {
     recipients: RecipientItem[];
     tokenAddress?: string;

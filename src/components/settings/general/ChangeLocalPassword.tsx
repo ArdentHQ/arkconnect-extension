@@ -59,7 +59,7 @@ const ChangeLocalPassword = () => {
 
                 loadingModal.setLoading();
 
-                const { error } = await runtime.sendMessage({
+                const { error } = await runtime.sendMessage<unknown, { error?: unknown }>({
                     type: 'CHANGE_PASSWORD',
                     data: {
                         newPassword: formik.values.newPassword,

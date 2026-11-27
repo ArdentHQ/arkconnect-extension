@@ -27,7 +27,9 @@ const NextPageMiddleware = ({ children }: Props) => {
 
     useLayoutEffect(() => {
         const checkLocked = async () => {
-            const status = await runtime.sendMessage({ type: 'CHECK_LOCK' });
+            const status = await runtime.sendMessage<unknown, { isLocked: boolean }>({
+                type: 'CHECK_LOCK',
+            });
 
             dispatch(UIStore.lockedChanged(status.isLocked));
         };
