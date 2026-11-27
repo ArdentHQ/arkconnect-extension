@@ -7,8 +7,7 @@ import { usePrimaryWallet } from '@/lib/hooks/usePrimaryWallet';
 import { WalletToken } from '@/lib/profiles/wallet-token';
 
 type AssetOption =
-    | { kind: 'native'; ticker: string; name: string }
-    | { kind: 'token'; token: WalletToken };
+    { kind: 'native'; ticker: string; name: string } | { kind: 'token'; token: WalletToken };
 
 const AssetAvatar = ({ label }: { label: string }) => {
     const initial = label.slice(0, 1).toUpperCase();

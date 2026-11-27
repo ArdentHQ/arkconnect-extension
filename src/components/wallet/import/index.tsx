@@ -72,8 +72,7 @@ const ImportNewWallet = () => {
             }
 
             const lastVisitedPage = profile.settings().get(ProfileData.LastVisitedPage) as
-                | LastVisitedPage
-                | undefined;
+                LastVisitedPage | undefined;
 
             if (lastVisitedPage?.path === ScreenName.ImportWallet) {
                 if (lastVisitedPage.data.step > 0) {
