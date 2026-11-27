@@ -1,0 +1,14 @@
+packages:
+    - .
+
+overrides:
+    vite: ^6.4.2
+    colorthief>quantize: npm:@lokesh.dhakar/quantize@1.4.0
+
+allowBuilds:
+    '@ardenthq/arkvault-url': false
+    keccak: false
+    secp256k1: false
+    esbuild: false
+    spawn-sync: false
+    unrs-resolver: false

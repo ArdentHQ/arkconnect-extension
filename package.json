@@ -80,9 +80,10 @@
         "yup": "^1.7.1"
     },
     "devDependencies": {
-        "@eslint/js": "^9.39.4",
+        "@eslint/js": "^10.0.1",
         "@tailwindcss/postcss": "^4.3.0",
-        "@testing-library/react": "^14.3.1",
+        "@testing-library/dom": "^10.4.2",
+        "@testing-library/react": "^16.3.3",
         "@types/big.js": "^6.2.2",
         "@types/react": "^19.2.14",
         "@types/react-dom": "^19.2.3",
@@ -92,19 +93,19 @@
         "@typescript-eslint/eslint-plugin": "^8.59.3",
         "@typescript-eslint/parser": "^8.59.3",
         "@vitejs/plugin-react": "^4.7.0",
-        "@vitest/coverage-v8": "^3.2.4",
+        "@vitest/coverage-v8": "^5.1.2",
         "@wxt-dev/module-react": "^1.2.2",
         "autoprefixer": "^10.5.0",
-        "eslint": "^9.39.4",
+        "eslint": "^10.15.0",
         "eslint-import-resolver-typescript": "^4.4.4",
         "eslint-plugin-import": "^2.32.0",
         "eslint-plugin-react": "^7.37.5",
         "eslint-plugin-sonarjs": "^4.0.3",
         "eslint-plugin-testing-library": "^7.16.2",
-        "eslint-plugin-unicorn": "^64.0.0",
+        "eslint-plugin-unicorn": "^80.0.0",
         "eslint-plugin-unused-imports": "^4.4.1",
         "globals": "^17.6.0",
-        "jsdom": "^29.1.1",
+        "jsdom": "^31.0.1",
         "postcss": "^8.5.14",
         "prettier": "^3.8.3",
         "prettier-plugin-tailwindcss": "^0.8.0",
@@ -113,13 +114,14 @@
         "typescript": "^5.9.3",
         "typescript-eslint": "^8.59.3",
         "vite": "^6.4.2",
-        "vitest": "^3.2.4",
+        "vitest": "^5.1.2",
         "webextension-polyfill": "^0.12.0",
         "wxt": "^0.20.26"
     },
     "pnpm": {
         "overrides": {
-            "vite": "^6.4.2"
+            "vite": "^6.4.2",
+            "colorthief>quantize": "npm:@lokesh.dhakar/quantize@1.4.0"
         }
     }
 }

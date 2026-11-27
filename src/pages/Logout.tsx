@@ -101,7 +101,7 @@ const Logout = () => {
     const getAddressesType = () => {
         let hasLedger = false;
         let hasPassphrase = false;
-        let text = '';
+        let text: string;
 
         walletsToLogout.some((walletId: string) => {
             const wallet = profile.wallets().findById(walletId);
