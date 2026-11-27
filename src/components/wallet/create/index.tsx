@@ -78,8 +78,7 @@ const CreateNewWallet = () => {
             const hasOnboarded = env.data().get(EnvironmentData.HasOnboarded);
 
             const lastVisitedPage = profile.settings().get(ProfileData.LastVisitedPage) as
-                | LastVisitedPage
-                | undefined;
+                LastVisitedPage | undefined;
 
             if (lastVisitedPage && lastVisitedPage.path === ScreenName.CreateWallet) {
                 setIsGeneratingWallet(true);
