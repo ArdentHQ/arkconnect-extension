@@ -80,8 +80,7 @@ const NextPageMiddleware = ({ children }: Props) => {
         }
 
         const lastVisitedPage = profile.settings().get(ProfileData.LastVisitedPage) as
-            | LastVisitedPage
-            | undefined;
+            LastVisitedPage | undefined;
 
         if (isProfileReady && profile.wallets().count() === 0) {
             navigate(lastVisitedPage ? '/onboarding' : '/splash-screen');

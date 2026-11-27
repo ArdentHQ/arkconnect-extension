@@ -83,8 +83,7 @@ export const ProfileProvider = ({ children }: Properties) => {
         await updateStoreWallets({ profile });
 
         const sessions = profile.settings().get(ProfileData.Sessions) as
-            | SessionStore.SessionEntries
-            | undefined;
+            SessionStore.SessionEntries | undefined;
 
         if (sessions) {
             await dispatch(SessionStore.sessionsLoaded(sessions));
