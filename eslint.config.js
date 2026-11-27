@@ -7,6 +7,10 @@ import unicornPlugin from 'eslint-plugin-unicorn';
 import sonarjsPlugin from 'eslint-plugin-sonarjs';
 import testingLibraryPlugin from 'eslint-plugin-testing-library';
 import globals from 'globals';
+import { createRequire } from 'node:module';
+
+// eslint-plugin-react's `version: 'detect'` calls context APIs removed in ESLint 10.
+const reactVersion = createRequire(import.meta.url)('react/package.json').version;
 
 export default [
     {
@@ -48,7 +52,7 @@ export default [
             'testing-library': testingLibraryPlugin,
         },
         settings: {
-            react: { version: 'detect' },
+            react: { version: reactVersion },
             'import/parsers': {
                 '@typescript-eslint/parser': ['.ts', '.tsx'],
             },

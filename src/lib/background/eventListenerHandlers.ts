@@ -115,8 +115,8 @@ const createExtensionWindow = async (
 
     const POPUP_WIDTH = 370;
 
-    let left = 0;
-    let top = 0;
+    let left: number;
+    let top: number;
 
     try {
         const lastFocused = await windows.getLastFocused();
