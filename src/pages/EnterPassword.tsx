@@ -21,7 +21,7 @@ const EnterPassword = () => {
 
     const unlockExtension = async () => {
         try {
-            const status = await runtime.sendMessage({
+            const status = await runtime.sendMessage<unknown, { isLocked: boolean }>({
                 type: 'UNLOCK',
                 data: { password },
             });

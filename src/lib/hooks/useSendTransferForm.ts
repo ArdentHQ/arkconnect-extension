@@ -22,6 +22,7 @@ import { Network } from '@/lib/mainsail/network';
 import { TransferInput } from '@/lib/mainsail/transaction.contract';
 import { calculateGasFee, GasLimit } from '@/lib/hooks/useNetworkFees';
 import { WalletToken } from '@/lib/profiles/wallet-token';
+import type { BroadcastResult } from '@/lib/background/extension.wallet';
 
 export interface RecipientItem {
     address: string;
@@ -183,7 +184,13 @@ export const useSendTransferForm = (
             };
         }
 
-        const { response, error, errorStack, transaction } = await runtime.sendMessage({
+        const { response, error, errorStack, transaction } = await runtime.sendMessage<
+            unknown,
+            BroadcastResult & {
+                error?: string;
+                errorStack?: { message?: string };
+            }
+        >({
             type: 'SEND_TRANSACTION',
             data: {
                 recipients: recipients.map((r) => ({ ...r, amount: r.amount?.toString() })),

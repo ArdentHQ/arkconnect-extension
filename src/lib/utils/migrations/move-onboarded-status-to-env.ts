@@ -11,7 +11,7 @@ export const moveOnboardedStatusToEnv = (env: Environment) => {
             return;
         }
 
-        const localStorage = data[KEY];
+        const localStorage = data[KEY] as { hasOnboarded?: unknown } | undefined;
         const hasOnboarded = await env.data().get(EnvironmentData.HasOnboarded);
 
         if (typeof localStorage?.hasOnboarded === 'boolean' && hasOnboarded === undefined) {

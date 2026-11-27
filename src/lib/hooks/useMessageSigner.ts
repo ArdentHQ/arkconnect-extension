@@ -44,7 +44,10 @@ const sign = async (
     //     return withAbortPromise(options?.abortSignal)(signWithLedger(message, wallet));
     // }
 
-    const { error, signatory, signature } = await runtime.sendMessage({
+    const { error, signatory, signature } = await runtime.sendMessage<
+        unknown,
+        SignedMessage & { error?: string }
+    >({
         type: 'SIGN_MESSAGE',
         data: {
             message,

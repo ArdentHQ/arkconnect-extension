@@ -58,7 +58,10 @@ const Logout = () => {
                 });
             });
 
-            const { error, noWallets } = await runtime.sendMessage({
+            const { error, noWallets } = await runtime.sendMessage<
+                unknown,
+                { error?: string; noWallets?: boolean }
+            >({
                 type: 'REMOVE_WALLETS',
                 data: {
                     password,
